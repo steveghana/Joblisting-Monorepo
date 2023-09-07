@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "turbo run dev"
   },
-  "workspaces":[
+  "workspaces": [
     "app/*"
-  ]
+  ],
+  "dependencies": {
+    "@mui/icons-material": "^5.14.8"
+  }
 }

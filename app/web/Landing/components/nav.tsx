@@ -11,7 +11,7 @@ const NavBar = () => {
         <li className="nav__item">Home</li>
         <li className="nav__item">Jobs</li>
         <li className="nav__item">Career tips</li>
-        <li className="nav__item_auth">Sign in</li>
+        <li className="nav__item-auth">Sign in</li>
       </ul>
     </div>
   );

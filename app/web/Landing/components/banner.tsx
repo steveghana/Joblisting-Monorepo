@@ -6,6 +6,7 @@ import Netflix from "../../assets/netflix.png";
 import Slack from "../../assets/slack.png";
 import Gitlab from "../../assets/gitlab.png";
 import Paypal from "../../assets/paypal.png";
+import { Search } from "@mui/icons-material";
 const Banner = () => {
   return (
     <div className="banner__container">
@@ -15,19 +16,16 @@ const Banner = () => {
             <Image src={patternLeft} alt="pattern" className="banner__left-pattern-img"/>
           </div>
           <div className="banner__left-top">
-            <h1>Find Jobs better and faster</h1>
+            <h1>Find your Job better <br/> and faster</h1>
             <p>
               Find your dream job better and faster with savannah tech
             </p>
-            <button>Get started</button>
-          </div>
-          <div className="banner__left-bottom">
-            <h5>Who supports us</h5>
-            <div className="logos">
-              <Image src={Gitlab} alt="Gitlab" />
-              <Image src={Slack} alt="slack" />
-              <Image src={Netflix} alt="netflix" />
-              <Image src={Paypal} alt="paypal" />
+            <div className="banner__left-input">
+              <input type="text" placeholder="Search by skill, company or jobs" />
+              <div className="banner__left-input-search">
+              <Search sx={{color:'white'}}/>
+
+              </div>
             </div>
           </div>
         </div>

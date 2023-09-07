@@ -4,11 +4,11 @@
 .nav {
   &__container {
     z-index: 4;
-    // background-color: red;
-    // background-color: var(--main-blue);
-    // border-bottom: 1px solid var(--btn-blue);
     @include flex();
     padding: 0 2rem;
+    li{
+      font-size: 13px;
+    }
   }
   &__wrapper {
     color: white;
@@ -31,6 +31,9 @@
   }
   &__item-auth {
     // margin-left: auto;
+    background: linear-gradient(to right, #1b407a,#1d4480, #1b3f77);
+    border-radius: 100px;
+    padding: .5rem 1.3rem;
     @include respond(small-tablet) {
       display: none;
     }
