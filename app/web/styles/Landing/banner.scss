@@ -1,0 +1,124 @@
+/* Banner */
+@import "./_mixins.scss";
+
+.banner {
+  &__container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--main-blue);
+    // display: flex;
+    &::before {
+      content: "";
+      display: none;
+      background-color: var(--btn-blue);
+      position: absolute;
+
+      right: 0;
+      height: 100%;
+      width: 30vw;
+    }
+  }
+  &__wrapper {
+    @include flex($JustifyContent: space-between);
+    max-width: var(--maxWidth);
+    height: 100%;
+    margin: 0 auto;
+    padding-left: 2rem;
+    @include respond(tablet-portrait) {
+      // padding: 1rem;
+      flex-direction: column-reverse;
+      // gap: 1rem;
+    }
+    background-color: red;
+  }
+  &__left {
+    @include flex($direction: column, $gap: 2.3rem, $alignItems: flex-start);
+    padding: 0rem 1rem 0rem 0rem;
+    height: 100%;
+    width: 40%;
+    @include respond(tablet-portrait) {
+      width: 100%;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+    margin-top: 5rem;
+    color: white;
+    &-top {
+      // text-align: center;
+      @include flex($direction: column, $gap: 1.3rem, $alignItems: flex-start);
+      h1 {
+        font-size: 2.6rem;
+        margin: auto;
+      }
+      p {
+        color: #b1ccfb;
+        font-size: smaller;
+        // padding: 0 3rem 0 0;
+      }
+      button {
+        background-color: var(--btn-blue);
+        padding: 10px, 15px, 10px, 15px;
+        border-radius: 6px;
+        height: 36px;
+        width: 111px;
+        color: white;
+        border: none;
+        outline: none;
+        @include respond(tablet-portrait) {
+          margin: 0 auto;
+        }
+      }
+    }
+    &-bottom {
+      @include flex($direction: column, $gap: 2rem, $alignItems: flex-start);
+      h5 {
+        margin-top: 2rem;
+        // margin-right: auto;
+      }
+      div {
+        @include flex($gap: 2rem);
+        @include respond(tablet-portrait) {
+          flex-wrap: wrap;
+        }
+      }
+      @include respond(tablet-portrait) {
+        text-align: center;
+        align-items: center;
+      }
+    }
+  }
+  &__right {
+    background-color: var(--btn-blue);
+    z-index: 1;
+    position: absolute;
+    // height: 100%;
+    @include respond(tablet-portrait) {
+      position: relative;
+      margin-left: auto;
+    }
+    @include respond(mobile) {
+      translate: 50px 0;
+      // width: 70vw;
+      // margin: auto;
+    }
+    right: 0;
+    bottom: 0;
+    top: 0%;
+    display: flex;
+    padding: 1.2rem;
+    &-gElement {
+      margin: auto;
+      // max-width: 400px;
+      // min-width: 100px;
+      @include respond(small-tablet) {
+        max-width: 280px;
+        max-height: 390px;
+        translate: -89px 20px;
+      }
+      translate: -130px 0;
+      object-fit: contain;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+/*======= Nav-BAR ========*/
+@import "./_mixins.scss";
+
+.nav {
+  &__container {
+    background-color: var(--main-blue);
+    border-bottom: 1px solid var(--btn-blue);
+    @include flex();
+    padding: 0 2rem;
+  }
+  &__wrapper {
+    color: white;
+    max-width: var(--maxWidth);
+    width: 100%;
+    padding: 1.3rem 0rem;
+    @include flex($gap: 1.5rem);
+  }
+  &__item-logo {
+    margin-right: 2rem;
+    @include respond(tablet-portrait) {
+      margin-right: auto;
+    }
+  }
+  &__item {
+    @include respond(tablet-portrait) {
+      display: none;
+    }
+  }
+  &__item-auth {
+    margin-left: auto;
+    @include respond(small-tablet) {
+      display: none;
+    }
+  }
+}
