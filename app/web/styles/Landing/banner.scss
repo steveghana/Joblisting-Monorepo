@@ -1,23 +1,24 @@
 /* Banner */
-@import "./_mixins.scss";
+@import "../_mixins.scss";
 
 .banner {
   &__container {
-    position: relative;
+    // position: relative;
+    // z-index: 1;
     width: 100%;
     min-height: 100vh;
-    background-color: var(--main-blue);
+    // background-color: var(--main-blue);
     // display: flex;
-    &::before {
-      content: "";
-      display: none;
-      background-color: var(--btn-blue);
-      position: absolute;
+    // &::before {
+    //   content: "";
+    //   display: none;
+    //   background-color: var(--btn-blue);
+    //   position: absolute;
 
-      right: 0;
-      height: 100%;
-      width: 30vw;
-    }
+    //   right: 0;
+    //   height: 100%;
+    //   width: 30vw;
+    // }
   }
   &__wrapper {
     @include flex($JustifyContent: space-between);
@@ -30,20 +31,30 @@
       flex-direction: column-reverse;
       // gap: 1rem;
     }
-    background-color: red;
+    // background-color: red;
   }
   &__left {
     @include flex($direction: column, $gap: 2.3rem, $alignItems: flex-start);
     padding: 0rem 1rem 0rem 0rem;
     height: 100%;
-    width: 40%;
+    &-pattern{
+      position: absolute;
+      top: 60vh;
+      left: -15vw;
+
+      &-img{
+rotate: 30deg;
+      }
+    }
+    // width: 40%;
     @include respond(tablet-portrait) {
       width: 100%;
       align-items: center;
       text-align: center;
       justify-content: center;
     }
-    margin-top: 5rem;
+    margin-bottom: 15rem;
+    // margin: auto ;
     color: white;
     &-top {
       // text-align: center;
@@ -90,34 +101,34 @@
     }
   }
   &__right {
-    background-color: var(--btn-blue);
-    z-index: 1;
+    // background-color: var(--btn-blue);
+    z-index: -1;
     position: absolute;
+    top: 0;
+    right: 0;
     // height: 100%;
     @include respond(tablet-portrait) {
       position: relative;
       margin-left: auto;
     }
     @include respond(mobile) {
-      translate: 50px 0;
+      // translate: 50px 0;
       // width: 70vw;
       // margin: auto;
     }
-    right: 0;
-    bottom: 0;
-    top: 0%;
-    display: flex;
-    padding: 1.2rem;
+    // display: flex;
+    // padding: 1.2rem;
     &-gElement {
       margin: auto;
-      // max-width: 400px;
-      // min-width: 100px;
+      max-width: 1000px;
+      min-width: 1000px;
+      height: 100%;
       @include respond(small-tablet) {
         max-width: 280px;
         max-height: 390px;
         translate: -89px 20px;
       }
-      translate: -130px 0;
+      // translate: -130px 0;
       object-fit: contain;
     }
   }

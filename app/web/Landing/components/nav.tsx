@@ -9,11 +9,9 @@ const NavBar = () => {
           <Image src={Logo} alt="Logo" />
         </li>
         <li className="nav__item">Home</li>
-        <li className="nav__item">Our Product</li>
-        <li className="nav__item">Resources</li>
-        <li className="nav__item">Contact</li>
-        <li className="nav__item-auth">Login</li>
-        <li className="nav__item_auth">Sign up</li>
+        <li className="nav__item">Jobs</li>
+        <li className="nav__item">Career tips</li>
+        <li className="nav__item_auth">Sign in</li>
       </ul>
     </div>
   );

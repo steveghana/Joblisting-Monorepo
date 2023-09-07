@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import Graphic from "../../assets/Graphic elements.png";
+import Graphic from "../../assets/illustrasi_header.png";
+import patternLeft from '../../assets/Vector_Smart_Object2.png'
 import Netflix from "../../assets/netflix.png";
 import Slack from "../../assets/slack.png";
 import Gitlab from "../../assets/gitlab.png";
@@ -10,12 +11,13 @@ const Banner = () => {
     <div className="banner__container">
       <div className="banner__wrapper">
         <div className="banner__left">
+          <div className="banner__left-pattern">
+            <Image src={patternLeft} alt="pattern" className="banner__left-pattern-img"/>
+          </div>
           <div className="banner__left-top">
-            <h1>Your Supercharged Design Workflow.</h1>
+            <h1>Find Jobs better and faster</h1>
             <p>
-              We’ve been told it is not possible to overachieve our customers’
-              expectations. We have not reinvented the wheel, we decided to
-              build upon it.
+              Find your dream job better and faster with savannah tech
             </p>
             <button>Get started</button>
           </div>

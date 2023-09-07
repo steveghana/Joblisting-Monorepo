@@ -1,10 +1,12 @@
 /*======= Nav-BAR ========*/
-@import "./_mixins.scss";
+@import "../_mixins.scss";
 
 .nav {
   &__container {
-    background-color: var(--main-blue);
-    border-bottom: 1px solid var(--btn-blue);
+    z-index: 4;
+    // background-color: red;
+    // background-color: var(--main-blue);
+    // border-bottom: 1px solid var(--btn-blue);
     @include flex();
     padding: 0 2rem;
   }
@@ -13,10 +15,11 @@
     max-width: var(--maxWidth);
     width: 100%;
     padding: 1.3rem 0rem;
-    @include flex($gap: 1.5rem);
+    @include flex($gap: 4.5rem);
   }
   &__item-logo {
-    margin-right: 2rem;
+    margin-right: auto;
+    background-color: aqua;
     @include respond(tablet-portrait) {
       margin-right: auto;
     }
@@ -27,7 +30,7 @@
     }
   }
   &__item-auth {
-    margin-left: auto;
+    // margin-left: auto;
     @include respond(small-tablet) {
       display: none;
     }
