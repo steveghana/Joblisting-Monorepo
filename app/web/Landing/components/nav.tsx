@@ -6,7 +6,7 @@ const NavBar = () => {
     <div className="nav__container">
       <ul className="nav__wrapper">
         <li className="nav__item-logo">
-          <Image src={Logo} alt="Logo" />
+          <Image src={Logo} alt="Logo" className="logoimage" />
         </li>
         <li className="nav__item">Home</li>
         <li className="nav__item">Jobs</li>

@@ -8,11 +8,12 @@
   }
   &__wrapper {
     @include flex($JustifyContent: space-between);
+    // background-color: #ffa024;
     max-width: var(--maxWidth);
     height: 100%;
     margin: 0 auto;
     // padding-left: 2rem;
-    @include respond(tablet-portrait) {
+    @include respond(tablet-landscape) {
       flex-direction: column-reverse;
     }
   }
@@ -52,10 +53,14 @@
       &-img {
         rotate: 30deg;
       }
+      @include respond(tablet-portrait) {
+       display: none;
+      }
     }
     // width: 40%;
     @include respond(tablet-portrait) {
       width: 100%;
+      gap: 0rem;
       align-items: center;
       text-align: center;
       justify-content: center;
@@ -73,7 +78,9 @@
         color: var(--dark-white);
         font-size: smaller;
       }
-      margin-top: 10rem;
+      @include respond(tablet-portrait) {
+        margin-top: -4rem;
+      }
     }
     &-bottom {
       @include flex($direction: column, $gap: 2rem, $alignItems: flex-start);
@@ -99,8 +106,13 @@
     top: 0;
     right: 0;
     @include respond(tablet-portrait) {
+      // top: 0%;
+
+      // right: 0%;
+      // background-color: red;
       position: relative;
-      margin-left: auto;
+      // position: relative;
+      // margin-left: auto;
     }
     @include respond(mobile) {
     }
@@ -112,7 +124,10 @@
       @include respond(small-tablet) {
         max-width: 280px;
         max-height: 390px;
-        translate: -89px 20px;
+        // position: absolute;
+        // right: 0%;
+        // top: 0%;
+        // margin: 0;
       }
       object-fit: contain;
     }

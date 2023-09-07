@@ -5,6 +5,13 @@
   &__container {
     z-index: 4;
     @include flex();
+    @include respond(small-tablet) {
+     position: absolute;
+     top: 0;
+     left: 0;
+     padding: 0 .4rem;
+     right: 0;
+    }
     padding: 0 2rem;
     li{
       font-size: 13px;
@@ -12,16 +19,24 @@
   }
   &__wrapper {
     color: white;
-    max-width: var(--maxWidth);
     width: 100%;
     padding: 1.3rem 0rem;
     @include flex($gap: 4.5rem);
+    @include respond(tablet-portrait) {
+      padding: .3rem 0rem;
+      max-width: none;
+    }
   }
   &__item-logo {
     margin-right: auto;
-    background-color: aqua;
-    @include respond(tablet-portrait) {
-      margin-right: auto;
+    background-color: rgb(36, 37, 37);
+    .logoimage{
+      @include respond(tablet-portrait) {
+        width: 100px;
+        max-width: none;
+        object-fit: contain;
+      }
+
     }
   }
   &__item {
