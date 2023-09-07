@@ -1,5 +1,8 @@
 {
   "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3",
     "turbo": "^1.10.13"
   },
   "scripts": {
@@ -9,6 +12,10 @@
     "app/*"
   ],
   "dependencies": {
-    "@mui/icons-material": "^5.14.8"
+    "@mui/icons-material": "^5.14.8",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "tailwind-merge": "^1.14.0"
   }
 }

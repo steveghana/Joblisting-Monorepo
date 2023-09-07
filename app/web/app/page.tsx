@@ -13,9 +13,10 @@ import {
   Footer,
 } from "@/Landing/components/exports";
 import NavBar from "@/Landing/components/nav";
+import { Container } from "@mui/material";
 export default function Home() {
   return (
-    <div style={{ width: "100vw", position: 'relative' /*  background: "red" */ }}>
+    <Container className="flex w-full">
       <NavBar />
       <Banner />
       <Messaging />
@@ -26,6 +27,6 @@ export default function Home() {
       <Sponsors />
       <QMessageInput />
       <Footer />
-    </div>
+    </Container>
   );
 }

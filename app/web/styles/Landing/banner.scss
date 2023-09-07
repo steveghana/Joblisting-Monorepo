@@ -8,11 +8,9 @@
   }
   &__wrapper {
     @include flex($JustifyContent: space-between);
-    // background-color: #ffa024;
     max-width: var(--maxWidth);
     height: 100%;
-    margin: 0 auto;
-    // padding-left: 2rem;
+    margin: auto;
     @include respond(tablet-landscape) {
       flex-direction: column-reverse;
     }
@@ -54,7 +52,7 @@
         rotate: 30deg;
       }
       @include respond(tablet-portrait) {
-       display: none;
+        display: none;
       }
     }
     // width: 40%;
@@ -64,8 +62,9 @@
       align-items: center;
       text-align: center;
       justify-content: center;
+      margin-top: 0rem;
     }
-    margin-bottom: 15rem;
+    margin-top: 10rem;
     color: rgb(12, 12, 12);
     &-top {
       max-width: 100%;
@@ -79,7 +78,7 @@
         font-size: smaller;
       }
       @include respond(tablet-portrait) {
-        margin-top: -4rem;
+        // margin-top: -4rem;
       }
     }
     &-bottom {

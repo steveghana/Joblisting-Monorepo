@@ -19,6 +19,8 @@
   }
   &__wrapper {
     color: white;
+    max-width: var(--maxWidth);
+
     width: 100%;
     padding: 1.3rem 0rem;
     @include flex($gap: 4.5rem);
@@ -49,6 +51,8 @@
     background: linear-gradient(to right, #1b407a,#1d4480, #1b3f77);
     border-radius: 100px;
     padding: .5rem 1.3rem;
+    color: white;
+    text-decoration: none;
     @include respond(small-tablet) {
       display: none;
     }
