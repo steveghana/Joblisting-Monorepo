@@ -4,15 +4,20 @@ import Logo from "../../assets/Lookscout.png";
 import Link from "next/link";
 const NavBar = () => {
   return (
-    <div className="nav__container">
-      <ul className="nav__wrapper">
-        <li className="nav__item-logo">
-          <Image src={Logo} alt="Logo" className="logoimage" />
+    <div className="custom-nav__container">
+      <ul className="custom-nav__wrapper">
+        <li className="custom-nav__item-logo">
+          <Image src={Logo} alt="Logo" className="custom-logoimage" />
         </li>
-        <li className="nav__item">Home</li>
-        <li className="nav__item">Jobs</li>
-        <li className="nav__item">Career tips</li>
-        <li className="nav__item-auth"> <Link style={{color:'white'}} href="/auth">Sign in</Link></li>
+        <li className="custom-nav__item">Home</li>
+        <li className="custom-nav__item">Jobs</li>
+        <li className="custom-nav__item">Career tips</li>
+        <li className="custom-nav__item-auth">
+          {" "}
+          <Link style={{ color: "white" }} href="/auth">
+            Sign in
+          </Link>
+        </li>
       </ul>
     </div>
   );

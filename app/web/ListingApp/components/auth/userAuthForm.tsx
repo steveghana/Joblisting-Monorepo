@@ -1,31 +1,48 @@
-"use client"
+"use client";
 
-import * as React from "react"
-
-import { cn } from "@/lib/utils"
-import { Icons } from "../icons"
-import { Button } from "@/lib/button"
-import { Input } from "./input"
-import { Label } from "./label"
-import { Google } from "@mui/icons-material"
-import RoleAuth from "./roleAuthForm"
+import React, { useState } from "react";
+import { Input } from "@nextui-org/react";
+import { cn } from "@/lib/utils";
+import { Icons } from "../icons";
+import { Button } from "@/lib/button";
+// import { Input } from "./input"
+import { Label } from "./label";
+import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
+import RoleAuth from "./roleAuthForm";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isNew, setisNew] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isNew, setisNew] = React.useState(true);
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [role, setRole] = React.useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const toggleVisibility = () => setIsVisible(!isVisible);
   async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
-
+    event.preventDefault();
+    setIsLoading(true);
+    console.log("role:", role);
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
+    console.log("Email:", email);
+    console.log("Password:", password);
     setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+      setIsLoading(false);
+    }, 3000);
   }
-  if(isNew){
-    return <RoleAuth setisNew={()=> setisNew(false)}/>
+  if (isNew) {
+    return (
+      <RoleAuth
+        setSelectedValue={setRole}
+        selectedValue={role}
+        setisNew={() => setisNew(false)}
+      />
+    );
   }
 
   return (
@@ -40,7 +57,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               id="email"
               placeholder="First Name"
               type="text"
+              value={firstName}
               autoCapitalize="none"
+              onChange={(e) => setFirstName(e.target.value)}
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
@@ -54,11 +73,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               id="lastName"
               placeholder="Last Name"
               type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               autoCapitalize="none"
               autoComplete="lastName"
               autoCorrect="off"
               disabled={isLoading}
-              
             />
           </div>
           <div className="grid gap-1">
@@ -69,17 +89,41 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               id="email"
               placeholder="name@example.com"
               type="email"
+              value={email}
               autoCapitalize="none"
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
             />
           </div>
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+          {/* <div className="grid gap-1"> */}
+          <Input
+            label="Password"
+            variant="bordered"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <Visibility className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <VisibilityOff className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+            type={isVisible ? "text" : "password"}
+            className="max-w-xs"
+          />
+          {/* <Label className="sr-only" htmlFor="email">
               Password
-            </Label>
-            <Input
+            </Label> */}
+          {/* <Input
               id="password"
               placeholder="Password"
               type="password"
@@ -87,9 +131,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="password"
               autoCorrect="off"
               disabled={isLoading}
-            />
-          </div>
-          <Button disabled={isLoading}>
+            /> */}
+          {/* </div> */}
+          <Button type="submit" disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -124,7 +168,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         )}{" "}
         Google
       </Button>
-     
     </div>
-  )
+  );
 }

@@ -14,9 +14,10 @@ import {
 } from "@/Landing/components/exports";
 import NavBar from "@/Landing/components/nav";
 import { Container } from "@mui/material";
+import { Checkbox } from "@nextui-org/checkbox";
 export default function Home() {
   return (
-    <Container className="flex w-full">
+    <Container>
       <NavBar />
       <Banner />
       <Messaging />

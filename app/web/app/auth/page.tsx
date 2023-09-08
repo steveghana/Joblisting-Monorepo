@@ -1,18 +1,18 @@
 import React from "react";
-import "../../styles/global.css"
+// import "../../styles/global.scss";
 
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/lib/button"
-import { UserAuthForm } from "@/ListingApp/components/auth/userAuthForm"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/lib/button";
+import { UserAuthForm } from "@/ListingApp/components/auth/userAuthForm";
 
 export const metadata: Metadata = {
   title: "Authentication",
   description: "Authentication forms built using the components.",
-}
+};
 
 export default function Auth() {
   return (
@@ -45,7 +45,6 @@ export default function Auth() {
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-blue-900" />
-          
         </div>
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
@@ -79,6 +78,5 @@ export default function Auth() {
         </div>
       </div>
     </>
-  )
+  );
 }
-

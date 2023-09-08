@@ -1,6 +1,6 @@
 /*======= prod-feat ========*/
 @import "../_mixins.scss";
-.prodFeat {
+.custom-prodFeat {
   &__container {
     margin-top: 3rem;
     @include flex();

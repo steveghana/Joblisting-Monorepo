@@ -1,43 +1,82 @@
-'use client'
-import React, { useState } from 'react';
-import Radio from '@mui/material/Radio';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import { Button } from '@nextui-org/react';
+import React, { useState } from "react";
+import Radio from "@mui/material/Radio";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import { Button } from "@nextui-org/button";
+import { Checkbox } from "@nextui-org/checkbox";
 interface RoleProps {
-    setisNew : ()=> void
+  setisNew: () => void;
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  selectedValue: string;
 }
-function RoleAuth(props:RoleProps) {
-  const [selectedValue, setSelectedValue] = useState('');
 
-  const handleRadioChange = (event:any) => {
-    setSelectedValue(event.target.value);
+function RoleAuth(props: RoleProps) {
+  const handleRadioChange = (event: any) => {
+    props.setSelectedValue(event.target.value);
   };
 
   return (
     <FormGroup>
+      <Checkbox
+        defaultSelected
+        className="bg-success text-white"
+        color="success"
+      >
+        Success
+      </Checkbox>
+      <div>Select an Account Type</div>
       <FormControlLabel
         control={<Radio />}
-        label="Option 1"
-        value="option1"
-        checked={selectedValue === 'option1'}
+        label="Ceo"
+        sx={{ my: 1 }}
+        value="Ceo"
+        checked={props.selectedValue === "Ceo"}
         onChange={handleRadioChange}
+        className={`border ${
+          props.selectedValue === "Ceo" ? "border-blue-800" : ""
+        } p-2 rounded`}
       />
       <FormControlLabel
         control={<Radio />}
-        label="Option 2"
-        value="option2"
-        checked={selectedValue === 'option2'}
+        label="Marketing"
+        value="Marketing"
+        sx={{ my: 1 }}
+        checked={props.selectedValue === "Marketing"}
         onChange={handleRadioChange}
+        className={`border ${
+          props.selectedValue === "Marketing" ? "border-blue-800" : ""
+        } p-2 rounded`}
       />
       <FormControlLabel
         control={<Radio />}
-        label="Option 3"
-        value="option3"
-        checked={selectedValue === 'option3'}
+        label="Recruitment"
+        value="Recruitment"
+        sx={{ my: 1 }}
+        checked={props.selectedValue === "Recruitment"}
         onChange={handleRadioChange}
+        className={`border ${
+          props.selectedValue === "Recruitment" ? "border-blue-800" : ""
+        } p-2 rounded`}
       />
-      <Button onClick={()=>props.setisNew()}>continue</Button>
+
+      <FormControlLabel
+        control={<Radio />}
+        label="Developer"
+        value="Developer"
+        sx={{ my: 1 }}
+        checked={props.selectedValue === "Developer"}
+        onChange={handleRadioChange}
+        className={`border ${
+          props.selectedValue === "Developer" ? "border-blue-800" : ""
+        } p-2 rounded`}
+      />
+      <Button
+        variant="bordered"
+        color="primary"
+        onClick={() => props.setisNew()}
+      >
+        continue
+      </Button>
     </FormGroup>
   );
 }

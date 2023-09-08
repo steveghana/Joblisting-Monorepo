@@ -1,6 +1,6 @@
 /*======= Messaging-tabs ========*/
 @import "../_mixins.scss";
-.messaging {
+.custom-messaging {
   &__container {
     margin-top: 2rem;
     @include flex($direction: column);
