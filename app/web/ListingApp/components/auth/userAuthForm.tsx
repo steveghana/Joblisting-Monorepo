@@ -8,11 +8,13 @@ import { Button } from "@/lib/button"
 import { Input } from "./input"
 import { Label } from "./label"
 import { Google } from "@mui/icons-material"
+import RoleAuth from "./roleAuthForm"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isNew, setisNew] = React.useState(true)
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -21,6 +23,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setTimeout(() => {
       setIsLoading(false)
     }, 3000)
+  }
+  if(isNew){
+    return <RoleAuth setisNew={()=> setisNew(false)}/>
   }
 
   return (

@@ -3,7 +3,8 @@ import "../styles/main.scss";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import NextTopLoader from 'nextjs-toploader'
+import NextTopLoader from "nextjs-toploader";
+import { Providers } from "./provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,11 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
       </Head>
-      {/* <NextTopLoader color="black" crawl={true} /> */}
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Providers>
+          <NextTopLoader color="black" crawl={true} />
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
