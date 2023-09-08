@@ -7,6 +7,7 @@ import { Icons } from "../icons"
 import { Button } from "@/lib/button"
 import { Input } from "./input"
 import { Label } from "./label"
+import { Google } from "@mui/icons-material"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -28,6 +29,35 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
+              FirstName
+            </Label>
+            <Input
+              id="email"
+              placeholder="First Name"
+              type="text"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
+              disabled={isLoading}
+            />
+          </div>
+          <div className="grid gap-1 py-1">
+            <Label className="sr-only" htmlFor="email">
+              LastName
+            </Label>
+            <Input
+              id="lastName"
+              placeholder="Last Name"
+              type="text"
+              autoCapitalize="none"
+              autoComplete="lastName"
+              autoCorrect="off"
+              disabled={isLoading}
+              
+            />
+          </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
               Email
             </Label>
             <Input
@@ -40,11 +70,25 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Password
+            </Label>
+            <Input
+              id="password"
+              placeholder="Password"
+              type="password"
+              autoCapitalize="none"
+              autoComplete="password"
+              autoCorrect="off"
+              disabled={isLoading}
+            />
+          </div>
           <Button disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            Sign up
           </Button>
         </div>
       </form>
@@ -66,6 +110,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         )}{" "}
         Github
       </Button>
+      <Button variant="outline" type="button" disabled={isLoading}>
+        {/* <Google/> */}
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Google className="mr-2 h-4 w-4" />
+        )}{" "}
+        Google
+      </Button>
+     
     </div>
   )
 }

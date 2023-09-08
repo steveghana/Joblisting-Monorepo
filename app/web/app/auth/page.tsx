@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/global.css"
 
 import { Metadata } from "next"
 import Image from "next/image"
@@ -53,7 +54,7 @@ export default function Auth() {
                 Create an account
               </h1>
               <p className="text-sm text-muted-foreground">
-                Enter your email below to create your account
+                Enter your details below to create your account
               </p>
             </div>
             <UserAuthForm />

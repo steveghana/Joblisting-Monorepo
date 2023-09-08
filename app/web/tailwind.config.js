@@ -8,6 +8,8 @@ module.exports = {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // prefix: 'tw-', // Set a custom prefix
+
   theme: {
     extend: {},
   },
