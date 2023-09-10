@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
 import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
+import {} from "next-auth";
 import { Button } from "@/lib/button";
 // import { Input } from "./input"
 import { Label } from "./label";
 import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
 import RoleAuth from "./roleAuthForm";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -21,11 +23,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  //  const supabase = createClientComponentClient();
+  // const supabase = new SupabaseClient();
   const toggleVisibility = () => setIsVisible(!isVisible);
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
+
+    // await supabase.auth.signUp({
+    //   email,
+    //   password,
+    //   // firstName,
+    //   options: {
+    //     emailRedirectTo: `${location.origin}/api/auth/callback`,
+    //   },
+
+    // });
     console.log("role:", role);
     console.log("First Name:", firstName);
     console.log("Last Name:", lastName);

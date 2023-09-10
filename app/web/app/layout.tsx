@@ -4,8 +4,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
-import { Providers } from "../providers/NextUiprovider";
+import { NextProvider } from "../providers/NextUiprovider";
 import SignoutButton from "@/ListingApp/components/auth/signout";
+import AuthProviders from "@/providers/Provders";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,13 +25,15 @@ export default function RootLayout({
         {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
       </Head>
       <body>
-        <Providers>
-          <header className="flex justify-end gap-4 p-4 bg-gradient-to-b from-blue-900 to-black shadow">
-            <SignoutButton />
-          </header>
+        {/* <AuthProviders> */}
+        <NextProvider>
+          {/* <header className="flex justify-end gap-4 p-4 bg-gradient-to-b from-blue-900 to-black shadow">
+              <SignoutButton />
+            </header> */}
           <NextTopLoader color="black" crawl={true} />
           {children}
-        </Providers>
+        </NextProvider>
+        {/* </AuthProviders> */}
       </body>
     </html>
   );

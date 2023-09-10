@@ -1,6 +1,7 @@
+"use client";
 import React from "react";
 // import "../../styles/global.scss";
-
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,6 +44,7 @@ export default function Auth() {
         >
           Login
         </Link>
+        <div onClick={() => signIn()}>New Login</div>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-blue-900" />
         </div>

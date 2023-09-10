@@ -4,8 +4,8 @@ import AuthContext from "./AuthContext";
 type ProviderPropType = {
   children: ReactNode;
 };
-const Providers = ({ children }: ProviderPropType) => {
-  return (<AuthContext>{children}</AuthContext>);
+const AuthProviders = ({ children }: ProviderPropType) => {
+  return <AuthContext>{children}</AuthContext>;
 };
 
-export default Providers;
+export default AuthProviders;
