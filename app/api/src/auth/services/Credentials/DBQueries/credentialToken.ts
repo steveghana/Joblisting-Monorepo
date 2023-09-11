@@ -1,12 +1,12 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../../util/dependencyInjector';
-import uuidUtil from '../../../../../util/uuid';
+} from '../../../../util/dependencyInjector';
+import uuidUtil from '../../../../util/uuid';
 import { DeepPartial, EntityManager } from 'typeorm';
 import { CredentialTokenEntity } from '../../../models/CredentialToken/credentialToken.entity';
-import myDataSource from '../../../../../../../db/data-source';
-import uuid from '../../../../../../apps/util/uuid';
+import myDataSource from '../../../../../db/data-source';
+import uuid from '../../../../util/uuid';
 
 type ICredentialToken = {
   id: number;

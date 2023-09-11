@@ -11,7 +11,7 @@ import { EmailTemplate } from './emailtemplate';
 import { useTransaction } from '../../util/transaction';
 import cryptoUtil from '../../util/crypto';
 import User from './userEntity';
-import CredentialToken from './Credentials/Entity/credentialToken';
+import CredentialToken from './Credentials/DataManager/credentialToken';
 import AuthToken from './Token/DataManager/authToken';
 import { JwtService } from '@nestjs/jwt';
 import {

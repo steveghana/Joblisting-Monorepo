@@ -7,7 +7,7 @@ import {
   deactivateCredentialTokenByUuid,
   getCredentialTokenByUuid,
   renewCredentialTokenUuid,
-} from '../DBGateway/credentialToken';
+} from '../DBQueries/credentialToken';
 import { ICredentialToken } from '../../../../types/credentialToken';
 import { EntityManager } from 'typeorm';
 
