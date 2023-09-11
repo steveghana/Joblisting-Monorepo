@@ -1,14 +1,14 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../../util/dependencyInjector';
+} from '../../../../util/dependencyInjector';
 import {
   createCredentialToken,
   deactivateCredentialTokenByUuid,
   getCredentialTokenByUuid,
   renewCredentialTokenUuid,
 } from '../DBGateway/credentialToken';
-import { ICredentialToken } from '../../../../../types/credentialToken';
+import { ICredentialToken } from '../../../../types/credentialToken';
 import { EntityManager } from 'typeorm';
 
 class CredentialToken {

@@ -3,5 +3,5 @@ export type IUser = {
   password?: string;
   lockReason?: 'needs review';
   fullName?: string;
-  // address?: string;
+  address?: string;
 };

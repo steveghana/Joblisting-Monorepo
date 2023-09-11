@@ -1,4 +1,3 @@
-import { BusinessPermissionEntity } from '../../../../apps/business/src/models/Permissions/permission.entity';
 import {
   BaseEntity,
   Column,
@@ -9,7 +8,7 @@ import {
 } from 'typeorm';
 import { AuthtokenEntity } from './Token/authToken.entity';
 import { CredentialTokenEntity } from './CredentialToken/credentialToken.entity';
-import AssociableModel from '../../../../apps/Config/associable';
+import AssociableModel from '../../Config/associable';
 
 @Entity('user')
 export class UserEntity extends AssociableModel {
@@ -17,26 +16,22 @@ export class UserEntity extends AssociableModel {
   email: string;
 
   @Column({ default: '' })
-  fullName: string;
+  firstName: string;
+  @Column({ default: '' })
+  lastName: string;
 
   @Column()
   password: string;
 
   @Column({ nullable: true, default: null })
   lockReason: string;
+  @Column({ nullable: true, default: null })
+  role: 'Ceo' | 'Developer' | 'Marketing' | 'HR';
 
   @OneToMany(() => AuthtokenEntity, (IAuthToken) => IAuthToken.user, {
     onDelete: 'CASCADE',
   })
   authToken: AuthtokenEntity[];
-  @OneToMany(
-    () => BusinessPermissionEntity,
-    (Ipermission) => Ipermission.user,
-    {
-      onDelete: 'CASCADE',
-    },
-  )
-  permissions: BusinessPermissionEntity[];
   @OneToMany(() => CredentialTokenEntity, (credential) => credential.user)
   credentials: CredentialTokenEntity;
 }

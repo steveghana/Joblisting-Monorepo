@@ -4,58 +4,43 @@ import {
   Injectable,
   Logger,
   Inject,
-  CACHE_MANAGER,
+  // CACHE_MANAGER,
   Next,
 } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
 import { EmailTemplate } from './emailtemplate';
-import { useTransaction } from '../../../util/transaction';
-import { IQueueGroupType } from '../../../types/queueGroup';
-import cryptoUtil from '../../../util/crypto';
+import { useTransaction } from '../../util/transaction';
+import cryptoUtil from '../../util/crypto';
 import User from './userEntity';
 import CredentialToken from './Credentials/Entity/credentialToken';
-import AuthToken from './Token/Entity/authToken';
-import QueueGroup from '../../../business/src/services/Root/Entity/queueGroup';
-import queueEntityGateway from '../../../queue/src/services/DBGateway/queue';
+import AuthToken from './Token/DataManager/authToken';
+import { JwtService } from '@nestjs/jwt';
 import {
   Dependencies,
   injectDependencies,
-} from '../../../util/dependencyInjector';
+} from '../../util/dependencyInjector';
 
 import { UserEntity } from '../models/user.entity';
 import { IUser } from '../models/user';
-import queueGroupUserPermission from '../../../business/src/services/Permissions/Entity/queueGroupUserPermission';
-import { generateAlphanumeric } from '../../../util/transaction';
-import { Cache } from 'cache-manager';
+// import { Cache } from 'cache-manager';
 
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+  constructor(private jwtService: JwtService) {}
 
   public async register(
     email: string,
     password: string,
-    fullName: string,
-    countryString: string,
-    queueGroupInitial: {
-      name: string;
-      phone: string;
-      type: IQueueGroupType;
-      country: number;
-      address: string;
-      geometryLat: number;
-      geometryLong: number;
-      centerLat: number;
-      centerLong: number;
-    },
+    firstName: string,
+    lastName: string,
+    role: string,
+    country: string,
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
     const passwordHash = await cryptoUtil.hash(
       password,
-      dependencies.config.authentication.passwordHashIterations,
+      dependencies.config!.authentication!.passwordHashIterations,
     );
 
     return useTransaction(async (transaction) => {
@@ -63,89 +48,41 @@ export class AuthService {
       const user = await User.findElseCreate(
         {
           email,
-          lockReason: dependencies.config.requireManualReviewToRegister
-            ? 'needs review'
-            : null,
-          fullName,
+
+          firstName,
+          lastName,
         },
         passwordHash,
         transaction,
         dependencies,
       );
-      if (user.isNewlyCreated) {
-        console.log(' create queuegroup');
 
-        const queueGroup = await QueueGroup.create(
-          this.cacheManager,
-          {
-            name: queueGroupInitial.name,
-            phone: queueGroupInitial.phone,
-            type: queueGroupInitial.type,
-            countryCode: queueGroupInitial.country,
-            address: queueGroupInitial.address,
-            centerLat: queueGroupInitial.centerLat,
-            centerLong: queueGroupInitial.centerLong,
-            geometryLat: queueGroupInitial.geometryLat,
-            geometryLong: queueGroupInitial.geometryLong,
-            logoUrl: '',
-          },
-          transaction,
-          dependencies,
-        );
-        await queueGroupUserPermission.create(
-          this.cacheManager,
-          {
-            isOwner: true,
-            userEmail: email,
-            queueGroupId: Number(queueGroup.id),
-          },
-          transaction,
-          dependencies,
-        );
-        if (
-          queueGroupInitial.type === 'Restaurant & Cafe' ||
-          queueGroupInitial.type === 'Bar'
-        ) {
-          await queueEntityGateway.createQueue(
-            this.cacheManager,
-            {
-              name: queueGroupInitial.name,
-              queueGroupId: Number(queueGroup.id),
-              QRId: generateAlphanumeric(4),
-            },
-            transaction,
-            dependencies,
-          );
-        }
-      } else {
-        if (!(await user.passwordMatches(''))) {
-          throw new HttpException('exists', HttpStatus.BAD_REQUEST);
-        }
-
-        await user.update(
-          {
-            password: passwordHash,
-          },
-          transaction,
-        );
+      if (!(await user.passwordMatches(''))) {
+        throw new HttpException('exists', HttpStatus.BAD_REQUEST);
       }
+
+      await user.update(
+        {
+          password: passwordHash,
+        },
+        transaction,
+      );
       // const logoImagePath = path.join(__dirname, 'logo-color (2).png');
 
       // Read the logo image file
       // const logoImage = fs.readFileSync(logoImagePath);
-      if (dependencies.config.requireManualReviewToRegister) {
-        void dependencies.email.sendStyled({
-          to: ['shushanran@gmail.com', 'ran@q-int.com'],
-          subject: 'מישהו נרשם ל q-int: ' + email,
-          rtl: true,
-          // attachments: [
-          //   {
-          //     filename: 'logo-color (2).png',
-          //     // content: logoImage,
-          //     cid: 'logo@qint.com', // Use this CID in the email body to reference the image
-          //   },
-          // ],
-          html: `<h1>
+      void dependencies.email.sendStyled({
+        to: ['shushanran@gmail.com', 'ran@q-int.com'],
+        subject: 'מישהו נרשם ל q-int: ' + email,
+        rtl: true,
+        // attachments: [
+        //   {
+        //     filename: 'logo-color (2).png',
+        //     // content: logoImage,
+        //     cid: 'logo@qint.com', // Use this CID in the email body to reference the image
+        //   },
+        // ],
+        html: `<h1>
               שלום רן.<br/>
               מישהו נרשם הרגע למערכת <a href="https://www.q-int.com">q-int</a>
           </h1>
@@ -161,26 +98,7 @@ export class AuthService {
           בברכה,
           מערכת q-int
           `,
-        });
-      }
-
-      void dependencies.email.sendStyled({
-        to: [email],
-        subject:
-          countryString === 'IL'
-            ? 'ברוכים הבאים לQ-int: '
-            : 'Welcome to Q-int' + email,
-        rtl: countryString === 'IL',
-        // attachments: [
-        //   {
-        //     filename: 'logo-color (2).png',
-        //     // content: logoImage,
-        //     cid: 'logo@qint.com', // Use this CID in the email body to reference the image
-        //   },
-        // ],
-        html: EmailTemplate(countryString, fullName),
       });
-      // queueGroupInitial.country;
       return {
         email: user.email,
       };
@@ -249,8 +167,11 @@ export class AuthService {
       },
       dependencies,
     );
+    const payload = { email: user.email, role: user.role };
 
     return {
+      ...payload,
+      token: this.jwtService.sign(payload),
       authTokenId: authToken.id,
       credentialTokenUuid: credentialToken && credentialToken.uuid,
     };

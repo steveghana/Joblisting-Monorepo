@@ -1,7 +1,7 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../util/dependencyInjector';
+} from '../../util/dependencyInjector';
 import {
   findOrCreateUser,
   getUser,
@@ -11,7 +11,7 @@ import {
   findElseCreateUser,
 } from './userEntityGateway';
 import { IUser } from '../models/user';
-import cryptoUtil from '../../../util/crypto';
+import cryptoUtil from '../../util/crypto';
 import { UserEntity } from '../models/user.entity';
 import { EntityManager } from 'typeorm';
 // This creates a new type that has all the properties of UserEntity but makes them optional
@@ -48,8 +48,9 @@ class User {
       {
         email: user.email.trim().toLowerCase(),
         password: passwordHash,
-        lockReason: user.lockReason,
-        fullName: user.fullName,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
       transaction,
       dependencies,
@@ -72,8 +73,9 @@ class User {
       {
         email: user.email.trim().toLowerCase(),
         password: passwordHash,
-        lockReason: user.lockReason,
-        fullName: user.fullName,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
       transaction,
       dependencies,
@@ -133,7 +135,7 @@ class User {
 
   async isLocked(): Promise<boolean> {
     await this.getDataIfNeeded();
-    return this.data.lockReason !== null;
+    return this.data.role !== null;
   }
 
   get password(): Promise<string> {
@@ -145,15 +147,16 @@ class User {
   get email(): string {
     return this._email;
   }
+  get role(): string {
+    return this.role;
+  }
 
   get isNewlyCreated(): boolean {
     return this._isNewlyCreated;
   }
 
-  get lockReason(): Promise<IUser['lockReason']> {
-    return this.getDataIfNeeded().then(
-      () => this.data.lockReason as 'needs review',
-    );
+  get lockReason(): Promise<IUser['role']> {
+    return this.getDataIfNeeded().then(() => this.data.role);
   }
 }
 
