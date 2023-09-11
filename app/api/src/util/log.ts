@@ -41,12 +41,12 @@ function init(context = globalContext): void {
   const enabled = process.env.NODE_ENV !== 'production';
   const transport =
     enabled &&
-    new transports.DailyRotateFile({
+    new transports.File({
       zippedArchive: true,
       filename: '%DATE%.log',
       dirname: 'log',
-      maxFiles: '14d',
-      utc: true,
+      // maxFiles: '14d',
+      // utc: true,
     });
   context.loggers.push(
     createLogger({

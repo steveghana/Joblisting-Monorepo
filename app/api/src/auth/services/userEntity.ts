@@ -155,9 +155,9 @@ class User {
     return this._isNewlyCreated;
   }
 
-  get lockReason(): Promise<IUser['role']> {
-    return this.getDataIfNeeded().then(() => this.data.role);
-  }
+  // get lockReason(): string {
+  //   return this.getDataIfNeeded().then(() => this.data.role).catch();
+  // }
 }
 
 export default User;

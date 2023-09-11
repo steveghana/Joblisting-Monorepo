@@ -15,8 +15,8 @@ import {
 
 import { UserEntity } from '../user.entity';
 import { AuthtokenEntity } from '../Token/authToken.entity';
-import uuid from '../../../../util/uuid';
-import AssociableModel from '../../../../../apps/Config/associable';
+import uuid from '../../../util/uuid';
+import AssociableModel from '../../../Config/associable';
 
 @Entity('credentialToken')
 export class CredentialTokenEntity extends AssociableModel {
@@ -38,19 +38,13 @@ export class CredentialTokenEntity extends AssociableModel {
   })
   @JoinColumn({ name: 'userEmail', referencedColumnName: 'email' })
   user: UserEntity;
-  @OneToMany(
-    () => AuthtokenEntity,
-    (authToken) => authToken.credentialTokens,
-    {
-      onDelete: 'CASCADE',
-    },
-  )
-
+  @OneToMany(() => AuthtokenEntity, (authToken) => authToken.credentialTokens, {
+    onDelete: 'CASCADE',
+  })
   authToken: AuthtokenEntity[];
 
   @Column({ nullable: true })
-  userEmail?: string ;
-
+  userEmail?: string;
 
   @AfterLoad()
   @AfterInsert()

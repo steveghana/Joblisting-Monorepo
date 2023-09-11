@@ -1,12 +1,11 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../util/dependencyInjector';
+} from '../../util/dependencyInjector';
 import { IUser } from '../models/user';
 import { UserEntity } from '../models/user.entity';
-import { DeepPartial, EntityManager, In } from 'typeorm';
-import { ensureTransaction, useTransaction } from '../../../util/transaction';
-import myDataSource from '../../../../../db/data-source';
+import { DeepPartial, EntityManager, In, ObjectLiteral } from 'typeorm';
+import { ensureTransaction, useTransaction } from '../../Config/transaction';
 export async function findOrCreateUser(
   email: string,
   defaults: IUser,
@@ -15,20 +14,19 @@ export async function findOrCreateUser(
 ): Promise<[UserEntity, boolean]> {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
   return ensureTransaction(
     transaction,
     async (transaction) => {
       const userRepo = transaction.getRepository(dependencies.db.models.user);
-      const existingUser = await userRepo.findOne({
+      const existingUser = (await userRepo.findOne({
         where: { email: email.toLowerCase() },
-      });
+      })) as unknown as UserEntity;
       if (existingUser) {
         return [existingUser, false];
       }
-      const newUser = await userRepo.create({
+      const newUser = (await userRepo.create({
         ...defaults,
-      });
+      })) as unknown as UserEntity;
       await userRepo.save(newUser);
       return [newUser, true];
     },
@@ -51,15 +49,15 @@ export function findElseCreateUser(
     transactionParam,
     async (transaction) => {
       const userRepo = transaction.getRepository(dependencies.db.models.user);
-      const existingUser = await userRepo.findOne({
+      const existingUser = (await userRepo.findOne({
         where: { email: email.toLowerCase() },
-      });
+      })) as unknown as UserEntity;
       if (existingUser) {
         return [existingUser, false];
       }
 
       const newUser = userRepo.create({ ...user });
-      let data = await userRepo.save(newUser);
+      let data = (await userRepo.save(newUser)) as UserEntity;
       return [data, true];
     },
     dependencies,
@@ -75,11 +73,11 @@ export async function getUser(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return useTransaction(async (transaction) => {
     const userRepo = transaction.getRepository(dependencies.db.models.user);
-    let user = await userRepo.findOne({
+    let user = (await userRepo.findOne({
       where: {
         email: email.toLowerCase(),
       },
-    });
+    })) as unknown as UserEntity;
     return user;
   }, dependencies);
 }
@@ -96,7 +94,7 @@ export function getUsers(
     where: {
       email: In([emails]),
     },
-  });
+  }) as any;
 }
 
 export async function createUsers(

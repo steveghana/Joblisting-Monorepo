@@ -3,18 +3,16 @@ import { subMilliseconds } from 'date-fns';
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../../util/dependencyInjector';
+} from '../../../../util/dependencyInjector';
 import { HttpException, HttpStatus, Next } from '@nestjs/common';
 
-import { IUser } from '../../../../../types/user';
+import { IUser } from '../../../../types/user';
 import { Brackets, DeepPartial, EntityManager, LessThan } from 'typeorm';
 import { AuthtokenEntity } from '../../../models/Token/authToken.entity';
-import { useTransaction } from '../../../../../../apps/Config/transaction';
+import { useTransaction } from '../../../../Config/transaction';
 import { CredentialTokenEntity } from '../../../models/CredentialToken/credentialToken.entity';
-import myDataSource from '../../../../../../../db/data-source';
-import { BusinessPermissionEntity } from '../../../../../../apps/business/src/models/Permissions/permission.entity';
-import { ICredentialToken } from '../../../../../../apps/types/credentialToken';
-import uuid from '../../../../../../apps/util/uuid';
+import myDataSource from '../../../../../db/data-source';
+import { ICredentialToken } from '../../../../types/credentialToken';
 
 type IAuthToken = {
   id: string;
@@ -41,9 +39,6 @@ export async function createAuthToken(
   );
   const credTokenRepository = transaction.getRepository(
     dependencies.db.models.credentialToken,
-  );
-  const queueGroupRepo = transaction.getRepository(
-    dependencies.db.models.queueGroup,
   );
   const user = await transaction
     .getRepository(dependencies.db.models.user)

@@ -1,5 +1,6 @@
 import { injectDependencies, Dependencies } from '../util/dependencyInjector';
-import AuthToken from '../auth/src/services/Token/Entity/authToken';
+import AuthToken from '../auth/services/Token/DataManager/authToken';
+
 import {
   Injectable,
   NestMiddleware,

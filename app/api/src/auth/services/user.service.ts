@@ -8,7 +8,7 @@ import {
   Next,
 } from '@nestjs/common';
 import { EmailTemplate } from './emailtemplate';
-import { useTransaction } from '../../util/transaction';
+import { useTransaction } from '../../Config/transaction';
 import cryptoUtil from '../../util/crypto';
 import User from './userEntity';
 import CredentialToken from './Credentials/DataManager/credentialToken';
@@ -21,13 +21,88 @@ import {
 
 import { UserEntity } from '../models/user.entity';
 import { IUser } from '../models/user';
+import { GoogleLoginUserDto } from '../controllers/user.dto';
 // import { Cache } from 'cache-manager';
 
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(private jwtService: JwtService) {}
-
+  async googleLogin(user: GoogleLoginUserDto) {
+    //   if (!user) {
+    //     throw new UnauthorizedException('No user from google');
+    //   }
+    //   const {
+    //     firstName,
+    //     lastName,
+    //     email,
+    //     email_verified,
+    //     expires_in,
+    //     picture,
+    //     providerAccountId,
+    //     accessToken,
+    //     refreshToken,
+    //     id_token,
+    //   } = user;
+    //   const userData = await this.prisma.users.findFirst({
+    //     where: { email },
+    //     include: { accounts: true },
+    //   });
+    //   if (!userData) {
+    //     const newUserData = await this.prisma.users.create({
+    //       data: {
+    //         name: `${firstName} ${lastName}`,
+    //         email: email,
+    //         emailVerified: email_verified ? new Date().toISOString() : null,
+    //         image: picture,
+    //         accounts: {
+    //           create: {
+    //             type: 'oauth',
+    //             provider: 'google',
+    //             providerAccountId: providerAccountId,
+    //             access_token: accessToken,
+    //             refresh_token: refreshToken,
+    //             id_token: id_token,
+    //             expires_at: expires_in,
+    //           },
+    //         },
+    //       },
+    //     });
+    //     const access_token = await this.signJwt(
+    //       newUserData.id,
+    //       id_token,
+    //       accessToken,
+    //       expires_in,
+    //     );
+    //     return { access_token };
+    //   }
+    //   const access_token = await this.signJwt(
+    //     userData.id,
+    //     id_token,
+    //     accessToken,
+    //     expires_in,
+    //   );
+    //   return { access_token };
+    // }
+    // signJwt(
+    //   userId: string,
+    //   id_token: string,
+    //   access_token: string,
+    //   expires_at: number,
+    //   expiresIn = '1d',
+    // ): Promise<string> {
+    //   const payload = {
+    //     sub: userId,
+    //     id_token,
+    //     access_token,
+    //     expires_at,
+    //   };
+    //   return this.jwtService.signAsync(payload, {
+    //     expiresIn,
+    //     secret: this.configService.get('APP_JWT_SECRET'),
+    //   });
+    return null;
+  }
   public async register(
     email: string,
     password: string,
@@ -146,7 +221,7 @@ export class AuthService {
     }
 
     if (await user.isLocked()) {
-      throw new HttpException(await user.lockReason, HttpStatus.BAD_REQUEST);
+      throw new HttpException(await user.role, HttpStatus.BAD_REQUEST);
     }
     const [authToken, credentialToken] = await useTransaction(
       async (transaction) => {
@@ -198,10 +273,6 @@ export class AuthService {
 
     if (await user.passwordMatches('')) {
       throw new HttpException('passwordless user', HttpStatus.BAD_REQUEST);
-    }
-
-    if (await user.isLocked()) {
-      throw new HttpException(await user.lockReason, HttpStatus.BAD_REQUEST);
     }
 
     const [newCredentialTokenUuid, authToken] = await useTransaction(
