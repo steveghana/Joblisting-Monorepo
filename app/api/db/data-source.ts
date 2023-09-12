@@ -1,8 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 // import config from '../src/apps/Config/config';
 // import { ConfigService } from '@nestjs/config';
-import Entities from '../src/Config/model';
-import { TypeOrmLogger } from '../src/util/lg';
+import Entities from '../src/apps/Config/model';
+import { TypeOrmLogger } from '../src/apps/util/lg';
 import * as dotenv from 'dotenv';
 
 dotenv.config(); // load environment variables from .env file

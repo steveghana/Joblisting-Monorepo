@@ -1,7 +1,8 @@
 # compiled output
 /dist
 /node_modules
-
+/data
+.vercel
 # Logs
 logs
 *.log
@@ -10,7 +11,14 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+# Docker
+.env
+k8s
+.vercel,
+.github
+dist/*
+dist
+.vscode
 # OS
 .DS_Store
 
@@ -33,3 +41,4 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.vercel
