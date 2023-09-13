@@ -91,7 +91,7 @@ export default function Auth() {
               <UserAuthForm />
               <p className="registrationLink">
                 Or login&nbsp;
-                <div onClick={() => setRegisterPage(true)}> login</div>
+                <div onClick={() => setRegisterPage(false)}> login</div>
               </p>
               <p className="px-8 text-center text-sm text-muted-foreground">
                 By clicking continue, you agree to our{" "}

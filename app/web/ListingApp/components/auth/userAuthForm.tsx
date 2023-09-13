@@ -9,6 +9,7 @@ import { Label } from "./label";
 import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
 import RoleAuth from "./roleAuthForm";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import api from "../../../app/api/_api";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -37,14 +38,25 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     //   },
 
     // });
-    console.log("role:", role);
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    const response = await api.user
+      .register({
+        email,
+        password,
+        firstName,
+        lastName,
+        role,
+      })
+      .finally(() => setIsLoading(false));
+    console.log(response);
+
+    // console.log("role:", role);
+    // console.log("First Name:", firstName);
+    // console.log("Last Name:", lastName);
+    // console.log("Email:", email);
+    // console.log("Password:", password);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 3000);
   }
   if (isNew) {
     return (
@@ -65,13 +77,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               FirstName
             </Label>
             <Input
-              id="email"
+              id="firstName"
               placeholder="First Name"
               type="text"
               value={firstName}
               autoCapitalize="none"
               onChange={(e: any) => setFirstName(e.target.value)}
-              autoComplete="email"
+              autoComplete="firstName"
               autoCorrect="off"
               disabled={isLoading}
             />
@@ -101,8 +113,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               placeholder="name@example.com"
               type="email"
               value={email}
-              autoCapitalize="none"
               onChange={(e: any) => setEmail(e.target.value)}
+              autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}

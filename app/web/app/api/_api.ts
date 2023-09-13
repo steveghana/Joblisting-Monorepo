@@ -47,12 +47,14 @@ function handleApiError(error: any) {
 const registerUser = (user: {
   email: string;
   password: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
+  role: string;
 }) /* : Promise<IUser>  */ => {
-  console.log(user);
-  //   return apiCall("post", "user/register", { user }).then(
-  //     (response) => response.data as IUser
-  //   );
+  //   console.log(user);
+  return apiCall("post", "user/register", { user }).then(
+    (response) => response.data
+  );
 };
 
 type LoggedInUser = {

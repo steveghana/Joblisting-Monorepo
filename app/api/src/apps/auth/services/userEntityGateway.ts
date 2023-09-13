@@ -111,16 +111,17 @@ export async function updateUser(
   user: Partial<IUser>,
   transaction: EntityManager,
   dependencies: Dependencies = null,
-): Promise<void> {
+): Promise<any> {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const userRepo = transaction.getRepository(dependencies.db.models.user);
-  await userRepo.update(
+  const done = await userRepo.update(
     { email: user?.email.trim().toLowerCase() },
     {
       ...user,
     },
   );
+  return done;
 }
 
 export default {

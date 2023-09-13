@@ -23,16 +23,15 @@ export class UserEntity extends AssociableModel {
   @Column({ default: '' })
   lastName: string;
 
-  @Column({ nullable: false })
-  username: string;
-
   @Column({ nullable: false, unique: true })
   email: string;
 
   @Column({ nullable: false })
   password: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  @Column({
+    /* type: 'enum', enum: Role, default: Role.USER */
+  })
   role: string;
 
   @CreateDateColumn({ name: 'created_at' })

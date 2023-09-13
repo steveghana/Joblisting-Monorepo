@@ -66,7 +66,7 @@ class User {
     passwordHash: string,
     transaction: EntityManager,
     dependencies: Dependencies = null,
-  ): Promise<User> {
+  ): Promise<[IUser, User]> {
     dependencies = injectDependencies(dependencies, ['db']);
     const [userData, isNewlyCreated] = await findElseCreateUser(
       user.email.trim().toLowerCase(),
@@ -84,7 +84,7 @@ class User {
     const newUser = new User(user.email, dependencies);
     (newUser.data as unknown) = userData;
     (newUser._isNewlyCreated as unknown) = isNewlyCreated;
-    return newUser;
+    return [userData, newUser];
   }
 
   static async getByEmails(
@@ -123,14 +123,15 @@ class User {
   async update(
     user: Partial<Omit<IUser, 'email'>>,
     transaction: EntityManager,
-  ): Promise<void> {
+  ): Promise<any> {
     const newData = { ...user, email: this._email };
-    await updateUser(newData, transaction, this.dependencies);
+    const done = await updateUser(newData, transaction, this.dependencies);
 
     this.data = {
       ...this.data,
       ...newData,
     };
+    return done;
   }
 
   async isLocked(): Promise<boolean> {

@@ -27,7 +27,7 @@ import { GoogleLoginUserDto } from '../controllers/user.dto';
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
-  constructor(/* @Inject() private jwtService: JwtService */) {}
+  constructor(private jwtService: JwtService) {}
   async googleLogin(user: GoogleLoginUserDto) {
     //   if (!user) {
     //     throw new UnauthorizedException('No user from google');
@@ -120,10 +120,10 @@ export class AuthService {
 
     return useTransaction(async (transaction) => {
       console.log('find else create');
-      const user = await User.findElseCreate(
+      const [user, UserMethods] = await User.findElseCreate(
         {
           email,
-
+          role,
           firstName,
           lastName,
         },
@@ -132,50 +132,25 @@ export class AuthService {
         dependencies,
       );
 
-      if (!(await user.passwordMatches(''))) {
+      if (!(await UserMethods.passwordMatches(''))) {
         throw new HttpException('exists', HttpStatus.BAD_REQUEST);
       }
 
-      await user.update(
+      await UserMethods.update(
         {
           password: passwordHash,
         },
         transaction,
       );
-      // const logoImagePath = path.join(__dirname, 'logo-color (2).png');
-
-      // Read the logo image file
-      // const logoImage = fs.readFileSync(logoImagePath);
-      void dependencies.email.sendStyled({
-        to: ['shushanran@gmail.com', 'ran@q-int.com'],
-        subject: 'מישהו נרשם ל q-int: ' + email,
-        rtl: true,
-        // attachments: [
-        //   {
-        //     filename: 'logo-color (2).png',
-        //     // content: logoImage,
-        //     cid: 'logo@qint.com', // Use this CID in the email body to reference the image
-        //   },
-        // ],
-        html: `<h1>
-              שלום רן.<br/>
-              מישהו נרשם הרגע למערכת <a href="https://www.q-int.com">q-int</a>
-          </h1>
-          <table>
-              <tr>
-                  <th>דוא"ל</th>
-              </tr>
-              <tr>
-                  <td>${email}</td>
-              </tr>
-          </table>
-          <br/><br/>
-          בברכה,
-          מערכת q-int
-          `,
-      });
-      return {
+      const payload = {
         email: user.email,
+        role: user.role,
+        firstName,
+        lastName,
+      };
+      return {
+        ...payload,
+        token: this.jwtService.sign(payload),
       };
     });
   }
