@@ -27,6 +27,10 @@ const handler = NextAuth({
   }) as Adapter,
   callbacks: {
     async jwt({ token, account }) {
+      const local_authtoken = localStorage.getItem("autht_oken");
+      if (local_authtoken) {
+        token.auth_token = local_authtoken;
+      }
       if (account) {
         token.auth_token = await signJwt({
           sub: token.sub,

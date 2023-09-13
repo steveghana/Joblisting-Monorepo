@@ -1,14 +1,14 @@
-const secondsToMs = (s) => s * 1000;
-const minutesToMs = (m) => secondsToMs(m * 60);
-const hoursToMs = (h) => minutesToMs(h * 60);
-const daysToMs = (d) => hoursToMs(d * 24);
+const secondsToMs = (s: number) => s * 1000;
+const minutesToMs = (m: number) => secondsToMs(m * 60);
+const hoursToMs = (h: number) => minutesToMs(h * 60);
+const daysToMs = (d: number) => hoursToMs(d * 24);
 
 // eslint-disable-next-line import/no-commonjs
 const config = {
   restApiPort: 5000,
   databasePort: 5432,
 
-  BusinessURL: 'https://business.q-int.com',
+  BusinessURL: "https://business.q-int.com",
 
   logSql: true,
 

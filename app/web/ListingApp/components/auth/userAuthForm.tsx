@@ -1,12 +1,10 @@
 "use client";
-
 import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
 import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
 import {} from "next-auth";
 import { Button } from "@/lib/button";
-// import { Input } from "./input"
 import { Label } from "./label";
 import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
 import RoleAuth from "./roleAuthForm";
@@ -72,7 +70,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               type="text"
               value={firstName}
               autoCapitalize="none"
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e: any) => setFirstName(e.target.value)}
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
@@ -87,7 +85,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               placeholder="Last Name"
               type="text"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e: any) => setLastName(e.target.value)}
               autoCapitalize="none"
               autoComplete="lastName"
               autoCorrect="off"
@@ -104,7 +102,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               type="email"
               value={email}
               autoCapitalize="none"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: any) => setEmail(e.target.value)}
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
@@ -115,7 +113,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             label="Password"
             variant="bordered"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e: any) => setPassword(e.target.value)}
             placeholder="Enter your password"
             endContent={
               <button
@@ -133,19 +131,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             type={isVisible ? "text" : "password"}
             className="max-w-xs"
           />
-          {/* <Label className="sr-only" htmlFor="email">
-              Password
-            </Label> */}
-          {/* <Input
-              id="password"
-              placeholder="Password"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="password"
-              autoCorrect="off"
-              disabled={isLoading}
-            /> */}
-          {/* </div> */}
+
           <Button type="submit" disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -160,27 +146,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
+            {/* <p onClick={() => setRegisterPage(true)}>or sign up</p> */}
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {/* <Google/> */}
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </Button>
     </div>
   );
 }
