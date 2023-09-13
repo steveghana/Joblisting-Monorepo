@@ -167,7 +167,7 @@ export async function init() {
   // Initialize WebSocket server
   emailUtil.init();
   app.init();
-  server.listen(3000, () => {
+  server.listen(5000, () => {
     const addr: AddressInfo = server.address() as AddressInfo;
     logger.log('api', `Now listening on port ${getPort()}`);
   });

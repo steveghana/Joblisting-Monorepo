@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { Dependencies, injectDependencies } from '../util/dependencyInjector';
-import AuthToken from '../auth/src/services/Token/Entity/authToken';
+import AuthToken from '../auth/services/Token/DataManager/authToken';
 
 export type IMockRequest = any;
 export type IMockResponse = any;

@@ -14,23 +14,10 @@ import {
 import { Provider } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { Modules } from './exports';
-import * as path from 'path';
-// import { DataSource } from 'typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { myDataSource } from '../../apps/Config';
-import config from '../Config/config';
-import { RedisCacheModule } from '../redis/redis.module';
-import { CorsMiddleware } from '../middleware/cors.middleware';
-// import { UserEntity } from '../auth/src/models/user.entity';
 import dbConfiguration from '../Config/db.config';
-import {
-  AcceptLanguageResolver,
-  I18nJsonLoader,
-  I18nModule,
-  QueryResolver,
-} from 'nestjs-i18n';
-import { AuthMiddleware } from '../middleware/authenticated.middleware';
-import { OptionalAuthMiddleware } from '../middleware/optionallyAuthenticated.middleware';
+
 import { AuthenticationTtlMiddleware } from '../middleware/authenticationTtl.middleware';
 @Module({
   imports: [
