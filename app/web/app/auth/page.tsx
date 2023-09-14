@@ -8,8 +8,8 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/lib/button";
-import { UserAuthForm } from "@/ListingApp/components/auth/userAuthForm";
-import LoginPage from "@/ListingApp/components/auth/login";
+import { UserAuthForm } from "@/components/auth/userAuthForm";
+import LoginPage from "@/components/auth/login";
 
 export const metadata: Metadata = {
   title: "Authentication",

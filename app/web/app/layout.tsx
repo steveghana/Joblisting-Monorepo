@@ -2,11 +2,13 @@ import "../styles/main.scss";
 import "../global.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "@radix-ui/themes/styles.css";
 import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
 import { NextProvider } from "../providers/NextUiprovider";
-import SignoutButton from "@/ListingApp/components/auth/signout";
+import SignoutButton from "@/components/auth/signout";
 import AuthProviders from "@/providers/Provders";
+import { Theme } from "@radix-ui/themes";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,15 +27,15 @@ export default function RootLayout({
         {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
       </Head>
       <body>
-        {/* <AuthProviders> */}
-        <NextProvider>
-          {/* <header className="flex justify-end gap-4 p-4 bg-gradient-to-b from-blue-900 to-black shadow">
+        <AuthProviders>
+          <NextProvider>
+            {/* <header className="flex justify-end gap-4 p-4 bg-gradient-to-b from-blue-900 to-black shadow">
               <SignoutButton />
             </header> */}
-          <NextTopLoader color="black" crawl={true} />
-          {children}
-        </NextProvider>
-        {/* </AuthProviders> */}
+            <NextTopLoader color="black" crawl={true} />
+            {children}
+          </NextProvider>
+        </AuthProviders>
       </body>
     </html>
   );

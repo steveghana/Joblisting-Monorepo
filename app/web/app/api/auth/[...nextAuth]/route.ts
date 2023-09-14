@@ -33,7 +33,7 @@ const handler = NextAuth({
   }) as Adapter,
   callbacks: {
     async jwt({ token, account }) {
-      const local_authtoken = localStorage.getItem("autht_oken");
+      const local_authtoken = localStorage.getItem("auth_token");
       if (local_authtoken) {
         token.auth_token = local_authtoken;
       }
@@ -45,11 +45,13 @@ const handler = NextAuth({
           expires_at: account.expires_at,
         });
       }
+      console.log(token, " from setup");
       return token;
     },
     async session({ session, token }) {
+      const role = localStorage.getItem("role");
       session.auth_token = token.auth_token as string;
-      session.user = { ...session.user, role: token.role } as UserWithRole;
+      session.user = { ...session.user, role } as UserWithRole;
       return session;
     },
   },
