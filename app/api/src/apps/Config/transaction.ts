@@ -16,7 +16,7 @@ export async function useTransaction<T>(
     });
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(`Error logging in ${error} user ${error.message}`);
   }
 }
 

@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
 import apiUrl from "./_api_url";
+import { IUser } from "@/types/user";
 
 type Options = {
   headers?: Record<string, any>;
@@ -50,7 +51,7 @@ const registerUser = (user: {
   firstName: string;
   lastName: string;
   role: string;
-}) /* : Promise<IUser>  */ => {
+}): Promise<IUser> => {
   //   console.log(user);
   return apiCall("post", "user/register", { user }).then(
     (response) => response.data

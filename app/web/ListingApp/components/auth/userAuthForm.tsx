@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { Input } from "@nextui-org/react";
 import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
@@ -22,23 +23,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
   //  const supabase = createClientComponentClient();
   // const supabase = new SupabaseClient();
   const toggleVisibility = () => setIsVisible(!isVisible);
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-
-    // await supabase.auth.signUp({
-    //   email,
-    //   password,
-    //   // firstName,
-    //   options: {
-    //     emailRedirectTo: `${location.origin}/api/auth/callback`,
-    //   },
-
-    // });
-    const response = await api.user
+    await api.user
       .register({
         email,
         password,
@@ -46,17 +38,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         lastName,
         role,
       })
+      .then(({ role }) => {
+        if (role === "Ceo") {
+          router.push("/home"); // Redirect to admin dashboard
+        } else if (role === "developer") {
+          router.push("/access-denied"); // Redirect to user dashboard
+        }
+      })
       .finally(() => setIsLoading(false));
-    console.log(response);
-
-    // console.log("role:", role);
-    // console.log("First Name:", firstName);
-    // console.log("Last Name:", lastName);
-    // console.log("Email:", email);
-    // console.log("Password:", password);
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 3000);
   }
   if (isNew) {
     return (

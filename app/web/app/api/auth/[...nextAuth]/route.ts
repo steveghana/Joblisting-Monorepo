@@ -3,6 +3,12 @@ import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { Adapter } from "next-auth/adapters";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
+type UserWithRole = {
+  role: string;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  image?: string | null | undefined;
+};
 
 const handler = NextAuth({
   providers: [
@@ -43,6 +49,7 @@ const handler = NextAuth({
     },
     async session({ session, token }) {
       session.auth_token = token.auth_token as string;
+      session.user = { ...session.user, role: token.role } as UserWithRole;
       return session;
     },
   },
