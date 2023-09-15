@@ -132,9 +132,9 @@ export class AuthService {
         dependencies,
       );
 
-      if (!(await UserMethods.passwordMatches(''))) {
-        throw new HttpException('exists', HttpStatus.BAD_REQUEST);
-      }
+      // if (!(await UserMethods.passwordMatches(''))) {
+      //   throw new HttpException('exists', HttpStatus.BAD_REQUEST);
+      // }
 
       await UserMethods.update(
         {
