@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -10,16 +10,16 @@ import {
   FormControl,
   InputAdornment,
   Button,
-  FormHelperText
-} from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-import Logo from 'src/components/LogoSign';
+  FormHelperText,
+} from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import Logo from "../../../../components/LogoSign";
 
-import { styled } from '@mui/material/styles';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
+import { styled } from "@mui/material/styles";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import MailTwoToneIcon from "@mui/icons-material/MailTwoTone";
 
 const MainContent = styled(Box)(
   () => `
@@ -67,7 +67,7 @@ function StatusComingSoon() {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60)
+        seconds: Math.floor((difference / 1000) % 60),
       };
     }
 
@@ -82,16 +82,16 @@ function StatusComingSoon() {
     }, 1000);
   });
 
-  const timerComponents = [];
+  const timerComponents: any[] = [];
 
   Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
-      return;
-    }
+    // if (!timeLeft[interval]) {
+    //   return;
+    // }
 
     timerComponents.push(
       <Box textAlign="center" px={3}>
-        <TypographyH1 variant="h1">{timeLeft[interval]}</TypographyH1>
+        {/* <TypographyH1 variant="h1">{timeLeft[interval]}</TypographyH1> */}
         <TypographyH3 variant="h3">{interval}</TypographyH3>
       </Box>
     );
@@ -132,7 +132,7 @@ function StatusComingSoon() {
           </Box>
 
           <Container maxWidth="sm">
-            <Box sx={{ textAlign: 'center', p: 4 }}>
+            <Box sx={{ textAlign: "center", p: 4 }}>
               <FormControl variant="outlined" fullWidth>
                 <OutlinedInputWrapper
                   type="text"
@@ -155,7 +155,7 @@ function StatusComingSoon() {
                 </FormHelperText>
               </FormControl>
               <Divider sx={{ my: 4 }} />
-              <Box sx={{ textAlign: 'center' }}>
+              <Box sx={{ textAlign: "center" }}>
                 <Tooltip arrow placement="top" title="Facebook">
                   <IconButton color="primary">
                     <FacebookIcon />

@@ -2,12 +2,10 @@
 import React, { useState } from 'react';
 // import { useRouter } from "next/navigation";
 
-import { Input } from '@nextui-org/react';
-import { cn } from '../../lib/utils';
+// import { Input } from '@nextui-org/react';
 import { Icons } from '../icons';
-import {} from 'next-auth';
-import { Button } from '../../lib/button';
-import { Label } from './label';
+// import { Button } from '../../lib/button';
+// import { Label } from './label';
 import { Google, Visibility, VisibilityOff } from '@mui/icons-material';
 import RoleAuth from './roleAuthForm';
 // import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -64,8 +62,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={onSubmit}>
+    <div {...props}>
+      {/* <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -115,7 +113,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
-          {/* <div className="grid gap-1"> */}
           <Input
             label="Password"
             variant="bordered"
@@ -153,10 +150,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            {/* <p onClick={() => setRegisterPage(true)}>or sign up</p> */}
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

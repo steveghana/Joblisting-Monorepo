@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Input } from "@nextui-org/react";
-import { Icons } from "../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "../../lib/button";
+import * as React from 'react';
+// import { Input } from "@nextui-org/react";
+import { Icons } from '../icons';
+// import { cn } from "../../lib/utils";
+// import { Button } from "../../lib/button";
 // import { Input } from "./input"
-import { Label } from "./label";
-import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
+// import { Label } from "./label";
+import { Google, Visibility, VisibilityOff } from '@mui/icons-material';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,8 +20,8 @@ function LoginPage({
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   //const supabase = createClientComponentClient();
   // const supabase = new SupabaseClient();
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -29,16 +29,16 @@ function LoginPage({
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    console.log('Email:', email);
+    console.log('Password:', password);
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
+    <div {...props}>
+      {/* <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -103,14 +103,13 @@ function LoginPage({
         Github
       </Button>
       <Button variant="outline" type="button" disabled={isLoading}>
-        {/* <Google/> */}
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Google className="mr-2 h-4 w-4" />
         )}{" "}
         Google
-      </Button>
+      </Button> */}
 
       <p onClick={() => setRegisterPage(true)}>or sign up</p>
     </div>

@@ -6,12 +6,12 @@ import {
   Grid,
   alpha,
   useTheme,
-  styled
-} from '@mui/material';
-import Label from 'src/components/Label';
-import Text from 'src/components/Text';
-import Chart from 'react-apexcharts';
-import type { ApexOptions } from 'apexcharts';
+  styled,
+} from "@mui/material";
+import Label from "../../../components/Label";
+import Text from "../../../components/Text";
+import Chart from "react-apexcharts";
+import type { ApexOptions } from "apexcharts";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -25,7 +25,7 @@ const AvatarWrapper = styled(Avatar)(
     height: ${theme.spacing(5.5)};
     width: ${theme.spacing(5.5)};
     background: ${
-      theme.palette.mode === 'dark'
+      theme.palette.mode === "dark"
         ? theme.colors.alpha.trueWhite[30]
         : alpha(theme.colors.alpha.black[100], 0.07)
     };
@@ -46,100 +46,100 @@ function WatchListColumn() {
 
   const chartOptions: ApexOptions = {
     chart: {
-      background: 'transparent',
+      background: "transparent",
       toolbar: {
-        show: false
+        show: false,
       },
       sparkline: {
-        enabled: true
+        enabled: true,
       },
       zoom: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     fill: {
       gradient: {
-        shade: 'light',
-        type: 'vertical',
+        shade: "light",
+        type: "vertical",
         shadeIntensity: 0.1,
         inverseColors: false,
         opacityFrom: 0.8,
         opacityTo: 0,
-        stops: [0, 100]
-      }
+        stops: [0, 100],
+      },
     },
     colors: [theme.colors.primary.main],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     theme: {
-      mode: theme.palette.mode
+      mode: theme.palette.mode,
     },
     stroke: {
       show: true,
       colors: [theme.colors.primary.main],
-      width: 3
+      width: 3,
     },
     legend: {
-      show: false
+      show: false,
     },
     labels: [
-      'Monday',
-      'Tueday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
+      "Monday",
+      "Tueday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
     ],
     xaxis: {
       labels: {
-        show: false
+        show: false,
       },
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
-        show: false
-      }
+        show: false,
+      },
     },
     yaxis: {
       show: false,
-      tickAmount: 5
+      tickAmount: 5,
     },
     tooltip: {
       x: {
-        show: true
+        show: true,
       },
       y: {
         title: {
           formatter: function () {
-            return 'Price: $';
-          }
-        }
+            return "Price: $";
+          },
+        },
       },
       marker: {
-        show: false
-      }
-    }
+        show: false,
+      },
+    },
   };
   const chart1Data = [
     {
-      name: 'Bitcoin Price',
-      data: [55.701, 57.598, 48.607, 46.439, 58.755, 46.978, 58.16]
-    }
+      name: "Bitcoin Price",
+      data: [55.701, 57.598, 48.607, 46.439, 58.755, 46.978, 58.16],
+    },
   ];
   const chart2Data = [
     {
-      name: 'Ethereum Price',
-      data: [13, 16, 14, 20, 8, 11, 20]
-    }
+      name: "Ethereum Price",
+      data: [13, 16, 14, 20, 8, 11, 20],
+    },
   ];
   const chart3Data = [
     {
-      name: 'Cardano Price',
-      data: [51.85, 41.77, 22.09, 42.0, 71.9, 51.84, 31.84]
-    }
+      name: "Cardano Price",
+      data: [51.85, 41.77, 22.09, 42.0, 71.9, 51.84, 31.84],
+    },
   ];
 
   return (
@@ -153,12 +153,12 @@ function WatchListColumn() {
       <Grid item md={4} xs={12}>
         <Card
           sx={{
-            overflow: 'visible'
+            overflow: "visible",
           }}
         >
           <Box
             sx={{
-              p: 3
+              p: 3,
             }}
           >
             <Box display="flex" alignItems="center">
@@ -179,17 +179,17 @@ function WatchListColumn() {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                pt: 3
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                pt: 3,
               }}
             >
               <Typography
                 variant="h2"
                 sx={{
                   pr: 1,
-                  mb: 1
+                  mb: 1,
                 }}
               >
                 $56,475.99
@@ -200,9 +200,9 @@ function WatchListColumn() {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start'
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
               }}
             >
               <Label color="success">+$500</Label>
@@ -210,7 +210,7 @@ function WatchListColumn() {
                 variant="body2"
                 color="text.secondary"
                 sx={{
-                  pl: 1
+                  pl: 1,
                 }}
               >
                 last 24h
@@ -228,12 +228,12 @@ function WatchListColumn() {
       <Grid item md={4} xs={12}>
         <Card
           sx={{
-            overflow: 'visible'
+            overflow: "visible",
           }}
         >
           <Box
             sx={{
-              p: 3
+              p: 3,
             }}
           >
             <Box display="flex" alignItems="center">
@@ -254,17 +254,17 @@ function WatchListColumn() {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                pt: 3
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                pt: 3,
               }}
             >
               <Typography
                 variant="h2"
                 sx={{
                   pr: 1,
-                  mb: 1
+                  mb: 1,
                 }}
               >
                 $1,968.00
@@ -275,9 +275,9 @@ function WatchListColumn() {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start'
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
               }}
             >
               <Label color="error">-$90</Label>
@@ -285,7 +285,7 @@ function WatchListColumn() {
                 variant="body2"
                 color="text.secondary"
                 sx={{
-                  pl: 1
+                  pl: 1,
                 }}
               >
                 last 24h
@@ -303,12 +303,12 @@ function WatchListColumn() {
       <Grid item md={4} xs={12}>
         <Card
           sx={{
-            overflow: 'visible'
+            overflow: "visible",
           }}
         >
           <Box
             sx={{
-              p: 3
+              p: 3,
             }}
           >
             <Box display="flex" alignItems="center">
@@ -329,17 +329,17 @@ function WatchListColumn() {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                pt: 3
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                pt: 3,
               }}
             >
               <Typography
                 variant="h2"
                 sx={{
                   pr: 1,
-                  mb: 1
+                  mb: 1,
                 }}
               >
                 $23.00
@@ -350,9 +350,9 @@ function WatchListColumn() {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start'
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
               }}
             >
               <Label color="error">-$5</Label>
@@ -360,7 +360,7 @@ function WatchListColumn() {
                 variant="body2"
                 color="text.secondary"
                 sx={{
-                  pl: 1
+                  pl: 1,
                 }}
               >
                 last 24h

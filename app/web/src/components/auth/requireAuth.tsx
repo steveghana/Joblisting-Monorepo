@@ -1,9 +1,7 @@
-'use client';
-import { useSession, getSession } from 'next-auth/react';
 // import { useRouter } from "next/navigation";
 import rolesToPages from '../../lib/roles'; // Import the roles-to-pages mapping
 import React from 'react';
-import { Session } from 'next-auth';
+// import { Session } from 'next-auth';
 import { IRole } from '../../types/roles';
 import { useNavigate } from 'react-router';
 // import { IRole } from "@/types/roles";
@@ -11,11 +9,11 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
   allowedRoles?: string[];
 }
-type SessionWithRole = Session & {
-  user: {
-    role: string; // Add the role property
-  };
-};
+// type SessionWithRole = Session & {
+//   user: {
+//     role: string; // Add the role property
+//   };
+// };
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   allowedRoles = []

@@ -1,11 +1,10 @@
-'use client';
 import React, { useState } from 'react';
 // import "../../styles/global.scss";
-import { signIn, signOut, useSession } from 'next-auth/react';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 // import { Link } from 'react-router-dom';;
 
-import { cn } from '../../lib/utils';
-import { buttonVariants } from '../../lib/button';
+// import { cn } from '../../lib/utils';
+// import { buttonVariants } from '../../lib/button';
 import { UserAuthForm } from '../../components/auth/userAuthForm';
 import LoginPage from '../../components/auth/login';
 import { Link } from 'react-router-dom';
@@ -31,15 +30,7 @@ export default function Auth() {
         />
       </div> */}
       <div className="container relative sm:h-30  h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <Link
-          to="/examples/authentication"
-          className={cn(
-            buttonVariants({ variant: 'ghost' }),
-            'absolute right-4 top-4 md:right-8 md:top-8'
-          )}
-        >
-          Login
-        </Link>
+        <Link to="/examples/authentication">Login</Link>
         <div className="relative md:h-[400px]  lg:h-full sm:h-[400px] flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" />
           <div className="relative z-20 flex items-center text-lg font-medium">
