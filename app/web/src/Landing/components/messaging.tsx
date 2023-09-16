@@ -1,7 +1,7 @@
 import React from "react";
-import MessagingTab from "../../widgets/messagingTabs";
+import MessagingTab from "../widgets/messagingTabs";
 import { messagedata } from "../data/data";
-import HeaderDescription from "../../widgets/header-Description";
+import HeaderDescription from "../widgets/header-Description";
 const Messaging = () => {
   return (
     <div className="custom-messaging__container">

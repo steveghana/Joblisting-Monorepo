@@ -1,5 +1,5 @@
-import HeaderDescription from "../../widgets/header-Description";
-import MessagingTab from "../../widgets/messagingTabs";
+import HeaderDescription from "../widgets/header-Description";
+import MessagingTab from "../widgets/messagingTabs";
 import React from "react";
 import { prodFeatdata } from "../data/data";
 import graphicImg from "../../assets/Photo.png";
