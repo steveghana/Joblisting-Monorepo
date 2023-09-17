@@ -3,12 +3,11 @@ import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import { Button, Checkbox } from "@mui/material";
+import { IProfession } from "../../types/roles";
 interface RoleProps {
   setisNew: () => void;
-  setSelectedValue: React.Dispatch<
-    React.SetStateAction<Record<string, string>>
-  >;
-  selectedValue: string;
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  selectedValue: IProfession;
 }
 
 function RoleAuth(props: RoleProps) {
@@ -18,18 +17,15 @@ function RoleAuth(props: RoleProps) {
 
   return (
     <FormGroup>
-      <Checkbox
-        checked={false}
-        // defaultSelected
-        className="bg-success text-white"
-        color="success"
-      />
-
       <div>Select an Account Type</div>
       <FormControlLabel
         control={<Radio />}
         label="Ceo"
-        sx={{ my: 1 }}
+        sx={{
+          my: 1,
+          borderRadius: "5px",
+          border: props.selectedValue === "Ceo" ? "1px solid blue" : "",
+        }}
         value="Ceo"
         checked={props.selectedValue === "Ceo"}
         onChange={handleRadioChange}
@@ -41,7 +37,11 @@ function RoleAuth(props: RoleProps) {
         control={<Radio />}
         label="Marketing"
         value="Marketing"
-        sx={{ my: 1 }}
+        sx={{
+          my: 1,
+          borderRadius: "5px",
+          border: props.selectedValue === "Marketing" ? "1px solid blue" : "",
+        }}
         checked={props.selectedValue === "Marketing"}
         onChange={handleRadioChange}
         className={`border ${
@@ -52,7 +52,11 @@ function RoleAuth(props: RoleProps) {
         control={<Radio />}
         label="Recruitment"
         value="Recruitment"
-        sx={{ my: 1 }}
+        sx={{
+          my: 1,
+          borderRadius: "5px",
+          border: props.selectedValue === "Recruitment" ? "1px solid blue" : "",
+        }}
         checked={props.selectedValue === "Recruitment"}
         onChange={handleRadioChange}
         className={`border ${
@@ -64,7 +68,11 @@ function RoleAuth(props: RoleProps) {
         control={<Radio />}
         label="Developer"
         value="Developer"
-        sx={{ my: 1 }}
+        sx={{
+          my: 1,
+          borderRadius: "5px",
+          border: props.selectedValue === "Developer" ? "1px solid blue" : "",
+        }}
         checked={props.selectedValue === "Developer"}
         onChange={handleRadioChange}
         className={`border ${
