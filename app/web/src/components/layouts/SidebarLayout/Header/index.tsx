@@ -12,12 +12,12 @@ import {
   useTheme,
 } from "@mui/material";
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
-import { SidebarContext } from "../../../contexts/SidebarContext";
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 
 import HeaderButtons from "./Buttons";
 import HeaderUserbox from "./Userbox";
 import HeaderMenu from "./Menu";
+import { SidebarContext } from "../../../../contexts/SidebarContext";
 
 // background-color: ${alpha(theme.header.background, 0.95)};
 const HeaderWrapper = styled(Box)(

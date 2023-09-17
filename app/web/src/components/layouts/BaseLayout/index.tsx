@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import PropTypes from "prop-types";
-// import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
@@ -16,7 +16,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
         height: "100%",
       }}
     >
-      {children}
+      {children || <Outlet />}
     </Box>
   );
 };

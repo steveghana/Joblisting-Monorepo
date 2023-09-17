@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import Radio from '@mui/material/Radio';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import { Button, Checkbox } from '@mui/material';
+import React, { useState } from "react";
+import Radio from "@mui/material/Radio";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import { Button, Checkbox } from "@mui/material";
 interface RoleProps {
   setisNew: () => void;
-  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedValue: React.Dispatch<
+    React.SetStateAction<Record<string, string>>
+  >;
   selectedValue: string;
 }
 
@@ -29,10 +31,10 @@ function RoleAuth(props: RoleProps) {
         label="Ceo"
         sx={{ my: 1 }}
         value="Ceo"
-        checked={props.selectedValue === 'Ceo'}
+        checked={props.selectedValue === "Ceo"}
         onChange={handleRadioChange}
         className={`border ${
-          props.selectedValue === 'Ceo' ? 'border-blue-800' : ''
+          props.selectedValue === "Ceo" ? "border-blue-800" : ""
         } p-2 rounded`}
       />
       <FormControlLabel
@@ -40,10 +42,10 @@ function RoleAuth(props: RoleProps) {
         label="Marketing"
         value="Marketing"
         sx={{ my: 1 }}
-        checked={props.selectedValue === 'Marketing'}
+        checked={props.selectedValue === "Marketing"}
         onChange={handleRadioChange}
         className={`border ${
-          props.selectedValue === 'Marketing' ? 'border-blue-800' : ''
+          props.selectedValue === "Marketing" ? "border-blue-800" : ""
         } p-2 rounded`}
       />
       <FormControlLabel
@@ -51,10 +53,10 @@ function RoleAuth(props: RoleProps) {
         label="Recruitment"
         value="Recruitment"
         sx={{ my: 1 }}
-        checked={props.selectedValue === 'Recruitment'}
+        checked={props.selectedValue === "Recruitment"}
         onChange={handleRadioChange}
         className={`border ${
-          props.selectedValue === 'Recruitment' ? 'border-blue-800' : ''
+          props.selectedValue === "Recruitment" ? "border-blue-800" : ""
         } p-2 rounded`}
       />
 
@@ -63,10 +65,10 @@ function RoleAuth(props: RoleProps) {
         label="Developer"
         value="Developer"
         sx={{ my: 1 }}
-        checked={props.selectedValue === 'Developer'}
+        checked={props.selectedValue === "Developer"}
         onChange={handleRadioChange}
         className={`border ${
-          props.selectedValue === 'Developer' ? 'border-blue-800' : ''
+          props.selectedValue === "Developer" ? "border-blue-800" : ""
         } p-2 rounded`}
       />
       <Button

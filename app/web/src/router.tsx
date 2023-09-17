@@ -6,6 +6,8 @@ import SidebarLayout from "./components/layouts/SidebarLayout";
 import BaseLayout from "./components/layouts/BaseLayout";
 
 import SuspenseLoader from "./components/SuspenseLoader";
+import Home from "./app/pages/Landing/page";
+import Auth from "./app/pages/auth/page";
 
 const Loader = (Component: any) => (props: any) =>
   (
@@ -64,16 +66,20 @@ const StatusMaintenance = Loader(
 
 const routes: RouteObject[] = [
   {
-    path: "",
+    path: "/",
     element: <BaseLayout />,
     children: [
       {
         path: "/",
-        element: <Overview />,
+        element: <Home />,
       },
       {
         path: "overview",
         element: <Navigate to="/" replace />,
+      },
+      {
+        path: "/auth",
+        element: <Auth />,
       },
       {
         path: "status",

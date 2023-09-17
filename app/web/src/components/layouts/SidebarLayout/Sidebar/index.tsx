@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import Scrollbar from "../../../Scrollbar";
-import { SidebarContext } from "../../../contexts/SidebarContext";
 
 import {
   Box,
@@ -17,6 +16,7 @@ import {
 
 import SidebarMenu from "./SidebarMenu";
 import Logo from "../../../LogoSign";
+import { SidebarContext } from "../../../../contexts/SidebarContext";
 
 const SidebarWrapper = styled(Box)(
   ({ theme }) => `
@@ -81,17 +81,7 @@ function Sidebar() {
           }}
         />
         <Box p={2}>
-          <Button
-            href="https://bloomui.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="contained"
-            color="warning"
-            size="small"
-            fullWidth
-          >
-            Upgrade to PRO
-          </Button>
+          <Button fullWidth>Savannah Tech</Button>
         </Box>
       </SidebarWrapper>
       <Drawer

@@ -1,27 +1,37 @@
-'use client';
-
-import * as React from 'react';
-// import { Input } from "@nextui-org/react";
-import { Icons } from '../icons';
-// import { cn } from "../../lib/utils";
-// import { Button } from "../../lib/button";
-// import { Input } from "./input"
-// import { Label } from "./label";
-import { Google, Visibility, VisibilityOff } from '@mui/icons-material';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { GitHub, Google, Visibility, VisibilityOff } from "@mui/icons-material";
+import EmailField from "./Fields/EmailField";
+import PasswordField from "./Fields/PasswordField";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
 }
+const defaultTheme = createTheme();
 
 function LoginPage({
   setRegisterPage,
   className,
   ...props
 }: UserAuthFormProps) {
+  const INITIAL = { text: "", error: "" };
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState(INITIAL);
+  const [password, setPassword] = React.useState(INITIAL);
   //const supabase = createClientComponentClient();
   // const supabase = new SupabaseClient();
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -29,90 +39,132 @@ function LoginPage({
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log("Email:", email);
+    console.log("Password:", password);
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
   }
+  //  const handleSubmit = React.useCallback(async () => {
+  //    if (
+  //      ![
+  //        checkValid(name, setName, emailValidator),
+  //        checkValid(email, setEmail, emailValidator),
+  //        checkValid(password, setPassword, passwordValidator),
+  //      ].every((v) => v)
+  //    )
+  //      return;
+  //    if (typeof handleSignUp !== "function") handleSignUp = () => {};
+
+  //    setLoading(true);
+
+  //    return handleSignUp({
+  //      name: name.text,
+  //      email: email.text,
+  //      password: password.text,
+  //    });
+  //  }, []);
 
   return (
-    <div {...props}>
-      {/* <form onSubmit={onSubmit}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              value={email}
-              onChange={(e: any) => setEmail(e.target.value)}
-              autoCorrect="off"
-              disabled={isLoading}
-            />
-          </div>
-          <Input
-            label="Password"
-            variant="bordered"
-            value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                onClick={toggleVisibility}
-              >
-                {isVisible ? (
-                  <Visibility className="text-2xl text-default-400 pointer-events-none" />
-                ) : (
-                  <VisibilityOff className="text-2xl text-default-400 pointer-events-none" />
-                )}
-              </button>
-            }
-          />
-          <Button disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In with Email
-          </Button>
-        </div>
-      </form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </Button> */}
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
+              <EmailField {...{ email, setEmail, loading: isLoading }} />
 
-      <p onClick={() => setRegisterPage(true)}>or sign up</p>
-    </div>
+              <PasswordField
+                {...{ password, setPassword, loading: isLoading }}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+              <Stack direction="column" spacing={2}>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  disabled={isLoading}
+                  startIcon={<GitHub />}
+                >
+                  Github
+                </Button>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  disabled={isLoading}
+                  startIcon={<Google className="mr-2 h-4 w-4" />}
+                >
+                  Google
+                </Button>
+              </Stack>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link onClick={() => setRegisterPage(true)} variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }
 export default LoginPage;
