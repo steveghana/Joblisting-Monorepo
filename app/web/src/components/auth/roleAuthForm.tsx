@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import { Button, Checkbox } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  RadioGroup,
+} from "@mui/material";
 import { IProfession } from "../../types/roles";
 interface RoleProps {
   setisNew: () => void;
@@ -11,82 +17,92 @@ interface RoleProps {
 }
 
 function RoleAuth(props: RoleProps) {
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = React.useState("Choose wisely");
   const handleRadioChange = (event: any) => {
     props.setSelectedValue(event.target.value);
   };
+  const onMoveToRegister = () => {
+    if (!props.selectedValue) {
+      setError(true);
+      setHelperText("Please select an option.");
+      return;
+    }
+    props.setisNew();
+  };
 
   return (
-    <FormGroup>
+    <FormControl sx={{ m: 3 }} error={error} variant="standard">
       <div>Select an Account Type</div>
-      <FormControlLabel
-        control={<Radio />}
-        label="Ceo"
-        sx={{
-          my: 1,
-          borderRadius: "5px",
-          border: props.selectedValue === "Ceo" ? "1px solid blue" : "",
-        }}
-        value="Ceo"
-        checked={props.selectedValue === "Ceo"}
-        onChange={handleRadioChange}
-        className={`border ${
-          props.selectedValue === "Ceo" ? "border-blue-800" : ""
-        } p-2 rounded`}
-      />
-      <FormControlLabel
-        control={<Radio />}
-        label="Marketing"
-        value="Marketing"
-        sx={{
-          my: 1,
-          borderRadius: "5px",
-          border: props.selectedValue === "Marketing" ? "1px solid blue" : "",
-        }}
-        checked={props.selectedValue === "Marketing"}
-        onChange={handleRadioChange}
-        className={`border ${
-          props.selectedValue === "Marketing" ? "border-blue-800" : ""
-        } p-2 rounded`}
-      />
-      <FormControlLabel
-        control={<Radio />}
-        label="Recruitment"
-        value="Recruitment"
-        sx={{
-          my: 1,
-          borderRadius: "5px",
-          border: props.selectedValue === "Recruitment" ? "1px solid blue" : "",
-        }}
-        checked={props.selectedValue === "Recruitment"}
-        onChange={handleRadioChange}
-        className={`border ${
-          props.selectedValue === "Recruitment" ? "border-blue-800" : ""
-        } p-2 rounded`}
-      />
+      <RadioGroup>
+        <FormControlLabel
+          control={<Radio />}
+          label="Ceo"
+          sx={{
+            my: 1,
+            borderRadius: "5px",
+            border: props.selectedValue === "Ceo" ? "1px solid blue" : "",
+          }}
+          value="Ceo"
+          checked={props.selectedValue === "Ceo"}
+          onChange={handleRadioChange}
+          className={`border ${
+            props.selectedValue === "Ceo" ? "border-blue-800" : ""
+          } p-2 rounded`}
+        />
+        <FormControlLabel
+          control={<Radio />}
+          label="Marketing"
+          value="Marketing"
+          sx={{
+            my: 1,
+            borderRadius: "5px",
+            border: props.selectedValue === "Marketing" ? "1px solid blue" : "",
+          }}
+          checked={props.selectedValue === "Marketing"}
+          onChange={handleRadioChange}
+          className={`border ${
+            props.selectedValue === "Marketing" ? "border-blue-800" : ""
+          } p-2 rounded`}
+        />
+        <FormControlLabel
+          control={<Radio />}
+          label="Recruitment"
+          value="Recruitment"
+          sx={{
+            my: 1,
+            borderRadius: "5px",
+            border:
+              props.selectedValue === "Recruitment" ? "1px solid blue" : "",
+          }}
+          checked={props.selectedValue === "Recruitment"}
+          onChange={handleRadioChange}
+          className={`border ${
+            props.selectedValue === "Recruitment" ? "border-blue-800" : ""
+          } p-2 rounded`}
+        />
 
-      <FormControlLabel
-        control={<Radio />}
-        label="Developer"
-        value="Developer"
-        sx={{
-          my: 1,
-          borderRadius: "5px",
-          border: props.selectedValue === "Developer" ? "1px solid blue" : "",
-        }}
-        checked={props.selectedValue === "Developer"}
-        onChange={handleRadioChange}
-        className={`border ${
-          props.selectedValue === "Developer" ? "border-blue-800" : ""
-        } p-2 rounded`}
-      />
-      <Button
-        // variant="bordered"
-        color="primary"
-        onClick={() => props.setisNew()}
-      >
-        continue
-      </Button>
-    </FormGroup>
+        <FormControlLabel
+          control={<Radio />}
+          label="Developer"
+          value="Developer"
+          sx={{
+            my: 1,
+            borderRadius: "5px",
+            border: props.selectedValue === "Developer" ? "1px solid blue" : "",
+          }}
+          checked={props.selectedValue === "Developer"}
+          onChange={handleRadioChange}
+          className={`border ${
+            props.selectedValue === "Developer" ? "border-blue-800" : ""
+          } p-2 rounded`}
+        />
+        <FormHelperText>{helperText}</FormHelperText>
+        <Button variant="outlined" color="primary" onClick={onMoveToRegister}>
+          continue
+        </Button>
+      </RadioGroup>
+    </FormControl>
   );
 }
 

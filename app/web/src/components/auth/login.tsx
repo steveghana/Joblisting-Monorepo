@@ -12,13 +12,34 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { GitHub, Google, Visibility, VisibilityOff } from "@mui/icons-material";
+import { GitHub, Google, LinkedIn } from "@mui/icons-material";
 import EmailField from "./Fields/EmailField";
 import PasswordField from "./Fields/PasswordField";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
 }
+const Social = {
+  Github: {
+    color: "#131418",
+    icon: GitHub,
+  },
+  Linkedin: {
+    color: "#0077B5",
+    icon: LinkedIn,
+  },
+
+  Google: {
+    color: "red",
+    icon: () => (
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"
+        width={20}
+        height={20}
+      />
+    ),
+  },
+};
 const defaultTheme = createTheme();
 
 function LoginPage({
@@ -26,6 +47,11 @@ function LoginPage({
   className,
   ...props
 }: UserAuthFormProps) {
+  let handleSocial: {
+    Google: () => {};
+    Github: () => {};
+    Twitter: () => {};
+  };
   const INITIAL = { text: "", error: "" };
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -100,22 +126,25 @@ function LoginPage({
           </div>
         </div>
         <Stack direction="column" spacing={2}>
-          <Button
-            type="button"
-            variant="outlined"
-            disabled={isLoading}
-            startIcon={<GitHub />}
-          >
-            Github
-          </Button>
-          <Button
-            type="button"
-            variant="outlined"
-            disabled={isLoading}
-            startIcon={<Google className="mr-2 h-4 w-4" />}
-          >
-            Google
-          </Button>
+          {Object.entries(handleSocial).map(([key, handler]) => {
+            if (
+              typeof handler !== "function" ||
+              !Social[key] ||
+              !Social[key].icon
+            )
+              return null;
+            return (
+              <Button
+                key={key}
+                aria-label={`${key} login button`}
+                onClick={handler}
+              >
+                {React.createElement(Social[key].icon, {
+                  htmlColor: Social[key].color,
+                })}
+              </Button>
+            );
+          })}
         </Stack>
         <Grid container>
           <Grid item xs>
