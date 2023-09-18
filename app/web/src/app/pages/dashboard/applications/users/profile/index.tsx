@@ -13,7 +13,7 @@ import Addresses from "../../../../../../content/applications/Users/profile/Addr
 function ManagementUserProfile() {
   const user = {
     savedCards: 7,
-    name: "Catherine Pike",
+    name: "itai azogui",
     coverImg: "/static/images/placeholders/covers/5.jpg",
     avatar: "/static/images/avatars/4.jpg",
     description:

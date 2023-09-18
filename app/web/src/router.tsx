@@ -22,7 +22,9 @@ const Overview = Loader(lazy(() => import("./app/pages/overview")));
 
 // Dashboards
 
-const Crypto = Loader(lazy(() => import("./app/pages/dashboard/boards/main")));
+const Dashboard = Loader(
+  lazy(() => import("./app/pages/dashboard/boards/main"))
+);
 
 // Applications
 
@@ -41,17 +43,8 @@ const UserSettings = Loader(
 
 // Components
 
-const Buttons = Loader(lazy(() => import("./app/pages/subPages/Buttons")));
-const Modals = Loader(lazy(() => import("./app/pages/subPages/Modals")));
-const Accordions = Loader(
-  lazy(() => import("./app/pages/subPages/Accordions"))
-);
-const Tabs = Loader(lazy(() => import("./app/pages/subPages/Tabs")));
-const Badges = Loader(lazy(() => import("./app/pages/subPages/Badges")));
-const Tooltips = Loader(lazy(() => import("./app/pages/subPages/Tooltips")));
-const Avatars = Loader(lazy(() => import("./app/pages/subPages/Avatars")));
-const Cards = Loader(lazy(() => import("./app/pages/subPages/Cards")));
-const Forms = Loader(lazy(() => import("./app/pages/subPages/Forms")));
+const Subpage = Loader(lazy(() => import("./app/pages/subPages/item")));
+const SubPage1 = Loader(lazy(() => import("./app/pages/subPages/item1")));
 
 // Status
 
@@ -122,11 +115,11 @@ const routes: RouteObject[] = [
     children: [
       {
         path: "",
-        element: <Navigate to="crypto" replace />,
+        element: <Navigate to="home" replace />,
       },
       {
-        path: "crypto",
-        element: <Crypto />,
+        path: "home",
+        element: <Dashboard />,
       },
       {
         path: "messenger",
@@ -174,40 +167,12 @@ const routes: RouteObject[] = [
         element: <Navigate to="buttons" replace />,
       },
       {
-        path: "buttons",
-        element: <Buttons />,
+        path: "item",
+        element: <Subpage />,
       },
       {
-        path: "modals",
-        element: <Modals />,
-      },
-      {
-        path: "accordions",
-        element: <Accordions />,
-      },
-      {
-        path: "tabs",
-        element: <Tabs />,
-      },
-      {
-        path: "badges",
-        element: <Badges />,
-      },
-      {
-        path: "tooltips",
-        element: <Tooltips />,
-      },
-      {
-        path: "avatars",
-        element: <Avatars />,
-      },
-      {
-        path: "cards",
-        element: <Cards />,
-      },
-      {
-        path: "forms",
-        element: <Forms />,
+        path: "item1",
+        element: <SubPage1 />,
       },
     ],
   },

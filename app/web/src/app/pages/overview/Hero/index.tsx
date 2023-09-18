@@ -87,7 +87,7 @@ function Hero() {
 
           <Button
             component={RouterLink}
-            to="/dashboards/crypto"
+            to="/dashboards/home"
             size="large"
             variant="contained"
           >

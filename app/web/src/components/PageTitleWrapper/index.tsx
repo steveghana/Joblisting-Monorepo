@@ -1,6 +1,6 @@
-import { FC, ReactNode } from 'react';
-import PropTypes from 'prop-types';
-import { Box, Container, styled } from '@mui/material';
+import { FC, ReactNode } from "react";
+import PropTypes from "prop-types";
+import { Box, Container, styled } from "@mui/material";
 
 const PageTitle = styled(Box)(
   ({ theme }) => `
@@ -21,7 +21,7 @@ const PageTitleWrapper: FC<PageTitleWrapperProps> = ({ children }) => {
 };
 
 PageTitleWrapper.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default PageTitleWrapper;
