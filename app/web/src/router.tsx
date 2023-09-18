@@ -73,13 +73,17 @@ const routes: RouteObject[] = [
         path: "/",
         element: <Home />,
       },
-      {
-        path: "overview",
-        element: <Navigate to="/" replace />,
-      },
+      // {
+      //   path: "overview",
+      //   element: <Navigate to="/" replace />,
+      // },
       {
         path: "/auth",
         element: <Auth />,
+      },
+      {
+        path: "/overview",
+        element: <Overview />,
       },
       {
         path: "status",

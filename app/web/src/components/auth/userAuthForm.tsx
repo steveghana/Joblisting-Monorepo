@@ -30,6 +30,7 @@ import EmailField from "./Fields/EmailField";
 import PasswordField from "./Fields/PasswordField";
 import { GitHub, Google } from "@mui/icons-material";
 import { IProfession } from "../../types/roles";
+import CustomButton from "../button";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -67,8 +68,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         localStorage.setItem("auth_token", token);
         localStorage.setItem("role", role);
 
-        if (role === "Admin") {
-          router("/home"); // Redirect to admin dashboard
+        if (role === "Ceo") {
+          router("/overview"); // Redirect to admin dashboard
         } else if (role === "developer") {
           router("/access-denied"); // Redirect to user dashboard
         }
@@ -107,13 +108,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <>
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        Sign up
-      </Typography>
+    <Box justifyContent={"center"}>
+      <Box
+        justifyContent={"center"}
+        alignItems={"center"}
+        flexDirection={"column"}
+        sx={{ display: "flex" }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+      </Box>
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
         <NameField
           {...{
@@ -129,42 +137,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign In
-        </Button>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-        <Stack direction="column" spacing={2}>
-          <Button
-            type="button"
-            variant="outlined"
-            disabled={isLoading}
-            startIcon={<GitHub />}
-          >
-            Github
-          </Button>
-          <Button
-            type="button"
-            variant="outlined"
-            disabled={isLoading}
-            startIcon={<Google className="mr-2 h-4 w-4" />}
-          >
-            Google
-          </Button>
-        </Stack>
+        <CustomButton type="submit" text="Sign in" />
+
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
@@ -173,11 +147,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </Grid>
           <Grid item>
             <Link onClick={() => props.setRegisterPage(false)} variant="body2">
-              {"Don't have an account? Sign Up"}
+              {"Already have an account? Sign In"}
             </Link>
           </Grid>
         </Grid>
       </Box>
-    </>
+    </Box>
   );
 }

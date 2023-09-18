@@ -31,8 +31,8 @@ import { Link as RouterLink } from "react-router-dom";
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
-          background-color: ${theme.colors.success.lighter};
-          color: ${theme.colors.success.main};
+          background-color: ${theme.colors?.success.lighter};
+          color: ${theme.colors?.success.main};
           width: ${theme.spacing(8)};
           height: ${theme.spacing(8)};
           margin-left: auto;
@@ -42,9 +42,9 @@ const AvatarSuccess = styled(Avatar)(
 
 const MeetingBox = styled(Box)(
   ({ theme }) => `
-          background-color: ${lighten(theme.colors.alpha.black[10], 0.5)};
+          background-color: ${lighten(theme.colors?.alpha?.black[10], 0.5)};
           margin: ${theme.spacing(2)} 0;
-          border-radius: ${theme.general.borderRadius};
+          border-radius: ${theme.general?.borderRadius};
           padding: ${theme.spacing(2)};
     `
 );
@@ -77,7 +77,7 @@ const TabsContainerWrapper = styled(Box)(
                 padding: 0;
                 margin-right: ${theme.spacing(3)};
                 font-size: ${theme.typography.pxToRem(16)};
-                color: ${theme.colors.alpha.black[50]};
+                color: ${theme.colors?.alpha?.black[50]};
 
                 .MuiTouchRipple-root {
                     display: none;
@@ -86,7 +86,7 @@ const TabsContainerWrapper = styled(Box)(
 
             &.Mui-selected:hover,
             &.Mui-selected {
-                color: ${theme.colors.alpha.black[100]};
+                color: ${theme.colors?.alpha?.black[100]};
             }
         }
   `

@@ -32,12 +32,12 @@ const AvatarWrapper = styled(Avatar)(
     width: ${theme.spacing(5.5)};
     background: ${
       theme.palette.mode === "dark"
-        ? theme.colors.alpha.trueWhite[30]
-        : alpha(theme.colors.alpha.black[100], 0.07)
+        ? theme.colors?.alpha?.trueWhite[30]
+        : alpha(theme.colors?.alpha?.black[100], 0.07)
     };
   
     img {
-      background: ${theme.colors.alpha.trueWhite[100]};
+      background: ${theme.colors?.alpha?.trueWhite[100]};
       padding: ${theme.spacing(0.5)};
       display: block;
       border-radius: inherit;
@@ -77,13 +77,13 @@ function WatchListRow() {
     ],
     stroke: {
       curve: "smooth",
-      colors: [theme.colors.primary.main],
+      colors: [theme.colors?.primary.main],
       width: 2,
     },
     yaxis: {
       show: false,
     },
-    colors: [theme.colors.primary.main],
+    colors: [theme.colors?.primary.main],
     grid: {
       padding: {
         top: 10,
@@ -201,7 +201,7 @@ function WatchListRow() {
             </Box>
             <TrendingUpTwoToneIcon
               sx={{
-                color: `${theme.colors.success.main}`,
+                color: `${theme.colors?.success.main}`,
               }}
             />
           </Box>
@@ -270,7 +270,7 @@ function WatchListRow() {
             </Box>
             <TrendingDownTwoToneIcon
               sx={{
-                color: `${theme.colors.error.main}`,
+                color: `${theme.colors?.error.main}`,
               }}
             />
           </Box>
@@ -339,7 +339,7 @@ function WatchListRow() {
             </Box>
             <TrendingFlatTwoToneIcon
               sx={{
-                color: `${theme.colors.warning.main}`,
+                color: `${theme.colors?.warning.main}`,
               }}
             />
           </Box>

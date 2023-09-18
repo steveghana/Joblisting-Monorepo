@@ -26,12 +26,12 @@ const AvatarWrapper = styled(Avatar)(
     width: ${theme.spacing(5.5)};
     background: ${
       theme.palette.mode === "dark"
-        ? theme.colors.alpha.trueWhite[30]
-        : alpha(theme.colors.alpha.black[100], 0.07)
+        ? theme.colors?.alpha?.trueWhite[30]
+        : alpha(theme.colors?.alpha?.black[100], 0.07)
     };
   
     img {
-      background: ${theme.colors.alpha.trueWhite[100]};
+      background: ${theme.colors?.alpha?.trueWhite[100]};
       padding: ${theme.spacing(0.5)};
       display: block;
       border-radius: inherit;
@@ -68,7 +68,7 @@ function WatchListColumn() {
         stops: [0, 100],
       },
     },
-    colors: [theme.colors.primary.main],
+    colors: [theme.colors?.primary.main],
     dataLabels: {
       enabled: false,
     },
@@ -77,7 +77,7 @@ function WatchListColumn() {
     },
     stroke: {
       show: true,
-      colors: [theme.colors.primary.main],
+      colors: [theme.colors?.primary.main],
       width: 3,
     },
     legend: {

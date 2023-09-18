@@ -8,8 +8,10 @@ import {
   FormControl,
   FormHelperText,
   RadioGroup,
+  Typography,
 } from "@mui/material";
 import { IProfession } from "../../types/roles";
+import CustomButton from "../button";
 interface RoleProps {
   setisNew: () => void;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
@@ -18,7 +20,7 @@ interface RoleProps {
 
 function RoleAuth(props: RoleProps) {
   const [error, setError] = useState(false);
-  const [helperText, setHelperText] = React.useState("Choose wisely");
+  const [helperText, setHelperText] = React.useState("");
   const handleRadioChange = (event: any) => {
     props.setSelectedValue(event.target.value);
   };
@@ -33,6 +35,14 @@ function RoleAuth(props: RoleProps) {
 
   return (
     <FormControl sx={{ m: 3 }} error={error} variant="standard">
+      <Typography fontWeight={600} variant="h3">
+        {" "}
+        Lets sign you up
+      </Typography>
+      <Typography fontWeight={500} variant="caption" color={"GrayText"}>
+        Discover the future of remote jobs in africa. Create a free account now
+        and lets get started
+      </Typography>
       <div>Select an Account Type</div>
       <RadioGroup>
         <FormControlLabel
@@ -41,14 +51,14 @@ function RoleAuth(props: RoleProps) {
           sx={{
             my: 1,
             borderRadius: "5px",
-            border: props.selectedValue === "Ceo" ? "1px solid blue" : "",
+            border:
+              props.selectedValue === "Ceo"
+                ? "1px solid blue"
+                : "1px solid gray",
           }}
           value="Ceo"
           checked={props.selectedValue === "Ceo"}
           onChange={handleRadioChange}
-          className={`border ${
-            props.selectedValue === "Ceo" ? "border-blue-800" : ""
-          } p-2 rounded`}
         />
         <FormControlLabel
           control={<Radio />}
@@ -57,13 +67,13 @@ function RoleAuth(props: RoleProps) {
           sx={{
             my: 1,
             borderRadius: "5px",
-            border: props.selectedValue === "Marketing" ? "1px solid blue" : "",
+            border:
+              props.selectedValue === "Marketing"
+                ? "1px solid blue"
+                : "1px solid gray",
           }}
           checked={props.selectedValue === "Marketing"}
           onChange={handleRadioChange}
-          className={`border ${
-            props.selectedValue === "Marketing" ? "border-blue-800" : ""
-          } p-2 rounded`}
         />
         <FormControlLabel
           control={<Radio />}
@@ -73,13 +83,12 @@ function RoleAuth(props: RoleProps) {
             my: 1,
             borderRadius: "5px",
             border:
-              props.selectedValue === "Recruitment" ? "1px solid blue" : "",
+              props.selectedValue === "Recruitment"
+                ? "1px solid blue"
+                : "1px solid gray",
           }}
           checked={props.selectedValue === "Recruitment"}
           onChange={handleRadioChange}
-          className={`border ${
-            props.selectedValue === "Recruitment" ? "border-blue-800" : ""
-          } p-2 rounded`}
         />
 
         <FormControlLabel
@@ -89,18 +98,16 @@ function RoleAuth(props: RoleProps) {
           sx={{
             my: 1,
             borderRadius: "5px",
-            border: props.selectedValue === "Developer" ? "1px solid blue" : "",
+            border:
+              props.selectedValue === "Developer"
+                ? "1px solid blue"
+                : "1px solid gray",
           }}
           checked={props.selectedValue === "Developer"}
           onChange={handleRadioChange}
-          className={`border ${
-            props.selectedValue === "Developer" ? "border-blue-800" : ""
-          } p-2 rounded`}
         />
         <FormHelperText>{helperText}</FormHelperText>
-        <Button variant="outlined" color="primary" onClick={onMoveToRegister}>
-          continue
-        </Button>
+        <CustomButton text="continue" onClick={onMoveToRegister} />
       </RadioGroup>
     </FormControl>
   );

@@ -7,16 +7,16 @@ import {
   Avatar,
   useTheme,
   styled,
-} from '@mui/material';
+} from "@mui/material";
 
-import ShoppingBagTwoToneIcon from '@mui/icons-material/ShoppingBagTwoTone';
-import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
-import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
+import ShoppingBagTwoToneIcon from "@mui/icons-material/ShoppingBagTwoTone";
+import FavoriteTwoToneIcon from "@mui/icons-material/FavoriteTwoTone";
+import StarTwoToneIcon from "@mui/icons-material/StarTwoTone";
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
-      background: ${theme.colors.primary.lighter};
-      color: ${theme.colors.primary.main};
+      background: ${theme.colors?.primary.lighter};
+      color: ${theme.colors?.primary.main};
       width: ${theme.spacing(7)};
       height: ${theme.spacing(7)};
 `

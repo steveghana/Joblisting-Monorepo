@@ -312,7 +312,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       <IconButton
                         sx={{
                           "&:hover": {
-                            background: theme.colors.primary.lighter,
+                            background: theme.colors?.primary.lighter,
                           },
                           color: theme.palette.primary.main,
                         }}
@@ -325,7 +325,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     <Tooltip title="Delete Order" arrow>
                       <IconButton
                         sx={{
-                          "&:hover": { background: theme.colors.error.lighter },
+                          "&:hover": {
+                            background: theme.colors?.error.lighter,
+                          },
                           color: theme.palette.error.main,
                         }}
                         color="inherit"

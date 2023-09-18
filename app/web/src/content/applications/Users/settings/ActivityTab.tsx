@@ -21,7 +21,7 @@ import Text from "../../../../components/Text";
 
 const CardActionsWrapper = styled(CardActions)(
   ({ theme }) => `
-     background: ${theme.colors.alpha.black[5]};
+     background: ${theme.colors?.alpha?.black[5]};
      padding: ${theme.spacing(3)};
 `
 );

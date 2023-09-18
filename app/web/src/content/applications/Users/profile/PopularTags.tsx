@@ -11,7 +11,7 @@ import {
   Avatar,
   useTheme,
   styled,
-} from '@mui/material';
+} from "@mui/material";
 
 const ListWrapper = styled(List)(
   () => `
@@ -26,14 +26,14 @@ function PopularTags() {
   const theme = useTheme();
 
   return (
-    <Card sx={{ height: '100%' }}>
+    <Card sx={{ height: "100%" }}>
       <CardHeader title="Popular Tags" />
       <Divider />
       <ListWrapper disablePadding>
         <ListItem
           sx={{
-            color: `${theme.colors.primary.main}`,
-            '&:hover': { color: `${theme.colors.primary.dark}` }
+            color: `${theme.colors?.primary.main}`,
+            "&:hover": { color: `${theme.colors?.primary.dark}` },
           }}
           button
         >
@@ -42,8 +42,8 @@ function PopularTags() {
         <Divider />
         <ListItem
           sx={{
-            color: `${theme.colors.primary.main}`,
-            '&:hover': { color: `${theme.colors.primary.dark}` }
+            color: `${theme.colors?.primary.main}`,
+            "&:hover": { color: `${theme.colors?.primary.dark}` },
           }}
           button
         >
@@ -52,8 +52,8 @@ function PopularTags() {
         <Divider />
         <ListItem
           sx={{
-            color: `${theme.colors.primary.main}`,
-            '&:hover': { color: `${theme.colors.primary.dark}` }
+            color: `${theme.colors?.primary.main}`,
+            "&:hover": { color: `${theme.colors?.primary.dark}` },
           }}
           button
         >
@@ -62,8 +62,8 @@ function PopularTags() {
         <Divider />
         <ListItem
           sx={{
-            color: `${theme.colors.primary.main}`,
-            '&:hover': { color: `${theme.colors.primary.dark}` }
+            color: `${theme.colors?.primary.main}`,
+            "&:hover": { color: `${theme.colors?.primary.dark}` },
           }}
           button
         >
@@ -82,8 +82,8 @@ function PopularTags() {
               sx={{
                 width: 38,
                 height: 38,
-                background: `${theme.colors.info.main}`,
-                color: `${theme.palette.info.contrastText}`
+                background: `${theme.colors?.info.main}`,
+                color: `${theme.palette.info.contrastText}`,
               }}
             >
               WD
@@ -91,8 +91,8 @@ function PopularTags() {
           </ListItemAvatar>
           <ListItemText
             primaryTypographyProps={{
-              variant: 'h5',
-              color: `${theme.colors.alpha.black[100]}`
+              variant: "h5",
+              color: `${theme.colors?.alpha?.black[100]}`,
             }}
             primary="Web Designers Lounge"
           />
@@ -104,8 +104,8 @@ function PopularTags() {
               sx={{
                 width: 38,
                 height: 38,
-                background: `${theme.colors.alpha.black[100]}`,
-                color: `${theme.colors.alpha.white[100]}`
+                background: `${theme.colors?.alpha?.black[100]}`,
+                color: `${theme.colors?.alpha?.white[100]}`,
               }}
             >
               D
@@ -113,8 +113,8 @@ function PopularTags() {
           </ListItemAvatar>
           <ListItemText
             primaryTypographyProps={{
-              variant: 'h5',
-              color: `${theme.colors.alpha.black[100]}`
+              variant: "h5",
+              color: `${theme.colors?.alpha?.black[100]}`,
             }}
             primary="Writer’s Digest Daily"
           />
@@ -129,8 +129,8 @@ function PopularTags() {
           </ListItemAvatar>
           <ListItemText
             primaryTypographyProps={{
-              variant: 'h5',
-              color: `${theme.colors.alpha.black[100]}`
+              variant: "h5",
+              color: `${theme.colors?.alpha?.black[100]}`,
             }}
             primary="Google Developers"
           />

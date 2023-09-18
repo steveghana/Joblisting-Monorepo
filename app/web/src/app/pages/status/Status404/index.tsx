@@ -7,12 +7,12 @@ import {
   Button,
   FormControl,
   OutlinedInput,
-  InputAdornment
-} from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+  InputAdornment,
+} from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
 
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -28,7 +28,7 @@ const MainContent = styled(Box)(
 
 const OutlinedInputWrapper = styled(OutlinedInput)(
   ({ theme }) => `
-    background-color: ${theme.colors.alpha.white[100]};
+    background-color: ${theme.colors?.alpha?.white[100]};
 `
 );
 
@@ -62,7 +62,7 @@ function Status404() {
             </Typography>
           </Box>
           <Container maxWidth="sm">
-            <Card sx={{ textAlign: 'center', mt: 3, p: 4 }}>
+            <Card sx={{ textAlign: "center", mt: 3, p: 4 }}>
               <FormControl variant="outlined" fullWidth>
                 <OutlinedInputWrapper
                   type="text"

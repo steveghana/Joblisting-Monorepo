@@ -21,11 +21,11 @@ import type { ApexOptions } from "apexcharts";
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
-      background-color: ${theme.colors.success.main};
+      background-color: ${theme.colors?.success.main};
       color: ${theme.palette.success.contrastText};
       width: ${theme.spacing(8)};
       height: ${theme.spacing(8)};
-      box-shadow: ${theme.colors.shadows.success};
+      box-shadow: ${theme.colors?.shadows.success};
 `
 );
 
@@ -40,12 +40,12 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(
   border-radius: 60px;
   background: ${
     theme.palette.mode === "dark"
-      ? theme.colors.alpha.trueWhite[30]
-      : alpha(theme.colors.alpha.black[100], 0.07)
+      ? theme.colors?.alpha?.trueWhite[30]
+      : alpha(theme.colors?.alpha?.black[100], 0.07)
   };
 
   img {
-    background: ${theme.colors.alpha.trueWhite[100]};
+    background: ${theme.colors?.alpha?.trueWhite[100]};
     padding: ${theme.spacing(0.5)};
     display: block;
     border-radius: inherit;
@@ -80,11 +80,11 @@ function AccountBalance() {
         return val + "%";
       },
       style: {
-        colors: [theme.colors.alpha.trueWhite[100]],
+        colors: [theme.colors?.alpha?.trueWhite[100]],
       },
       background: {
         enabled: true,
-        foreColor: theme.colors.alpha.trueWhite[100],
+        foreColor: theme.colors?.alpha?.trueWhite[100],
         padding: 8,
         borderRadius: 4,
         borderWidth: 0,
@@ -94,7 +94,7 @@ function AccountBalance() {
           top: 1,
           left: 1,
           blur: 1,
-          color: theme.colors.alpha.black[70],
+          color: theme.colors?.alpha?.black[70],
           opacity: 0.5,
         },
       },
@@ -103,7 +103,7 @@ function AccountBalance() {
         top: 1,
         left: 1,
         blur: 1,
-        color: theme.colors.alpha.black[50],
+        color: theme.colors?.alpha?.black[50],
         opacity: 0.5,
       },
     },
@@ -113,7 +113,7 @@ function AccountBalance() {
     labels: ["Bitcoin", "Ripple", "Cardano", "Ethereum"],
     legend: {
       labels: {
-        colors: theme.colors.alpha.trueWhite[100],
+        colors: theme.colors?.alpha?.trueWhite[100],
       },
       show: false,
     },

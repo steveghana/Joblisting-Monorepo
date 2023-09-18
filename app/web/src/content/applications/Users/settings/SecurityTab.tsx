@@ -1,4 +1,4 @@
-import { useState, MouseEvent, ChangeEvent } from 'react';
+import { useState, MouseEvent, ChangeEvent } from "react";
 import {
   Box,
   Typography,
@@ -24,26 +24,26 @@ import {
   TableContainer,
   useTheme,
   styled,
-} from '@mui/material';
+} from "@mui/material";
 
-import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { format, subHours, subWeeks, subDays } from 'date-fns';
+import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone";
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import { format, subHours, subWeeks, subDays } from "date-fns";
 
 const ButtonError = styled(Button)(
   ({ theme }) => `
-     background: ${theme.colors.error.main};
+     background: ${theme.colors?.error.main};
      color: ${theme.palette.error.contrastText};
 
      &:hover {
-        background: ${theme.colors.error.dark};
+        background: ${theme.colors?.error.dark};
      }
     `
 );
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
-    background: ${theme.colors.success.light};
+    background: ${theme.colors?.success.light};
     width: ${theme.spacing(5)};
     height: ${theme.spacing(5)};
 `
@@ -79,39 +79,39 @@ function SecurityTab() {
   const logs = [
     {
       id: 1,
-      browser: ' Safari/537.36',
-      ipaddress: '3.70.73.142',
-      location: 'United States',
-      date: subDays(new Date(), 2).getTime()
+      browser: " Safari/537.36",
+      ipaddress: "3.70.73.142",
+      location: "United States",
+      date: subDays(new Date(), 2).getTime(),
     },
     {
       id: 2,
-      browser: 'Chrome/36.0.1985.67',
-      ipaddress: '138.13.136.179',
-      location: 'China',
-      date: subDays(new Date(), 6).getTime()
+      browser: "Chrome/36.0.1985.67",
+      ipaddress: "138.13.136.179",
+      location: "China",
+      date: subDays(new Date(), 6).getTime(),
     },
     {
       id: 3,
-      browser: 'Googlebot/2.1',
-      ipaddress: '119.229.170.253',
-      location: 'China',
-      date: subHours(new Date(), 15).getTime()
+      browser: "Googlebot/2.1",
+      ipaddress: "119.229.170.253",
+      location: "China",
+      date: subHours(new Date(), 15).getTime(),
     },
     {
       id: 4,
-      browser: 'AppleWebKit/535.1',
-      ipaddress: '206.8.99.49',
-      location: 'Philippines',
-      date: subDays(new Date(), 4).getTime()
+      browser: "AppleWebKit/535.1",
+      ipaddress: "206.8.99.49",
+      location: "Philippines",
+      date: subDays(new Date(), 4).getTime(),
     },
     {
       id: 5,
-      browser: 'Mozilla/5.0',
-      ipaddress: '235.40.59.85',
-      location: 'China',
-      date: subWeeks(new Date(), 3).getTime()
-    }
+      browser: "Mozilla/5.0",
+      ipaddress: "235.40.59.85",
+      location: "China",
+      date: subWeeks(new Date(), 3).getTime(),
+    },
   ];
 
   return (
@@ -130,10 +130,10 @@ function SecurityTab() {
                 <AvatarWrapper src="/static/images/logo/google.svg" />
               </ListItemAvatar>
               <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                primaryTypographyProps={{ variant: "h5", gutterBottom: true }}
                 secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
+                  variant: "subtitle2",
+                  lineHeight: 1,
                 }}
                 primary="Google"
                 secondary="A Google account hasn’t been yet added to your account"
@@ -155,10 +155,10 @@ function SecurityTab() {
                 </AvatarSuccess>
               </ListItemAvatar>
               <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                primaryTypographyProps={{ variant: "h5", gutterBottom: true }}
                 secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
+                  variant: "subtitle2",
+                  lineHeight: 1,
                 }}
                 primary="Facebook"
                 secondary="Your Facebook account has been successfully connected"
@@ -175,10 +175,10 @@ function SecurityTab() {
                 </AvatarSuccess>
               </ListItemAvatar>
               <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                primaryTypographyProps={{ variant: "h5", gutterBottom: true }}
                 secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
+                  variant: "subtitle2",
+                  lineHeight: 1,
                 }}
                 primary="Twitter"
                 secondary="Your Twitter account was last syncronized 6 days ago"
@@ -201,10 +201,10 @@ function SecurityTab() {
           <List>
             <ListItem sx={{ p: 3 }}>
               <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                primaryTypographyProps={{ variant: "h5", gutterBottom: true }}
                 secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
+                  variant: "subtitle2",
+                  lineHeight: 1,
                 }}
                 primary="Change Password"
                 secondary="You can change your password here"
@@ -216,10 +216,10 @@ function SecurityTab() {
             <Divider component="li" />
             <ListItem sx={{ p: 3 }}>
               <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                primaryTypographyProps={{ variant: "h5", gutterBottom: true }}
                 secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
+                  variant: "subtitle2",
+                  lineHeight: 1,
                 }}
                 primary="Two-Factor Authentication"
                 secondary="Enable PIN verification for all sign in attempts"
@@ -256,16 +256,16 @@ function SecurityTab() {
                     <TableCell>{log.ipaddress}</TableCell>
                     <TableCell>{log.location}</TableCell>
                     <TableCell>
-                      {format(log.date, 'dd MMMM, yyyy - h:mm:ss a')}
+                      {format(log.date, "dd MMMM, yyyy - h:mm:ss a")}
                     </TableCell>
                     <TableCell align="right">
                       <Tooltip placement="top" title="Delete" arrow>
                         <IconButton
                           sx={{
-                            '&:hover': {
-                              background: theme.colors.error.lighter
+                            "&:hover": {
+                              background: theme.colors?.error.lighter,
                             },
-                            color: theme.palette.error.main
+                            color: theme.palette.error.main,
                           }}
                           color="inherit"
                           size="small"

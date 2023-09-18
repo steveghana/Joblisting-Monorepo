@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { GitHub, Google, LinkedIn } from "@mui/icons-material";
 import EmailField from "./Fields/EmailField";
 import PasswordField from "./Fields/PasswordField";
+import CustomButton from "../button";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,10 +48,10 @@ function LoginPage({
   className,
   ...props
 }: UserAuthFormProps) {
-  let handleSocial: {
-    Google: () => {};
-    Github: () => {};
-    Twitter: () => {};
+  let handleSocial = {
+    Google: () => {},
+    Github: () => {},
+    Linkedin: () => {},
   };
   const INITIAL = { text: "", error: "" };
 
@@ -96,7 +97,12 @@ function LoginPage({
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <LockOutlinedIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
+      <Typography
+        // fontFamily={"Nanum Gothic"}
+        // component="h1"
+        // fontWeight={600}
+        variant="h5"
+      >
         Sign in
       </Typography>
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
@@ -107,26 +113,13 @@ function LoginPage({
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign In
-        </Button>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-        <Stack direction="column" spacing={2}>
-          {Object.entries(handleSocial).map(([key, handler]) => {
+        <CustomButton text="Sign in" type="submit" />
+        <Typography textAlign={"center"} justifySelf={"center"}>
+          Or continue with
+        </Typography>
+
+        <Stack direction="row" spacing={2} justifyContent={"center"}>
+          {Object.entries(handleSocial)?.map(([key, handler]) => {
             if (
               typeof handler !== "function" ||
               !Social[key] ||

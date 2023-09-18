@@ -1,5 +1,5 @@
-import { Box, styled, Tooltip } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Box, styled, Tooltip } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
@@ -22,10 +22,10 @@ const LogoSignWrapper = styled(Box)(
 
 const LogoSign = styled(Box)(
   ({ theme }) => `
-        background: ${theme.general.reactFrameworkColor};
+        background: ${theme.general?.reactFrameworkColor};
         width: 18px;
         height: 18px;
-        border-radius: ${theme.general.borderRadiusSm};
+        border-radius: ${theme.general?.borderRadiusSm};
         position: relative;
         transform: rotate(45deg);
         top: 3px;
@@ -41,7 +41,7 @@ const LogoSign = styled(Box)(
             top: -1px;
             right: -20px;
             transform: rotate(0deg);
-            border-radius: ${theme.general.borderRadiusSm};
+            border-radius: ${theme.general?.borderRadiusSm};
         }
 
         &:before {
@@ -65,7 +65,7 @@ const LogoSignInner = styled(Box)(
         top: 12px;
         left: 12px;
         z-index: 5;
-        border-radius: ${theme.general.borderRadiusSm};
+        border-radius: ${theme.general?.borderRadiusSm};
         background: ${theme.header.background};
 `
 );
@@ -81,7 +81,7 @@ const VersionBadge = styled(Box)(
         background: ${theme.palette.success.main};
         color: ${theme.palette.success.contrastText};
         padding: ${theme.spacing(0.4, 1)};
-        border-radius: ${theme.general.borderRadiusSm};
+        border-radius: ${theme.general?.borderRadiusSm};
         text-align: center;
         display: inline-block;
         line-height: 1;
@@ -107,7 +107,7 @@ function Logo() {
       <Box
         component="span"
         sx={{
-          display: { xs: 'none', sm: 'inline-block' }
+          display: { xs: "none", sm: "inline-block" },
         }}
       >
         <LogoTextWrapper>

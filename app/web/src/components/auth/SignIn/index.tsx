@@ -43,13 +43,13 @@ const Social = {
 export interface SignInProps {
   handleSignIn: (signInVars: { email: string; password: string }) => any;
   hideTabs?: boolean;
-  handleSocial: {
-    Google?: () => void;
-    Github?: () => void;
-    Linkedin?: () => void;
-    Twitter?: () => void;
-    Facebook?: () => void;
-  };
+  // handleSocial: {
+  //   Google?: () => void;
+  //   Github?: () => void;
+  //   Linkedin?: () => void;
+  //   Twitter?: () => void;
+  //   Facebook?: () => void;
+  // };
   textFieldVariant?: "outlined" | "filled" | "standard";
   emailValidator?: (value: string) => boolean;
   passwordValidator?: (value: string) => boolean;
@@ -65,12 +65,16 @@ const SignIn: React.FC<SignInProps> = ({
   // goToForget,
   handleSignIn,
   // goToSignUp,
-  handleSocial,
   hideTabs = false,
   textFieldVariant = "outlined",
   emailValidator = (e) => !!e,
   passwordValidator = (e) => !!e,
 }) => {
+  let handleSocial: {
+    Google: () => {};
+    Github: () => {};
+    Twitter: () => {};
+  };
   const [email, setEmail] = React.useState<InitialType>(INITIAL);
   const [password, setPassword] = React.useState(INITIAL);
   const [loading, setLoading] = React.useState(false);

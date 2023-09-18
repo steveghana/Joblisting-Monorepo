@@ -4,13 +4,13 @@ import {
   ListItem,
   ListItemText,
   Menu,
-  MenuItem
-} from '@mui/material';
-import { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+  MenuItem,
+} from "@mui/material";
+import { useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 
-import { styled } from '@mui/material/styles';
-import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
+import { styled } from "@mui/material/styles";
+import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
 
 const ListWrapper = styled(Box)(
   ({ theme }) => `
@@ -19,7 +19,7 @@ const ListWrapper = styled(Box)(
         }
         
         .MuiListItem-root {
-            transition: ${theme.transitions.create(['color', 'fill'])};
+            transition: ${theme.transitions.create(["color", "fill"])};
             
             &.MuiListItem-indicators {
                 padding: ${theme.spacing(1, 2)};
@@ -80,14 +80,14 @@ function HeaderMenu() {
       <ListWrapper
         sx={{
           display: {
-            xs: 'none',
-            md: 'block'
-          }
+            xs: "none",
+            md: "block",
+          },
         }}
       >
         <List disablePadding component={Box} display="flex">
           <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
+            classes={{ root: "MuiListItem-indicators" }}
             component={NavLink}
             to="/components/buttons"
           >
@@ -97,7 +97,7 @@ function HeaderMenu() {
             />
           </ListItem>
           <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
+            classes={{ root: "MuiListItem-indicators" }}
             component={NavLink}
             to="/components/forms"
           >
@@ -107,7 +107,7 @@ function HeaderMenu() {
             />
           </ListItem>
           <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
+            classes={{ root: "MuiListItem-indicators" }}
             button
             ref={ref}
             onClick={handleOpen}

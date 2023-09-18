@@ -18,22 +18,22 @@ import Text from "../../../components/Text";
 
 const AvatarWrapperError = styled(Avatar)(
   ({ theme }) => `
-      background-color: ${theme.colors.error.lighter};
-      color:  ${theme.colors.error.main};
+      background-color: ${theme.colors?.error.lighter};
+      color:  ${theme.colors?.error.main};
 `
 );
 
 const AvatarWrapperSuccess = styled(Avatar)(
   ({ theme }) => `
-      background-color: ${theme.colors.success.lighter};
-      color:  ${theme.colors.success.main};
+      background-color: ${theme.colors?.success.lighter};
+      color:  ${theme.colors?.success.main};
 `
 );
 
 const AvatarWrapperWarning = styled(Avatar)(
   ({ theme }) => `
-      background-color: ${theme.colors.warning.lighter};
-      color:  ${theme.colors.warning.main};
+      background-color: ${theme.colors?.warning.lighter};
+      color:  ${theme.colors?.warning.main};
 `
 );
 

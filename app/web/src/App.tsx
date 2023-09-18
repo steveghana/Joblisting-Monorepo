@@ -14,11 +14,13 @@ function App() {
   const content = useRoutes(router);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <CssBaseline />
-      {/* <Overview /> */}
-      {content}
-    </LocalizationProvider>
+    <ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <CssBaseline />
+        {/* <Overview /> */}
+        {content}
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 }
 export default App;

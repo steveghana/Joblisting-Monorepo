@@ -13,85 +13,77 @@ import {
   createTheme,
   ThemeProvider,
   CssBaseline,
+  Stack,
 } from "@mui/material";
-const defaultTheme = createTheme();
+import { ThemeOptions } from "@mui/material/styles";
+// const defaultTheme = createTheme();
 
 export default function Auth() {
   const [registerPage, setRegisterPage] = useState(false);
   console.log(registerPage);
   return (
     <>
-      <ThemeProvider theme={defaultTheme}>
-        <Grid container component="main" sx={{ height: "100vh" }}>
-          <CssBaseline />
-          <Grid
-            item
-            xs={false}
-            sm={4}
-            md={7}
-            sx={{
-              backgroundImage:
-                "url(https://source.unsplash.com/random?wallpapers)",
-              backgroundRepeat: "no-repeat",
-              backgroundColor: (t) =>
-                t.palette.mode === "light"
-                  ? t.palette.grey[50]
-                  : t.palette.grey[900],
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-          <Grid
-            item
-            xs={12}
-            sm={8}
-            md={5}
-            component={Paper}
-            elevation={6}
-            square
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7}>
+          <Typography
+            justifyContent={"center"}
+            alignItems={"center"}
+            textAlign={"center"}
+            variant="h3"
           >
-            <Box
-              sx={{
-                my: 8,
-                mx: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {!registerPage ? (
-                // <div></div>
-                <LoginPage setRegisterPage={setRegisterPage} />
-              ) : (
-                <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                  <UserAuthForm setRegisterPage={setRegisterPage} />
-                  <p className="registrationLink">
-                    Or login&nbsp;
-                    <div onClick={() => setRegisterPage(false)}> login</div>
-                  </p>
-                  <p className="px-8 text-center text-sm text-muted-foreground">
-                    By clicking continue, you agree to our{" "}
-                    <Link
-                      to="/terms"
-                      className="underline underline-offset-4 hover:text-primary"
-                    >
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      to="/privacy"
-                      className="underline underline-offset-4 hover:text-primary"
-                    >
-                      Privacy Policy
-                    </Link>
-                    .
-                  </p>
-                </div>
-              )}
-            </Box>
-          </Grid>
+            What to display Here
+          </Typography>{" "}
         </Grid>
-      </ThemeProvider>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {!registerPage ? (
+              // <div></div>
+              <LoginPage setRegisterPage={setRegisterPage} />
+            ) : (
+              <div>
+                <UserAuthForm setRegisterPage={setRegisterPage} />
+                <Stack direction="row" gap={2} justifyContent={"center"}>
+                  <Typography variant="body2">Or login</Typography>
+                  <Typography
+                    color={"blue"}
+                    onClick={() => setRegisterPage(false)}
+                    variant="body2"
+                  >
+                    login
+                  </Typography>
+                </Stack>
+
+                <Typography variant="caption" justifyContent={"center"}>
+                  By clicking continue, you agree to our{" "}
+                  <Link
+                    to="/terms"
+                    className="underline underline-offset-4 hover:text-primary"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    to="/privacy"
+                    className="underline underline-offset-4 hover:text-primary"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </Typography>
+              </div>
+            )}
+          </Box>
+        </Grid>
+      </Grid>
     </>
   );
 }

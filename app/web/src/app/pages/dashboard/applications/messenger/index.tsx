@@ -29,8 +29,8 @@ const RootWrapper = styled(Box)(
 const Sidebar = styled(Box)(
   ({ theme }) => `
         width: 300px;
-        background: ${theme.colors.alpha.white[100]};
-        border-right: ${theme.colors.alpha.black[10]} solid 1px;
+        background: ${theme.colors?.alpha?.white[100]};
+        border-right: ${theme.colors?.alpha?.black[10]} solid 1px;
 `
 );
 
@@ -46,8 +46,8 @@ const ChatWindow = styled(Box)(
 
 const ChatTopBar = styled(Box)(
   ({ theme }) => `
-        background: ${theme.colors.alpha.white[100]};
-        border-bottom: ${theme.colors.alpha.black[10]} solid 1px;
+        background: ${theme.colors?.alpha?.white[100]};
+        border-bottom: ${theme.colors?.alpha?.black[10]} solid 1px;
         padding: ${theme.spacing(2)};
         align-items: center;
 `
@@ -57,7 +57,7 @@ const IconButtonToggle = styled(IconButton)(
   ({ theme }) => `
   width: ${theme.spacing(4)};
   height: ${theme.spacing(4)};
-  background: ${theme.colors.alpha.white[100]};
+  background: ${theme.colors?.alpha?.white[100]};
 `
 );
 

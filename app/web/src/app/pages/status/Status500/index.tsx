@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Box,
   Typography,
   Hidden,
   Container,
   Button,
-  Grid
-} from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
-import LoadingButton from '@mui/lab/LoadingButton';
+  Grid,
+} from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import RefreshTwoToneIcon from "@mui/icons-material/RefreshTwoTone";
+import LoadingButton from "@mui/lab/LoadingButton";
 
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 const GridWrapper = styled(Grid)(
   ({ theme }) => `
-    background: ${theme.colors.gradients.black1};
+    background: ${theme.colors?.gradients.black1};
 `
 );
 
@@ -33,13 +33,13 @@ const MainContent = styled(Box)(
 
 const TypographyPrimary = styled(Typography)(
   ({ theme }) => `
-      color: ${theme.colors.alpha.white[100]};
+      color: ${theme.colors?.alpha?.white[100]};
 `
 );
 
 const TypographySecondary = styled(Typography)(
   ({ theme }) => `
-      color: ${theme.colors.alpha.white[70]};
+      color: ${theme.colors?.alpha?.white[70]};
 `
 );
 
@@ -57,7 +57,7 @@ function Status500() {
       <MainContent>
         <Grid
           container
-          sx={{ height: '100%' }}
+          sx={{ height: "100%" }}
           alignItems="stretch"
           spacing={0}
         >
@@ -115,17 +115,13 @@ function Status500() {
               <Container maxWidth="sm">
                 <Box textAlign="center">
                   <TypographyPrimary variant="h1" sx={{ my: 2 }}>
-                    Tokyo Free White React Typescript Admin Dashboard
+                    Savannah Tech
                   </TypographyPrimary>
                   <TypographySecondary
                     variant="h4"
                     fontWeight="normal"
                     sx={{ mb: 4 }}
-                  >
-                    High performance React template built with lots of powerful
-                    Material-UI components across multiple product niches for
-                    fast &amp; perfect apps development processes.
-                  </TypographySecondary>
+                  ></TypographySecondary>
                   <Button href="/overview" size="large" variant="contained">
                     Overview
                   </Button>

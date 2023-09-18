@@ -41,13 +41,13 @@ const TypographyH1 = styled(Typography)(
 
 const TypographyH3 = styled(Typography)(
   ({ theme }) => `
-  color: ${theme.colors.alpha.black[50]};
+  color: ${theme.colors?.alpha?.black[50]};
 `
 );
 
 const OutlinedInputWrapper = styled(OutlinedInput)(
   ({ theme }) => `
-    background-color: ${theme.colors.alpha.white[100]};
+    background-color: ${theme.colors?.alpha?.white[100]};
 `
 );
 
