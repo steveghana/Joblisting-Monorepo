@@ -161,6 +161,10 @@ const SubMenuWrapper = styled(Box)(
 
 function SidebarMenu() {
   const { closeSidebar } = useContext(SidebarContext);
+  const userRole = localStorage.getItem("role");
+  const filteredSidebarData = sidebarData.filter((item) =>
+    item.roles.includes(userRole)
+  );
   return (
     <>
       <MenuWrapper>
@@ -181,7 +185,7 @@ function SidebarMenu() {
             </List>
           </SubMenuWrapper>
         </List>
-        {sidebarData.map((item) => (
+        {filteredSidebarData.map((item) => (
           <List
             component="div"
             subheader={
