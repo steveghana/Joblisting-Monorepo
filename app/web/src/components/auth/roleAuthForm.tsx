@@ -35,11 +35,16 @@ function RoleAuth(props: RoleProps) {
 
   return (
     <FormControl sx={{ m: 3 }} error={error} variant="standard">
-      <Typography fontWeight={600} variant="h3">
+      <Typography fontFamily={"Didact Gothic"} fontWeight={400} variant="h1">
         {" "}
         Lets sign you up
       </Typography>
-      <Typography fontWeight={500} variant="caption" color={"GrayText"}>
+      <Typography
+        fontFamily={"Lato"}
+        fontWeight={400}
+        variant="caption"
+        color={"GrayText"}
+      >
         Discover the future of remote jobs in africa. Create a free account now
         and lets get started
       </Typography>

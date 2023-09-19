@@ -1,13 +1,11 @@
 // import { useRouter } from "next/navigation";
-import rolesToPages from '../../lib/roles'; // Import the roles-to-pages mapping
-import React from 'react';
+import React from "react";
 // import { Session } from 'next-auth';
-import { IRole } from '../../types/roles';
-import { useNavigate } from 'react-router';
-// import { IRole } from "@/types/roles";
+import { IRole, UserRoleSelection } from "../../types/roles";
+import { useNavigate } from "react-router";
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  allowedRoles?: string[];
+  allowedRoles?: UserRoleSelection;
 }
 // type SessionWithRole = Session & {
 //   user: {
@@ -16,41 +14,37 @@ interface ProtectedRouteProps {
 // };
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
-  allowedRoles = []
+  allowedRoles = [],
 }) => {
   //TODO: change to cookie
-  const session = localStorage.getItem('auth_token');
-  const role = localStorage.getItem('role');
-  const router = useNavigate();
   // Check if the user is not authenticated
-  if (!session) {
-    // Redirect to the login page or handle authentication as needed
-    router('/');
-    return null;
-  }
+  const session = localStorage.getItem("auth_token");
+  const role = localStorage.getItem("role");
+  const currentPageName = window.location.pathname.split("/").pop() || "";
+  const router = useNavigate();
+  React.useEffect(() => {
+    console.log(currentPageName);
+    const userRole = role as IRole;
+    if (!session) {
+      // Redirect to the login page or handle authentication as needed
+      router("/");
+    }
+    if (
+      !allowedRoles.includes(userRole)
+      // !rolesToPages[userRole]?.includes(currentPageName)
+    ) {
+      // Redirect to an access denied page or handle unauthorized access
+      router("/access-denied");
+    }
+  }, [session]);
 
-  const currentPageName = window.location.pathname.split('/').pop() || '';
-  const userRole = role as IRole;
-  console.log(
-    currentPageName,
-    userRole,
-    rolesToPages[userRole],
-    rolesToPages[userRole]?.includes(currentPageName)
-  );
-  if (
-    !allowedRoles.includes(userRole) ||
-    !rolesToPages[userRole]?.includes(currentPageName)
-  ) {
-    // Redirect to an access denied page or handle unauthorized access
-    router('/access-denied');
-    return null;
-  }
   // If authenticated and has the correct role, render the children
   return <>{children}</>;
 };
-export default <P extends {}>(
+export const Protect =
+  <P extends {}>(
     Component: React.ComponentType<P>,
-    allowedRoles: string[]
+    allowedRoles: UserRoleSelection
   ) =>
   (props: P) =>
     (

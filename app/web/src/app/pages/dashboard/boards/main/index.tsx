@@ -3,13 +3,13 @@ import PageHeader from "../../../../../content/dashboards/home/PageHeader";
 import PageTitleWrapper from "../../../../../components/PageTitleWrapper";
 import { Container, Grid } from "@mui/material";
 import Footer from "../../../../../components/Footer";
-
+import { Protect } from "../../../../../components/auth/requireAuth";
 import AccountBalance from "../../../../../content/dashboards/home/AccountBalance";
 import Wallets from "../../../../../content/dashboards/home/Wallets";
 import AccountSecurity from "../../../../../content/dashboards/home/AccountSecurity";
 import WatchList from "../../../../../content/dashboards/home/WatchList";
 
-function DashboardCrypto() {
+function Dashboard() {
   return (
     <>
       <Helmet>
@@ -45,4 +45,4 @@ function DashboardCrypto() {
   );
 }
 
-export default DashboardCrypto;
+export default Protect(Dashboard, ["admin"]);

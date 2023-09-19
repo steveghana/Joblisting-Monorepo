@@ -165,14 +165,6 @@ export class AuthService {
     const user = new User(email, dependencies);
     const exists = await user.exists();
     console.log('login started', exists);
-    /**
-     * Here we want to protect against a timing attack: https://en.wikipedia.org/wiki/Timing_attack
-     * We don't want an attacker to know whether the user doesn't exist or the password is wrong.
-     * For that we must do approximately the same amount of work on both execution branches, so the timing is equal.
-     * If the user exists and has a password we hash and compare the password, which is relatively computationally expensive,
-     * so we must do something equally expensive if the user doesn't exist.
-     * We hash and compare to a fake password for that reason.
-     */
     const fakePassword = await cryptoUtil.hash(
       '',
       dependencies.config.authentication.passwordHashIterations,
@@ -188,9 +180,6 @@ export class AuthService {
       throw new HttpException('passwordless user', HttpStatus.BAD_REQUEST);
     }
 
-    // We want to protect against a user enumeration attack.
-    // That's why we want to behave the same whether the user exists or the password is wrong.
-    // https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/03-Identity_Management_Testing/04-Testing_for_Account_Enumeration_and_Guessable_User_Account
     if (!exists || (exists && !passwordMatches)) {
       throw new HttpException('generic', HttpStatus.BAD_REQUEST);
     }

@@ -4,5 +4,6 @@ const rolesToPages = {
   developer: ["developer-page", "ceo-page"],
   hr: ["hr-page"],
 };
+export const userRole = ["admin", "developer", "hr"] as const;
 
 export default rolesToPages;

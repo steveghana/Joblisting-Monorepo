@@ -5,6 +5,7 @@ import { Grid, Container } from "@mui/material";
 import Footer from "../../../../../components/Footer";
 
 import RecentOrders from "../../../../../content/applications/Transactions/RecentOrders";
+import { Protect } from "../../../../../components/auth/requireAuth";
 
 function ApplicationsTransactions() {
   return (
@@ -32,5 +33,4 @@ function ApplicationsTransactions() {
     </>
   );
 }
-
-export default ApplicationsTransactions;
+export default Protect(ApplicationsTransactions, ["admin"]);

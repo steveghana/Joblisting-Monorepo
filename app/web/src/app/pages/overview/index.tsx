@@ -2,7 +2,7 @@ import { Box, Container, Card } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 
 import { styled } from "@mui/material/styles";
-import Logo from "../../../components/LogoSign";
+import { Protect } from "../../../components/auth/requireAuth";
 import Hero from "./Hero";
 
 const OverviewWrapper = styled(Box)(
@@ -32,4 +32,4 @@ function Overview() {
   );
 }
 
-export default Overview;
+export default Protect(Overview, ["admin"]);

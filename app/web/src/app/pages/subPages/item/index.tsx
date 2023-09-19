@@ -14,8 +14,9 @@ import {
 import Footer from "../../../../components/Footer";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Protect } from "../../../../components/auth/requireAuth";
 
-function Buttons() {
+function Devs() {
   return (
     <>
       <Helmet>
@@ -29,5 +30,4 @@ function Buttons() {
     </>
   );
 }
-
-export default Buttons;
+export default Protect(Devs, ["admin", "developer"]);
