@@ -10,6 +10,7 @@ import ActivityTab from "../../../../../../content/applications/Users/settings/A
 import EditProfileTab from "../../../../../../content/applications/Users/settings/EditProfileTab";
 import NotificationsTab from "../../../../../../content/applications/Users/settings/NotificationsTab";
 import SecurityTab from "../../../../../../content/applications/Users/settings/SecurityTab";
+import { Protect } from "../../../../../../components/auth/requireAuth";
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -75,5 +76,4 @@ function ManagementUserSettings() {
     </>
   );
 }
-
-export default ManagementUserSettings;
+export default Protect(ManagementUserSettings, ["admin", "developer", "hr"]);

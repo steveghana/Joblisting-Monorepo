@@ -9,6 +9,7 @@ import Feed from "../../../../../../content/applications/Users/profile/Feed";
 import PopularTags from "../../../../../../content/applications/Users/profile/PopularTags";
 import MyCards from "../../../../../../content/applications/Users/profile/MyCards";
 import Addresses from "../../../../../../content/applications/Users/profile/Addresses";
+import { Protect } from "../../../../../../components/auth/requireAuth";
 
 function ManagementUserProfile() {
   const user = {
@@ -60,5 +61,4 @@ function ManagementUserProfile() {
     </>
   );
 }
-
-export default ManagementUserProfile;
+export default Protect(ManagementUserProfile, ["admin", "developer", "hr"]);

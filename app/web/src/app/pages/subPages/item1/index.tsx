@@ -3,6 +3,7 @@ import PageTitle from "../../../../components/PageTitle";
 import PageTitleWrapper from "../../../../components/PageTitleWrapper";
 import { Container } from "@mui/material";
 import Footer from "../../../../components/Footer";
+import { Protect } from "../../../../components/auth/requireAuth";
 function SubPage1() {
   return (
     <>
@@ -17,5 +18,6 @@ function SubPage1() {
     </>
   );
 }
+export default Protect(SubPage1, ["admin", "developer"]);
 
-export default SubPage1;
+// export default SubPage1;
