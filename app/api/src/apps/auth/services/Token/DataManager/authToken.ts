@@ -10,7 +10,7 @@ import {
   deactivateAuthToken,
   deactiveAuthTokenOfCredentialToken,
 } from '../DbQueries/authToken';
-import { IUser } from '../../../../types/user';
+import { IUser } from '../../../../../types/user';
 import { IAuthToken } from '../../../models/Token/authToken';
 import { EntityManager } from 'typeorm';
 import { AuthtokenEntity } from '../../../models/Token/authToken.entity';

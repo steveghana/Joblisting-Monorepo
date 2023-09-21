@@ -1,3 +1,4 @@
+import { Developer } from '@/apps/developers/entities/developer.entity';
 import { Role } from '../../enums/role.enum';
 import {
   Column,
@@ -5,6 +6,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -29,4 +32,7 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+  @OneToOne((type) => Developer, (developer) => developer.user)
+  @JoinColumn()
+  developer: Developer;
 }

@@ -1,24 +1,18 @@
-import {
-  Module,
-  DynamicModule,
-  CacheModule,
-  Next,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module, DynamicModule, Next, RequestMethod } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   MiddlewareConsumer,
   NestModule,
   Type,
 } from '@nestjs/common/interfaces';
-import { Provider } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { Modules } from './exports';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { myDataSource } from '../../apps/Config';
-import dbConfiguration from '../Config/db.config';
+import { myDataSource } from '../../Config';
+import dbConfiguration from '../../Config/db.config';
 
-import { AuthenticationTtlMiddleware } from '../middleware/authenticationTtl.middleware';
+import { AuthenticationTtlMiddleware } from '../../middleware/authenticationTtl.middleware';
 @Module({
   imports: [
     CacheModule.register({

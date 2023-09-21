@@ -8,6 +8,7 @@ import CheckBoxTwoToneIcon from "@mui/icons-material/CheckBoxTwoTone";
 import ChromeReaderModeTwoToneIcon from "@mui/icons-material/ChromeReaderModeTwoTone";
 import CameraFrontTwoToneIcon from "@mui/icons-material/CameraFrontTwoTone";
 import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
+//to do:  create an interface for the object
 export const sidebarData = [
   {
     rootTitle: "Dashboard",

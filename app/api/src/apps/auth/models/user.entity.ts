@@ -3,15 +3,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { AuthtokenEntity } from './Token/authToken.entity';
 import { CredentialTokenEntity } from './CredentialToken/credentialToken.entity';
-import AssociableModel from '../../Config/associable';
+import AssociableModel from '../../../Config/associable';
 import { Role } from '../../enums/role.enum';
+import { Developer } from '@/apps/developers/entities/developer.entity';
 
 @Entity('user')
 export class UserEntity extends AssociableModel {
@@ -46,4 +49,7 @@ export class UserEntity extends AssociableModel {
   authToken: AuthtokenEntity[];
   @OneToMany(() => CredentialTokenEntity, (credential) => credential.user)
   credentials: CredentialTokenEntity;
+  @OneToOne((type) => Developer, (developer) => developer.user)
+  @JoinColumn()
+  developer: Developer;
 }

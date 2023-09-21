@@ -30,6 +30,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       router("/");
     }
     if (
+      userRole &&
       !allowedRoles.includes(userRole)
       // !rolesToPages[userRole]?.includes(currentPageName)
     ) {

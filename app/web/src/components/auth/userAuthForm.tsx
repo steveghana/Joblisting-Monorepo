@@ -68,11 +68,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         localStorage.setItem("auth_token", token);
         localStorage.setItem("role", role);
 
-        if (role === "Ceo") {
-          router("/overview"); // Redirect to admin dashboard
-        } else if (role === "developer") {
-          router("/access-denied"); // Redirect to user dashboard
-        }
+        // if (role === "Ceo") {
+        router("/overview"); // Redirect to admin dashboard
+        // } else if (role === "developer") {
+        // router("/access-denied"); // Redirect to user dashboard
+        // }
       })
       .finally(() => setIsLoading(false));
   }
