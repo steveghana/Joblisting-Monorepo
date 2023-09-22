@@ -50,6 +50,6 @@ export function getApplicationById(
 }
 
 export default {
-  createApplication,
+  scheduleInterview,
   getApplicationById,
 };

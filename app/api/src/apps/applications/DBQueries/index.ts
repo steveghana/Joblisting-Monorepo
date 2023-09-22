@@ -8,10 +8,7 @@ import { Application } from '../entities/application.entity';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { IApplication } from '@/types/application';
-
-type CreateCredentialTokenInput = {
-  userEmail: string;
-} & DeepPartial<Application>;
+import { IDeveloper } from '@/types/developer';
 
 export async function createApplication(
   roleId: number,
@@ -24,15 +21,23 @@ export async function createApplication(
     dependencies.db.models.application,
   );
   const role = transaction.getRepository(dependencies.db.models.role);
+  const developer = transaction.getRepository(dependencies.db.models.developer);
   const exstingrole = await role.findOne({
     where: {
       id: roleId,
     },
     relations: ['application'],
   });
+  let developerData = await developer.create({
+    ...applicationData.developer,
+  });
+  const { developer: anything, ...rest } = applicationData;
+  let dev = await developer.save(developerData);
   let newApplication = await applicationRepo.create({
     ...exstingrole,
-    ...applicationData,
+    ...rest,
+    // background_questions, cover_letter, id, resume, status, years_of_experience
+    developer: dev,
   });
   let data = await applicationRepo.save(newApplication);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return

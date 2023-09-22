@@ -35,7 +35,7 @@ export class Role {
   skills_required: string[]; // Store skills as JSON
 
   @Column()
-  vacancy_status: string; // Open, Closed
+  vacancy_status: 'Open' | 'Closed'; // Open, Closed
 
   @OneToMany((type) => Interview, (interview) => interview.role)
   interviews: Interview[];

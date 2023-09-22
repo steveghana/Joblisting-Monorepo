@@ -4,38 +4,28 @@ import {
 } from '../../../util/dependencyInjector';
 import uuidUtil from '../../../util/uuid';
 import { DeepPartial, EntityManager } from 'typeorm';
-import { Client } from '../entities/client.entity';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { IClient } from '@/types/client';
+import { IRole } from '@/types/role';
 
-export async function createApplication(
+export async function createRoles(
   roleId: number,
-  applicationData: IClient,
+  applicationData: IRole,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  const applicationRepo = transaction.getRepository(
-    dependencies.db.models.client,
-  );
   const role = transaction.getRepository(dependencies.db.models.role);
-  const exstingrole = await role.findOne({
-    where: {
-      id: roleId,
-    },
-    relations: ['client'],
-  });
-  let newApplication = await applicationRepo.create({
-    ...exstingrole,
+  let newApplication = await role.create({
     ...applicationData,
   });
-  let data = await applicationRepo.save(newApplication);
+  let data = await role.save(newApplication);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
 
-export function getApplicationById(
+export function getRoleById(
   id: number,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -44,13 +34,13 @@ export function getApplicationById(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
   return myDataSource.manager
-    .getRepository(dependencies.db.models.client)
+    .getRepository(dependencies.db.models.role)
     .findOne({
       where: { id },
     });
 }
 
 export default {
-  createApplication,
-  getApplicationById,
+  createRoles,
+  getRoleById,
 };

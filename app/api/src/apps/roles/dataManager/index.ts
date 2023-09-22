@@ -2,13 +2,15 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { createApplication, getApplicationById } from '../DBQueries/index';
+import { createRoles, getRoleById } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IClient } from '@/types/client';
+import { IRole } from '@/types/role';
+import { IApplication } from '@/types/application';
 
-class Client {
+class Roles {
   dependencies: Dependencies = null;
-  data: IClient = null;
+  data: IRole = null;
 
   constructor(dependencies: Dependencies = null) {
     this.dependencies = injectDependencies(dependencies, ['db', 'config']);
@@ -16,13 +18,13 @@ class Client {
 
   static async createApplication(
     roleId: number,
-    application: IClient,
+    application: IRole,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<Client> {
+  ): Promise<Roles> {
     dependencies = injectDependencies(dependencies, ['db']);
-    const newApplication = new Client(dependencies);
-    newApplication.data = await createApplication(
+    const newApplication = new Roles(dependencies);
+    newApplication.data = await createRoles(
       roleId,
       application,
       transaction,
@@ -34,10 +36,10 @@ class Client {
   static async getById(
     id: number,
     dependencies: Dependencies = null,
-  ): Promise<Client> {
+  ): Promise<Roles> {
     dependencies = injectDependencies(dependencies, ['db']);
-    const newApplication = new Client(dependencies);
-    newApplication.data = await getApplicationById(id, null, dependencies);
+    const newApplication = new Roles(dependencies);
+    newApplication.data = await getRoleById(id, null, dependencies);
     return newApplication;
   }
 
@@ -45,23 +47,23 @@ class Client {
     return this.data.id;
   }
 
-  get email(): string {
-    return this.data.email;
+  get applications(): IApplication[] {
+    return this.data.application;
   }
-  get industry(): string {
-    return this.data.industry;
+  get client(): IClient {
+    return this.data.client;
   }
-  get name(): string {
-    return this.data.name;
+  get skills(): string[] {
+    return this.data.skills_required;
   }
-  get phone_number(): string {
-    return this.data.phone_number;
+  get title(): string {
+    return this.data.title;
   }
   get description(): string {
     return this.data.description;
   }
-  get role(): Record<any, any> {
-    return this.data.role;
+  get role(): string {
+    return this.data.vacancy_status;
   }
 
   get exists(): boolean {
@@ -77,4 +79,4 @@ class Client {
   //   }
 }
 
-export default Client;
+export default Roles;

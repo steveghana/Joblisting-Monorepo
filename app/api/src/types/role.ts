@@ -8,7 +8,7 @@ export type IRole = {
 
   client: IClient;
 
-  developer: IDeveloper;
+  developer: any;
 
   title: string;
 
@@ -16,9 +16,9 @@ export type IRole = {
 
   skills_required: string[]; // Store skills as JSON
 
-  vacancy_status: string; // Open, Closed
+  vacancy_status: 'Open' | 'Closed'; // Open, Closed
 
-  interviews: Iinterviews[];
+  interviews?: any[];
 
   application: IApplication[];
 };
