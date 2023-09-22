@@ -20,7 +20,6 @@ export class ApplicationsService {
         dependencies,
       );
     });
-    return 'This action adds a new application';
   }
 
   findAll() {

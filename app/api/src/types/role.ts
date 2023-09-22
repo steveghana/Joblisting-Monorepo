@@ -20,5 +20,5 @@ export type IRole = {
 
   interviews?: any[];
 
-  application: IApplication[];
+  applications: IApplication[];
 };

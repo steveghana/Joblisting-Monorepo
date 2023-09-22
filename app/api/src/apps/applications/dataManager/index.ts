@@ -4,7 +4,7 @@ import {
 } from '../../../util/dependencyInjector';
 import { createApplication, getApplicationById } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
-import { IApplication } from '@/types/application';
+import { IApplication, IStatusApplication } from '@/types/application';
 
 class Application {
   dependencies: Dependencies = null;
@@ -45,7 +45,7 @@ class Application {
     return this.data.id;
   }
 
-  get status(): string {
+  get status(): IStatusApplication {
     return this.data.status;
   }
 

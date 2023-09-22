@@ -36,7 +36,6 @@ export async function createApplication(
   let newApplication = await applicationRepo.create({
     ...exstingrole,
     ...rest,
-    // background_questions, cover_letter, id, resume, status, years_of_experience
     developer: dev,
   });
   let data = await applicationRepo.save(newApplication);

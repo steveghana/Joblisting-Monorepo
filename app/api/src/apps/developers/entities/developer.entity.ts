@@ -35,7 +35,7 @@ export class Developer {
   address: string;
 
   @Column()
-  role_status: string;
+  role_status: 'InHouse' | 'Pending' | 'Interview' | 'External';
 
   // In House, Pending Interview, External
 

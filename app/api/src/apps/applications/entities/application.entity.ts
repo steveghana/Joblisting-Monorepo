@@ -1,6 +1,7 @@
 // Import necessary modules from TypeORM
 import { Developer } from '@/apps/developers/entities/developer.entity';
 import { Role } from '@/apps/roles/entities/role.entity';
+import { IStatusApplication } from '@/types/application';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -40,7 +41,7 @@ export class Application {
   cover_letter: string;
 
   @Column()
-  status: string; // Submitted, Shortlisted, Rejected
+  status: IStatusApplication; // Submitted, Shortlisted, Rejected
 }
 
 // You can create a Notifications entity similarly if needed
