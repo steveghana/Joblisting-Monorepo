@@ -1,5 +1,6 @@
 import { Application } from '@/apps/applications/entities/application.entity';
 import { Client } from '@/apps/clients/entities/client.entity';
+import { Developer } from '@/apps/developers/entities/developer.entity';
 import { Interview } from '@/apps/interviews/entities/interview.entity';
 import {
   Entity,
@@ -20,6 +21,10 @@ export class Role {
   @JoinColumn({ name: 'client_id' })
   client: Client;
 
+  @ManyToOne((type) => Developer, (developer) => developer.roles)
+  @JoinColumn({ name: 'developer_id' })
+  developer: Developer;
+
   @Column()
   title: string;
 
@@ -32,7 +37,6 @@ export class Role {
   @Column()
   vacancy_status: string; // Open, Closed
 
-  // Define the associations with Interviews and Applications
   @OneToMany((type) => Interview, (interview) => interview.role)
   interviews: Interview[];
 

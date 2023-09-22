@@ -2,6 +2,7 @@
 import { Application } from '@/apps/applications/entities/application.entity';
 import { ClockHours } from '@/apps/clocked-hours/entities/clocked-hour.entity';
 import { Interview } from '@/apps/interviews/entities/interview.entity';
+import { Role } from '@/apps/roles/entities/role.entity';
 import { User } from '@/apps/users/entity/users.entity';
 import {
   Entity,
@@ -34,8 +35,12 @@ export class Developer {
   address: string;
 
   @Column()
-  role_status: string; // In House, Pending Interview, External
+  role_status: string;
 
+  // In House, Pending Interview, External
+
+  @OneToMany((type) => Role, (role) => role.developer)
+  roles: Role;
   // Define the associations with Interviews, ClockHours, and Applications
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
   interviewsAsInterviewer: Interview[];

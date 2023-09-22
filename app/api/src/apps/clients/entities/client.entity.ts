@@ -1,4 +1,14 @@
 // Client Entity
+import { Role } from '@/apps/roles/entities/role.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
 @Entity('clients')
 export class Client {
   @PrimaryGeneratedColumn()
