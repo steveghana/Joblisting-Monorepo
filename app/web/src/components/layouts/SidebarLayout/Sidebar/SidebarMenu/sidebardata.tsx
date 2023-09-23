@@ -28,7 +28,7 @@ export const sidebarData = [
   },
   {
     rootTitle: "Management",
-    roles: ["admin"],
+    roles: ["Ceo"],
     subpages: [
       {
         title: "Transation list",

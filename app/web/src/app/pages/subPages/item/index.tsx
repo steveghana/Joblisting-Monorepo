@@ -19,4 +19,4 @@ function Devs() {
     </>
   );
 }
-export default Protect(Devs, ["admin", "developer"]);
+export default Protect(Devs, ["Ceo", "Developer"]);

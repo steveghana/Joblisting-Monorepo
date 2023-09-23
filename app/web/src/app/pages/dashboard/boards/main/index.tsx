@@ -45,4 +45,4 @@ function Dashboard() {
   );
 }
 
-export default Protect(Dashboard, ["admin"]);
+export default Protect(Dashboard, ["Ceo"]);

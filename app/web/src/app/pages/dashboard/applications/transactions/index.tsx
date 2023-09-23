@@ -33,4 +33,4 @@ function ApplicationsTransactions() {
     </>
   );
 }
-export default Protect(ApplicationsTransactions, ["admin"]);
+export default Protect(ApplicationsTransactions, ["Ceo"]);

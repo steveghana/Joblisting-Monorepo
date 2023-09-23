@@ -1,7 +1,7 @@
 // import { useRouter } from "next/navigation";
 import React from "react";
 // import { Session } from 'next-auth';
-import { IRole, UserRoleSelection } from "../../types/roles";
+import { IProfession, UserRoleSelection } from "../../types/roles";
 import { useNavigate } from "react-router";
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const router = useNavigate();
   React.useEffect(() => {
     console.log(currentPageName);
-    const userRole = role as IRole;
+    const userRole = role as IProfession;
     if (!session) {
       // Redirect to the login page or handle authentication as needed
       router("/");

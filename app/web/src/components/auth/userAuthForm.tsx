@@ -1,41 +1,24 @@
-"use client";
 import React, { useState } from "react";
-// import { useRouter } from "next/navigation";
-
-// import { Input } from '@nextui-org/react';
-import { Icons } from "../icons";
-// import { Button } from '../../lib/button';
-// import { Label } from './label';
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import RoleAuth from "./roleAuthForm";
-// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import api from "../../api/_api";
 import { useNavigate } from "react-router";
 import NameField from "./Fields/NameField";
 import EmailField from "./Fields/EmailField";
 import PasswordField from "./Fields/PasswordField";
-import { GitHub, Google } from "@mui/icons-material";
 import { IProfession } from "../../types/roles";
 import CustomButton from "../button";
-
+import checkValid from "../../lib/checkvalid";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const defaultTheme = createTheme();
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const INITIAL = { text: "", error: "" };
@@ -55,6 +38,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     event.preventDefault();
     setIsLoading(true);
     const {} = email;
+    //  const handleSubmit = React.useCallback(async () => {
+    if (
+      ![
+        checkValid(firstName, setFirstName),
+        checkValid(lastName, setLastName),
+        checkValid(email, setEmail),
+        checkValid(password, setPassword),
+      ].every((v) => v)
+    )
+      return;
     await api.user
       .register({
         email: email.text,
@@ -68,35 +61,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         localStorage.setItem("auth_token", token);
         localStorage.setItem("role", role);
 
-        // if (role === "Ceo") {
         router("/overview"); // Redirect to admin dashboard
-        // } else if (role === "developer") {
-        // router("/access-denied"); // Redirect to user dashboard
-        // }
       })
       .finally(() => setIsLoading(false));
   }
 
-  //  const handleSubmit = React.useCallback(async () => {
-  //    if (
-  //      ![
-  //        checkValid(name, setName, emailValidator),
-  //        checkValid(email, setEmail, emailValidator),
-  //        checkValid(password, setPassword, passwordValidator),
-  //      ].every((v) => v)
-  //    )
-  //      return;
-  //    if (typeof handleSignUp !== "function") handleSignUp = () => {};
-
-  //    setLoading(true);
-
-  //    return handleSignUp({
-  //      name: name.text,
-  //      email: email.text,
-  //      password: password.text,
-  //    });
-  //  }, []);
-  console.log(role);
   if (isNew) {
     return (
       <RoleAuth

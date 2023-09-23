@@ -32,4 +32,4 @@ function Overview() {
   );
 }
 
-export default Protect(Overview, ["admin"]);
+export default Protect(Overview, ["Ceo"]);

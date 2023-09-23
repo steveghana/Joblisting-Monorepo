@@ -18,6 +18,6 @@ function SubPage1() {
     </>
   );
 }
-export default Protect(SubPage1, ["admin", "developer"]);
+export default Protect(SubPage1, ["Ceo", "Developer"]);
 
 // export default SubPage1;
