@@ -1,5 +1,5 @@
 import { IStatusApplication } from '@/types/application';
-import { IDeveloper } from '@/types/developer';
+import { IDev } from '@/types/developer';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -17,7 +17,7 @@ export class CreateApplicationDto {
   })
   roleId: number;
 
-  developer: Partial<IDeveloper>;
+  developer: Partial<IDev>;
 
   background_questions: Record<string, string>; // Store background questions as JSON
 

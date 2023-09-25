@@ -21,24 +21,20 @@ export class Developer {
   @ManyToOne((type) => User, (user) => user.developer)
   @JoinColumn({ name: 'user_id' })
   user: User;
-
   @Column()
   name: string;
-
+  @Column('simple-json')
+  skills: string[];
   @Column()
   phone_number: string;
-
+  @Column()
+  years_of_experience: number;
   @Column()
   address: string;
-
   @Column()
   role_status: 'InHouse' | 'Pending' | 'Interview' | 'External';
-
-  // In House, Pending Interview, External
-
   @OneToMany((type) => Role, (role) => role.developer)
   roles: Role;
-  // Define the associations with Interviews, ClockHours, and Applications
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
   interviewsAsInterviewer: Interview[];
 

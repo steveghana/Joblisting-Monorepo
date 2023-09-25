@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDeveloperDto } from '../dto/create-developer.dto';
 import { UpdateDeveloperDto } from '../dto/update-developer.dto';
+import { CreateUserDto } from '@/apps/users/dto/create-user.dto';
 
 @Injectable()
 export class DevelopersService {
-  create(createDeveloperDto: CreateDeveloperDto) {
+  create(createDeveloperDto: CreateDeveloperDto & CreateUserDto) {
+    // createDeveloperDto.
     return 'This action adds a new developer';
   }
 

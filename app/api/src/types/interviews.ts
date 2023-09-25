@@ -1,9 +1,9 @@
 import { IDev } from './developer';
 
 export interface Iinterviews {
-  id: number;
+  id?: number;
 
-  role: any;
+  roleId: number;
 
   interviewer: IDev;
 

@@ -20,6 +20,7 @@ export interface IDev {
   role_status: 'InHouse' | 'Pending' | 'Interview' | 'External';
   // application: IApplication;
   // In House, Pending Interview, External
+  years_of_experience: number;
 
   roles: IRole;
   // Define the associations with Interviews, ClockHours, and Applications
