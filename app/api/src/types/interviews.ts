@@ -1,13 +1,13 @@
-import { IDeveloper } from './developer';
+import { IDev } from './developer';
 
 export interface Iinterviews {
   id: number;
 
   role: any;
 
-  interviewer: IDeveloper;
+  interviewer: IDev;
 
-  interviewee: IDeveloper;
+  interviewee: IDev;
 
   scheduled_date: Date;
 

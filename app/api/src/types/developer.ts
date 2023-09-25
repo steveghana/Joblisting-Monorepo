@@ -1,16 +1,17 @@
+import { ClockHours } from '@/apps/clocked-hours/entities/clocked-hour.entity';
 import { IApplication } from './application';
 import { Ihours } from './hours';
+import { Iinterviews } from './interviews';
 import { IRole } from './role';
 import { IUser } from './user';
+import { Interview } from '@/apps/interviews/entities/interview.entity';
 
-export interface IDeveloper {
+export interface IDev {
   id: number;
 
-  user: any;
+  user: IUser;
 
   name: string;
-
-  email: string;
 
   phone_number: string;
 
@@ -20,11 +21,11 @@ export interface IDeveloper {
   // application: IApplication;
   // In House, Pending Interview, External
 
-  // roles: IRole;
+  roles: IRole;
   // Define the associations with Interviews, ClockHours, and Applications
-  // interviewsAsInterviewer: IDeveloper;
+  interviewsAsInterviewer?: Partial<Interview>[];
 
-  // interviewsAsInterviewee: IDeveloper[];
+  interviewsAsInterviewee?: Partial<Interview>[];
 
-  // clockHours: Ihours[];
+  clockHours?: Partial<ClockHours>[];
 }

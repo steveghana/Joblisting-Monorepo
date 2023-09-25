@@ -6,35 +6,31 @@ import uuidUtil from '../../../util/uuid';
 import { DeepPartial, EntityManager } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
-import { IClient } from '@/types/client';
+import { IDev } from '@/types/developer';
 
-export async function createApplication(
-  roleId: number,
-  applicationData: IClient,
+export async function enrollDev(
+  applicationData: IDev,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  const applicationRepo = transaction.getRepository(
-    dependencies.db.models.client,
-  );
-  const role = transaction.getRepository(dependencies.db.models.role);
-  const exstingrole = await role.findOne({
-    where: {
-      id: roleId,
-    },
-    relations: ['client'],
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+  const userRepo = transaction.getRepository(dependencies.db.models.user);
+  const { user, ...rest } = applicationData;
+  const newUser = await userRepo.create({
+    ...user,
   });
-  let newApplication = await applicationRepo.create({
-    ...exstingrole,
-    ...applicationData,
+  let data = await userRepo.save(newUser);
+  let dev = await devRepo.create({
+    ...rest,
+    user,
   });
-  let data = await applicationRepo.save(newApplication);
+  let devData = await devRepo.save(dev);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return data;
+  return devData;
 }
 
-export function getApplicationById(
+export function getDevById(
   id: number,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -43,13 +39,13 @@ export function getApplicationById(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
   return myDataSource.manager
-    .getRepository(dependencies.db.models.client)
+    .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
     });
 }
 
 export default {
-  createApplication,
-  getApplicationById,
+  enrollDev,
+  getDevById,
 };

@@ -2,28 +2,26 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { createApplication, getApplicationById } from '../DBQueries/index';
+import { enrollDev, getDevById } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
-import { IClient } from '@/types/client';
+import { IDev } from '@/types/developer';
 
-class Client {
+class Developers {
   dependencies: Dependencies = null;
-  data: IClient = null;
+  data: IDev = null;
 
   constructor(dependencies: Dependencies = null) {
     this.dependencies = injectDependencies(dependencies, ['db', 'config']);
   }
 
-  static async createApplication(
-    roleId: number,
-    application: IClient,
+  static async enrollDev(
+    application: IDev,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<Client> {
+  ): Promise<Developers> {
     dependencies = injectDependencies(dependencies, ['db']);
-    const newApplication = new Client(dependencies);
-    newApplication.data = await createApplication(
-      roleId,
+    const newApplication = new Developers(dependencies);
+    newApplication.data = await enrollDev(
       application,
       transaction,
       dependencies,
@@ -34,10 +32,10 @@ class Client {
   static async getById(
     id: number,
     dependencies: Dependencies = null,
-  ): Promise<Client> {
+  ): Promise<Developers> {
     dependencies = injectDependencies(dependencies, ['db']);
-    const newApplication = new Client(dependencies);
-    newApplication.data = await getApplicationById(id, null, dependencies);
+    const newApplication = new Developers(dependencies);
+    newApplication.data = await getDevById(id, null, dependencies);
     return newApplication;
   }
 
@@ -46,22 +44,25 @@ class Client {
   }
 
   get email(): string {
-    return this.data.email;
+    return this.data.user.email;
   }
-  get industry(): string {
-    return this.data.industry;
+  get phone(): string {
+    return this.data.phone_number;
   }
   get name(): string {
     return this.data.name;
   }
-  get phone_number(): string {
-    return this.data.phone_number;
+  get roleStatus(): string {
+    return this.data.role_status;
   }
-  get description(): string {
-    return this.data.description;
+  get interviewee(): any {
+    return this.data.interviewsAsInterviewee;
+  }
+  get interviewer(): any {
+    return this.data.interviewsAsInterviewer;
   }
   get role(): Record<any, any> {
-    return this.data.role;
+    return this.data.roles;
   }
 
   get exists(): boolean {
@@ -77,4 +78,4 @@ class Client {
   //   }
 }
 
-export default Client;
+export default Developers;

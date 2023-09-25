@@ -1,6 +1,6 @@
 import { IApplication } from './application';
 import { IClient } from './client';
-import { IDeveloper } from './developer';
+// import { IDeveloper } from './developer';
 import { Iinterviews } from './interviews';
 
 export type IRole = {
@@ -20,5 +20,5 @@ export type IRole = {
 
   interviews?: any[];
 
-  applications: IApplication[];
+  application: IApplication[];
 };
