@@ -1,5 +1,5 @@
 // Client Entity
-import { Role } from '@/apps/roles/entities/role.entity';
+import { Role } from '../../roles/entities/role.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

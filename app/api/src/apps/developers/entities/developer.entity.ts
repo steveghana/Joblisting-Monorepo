@@ -1,9 +1,9 @@
 // Import necessary modules from TypeORM
-import { Application } from '@/apps/applications/entities/application.entity';
-import { ClockHours } from '@/apps/clocked-hours/entities/clocked-hour.entity';
-import { Interview } from '@/apps/interviews/entities/interview.entity';
-import { Role } from '@/apps/roles/entities/role.entity';
-import { User } from '@/apps/users/entity/users.entity';
+import { Application } from '../../applications/entities/application.entity';
+import { ClockHours } from '../../clocked-hours/entities/clocked-hour.entity';
+import { Interview } from '../../interviews/entities/interview.entity';
+import { Role } from '../../roles/entities/role.entity';
+import { User } from '../../users/entity/users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

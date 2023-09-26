@@ -15,7 +15,7 @@ class Client {
   }
 
   static async createClient(
-    roleId: number,
+    // roleId: number,
     application: IClient,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -23,7 +23,7 @@ class Client {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Client(dependencies);
     newApplication.data = await createClient(
-      roleId,
+      // roleId,
       application,
       transaction,
       dependencies,

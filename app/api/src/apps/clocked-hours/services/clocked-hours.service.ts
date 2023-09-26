@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateClockedHourDto } from '../dto/create-clocked-hour.dto';
 import { UpdateClockedHourDto } from '../dto/update-clocked-hour.dto';
+import { useTransaction } from '@/util/transaction';
 
 @Injectable()
 export class ClockedHoursService {
   create(createClockedHourDto: CreateClockedHourDto) {
+    return useTransaction(async (transaction) => {});
+
     return 'This action adds a new clockedHour';
   }
 

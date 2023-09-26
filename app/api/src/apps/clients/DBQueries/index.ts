@@ -10,27 +10,17 @@ import uuid from '../../../util/uuid';
 import { IClient } from '@/types/client';
 
 export async function createClient(
-  roleId: number,
-  applicationData: IClient,
+  // roleId: number,
+  clientData: IClient,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  const applicationRepo = transaction.getRepository(
-    dependencies.db.models.client,
-  );
-  const role = transaction.getRepository(dependencies.db.models.role);
-  const exstingrole = await role.findOne({
-    where: {
-      id: roleId,
-    },
-    relations: ['client'],
+  const clientRepo = transaction.getRepository(dependencies.db.models.client);
+  let newApplication = await clientRepo.create({
+    ...clientData,
   });
-  let newApplication = await applicationRepo.create({
-    ...exstingrole,
-    ...applicationData,
-  });
-  let data = await applicationRepo.save(newApplication);
+  let data = await clientRepo.save(newApplication);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;

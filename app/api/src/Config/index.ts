@@ -4,9 +4,9 @@ import Entities, {
   EntitiesRepositoryMap,
   Repositories,
 } from './model';
-import myDataSource from '../../../db/data-source';
+import myDataSource from '../../db/data-source';
 import { RedisCacheModule } from '../redis/redis.module';
-export { default as myDataSource } from '../../../db/data-source';
+export { default as myDataSource } from '../../db/data-source';
 
 // const repositories = createRepositories(Entities, myDataSource);
 /* This is where all the application's data management dependencies are initialised */

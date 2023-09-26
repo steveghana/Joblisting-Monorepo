@@ -3,10 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AddressInfo } from 'net';
 import * as http from 'http';
-import emailUtil from '../util/email';
+import emailUtil from '../../util/email';
 import { createServer, Server } from 'https';
 import { WinstonModule } from 'nest-winston';
-import config from '../Config/config';
+import config from '../../Config/config';
 import helmet from 'helmet';
 import { AppModule } from './api-gateway.module';
 import { NestExpressApplication } from '@nestjs/platform-express/interfaces';
@@ -14,7 +14,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { createDocument } from './swagger/swagger';
 import * as winston from 'winston';
 import { Logger, ValidationPipe, Next } from '@nestjs/common';
-import { HttpExceptionFilter } from '../middleware/err.Middleware';
+import { HttpExceptionFilter } from '../../middleware/err.Middleware';
 export function getPort(): number {
   // If port is omitted or is 0, the operating system will assign an arbitrary unused port
   return process.env.NODE_ENV === 'test'

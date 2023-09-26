@@ -1,7 +1,7 @@
-import { Application } from '@/apps/applications/entities/application.entity';
-import { Client } from '@/apps/clients/entities/client.entity';
-import { Developer } from '@/apps/developers/entities/developer.entity';
-import { Interview } from '@/apps/interviews/entities/interview.entity';
+import { Application } from '../../applications/entities/application.entity';
+import { Client } from '../../clients/entities/client.entity';
+import { Developer } from '../../developers/entities/developer.entity';
+import { Interview } from '../../interviews/entities/interview.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

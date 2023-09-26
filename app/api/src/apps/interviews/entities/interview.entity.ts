@@ -1,6 +1,6 @@
 // Import necessary modules from TypeORM
-import { Developer } from '@/apps/developers/entities/developer.entity';
-import { Role } from '@/apps/roles/entities/role.entity';
+import { Developer } from '../../developers/entities/developer.entity';
+import { Role } from '../../roles/entities/role.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

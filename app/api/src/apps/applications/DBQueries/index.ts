@@ -8,7 +8,6 @@ import { Application } from '../entities/application.entity';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { IApplication } from '@/types/application';
-import { IDeveloper } from '@/types/developer';
 
 export async function createApplication(
   roleId: number,

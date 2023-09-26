@@ -17,8 +17,8 @@ import {
 
 import { UserEntity } from '../user.entity';
 import { CredentialTokenEntity } from '../CredentialToken/credentialToken.entity';
-import uuid from '../../../util/uuid';
-import AssociableModel from '../../../Config/associable';
+import uuid from '../../../../util/uuid';
+import AssociableModel from '../../../../Config/associable';
 
 @Entity('authToken')
 export class AuthtokenEntity extends AssociableModel {
