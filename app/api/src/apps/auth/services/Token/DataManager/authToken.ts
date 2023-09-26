@@ -1,7 +1,7 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../util/dependencyInjector';
+} from '../../../../../util/dependencyInjector';
 import {
   createAuthToken,
   getAuthTokenWithUser,

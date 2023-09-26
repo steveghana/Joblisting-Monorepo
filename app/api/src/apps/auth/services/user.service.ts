@@ -8,8 +8,8 @@ import {
   Next,
 } from '@nestjs/common';
 import { EmailTemplate } from './emailtemplate';
-import { useTransaction } from '../../Config/transaction';
-import cryptoUtil from '../../util/crypto';
+import { useTransaction } from '../../../Config/transaction';
+import cryptoUtil from '../../../util/crypto';
 import User from './userEntity';
 import CredentialToken from './Credentials/DataManager/credentialToken';
 import AuthToken from './Token/DataManager/authToken';
@@ -17,7 +17,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
   Dependencies,
   injectDependencies,
-} from '../../util/dependencyInjector';
+} from '../../../util/dependencyInjector';
 
 import { UserEntity } from '../models/user.entity';
 import { IUser } from '../models/user';

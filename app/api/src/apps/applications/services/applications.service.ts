@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from '../dto/create-application.dto';
 import { UpdateApplicationDto } from '../dto/update-application.dto';
 import Application from '../dataManager';
-import { useTransaction } from '@/util/transaction';
-import { Dependencies } from '@/util/dependencyInjector';
+import { useTransaction } from '../../../util/transaction';
+import { Dependencies } from '../../../util/dependencyInjector';
 
 @Injectable()
 export class ApplicationsService {

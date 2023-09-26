@@ -1,7 +1,7 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../util/dependencyInjector';
+} from '../../../util/dependencyInjector';
 import {
   findOrCreateUser,
   getUser,
@@ -11,7 +11,7 @@ import {
   findElseCreateUser,
 } from './userEntityGateway';
 import { IUser } from '../models/user';
-import cryptoUtil from '../../util/crypto';
+import cryptoUtil from '../../../util/crypto';
 import { UserEntity } from '../models/user.entity';
 import { EntityManager } from 'typeorm';
 // This creates a new type that has all the properties of UserEntity but makes them optional

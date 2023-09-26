@@ -1,11 +1,11 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../util/dependencyInjector';
+} from '../../../util/dependencyInjector';
 import { IUser } from '../models/user';
 import { UserEntity } from '../models/user.entity';
 import { DeepPartial, EntityManager, In, ObjectLiteral } from 'typeorm';
-import { ensureTransaction, useTransaction } from '../../Config/transaction';
+import { ensureTransaction, useTransaction } from '../../../Config/transaction';
 export async function findOrCreateUser(
   email: string,
   defaults: IUser,

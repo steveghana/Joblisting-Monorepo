@@ -1,4 +1,4 @@
-import { Developer } from '@/apps/developers/entities/developer.entity';
+import { Developer } from '../../developers/entities/developer.entity';
 import { Role } from '../../enums/role.enum';
 import {
   Column,
