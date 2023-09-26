@@ -2,9 +2,10 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { createApplication, getApplicationById } from '../DBQueries/index';
+import { scheduleInterview, getApplicationById } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { Iinterviews } from '@/types/interviews';
+import { IDev } from '@/types/developer';
 
 class Interviews {
   dependencies: Dependencies = null;
@@ -14,9 +15,9 @@ class Interviews {
     this.dependencies = injectDependencies(dependencies, ['db', 'config']);
   }
 
-  static async createApplication(
+  static async createInterviews(
     roleId: number,
-    developerId: number,
+    // developerId: number,
 
     application: Iinterviews,
     transaction: EntityManager = null,
@@ -24,7 +25,7 @@ class Interviews {
   ): Promise<Interviews> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Interviews(dependencies);
-    newApplication.data = await createApplication(
+    newApplication.data = await scheduleInterview(
       roleId,
       application,
       transaction,
@@ -47,21 +48,19 @@ class Interviews {
     return this.data.id;
   }
 
-  get email(): string {
-    return this.data.email;
+  get status(): string {
+    return this.data.status;
   }
-  get industry(): string {
-    return this.data.industry;
+  get interviewee(): IDev {
+    return this.data.interviewee;
   }
-  get name(): string {
-    return this.data.name;
+  get interviewer(): IDev {
+    return this.data.interviewer;
   }
-  get phone_number(): string {
-    return this.data.phone_number;
+  get date(): Date {
+    return this.data.scheduled_date;
   }
-  get description(): string {
-    return this.data.description;
-  }
+
   get role(): Record<any, any> {
     return this.data.role;
   }

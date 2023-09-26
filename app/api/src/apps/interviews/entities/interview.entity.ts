@@ -38,5 +38,5 @@ export class Interview {
   scheduled_date: Date;
 
   @Column()
-  status: string; // Scheduled, Completed, Canceled
+  status: 'Scheduled' | 'Completed' | 'Canceled'; // Scheduled, Completed, Canceled
 }

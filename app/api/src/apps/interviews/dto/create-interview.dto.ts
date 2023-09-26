@@ -1,7 +1,9 @@
+import { IDev } from '@/types/developer';
 import { Iinterviews } from '@/types/interviews';
+import { IRole } from '@/types/role';
 import { IsNotEmpty } from 'class-validator';
 type IinterviewAs = 'interviewee' | 'interviewer';
-type Interview = Partial<Iinterviews> & {
+type Interview = Iinterviews & {
   interviewAs: IinterviewAs;
   interveiweeId: number;
   interviewerId: number;
@@ -25,4 +27,7 @@ export class CreateInterviewDto implements Interview {
     message: 'interviewer Id is required',
   })
   interviewerId: number;
+  interviewee: IDev;
+  interviewer: IDev;
+  role: IRole;
 }

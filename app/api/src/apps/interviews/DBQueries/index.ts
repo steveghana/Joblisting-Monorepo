@@ -15,21 +15,21 @@ export async function scheduleInterview(
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  const applicationRepo = transaction.getRepository(
-    dependencies.db.models.client,
+  const interviewRepo = transaction.getRepository(
+    dependencies.db.models.interviews,
   );
   const role = transaction.getRepository(dependencies.db.models.role);
-  const exstingrole = await role.findOne({
-    where: {
-      id: roleId,
-    },
-    relations: ['client'],
-  });
-  let newApplication = await applicationRepo.create({
-    ...exstingrole,
+  // const exstingrole = await role.findOne({
+  //   where: {
+  //     id: roleId,
+  //   },
+  //   relations: ['client'],
+  // });
+  let newApplication = await interviewRepo.create({
+    // ...exstingrole,
     ...applicationData,
   });
-  let data = await applicationRepo.save(newApplication);
+  let data = await interviewRepo.save(newApplication);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
@@ -43,7 +43,7 @@ export function getApplicationById(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
   return myDataSource.manager
-    .getRepository(dependencies.db.models.client)
+    .getRepository(dependencies.db.models.interviews)
     .findOne({
       where: { id },
     });

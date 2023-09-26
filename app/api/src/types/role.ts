@@ -4,11 +4,12 @@ import { IClient } from './client';
 import { Iinterviews } from './interviews';
 
 export type IRole = {
-  id: number;
+  id?: number;
 
   client: IClient;
+  clientId?: number;
 
-  developer: any;
+  // developer: any;
 
   title: string;
 
@@ -20,5 +21,5 @@ export type IRole = {
 
   interviews?: any[];
 
-  application: IApplication[];
+  application?: IApplication[];
 };

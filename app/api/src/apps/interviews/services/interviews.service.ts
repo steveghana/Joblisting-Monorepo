@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInterviewDto } from '../dto/create-interview.dto';
 import { UpdateInterviewDto } from '../dto/update-interview.dto';
+import Interviews from '../dataManager';
 
 @Injectable()
 export class InterviewsService {
   create(createInterviewDto: CreateInterviewDto) {
+    // createInterviewDto.
+    const { roleId, ...rest } = createInterviewDto;
+    Interviews.createInterviews(roleId, rest);
     return 'This action adds a new interview';
   }
 

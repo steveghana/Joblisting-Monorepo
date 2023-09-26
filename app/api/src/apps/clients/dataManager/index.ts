@@ -2,7 +2,7 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { createApplication, getApplicationById } from '../DBQueries/index';
+import { createClient, getApplicationById } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IClient } from '@/types/client';
 
@@ -14,7 +14,7 @@ class Client {
     this.dependencies = injectDependencies(dependencies, ['db', 'config']);
   }
 
-  static async createApplication(
+  static async createClient(
     roleId: number,
     application: IClient,
     transaction: EntityManager = null,
@@ -22,7 +22,7 @@ class Client {
   ): Promise<Client> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Client(dependencies);
-    newApplication.data = await createApplication(
+    newApplication.data = await createClient(
       roleId,
       application,
       transaction,
@@ -38,6 +38,7 @@ class Client {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Client(dependencies);
     newApplication.data = await getApplicationById(id, null, dependencies);
+
     return newApplication;
   }
 

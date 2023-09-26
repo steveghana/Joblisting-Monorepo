@@ -9,7 +9,7 @@ import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { IClient } from '@/types/client';
 
-export async function createApplication(
+export async function createClient(
   roleId: number,
   applicationData: IClient,
   transaction: EntityManager = null,
@@ -31,6 +31,7 @@ export async function createApplication(
     ...applicationData,
   });
   let data = await applicationRepo.save(newApplication);
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
@@ -51,6 +52,6 @@ export function getApplicationById(
 }
 
 export default {
-  createApplication,
+  createClient,
   getApplicationById,
 };

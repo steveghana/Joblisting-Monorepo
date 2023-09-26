@@ -16,8 +16,8 @@ class Roles {
     this.dependencies = injectDependencies(dependencies, ['db', 'config']);
   }
 
-  static async createApplication(
-    roleId: number,
+  static async createRoles(
+    // roleId: number,
     application: IRole,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -25,7 +25,7 @@ class Roles {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Roles(dependencies);
     newApplication.data = await createRoles(
-      roleId,
+      // roleId,
       application,
       transaction,
       dependencies,
