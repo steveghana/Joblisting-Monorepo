@@ -8,7 +8,7 @@ const config = {
   restApiPort: 5000,
   databasePort: 5432,
 
-  BusinessURL: 'https://business.q-int.com',
+  BusinessURL: 'http://localhost:5173',
 
   logSql: true,
 

@@ -37,17 +37,19 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
-    const {} = email;
+    // const {} = email;
+    console.log("submitting");
     //  const handleSubmit = React.useCallback(async () => {
-    if (
-      ![
-        checkValid(firstName, setFirstName),
-        checkValid(lastName, setLastName),
-        checkValid(email, setEmail),
-        checkValid(password, setPassword),
-      ].every((v) => v)
-    )
-      return;
+    // if (
+    //   ![
+    //     checkValid(firstName, setFirstName),
+    //     checkValid(lastName, setLastName),
+    //     checkValid(email, setEmail),
+    //     checkValid(password, setPassword),
+    //   ].every((v) => v)
+    // ) {
+    //   return;
+    // }
     await api.user
       .register({
         email: email.text,
@@ -56,12 +58,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         lastName: lastName.text,
         role,
       })
-      .then(({ role, token }) => {
-        if (!token) return;
-        localStorage.setItem("auth_token", token);
-        localStorage.setItem("role", role);
+      .then((data) => {
+        console.log(data);
+        // if (!token) return;
+        // localStorage.setItem("auth_token", token);
+        // localStorage.setItem("role", role);
 
-        router("/overview"); // Redirect to admin dashboard
+        // router("/overview"); // Redirect to admin dashboard
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
       })
       .finally(() => setIsLoading(false));
   }

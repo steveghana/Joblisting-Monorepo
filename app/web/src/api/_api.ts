@@ -36,6 +36,7 @@ function apiCall(
 }
 
 function handleApiError(error: any) {
+  console.log(error, "from api");
   if (error.response) {
     const { status, data } = error.response;
     if (status === 403 && (data === "not found" || data === "inactive")) {

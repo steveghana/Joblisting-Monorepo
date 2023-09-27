@@ -26,7 +26,7 @@ const Forget: React.FC<ForgetProps & NaviProps> = ({
   const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = React.useCallback(async () => {
-    if (!checkValid(email, setEmail, emailValidator)) return;
+    if (!checkValid(email, setEmail)) return;
     if (typeof handleForget !== "function") handleForget = () => {};
     setLoading(true);
     return handleForget({ email: email.text });

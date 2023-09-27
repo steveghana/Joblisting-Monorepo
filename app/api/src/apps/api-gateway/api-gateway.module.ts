@@ -6,13 +6,14 @@ import {
   NestModule,
   Type,
 } from '@nestjs/common/interfaces';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { Modules } from './exports';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { myDataSource } from '../../Config';
 import dbConfiguration from '../../Config/db.config';
 
 import { AuthenticationTtlMiddleware } from '../../middleware/authenticationTtl.middleware';
+import { HttpExceptionFilter } from '../../middleware/err.Middleware';
 @Module({
   imports: [
     CacheModule.register({
@@ -51,6 +52,10 @@ import { AuthenticationTtlMiddleware } from '../../middleware/authenticationTtl.
     {
       provide: APP_INTERCEPTOR,
       useClass: AuthenticationTtlMiddleware,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })

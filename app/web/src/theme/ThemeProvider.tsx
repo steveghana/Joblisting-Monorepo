@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeCreator } from "./base";
 
-import { StylesProvider } from "@mui/styles";
+import { StyledEngineProvider } from "@mui/material/styles";
 import { ThemeOptions } from "@mui/material/styles";
 
 export const ThemeContext = React.createContext(
@@ -50,11 +50,11 @@ const ThemeProviderWrapper: React.FC<{ children: JSX.Element }> = (props) => {
   };
 
   return (
-    <StylesProvider injectFirst>
+    <StyledEngineProvider injectFirst>
       <ThemeContext.Provider value={setThemeName}>
         <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
       </ThemeContext.Provider>
-    </StylesProvider>
+    </StyledEngineProvider>
   );
 };
 

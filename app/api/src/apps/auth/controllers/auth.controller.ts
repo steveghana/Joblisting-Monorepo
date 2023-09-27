@@ -35,6 +35,7 @@ import { AuthMiddleware } from '../../../middleware/authenticated.middleware';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { AuthGuard } from '@nestjs/passport';
 import { HttpUser } from '../decorator/http-user.decorator';
+import { Response } from 'express';
 
 @Controller('/user')
 export class AuthController {
@@ -43,13 +44,22 @@ export class AuthController {
   @ApiTags('registerBusiness')
   @Post('/register')
   @UseFilters(new HttpExceptionFilter())
+  @ApiUnauthorizedResponse({
+    schema: {
+      example: {
+        statusCode: 401,
+        message: 'Unauthorised user',
+        error: 'Unauthorized',
+      },
+    },
+  })
   @ApiOperation({
     description: 'Registering new business',
   })
   @HttpCode(HttpStatus.OK)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async register(@Body() req: any, @Res() res) {
+  async register(@Body() req: any, @Res() res: Response) {
     const result = await this.authService.register(
       req.user.email,
       req.user.password,
@@ -58,6 +68,7 @@ export class AuthController {
       req.user.role,
       req.user.country,
     );
+    console.log('this is the results returned:', result);
     return res.json(result);
   }
   @UseGuards(AuthGuard('local'))
