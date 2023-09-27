@@ -20,7 +20,7 @@ export async function enrollDev(
   const newUser = await userRepo.create({
     ...user,
   });
-  let data = await userRepo.save(newUser);
+  await userRepo.save(newUser);
   let dev = await devRepo.create({
     ...rest,
     user,

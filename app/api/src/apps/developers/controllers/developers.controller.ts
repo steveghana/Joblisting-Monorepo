@@ -10,6 +10,9 @@ import {
 import { DevelopersService } from '../services/developers.service';
 import { CreateDeveloperDto } from '../dto/create-developer.dto';
 import { UpdateDeveloperDto } from '../dto/update-developer.dto';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
+import { AuthService } from '../../auth/services/user.service';
+import { first } from 'rxjs';
 
 @Controller('developers')
 export class DevelopersController {
@@ -17,6 +20,9 @@ export class DevelopersController {
 
   @Post()
   create(@Body() createDeveloperDto: CreateDeveloperDto) {
+    // const { email, password, phone_number, username, address, firstName, lastName } = createDeveloperDto;
+
+    // const userData = this.authservice.register(email, password,firstName, lastName, "developer" )
     return this.developersService.create(createDeveloperDto);
   }
 

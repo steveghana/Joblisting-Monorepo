@@ -32,7 +32,7 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-  @OneToOne((type) => Developer, (developer) => developer.user)
-  @JoinColumn()
-  developer: Developer;
+  // @OneToOne((type) => Developer, (developer) => developer.user)
+  // @JoinColumn()
+  // developer: Developer;
 }

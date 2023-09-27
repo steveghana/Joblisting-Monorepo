@@ -13,6 +13,4 @@ export interface IApplication {
   status: IStatusApplication; //
 }
 
-export type IStatusApplication = {
-  status: 'Submitted' | 'Shortlisted' | 'Rejected';
-};
+export type IStatusApplication = 'Submitted' | 'Shortlisted' | 'Rejected';

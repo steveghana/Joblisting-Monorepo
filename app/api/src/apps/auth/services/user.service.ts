@@ -109,7 +109,6 @@ export class AuthService {
     firstName: string,
     lastName: string,
     role: string,
-    country: string,
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);

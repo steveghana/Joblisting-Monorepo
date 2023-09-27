@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateInterviewDto } from '../dto/create-interview.dto';
 import { UpdateInterviewDto } from '../dto/update-interview.dto';
 import Interviews from '../dataManager';
-import { useTransaction } from '@/util/transaction';
+import { useTransaction } from '../../../util/transaction';
 
 @Injectable()
 export class InterviewsService {

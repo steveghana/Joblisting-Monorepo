@@ -8,7 +8,7 @@ export class CorsMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     console.log(process.env.NODE_ENV, 'this is the node environment');
     if (process.env.NODE_ENV === 'production') {
-      const allowedOrigins: string[] = [config.BusinessURL, config.customerURL];
+      const allowedOrigins: string[] = [config.BusinessURL];
       const origin = req.get('origin');
       if (allowedOrigins.includes(origin)) {
         res.header('Access-Control-Allow-Origin', origin);

@@ -7,7 +7,7 @@ import { IUser } from './user';
 import { Interview } from '@/apps/interviews/entities/interview.entity';
 
 export interface IDev {
-  id: number;
+  id?: number;
 
   user: IUser;
 

@@ -1,9 +1,10 @@
 // Import necessary modules from TypeORM
+import { UserEntity as User } from '../../auth/models/user.entity';
+import AssociableModel from '../../../Config/associable';
 import { Application } from '../../applications/entities/application.entity';
 import { ClockHours } from '../../clocked-hours/entities/clocked-hour.entity';
 import { Interview } from '../../interviews/entities/interview.entity';
 import { Role } from '../../roles/entities/role.entity';
-import { User } from '../../users/entity/users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -13,8 +14,8 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
-@Entity('developers')
-export class Developer {
+@Entity('developer')
+export class Developer extends AssociableModel {
   @PrimaryGeneratedColumn()
   id: number;
 

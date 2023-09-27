@@ -15,17 +15,13 @@ class Developers {
   }
 
   static async enrollDev(
-    application: IDev,
+    devData: IDev,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
   ): Promise<Developers> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Developers(dependencies);
-    newApplication.data = await enrollDev(
-      application,
-      transaction,
-      dependencies,
-    );
+    newApplication.data = await enrollDev(devData, transaction, dependencies);
     return newApplication;
   }
 

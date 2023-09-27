@@ -41,7 +41,7 @@ export class Application {
   cover_letter: string;
 
   @Column()
-  status: IStatusApplication; // Submitted, Shortlisted, Rejected
+  status: IStatusApplication; // Submitted, Shortlisted, Rejected IStatusApplication
 }
 
 // You can create a Notifications entity similarly if needed

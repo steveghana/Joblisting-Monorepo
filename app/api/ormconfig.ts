@@ -1,11 +1,11 @@
 // ormconfig.ts
 
-import {ConfigModule} from "@nestjs/config";
-import dbConfiguration from "src/apps/Config/db.config";
+import { ConfigModule } from '@nestjs/config';
+import dbConfiguration from '../api/src/Config/db.config';
 
 ConfigModule.forRoot({
-    isGlobal: true,
-    load: [dbConfiguration],
-})
+  isGlobal: true,
+  load: [dbConfiguration],
+});
 
-export default dbConfiguration()
+export default dbConfiguration();

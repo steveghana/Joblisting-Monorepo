@@ -27,6 +27,6 @@ export default registerAs('database', () => ({
   entities: Object.values(Entities),
   migrations: ['./dist/migrations/**/*.js'],
   cli: {
-    migrationsDir: 'src/apps/migrations/*.ts',
+    migrationsDir: 'src/apps/migrations/*.js',
   },
 }));

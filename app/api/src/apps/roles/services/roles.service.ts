@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
 import Roles from '../dataManager';
-import Client from '@/apps/clients/dataManager';
-import { useTransaction } from '@/util/transaction';
+import Client from '../../clients/dataManager';
+import { useTransaction } from '../../../util/transaction';
 
 @Injectable()
 export class RolesService {
