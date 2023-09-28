@@ -70,9 +70,11 @@ export async function getUser(
   dependencies: Dependencies = null,
 ): Promise<UserEntity> {
   dependencies = injectDependencies(dependencies, ['db']);
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return useTransaction(async (transaction) => {
     const userRepo = transaction.getRepository(dependencies.db.models.user);
+    // console.log(email, 'from user db queries');
     let user = (await userRepo.findOne({
       where: {
         email: email.toLowerCase(),

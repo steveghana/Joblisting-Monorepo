@@ -117,8 +117,8 @@ export class AuthService {
       dependencies.config!.authentication!.passwordHashIterations,
     );
 
+    // throw new HttpException('exists', HttpStatus.BAD_REQUEST);
     return useTransaction(async (transaction) => {
-      console.log('find else create');
       const [user, UserMethods] = await User.findElseCreate(
         {
           email,
@@ -130,8 +130,9 @@ export class AuthService {
         transaction,
         dependencies,
       );
-
       if (!(await UserMethods.passwordMatches(''))) {
+        console.log('throwing new exceptions ...........');
+
         throw new HttpException('exists', HttpStatus.BAD_REQUEST);
       }
 

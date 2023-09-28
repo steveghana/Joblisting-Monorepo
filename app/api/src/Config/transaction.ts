@@ -15,8 +15,8 @@ export async function useTransaction<T>(
       return await callback(transaction);
     });
   } catch (error) {
-    console.log(error);
-    throw new Error(`Error logging in ${error} user ${error.message}`);
+    console.log(`Error logging in ${error} user ${error.message}`);
+    throw error;
   }
 }
 

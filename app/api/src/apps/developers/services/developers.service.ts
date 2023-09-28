@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateDeveloperDto } from '../dto/create-developer.dto';
 import { UpdateDeveloperDto } from '../dto/update-developer.dto';
 import { CreateUserDto } from '../../../apps/users/dto/create-user.dto';
@@ -21,7 +26,8 @@ export class DevelopersService {
   }
 
   findAll() {
-    return `This action returns all developers`;
+    throw new HttpException('exists', HttpStatus.BAD_REQUEST);
+    // return `This action returns all developers`;
   }
 
   findOne(id: number) {
