@@ -2,6 +2,8 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import api from "../../api/_api";
+
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
@@ -16,6 +18,8 @@ import { GitHub, Google, LinkedIn } from "@mui/icons-material";
 import EmailField from "./Fields/EmailField";
 import PasswordField from "./Fields/PasswordField";
 import CustomButton from "../button";
+import { useNavigate } from "react-router-dom";
+import { FormHelperText } from "@mui/material";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,18 +63,31 @@ function LoginPage({
   const [isVisible, setIsVisible] = React.useState(false);
   const [email, setEmail] = React.useState(INITIAL);
   const [password, setPassword] = React.useState(INITIAL);
+  const [error, setError] = React.useState("");
+
   //const supabase = createClientComponentClient();
   // const supabase = new SupabaseClient();
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const router = useNavigate();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    console.log("submit entered");
+    api.user
+      .login(email.text, password.text, true)
+      .then(({ authTokenId, role }) => {
+        if (!authTokenId) return;
+        localStorage.setItem("auth_token", authTokenId);
+        localStorage.setItem("role", role);
+
+        router("/overview"); // Redirect to admin dashboard
+      })
+      .catch((err) => {
+        setError(err?.response?.data);
+        setIsLoading(false);
+      })
+      .finally(() => setIsLoading(false));
   }
   //  const handleSubmit = React.useCallback(async () => {
   //    if (
@@ -109,6 +126,8 @@ function LoginPage({
         <EmailField {...{ email, setEmail, loading: isLoading }} />
 
         <PasswordField {...{ password, setPassword, loading: isLoading }} />
+        <FormHelperText style={{ color: "red" }}>{error || " "}</FormHelperText>
+
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"

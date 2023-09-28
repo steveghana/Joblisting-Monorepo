@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
 import apiUrl from "./_api_url";
 import { IUser } from "../types/user";
+import { IProfession } from "../types/roles";
 // import { IUser } from "@/types/user";
 
 type Options = {
@@ -62,6 +63,8 @@ const registerUser = (user: {
 
 type LoggedInUser = {
   authTokenId: string;
+  role: IProfession;
+  email: string;
   credentialTokenUuid?: string;
 };
 

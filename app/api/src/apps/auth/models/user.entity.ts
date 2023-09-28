@@ -13,8 +13,9 @@ import {
 import { AuthtokenEntity } from './Token/authToken.entity';
 import { CredentialTokenEntity } from './CredentialToken/credentialToken.entity';
 import AssociableModel from '../../../Config/associable';
-import { Role } from '../../enums/role.enum';
+// import { Role } from '../../enums/role.enum';
 import { Developer } from '../../developers/entities/developer.entity';
+export type IProfession = 'Ceo' | 'Marketing' | 'Recruitment' | 'Developer';
 
 @Entity('user')
 export class UserEntity extends AssociableModel {
@@ -35,7 +36,7 @@ export class UserEntity extends AssociableModel {
   @Column({
     /* type: 'enum', enum: Role, default: Role.USER */
   })
-  role: string;
+  role: IProfession;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

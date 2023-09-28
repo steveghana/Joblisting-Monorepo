@@ -16,6 +16,7 @@ import PasswordField from "./Fields/PasswordField";
 import { IProfession } from "../../types/roles";
 import CustomButton from "../button";
 import checkValid from "../../lib/checkvalid";
+import { FormHelperText } from "@mui/material";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   setRegisterPage: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -30,11 +31,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [lastName, setLastName] = useState(INITIAL);
   const [email, setEmail] = useState(INITIAL);
   const [password, setPassword] = useState(INITIAL);
+  const [error, setError] = useState("");
   const router = useNavigate();
   //  const supabase = createClientComponentClient();
   // const supabase = new SupabaseClient();
   const toggleVisibility = () => setIsVisible(!isVisible);
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    setError("");
     event.preventDefault();
     setIsLoading(true);
     // const {} = email;
@@ -58,16 +61,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         lastName: lastName.text,
         role,
       })
-      .then((data) => {
-        console.log(data);
-        // if (!token) return;
-        // localStorage.setItem("auth_token", token);
-        // localStorage.setItem("role", role);
+      .then(({ token }) => {
+        if (!token) return;
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem("role", role);
 
-        // router("/overview"); // Redirect to admin dashboard
+        router("/overview"); // Redirect to admin dashboard
       })
       .catch((err) => {
-        console.log(err);
+        setError(err?.response?.data);
         setIsLoading(false);
       })
       .finally(() => setIsLoading(false));
@@ -109,6 +111,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <EmailField {...{ email, setEmail, loading: isLoading }} />
 
         <PasswordField {...{ password, setPassword, loading: isLoading }} />
+        <FormHelperText style={{ color: "red" }}>{error || " "}</FormHelperText>
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"

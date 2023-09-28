@@ -5,3 +5,4 @@ export type IUser = {
   fullName?: string;
   address?: string;
 };
+export type IProfession = 'Ceo' | 'Marketing' | 'Recruitment' | 'Developer';

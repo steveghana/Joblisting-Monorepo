@@ -22,6 +22,7 @@ import {
 import { UserEntity } from '../models/user.entity';
 import { IUser } from '../models/user';
 import { GoogleLoginUserDto } from '../controllers/user.dto';
+import { IProfession } from '@/types/user';
 // import { Cache } from 'cache-manager';
 
 @Injectable()
@@ -108,7 +109,7 @@ export class AuthService {
     password: string,
     firstName: string,
     lastName: string,
-    role: string,
+    role: IProfession,
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
@@ -133,7 +134,10 @@ export class AuthService {
       if (!(await UserMethods.passwordMatches(''))) {
         console.log('throwing new exceptions ...........');
 
-        throw new HttpException('exists', HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          'user already exists, try signing up',
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       await UserMethods.update(
@@ -184,9 +188,6 @@ export class AuthService {
       throw new HttpException('generic', HttpStatus.BAD_REQUEST);
     }
 
-    if (await user.isLocked()) {
-      throw new HttpException(await user.role, HttpStatus.BAD_REQUEST);
-    }
     const [authToken, credentialToken] = await useTransaction(
       async (transaction) => {
         const c = rememberMe
