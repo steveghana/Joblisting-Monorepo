@@ -61,4 +61,4 @@ function ManagementUserProfile() {
     </>
   );
 }
-export default Protect(ManagementUserProfile, ["admin", "developer", "hr"]);
+export default Protect(ManagementUserProfile, ["Ceo", "developer", "hr"]);

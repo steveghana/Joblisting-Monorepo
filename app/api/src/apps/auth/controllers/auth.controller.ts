@@ -69,7 +69,7 @@ export class AuthController {
       req.user.country,
     );
   }
-  @UseGuards(AuthGuard('local'))
+  // @UseGuards(AuthGuard('local'))
   @Post('/login')
   // @UseFilters(new HttpExceptionFilter())
   @ApiTags('login')

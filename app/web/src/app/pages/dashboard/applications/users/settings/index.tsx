@@ -76,4 +76,4 @@ function ManagementUserSettings() {
     </>
   );
 }
-export default Protect(ManagementUserSettings, ["admin", "developer", "hr"]);
+export default Protect(ManagementUserSettings, ["Ceo", "developer", "hr"]);

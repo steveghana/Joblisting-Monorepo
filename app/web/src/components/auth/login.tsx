@@ -70,24 +70,25 @@ function LoginPage({
   const toggleVisibility = () => setIsVisible(!isVisible);
   const router = useNavigate();
 
-  async function onSubmit(event: React.SyntheticEvent) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
     console.log("submit entered");
     api.user
-      .login(email.text, password.text, true)
+      .login(email.text, password.text, false)
       .then(({ authTokenId, role }) => {
+        console.log(authTokenId, role);
         if (!authTokenId) return;
         localStorage.setItem("auth_token", authTokenId);
         localStorage.setItem("role", role);
-
-        router("/overview"); // Redirect to admin dashboard
+        router("/overview"); // Redirect to Ceo dashboard
       })
       .catch((err) => {
-        setError(err?.response?.data);
+        console.log(err);
+        // setError(err?.response?.data);
         setIsLoading(false);
-      })
-      .finally(() => setIsLoading(false));
+      });
+    // .finally(() => setIsLoading(false));
   }
   //  const handleSubmit = React.useCallback(async () => {
   //    if (

@@ -149,7 +149,7 @@ class User {
     return this._email;
   }
   get role(): string {
-    return this.role;
+    return this.data.role;
   }
 
   get isNewlyCreated(): boolean {

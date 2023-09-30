@@ -12,7 +12,7 @@ import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTo
 export const sidebarData = [
   {
     rootTitle: "Dashboard",
-    roles: ["admin", "devs"],
+    roles: ["Ceo", "devs"],
     subpages: [
       {
         title: "Home",
@@ -39,7 +39,7 @@ export const sidebarData = [
   },
   {
     rootTitle: "Accounts",
-    roles: ["admin", "Developers", "Hr", "Marketing"],
+    roles: ["Ceo", "Developers", "Hr", "Marketing"],
     subpages: [
       {
         title: "User profile",
@@ -55,7 +55,7 @@ export const sidebarData = [
   },
   {
     rootTitle: "Devs",
-    roles: ["admin", "Developers"],
+    roles: ["Ceo", "Developers"],
     subpages: [
       {
         title: "item1",
@@ -71,7 +71,7 @@ export const sidebarData = [
   },
   {
     rootTitle: "Hr",
-    roles: ["admin", "Hr"],
+    roles: ["Ceo", "Hr"],
     subpages: [
       {
         title: "item1",
@@ -87,7 +87,7 @@ export const sidebarData = [
   },
   {
     rootTitle: "Error Pages",
-    roles: ["admin", "Developers", "Hr", "Marketing"],
+    roles: ["Ceo", "Developers", "Hr", "Marketing"],
     subpages: [
       {
         title: "Error 404",

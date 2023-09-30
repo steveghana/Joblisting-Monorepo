@@ -66,7 +66,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         localStorage.setItem("auth_token", token);
         localStorage.setItem("role", role);
 
-        router("/overview"); // Redirect to admin dashboard
+        router("/overview"); // Redirect to Ceo dashboard
       })
       .catch((err) => {
         setError(err?.response?.data);
