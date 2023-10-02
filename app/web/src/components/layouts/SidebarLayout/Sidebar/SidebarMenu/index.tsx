@@ -57,7 +57,7 @@ const SubMenuWrapper = styled(Box)(
     
         .MuiButton-root {
           display: flex;
-          color: ${theme.colors?.alpha.trueWhite[70]};
+          color: ${theme.colors?.alpha.black[70]};
           background-color: transparent;
           width: 100%;
           justify-content: flex-start;
@@ -74,7 +74,7 @@ const SubMenuWrapper = styled(Box)(
           }
 
           .MuiButton-startIcon {
-            color: ${theme.colors?.alpha.trueWhite[30]};
+            color: ${theme.colors?.alpha.black[80]};
             font-size: ${theme.typography.pxToRem(20)};
             margin-right: ${theme.spacing(1)};
           }
