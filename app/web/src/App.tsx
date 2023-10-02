@@ -9,6 +9,7 @@ import ThemeProvider from "./theme/ThemeProvider";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import AuthProviders from "./providers/Provders";
 import Overview from "./app/pages/overview";
+import NavigationScroll from "./theme/scroll";
 
 function App() {
   const content = useRoutes(router);
@@ -17,8 +18,10 @@ function App() {
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <CssBaseline />
-        {/* <Overview /> */}
-        {content}
+        <NavigationScroll>
+          {/* <Overview /> */}
+          {content}
+        </NavigationScroll>
       </LocalizationProvider>
     </ThemeProvider>
   );

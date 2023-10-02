@@ -199,6 +199,7 @@ function SidebarMenu() {
                 {item.subpages.map((page) => (
                   <ListItem component="div">
                     <Button
+                      color="error"
                       disableRipple
                       component={RouterLink}
                       onClick={closeSidebar}

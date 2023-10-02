@@ -28,11 +28,11 @@ export const sidebarData = [
   },
   {
     rootTitle: "Management",
-    roles: ["Ceo"],
+    roles: ["Ceo", "devs"],
     subpages: [
       {
         title: "Transation list",
-        link: "/management/transaction",
+        link: "/management/transactions",
         icon: <TableChartTwoToneIcon />,
       },
     ],
