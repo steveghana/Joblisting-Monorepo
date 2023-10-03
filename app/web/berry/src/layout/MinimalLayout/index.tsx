@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom';
-
+import { Outlet } from "react-router-dom";
+import React from "react";
 // project imports
-import Customization from '../Customization';
+import Customization from "../Customization";
 
 // ==============================|| MINIMAL LAYOUT ||============================== //
 

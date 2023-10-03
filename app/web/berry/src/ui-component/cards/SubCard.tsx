@@ -15,13 +15,13 @@ import {
 // ==============================|| CUSTOM SUB CARD ||============================== //
 interface ISubCard {
   children: React.ReactNode;
-  content: boolean;
-  contentClass: string;
-  darkTitle: boolean;
-  secondary: string;
-  sx: Record<any, any>;
-  contentSX: Record<any, any>;
-  title: React.ReactNode | string;
+  content?: boolean;
+  contentClass?: string;
+  darkTitle?: boolean;
+  secondary?: string;
+  sx?: Record<any, any>;
+  contentSX?: Record<any, any>;
+  title?: React.ReactNode | string;
 }
 const SubCard: React.FC<ISubCard> = forwardRef(
   (

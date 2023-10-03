@@ -55,6 +55,15 @@ const status = [
 
 // ==============================|| NOTIFICATION ||============================== //
 
+// React.ForwardRefExoticComponent<Omit<BasePopperProps, "direction"> & {
+//     component?: React.ElementType<any> | undefined;
+//     components?: {
+//         Root?: React.ElementType<any> | undefined;
+//     } | undefined;
+//     componentsProps?: BasePopperProps['slotProps'];
+//     sx?: SxProps<Theme> | undefined;
+// } & React.RefAttributes<HTMLDivElement>>
+
 const NotificationSection = () => {
   const theme = useTheme();
   const matchesXs = useMediaQuery(theme.breakpoints.down("md"));
@@ -64,13 +73,14 @@ const NotificationSection = () => {
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
-  const anchorRef = useRef<React.MutableRefObject<null>>();
+  const anchorRef = useRef<HTMLDivElement>();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
+    //@ts-ignore
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -80,6 +90,8 @@ const NotificationSection = () => {
   const prevOpen = useRef(open);
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
+      //@ts-ignore
+
       anchorRef!.current!.focus;
     }
     prevOpen.current = open;
@@ -114,20 +126,22 @@ const NotificationSection = () => {
                 color: theme.palette.secondary.light,
               },
             }}
-            ref={anchorRef}
+            // ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
             color="inherit"
           >
-            <IconBell stroke={1.5} size="1.3rem" />
+            <IconBell />
           </Avatar>
         </ButtonBase>
       </Box>
       <Popper
         placement={matchesXs ? "bottom" : "bottom-end"}
         open={open}
+        //@ts-ignore
         anchorEl={anchorRef.current}
+        // anchorEl={anchorRef.current}
         role={undefined}
         transition
         disablePortal

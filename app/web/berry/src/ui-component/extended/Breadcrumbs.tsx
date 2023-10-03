@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // material-ui
@@ -24,7 +24,7 @@ const linkSX = {
 };
 
 interface IBreadCrumps {
-  card: boolean;
+  card?: boolean;
   divider?: boolean;
   icon?: boolean;
   icons?: boolean;

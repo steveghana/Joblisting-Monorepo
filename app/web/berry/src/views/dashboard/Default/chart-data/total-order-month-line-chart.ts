@@ -1,52 +1,54 @@
 // ===========================|| DASHBOARD - TOTAL ORDER MONTH CHART ||=========================== //
 
 const chartData = {
-  type: 'line',
+  chart: {
+    type: "line",
+  },
   height: 90,
   options: {
     chart: {
       sparkline: {
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
-    colors: ['#fff'],
+    colors: ["#fff"],
     fill: {
-      type: 'solid',
-      opacity: 1
+      type: "solid",
+      opacity: 1,
     },
     stroke: {
-      curve: 'smooth',
-      width: 3
+      curve: "smooth",
+      width: 3,
     },
     yaxis: {
       min: 0,
-      max: 100
+      max: 100,
     },
     tooltip: {
-      theme: 'dark',
+      theme: "dark",
       fixed: {
-        enabled: false
+        enabled: false,
       },
       x: {
-        show: false
+        show: false,
       },
       y: {
-        title: 'Total Order'
+        title: "Total Order",
       },
       marker: {
-        show: false
-      }
-    }
+        show: false,
+      },
+    },
   },
   series: [
     {
-      name: 'series1',
-      data: [45, 66, 41, 89, 25, 44, 9, 54]
-    }
-  ]
+      name: "series1",
+      data: [45, 66, 41, 89, 25, 44, 9, 54],
+    },
+  ],
 };
 
 export default chartData;

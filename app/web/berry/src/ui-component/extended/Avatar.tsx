@@ -7,10 +7,15 @@ import MuiAvatar from "@mui/material/Avatar";
 // ==============================|| AVATAR ||============================== //
 interface IAvatar {
   color?: string;
+  component?: any;
+  href?: any;
+  target?: any;
+  alt?: string;
   outline?: boolean;
   size?: string;
+  children: React.ReactElement;
   sx?: Record<any, any>;
-  className: string;
+  className?: string;
 }
 const Avatar: React.FC<IAvatar> = ({ color, outline, size, sx, ...others }) => {
   const theme = useTheme();

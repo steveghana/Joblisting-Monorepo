@@ -4,7 +4,8 @@ import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
 
 import "nprogress/nprogress.css";
-import App from "./App.tsx";
+// import App from "./App.tsx";
+import App from "../berry/src/App.tsx";
 import { SidebarProvider } from "./contexts/SidebarContext.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store";

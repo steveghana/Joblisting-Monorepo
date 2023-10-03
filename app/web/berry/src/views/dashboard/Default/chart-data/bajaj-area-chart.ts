@@ -1,42 +1,49 @@
 // ===========================|| DASHBOARD - BAJAJ AREA CHART ||=========================== //
 
+import ReactApexChart from "react-apexcharts";
+export enum ChartCurve {
+  smooth = "smooth",
+  // straight = "straight",
+}
 const chartData = {
-  type: 'area',
+  chart: {
+    type: "line",
+  },
   height: 95,
   options: {
     chart: {
-      id: 'support-chart',
+      id: "support-chart",
       sparkline: {
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
-      curve: 'smooth',
-      width: 1
+      // curve: ChartCurve,
+      width: 1,
     },
     tooltip: {
       fixed: {
-        enabled: false
+        enabled: false,
       },
       x: {
-        show: false
+        show: false,
       },
-      y: {
-        title: 'Ticket '
-      },
+      // y: {
+      //   title: 'Ticket '
+      // },
       marker: {
-        show: false
-      }
-    }
+        show: false,
+      },
+    },
   },
   series: [
     {
-      data: [0, 15, 10, 50, 30, 40, 25]
-    }
-  ]
+      data: [0, 15, 10, 50, 30, 40, 25],
+    },
+  ],
 };
 
 export default chartData;
