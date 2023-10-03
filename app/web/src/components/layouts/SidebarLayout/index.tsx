@@ -1,19 +1,35 @@
-import { FC, ReactNode } from "react";
-import { Box, alpha, lighten, styled, useTheme } from "@mui/material";
-// import { Outlet } from 'react-router-dom';
-
-import Sidebar from "./Sidebar";
-// import Header from "./Header";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import { drawerWidth } from "store/constant";
 
-interface SidebarLayoutProps {
-  children?: ReactNode;
-}
+// material-ui
+import { styled, useTheme } from "@mui/material/styles";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Toolbar,
+  useMediaQuery,
+} from "@mui/material";
+
+// project imports
+import Breadcrumbs from "../../../ui-component/extended/Breadcrumbs";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import { drawerWidth } from "../../../store/constant";
+import { SET_MENU } from "../../../store/actions";
+import { ChevronLeft } from "@mui/icons-material";
+// import Customization from "../Customization";
+import navigation from "./Sidebar/menu-items";
+// import { drawerWidth } from "store/constant";
+// import { SET_MENU } from "store/actions";
+
+// assets
+// import { IconChevronRight } from "@tabler/icons";
+
+// styles
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    ...theme.typography.body1,
+  ({ theme, open }: any) => ({
+    ...theme.typography.button,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     transition: theme.transitions.create(
@@ -45,59 +61,63 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     },
   })
 );
-const SidebarLayout: FC<SidebarLayoutProps> = () => {
+
+// ==============================|| MAIN LAYOUT ||============================== //
+
+const MainLayout = () => {
   const theme = useTheme();
+  const matchDownMd = useMediaQuery(theme.breakpoints.down("md"));
+  // Handle left drawer
+  const leftDrawerOpened = useSelector((state: any) => state.opened);
+  const dispatch = useDispatch();
+  const handleLeftDrawerToggle = () => {
+    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
+  };
 
   return (
-    <>
-      <Box
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      {/* header */}
+      <AppBar
+        enableColorOnDark
+        position="fixed"
+        color="inherit"
+        elevation={0}
         sx={{
-          flex: 1,
-          height: "100%",
-
-          ".MuiPageTitle-wrapper": {
-            background:
-              theme.palette.mode === "dark"
-                ? theme.colors?.alpha.trueWhite[5]
-                : theme.colors?.alpha.white[50],
-            marginBottom: `${theme.spacing(4)}`,
-            boxShadow:
-              theme.palette.mode === "dark"
-                ? `0 1px 0 ${alpha(
-                    lighten(theme.colors?.primary.main, 0.7),
-                    0.15
-                  )}, 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)`
-                : `0px 2px 4px -3px ${alpha(
-                    theme.colors?.alpha.black[100],
-                    0.1
-                  )}, 0px 5px 12px -4px ${alpha(
-                    theme.colors?.alpha.black[100],
-                    0.05
-                  )}`,
-          },
+          bgcolor: theme.palette.background.default,
+          transition: leftDrawerOpened
+            ? theme.transitions.create("width")
+            : "none",
         }}
       >
-        <Header />
-        <Sidebar />
-        <Box
-          sx={{
-            position: "relative",
-            zIndex: 5,
-            display: "block",
-            flex: 1,
-            pt: `${theme.header.height}`,
-            [theme.breakpoints.up("lg")]: {
-              ml: `${theme.sidebar.width}`,
-            },
-          }}
-        >
-          <Box display="block">
-            <Outlet />
-          </Box>
-        </Box>
-      </Box>
-    </>
+        <Toolbar>
+          <Header /* handleLeftDrawerToggle={handleLeftDrawerToggle} */ />
+        </Toolbar>
+      </AppBar>
+
+      {/* drawer */}
+      <Sidebar
+        drawerOpen={!matchDownMd ? leftDrawerOpened : !leftDrawerOpened}
+        drawerToggle={handleLeftDrawerToggle}
+      />
+
+      {/* main content */}
+
+      <Main theme={theme} open={true}>
+        {/* breadcrumb */}
+        <Breadcrumbs
+          card={true}
+          separator={ChevronLeft}
+          navigation={navigation}
+          icon
+          title
+          rightAlign
+        />
+        <Outlet />
+      </Main>
+      {/* <Customization /> */}
+    </Box>
   );
 };
 
-export default SidebarLayout;
+export default MainLayout;

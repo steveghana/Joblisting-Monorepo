@@ -6,14 +6,18 @@ import { BrowserRouter } from "react-router-dom";
 import "nprogress/nprogress.css";
 import App from "./App.tsx";
 import { SidebarProvider } from "./contexts/SidebarContext.tsx";
+import { Provider } from "react-redux";
+import { store } from "./store";
 // import { SidebarProvider } from './contexts/SidebarContext.tsx';
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <HelmetProvider>
-    <SidebarProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </SidebarProvider>
-  </HelmetProvider>
+  <Provider store={store}>
+    <HelmetProvider>
+      <SidebarProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </SidebarProvider>
+    </HelmetProvider>
+  </Provider>
 );

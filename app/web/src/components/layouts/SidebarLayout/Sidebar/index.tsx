@@ -1,131 +1,111 @@
-import { useContext } from "react";
-import Scrollbar from "../../../Scrollbar";
+import PropTypes from "prop-types";
 
-import {
-  Box,
-  Drawer,
-  alpha,
-  styled,
-  Divider,
-  useTheme,
-  Button,
-  lighten,
-  darken,
-  Tooltip,
-} from "@mui/material";
+// material-ui
+import { useTheme } from "@mui/material/styles";
+import { Box, Chip, Drawer, Stack, useMediaQuery } from "@mui/material";
 
-import SidebarMenu from "./SidebarMenu";
-import Logo from "../../../LogoSign";
-import { SidebarContext } from "../../../../contexts/SidebarContext";
+// third-party
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { BrowserView, MobileView } from "react-device-detect";
 
-const SidebarWrapper = styled(Box)(
-  ({ theme }) => `
-        width: ${theme.sidebar.width};
-        min-width: ${theme.sidebar.width};
-        color: ${theme.colors?.alpha.trueWhite[70]};
-        position: relative;
-        z-index: 7;
-        height: 100%;
-        padding-bottom: 68px;
-`
-);
+// project imports
+import MenuList from "./MenuList";
+import MenuCard from "./MenuCard";
+import { drawerWidth } from "../../../../store/constant";
+import Logo from "../../../../components/Logo";
 
-function Sidebar() {
-  const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-  const closeSidebar = () => toggleSidebar();
+// ==============================|| SIDEBAR DRAWER ||============================== //
+
+const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
   const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  return (
+  const drawer = (
     <>
-      <SidebarWrapper
-        sx={{
-          display: {
-            xs: "none",
-            lg: "inline-block",
-          },
-          position: "fixed",
-          left: 0,
-          top: 0,
-          // background:
-          //   theme.palette.mode === "dark"
-          //     ? //@ts-ignore
-          //       alpha(lighten(theme.header.background, 0.1), 0.5)
-          //     : darken(theme.colors?.alpha.black[100], 0.5),
-          boxShadow:
-            theme.palette.mode === "dark" ? theme.sidebar.boxShadow : "none",
-        }}
-      >
-        <Scrollbar>
-          <Box mt={3}>
-            <Box
-              mx={2}
-              sx={{
-                width: 52,
-              }}
-            >
-              <Logo />
-            </Box>
-          </Box>
-          <Divider
-            sx={{
-              mt: theme.spacing(3),
-              mx: theme.spacing(2),
-              background: theme.colors?.alpha.trueWhite[10],
-            }}
-          />
-          <SidebarMenu />
-        </Scrollbar>
-        <Divider
-          sx={{
-            background: theme.colors?.alpha.trueWhite[10],
-          }}
-        />
-        <Box p={2}>
-          <Button fullWidth>Savannah Tech</Button>
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Box sx={{ display: "flex", p: 2, mx: "auto" }}>
+          <Logo />
         </Box>
-      </SidebarWrapper>
-      <Drawer
-        sx={{
-          boxShadow: `${theme.sidebar.boxShadow}`,
-        }}
-        anchor={theme.direction === "rtl" ? "right" : "left"}
-        open={sidebarToggle}
-        onClose={closeSidebar}
-        variant="temporary"
-        elevation={9}
-      >
-        <SidebarWrapper
-          sx={{
-            background:
-              theme.palette.mode === "dark"
-                ? theme.colors?.alpha.white[100]
-                : darken(theme.colors?.alpha.black[100], 0.5),
+      </Box>
+      <BrowserView>
+        <PerfectScrollbar
+          component="div"
+          style={{
+            height: !matchUpMd ? "calc(100vh - 56px)" : "calc(100vh - 88px)",
+            paddingLeft: "16px",
+            paddingRight: "16px",
           }}
         >
-          <Scrollbar>
-            <Box mt={3}>
-              <Box
-                mx={2}
-                sx={{
-                  width: 52,
-                }}
-              >
-                <Logo />
-              </Box>
-            </Box>
-            <Divider
-              sx={{
-                mt: theme.spacing(3),
-                mx: theme.spacing(2),
-                background: theme.colors?.alpha.trueWhite[10],
-              }}
+          <MenuList />
+          <MenuCard />
+          <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
+            <Chip
+              // label={process.env.REACT_APP_VERSION}
+              disabled
+              // chipcolor="secondary"
+              size="small"
+              sx={{ cursor: "pointer" }}
             />
-            <SidebarMenu />
-          </Scrollbar>
-        </SidebarWrapper>
-      </Drawer>
+          </Stack>
+        </PerfectScrollbar>
+      </BrowserView>
+      <MobileView>
+        <Box sx={{ px: 2 }}>
+          <MenuList />
+          <MenuCard />
+          <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
+            <Chip
+              // label={process.env.REACT_APP_VERSION}
+              disabled
+              // chipcolor="secondary"
+              size="small"
+              sx={{ cursor: "pointer" }}
+            />
+          </Stack>
+        </Box>
+      </MobileView>
     </>
   );
-}
+
+  const container =
+    window !== undefined ? () => window.document.body : undefined;
+
+  return (
+    <Box
+      component="nav"
+      sx={{ flexShrink: { md: 0 }, width: matchUpMd ? drawerWidth : "auto" }}
+      aria-label="mailbox folders"
+    >
+      <Drawer
+        container={container}
+        variant={matchUpMd ? "persistent" : "temporary"}
+        anchor="left"
+        open={true}
+        onClose={drawerToggle}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary,
+            borderRight: "none",
+            [theme.breakpoints.up("md")]: {
+              top: "88px",
+            },
+          },
+        }}
+        ModalProps={{ keepMounted: true }}
+        color="inherit"
+      >
+        {drawer}
+      </Drawer>
+    </Box>
+  );
+};
+
+Sidebar.propTypes = {
+  drawerOpen: PropTypes.bool,
+  drawerToggle: PropTypes.func,
+  window: PropTypes.object,
+};
 
 export default Sidebar;
