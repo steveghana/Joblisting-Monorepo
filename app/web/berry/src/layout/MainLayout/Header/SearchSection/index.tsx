@@ -21,7 +21,7 @@ import PopupState, { bindPopper, bindToggle } from "material-ui-popup-state";
 // import Transitions from 'ui-component/extended/Transitions';
 
 // assets
-import { IconAdjustmentsHorizontal, IconSearch, IconX } from "@tabler/icons";
+// import { IconAdjustmentsHorizontal, IconSearch, IconX } ;
 import { shouldForwardProp } from "@mui/system";
 import Transitions from "../../../../ui-component/extended/Transitions";
 
@@ -83,15 +83,15 @@ const MobileSearch = ({ value, setValue, popupState }) => {
       placeholder="Search"
       startAdornment={
         <InputAdornment position="start">
-          <IconSearch /* stroke={1.5} size="1rem" color={theme.palette.grey[500]} */
-          />
+          {/* <IconSearch 
+          /> */}
         </InputAdornment>
       }
       endAdornment={
         <InputAdornment position="end">
           <ButtonBase sx={{ borderRadius: "12px" }}>
             <HeaderAvatarStyle variant="rounded">
-              <IconAdjustmentsHorizontal /* stroke={1.5} size="1.3rem" */ />
+              {/* <IconAdjustmentsHorizontal /> */}
             </HeaderAvatarStyle>
           </ButtonBase>
           <Box sx={{ ml: 2 }}>
@@ -110,7 +110,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
                 }}
                 {...bindToggle(popupState)}
               >
-                <IconX /* stroke={1.5} size="1.3rem" */ />
+                {/* <IconX  /> */}
               </Avatar>
             </ButtonBase>
           </Box>
@@ -146,7 +146,7 @@ const SearchSection = () => {
                     variant="rounded"
                     {...bindToggle(popupState)}
                   >
-                    <IconSearch /* stroke={1.5} size="1.2rem"  */ />
+                    {/* <IconSearch  /> */}
                   </HeaderAvatarStyle>
                 </ButtonBase>
               </Box>
@@ -199,16 +199,16 @@ const SearchSection = () => {
           placeholder="Search"
           startAdornment={
             <InputAdornment position="start">
-              <IconSearch /* stroke={1.5} size="1rem" color={theme.palette.grey[500]} */
-              />
+              {/* <IconSearch 
+              /> */}
             </InputAdornment>
           }
           endAdornment={
             <InputAdornment position="end">
               <ButtonBase sx={{ borderRadius: "12px" }}>
                 <HeaderAvatarStyle variant="rounded">
-                  <IconAdjustmentsHorizontal /* stroke={1.5} size="1.3rem"  */
-                  />
+                  {/* <IconAdjustmentsHorizontal 
+                  /> */}
                 </HeaderAvatarStyle>
               </ButtonBase>
             </InputAdornment>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -31,7 +31,7 @@ import Transitions from "../../../../ui-component/extended/Transitions";
 import NotificationList from "./NotificationList";
 
 // assets
-import { IconBell } from "@tabler/icons";
+// import { IconBell } ;
 
 // notification status options
 const status = [
@@ -54,15 +54,6 @@ const status = [
 ];
 
 // ==============================|| NOTIFICATION ||============================== //
-
-// React.ForwardRefExoticComponent<Omit<BasePopperProps, "direction"> & {
-//     component?: React.ElementType<any> | undefined;
-//     components?: {
-//         Root?: React.ElementType<any> | undefined;
-//     } | undefined;
-//     componentsProps?: BasePopperProps['slotProps'];
-//     sx?: SxProps<Theme> | undefined;
-// } & React.RefAttributes<HTMLDivElement>>
 
 const NotificationSection = () => {
   const theme = useTheme();
@@ -116,8 +107,8 @@ const NotificationSection = () => {
           <Avatar
             variant="rounded"
             sx={{
-              ...theme.typography.commonAvatar,
-              ...theme.typography.mediumAvatar,
+              ...componentThemeoption.commonAvatar,
+              ...componentThemeoption.mediumAvatar,
               transition: "all .2s ease-in-out",
               background: theme.palette.secondary.light,
               color: theme.palette.secondary.dark,
@@ -132,7 +123,7 @@ const NotificationSection = () => {
             onClick={handleToggle}
             color="inherit"
           >
-            <IconBell />
+            {/* <IconBell /> */}
           </Avatar>
         </ButtonBase>
       </Box>

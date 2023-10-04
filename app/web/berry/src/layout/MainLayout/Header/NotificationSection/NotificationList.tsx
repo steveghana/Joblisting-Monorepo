@@ -19,12 +19,12 @@ import {
 } from "@mui/material";
 
 // assets
-import {
-  IconBrandTelegram,
-  IconBuildingStore,
-  IconMailbox,
-  IconPhoto,
-} from "@tabler/icons";
+// import {
+//   IconBrandTelegram,
+//   IconBuildingStore,
+//   IconMailbox,
+//   IconPhoto,
+// } ;
 // import User1 from '../../../assets/images/users/user-round.svg';
 
 // styles
@@ -50,8 +50,8 @@ const NotificationList = () => {
   };
   const chipErrorSX = {
     ...chipSX,
-    color: theme.palette.orange.dark,
-    backgroundColor: theme.palette.orange.light,
+    color: theme.palette.primary.light,
+    backgroundColor: theme.palette.secondary.light,
     marginRight: "5px",
   };
 
@@ -182,7 +182,7 @@ const NotificationList = () => {
                 borderColor: theme.palette.primary.main,
               }}
             >
-              <IconMailbox />
+              {/* <IconMailbox /> */}
             </Avatar>
           </ListItemAvatar>
           <ListItemText
@@ -213,7 +213,7 @@ const NotificationList = () => {
                 <Button
                   variant="contained"
                   disableElevation
-                  endIcon={<IconBrandTelegram />}
+                  // endIcon={<IconBrandTelegram />}
                 >
                   Mail
                 </Button>
@@ -262,7 +262,7 @@ const NotificationList = () => {
                     <Grid container direction="column">
                       <Grid item xs={12}>
                         <Stack direction="row" spacing={2}>
-                          <IconPhoto />
+                          {/* <IconPhoto /> */}
                           <Typography variant="subtitle1">demo.jpg</Typography>
                         </Stack>
                       </Grid>

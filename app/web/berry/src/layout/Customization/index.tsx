@@ -16,7 +16,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { IconSettings } from "@tabler/icons";
+// import { IconSettings } ;
 
 // third-party
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -113,7 +113,7 @@ const Customization = () => {
         >
           <AnimateButton type="rotate">
             <IconButton color="inherit" size="large" disableRipple>
-              <IconSettings />
+              {/* <IconSettings /> */}
             </IconButton>
           </AnimateButton>
         </Fab>

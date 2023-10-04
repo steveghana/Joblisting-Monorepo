@@ -37,7 +37,7 @@ import UpgradePlanCard from "./UpgradePlanCard";
 // import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from "@tabler/icons";
+// import { IconLogout, IconSearch, IconSettings, IconUser } ;
 import Transitions from "../../../../ui-component/extended/Transitions";
 import MainCard from "../../../../ui-component/cards/MainCard";
 
@@ -126,7 +126,7 @@ const ProfileSection = () => {
             color="inherit"
           />
         }
-        label={<IconSettings /* color={theme.palette.primary.main} */ />}
+        // label={<IconSettings  />}
         variant="outlined"
         ref={anchorRef}
         aria-controls={open ? "menu-list-grow" : undefined}
@@ -185,8 +185,8 @@ const ProfileSection = () => {
                       placeholder="Search profile options"
                       startAdornment={
                         <InputAdornment position="start">
-                          <IconSearch /* stroke={1.5} size="1rem" color={theme.palette.grey[500]} */
-                          />
+                          {/* <IconSearch 
+                          /> */}
                         </InputAdornment>
                       }
                       aria-describedby="search-helper-text"
@@ -290,9 +290,7 @@ const ProfileSection = () => {
                             handleListItemClick(event, 0, "#")
                           }
                         >
-                          <ListItemIcon>
-                            <IconSettings />
-                          </ListItemIcon>
+                          <ListItemIcon>{/* <IconSettings /> */}</ListItemIcon>
                           <ListItemText
                             primary={
                               <Typography variant="body2">
@@ -310,9 +308,7 @@ const ProfileSection = () => {
                             handleListItemClick(event, 1, "#")
                           }
                         >
-                          <ListItemIcon>
-                            <IconUser />
-                          </ListItemIcon>
+                          <ListItemIcon>{/* <IconUser /> */}</ListItemIcon>
                           <ListItemText
                             primary={
                               <Grid
@@ -346,9 +342,7 @@ const ProfileSection = () => {
                           selected={selectedIndex === 4}
                           onClick={handleLogout}
                         >
-                          <ListItemIcon>
-                            <IconLogout />
-                          </ListItemIcon>
+                          <ListItemIcon>{/* <IconLogout /> */}</ListItemIcon>
                           <ListItemText
                             primary={
                               <Typography variant="body2">Logout</Typography>
