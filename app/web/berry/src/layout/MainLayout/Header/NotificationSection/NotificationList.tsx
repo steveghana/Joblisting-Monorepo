@@ -59,14 +59,14 @@ const NotificationList = () => {
 
   const chipWarningSX = {
     ...chipSX,
-    color: theme.palette.warning.dark,
-    backgroundColor: theme.palette.warning.light,
+    color: themePalette.warning.dark,
+    backgroundColor: themePalette.warning.light,
   };
 
   const chipSuccessSX = {
     ...chipSX,
-    color: theme.palette.success.dark,
-    backgroundColor: theme.palette.success.light,
+    color: themePalette.success.dark,
+    backgroundColor: themePalette.success.light,
     height: 28,
   };
 
@@ -131,10 +131,10 @@ const NotificationList = () => {
           <ListItemAvatar>
             <Avatar
               sx={{
-                color: theme.palette.success.dark,
-                backgroundColor: theme.palette.success.light,
+                color: themePalette.success.dark,
+                backgroundColor: themePalette.success.light,
                 border: "none",
-                borderColor: theme.palette.success.main,
+                borderColor: themePalette.success.main,
               }}
             >
               <IconBuildingStore stroke={1.5} size="1.3rem" />

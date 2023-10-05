@@ -19,6 +19,7 @@ import TotalIncomeCard from "../../../ui-component/cards/Skeleton/TotalIncomeCar
 
 // assets
 import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone";
+import { themePalette } from "../../../themes/schemes/palette";
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -29,7 +30,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: "absolute",
     width: 210,
     height: 210,
-    background: `linear-gradient(210.04deg, ${theme.palette.warning.dark} -50.94%, rgba(144, 202, 249, 0) 83.49%)`,
+    background: `linear-gradient(210.04deg, ${themePalette.warning.dark} -50.94%, rgba(144, 202, 249, 0) 83.49%)`,
     borderRadius: "50%",
     top: -30,
     right: -180,
@@ -39,7 +40,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: "absolute",
     width: 210,
     height: 210,
-    background: `linear-gradient(140.9deg, ${theme.palette.warning.dark} -14.02%, rgba(144, 202, 249, 0) 70.50%)`,
+    background: `linear-gradient(140.9deg, ${themePalette.warning.dark} -14.02%, rgba(144, 202, 249, 0) 70.50%)`,
     borderRadius: "50%",
     top: -160,
     right: -130,
@@ -66,8 +67,8 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                     sx={{
                       ...componentThemeoption.commonAvatar,
                       ...componentThemeoption.largeAvatar,
-                      backgroundColor: theme.palette.warning.light,
-                      color: theme.palette.warning.dark,
+                      backgroundColor: themePalette.warning.light,
+                      color: themePalette.warning.dark,
                     }}
                   >
                     <StorefrontTwoToneIcon fontSize="inherit" />
@@ -84,7 +85,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                     <Typography
                       variant="subtitle2"
                       sx={{
-                        color: theme.palette.grey[500],
+                        color: themePalette.grey[500],
                         mt: 0.5,
                       }}
                     >

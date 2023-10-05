@@ -11,6 +11,7 @@ import Chart from "react-apexcharts";
 
 // project imports
 import chartData from "./chart-data/bajaj-area-chart";
+import { themePalette } from "../../../themes/schemes/palette";
 
 // ===========================|| DASHBOARD DEFAULT - BAJAJ AREA CHART CARD ||=========================== //
 
@@ -19,7 +20,7 @@ const BajajAreaChartCard = () => {
   const customization = useSelector((state: any) => state.customization);
   const { navType } = customization;
 
-  const orangeDark = theme.palette.secondary[800];
+  const orangeDark = themePalette.secondary[800];
 
   useEffect(() => {
     const newSupportChart = {
@@ -40,13 +41,13 @@ const BajajAreaChartCard = () => {
             <Grid item>
               <Typography
                 variant="subtitle1"
-                sx={{ color: theme.palette.secondary.dark }}
+                sx={{ color: themePalette.secondary.dark }}
               >
                 Bajaj Finery
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h4" sx={{ color: theme.palette.grey[800] }}>
+              <Typography variant="h4" sx={{ color: themePalette.grey[800] }}>
                 $1839.00
               </Typography>
             </Grid>
@@ -55,7 +56,7 @@ const BajajAreaChartCard = () => {
         <Grid item xs={12}>
           <Typography
             variant="subtitle2"
-            sx={{ color: theme.palette.grey[800] }}
+            sx={{ color: themePalette.grey[800] }}
           >
             10% Profit
           </Typography>

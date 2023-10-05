@@ -128,8 +128,8 @@ const PopularCard = ({ isLoading }) => {
                                 width: 16,
                                 height: 16,
                                 borderRadius: "5px",
-                                backgroundColor: theme.palette.success.light,
-                                color: theme.palette.success.dark,
+                                backgroundColor: themePalette.success.light,
+                                color: themePalette.success.dark,
                                 ml: 2,
                               }}
                             >
@@ -238,8 +238,8 @@ const PopularCard = ({ isLoading }) => {
                                 width: 16,
                                 height: 16,
                                 borderRadius: "5px",
-                                backgroundColor: theme.palette.success.light,
-                                color: theme.palette.success.dark,
+                                backgroundColor: themePalette.success.light,
+                                color: themePalette.success.dark,
                                 ml: 2,
                               }}
                             >
@@ -256,7 +256,7 @@ const PopularCard = ({ isLoading }) => {
                   <Grid item>
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: theme.palette.success.dark }}
+                      sx={{ color: themePalette.success.dark }}
                     >
                       10% Profit
                     </Typography>

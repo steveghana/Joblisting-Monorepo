@@ -42,14 +42,14 @@ const TotalGrowthBarChart = ({ isLoading }) => {
   const customization = useSelector((state: any) => state.customization);
 
   const { navType } = customization;
-  const { primary } = theme.palette.text;
+  const { primary } = themePalette.text;
   const darkLight = themePalette.primary.light;
-  const grey200 = theme.palette.grey[200];
-  const grey500 = theme.palette.grey[500];
+  const grey200 = themePalette.grey[200];
+  const grey500 = themePalette.grey[500];
 
   const primary200 = themePalette.primary[200];
   const primaryDark = themePalette.primary.dark;
-  const secondaryMain = theme.palette.secondary.main;
+  const secondaryMain = themePalette.secondary.main;
   const secondaryLight = themePalette.secondary.light;
 
   useEffect(() => {

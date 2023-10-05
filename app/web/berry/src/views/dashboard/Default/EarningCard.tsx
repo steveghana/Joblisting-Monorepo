@@ -18,9 +18,10 @@ import GetAppTwoToneIcon from "@mui/icons-material/GetAppOutlined";
 import FileCopyTwoToneIcon from "@mui/icons-material/FileCopyOutlined";
 import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
+import { themePalette } from "../../../themes/schemes/palette";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.dark,
+  backgroundColor: themePalette.secondary.dark,
   color: "#fff",
   overflow: "hidden",
   position: "relative",
@@ -29,7 +30,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: "absolute",
     width: 210,
     height: 210,
-    background: theme.palette.secondary[800],
+    background: themePalette.secondary[800],
     borderRadius: "50%",
     top: -85,
     right: -95,
@@ -43,7 +44,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: "absolute",
     width: 210,
     height: 210,
-    background: theme.palette.secondary[800],
+    background: themePalette.secondary[800],
     borderRadius: "50%",
     top: -125,
     right: -15,
@@ -86,7 +87,7 @@ const EarningCard = ({ isLoading }) => {
                       sx={{
                         ...componentThemeoption.commonAvatar,
                         ...componentThemeoption.largeAvatar,
-                        backgroundColor: theme.palette.secondary[800],
+                        backgroundColor: themePalette.secondary[800],
                         mt: 1,
                       }}
                     >
@@ -99,8 +100,8 @@ const EarningCard = ({ isLoading }) => {
                       sx={{
                         ...componentThemeoption.commonAvatar,
                         ...componentThemeoption.mediumAvatar,
-                        backgroundColor: theme.palette.secondary.dark,
-                        color: theme.palette.secondary[200],
+                        backgroundColor: themePalette.secondary.dark,
+                        color: themePalette.secondary[200],
                         zIndex: 1,
                       }}
                       aria-controls="menu-earning-card"
@@ -161,8 +162,8 @@ const EarningCard = ({ isLoading }) => {
                       sx={{
                         cursor: "pointer",
                         ...componentThemeoption.smallAvatar,
-                        backgroundColor: theme.palette.secondary[200],
-                        color: theme.palette.secondary.dark,
+                        backgroundColor: themePalette.secondary[200],
+                        color: themePalette.secondary.dark,
                       }}
                     >
                       <ArrowUpwardIcon
@@ -178,7 +179,7 @@ const EarningCard = ({ isLoading }) => {
                   sx={{
                     fontSize: "1rem",
                     fontWeight: 500,
-                    color: theme.palette.secondary[200],
+                    color: themePalette.secondary[200],
                   }}
                 >
                   Total Earning
