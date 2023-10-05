@@ -1,29 +1,40 @@
-import "./styles/main.scss";
-import { useRoutes } from "react-router-dom";
-import router from "./router";
+import { useSelector } from "react-redux";
+import React from "react";
+// import { ThemeProvider } from "@mui/material/styles";
+import {
+  CssBaseline,
+  StyledEngineProvider,
+  ThemeProvider,
+} from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-// import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
-import { CssBaseline } from "@mui/material";
-import ThemeProvider from "./theme/ThemeProvider";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import AuthProviders from "./providers/Provders";
-import Overview from "./app/pages/overview";
-import NavigationScroll from "./theme/scroll";
 
-function App() {
-  const content = useRoutes(router);
+// routing
+import Routes from "./routes";
+
+// defaultTheme
+
+// project imports
+import NavigationScroll from "./layout/NavigationScroll";
+import ThemeProviderWrapper from "../../src/theme/ThemeProvider";
+import { PureLightTheme } from "./themes/schemes/PureLightTheme";
+import { themeCreator } from "./themes/base";
+// ==============================|| APP ||============================== //
+
+const App = () => {
+  const customization = useSelector((state: any) => state.customization);
+  const theme = themeCreator("PureLightTheme");
 
   return (
-    <ThemeProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={PureLightTheme}>
         <CssBaseline />
         <NavigationScroll>
-          {/* <Overview /> */}
-          {content}
+          <Routes />
         </NavigationScroll>
-      </LocalizationProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
-}
+};
+
 export default App;

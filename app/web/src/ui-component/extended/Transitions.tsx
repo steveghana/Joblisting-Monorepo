@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import { forwardRef } from "react";
-
+import React from "react";
 // material-ui
 import { Collapse, Fade, Box, Grow, Slide, Zoom } from "@mui/material";
 
 // ==============================|| TRANSITIONS ||============================== //
 
 const Transitions = forwardRef(
-  ({ children, position, type, direction, ...others }, ref) => {
+  ({ children, position, type, direction, ...others }: any, ref) => {
     let positionSX = {
       transformOrigin: "0 0 0",
     };

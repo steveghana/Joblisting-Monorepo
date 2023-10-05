@@ -21,6 +21,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+    "berry/src/vite-env.d.ts",
+    "berry/src/App.tsx",
+    "berry/src/main.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

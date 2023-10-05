@@ -21,7 +21,9 @@ import NavItem from "../NavItem";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons";
 import { themePalette } from "../../../../../themes/schemes/palette";
-import { themeTypography } from "../../../../../../../src/theme/schemes/typography";
+import { themeTypography } from "../../../../../themes/schemes/typography";
+// import themeTypography from "../../../../../themes/typography";
+// import { themeTypography } from "../../../../src/theme/schemes/typography";
 // themeTypography
 // ==============================|| SIDEBAR MENU LIST COLLAPSE ITEMS ||============================== //
 
