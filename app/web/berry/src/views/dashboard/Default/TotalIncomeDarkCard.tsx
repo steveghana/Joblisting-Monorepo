@@ -15,6 +15,7 @@ import {
 // project imports
 import MainCard from "../../../ui-component/cards/MainCard";
 import TotalIncomeCard from "../../../ui-component/cards/Skeleton/TotalIncomeCard";
+import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 // assets
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
@@ -65,8 +66,8 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                   <Avatar
                     variant="rounded"
                     sx={{
-                      ...theme.typography.commonAvatar,
-                      ...theme.typography.largeAvatar,
+                      ...componentThemeoption.commonAvatar,
+                      ...componentThemeoption.largeAvatar,
                       backgroundColor: theme.palette.primary[800],
                       color: "#fff",
                     }}

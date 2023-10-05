@@ -1,5 +1,5 @@
 import { alpha, createTheme, lighten, darken } from "@mui/material";
-import { colors } from "./palette";
+import { colors, themeOption } from "./palette";
 // import color from "../../assets/scss/_themes-vars.module.scss";
 // import { themeColors } from "./PureLightTheme";
 export const themeColors = {
@@ -66,35 +66,49 @@ export const styleOverrides = {
         100: themeColors.black,
       },
     },
+    // mode: theme?.customization?.navType,
+    common: {
+      black: themeOption.colors?.darkPaper,
+    },
     secondary: {
-      lighter: alpha(themeColors.secondary, 0.1),
-      light: lighten(themeColors.secondary, 0.3),
-      main: themeColors.secondary,
-      dark: darken(themeColors.secondary, 0.2),
+      lighter: themeOption.colors?.secondaryLight,
+      light: themeOption.colors?.secondaryLight,
+      main: themeOption.colors?.secondaryMain,
+      dark: themeOption.colors?.secondaryDark,
+      200: themeOption.colors?.secondary200,
+      800: themeOption.colors?.secondary800,
     },
     primary: {
-      lighter: alpha(themeColors.primary, 0.1),
-      light: lighten(themeColors.primary, 0.3),
-      main: themeColors.primary,
-      dark: darken(themeColors.primary, 0.2),
+      lighter: themeOption.colors?.primaryLight,
+      light: themeOption.colors?.primaryLight,
+      main: themeOption.colors?.primaryMain,
+      dark: themeOption.colors?.primaryDark,
+      200: themeOption.colors?.primary200,
+      800: themeOption.colors?.primary800,
     },
     success: {
-      lighter: alpha(themeColors.success, 0.1),
-      light: lighten(themeColors.success, 0.3),
-      main: themeColors.success,
-      dark: darken(themeColors.success, 0.2),
+      lighter: themeOption.colors?.successLight,
+      light: themeOption.colors?.successLight,
+      200: themeOption.colors?.success200,
+      main: themeOption.colors?.successMain,
+      dark: themeOption.colors?.successDark,
+    },
+    orange: {
+      light: themeOption.colors?.orangeLight,
+      main: themeOption.colors?.orangeMain,
+      dark: themeOption.colors?.orangeDark,
     },
     warning: {
-      lighter: alpha(themeColors.warning, 0.1),
-      light: lighten(themeColors.warning, 0.3),
-      main: themeColors.warning,
-      dark: darken(themeColors.warning, 0.2),
+      lighter: themeOption.colors?.warningLight,
+      light: themeOption.colors?.warningLight,
+      main: themeOption.colors?.warningMain,
+      dark: themeOption.colors?.warningDark,
     },
     error: {
-      lighter: alpha(themeColors.error, 0.1),
-      light: lighten(themeColors.error, 0.3),
-      main: themeColors.error,
-      dark: darken(themeColors.error, 0.2),
+      lighter: themeOption.colors?.errorLight,
+      light: themeOption.colors?.errorLight,
+      main: themeOption.colors?.errorMain,
+      dark: themeOption.colors?.errorDark,
     },
     info: {
       lighter: alpha(themeColors.info, 0.1),
@@ -126,8 +140,8 @@ export const styleOverrides = {
     width: "290px",
   },
   header: {
-    height: "80px",
-    background: colors.alpha.white[100],
+    height: "180px",
+    background: colors.alpha.black[100],
     boxShadow: colors.shadows.cardSm,
     textColor: colors.secondary.main,
   },

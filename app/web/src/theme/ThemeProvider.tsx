@@ -51,9 +51,9 @@ const ThemeProviderWrapper: React.FC<{ children: JSX.Element }> = (props) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeContext.Provider value={setThemeName}>
-        <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
-      </ThemeContext.Provider>
+      {/* <ThemeContext.Provider value={setThemeName}> */}
+      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+      {/* </ThemeContext.Provider> */}
     </StyledEngineProvider>
   );
 };

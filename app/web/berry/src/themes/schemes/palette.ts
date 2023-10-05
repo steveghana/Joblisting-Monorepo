@@ -14,7 +14,7 @@ export const themeOption = {
   menuSelected: color.secondaryDark,
   menuSelectedBack: color.secondaryLight,
   divider: color.grey200,
-  //  customization,
+  // customization,
 };
 const themeColors = {
   primary: "#5569ff",

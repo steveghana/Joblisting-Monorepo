@@ -11,6 +11,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 // project imports
 import MainCard from "../../../ui-component/cards/MainCard";
@@ -63,8 +64,8 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                   <Avatar
                     variant="rounded"
                     sx={{
-                      ...theme.typography.commonAvatar,
-                      ...theme.typography.largeAvatar,
+                      ...componentThemeoption.commonAvatar,
+                      ...componentThemeoption.largeAvatar,
                       backgroundColor: theme.palette.warning.light,
                       color: theme.palette.warning.dark,
                     }}

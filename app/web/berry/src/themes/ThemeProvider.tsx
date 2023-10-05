@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeCreator } from "./base";
+import { useSelector } from "react-redux";
 
 import { StyledEngineProvider } from "@mui/material/styles";
 import { ThemeOptions } from "@mui/material/styles";
@@ -42,6 +43,8 @@ const defaultTheme = createTheme(custom);
 
 const ThemeProviderWrapper: React.FC<{ children: JSX.Element }> = (props) => {
   const curThemeName = localStorage.getItem("appTheme") || "PureLightTheme";
+
+  // themes(customization)
   const [themeName, _setThemeName] = useState(curThemeName);
   const theme = themeCreator(themeName);
   const setThemeName = (themeName: string): void => {

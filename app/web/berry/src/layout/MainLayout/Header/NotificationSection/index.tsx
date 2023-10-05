@@ -31,7 +31,7 @@ import Transitions from "../../../../ui-component/extended/Transitions";
 import NotificationList from "./NotificationList";
 
 // assets
-// import { IconBell } ;
+import { IconBell } from "@tabler/icons";
 
 // notification status options
 const status = [
@@ -117,13 +117,13 @@ const NotificationSection = () => {
                 color: theme.palette.secondary.light,
               },
             }}
-            // ref={anchorRef}
+            ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
             color="inherit"
           >
-            {/* <IconBell /> */}
+            <IconBell stroke={1.5} size="1.3rem" />
           </Avatar>
         </ButtonBase>
       </Box>

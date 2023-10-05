@@ -66,7 +66,7 @@ declare module "@mui/material/styles" {
         black: string;
       };
       secondary: {
-        lighter: string;
+        // lighter: string;
         light: string;
         main: string;
         dark: string;
@@ -204,7 +204,7 @@ declare module "@mui/material/styles" {
         black: string;
       };
       secondary: {
-        lighter: string;
+        // lighter: string;
         light: string;
         main: string;
         dark: string;

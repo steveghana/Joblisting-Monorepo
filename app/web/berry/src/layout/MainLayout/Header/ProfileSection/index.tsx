@@ -34,12 +34,14 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 // import MainCard from 'ui-component/cards/MainCard';
 // import Transitions from 'ui-component/extended/Transitions';
 import UpgradePlanCard from "./UpgradePlanCard";
-// import User1 from 'assets/images/users/user-round.svg';
+import User1 from "../../../../assets/images/users/user-round.svg";
 
 // assets
-// import { IconLogout, IconSearch, IconSettings, IconUser } ;
+import { IconLogout, IconSearch, IconSettings, IconUser } from "@tabler/icons";
+
 import Transitions from "../../../../ui-component/extended/Transitions";
 import MainCard from "../../../../ui-component/cards/MainCard";
+import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -89,6 +91,7 @@ const ProfileSection = () => {
 
     prevOpen.current = open;
   }, [open]);
+  componentThemeoption;
 
   return (
     <>
@@ -114,9 +117,9 @@ const ProfileSection = () => {
         }}
         icon={
           <Avatar
-            src={""}
+            src={User1}
             sx={{
-              ...theme.typography.mediumAvatar,
+              ...componentThemeoption.mediumAvatar,
               margin: "8px 0 8px 8px !important",
               cursor: "pointer",
             }}
@@ -126,7 +129,13 @@ const ProfileSection = () => {
             color="inherit"
           />
         }
-        // label={<IconSettings  />}
+        label={
+          <IconSettings
+            stroke={1.5}
+            size="1.5rem"
+            color={theme.palette.primary.main}
+          />
+        }
         variant="outlined"
         ref={anchorRef}
         aria-controls={open ? "menu-list-grow" : undefined}
@@ -185,8 +194,11 @@ const ProfileSection = () => {
                       placeholder="Search profile options"
                       startAdornment={
                         <InputAdornment position="start">
-                          {/* <IconSearch 
-                          /> */}
+                          <IconSearch
+                            stroke={1.5}
+                            size="1rem"
+                            color={theme.palette.grey[500]}
+                          />
                         </InputAdornment>
                       }
                       aria-describedby="search-helper-text"
@@ -290,7 +302,15 @@ const ProfileSection = () => {
                             handleListItemClick(event, 0, "#")
                           }
                         >
-                          <ListItemIcon>{/* <IconSettings /> */}</ListItemIcon>
+                          <ListItemIcon>
+                            {
+                              <IconSettings
+                                stroke={1.5}
+                                size="1.5rem"
+                                color={theme.palette.primary.main}
+                              />
+                            }
+                          </ListItemIcon>
                           <ListItemText
                             primary={
                               <Typography variant="body2">
@@ -308,7 +328,9 @@ const ProfileSection = () => {
                             handleListItemClick(event, 1, "#")
                           }
                         >
-                          <ListItemIcon>{/* <IconUser /> */}</ListItemIcon>
+                          <ListItemIcon>
+                            {<IconUser stroke={1.5} size="1.3rem" />}
+                          </ListItemIcon>
                           <ListItemText
                             primary={
                               <Grid
@@ -342,7 +364,9 @@ const ProfileSection = () => {
                           selected={selectedIndex === 4}
                           onClick={handleLogout}
                         >
-                          <ListItemIcon>{/* <IconLogout /> */}</ListItemIcon>
+                          <ListItemIcon>
+                            {<IconLogout stroke={1.5} size="1.3rem" />}
+                          </ListItemIcon>
                           <ListItemText
                             primary={
                               <Typography variant="body2">Logout</Typography>

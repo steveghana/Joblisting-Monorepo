@@ -7,6 +7,7 @@ import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 
 // third-party
 import Chart from "react-apexcharts";
+import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 // project imports
 import MainCard from "../../../ui-component/cards/MainCard";
@@ -85,8 +86,8 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                     <Avatar
                       variant="rounded"
                       sx={{
-                        ...theme.typography.commonAvatar,
-                        ...theme.typography.largeAvatar,
+                        ...componentThemeoption.commonAvatar,
+                        ...componentThemeoption.largeAvatar,
                         backgroundColor: theme.palette.primary[800],
                         color: "#fff",
                         mt: 1,
@@ -151,7 +152,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                       <Grid item>
                         <Avatar
                           sx={{
-                            ...theme.typography.smallAvatar,
+                            ...componentThemeoption.smallAvatar,
                             cursor: "pointer",
                             backgroundColor: theme.palette.primary[200],
                             color: theme.palette.primary.dark,

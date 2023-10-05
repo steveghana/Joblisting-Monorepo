@@ -15,6 +15,7 @@ import {
   Typography,
   linearProgressClasses,
 } from "@mui/material";
+import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
 
 // assets
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
@@ -95,8 +96,8 @@ const MenuCard = () => {
               <Avatar
                 variant="rounded"
                 sx={{
-                  ...theme.typography.commonAvatar,
-                  ...theme.typography.largeAvatar,
+                  ...componentThemeoption.commonAvatar,
+                  ...componentThemeoption.largeAvatar,
                   color: theme.palette.primary.main,
                   border: "none",
                   borderColor: theme.palette.primary.main,
