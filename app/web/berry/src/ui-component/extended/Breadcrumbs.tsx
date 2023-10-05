@@ -14,6 +14,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import HomeTwoToneIcon from "@mui/icons-material/HomeTwoTone";
 import { MarkAsUnread } from "@mui/icons-material";
 import { gridSpacing } from "../../store/constant";
+import { themePalette } from "../../themes/schemes/palette";
 
 const linkSX = {
   display: "flex",
@@ -152,7 +153,7 @@ const Breadcrumbs = ({
           sx={{
             marginBottom: card === false ? 0 : theme.spacing(gridSpacing),
             border: card === false ? "none" : "1px solid",
-            borderColor: theme.palette.primary[200] + 75,
+            borderColor: themePalette.primary[200] + 75,
             background:
               card === false ? "transparent" : theme.palette.background.default,
           }}
@@ -212,7 +213,7 @@ const Breadcrumbs = ({
           </Box>
           {card === false && divider !== false && (
             <Divider
-              sx={{ borderColor: theme.palette.primary.main, mb: gridSpacing }}
+              sx={{ borderColor: themePalette.primary.main, mb: gridSpacing }}
             />
           )}
         </Card>

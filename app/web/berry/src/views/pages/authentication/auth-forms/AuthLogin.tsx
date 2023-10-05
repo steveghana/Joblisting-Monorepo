@@ -34,6 +34,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AnimateButton from "../../../../ui-component/extended/AnimateButton";
 import { Google } from "@mui/icons-material";
+import useScriptRef from "../../../../hooks/useScriptRef";
+import { themeTypography } from "../../../../themes/schemes/typography";
 
 // import Google from 'assets/images/icons/social-google.svg';
 
@@ -43,7 +45,7 @@ const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
-  const customization = useSelector((state) => state.customization);
+  const customization = useSelector((state: any) => state.customization);
   const [checked, setChecked] = useState(true);
 
   const googleHandler = async () => {
@@ -77,9 +79,9 @@ const FirebaseLogin = ({ ...others }) => {
               }}
             >
               <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img
-                  src={Google}
-                  alt="google"
+                <Google
+                  // src={Google}
+                  // alt="google"
                   width={16}
                   height={16}
                   style={{ marginRight: matchDownSM ? 8 : 16 }}
@@ -176,7 +178,7 @@ const FirebaseLogin = ({ ...others }) => {
             <FormControl
               fullWidth
               error={Boolean(touched.email && errors.email)}
-              sx={{ ...theme.typography.customInput }}
+              sx={{ ...themeTypography.customInput }}
             >
               <InputLabel htmlFor="outlined-adornment-email-login">
                 Email Address / Username
@@ -204,7 +206,7 @@ const FirebaseLogin = ({ ...others }) => {
             <FormControl
               fullWidth
               error={Boolean(touched.password && errors.password)}
-              sx={{ ...theme.typography.customInput }}
+              sx={{ ...themeTypography.customInput }}
             >
               <InputLabel htmlFor="outlined-adornment-password-login">
                 Password

@@ -14,12 +14,12 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-
 // project imports
 import { MENU_OPEN, SET_MENU } from "../../../../../store/actions";
 
 // assets
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { themeTypography } from "../../../../../themes/schemes/typography";
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
@@ -112,7 +112,7 @@ const NavItem = ({ item, level }) => {
           item.caption && (
             <Typography
               variant="caption"
-              sx={{ ...theme.typography.subMenuCaption }}
+              sx={{ ...themeTypography.subMenuCaption }}
               display="block"
               gutterBottom
             >

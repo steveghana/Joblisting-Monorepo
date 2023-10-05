@@ -13,6 +13,7 @@ import NotificationSection from "./NotificationSection";
 // assets
 import { IconMenu2 } from "@tabler/icons";
 import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
+import { themePalette } from "../../../themes/schemes/palette";
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
@@ -43,11 +44,11 @@ const Header = ({ handleLeftDrawerToggle }) => {
               ...componentThemeoption.commonAvatar,
               ...componentThemeoption.mediumAvatar,
               transition: "all .2s ease-in-out",
-              background: theme.palette.secondary.light,
+              background: themePalette.secondary.light,
               color: theme.palette.secondary.dark,
               "&:hover": {
                 background: theme.palette.secondary.dark,
-                color: theme.palette.secondary.light,
+                color: themePalette.secondary.light,
               },
             }}
             onClick={handleLeftDrawerToggle}

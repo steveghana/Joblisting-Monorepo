@@ -1,12 +1,9 @@
 // assets
-
-import { Key } from "@mui/icons-material";
-
-// import { IconKey } from '@tabler/icons';
+import { IconKey } from "@tabler/icons";
 
 // constant
 const icons = {
-  Key,
+  IconKey,
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -21,7 +18,7 @@ const pages = {
       id: "authentication",
       title: "Authentication",
       type: "collapse",
-      icon: icons.Key,
+      icon: icons.IconKey,
 
       children: [
         {

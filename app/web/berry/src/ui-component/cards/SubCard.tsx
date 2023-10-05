@@ -11,6 +11,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { themePalette } from "../../themes/schemes/palette";
 
 // ==============================|| CUSTOM SUB CARD ||============================== //
 interface ISubCard {
@@ -45,7 +46,7 @@ const SubCard: React.FC<ISubCard> = forwardRef(
         ref={ref}
         sx={{
           border: "1px solid",
-          borderColor: theme.palette.primary.light,
+          borderColor: themePalette.primary.light,
           ":hover": {
             boxShadow: "0 2px 14px 0 rgb(32 40 45 / 8%)",
           },
@@ -74,7 +75,7 @@ const SubCard: React.FC<ISubCard> = forwardRef(
           <Divider
             sx={{
               opacity: 1,
-              borderColor: theme.palette.primary.light,
+              borderColor: themePalette.primary.light,
             }}
           />
         )}

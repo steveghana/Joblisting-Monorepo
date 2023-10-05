@@ -39,6 +39,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Google } from "@mui/icons-material";
+import { themeTypography } from "../../../../themes/schemes/typography";
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -92,9 +93,7 @@ const FirebaseRegister = ({ ...others }) => {
               }}
             >
               <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img
-                  src={Google}
-                  alt="google"
+                <Google
                   width={16}
                   height={16}
                   style={{ marginRight: matchDownSM ? 8 : 16 }}
@@ -165,7 +164,7 @@ const FirebaseRegister = ({ ...others }) => {
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });
-              setErrors({ submit: err.message });
+              setErrors({ submit: err.message as string });
               setSubmitting(false);
             }
           }
@@ -190,7 +189,7 @@ const FirebaseRegister = ({ ...others }) => {
                   name="fname"
                   type="text"
                   defaultValue=""
-                  sx={{ ...theme.typography.customInput }}
+                  sx={{ ...themeTypography.customInput }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -201,14 +200,14 @@ const FirebaseRegister = ({ ...others }) => {
                   name="lname"
                   type="text"
                   defaultValue=""
-                  sx={{ ...theme.typography.customInput }}
+                  sx={{ ...themeTypography.customInput }}
                 />
               </Grid>
             </Grid>
             <FormControl
               fullWidth
               error={Boolean(touched.email && errors.email)}
-              sx={{ ...theme.typography.customInput }}
+              sx={{ ...themeTypography.customInput }}
             >
               <InputLabel htmlFor="outlined-adornment-email-register">
                 Email Address / Username
@@ -235,7 +234,7 @@ const FirebaseRegister = ({ ...others }) => {
             <FormControl
               fullWidth
               error={Boolean(touched.password && errors.password)}
-              sx={{ ...theme.typography.customInput }}
+              sx={{ ...themeTypography.customInput }}
             >
               <InputLabel htmlFor="outlined-adornment-password-register">
                 Password

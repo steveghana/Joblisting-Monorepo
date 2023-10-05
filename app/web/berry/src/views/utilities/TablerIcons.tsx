@@ -7,12 +7,13 @@ import SecondaryAction from "../../ui-component/cards/CardSecondaryAction";
 
 // assets
 import LinkIcon from "@mui/icons-material/Link";
+import { themePalette } from "../../themes/schemes/palette";
 
 // styles
 const IFrameWrapper = styled("iframe")(({ theme }) => ({
   height: "calc(100vh - 210px)",
   border: "1px solid",
-  borderColor: theme.palette.primary.light,
+  borderColor: themePalette.primary.light,
 }));
 
 // =============================|| TABLER ICONS ||============================= //

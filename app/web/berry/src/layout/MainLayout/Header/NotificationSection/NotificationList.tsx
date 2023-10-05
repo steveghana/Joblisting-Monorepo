@@ -27,13 +27,14 @@ import {
 } from "@tabler/icons";
 
 import User1 from "../../../../assets/images/users/user-round.svg";
+import { themePalette } from "../../../../themes/schemes/palette";
 
 // styles
 const ListItemWrapper = styled("div")(({ theme }) => ({
   cursor: "pointer",
   padding: 16,
   "&:hover": {
-    background: theme.palette.primary.light,
+    background: themePalette.primary.light,
   },
   "& .MuiListItem-root": {
     padding: 0,
@@ -51,8 +52,8 @@ const NotificationList = () => {
   };
   const chipErrorSX = {
     ...chipSX,
-    color: theme.palette.primary.light,
-    backgroundColor: theme.palette.secondary.light,
+    color: themePalette.primary.light,
+    backgroundColor: themePalette.secondary.light,
     marginRight: "5px",
   };
 
@@ -177,10 +178,10 @@ const NotificationList = () => {
           <ListItemAvatar>
             <Avatar
               sx={{
-                color: theme.palette.primary.dark,
-                backgroundColor: theme.palette.primary.light,
+                color: themePalette.primary.dark,
+                backgroundColor: themePalette.primary.light,
                 border: "none",
-                borderColor: theme.palette.primary.main,
+                borderColor: themePalette.primary.main,
               }}
             >
               <IconMailbox />
@@ -256,7 +257,7 @@ const NotificationList = () => {
               <Grid item xs={12}>
                 <Card
                   sx={{
-                    backgroundColor: theme.palette.secondary.light,
+                    backgroundColor: themePalette.secondary.light,
                   }}
                 >
                   <CardContent>

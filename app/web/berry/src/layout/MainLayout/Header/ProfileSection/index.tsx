@@ -42,6 +42,7 @@ import { IconLogout, IconSearch, IconSettings, IconUser } from "@tabler/icons";
 import Transitions from "../../../../ui-component/extended/Transitions";
 import MainCard from "../../../../ui-component/cards/MainCard";
 import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
+import { themePalette } from "../../../../themes/schemes/palette";
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -101,14 +102,14 @@ const ProfileSection = () => {
           alignItems: "center",
           borderRadius: "27px",
           transition: "all .2s ease-in-out",
-          borderColor: theme.palette.primary.light,
-          backgroundColor: theme.palette.primary.light,
+          borderColor: themePalette.primary.light,
+          backgroundColor: themePalette.primary.light,
           '&[aria-controls="menu-list-grow"], &:hover': {
-            borderColor: theme.palette.primary.main,
-            background: `${theme.palette.primary.main}!important`,
-            color: theme.palette.primary.light,
+            borderColor: themePalette.primary.main,
+            background: `${themePalette.primary.main}!important`,
+            color: themePalette.primary.light,
             "& svg": {
-              stroke: theme.palette.primary.light,
+              stroke: themePalette.primary.light,
             },
           },
           "& .MuiChip-label": {
@@ -133,7 +134,7 @@ const ProfileSection = () => {
           <IconSettings
             stroke={1.5}
             size="1.5rem"
-            color={theme.palette.primary.main}
+            color={themePalette.primary.main}
           />
         }
         variant="outlined"
@@ -220,7 +221,7 @@ const ProfileSection = () => {
                       <Divider />
                       <Card
                         sx={{
-                          bgcolor: theme.palette.primary.light,
+                          bgcolor: themePalette.primary.light,
                           my: 2,
                         }}
                       >
@@ -307,7 +308,7 @@ const ProfileSection = () => {
                               <IconSettings
                                 stroke={1.5}
                                 size="1.5rem"
-                                color={theme.palette.primary.main}
+                                color={themePalette.primary.main}
                               />
                             }
                           </ListItemIcon>

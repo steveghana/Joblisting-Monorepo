@@ -107,71 +107,37 @@ export const PureLightTheme = createTheme({
     fontFamily:
       '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
 
-    h3: {
-      fontFamily: ["Didact Gothic"].join(","),
-      fontWeight: 700,
-      fontSize: 25,
-      lineHeight: 1.4,
-      color: colors.alpha.black[100],
-    },
-    h5: {
-      fontFamily: ["Didact Gothic"].join(","),
-      fontWeight: 700,
-      fontSize: "0.875rem",
-      color: theme.heading,
-    },
-    body1: {
-      fontFamily: ["Poppins"].join(","),
-      fontSize: "0.875rem",
-      fontWeight: 400,
-      lineHeight: "1.334em",
-    },
-    body2: {
-      fontFamily: ["Lato"].join(","),
-      letterSpacing: "0em",
-      fontWeight: 400,
-      lineHeight: "1.5em",
-      color: theme.darkTextPrimary,
-    },
-    button: {
-      fontFamily: ["Poppins"].join(","),
-      fontSize: 14,
-      fontWeight: 600,
-    },
-    caption: {
-      fontFamily: ["Lato"].join(","),
-      textTransform: "uppercase",
-      color: theme.darkTextSecondary,
-      fontSize: "0.75rem",
-      fontWeight: 400,
-    },
-
-    overline: {
-      fontSize: 13,
-      fontWeight: 700,
-      textTransform: "uppercase",
-    },
     h6: {
       fontWeight: 500,
       color: theme.heading,
       fontSize: "0.75rem",
     },
-
+    h5: {
+      fontSize: "0.875rem",
+      color: theme.heading,
+      fontWeight: 500,
+    },
     h4: {
       fontSize: "1rem",
       color: theme.heading,
       fontWeight: 600,
     },
-
+    h3: {
+      fontSize: "1.25rem",
+      color: theme.heading,
+      fontWeight: 600,
+    },
     h2: {
       fontSize: "1.5rem",
       color: theme.heading,
       fontWeight: 700,
+      fontFamily: ["Didact Gothic"].join(","),
     },
     h1: {
       fontSize: "2.125rem",
       color: theme.heading,
       fontWeight: 700,
+      fontFamily: ["Didact Gothic"].join(","),
     },
     subtitle1: {
       fontSize: "0.875rem",
@@ -182,6 +148,28 @@ export const PureLightTheme = createTheme({
       fontSize: "0.75rem",
       fontWeight: 400,
       color: theme.darkTextSecondary,
+    },
+    caption: {
+      fontSize: "0.75rem",
+      color: theme.darkTextSecondary,
+      fontWeight: 400,
+    },
+    body1: {
+      fontSize: "0.875rem",
+      fontFamily: ["Lato"].join(","),
+      fontWeight: 400,
+      lineHeight: "1.334em",
+    },
+    body2: {
+      letterSpacing: "0em",
+      fontWeight: 400,
+      lineHeight: "1.5em",
+      color: theme.darkTextPrimary,
+      fontFamily: ["Lato"].join(","),
+    },
+    button: {
+      textTransform: "capitalize",
+      fontFamily: ["Poppins"].join(","),
     },
   },
 });

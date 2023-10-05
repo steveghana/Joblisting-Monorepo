@@ -26,6 +26,7 @@ import { IconAdjustmentsHorizontal, IconSearch, IconX } from "@tabler/icons";
 
 import { shouldForwardProp } from "@mui/system";
 import Transitions from "../../../../ui-component/extended/Transitions";
+import { themePalette } from "../../../../themes/schemes/palette";
 
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -63,11 +64,11 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(
   ({ theme }) => ({
     ...componentThemeoption.commonAvatar,
     ...componentThemeoption.mediumAvatar,
-    background: theme.palette.secondary.light,
+    background: themePalette.secondary.light,
     color: theme.palette.secondary.dark,
     "&:hover": {
       background: theme.palette.secondary.dark,
-      color: theme.palette.secondary.light,
+      color: themePalette.secondary.light,
     },
   })
 );
@@ -105,11 +106,11 @@ const MobileSearch = ({ value, setValue, popupState }) => {
                 sx={{
                   ...componentThemeoption.commonAvatar,
                   ...componentThemeoption.mediumAvatar,
-                  background: theme.palette.orange.light,
-                  color: theme.palette.orange.dark,
+                  background: themePalette.orange.light,
+                  color: themePalette.orange.dark,
                   "&:hover": {
-                    background: theme.palette.orange.dark,
-                    color: theme.palette.orange.light,
+                    background: themePalette.orange.dark,
+                    color: themePalette.orange.light,
                   },
                 }}
                 {...bindToggle(popupState)}

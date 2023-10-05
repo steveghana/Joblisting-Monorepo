@@ -32,6 +32,7 @@ import NotificationList from "./NotificationList";
 
 // assets
 import { IconBell } from "@tabler/icons";
+import { themePalette } from "../../../../themes/schemes/palette";
 
 // notification status options
 const status = [
@@ -110,11 +111,11 @@ const NotificationSection = () => {
               ...componentThemeoption.commonAvatar,
               ...componentThemeoption.mediumAvatar,
               transition: "all .2s ease-in-out",
-              background: theme.palette.secondary.light,
+              background: themePalette.secondary.light,
               color: theme.palette.secondary.dark,
               '&[aria-controls="menu-list-grow"],&:hover': {
                 background: theme.palette.secondary.dark,
-                color: theme.palette.secondary.light,
+                color: themePalette.secondary.light,
               },
             }}
             ref={anchorRef}

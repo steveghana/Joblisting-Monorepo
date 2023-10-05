@@ -17,6 +17,7 @@ import { gridSpacing } from "../../../store/constant";
 
 // chart data
 import chartData from "./chart-data/total-growth-bar-chart";
+import { themePalette } from "../../../themes/schemes/palette";
 
 const status = [
   {
@@ -42,14 +43,14 @@ const TotalGrowthBarChart = ({ isLoading }) => {
 
   const { navType } = customization;
   const { primary } = theme.palette.text;
-  const darkLight = theme.palette.primary.light;
+  const darkLight = themePalette.primary.light;
   const grey200 = theme.palette.grey[200];
   const grey500 = theme.palette.grey[500];
 
-  const primary200 = theme.palette.primary[200];
-  const primaryDark = theme.palette.primary.dark;
+  const primary200 = themePalette.primary[200];
+  const primaryDark = themePalette.primary.dark;
   const secondaryMain = theme.palette.secondary.main;
-  const secondaryLight = theme.palette.secondary.light;
+  const secondaryLight = themePalette.secondary.light;
 
   useEffect(() => {
     const newChartData = {

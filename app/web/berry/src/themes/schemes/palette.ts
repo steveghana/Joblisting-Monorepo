@@ -130,6 +130,7 @@ export const colors = {
     main: color?.successMain,
     dark: color?.successDark,
   },
+
   warning: {
     light: color?.warningLight,
     main: color?.warningMain,
@@ -175,5 +176,41 @@ export const colors = {
   background: {
     paper: themeOption.paper,
     default: themeOption.backgroundDefault,
+  },
+};
+/**
+ * Color intention that you want to used in your theme
+ * @param {JsonObject} theme Theme customization object
+ */
+
+const theme = themeOption;
+export const themePalette = {
+  // mode: theme?.customization?.navType,
+  common: {
+    black: theme.colors?.darkPaper,
+  },
+  primary: {
+    light: theme.colors?.primaryLight,
+    main: theme.colors?.primaryMain,
+    dark: theme.colors?.primaryDark,
+    200: theme.colors?.primary200,
+    800: theme.colors?.primary800,
+  },
+  secondary: {
+    light: theme.colors?.secondaryLight,
+    main: theme.colors?.secondaryMain,
+    dark: theme.colors?.secondaryDark,
+    200: theme.colors?.secondary200,
+    800: theme.colors?.secondary800,
+  },
+  error: {
+    light: theme.colors?.errorLight,
+    main: theme.colors?.errorMain,
+    dark: theme.colors?.errorDark,
+  },
+  orange: {
+    light: theme.colors?.orangeLight,
+    main: theme.colors?.orangeMain,
+    dark: theme.colors?.orangeDark,
   },
 };

@@ -10,7 +10,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-
+import { themePalette } from "../../themes/schemes/palette";
 // constant
 const headerSX = {
   "& .MuiCardHeader-action": { mr: 0 },
@@ -44,7 +44,7 @@ const MainCard = forwardRef(
         {...others}
         sx={{
           border: border ? "1px solid" : "none",
-          borderColor: theme.palette.primary[200] + 25,
+          borderColor: themePalette.primary[200] + 25,
           ":hover": {
             boxShadow: boxShadow
               ? shadow || "0 2px 14px 0 rgb(32 40 45 / 8%)"

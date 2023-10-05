@@ -7,7 +7,8 @@ import { Divider, List, Typography } from "@mui/material";
 // project imports
 import NavItem from "../NavItem";
 import NavCollapse from "../NavCollapse";
-
+import { themeTypography } from "../../../../../themes/schemes/typography";
+// themeTypography
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 
 const NavGroup = ({ item }) => {
@@ -36,7 +37,7 @@ const NavGroup = ({ item }) => {
           item.title && (
             <Typography
               variant="caption"
-              sx={{ ...theme.typography.menuCaption }}
+              sx={{ ...themeTypography.menuCaption }}
               display="block"
               gutterBottom
             >
@@ -44,7 +45,7 @@ const NavGroup = ({ item }) => {
               {item.caption && (
                 <Typography
                   variant="caption"
-                  sx={{ ...theme.typography.subMenuCaption }}
+                  sx={{ ...themeTypography.subMenuCaption }}
                   display="block"
                   gutterBottom
                 >

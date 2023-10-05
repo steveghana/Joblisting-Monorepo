@@ -26,6 +26,7 @@ import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import { themePalette } from "../../../themes/schemes/palette";
 
 // ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
 
@@ -63,7 +64,7 @@ const PopularCard = ({ isLoading }) => {
                     <MoreHorizOutlinedIcon
                       fontSize="small"
                       sx={{
-                        color: theme.palette.primary[200],
+                        color: themePalette.primary[200],
                         cursor: "pointer",
                       }}
                       aria-controls="menu-popular-card"
@@ -182,8 +183,8 @@ const PopularCard = ({ isLoading }) => {
                                 width: 16,
                                 height: 16,
                                 borderRadius: "5px",
-                                backgroundColor: theme.palette.primary.light,
-                                color: theme.palette.primary.dark,
+                                backgroundColor: themePalette.orange.light,
+                                color: themePalette.orange.dark,
                                 marginLeft: 1.875,
                               }}
                             >
@@ -200,7 +201,7 @@ const PopularCard = ({ isLoading }) => {
                   <Grid item>
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: theme.palette.primary.dark }}
+                      sx={{ color: themePalette.primary.dark }}
                     >
                       10% loss
                     </Typography>
@@ -292,8 +293,8 @@ const PopularCard = ({ isLoading }) => {
                                 width: 16,
                                 height: 16,
                                 borderRadius: "5px",
-                                backgroundColor: theme.palette.primary.light,
-                                color: theme.palette.primary.dark,
+                                backgroundColor: themePalette.primary.light,
+                                color: themePalette.primary.dark,
                                 ml: 2,
                               }}
                             >
@@ -310,7 +311,7 @@ const PopularCard = ({ isLoading }) => {
                   <Grid item>
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: theme.palette.primary.dark }}
+                      sx={{ color: themePalette.primary.dark }}
                     >
                       10% loss
                     </Typography>
@@ -347,8 +348,8 @@ const PopularCard = ({ isLoading }) => {
                                 width: 16,
                                 height: 16,
                                 borderRadius: "5px",
-                                backgroundColor: theme.palette.primary.light,
-                                color: theme.palette.primary.dark,
+                                backgroundColor: themePalette.primary.light,
+                                color: themePalette.primary.dark,
                                 ml: 2,
                               }}
                             >
@@ -365,7 +366,7 @@ const PopularCard = ({ isLoading }) => {
                   <Grid item>
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: theme.palette.primary.dark }}
+                      sx={{ color: themePalette.primary.dark }}
                     >
                       10% loss
                     </Typography>

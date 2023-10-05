@@ -20,7 +20,9 @@ import NavItem from "../NavItem";
 // assets
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons";
-
+import { themePalette } from "../../../../../themes/schemes/palette";
+import { themeTypography } from "../../../../../../../src/theme/schemes/typography";
+// themeTypography
 // ==============================|| SIDEBAR MENU LIST COLLAPSE ITEMS ||============================== //
 
 const NavCollapse = ({ menu, level }) => {
@@ -132,7 +134,7 @@ const NavCollapse = ({ menu, level }) => {
             menu.caption && (
               <Typography
                 variant="caption"
-                sx={{ ...theme.typography.subMenuCaption }}
+                sx={{ ...themeTypography.subMenuCaption }}
                 display="block"
                 gutterBottom
               >
@@ -169,7 +171,7 @@ const NavCollapse = ({ menu, level }) => {
               height: "100%",
               width: "1px",
               opacity: 1,
-              background: theme.palette.primary.light,
+              background: themePalette.primary.light,
             },
           }}
         >

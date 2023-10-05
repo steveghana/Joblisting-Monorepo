@@ -19,6 +19,7 @@ import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme"
 
 // assets
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import { themePalette } from "../../../../themes/schemes/palette";
 
 // styles
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -29,12 +30,12 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: themePalette.primary.main,
   },
 }));
 
 const CardStyle = styled(Card)(({ theme }) => ({
-  background: theme.palette.primary.light,
+  background: themePalette.primary.light,
   marginBottom: "22px",
   overflow: "hidden",
   position: "relative",
@@ -43,7 +44,7 @@ const CardStyle = styled(Card)(({ theme }) => ({
     position: "absolute",
     width: "157px",
     height: "157px",
-    background: theme.palette.primary[200],
+    background: themePalette.primary[200],
     borderRadius: "50%",
     top: "-105px",
     right: "-96px",
@@ -60,7 +61,7 @@ function LinearProgressWithLabel({ value, ...others }) {
       <Grid item>
         <Grid container justifyContent="space-between">
           <Grid item>
-            <Typography variant="h6" sx={{ color: theme.palette.primary[800] }}>
+            <Typography variant="h6" sx={{ color: themePalette.primary[800] }}>
               Progress
             </Typography>
           </Grid>
@@ -98,9 +99,9 @@ const MenuCard = () => {
                 sx={{
                   ...componentThemeoption.commonAvatar,
                   ...componentThemeoption.largeAvatar,
-                  color: theme.palette.primary.main,
+                  color: themePalette.primary.main,
                   border: "none",
-                  borderColor: theme.palette.primary.main,
+                  borderColor: themePalette.primary.main,
                   background: "#fff",
                   marginRight: "12px",
                 }}
@@ -113,7 +114,7 @@ const MenuCard = () => {
               primary={
                 <Typography
                   variant="subtitle1"
-                  sx={{ color: theme.palette.primary[800] }}
+                  sx={{ color: themePalette.primary[800] }}
                 >
                   Get Extra Space
                 </Typography>

@@ -61,17 +61,8 @@ declare module "@mui/material/styles" {
           100: string;
         };
       };
-      //
-      common: {
-        black: string;
-      };
       secondary: {
-        // lighter: string;
-        light: string;
-        main: string;
-        dark: string;
-      };
-      orange: {
+        lighter: string;
         light: string;
         main: string;
         dark: string;
@@ -88,6 +79,12 @@ declare module "@mui/material/styles" {
         main: string;
         dark: string;
       };
+      // orange: {
+      //   lighter: string;
+      //   light: string;
+      //   main: string;
+      //   dark: string;
+      // };
       warning: {
         lighter: string;
         light: string;
@@ -105,17 +102,6 @@ declare module "@mui/material/styles" {
         light: string;
         main: string;
         dark: string;
-      };
-      grey: Record<any, any>;
-      text: {
-        primary: string;
-        secondary: string;
-        dark: string;
-        hint: string;
-      };
-      backgroud: {
-        paper: string;
-        default: string;
       };
     };
     general: {
@@ -200,16 +186,8 @@ declare module "@mui/material/styles" {
           100: string;
         };
       };
-      common: {
-        black: string;
-      };
       secondary: {
-        // lighter: string;
-        light: string;
-        main: string;
-        dark: string;
-      };
-      orange: {
+        lighter: string;
         light: string;
         main: string;
         dark: string;
@@ -243,17 +221,6 @@ declare module "@mui/material/styles" {
         light: string;
         main: string;
         dark: string;
-      };
-      grey: Record<any, any>;
-      text: {
-        primary: string;
-        secondary: string;
-        dark: string;
-        hint: string;
-      };
-      backgroud: {
-        paper: string;
-        default: string;
       };
     };
 

@@ -1,11 +1,9 @@
 // assets
-// import { IconBrandChrome, IconHelp } from '@tabler/icons';
-
-import { HelpOutline, ChromeReaderMode } from "@mui/icons-material";
+import { IconBrandChrome, IconHelp } from "@tabler/icons";
 
 // constant
-const icons = { ChromeReaderMode, HelpOutline };
-HelpOutline;
+const icons = { IconBrandChrome, IconHelp };
+
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
@@ -17,7 +15,7 @@ const other = {
       title: "Sample Page",
       type: "item",
       url: "/sample-page",
-      icon: icons.ChromeReaderMode,
+      icon: icons.IconBrandChrome,
       breadcrumbs: false,
     },
     {
@@ -25,7 +23,7 @@ const other = {
       title: "Documentation",
       type: "item",
       url: "https://codedthemes.gitbook.io/berry/",
-      icon: icons.HelpOutline,
+      icon: icons.IconHelp,
       external: true,
       target: true,
     },

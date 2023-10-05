@@ -18,11 +18,12 @@ import Routes from "./routes";
 import NavigationScroll from "./layout/NavigationScroll";
 import ThemeProviderWrapper from "../../src/theme/ThemeProvider";
 import { PureLightTheme } from "./themes/schemes/PureLightTheme";
-
+import { themeCreator } from "./themes/base";
 // ==============================|| APP ||============================== //
 
 const App = () => {
   const customization = useSelector((state: any) => state.customization);
+  const theme = themeCreator("PureLightTheme");
 
   return (
     <StyledEngineProvider injectFirst>

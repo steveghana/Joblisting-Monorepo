@@ -850,6 +850,7 @@ export const PureLightTheme = createTheme({
       fontWeight: 700,
       fontSize: 35,
     },
+
     h2: {
       fontWeight: 700,
       fontSize: 30,
