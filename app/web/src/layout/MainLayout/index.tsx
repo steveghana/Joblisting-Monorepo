@@ -22,11 +22,12 @@ import { SET_MENU } from "../../store/actions";
 
 // assets
 import { IconChevronRight } from "@tabler/icons";
+import { componentThemeoption } from "../../themes/schemes/PureLightTheme";
 
 // styles
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
-    ...theme.typography.mainContent,
+    ...componentThemeoption.mainContent,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     transition: theme.transitions.create(
