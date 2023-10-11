@@ -5,25 +5,21 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 // import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import { CssBaseline } from "@mui/material";
-import ThemeProvider from "./theme/ThemeProvider";
+// import ThemeProvider from "./theme/ThemeProvider";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import AuthProviders from "./providers/Provders";
 import Overview from "./app/pages/overview";
-import NavigationScroll from "./theme/scroll";
+// import NavigationScroll from "./theme/scroll";
 
 function App() {
   const content = useRoutes(router);
 
   return (
-    <ThemeProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <CssBaseline />
-        <NavigationScroll>
-          {/* <Overview /> */}
-          {content}
-        </NavigationScroll>
-      </LocalizationProvider>
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <CssBaseline />
+      {/* <Overview /> */}
+      {content}
+    </LocalizationProvider>
   );
 }
 export default App;

@@ -1,9 +1,10 @@
 import { lazy } from "react";
 import MainLayout from "../layout/MainLayout";
-import React from "react";
 // project imports
 // import MainLayout from 'layout/MainLayout';
 import Loadable from "../ui-component/Loadable";
+import Home from "../app/pages/Landing/page";
+import BaseLayout from "../components/layouts/BaseLayout";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -28,12 +29,22 @@ const SamplePage = Loadable(lazy(() => import("../views/sample-page")));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
+export const homeRoutes = {
+  path: "/",
+  element: <BaseLayout />,
+  children: [
+    {
+      path: "/",
+      element: <Home />,
+    },
+  ],
+};
 const MainRoutes = {
   path: "/",
   element: <MainLayout />,
   children: [
     {
-      path: "/",
+      path: "/dashboard",
       element: <DashboardDefault />,
     },
     {

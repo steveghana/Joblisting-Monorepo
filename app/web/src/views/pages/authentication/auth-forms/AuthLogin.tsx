@@ -33,10 +33,31 @@ import { Formik } from "formik";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AnimateButton from "../../../../ui-component/extended/AnimateButton";
-import { Google } from "@mui/icons-material";
 import useScriptRef from "../../../../hooks/useScriptRef";
 import { themeTypography } from "../../../../themes/schemes/typography";
+import CustomButton from "../../../../components/button";
+import { GitHub, Google, LinkedIn } from "@mui/icons-material";
+const Social = {
+  Github: {
+    color: "#131418",
+    icon: GitHub,
+  },
+  Linkedin: {
+    color: "#0077B5",
+    icon: LinkedIn,
+  },
 
+  Google: {
+    color: "red",
+    icon: () => (
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"
+        width={20}
+        height={20}
+      />
+    ),
+  },
+};
 // import Google from 'assets/images/icons/social-google.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
@@ -60,82 +81,13 @@ const FirebaseLogin = ({ ...others }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  let handleSocial = {
+    Google: () => {},
+    Github: () => {},
+    Linkedin: () => {},
+  };
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: "grey.700",
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100],
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <Google
-                  // src={Google}
-                  // alt="google"
-                  width={16}
-                  height={16}
-                  style={{ marginRight: matchDownSM ? 8 : 16 }}
-                />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: "unset",
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`,
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
-
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">
-              Sign in with Email address
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid>
-
       <Formik
         initialValues={{
           email: "info@codedthemes.com",
@@ -243,6 +195,87 @@ const FirebaseLogin = ({ ...others }) => {
                 </FormHelperText>
               )}
             </FormControl>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+
+                <Button
+                  variant="outlined"
+                  sx={{
+                    cursor: "unset",
+                    borderColor: `${theme.palette.grey[100]} !important`,
+                    color: `${theme.palette.grey[900]}!important`,
+                    fontWeight: 500,
+                    borderRadius: `${customization.borderRadius}px`,
+                  }}
+                  disableRipple
+                  disabled
+                >
+                  OR
+                </Button>
+
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+              </Box>
+            </Grid>
+            <Grid
+              display={"flex"}
+              justifyContent="center"
+              alignItems={"center"}
+              item
+              xs={12}
+            >
+              {Object.entries(handleSocial)?.map(([key, handler]) => {
+                if (
+                  typeof handler !== "function" ||
+                  !Social[key] ||
+                  !Social[key].icon
+                )
+                  return null;
+                return (
+                  <AnimateButton>
+                    <Button
+                      key={key}
+                      aria-label={`${key} login button`}
+                      onClick={handler}
+                    >
+                      {React.createElement(Social[key].icon, {
+                        htmlColor: Social[key].color,
+                      })}
+                    </Button>
+                  </AnimateButton>
+                );
+              })}
+              {/* <AnimateButton>
+            <Button
+              disableElevation
+              fullWidth
+              onClick={googleHandler}
+              size="large"
+              variant="outlined"
+              sx={{
+                color: "grey.700",
+                backgroundColor: theme.palette.grey[50],
+                borderColor: theme.palette.grey[100],
+              }}
+            >
+              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
+                <Google
+                  // src={Google}
+                  // alt="google"
+                  width={16}
+                  height={16}
+                  style={{ marginRight: matchDownSM ? 8 : 16 }}
+                />
+              </Box>
+              Sign in with Google
+            </Button>
+          </AnimateButton> */}
+            </Grid>
             <Stack
               direction="row"
               alignItems="center"
@@ -274,9 +307,18 @@ const FirebaseLogin = ({ ...others }) => {
               </Box>
             )}
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 0 }}>
               <AnimateButton>
-                <Button
+                <CustomButton
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  text="Sign in"
+                  type="submit"
+                />
+
+                {/* <Button
                   disableElevation
                   disabled={isSubmitting}
                   fullWidth
@@ -286,7 +328,7 @@ const FirebaseLogin = ({ ...others }) => {
                   color="secondary"
                 >
                   Sign in
-                </Button>
+                </Button> */}
               </AnimateButton>
             </Box>
           </form>

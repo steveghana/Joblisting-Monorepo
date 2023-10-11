@@ -1,6 +1,6 @@
-import React from 'react';
-import Logo from '../../assets/Lookscout.png';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Logo from "../../assets/Lookscout.png";
+import { Link } from "react-router-dom";
 // import Link from 'next/link';
 const NavBar = () => {
   return (
@@ -13,8 +13,8 @@ const NavBar = () => {
         <li className="custom-nav__item">Jobs</li>
         <li className="custom-nav__item">Career tips</li>
         <li className="custom-nav__item-auth">
-          {' '}
-          <Link style={{ color: 'white' }} to="/auth">
+          {" "}
+          <Link style={{ color: "white" }} to="/auth/login">
             Sign in
           </Link>
         </li>

@@ -40,6 +40,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Google } from "@mui/icons-material";
 import { themeTypography } from "../../../../themes/schemes/typography";
+import CustomButton from "../../../../components/button";
+import RoleAuth from "../../../../components/auth/roleAuthForm";
+import { IProfession } from "../../../../types/roles";
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -50,6 +53,8 @@ const FirebaseRegister = ({ ...others }) => {
   const customization = useSelector((state: any) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
+  const [isNew, setisNew] = React.useState(true);
+  const [role, setRole] = React.useState<IProfession>();
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
@@ -75,72 +80,17 @@ const FirebaseRegister = ({ ...others }) => {
   useEffect(() => {
     changePassword("123456");
   }, []);
-
+  if (isNew) {
+    return (
+      <RoleAuth
+        setSelectedValue={setRole}
+        selectedValue={role}
+        setisNew={() => setisNew(false)}
+      />
+    );
+  }
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              variant="outlined"
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              sx={{
-                color: "grey.700",
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100],
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <Google
-                  width={16}
-                  height={16}
-                  style={{ marginRight: matchDownSM ? 8 : 16 }}
-                />
-              </Box>
-              Sign up with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box sx={{ alignItems: "center", display: "flex" }}>
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: "unset",
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`,
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">
-              Sign up with Email address
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid>
-
       <Formik
         initialValues={{
           email: "",
@@ -156,6 +106,7 @@ const FirebaseRegister = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            console.log(values, role);
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
@@ -325,17 +276,15 @@ const FirebaseRegister = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button
+                <CustomButton
                   disableElevation
                   disabled={isSubmitting}
                   fullWidth
                   size="large"
-                  type="submit"
                   variant="contained"
-                  color="secondary"
-                >
-                  Sign up
-                </Button>
+                  text="Sign up"
+                  // color="secondary"
+                />
               </AnimateButton>
             </Box>
           </form>
