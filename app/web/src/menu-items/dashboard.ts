@@ -9,6 +9,7 @@ const icons = { IconDashboard };
 const dashboard = {
   id: "dashboard",
   title: "Dashboard",
+  roles: ["Ceo"],
   type: "group",
   children: [
     {

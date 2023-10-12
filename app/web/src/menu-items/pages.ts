@@ -13,6 +13,8 @@ const pages = {
   title: "Pages",
   caption: "Pages Caption",
   type: "group",
+  roles: ["Ceo"],
+
   children: [
     {
       id: "authentication",

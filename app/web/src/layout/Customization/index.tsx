@@ -39,6 +39,8 @@ const Customization = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const customization = useSelector((state: any) => state.customization);
+  console.log(customization);
+  // const customization = useSelector((state) => state.customization);
 
   // drawer on/off
   const [open, setOpen] = useState(false);

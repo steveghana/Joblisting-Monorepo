@@ -8,7 +8,11 @@ import menuItem from "../../../../menu-items";
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
-  const navItems = menuItem.items.map((item) => {
+  const userRole = localStorage.getItem("role");
+  const filteredSidebarData = menuItem.items.filter((item) =>
+    item.roles.includes(userRole)
+  );
+  const navItems = filteredSidebarData.map((item) => {
     switch (item.type) {
       case "group":
         return <NavGroup key={item.id} item={item} />;

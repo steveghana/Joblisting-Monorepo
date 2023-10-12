@@ -12,7 +12,8 @@ import { MENU_OPEN } from "../../../store/actions";
 // ==============================|| MAIN LOGO ||============================== //
 
 const LogoSection = () => {
-  const defaultId = useSelector((state: any) => state.customization.defaultId);
+  const defaultId = useSelector((state: any) => state.customization?.defaultId);
+  console.log(defaultId, "from log");
   const dispatch = useDispatch();
   return (
     <ButtonBase

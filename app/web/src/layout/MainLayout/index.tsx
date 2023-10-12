@@ -23,6 +23,7 @@ import { SET_MENU } from "../../store/actions";
 // assets
 import { IconChevronRight } from "@tabler/icons";
 import { componentThemeoption } from "../../themes/schemes/PureLightTheme";
+import { Protect } from "../../components/auth/requireAuth";
 
 // styles
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -67,7 +68,11 @@ const MainLayout = () => {
   const matchDownMd = useMediaQuery(theme.breakpoints.down("md"));
   // Handle left drawer
   const leftDrawerOpened = useSelector(
-    (state: any) => state.customization.opened
+    (state: any) => state.customization?.opened
+  );
+  console.log(
+    useSelector((state: any) => state.customization),
+    "from main"
   );
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
@@ -115,5 +120,11 @@ const MainLayout = () => {
     </Box>
   );
 };
+export default Protect(MainLayout, [
+  "Ceo",
+  "Developer",
+  "Marketing",
+  "Recruitment",
+]);
 
-export default MainLayout;
+// export default MainLayout;

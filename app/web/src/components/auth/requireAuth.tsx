@@ -23,11 +23,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const currentPageName = window.location.pathname.split("/").pop() || "";
   const router = useNavigate();
   React.useEffect(() => {
-    console.log(currentPageName);
     const userRole = role as IProfession;
     if (!session) {
       // Redirect to the login page or handle authentication as needed
-      router("/");
+      router("/auth/login");
     }
     if (
       userRole &&
@@ -47,9 +46,8 @@ export const Protect =
     Component: React.ComponentType<P>,
     allowedRoles: UserRoleSelection
   ) =>
-  (props: P) =>
-    (
-      <ProtectedRoute allowedRoles={allowedRoles}>
-        <Component {...props} />
-      </ProtectedRoute>
-    );
+  (props: P) => (
+    <ProtectedRoute allowedRoles={allowedRoles}>
+      <Component {...props} />
+    </ProtectedRoute>
+  );

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IProfession } from "../../types/roles";
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import _api_url from "../../api/_api_url";
 
 interface IUser {
@@ -20,39 +20,28 @@ const axiosInstance = axios.create({
     Authorization: authToken ? authToken : "",
   },
 });
-const baseQuery = async (config: AxiosRequestConfig) => {
-  try {
-    const response = await axiosInstance(config);
-    return { data: response.data };
-  } catch (error) {
-    // You can handle errors here or propagate them to the caller
-    throw error;
-  }
-};
-export const userApi = createApi({
-  baseQuery,
-  reducerPath: "userApi",
 
-  // ... other configuration for your service
+export const userApi = createApi({
+  reducerPath: "userApi",
+  baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
-    registerUser: builder.mutation<
-      { authTokenId: string; role: string },
-      IRegister
+    loginUser: builder.mutation<
+      { role: string; authTokenId: string },
+      IUser & { rememberMe: boolean }
     >({
       query: (user) => ({
-        url: "user/register",
+        url: "user/login", // Replace with the appropriate API endpoint
         method: "POST",
-        data: user,
+        body: user,
       }),
     }),
-    loginUser: builder.mutation<any, IUser & { rememberMe: boolean }>({
-      query: ({ email, password, rememberMe }) => ({
-        url: "user/login",
+    registerUser: builder.mutation<IRegister, IRegister>({
+      query: (user) => ({
+        url: "user/register", // Replace with the appropriate API endpoint
         method: "POST",
-        data: { email, password, rememberMe },
+        body: user,
       }),
     }),
-    // Define other endpoints as needed
   }),
 });
 

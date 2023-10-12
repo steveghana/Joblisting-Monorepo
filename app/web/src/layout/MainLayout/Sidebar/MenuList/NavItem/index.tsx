@@ -76,13 +76,12 @@ const NavItem = ({ item, level }) => {
     }
     // eslint-disable-next-line
   }, [pathname]);
-
   return (
     <ListItemButton
       {...listItemProps}
       disabled={item.disabled}
       sx={{
-        borderRadius: `${customization.borderRadius}px`,
+        borderRadius: `${customization?.borderRadius}px`,
         mb: 0.5,
         alignItems: "flex-start",
         backgroundColor: level > 1 ? "transparent !important" : "inherit",

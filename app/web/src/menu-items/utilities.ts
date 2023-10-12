@@ -17,9 +17,11 @@ const icons = {
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const utilities = {
-  id: "utilities",
-  title: "Utilities",
+  id: "Devs",
+  title: "Devs",
   type: "group",
+  roles: ["Ceo", "Developer"],
+
   children: [
     {
       id: "util-typography",
@@ -38,8 +40,8 @@ const utilities = {
       breadcrumbs: false,
     },
     {
-      id: "util-shadow",
-      title: "Shadow",
+      id: "Devs",
+      title: "Devs",
       type: "item",
       url: "/utils/util-shadow",
       icon: icons.IconShadow,

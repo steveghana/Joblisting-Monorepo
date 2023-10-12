@@ -72,26 +72,41 @@ const FirebaseLogin = ({ ...others }) => {
   const router = useNavigate();
 
   const [checked, setChecked] = useState(true);
-  const [loginUser, { isLoading, data }] = useLoginUserMutation();
+  const [loginUser, { isLoading, data, error }] = useLoginUserMutation();
   const googleHandler = async () => {
     console.error("Login");
   };
-  async function login(values) {
+  async function login(values, setters, scriptedRef) {
     try {
-      await loginUser({
+      const s = await loginUser({
         password: values.password,
         email: values.email,
         rememberMe: false,
       });
+
+      console.log(error, "ahhhhhh");
+      // console.log(s, "s");
       if (!data) return;
       const { authTokenId, role } = data;
       // console.log(authTokenId, role);
       if (!authTokenId) return;
       localStorage.setItem("auth_token", authTokenId);
       localStorage.setItem("role", role);
+
+      if (scriptedRef.current) {
+        setters.setStatus({ success: true });
+        setters.setSubmitting(false);
+      }
+      router("/dashboard/default");
       return true;
     } catch (error) {
-      throw error;
+      if (scriptedRef.current) {
+        setters.setStatus({ success: false });
+        setters.setErrors({ submit: error.message });
+        setters.setSubmitting(false);
+      }
+      console.log(error, "from");
+      // throw error;
     }
   }
 
@@ -123,23 +138,8 @@ const FirebaseLogin = ({ ...others }) => {
             .required("Email is required"),
           password: Yup.string().max(255).required("Password is required"),
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            const response = await login(values);
-            if (!response) return;
-            if (scriptedRef.current) {
-              setStatus({ success: true });
-              setSubmitting(false);
-            }
-            router("/dashboard/default");
-          } catch (err) {
-            console.error(err);
-            if (scriptedRef.current) {
-              setStatus({ success: false });
-              setErrors({ submit: err.message });
-              setSubmitting(false);
-            }
-          }
+        onSubmit={async (values, setters) => {
+          await login(values, setters, scriptedRef);
         }}
       >
         {({

@@ -9,6 +9,8 @@ const icons = { IconBrandChrome, IconHelp };
 const other = {
   id: "sample-docs-roadmap",
   type: "group",
+  roles: ["Ceo"],
+
   children: [
     {
       id: "sample-page",

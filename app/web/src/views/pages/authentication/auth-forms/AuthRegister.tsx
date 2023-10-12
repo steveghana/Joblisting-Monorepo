@@ -72,6 +72,7 @@ const FirebaseRegister = ({ ...others }) => {
       if (!authTokenId) return;
       localStorage.setItem("auth_token", authTokenId);
       localStorage.setItem("role", role);
+      router("/dashboard/default");
       return true;
     } catch (error) {
       throw error;
