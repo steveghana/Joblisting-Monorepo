@@ -37,6 +37,8 @@ import useScriptRef from "../../../../hooks/useScriptRef";
 import { themeTypography } from "../../../../themes/schemes/typography";
 import CustomButton from "../../../../components/button";
 import { GitHub, Google, LinkedIn } from "@mui/icons-material";
+import { useLoginUserMutation } from "../../../../store/services/userService";
+import { useNavigate } from "react-router";
 const Social = {
   Github: {
     color: "#131418",
@@ -67,11 +69,31 @@ const FirebaseLogin = ({ ...others }) => {
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const customization = useSelector((state: any) => state.customization);
-  const [checked, setChecked] = useState(true);
+  const router = useNavigate();
 
+  const [checked, setChecked] = useState(true);
+  const [loginUser, { isLoading, data }] = useLoginUserMutation();
   const googleHandler = async () => {
     console.error("Login");
   };
+  async function login(values) {
+    try {
+      await loginUser({
+        password: values.password,
+        email: values.email,
+        rememberMe: false,
+      });
+      if (!data) return;
+      const { authTokenId, role } = data;
+      // console.log(authTokenId, role);
+      if (!authTokenId) return;
+      localStorage.setItem("auth_token", authTokenId);
+      localStorage.setItem("role", role);
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -90,7 +112,7 @@ const FirebaseLogin = ({ ...others }) => {
     <>
       <Formik
         initialValues={{
-          email: "info@codedthemes.com",
+          email: "steve@svtech.com",
           password: "123456",
           submit: null,
         }}
@@ -103,10 +125,13 @@ const FirebaseLogin = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            const response = await login(values);
+            if (!response) return;
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
             }
+            router("/dashboard/default");
           } catch (err) {
             console.error(err);
             if (scriptedRef.current) {
@@ -242,6 +267,7 @@ const FirebaseLogin = ({ ...others }) => {
                       key={key}
                       aria-label={`${key} login button`}
                       onClick={handler}
+                      disabled={isLoading}
                     >
                       {React.createElement(Social[key].icon, {
                         htmlColor: Social[key].color,
@@ -317,18 +343,6 @@ const FirebaseLogin = ({ ...others }) => {
                   text="Sign in"
                   type="submit"
                 />
-
-                {/* <Button
-                  disableElevation
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="secondary"
-                >
-                  Sign in
-                </Button> */}
               </AnimateButton>
             </Box>
           </form>

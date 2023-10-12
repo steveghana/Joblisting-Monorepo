@@ -1,9 +1,13 @@
-import { createStore } from 'redux';
-import reducer from './reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import { userApi } from "./services/userService"; // Import your user service
 
-// ==============================|| REDUX - MAIN STORE ||============================== //
+const store = configureStore({
+  reducer: {
+    [userApi.reducerPath]: userApi.reducer,
+    // Add other reducers if needed
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userApi.middleware),
+});
 
-const store = createStore(reducer);
-const persister = 'Free';
-
-export { store, persister };
+export default store;

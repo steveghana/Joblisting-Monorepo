@@ -11,17 +11,13 @@ import "../src/assets/scss/style.scss";
 import App from "./App";
 // import { SidebarProvider } from "./contexts/SidebarContext.tsx";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import store from "./store";
 // import { SidebarProvider } from './contexts/SidebarContext.tsx';
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    {/* <HelmetProvider> */}
-    {/* <SidebarProvider> */}
     <BrowserRouter>
       <App />
     </BrowserRouter>
-    {/* </SidebarProvider> */}
-    {/* </HelmetProvider> */}
   </Provider>
 );

@@ -39,7 +39,7 @@ const LabelWrapper = styled("span")(
         
         &-secondary {
           background-color: ${theme.colors?.secondary.lighter};
-          color: ${theme.palette.secondary.main}
+          color: ${theme.palette.primary.main}
         }
         
         &-success {

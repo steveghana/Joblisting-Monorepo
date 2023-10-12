@@ -43,6 +43,7 @@ import { themeTypography } from "../../../../themes/schemes/typography";
 import CustomButton from "../../../../components/button";
 import RoleAuth from "../../../../components/auth/roleAuthForm";
 import { IProfession } from "../../../../types/roles";
+import { useRegisterUserMutation } from "../../../../store/services/userService";
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -58,7 +59,23 @@ const FirebaseRegister = ({ ...others }) => {
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
+  const [registerUser, { data }] = useRegisterUserMutation();
+  async function register(values) {
+    const { firstName, password, email, lastName, role: uerRole } = values;
+    try {
+      registerUser({ firstName, password, email, lastName, role: uerRole });
 
+      if (!data) return;
+      const { authTokenId, role } = data;
+      // console.log(authTokenId, role);
+      if (!authTokenId) return;
+      localStorage.setItem("auth_token", authTokenId);
+      localStorage.setItem("role", role);
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
   const googleHandler = async () => {
     console.error("Register");
   };
@@ -95,6 +112,9 @@ const FirebaseRegister = ({ ...others }) => {
         initialValues={{
           email: "",
           password: "",
+          firstName: "",
+          lastName: "",
+          role: "Ceo" || "Marketing" || "Recruitment" || "Developer",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
@@ -105,6 +125,7 @@ const FirebaseRegister = ({ ...others }) => {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          const { firstName, lastName, email, password, role } = values;
           try {
             console.log(values, role);
             if (scriptedRef.current) {

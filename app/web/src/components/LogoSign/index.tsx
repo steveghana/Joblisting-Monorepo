@@ -59,7 +59,7 @@ const LogoSign = styled(Box)(
         }
 
         &:after {
-            background: ${theme.palette.secondary.main};
+            background: ${theme.palette.primary.main};
         }
 `
 );

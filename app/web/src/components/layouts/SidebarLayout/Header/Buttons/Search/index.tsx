@@ -155,7 +155,7 @@ function HeaderSearch() {
                     <Avatar
                       sx={{
                         background: (theme: Theme) =>
-                          theme.palette.secondary.main,
+                          theme.palette.primary.main,
                       }}
                     >
                       <FindInPageTwoToneIcon />
@@ -178,7 +178,7 @@ function HeaderSearch() {
                     variant="body2"
                     sx={{
                       color: (theme: Theme) =>
-                        lighten(theme.palette.secondary.main, 0.5),
+                        lighten(theme.palette.primary.main, 0.5),
                     }}
                   >
                     This page contains all the necessary information for
@@ -194,7 +194,7 @@ function HeaderSearch() {
                     <Avatar
                       sx={{
                         background: (theme: Theme) =>
-                          theme.palette.secondary.main,
+                          theme.palette.primary.main,
                       }}
                     >
                       <FindInPageTwoToneIcon />
@@ -217,7 +217,7 @@ function HeaderSearch() {
                     variant="body2"
                     sx={{
                       color: (theme: Theme) =>
-                        lighten(theme.palette.secondary.main, 0.5),
+                        lighten(theme.palette.primary.main, 0.5),
                     }}
                   >
                     This is yet another search result pointing to a app page.
@@ -232,7 +232,7 @@ function HeaderSearch() {
                     <Avatar
                       sx={{
                         background: (theme: Theme) =>
-                          theme.palette.secondary.main,
+                          theme.palette.primary.main,
                       }}
                     >
                       <FindInPageTwoToneIcon />
@@ -255,7 +255,7 @@ function HeaderSearch() {
                     variant="body2"
                     sx={{
                       color: (theme: Theme) =>
-                        lighten(theme.palette.secondary.main, 0.5),
+                        lighten(theme.palette.primary.main, 0.5),
                     }}
                   >
                     Choose if you would like to show or not this typography
