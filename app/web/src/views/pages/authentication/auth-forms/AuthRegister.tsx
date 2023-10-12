@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // material-ui
@@ -60,6 +60,7 @@ const FirebaseRegister = ({ ...others }) => {
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
   const [registerUser, { data }] = useRegisterUserMutation();
+  const router = useNavigate();
   async function register(values) {
     const { firstName, password, email, lastName, role: uerRole } = values;
     try {
@@ -125,9 +126,11 @@ const FirebaseRegister = ({ ...others }) => {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          const { firstName, lastName, email, password, role } = values;
           try {
+            const response = await register(values);
             console.log(values, role);
+            if (!response) return;
+            router("/overview"); // Redirect to Ceo dashboard
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);

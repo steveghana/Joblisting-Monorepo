@@ -31,6 +31,8 @@ const baseQuery = async (config: AxiosRequestConfig) => {
 };
 export const userApi = createApi({
   baseQuery,
+  reducerPath: "userApi",
+
   // ... other configuration for your service
   endpoints: (builder) => ({
     registerUser: builder.mutation<
