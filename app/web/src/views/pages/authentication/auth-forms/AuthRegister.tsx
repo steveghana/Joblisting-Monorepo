@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
-  Button,
   Checkbox,
-  Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -38,7 +36,6 @@ import {
 // assets
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Google } from "@mui/icons-material";
 import { themeTypography } from "../../../../themes/schemes/typography";
 import CustomButton from "../../../../components/button";
 import RoleAuth from "../../../../components/auth/roleAuthForm";
@@ -51,7 +48,7 @@ const FirebaseRegister = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
-  const customization = useSelector((state: any) => state.customization);
+  // const customization = useSelector((state: any) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
   const [isNew, setisNew] = React.useState(true);
@@ -59,23 +56,37 @@ const FirebaseRegister = ({ ...others }) => {
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
-  const [registerUser, { data }] = useRegisterUserMutation();
+  const [registerUser] = useRegisterUserMutation();
   const router = useNavigate();
-  async function register(values) {
+  async function register(values, setters, scriptedRef) {
+    const { setStatus, setErrors, setSubmitting } = setters;
     const { firstName, password, email, lastName, role: uerRole } = values;
     try {
-      registerUser({ firstName, password, email, lastName, role: uerRole });
+      const data = await registerUser({
+        user: {
+          firstName,
+          password,
+          email,
+          lastName,
+          role: uerRole,
+        },
+      }).unwrap();
 
       if (!data) return;
       const { authTokenId, role } = data;
-      // console.log(authTokenId, role);
       if (!authTokenId) return;
       localStorage.setItem("auth_token", authTokenId);
       localStorage.setItem("role", role);
+      if (scriptedRef.current) {
+        setStatus({ success: true });
+        setSubmitting(false);
+      }
       router("/dashboard/default");
       return true;
     } catch (error) {
-      throw error;
+      setStatus({ success: false });
+      setErrors({ submit: error.data });
+      setSubmitting(false);
     }
   }
   const googleHandler = async () => {
@@ -126,24 +137,9 @@ const FirebaseRegister = ({ ...others }) => {
             .required("Email is required"),
           password: Yup.string().max(255).required("Password is required"),
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            const response = await register(values);
-            console.log(values, role);
-            if (!response) return;
-            router("/overview"); // Redirect to Ceo dashboard
-            if (scriptedRef.current) {
-              setStatus({ success: true });
-              setSubmitting(false);
-            }
-          } catch (err) {
-            console.error(err);
-            if (scriptedRef.current) {
-              setStatus({ success: false });
-              setErrors({ submit: err.message as string });
-              setSubmitting(false);
-            }
-          }
+        onSubmit={async (values, setters) => {
+          console.log(values, "from submitting");
+          await register(values, setters, scriptedRef);
         }}
       >
         {({
@@ -162,7 +158,10 @@ const FirebaseRegister = ({ ...others }) => {
                   fullWidth
                   label="First Name"
                   margin="normal"
-                  name="fname"
+                  value={values.firstName}
+                  name="firstName"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   type="text"
                   defaultValue=""
                   sx={{ ...themeTypography.customInput }}
@@ -171,9 +170,12 @@ const FirebaseRegister = ({ ...others }) => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
+                  value={values.lastName}
                   label="Last Name"
                   margin="normal"
-                  name="lname"
+                  name="lastName"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   type="text"
                   defaultValue=""
                   sx={{ ...themeTypography.customInput }}
@@ -295,7 +297,7 @@ const FirebaseRegister = ({ ...others }) => {
             </Grid>
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{errors.submit}</FormHelperText>
+                <FormHelperText error>{errors.submit as string}</FormHelperText>
               </Box>
             )}
 
@@ -308,6 +310,8 @@ const FirebaseRegister = ({ ...others }) => {
                   size="large"
                   variant="contained"
                   text="Sign up"
+                  type="submit"
+
                   // color="secondary"
                 />
               </AnimateButton>

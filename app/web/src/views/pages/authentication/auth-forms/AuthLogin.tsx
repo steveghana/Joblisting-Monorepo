@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
+import api from "../../../../api/_api";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -72,20 +72,19 @@ const FirebaseLogin = ({ ...others }) => {
   const router = useNavigate();
 
   const [checked, setChecked] = useState(true);
-  const [loginUser, { isLoading, data, error }] = useLoginUserMutation();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
   const googleHandler = async () => {
     console.error("Login");
   };
   async function login(values, setters, scriptedRef) {
     try {
-      const s = await loginUser({
+      // const s = await api.user.login(values.email, values.password, false);
+      const data = await loginUser({
         password: values.password,
         email: values.email,
         rememberMe: false,
-      });
+      }).unwrap();
 
-      console.log(error, "ahhhhhh");
-      // console.log(s, "s");
       if (!data) return;
       const { authTokenId, role } = data;
       // console.log(authTokenId, role);
@@ -100,11 +99,12 @@ const FirebaseLogin = ({ ...others }) => {
       router("/dashboard/default");
       return true;
     } catch (error) {
-      if (scriptedRef.current) {
-        setters.setStatus({ success: false });
-        setters.setErrors({ submit: error.message });
-        setters.setSubmitting(false);
-      }
+      console.log(error, "thi is an error");
+      // if (scriptedRef.current) {
+      setters.setStatus({ success: false });
+      setters.setErrors({ submit: error.data });
+      setters.setSubmitting(false);
+      // }
       console.log(error, "from");
       // throw error;
     }
@@ -328,8 +328,13 @@ const FirebaseLogin = ({ ...others }) => {
               </Typography>
             </Stack>
             {errors.submit && (
-              <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{errors.submit}</FormHelperText>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ mt: 3 }}
+              >
+                <FormHelperText error>{errors.submit as string}</FormHelperText>
               </Box>
             )}
 

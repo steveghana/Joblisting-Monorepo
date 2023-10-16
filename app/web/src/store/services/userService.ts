@@ -7,13 +7,15 @@ interface IUser {
   email: string;
   password: string;
 }
-interface IRegister extends IUser {
-  firstName: string;
-  lastName: string;
-  role: IProfession;
+interface IRegister {
+  user: {
+    firstName: string;
+    lastName: string;
+    role: IProfession;
+  } & IUser;
 }
 const authToken = sessionStorage.getItem("authToken");
-
+type IResponse = { role: string; authTokenId: string };
 const axiosInstance = axios.create({
   baseURL: _api_url.getApiUrl(),
   headers: {
@@ -25,17 +27,14 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
-    loginUser: builder.mutation<
-      { role: string; authTokenId: string },
-      IUser & { rememberMe: boolean }
-    >({
+    loginUser: builder.mutation<IResponse, IUser & { rememberMe: boolean }>({
       query: (user) => ({
         url: "user/login", // Replace with the appropriate API endpoint
         method: "POST",
         body: user,
       }),
     }),
-    registerUser: builder.mutation<IRegister, IRegister>({
+    registerUser: builder.mutation<IResponse, IRegister>({
       query: (user) => ({
         url: "user/register", // Replace with the appropriate API endpoint
         method: "POST",
