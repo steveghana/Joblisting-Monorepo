@@ -185,7 +185,10 @@ export class AuthService {
     }
 
     if (!exists || (exists && !passwordMatches)) {
-      throw new HttpException('generic', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'User doesnt exist, trying signing up',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const [authToken, credentialToken] = await useTransaction(
@@ -228,12 +231,15 @@ export class AuthService {
       dependencies,
     );
     if (!credentialToken.exists || credentialToken.isInactive()) {
-      throw new HttpException('generic', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Credentials required', HttpStatus.BAD_REQUEST);
     }
 
     const user = new User(credentialToken.userEmail, dependencies);
     if (!(await user.exists())) {
-      throw new HttpException('generic', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'user doesnt exist, try signing up',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     if (await user.passwordMatches('')) {
