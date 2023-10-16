@@ -32,7 +32,7 @@ const pages = {
         },
         {
           id: "register3",
-          title: "Accoount",
+          title: "Account",
           type: "item",
           url: "/management/profile/settings",
           target: true,
