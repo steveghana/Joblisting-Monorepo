@@ -26,9 +26,9 @@ function ManagementUserProfile() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>User Details - Management</title>
-      </Helmet>
+      </Helmet> */}
       <Container sx={{ mt: 3 }} maxWidth="lg">
         <Grid
           container
@@ -61,4 +61,5 @@ function ManagementUserProfile() {
     </>
   );
 }
-export default Protect(ManagementUserProfile, ["Ceo", "developer", "hr"]);
+export default ManagementUserProfile;
+// export default Protect(ManagementUserProfile, ["Ceo", "developer", "hr"]);

@@ -46,9 +46,9 @@ const NavItem = ({ item, level }) => {
   );
 
   let itemTarget = "_self";
-  if (item.target) {
-    itemTarget = "_blank";
-  }
+  // if (item.target) {
+  //   itemTarget = "_blank";
+  // }
 
   let listItemProps = {
     component: forwardRef((props: any, ref: any) => (

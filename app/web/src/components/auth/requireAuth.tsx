@@ -26,7 +26,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     const userRole = role as IProfession;
     if (!session) {
       // Redirect to the login page or handle authentication as needed
-      router("/auth/login");
+      router("/management/profile/details");
     }
     if (
       userRole &&

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { signIn, signOut, useSession } from 'next-auth/react';
 // import { Link } from 'react-router-dom';;
 import { UserAuthForm } from "../../../components/auth/registeration";
-import LoginPage from "../../../components/auth/login";
+import LoginPage from "../../../components/management/profile/details";
 import { Link } from "react-router-dom";
 import {
   Avatar,

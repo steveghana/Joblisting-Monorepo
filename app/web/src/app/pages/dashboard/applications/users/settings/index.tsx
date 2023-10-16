@@ -36,9 +36,9 @@ function ManagementUserSettings() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>User Settings - Applications</title>
-      </Helmet>
+      </Helmet> */}
       <PageTitleWrapper>
         <PageHeader />
       </PageTitleWrapper>
@@ -76,4 +76,5 @@ function ManagementUserSettings() {
     </>
   );
 }
-export default Protect(ManagementUserSettings, ["Ceo", "developer", "hr"]);
+export default ManagementUserSettings;
+// export default Protect(ManagementUserSettings, ["Ceo", "developer", "hr"]);

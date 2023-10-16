@@ -5,12 +5,18 @@ import MainLayout from "../layout/MainLayout";
 import Loadable from "../ui-component/Loadable";
 import Home from "../app/pages/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
+import { Navigate } from "react-router";
 
 // dashboard routing
 const DashboardDefault = Loadable(
   lazy(() => import("../views/dashboard/Default"))
 );
-
+const UserProfile = Loadable(
+  lazy(() => import("../app/pages/dashboard/applications/users/profile"))
+);
+const UserSettings = Loadable(
+  lazy(() => import("../app/pages/dashboard/applications/users/settings"))
+);
 // utilities routing
 const Transactions = Loadable(
   lazy(() => import("../app/pages/dashboard/applications/transactions"))
@@ -53,6 +59,38 @@ const MainRoutes = {
         {
           path: "default",
           element: <DashboardDefault />,
+        },
+      ],
+    },
+    {
+      path: "management",
+
+      // element: <SidebarLayout />,
+      children: [
+        {
+          path: "",
+          element: <Navigate to="transactions" replace />,
+        },
+        {
+          path: "transactions",
+          element: <Transactions />,
+        },
+        {
+          path: "profile",
+          children: [
+            {
+              path: "",
+              element: <Navigate to="details" replace />,
+            },
+            {
+              path: "details",
+              element: <UserProfile />,
+            },
+            {
+              path: "settings",
+              element: <UserSettings />,
+            },
+          ],
         },
       ],
     },
