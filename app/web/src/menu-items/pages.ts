@@ -10,29 +10,29 @@ const icons = {
 
 const pages = {
   id: "pages",
-  title: "Pages",
-  caption: "Pages Caption",
+  title: "User auth",
+  caption: "user Caption",
   type: "group",
   roles: ["Ceo"],
 
   children: [
     {
       id: "authentication",
-      title: "Authentication",
+      title: "User",
       type: "collapse",
       icon: icons.IconKey,
 
       children: [
         {
           id: "login3",
-          title: "Login",
+          title: "Profile",
           type: "item",
           url: "/auth/login",
           target: true,
         },
         {
           id: "register3",
-          title: "Register",
+          title: "Accoount",
           type: "item",
           url: "/auth/register",
           target: true,

@@ -154,7 +154,7 @@ const EarningCard = ({ isLoading }) => {
                         mb: 0.75,
                       }}
                     >
-                      $500.00
+                      1228 hrs
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -182,7 +182,7 @@ const EarningCard = ({ isLoading }) => {
                     color: themePalette.secondary[200],
                   }}
                 >
-                  Total Earning
+                  Total Hours
                 </Typography>
               </Grid>
             </Grid>

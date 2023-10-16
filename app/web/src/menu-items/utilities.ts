@@ -25,7 +25,7 @@ const utilities = {
   children: [
     {
       id: "util-typography",
-      title: "Typography",
+      title: "Dev Hub",
       type: "item",
       url: "/utils/util-typography",
       icon: icons.IconTypography,
@@ -33,7 +33,7 @@ const utilities = {
     },
     {
       id: "util-color",
-      title: "Color",
+      title: "Dev interviews",
       type: "item",
       url: "/utils/util-color",
       icon: icons.IconPalette,
@@ -41,7 +41,7 @@ const utilities = {
     },
     {
       id: "Devs",
-      title: "Devs",
+      title: "All devs",
       type: "item",
       url: "/utils/util-shadow",
       icon: icons.IconShadow,

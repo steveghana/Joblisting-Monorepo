@@ -296,7 +296,12 @@ const FirebaseRegister = ({ ...others }) => {
               </Grid>
             </Grid>
             {errors.submit && (
-              <Box sx={{ mt: 3 }}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ mt: 3 }}
+              >
                 <FormHelperText error>{errors.submit as string}</FormHelperText>
               </Box>
             )}

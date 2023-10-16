@@ -7,14 +7,16 @@ const icons = { IconBrandChrome, IconHelp };
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
-  id: "sample-docs-roadmap",
+  id: "Hr",
+  title: "Recruitment",
+
   type: "group",
   roles: ["Ceo"],
 
   children: [
     {
       id: "sample-page",
-      title: "Sample Page",
+      title: "Item Page",
       type: "item",
       url: "/sample-page",
       icon: icons.IconBrandChrome,
@@ -22,7 +24,7 @@ const other = {
     },
     {
       id: "documentation",
-      title: "Documentation",
+      title: "item",
       type: "item",
       url: "https://codedthemes.gitbook.io/berry/",
       icon: icons.IconHelp,

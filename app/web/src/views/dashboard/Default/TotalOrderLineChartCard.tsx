@@ -134,7 +134,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                               mb: 0.75,
                             }}
                           >
-                            $108
+                            112 hrs
                           </Typography>
                         ) : (
                           <Typography
@@ -146,7 +146,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                               mb: 0.75,
                             }}
                           >
-                            $961
+                            961 hrs
                           </Typography>
                         )}
                       </Grid>
@@ -173,7 +173,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                             color: themePalette.primary[200],
                           }}
                         >
-                          Total Order
+                          Total hours by {timeValue ? "Day" : "Month"}
                         </Typography>
                       </Grid>
                     </Grid>
