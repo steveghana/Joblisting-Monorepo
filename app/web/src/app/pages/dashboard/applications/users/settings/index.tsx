@@ -21,10 +21,10 @@ const TabsWrapper = styled(Tabs)(
 );
 
 function ManagementUserSettings() {
-  const [currentTab, setCurrentTab] = useState<string>("activity");
+  const [currentTab, setCurrentTab] = useState<string>("profile");
 
   const tabs = [
-    { value: "activity", label: "Activity" },
+    { value: "profile", label: "Profile" },
     { value: "edit_profile", label: "Edit Profile" },
     { value: "notifications", label: "Notifications" },
     { value: "security", label: "Passwords/Security" },
@@ -65,7 +65,7 @@ function ManagementUserSettings() {
             </TabsWrapper>
           </Grid>
           <Grid item xs={12}>
-            {currentTab === "activity" && <ActivityTab />}
+            {currentTab === "profile" && <ActivityTab />}
             {currentTab === "edit_profile" && <EditProfileTab />}
             {currentTab === "notifications" && <NotificationsTab />}
             {currentTab === "security" && <SecurityTab />}

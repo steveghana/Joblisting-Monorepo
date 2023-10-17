@@ -14,7 +14,7 @@ const NavBar = () => {
         <li className="custom-nav__item">Career tips</li>
         <li className="custom-nav__item-auth">
           {" "}
-          <Link style={{ color: "white" }} to="/management/profile/details">
+          <Link style={{ color: "white" }} to="/auth/login">
             Sign in
           </Link>
         </li>
