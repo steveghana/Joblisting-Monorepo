@@ -10,7 +10,7 @@ import { gridSpacing } from "../../store/constant";
 
 const Typography = () => (
   <MainCard
-    title="Basic Typography"
+    title="Basic Typograph y"
     secondary={
       <SecondaryAction link="https://next.material-ui.com/system/typography/" />
     }

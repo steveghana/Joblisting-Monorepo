@@ -11,6 +11,7 @@ import EditProfileTab from "../../../../../../content/applications/Users/setting
 import NotificationsTab from "../../../../../../content/applications/Users/settings/NotificationsTab";
 import SecurityTab from "../../../../../../content/applications/Users/settings/SecurityTab";
 import { Protect } from "../../../../../../components/auth/requireAuth";
+import MainCard from "../../../../../../ui-component/cards/MainCard";
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -39,40 +40,39 @@ function ManagementUserSettings() {
       {/* <Helmet>
         <title>User Settings - Applications</title>
       </Helmet> */}
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={12}>
-            <TabsWrapper
-              onChange={handleTabsChange}
-              value={currentTab}
-              variant="scrollable"
-              scrollButtons="auto"
-              textColor="primary"
-              indicatorColor="primary"
-            >
-              {tabs.map((tab) => (
-                <Tab key={tab.value} label={tab.label} value={tab.value} />
-              ))}
-            </TabsWrapper>
+      <MainCard>
+        <Container maxWidth="lg">
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="stretch"
+            spacing={3}
+          >
+            <Grid item xs={12}>
+              <TabsWrapper
+                onChange={handleTabsChange}
+                value={currentTab}
+                variant="scrollable"
+                scrollButtons="auto"
+                textColor="primary"
+                indicatorColor="primary"
+              >
+                {tabs.map((tab) => (
+                  <Tab key={tab.value} label={tab.label} value={tab.value} />
+                ))}
+              </TabsWrapper>
+            </Grid>
+            <Grid item xs={12}>
+              {currentTab === "profile" && <ActivityTab />}
+              {currentTab === "edit_profile" && <EditProfileTab />}
+              {currentTab === "notifications" && <NotificationsTab />}
+              {currentTab === "security" && <SecurityTab />}
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            {currentTab === "profile" && <ActivityTab />}
-            {currentTab === "edit_profile" && <EditProfileTab />}
-            {currentTab === "notifications" && <NotificationsTab />}
-            {currentTab === "security" && <SecurityTab />}
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
+        </Container>
+        <Footer />
+      </MainCard>
     </>
   );
 }

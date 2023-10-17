@@ -1,116 +1,184 @@
 import {
-  Box,
-  CardMedia,
-  Typography,
-  Card,
-  CardHeader,
-  Divider,
-  Avatar,
-  IconButton,
-  Button,
   CardActions,
   Link,
+  Grid,
+  Avatar,
+  Chip,
+  Divider,
+  ButtonBase,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import MuiTypography from "@mui/material/Typography";
+import MainCard from "../../../../ui-component/cards/MainCard";
+import CardSecondaryAction from "../../../../ui-component/cards/CardSecondaryAction";
+import { gridSpacing } from "../../../../store/constant";
+import SubCard from "../../../../ui-component/cards/SubCard";
+import { Email, EmailOutlined, LocationOn, Phone } from "@mui/icons-material";
+import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
+import { shouldForwardProp } from "@mui/system";
+import { IconMail } from "@tabler/icons";
 
-import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone";
-import ThumbUpAltTwoToneIcon from "@mui/icons-material/ThumbUpAltTwoTone";
-import CommentTwoToneIcon from "@mui/icons-material/CommentTwoTone";
-import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
-import Text from "../../../../components/Text";
-
-const CardActionsWrapper = styled(CardActions)(
-  ({ theme }) => `
-     background: ${theme.colors?.alpha?.black[5]};
-     padding: ${theme.spacing(3)};
-`
+import { Box } from "@mui/system";
+import { themePalette } from "../../../../themes/schemes/palette";
+const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(
+  ({ theme }) => ({
+    ...componentThemeoption.commonAvatar,
+    ...componentThemeoption.mediumAvatar,
+    background: themePalette.secondary.light,
+    color: theme.palette.secondary.dark,
+    // "&:hover": {
+    //   background: theme.palette.secondary.dark,
+    //   color: themePalette.secondary.light,
+    // },
+  })
 );
-
 function ActivityTab() {
   return (
-    <Card>
-      <CardHeader
-        avatar={<Avatar src="/static/images/avatars/5.jpg" />}
-        action={
-          <IconButton color="primary">
-            <MoreHorizTwoToneIcon fontSize="medium" />
-          </IconButton>
-        }
-        titleTypographyProps={{ variant: "h4" }}
-        subheaderTypographyProps={{ variant: "subtitle2" }}
-        title="Allison Lipshutz"
-        subheader={
-          <>
-            Managing Partner,{" "}
-            <Link href="#" underline="hover">
-              #software
-            </Link>
-            ,{" "}
-            <Link href="#" underline="hover">
-              #managers
-            </Link>
-            , Google Inc.
-          </>
-        }
-      />
-      <Box px={3} pb={2}>
-        <Typography variant="h4" fontWeight="normal">
-          Welcome to organizing your remote office for maximum productivity.
-        </Typography>
-      </Box>
-      <CardMedia
-        sx={{ minHeight: 280 }}
-        image="/static/images/placeholders/covers/6.jpg"
-        title="Card Cover"
-      />
-      <Box p={3}>
-        <Typography variant="h2" sx={{ pb: 1 }}>
-          Organizing Your Remote Office for Maximum Productivity
-        </Typography>
-        <Typography variant="subtitle2">
-          <Link href="#" underline="hover">
-            example.com
-          </Link>{" "}
-          • 4 mins read
-        </Typography>
-      </Box>
-      <Divider />
-      <CardActionsWrapper
-        sx={{
-          display: { xs: "block", md: "flex" },
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box>
-          <Button startIcon={<ThumbUpAltTwoToneIcon />} variant="contained">
-            Like
-          </Button>
-          <Button
-            startIcon={<CommentTwoToneIcon />}
-            variant="outlined"
-            sx={{ mx: 2 }}
-          >
-            Comment
-          </Button>
-          <Button startIcon={<ShareTwoToneIcon />} variant="outlined">
-            Share
-          </Button>
-        </Box>
-        <Box sx={{ mt: { xs: 2, md: 0 } }}>
-          <Typography variant="subtitle2" component="span">
-            <Text color="black">
-              <b>485</b>
-            </Text>{" "}
-            reactions •{" "}
-            <Text color="black">
-              <b>63</b>
-            </Text>{" "}
-            comments
-          </Typography>
-        </Box>
-      </CardActionsWrapper>
-    </Card>
+    <MainCard>
+      <Grid container>
+        <Grid item xs={12} sm={4} mr={2}>
+          <SubCard>
+            <Grid container direction="column" spacing={1}>
+              <Grid className="avatar" display={"flex"} gap={"1rem"} item>
+                <Avatar alt="user" />
+                <Grid mr={"auto"}>
+                  <MuiTypography variant="h5" fontWeight={700}>
+                    JWT User
+                  </MuiTypography>
+                  <MuiTypography variant="caption" gutterBottom>
+                    Ui/Ux designer
+                  </MuiTypography>
+                </Grid>
+                <Chip color="primary" label="Pro" />
+              </Grid>
+              <Divider sx={{ margin: "1rem 0" }} />
+              <Grid className="mail links" item>
+                <Box alignItems={"center"} gap={".4rem"} display={"flex"}>
+                  <ButtonBase sx={{ borderRadius: "12px" }}>
+                    <IconMail stroke={1.5} size="1.3rem" />
+                  </ButtonBase>
+                  <MuiTypography fontWeight={700} variant="h5" mr={"auto"}>
+                    Email
+                  </MuiTypography>
+                  <MuiTypography variant="caption">
+                    demo@svtech.com
+                  </MuiTypography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+                <Box alignItems={"center"} gap={".4rem"} display={"flex"}>
+                  <ButtonBase sx={{ borderRadius: "12px" }}>
+                    <Phone />
+                    {/* <IconMail stroke={1.5} size="1.3rem" /> */}
+                  </ButtonBase>
+                  <MuiTypography fontWeight={700} variant="h5" mr={"auto"}>
+                    Phone
+                  </MuiTypography>
+                  <MuiTypography variant="caption">
+                    +233 554566677
+                  </MuiTypography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+
+                <Box alignItems={"center"} gap={".4rem"} display={"flex"}>
+                  <ButtonBase sx={{ borderRadius: "12px" }}>
+                    {/* <IconMail stroke={1.5} size="1.3rem" /> */}
+                    <LocationOn />
+                  </ButtonBase>
+                  <MuiTypography fontWeight={700} variant="h5" mr={"auto"}>
+                    Location
+                  </MuiTypography>
+                  <MuiTypography variant="caption">Melbourne</MuiTypography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+              </Grid>
+            </Grid>
+          </SubCard>
+        </Grid>
+        <Grid container xs={12} sm={8} spacing={gridSpacing}>
+          <Grid item xs={12} sm={12}>
+            <SubCard title="Sub title">
+              <Grid container direction="column" spacing={1}>
+                <Grid item>
+                  <MuiTypography variant="subtitle1" gutterBottom>
+                    subtitle1. Lorem ipsum dolor sit connecter adieu siccing
+                    eliot. Quos blanditiis tenetur
+                  </MuiTypography>
+                </Grid>
+                <Grid item>
+                  <MuiTypography variant="subtitle2" gutterBottom>
+                    subtitle2. Lorem ipsum dolor sit connecter adieu siccing
+                    eliot. Quos blanditiis tenetur
+                  </MuiTypography>
+                </Grid>
+              </Grid>
+            </SubCard>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <SubCard title="Body">
+              <Grid container direction="column" spacing={1}>
+                <Grid item>
+                  <MuiTypography variant="body1" gutterBottom>
+                    body1. Lorem ipsum dolor sit connecter adieu siccing eliot.
+                    Quos blanditiis tenetur unde suscipit, quam beatae rerum
+                    inventore consectetur, neque doloribus, cupiditate numquam
+                    dignissimos laborum fugiat deleniti? Eum quasi quidem
+                    quibusdam.
+                  </MuiTypography>
+                </Grid>
+                <Grid item>
+                  <MuiTypography variant="body2" gutterBottom>
+                    body2. Lorem ipsum dolor sit connecter adieu siccing eliot.
+                    Quos blanditiis tenetur unde suscipit, quam beatae rerum
+                    inventore consectetur, neque doloribus, cupiditate numquam
+                    dignissimos laborum fugiat deleniti? Eum quasi quidem
+                    quibusdam.
+                  </MuiTypography>
+                </Grid>
+              </Grid>
+            </SubCard>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <SubCard title="Extra">
+              <Grid container direction="column" spacing={1}>
+                <Grid item>
+                  <MuiTypography variant="button" display="block" gutterBottom>
+                    button text
+                  </MuiTypography>
+                </Grid>
+                <Grid item>
+                  <MuiTypography variant="caption" display="block" gutterBottom>
+                    caption text
+                  </MuiTypography>
+                </Grid>
+                <Grid item>
+                  <MuiTypography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                  >
+                    overline text
+                  </MuiTypography>
+                </Grid>
+                <Grid item>
+                  <MuiTypography
+                    variant="body2"
+                    color="primary"
+                    component={Link}
+                    href="https://berrydashboard.io"
+                    target="_blank"
+                    display="block"
+                    underline="hover"
+                    gutterBottom
+                  >
+                    https://berrydashboard.io
+                  </MuiTypography>
+                </Grid>
+              </Grid>
+            </SubCard>
+          </Grid>
+        </Grid>
+      </Grid>
+    </MainCard>
   );
 }
 
