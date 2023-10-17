@@ -20,6 +20,7 @@ import { IconMail } from "@tabler/icons";
 
 import { Box } from "@mui/system";
 import { themePalette } from "../../../../themes/schemes/palette";
+import { userDetailsFields } from "./userdata";
 const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(
   ({ theme }) => ({
     ...componentThemeoption.commonAvatar,
@@ -96,19 +97,44 @@ function ActivityTab() {
         </Grid>
         <Grid container xs={12} sm={8} spacing={gridSpacing}>
           <Grid item xs={12} sm={12}>
-            <SubCard title="Sub title">
+            <SubCard title="About me">
               <Grid container direction="column" spacing={1}>
                 <Grid item>
                   <MuiTypography variant="subtitle1" gutterBottom>
-                    subtitle1. Lorem ipsum dolor sit connecter adieu siccing
-                    eliot. Quos blanditiis tenetur
+                    Hello,I’m Anshan Handgun Creative Graphic Designer & User
+                    Experience Designer based in Website, I create digital
+                    Products a more Beautiful and usable place. Morbid accusant
+                    ipsum. Nam nec tellus at.
                   </MuiTypography>
+                  <Divider sx={{ margin: "1rem 0" }} />
                 </Grid>
                 <Grid item>
-                  <MuiTypography variant="subtitle2" gutterBottom>
-                    subtitle2. Lorem ipsum dolor sit connecter adieu siccing
-                    eliot. Quos blanditiis tenetur
+                  <MuiTypography variant="h5" fontWeight={700}>
+                    Personal Details
                   </MuiTypography>
+                  <Divider sx={{ margin: "1rem 0" }} />
+                  {Object.keys(userDetailsFields).map((field) => (
+                    <Grid display={"flex"} my={1.5}>
+                      <MuiTypography
+                        variant="h5"
+                        sx={{ minWidth: "40%" }}
+                        fontWeight={700}
+                      >
+                        {field}
+                      </MuiTypography>
+                      <Box
+                        sx={{ minWidth: "60%" }}
+                        marginX={"auto"}
+                        display={"flex"}
+                        justifyContent={"flex-start"}
+                        alignItems={"flex-start"}
+                      >
+                        <MuiTypography textAlign={"left"}>
+                          {userDetailsFields[field]}
+                        </MuiTypography>
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </SubCard>
