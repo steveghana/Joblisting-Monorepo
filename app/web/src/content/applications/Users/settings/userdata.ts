@@ -6,4 +6,5 @@ export const userDetailsFields = {
   Phone: "055454455",
   Email: "demo@svtech.com",
   Website: "Noclue.com",
+  location: "Melbourne",
 };

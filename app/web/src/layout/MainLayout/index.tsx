@@ -68,14 +68,12 @@ const MainLayout = () => {
   const matchDownMd = useMediaQuery(theme.breakpoints.down("md"));
   // Handle left drawer
   const leftDrawerOpened = useSelector(
-    (state: any) => state.customization?.opened
+    (state: any) => state.state.customization?.opened
   );
-  console.log(
-    useSelector((state: any) => state.customization),
-    "from main"
-  );
+  console.log(leftDrawerOpened, "opening");
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
+    console.log("item clicked");
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
 
