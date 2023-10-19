@@ -15,7 +15,7 @@ function CustomButton(props: IButtonProps) {
   return (
     <Button
       {...props} // Spread all properties from IButtonProps
-      fullWidth
+      // fullWidth
       variant="contained"
       sx={{ mt: 3, mb: 2, borderRadius: "50px" }}
     >

@@ -73,7 +73,6 @@ const MainLayout = () => {
   console.log(leftDrawerOpened, "opening");
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
-    console.log("item clicked");
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
 
