@@ -68,7 +68,7 @@ const MainLayout = () => {
   const matchDownMd = useMediaQuery(theme.breakpoints.down("md"));
   // Handle left drawer
   const leftDrawerOpened = useSelector(
-    (state: any) => state.state.customization?.opened
+    (state: any) => state.customization?.opened
   );
   console.log(leftDrawerOpened, "opening");
   const dispatch = useDispatch();
