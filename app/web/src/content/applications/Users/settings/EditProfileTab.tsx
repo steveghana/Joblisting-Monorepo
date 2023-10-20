@@ -141,7 +141,6 @@ function EditProfileTab({ ...others }) {
                               id="demo-select-small"
                               sx={{
                                 ...themeTypography.customInput,
-                                // width: "50%",
                               }}
                               autoWidth
                               // value={age}
