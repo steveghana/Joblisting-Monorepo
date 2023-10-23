@@ -5,11 +5,6 @@ import { Grid, Container } from "@mui/material";
 
 import ProfileCover from "../../../../../../content/applications/Users/profile/ProfileCover";
 import RecentActivity from "../../../../../../content/applications/Users/profile/RecentActivity";
-import Feed from "../../../../../../content/applications/Users/profile/Feed";
-import PopularTags from "../../../../../../content/applications/Users/profile/PopularTags";
-import MyCards from "../../../../../../content/applications/Users/profile/MyCards";
-import Addresses from "../../../../../../content/applications/Users/profile/Addresses";
-import { Protect } from "../../../../../../components/auth/requireAuth";
 
 function ManagementUserProfile() {
   const user = {
