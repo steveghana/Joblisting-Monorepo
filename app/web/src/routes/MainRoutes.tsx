@@ -3,7 +3,7 @@ import MainLayout from "../layout/MainLayout";
 // project imports
 // import MainLayout from 'layout/MainLayout';
 import Loadable from "../ui-component/Loadable";
-import Home from "../app/pages/Landing/page";
+import Home from "../views/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 

@@ -12,8 +12,8 @@ import {
   Button,
   FormHelperText,
 } from "@mui/material";
-import { Helmet } from "react-helmet-async";
-import Logo from "../../../../components/LogoSign";
+// import { Helmet } from "react-helmet-async";
+import Logo from "../../../components/LogoSign";
 
 import { styled } from "@mui/material/styles";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -99,9 +99,9 @@ function StatusComingSoon() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Status - Coming Soon</title>
-      </Helmet>
+      </Helmet> */}
       <MainContent>
         <Container maxWidth="md">
           <Logo />

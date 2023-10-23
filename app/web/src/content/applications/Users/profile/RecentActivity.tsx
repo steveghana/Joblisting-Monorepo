@@ -53,7 +53,7 @@ function RecentActivity() {
                 variant="caption"
                 sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                active
+                Active
               </Typography>
               <Typography variant="h2">8</Typography>
             </Box>
@@ -85,7 +85,7 @@ function RecentActivity() {
                 variant="caption"
                 sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                active
+                Active
               </Typography>
               <Typography variant="h2">15</Typography>
             </Box>

@@ -7,7 +7,7 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import RefreshTwoToneIcon from "@mui/icons-material/RefreshTwoTone";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -51,9 +51,9 @@ function Status500() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Status - 500</title>
-      </Helmet>
+      </Helmet> */}
       <MainContent>
         <Grid
           container

@@ -35,9 +35,11 @@ function ManagementUserProfile() {
           <Grid item xs={12} md={8}>
             <ProfileCover user={user} />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <RecentActivity />
-          </Grid>
+          {user.jobtitle === "Ceo" && (
+            <Grid item xs={12} md={4}>
+              <RecentActivity />
+            </Grid>
+          )}
           {/* <Grid item xs={12} md={8}>
             <Feed />
           </Grid> */}

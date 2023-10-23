@@ -6,15 +6,14 @@ import SidebarLayout from "./components/layouts/SidebarLayout";
 import BaseLayout from "./components/layouts/BaseLayout";
 
 import SuspenseLoader from "./components/SuspenseLoader";
-import Home from "./app/pages/Landing/page";
-import Auth from "./app/pages/auth/page";
+import Home from "./views/Landing/page";
+import Auth from "./views/pages/authentication/page";
 
-const Loader = (Component: any) => (props: any) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+const Loader = (Component: any) => (props: any) => (
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 // Pages
 
@@ -48,13 +47,13 @@ const SubPage1 = Loader(lazy(() => import("./app/pages/subPages/item1")));
 
 // Status
 
-const Status404 = Loader(lazy(() => import("./app/pages/status/Status404")));
-const Status500 = Loader(lazy(() => import("./app/pages/status/Status500")));
+const Status404 = Loader(lazy(() => import("./views/status/Status404")));
+const Status500 = Loader(lazy(() => import("./views/status/Status500")));
 const StatusComingSoon = Loader(
-  lazy(() => import("./app/pages/status/ComingSoon"))
+  lazy(() => import("./views/status/ComingSoon"))
 );
 const StatusMaintenance = Loader(
-  lazy(() => import("./app/pages/status/Maintenance"))
+  lazy(() => import("./views/status/Maintenance"))
 );
 
 const routes: RouteObject[] = [

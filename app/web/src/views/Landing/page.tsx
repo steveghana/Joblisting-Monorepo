@@ -11,8 +11,8 @@ import {
   Sponsors,
   QMessageInput,
   Footer,
-} from "../../../Landing/components/exports";
-import NavBar from "../../../Landing/components/nav";
+} from "../../Landing/components/exports";
+import NavBar from "../../Landing/components/nav";
 import { Container } from "@mui/material";
 
 export default function Home() {
