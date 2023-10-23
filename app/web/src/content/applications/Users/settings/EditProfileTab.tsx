@@ -61,20 +61,6 @@ function EditProfileTab({ ...others }) {
             }) => (
               <form noValidate onSubmit={handleSubmit} {...others}>
                 <MainCard>
-                  {/* <Grid container spacing={2}>
-                    <Grid item xs={12} sm={4}>
-                      <SubCard title="Personal information">
-                        
-                      </SubCard>
-                    </Grid>
-                  </Grid> */}
-                  {/* <Grid container xs={12} sm={6} spacing={gridSpacing}>
-                    <Grid item xs={12} sm={12}>
-                      <SubCard title="Personal information">
-                        
-                      </SubCard>
-                    </Grid>
-                  </Grid> */}
                   <Grid container>
                     <Grid item xs={12} sm={6} mr={2}>
                       <SubCard title="Personal Information">
