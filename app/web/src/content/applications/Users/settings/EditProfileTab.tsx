@@ -27,6 +27,7 @@ import AnimateButton from "../../../../ui-component/extended/AnimateButton";
 import CustomButton from "../../../../components/button";
 import MainCard from "../../../../ui-component/cards/MainCard";
 function EditProfileTab({ ...others }) {
+  const experience = [3, 4, 5, 6, 7];
   // const []
   return (
     <Grid container spacing={3}>
@@ -35,10 +36,13 @@ function EditProfileTab({ ...others }) {
           <Formik
             initialValues={{
               email: "",
-              password: "",
+              url: "",
+              bio: "",
+              phone: "",
+              location: "",
               firstName: "",
+              experience: "",
               lastName: "",
-              role: "Ceo" || "Marketing" || "Recruitment" || "Developer",
               submit: null,
             }}
             onSubmit={async (values, setters) => {
@@ -130,29 +134,31 @@ function EditProfileTab({ ...others }) {
                             </FormHelperText>
                           )}
                           <FormControl
-                            sx={{ m: 1, minWidth: 50 }}
+                            sx={{ minWidth: 50, my: 1 }}
                             size="medium"
                           >
                             <InputLabel id="demo-select-small-label">
-                              Age
+                              Years of experience
                             </InputLabel>
                             <Select
                               labelId="demo-select-small-label"
                               id="demo-select-small"
                               sx={{
                                 ...themeTypography.customInput,
+                                width: "50%",
                               }}
-                              autoWidth
-                              // value={age}
-                              label="Age"
+                              name="experience"
+                              // autoWidth
+                              // onBlur={handleBlur}
+                              value={values.experience}
+                              label="Years of experience"
                               onChange={handleChange}
                             >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
+                              {experience.map((item) => (
+                                <MenuItem key={item} value={item}>
+                                  {item}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                         </FormControl>
@@ -171,13 +177,13 @@ function EditProfileTab({ ...others }) {
                             <Grid item xs={12} sm={6}>
                               <TextField
                                 fullWidth
-                                label="First Name"
+                                label="Contact"
                                 margin="normal"
-                                value={values.firstName}
-                                name="firstName"
+                                value={values.phone}
+                                name="phone"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                type="text"
+                                type="phone"
                                 defaultValue=""
                                 sx={{ ...themeTypography.customInput }}
                               />
@@ -185,13 +191,13 @@ function EditProfileTab({ ...others }) {
                             <Grid item xs={12} sm={6}>
                               <TextField
                                 fullWidth
-                                value={values.lastName}
-                                label="Last Name"
+                                value={values.location}
+                                label="Location"
                                 margin="normal"
-                                name="lastName"
+                                name="location"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                type="text"
+                                type="location"
                                 defaultValue=""
                                 sx={{ ...themeTypography.customInput }}
                               />
@@ -203,33 +209,26 @@ function EditProfileTab({ ...others }) {
                             sx={{ ...themeTypography.customInput }}
                           >
                             <InputLabel htmlFor="outlined-adornment-email-register">
-                              Email Address / Username
+                              Portfolio / Github / LinkedIn
                             </InputLabel>
                             <OutlinedInput
                               id="outlined-adornment-email-register"
-                              type="email"
-                              value={values.email}
-                              name="email"
+                              type="url"
+                              value={values.url}
+                              name="url"
                               onBlur={handleBlur}
                               onChange={handleChange}
                               inputProps={{}}
                             />
-                            {touched.email && errors.email && (
-                              <FormHelperText
-                                error
-                                id="standard-weight-helper-text--register"
-                              >
-                                {errors.email}
-                              </FormHelperText>
-                            )}
                           </FormControl>
                           <Grid item xs={12}>
                             <TextField
                               fullWidth
-                              value={values.lastName}
+                              value={values.bio}
                               label="Bio"
                               margin="normal"
-                              name="Bio"
+                              name="bio"
+                              autoComplete="off"
                               onBlur={handleBlur}
                               onChange={handleChange}
                               type="text"

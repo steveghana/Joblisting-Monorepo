@@ -252,7 +252,7 @@ function ActivityTab() {
             </Grid>
           </SubCard>
         </Grid>
-        <Grid container lg={8} xs={12} sm={12} spacing={gridSpacing}>
+        <Grid container lg={8} xs={12} spacing={gridSpacing}>
           <Grid item xs={12} sm={12}>
             <SubCard title="About me">
               <Grid direction="column" spacing={1}>
