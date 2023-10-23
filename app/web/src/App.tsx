@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 // routing
 import Routes from "./routes";
-
+import Error404 from "./assets/404-bg.jpg";
 // defaultTheme
 
 // project imports
@@ -22,12 +22,27 @@ const App = () => {
   const customization = useSelector((state: any) => state.customization);
   function fallbackRender({ error, resetErrorBoundary }) {
     // Call resetErrorBoundary() to reset the error boundary and retry the render.
-
+    console.log(error.message);
     return (
-      <div role="alert">
-        <p>Something went wrong:</p>
-        <pre style={{ color: "red" }}>{error.message}</pre>
-      </div>
+      <>
+        <div className="error-page">
+          <div className="error-img">
+            <img src={Error404} alt="" />
+          </div>
+          <div className="content">
+            <h2>
+              Oops <br />
+              <span>nothing</span> here...
+            </h2>
+            <p>
+              Uhol, we can't seem to find the pages you're looking for Try going
+              back to previous page or Contact us for more information
+            </p>
+            <button className="btn">Go Back</button>
+          </div>
+        </div>
+        <hr className="line" />
+      </>
     );
   }
 
