@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 import TopBarContent from "../../../../../content/applications/Messenger/TopBarContent";
 import BottomBarContent from "../../../../../content/applications/Messenger/BottomBarContent";
@@ -8,7 +8,7 @@ import SidebarContent from "../../../../../content/applications/Messenger/Sideba
 import ChatContent from "../../../../../content/applications/Messenger/ChatContent";
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
 
-import Scrollbar from "../../../../../components/Scrollbar";
+// import Scrollbar from "../../../../../components/Scrollbar";
 
 import {
   Box,
@@ -83,9 +83,9 @@ function ApplicationsMessenger() {
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Messenger - Applications</title>
-      </Helmet>
+      </Helmet> */}
       <RootWrapper className="Mui-FixedWrapper">
         <DrawerWrapperMobile
           sx={{
@@ -96,18 +96,18 @@ function ApplicationsMessenger() {
           open={mobileOpen}
           onClose={handleDrawerToggle}
         >
-          <Scrollbar>
+          {/* <Scrollbar>
             <SidebarContent />
-          </Scrollbar>
+          </Scrollbar> */}
         </DrawerWrapperMobile>
         <Sidebar
           sx={{
             display: { xs: "none", lg: "inline-block" },
           }}
         >
-          <Scrollbar>
+          {/* <Scrollbar>
             <SidebarContent />
-          </Scrollbar>
+          </Scrollbar> */}
         </Sidebar>
         <ChatWindow>
           <ChatTopBar
@@ -129,9 +129,9 @@ function ApplicationsMessenger() {
             <TopBarContent />
           </ChatTopBar>
           <Box flex={1}>
-            <Scrollbar>
+            {/* <Scrollbar>
               <ChatContent />
-            </Scrollbar>
+            </Scrollbar> */}
           </Box>
           <Divider />
           <BottomBarContent />
