@@ -19,8 +19,8 @@ function ManagementUserProfile() {
     avatar: "/static/images/avatars/4.jpg",
     description:
       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage",
-    jobtitle: "Web Developer",
-    location: "Barcelona, Spain",
+    jobtitle: "Ceo",
+    location: "Tel aviv, Israel",
     followers: "465",
   };
 
@@ -43,10 +43,10 @@ function ManagementUserProfile() {
           <Grid item xs={12} md={4}>
             <RecentActivity />
           </Grid>
-          <Grid item xs={12} md={8}>
+          {/* <Grid item xs={12} md={8}>
             <Feed />
-          </Grid>
-          <Grid item xs={12} md={4}>
+          </Grid> */}
+          {/* <Grid item xs={12} md={4}>
             <PopularTags />
           </Grid>
           <Grid item xs={12} md={7}>
@@ -54,7 +54,7 @@ function ManagementUserProfile() {
           </Grid>
           <Grid item xs={12} md={5}>
             <Addresses />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
       <Footer />
