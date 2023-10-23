@@ -57,7 +57,7 @@ function ActivityTab() {
   return (
     <MainCard>
       <Grid container>
-        <Grid item xs={12} sm={4} mr={2}>
+        <Grid item xs={12} sm={12} lg={4} mr={2}>
           <SubCard>
             <Grid container direction="column" spacing={1}>
               <Grid className="avatar" display={"flex"} gap={"1rem"} item>
