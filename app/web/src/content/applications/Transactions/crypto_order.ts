@@ -1,15 +1,12 @@
-export type DevStatus = "completed" | "pending" | "failed";
+export type DevStatus = "Active" | "Not Active";
+export type DevInterveiwStatus = "completed" | "pending" | "failed";
 
-export interface CryptoOrder {
+export interface DevDetails {
   id: string;
+  devDetails: string;
+  date: number;
   status: DevStatus;
-  orderDetails: string;
-  orderDate: number;
-  orderID: string;
-  sourceName: string;
-  sourceDesc: string;
-  amountCrypto: number;
-  amount: number;
-  cryptoCurrency: string;
-  currency: string;
+  interviewStatus: DevInterveiwStatus;
+  skills: string[];
+  experience: number;
 }
