@@ -43,7 +43,7 @@ const utilities = {
       id: "Devs",
       title: "All devs",
       type: "item",
-      url: "/utils/util-shadow",
+      url: "/devs/all",
       icon: icons.IconShadow,
       breadcrumbs: false,
     },

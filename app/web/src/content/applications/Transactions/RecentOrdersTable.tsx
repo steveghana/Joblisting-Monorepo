@@ -23,13 +23,16 @@ import {
   Typography,
   useTheme,
   CardHeader,
+  Grid,
+  Button,
 } from "@mui/material";
 
 import Label from "../../../components/Label";
-import { CryptoOrder, CryptoOrderStatus } from "./crypto_order";
+import { CryptoOrder, DevStatus } from "./crypto_order";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import BulkActions from "./BulkActions";
+import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -37,10 +40,10 @@ interface RecentOrdersTableProps {
 }
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  status?: DevStatus;
 }
 
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
+const getStatusLabel = (DevStatus: DevStatus): JSX.Element => {
   const map = {
     failed: {
       text: "Failed",
@@ -56,7 +59,7 @@ const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
     },
   };
 
-  const { text, color }: any = map[cryptoOrderStatus];
+  const { text, color }: any = map[DevStatus];
 
   return <Label color={color}>{text}</Label>;
 };
@@ -182,30 +185,46 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           <BulkActions />
         </Box>
       )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="Recent Orders"
-        />
-      )}
+      <Grid
+        container
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Grid item>
+          <Button
+            sx={{ mt: { xs: 2, md: 0 } }}
+            variant="contained"
+            startIcon={<AddTwoToneIcon fontSize="small" />}
+          >
+            Add a Developer
+          </Button>
+        </Grid>
+
+        {!selectedBulkActions && (
+          <CardHeader
+            action={
+              <Box width={150}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={filters.status || "all"}
+                    onChange={handleStatusChange}
+                    label="Status"
+                    autoWidth
+                  >
+                    {statusOptions.map((statusOption) => (
+                      <MenuItem key={statusOption.id} value={statusOption.id}>
+                        {statusOption.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            }
+          />
+        )}
+      </Grid>
       <Divider />
       <TableContainer>
         <Table>
@@ -219,9 +238,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   onChange={handleSelectAllCryptoOrders}
                 />
               </TableCell>
-              <TableCell>Order Details</TableCell>
-              <TableCell>Order ID</TableCell>
-              <TableCell>Source</TableCell>
+              <TableCell>Dev Details</TableCell>
+              <TableCell>Dev ID</TableCell>
+              <TableCell>Skills</TableCell>
               <TableCell align="right">Amount</TableCell>
               <TableCell align="right">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -308,11 +327,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     {getStatusLabel(cryptoOrder.status)}
                   </TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
+                    <Tooltip title="Edit dev details" arrow>
                       <IconButton
                         sx={{
                           "&:hover": {
-                            background: theme.colors?.primary.lighter,
+                            background: theme.colors?.primary,
                           },
                           color: theme.palette.primary.main,
                         }}
@@ -322,7 +341,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
+                    <Tooltip title="Delete dev " arrow>
                       <IconButton
                         sx={{
                           "&:hover": {

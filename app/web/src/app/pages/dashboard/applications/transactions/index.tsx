@@ -1,6 +1,6 @@
 import PageHeader from "../../../../../content/applications/Transactions/PageHeader";
 import PageTitleWrapper from "../../../../../components/PageTitleWrapper";
-import { Grid, Container } from "@mui/material";
+import { Grid, Container, Button } from "@mui/material";
 // import Footer from "../../../../../components/Footer";
 
 import RecentOrders from "../../../../../content/applications/Transactions/RecentOrders";
@@ -13,9 +13,6 @@ function ApplicationsTransactions() {
       {/* <Helmet>
         <title>Transactions - Applications</title>
       </Helmet> */}
-      {/* <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper> */}
       <MainCard>
         <Container maxWidth="lg">
           <Grid

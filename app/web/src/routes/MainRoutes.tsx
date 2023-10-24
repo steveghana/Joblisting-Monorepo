@@ -96,10 +96,10 @@ const MainRoutes = {
     },
 
     {
-      path: "utils",
+      path: "devs",
       children: [
         {
-          path: "util-shadow",
+          path: "all",
           element: <Transactions />,
         },
       ],
