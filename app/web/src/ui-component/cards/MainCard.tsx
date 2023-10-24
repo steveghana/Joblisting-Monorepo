@@ -83,6 +83,7 @@ interface IMainCard {
   boxShadow?: boolean;
   children?: React.ReactNode;
   content?: boolean;
+  elevation?: number;
   contentClass?: string;
   contentSX?: Record<any, any>;
   darkTitle?: boolean;

@@ -285,8 +285,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ devDetails }) => {
                     >
                       {devDetails.devDetails}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
+                    {/* <Typography variant="body2" color="text.secondary" noWrap>
                       {format(devDetails.date, "MMMM dd yyyy")}
+                    </Typography> */}
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {devDetails.role}
                     </Typography>
                   </TableCell>
                   <TableCell>

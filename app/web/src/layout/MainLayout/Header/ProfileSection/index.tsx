@@ -60,6 +60,8 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef<HTMLDivElement>(null);
   const handleLogout = async () => {
+    localStorage.clear();
+    navigate("auth/login");
     console.log("Logout");
   };
 
@@ -298,7 +300,11 @@ const ProfileSection = () => {
                           }}
                           selected={selectedIndex === 0}
                           onClick={(event) =>
-                            handleListItemClick(event, 0, "#")
+                            handleListItemClick(
+                              event,
+                              0,
+                              "management/profile/settings"
+                            )
                           }
                         >
                           <ListItemIcon>
@@ -322,9 +328,14 @@ const ProfileSection = () => {
                           sx={{
                             borderRadius: `${customization.borderRadius}px`,
                           }}
+                          // href="management/profile/details"
                           selected={selectedIndex === 1}
                           onClick={(event) =>
-                            handleListItemClick(event, 1, "#")
+                            handleListItemClick(
+                              event,
+                              1,
+                              "management/profile/details"
+                            )
                           }
                         >
                           <ListItemIcon>
@@ -339,7 +350,7 @@ const ProfileSection = () => {
                               >
                                 <Grid item>
                                   <Typography variant="body2">
-                                    Social Profile
+                                    Profile
                                   </Typography>
                                 </Grid>
                                 <Grid item>
