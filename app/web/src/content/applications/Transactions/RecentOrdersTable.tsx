@@ -41,7 +41,7 @@ interface RecentOrdersTableProps {
 }
 
 interface Filters {
-  status?: DevStatus;
+  status?: DevInterveiwStatus;
 }
 
 const getDevStatusLabel = (DevStatus: DevInterveiwStatus): JSX.Element => {
@@ -89,7 +89,7 @@ const applyFilters = (
   return devDetails.filter((devDetails) => {
     let matches = true;
 
-    if (filters.status && devDetails.status !== filters.status) {
+    if (filters.status && devDetails.interviewStatus !== filters.status) {
       matches = false;
     }
 
@@ -309,7 +309,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ devDetails }) => {
                       noWrap
                     >
                       {devDetails.skills.slice(0, 3).map((skill) => (
-                        <Chip label={skill} />
+                        <Chip label={skill} sx={{ m: 0.5 }} />
                       ))}
                       {devDetails.skills.length > 3 ? "..." : ""}
                     </Typography>

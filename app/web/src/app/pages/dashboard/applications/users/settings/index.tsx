@@ -1,18 +1,12 @@
 import { useState, ChangeEvent } from "react";
-// import { Helmet } from "react-helmet-async";
-import PageHeader from "../../../../../../content/applications/Users/settings/PageHeader";
-import PageTitleWrapper from "../../../../../../components/PageTitleWrapper";
 import { Container, Tabs, Tab, Grid } from "@mui/material";
 import Footer from "../../../../../../components/Footer";
 import { styled } from "@mui/material/styles";
-
 import ActivityTab from "../../../../../../content/applications/Users/settings/ActivityTab";
 import EditProfileTab from "../../../../../../content/applications/Users/settings/EditProfileTab";
 import NotificationsTab from "../../../../../../content/applications/Users/settings/NotificationsTab";
 import SecurityTab from "../../../../../../content/applications/Users/settings/SecurityTab";
-import { Protect } from "../../../../../../components/auth/requireAuth";
 import MainCard from "../../../../../../ui-component/cards/MainCard";
-
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -20,21 +14,17 @@ const TabsWrapper = styled(Tabs)(
     }
 `
 );
-
 function ManagementUserSettings() {
   const [currentTab, setCurrentTab] = useState<string>("profile");
-
   const tabs = [
     { value: "profile", label: "Profile" },
     { value: "edit_profile", label: "Edit Profile" },
     { value: "notifications", label: "Notifications" },
     { value: "security", label: "Passwords/Security" },
   ];
-
   const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
   };
-
   return (
     <>
       {/* <Helmet>
