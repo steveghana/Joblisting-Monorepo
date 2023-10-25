@@ -1,25 +1,8 @@
-import {
-  Avatar,
-  Button,
-  ButtonBase,
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
-import React from "react";
+import { Avatar, Button, Divider, Grid, Typography } from "@mui/material";
 import MainCard from "../../../ui-component/cards/MainCard";
 import SubCard from "../../../ui-component/cards/SubCard";
 import { Box } from "@mui/system";
-import Text from "../../../components/Text";
-import {
-  BlockOutlined,
-  Label,
-  MessageRounded,
-  MoreHoriz,
-} from "@mui/icons-material";
+import { BlockOutlined, MessageRounded, MoreHoriz } from "@mui/icons-material";
 
 const Clients = () => {
   return (
