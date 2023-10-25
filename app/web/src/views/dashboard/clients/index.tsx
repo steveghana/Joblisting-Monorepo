@@ -20,17 +20,17 @@ const Clients = () => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 2, sm: 8, md: 12, lg: 16 }}
         >
-          {Array.from({ length: 10 }).map((item, index) => (
-            <ClientCard index={index} />
+          {Array.from({ length: 10 }).map((_, index) => (
+            <ClientCard key={index} />
           ))}
         </Grid>
       </Grid>
     </MainCard>
   );
 };
-const ClientCard = (props: { index: number }) => {
+const ClientCard = () => {
   return (
-    <Grid item xs={2} sm={4} md={4} key={props.index}>
+    <Grid item xs={2} sm={4} md={4}>
       <SubCard>
         <Grid container direction="column" spacing={1}>
           <Grid
