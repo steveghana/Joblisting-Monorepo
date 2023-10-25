@@ -24,7 +24,7 @@ const dashboard = {
       id: "client",
       title: "Clients",
       type: "item",
-      url: "/customers/clients",
+      url: "/dashboard/customers/clients",
       icon: icons.IconUser,
       breadcrumbs: false,
     },

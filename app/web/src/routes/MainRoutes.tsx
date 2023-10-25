@@ -21,7 +21,7 @@ const UserSettings = Loadable(
 const Transactions = Loadable(
   lazy(() => import("../app/pages/dashboard/applications/transactions"))
 );
-const UtilsColor = Loadable(lazy(() => import("../views/utilities/Color")));
+const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
 const UtilsShadow = Loadable(lazy(() => import("../views/utilities/Shadow")));
 const UtilsMaterialIcons = Loadable(
   lazy(() => import("../views/utilities/MaterialIcons"))
@@ -58,20 +58,15 @@ const MainRoutes = {
           path: "default",
           element: <DashboardDefault />,
         },
-      ],
-    },
-    {
-      path: "/customers",
-      children: [
         {
-          path: "/clients",
-          element: <UtilsColor />,
+          path: "customers/clients",
+          element: <Clients />,
         },
       ],
     },
+
     {
       path: "management",
-
       // element: <SidebarLayout />,
       children: [
         {
