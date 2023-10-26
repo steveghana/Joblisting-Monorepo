@@ -2,15 +2,15 @@ import { lazy } from "react";
 import React from "react";
 import MinimalLayout from "../layout/MinimalLayout";
 // project imports
-import Loadable from "../ui-component/Loadable";
+import Loadable from "../components/Loadable";
 // import MinimalLayout from 'layout/MinimalLayout';
 
 // login option 3 routing
 const AuthLogin3 = Loadable(
-  lazy(() => import("../views/pages/authentication/authentication3/Login3"))
+  lazy(() => import("../components/auth/authentication3/Login3"))
 );
 const AuthRegister3 = Loadable(
-  lazy(() => import("../views/pages/authentication/authentication3/Register3"))
+  lazy(() => import("../components/auth/authentication3/Register3"))
 );
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //

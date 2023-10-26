@@ -17,8 +17,8 @@ import {
 
 // project imports
 import BajajAreaChartCard from "./BajajAreaChartCard";
-import MainCard from "../../../ui-component/cards/MainCard";
-import SkeletonPopularCard from "../../../ui-component/cards/Skeleton/PopularCard";
+import MainCard from "../../../components/MainCard";
+import SkeletonPopularCard from "../../../components/Skeleton/PopularCard";
 import { gridSpacing } from "../../../store/constant";
 
 // assets

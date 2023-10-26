@@ -14,8 +14,8 @@ import {
 import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 // project imports
-import MainCard from "../../../ui-component/cards/MainCard";
-import TotalIncomeCard from "../../../ui-component/cards/Skeleton/TotalIncomeCard";
+import MainCard from "../../../components/MainCard";
+import TotalIncomeCard from "../../../components/Skeleton/TotalIncomeCard";
 
 // assets
 import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone";

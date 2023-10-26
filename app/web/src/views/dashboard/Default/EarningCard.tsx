@@ -6,8 +6,8 @@ import { styled, useTheme } from "@mui/material/styles";
 import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 
 // project imports
-import MainCard from "../../../ui-component/cards/MainCard";
-import SkeletonEarningCard from "../../../ui-component/cards/Skeleton/EarningCard";
+import MainCard from "../../../components/MainCard";
+import SkeletonEarningCard from "../../../components/Skeleton/EarningCard";
 import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 //@ts-ignore

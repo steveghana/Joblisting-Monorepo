@@ -2,7 +2,7 @@ import { lazy } from "react";
 import MainLayout from "../layout/MainLayout";
 // project imports
 // import MainLayout from 'layout/MainLayout';
-import Loadable from "../ui-component/Loadable";
+import Loadable from "../components/Loadable";
 import Home from "../views/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
@@ -11,24 +11,16 @@ import { Navigate } from "react-router";
 const DashboardDefault = Loadable(
   lazy(() => import("../views/dashboard/Default"))
 );
-const UserProfile = Loadable(
-  lazy(() => import("../app/pages/dashboard/applications/users/profile"))
-);
-const UserSettings = Loadable(
-  lazy(() => import("../app/pages/dashboard/applications/users/settings"))
-);
+const UserProfile = Loadable(lazy(() => import("../views/users/profile")));
+const UserSettings = Loadable(lazy(() => import("../views/users/settings")));
 // utilities routing
-const Transactions = Loadable(
-  lazy(() => import("../app/pages/dashboard/applications/transactions"))
-);
+const Transactions = Loadable(lazy(() => import("../views/Devs")));
 const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
-const UtilsShadow = Loadable(lazy(() => import("../views/utilities/Shadow")));
-const UtilsMaterialIcons = Loadable(
-  lazy(() => import("../views/utilities/MaterialIcons"))
-);
+const Interviews = Loadable(lazy(() => import("../views/Devs/Interviews")));
+const Hub = Loadable(lazy(() => import("../views/Devs/DevHub")));
 
 // sample page routing
-const SamplePage = Loadable(lazy(() => import("../views/sample-page")));
+const SamplePage = Loadable(lazy(() => import("../views/HR")));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -73,10 +65,7 @@ const MainRoutes = {
           path: "",
           element: <Navigate to="transactions" replace />,
         },
-        {
-          path: "transactions",
-          element: <Transactions />,
-        },
+
         {
           path: "profile",
           children: [
@@ -106,24 +95,15 @@ const MainRoutes = {
         },
         {
           path: "interviews",
-          element: <Transactions />,
+          element: <Interviews />,
         },
         {
           path: "hub",
-          element: <Transactions />,
+          element: <Hub />,
         },
       ],
     },
 
-    {
-      path: "icons",
-      children: [
-        {
-          path: "material-icons",
-          element: <UtilsMaterialIcons />,
-        },
-      ],
-    },
     {
       path: "sample-page",
       element: <SamplePage />,

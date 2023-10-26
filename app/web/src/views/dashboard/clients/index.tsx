@@ -6,8 +6,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import MainCard from "../../../ui-component/cards/MainCard";
-import SubCard from "../../../ui-component/cards/SubCard";
+import MainCard from "../../../components/MainCard";
+import SubCard from "../../../components/SubCard";
 import { Box } from "@mui/system";
 import { BlockOutlined, MessageRounded, MoreHoriz } from "@mui/icons-material";
 

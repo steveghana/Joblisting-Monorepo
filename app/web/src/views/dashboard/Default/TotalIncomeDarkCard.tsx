@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 
 // project imports
-import MainCard from "../../../ui-component/cards/MainCard";
-import TotalIncomeCard from "../../../ui-component/cards/Skeleton/TotalIncomeCard";
+import MainCard from "../../../components/MainCard";
+import TotalIncomeCard from "../../../components/Skeleton/TotalIncomeCard";
 import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 // assets

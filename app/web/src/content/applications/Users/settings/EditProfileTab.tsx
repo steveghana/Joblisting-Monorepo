@@ -20,12 +20,12 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone";
 import Text from "../../../../components/Text";
 import Label from "../../../../components/Label";
-import SubCard from "../../../../ui-component/cards/SubCard";
+import SubCard from "../../../../components/SubCard";
 import { Formik } from "formik";
 import { themeTypography } from "../../../../themes/schemes/typography";
-import AnimateButton from "../../../../ui-component/extended/AnimateButton";
+import AnimateButton from "../../../../components/extended/AnimateButton";
 import CustomButton from "../../../../components/button";
-import MainCard from "../../../../ui-component/cards/MainCard";
+import MainCard from "../../../../components/MainCard";
 function EditProfileTab({ ...others }) {
   const experience = [3, 4, 5, 6, 7];
   // const []

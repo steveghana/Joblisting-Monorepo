@@ -10,8 +10,8 @@ import Chart from "react-apexcharts";
 import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
 
 // project imports
-import MainCard from "../../../ui-component/cards/MainCard";
-import SkeletonTotalOrderCard from "../../../ui-component/cards/Skeleton/EarningCard";
+import MainCard from "../../../components/MainCard";
+import SkeletonTotalOrderCard from "../../../components/Skeleton/EarningCard";
 
 import ChartDataMonth from "./chart-data/total-order-month-line-chart";
 import ChartDataYear from "./chart-data/total-order-year-line-chart";

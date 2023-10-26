@@ -21,24 +21,14 @@ const Overview = Loader(lazy(() => import("./app/pages/overview")));
 
 // Dashboards
 
-const Dashboard = Loader(
-  lazy(() => import("./app/pages/dashboard/boards/main"))
-);
+const Dashboard = Loader(lazy(() => import("./views/dashboard/boards/main")));
 
 // Applications
 
-const Messenger = Loader(
-  lazy(() => import("./app/pages/dashboard/applications/messenger"))
-);
-const Transactions = Loader(
-  lazy(() => import("./app/pages/dashboard/applications/transactions"))
-);
-const UserProfile = Loader(
-  lazy(() => import("./app/pages/dashboard/applications/users/profile"))
-);
-const UserSettings = Loader(
-  lazy(() => import("./app/pages/dashboard/applications/users/settings"))
-);
+const Messenger = Loader(lazy(() => import("./views/messenger")));
+const Transactions = Loader(lazy(() => import("./views/Devs")));
+const UserProfile = Loader(lazy(() => import("./views/users/profile")));
+const UserSettings = Loader(lazy(() => import("./views/users/settings")));
 
 // Components
 

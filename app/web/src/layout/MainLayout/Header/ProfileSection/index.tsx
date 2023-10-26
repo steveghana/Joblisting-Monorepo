@@ -38,8 +38,8 @@ import User1 from "../../../../assets/images/users/user-round.svg";
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from "@tabler/icons";
 
-import Transitions from "../../../../ui-component/extended/Transitions";
-import MainCard from "../../../../ui-component/cards/MainCard";
+import Transitions from "../../../../components/extended/Transitions";
+import MainCard from "../../../../components/MainCard";
 import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
 import { themePalette } from "../../../../themes/schemes/palette";
 

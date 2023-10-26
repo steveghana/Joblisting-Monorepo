@@ -207,7 +207,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ devDetails }) => {
       >
         <Grid item>
           <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
+            sx={{ mt: { xs: 2, md: 0 }, borderRadius: "10px" }}
             variant="contained"
             startIcon={<AddTwoToneIcon fontSize="small" />}
           >
@@ -220,7 +220,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ devDetails }) => {
             action={
               <Box width={150}>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel>Status</InputLabel>
+                  <InputLabel>Int Status</InputLabel>
                   <Select
                     value={filters.status || "all"}
                     onChange={handleStatusChange}

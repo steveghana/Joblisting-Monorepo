@@ -13,10 +13,10 @@ import { styled } from "@mui/material/styles";
 import MuiTypography from "@mui/material/Typography";
 import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone";
 
-import MainCard from "../../../../ui-component/cards/MainCard";
-import CardSecondaryAction from "../../../../ui-component/cards/CardSecondaryAction";
+import MainCard from "../../../../components/MainCard";
+import CardSecondaryAction from "../../../../components/CardSecondaryAction";
 import { gridSpacing } from "../../../../store/constant";
-import SubCard from "../../../../ui-component/cards/SubCard";
+import SubCard from "../../../../components/SubCard";
 import { Email, EmailOutlined, LocationOn, Phone } from "@mui/icons-material";
 import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
 import { Stack, shouldForwardProp } from "@mui/system";
