@@ -45,10 +45,10 @@ const SubCard: React.FC<ISubCard> = forwardRef(
       <Card
         ref={ref}
         sx={{
-          border: "1px solid",
+          border: "2px solid",
           borderColor: themePalette.primary.light,
           ":hover": {
-            boxShadow: "0 2px 14px 0 rgb(32 40 45 / 8%)",
+            boxShadow: "0 4px 14px 0 rgb(32 40 45 / 8%)",
           },
           ...sx,
         }}

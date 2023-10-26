@@ -28,6 +28,14 @@ const dashboard = {
       icon: icons.IconUser,
       breadcrumbs: false,
     },
+    {
+      id: "roles",
+      title: "Roles",
+      type: "item",
+      url: "/dashboard/jobs/roles",
+      icon: icons.IconUser,
+      breadcrumbs: false,
+    },
   ],
 };
 

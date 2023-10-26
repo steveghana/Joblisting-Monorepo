@@ -24,7 +24,7 @@ const utilities = {
 
   children: [
     {
-      id: "util-typography",
+      id: "Hub",
       title: "Dev Hub",
       type: "item",
       url: "/devs/hub",
@@ -32,7 +32,7 @@ const utilities = {
       breadcrumbs: false,
     },
     {
-      id: "util-color",
+      id: "Interviews",
       title: "Dev interviews",
       type: "item",
       url: "/devs/interviews",

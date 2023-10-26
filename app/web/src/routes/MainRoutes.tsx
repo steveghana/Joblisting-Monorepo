@@ -14,8 +14,9 @@ const DashboardDefault = Loadable(
 const UserProfile = Loadable(lazy(() => import("../views/users/profile")));
 const UserSettings = Loadable(lazy(() => import("../views/users/settings")));
 // utilities routing
-const Transactions = Loadable(lazy(() => import("../views/Devs")));
+const AllDevs = Loadable(lazy(() => import("../views/Devs")));
 const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
+const Roles = Loadable(lazy(() => import("../views/dashboard/Roles")));
 const Interviews = Loadable(lazy(() => import("../views/Devs/Interviews")));
 const Hub = Loadable(lazy(() => import("../views/Devs/DevHub")));
 
@@ -54,6 +55,10 @@ const MainRoutes = {
           path: "customers/clients",
           element: <Clients />,
         },
+        {
+          path: "jobs/roles",
+          element: <Roles />,
+        },
       ],
     },
 
@@ -91,7 +96,7 @@ const MainRoutes = {
       children: [
         {
           path: "all",
-          element: <Transactions />,
+          element: <AllDevs />,
         },
         {
           path: "interviews",

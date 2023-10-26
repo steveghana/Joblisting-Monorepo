@@ -113,22 +113,24 @@ export const PureLightTheme = createTheme({
       fontSize: "0.75rem",
     },
     h5: {
-      fontSize: "0.875rem",
+      fontSize: "1.175rem",
       color: theme.heading,
       fontWeight: 500,
     },
     h4: {
-      fontSize: "1rem",
+      fontSize: "1.3rem",
       color: theme.heading,
-      fontWeight: 600,
+      fontWeight: 700,
+      fontFamily: ["Poppins"].join(","),
     },
     h3: {
-      fontSize: "1.25rem",
+      fontSize: "1.45rem",
       color: theme.heading,
       fontWeight: 600,
+      fontFamily: ["Didact Gothic"].join(","),
     },
     h2: {
-      fontSize: "1.5rem",
+      fontSize: "1.6rem",
       color: theme.heading,
       fontWeight: 700,
       fontFamily: ["Didact Gothic"].join(","),
@@ -152,6 +154,8 @@ export const PureLightTheme = createTheme({
     caption: {
       fontSize: "0.75rem",
       color: theme.darkTextSecondary,
+      fontFamily: ["Poppins"].join(","),
+
       fontWeight: 400,
     },
     body1: {
