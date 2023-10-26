@@ -104,6 +104,14 @@ const MainRoutes = {
           path: "all",
           element: <Transactions />,
         },
+        {
+          path: "interviews",
+          element: <Transactions />,
+        },
+        {
+          path: "hub",
+          element: <Transactions />,
+        },
       ],
     },
 

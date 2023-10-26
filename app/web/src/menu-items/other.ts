@@ -23,10 +23,9 @@ const other = {
       breadcrumbs: false,
     },
     {
-      id: "documentation",
+      id: "item",
       title: "item",
       type: "item",
-      url: "https://codedthemes.gitbook.io/berry/",
       icon: icons.IconHelp,
       external: true,
       target: true,
