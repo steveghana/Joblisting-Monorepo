@@ -89,6 +89,7 @@ export const PureLightTheme = createTheme({
   general: styleOverrides.general,
   header: styleOverrides.header,
   sidebar: styleOverrides.sidebar,
+  //@ts-ignore
   components: Overides(theme),
   mixins: {
     toolbar: {

@@ -34,7 +34,11 @@ const Roles = () => {
         <Typography variant="h4" fontWeight={700} textAlign={"center"} m={2}>
           Featured Jobs
         </Typography>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 8 }}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 2, md: 4, lg: 8 }}
+        >
           {Array.from({ length: 4 }).map((_, index) => (
             <RoleCard feature={true} key={index} />
           ))}
@@ -107,7 +111,7 @@ const RoleCard = (props: IRoleCard) => {
               <Box mr={"auto"}>
                 <Typography
                   fontWeight={700}
-                  variant={props.feature ? "body1" : "h4"}
+                  variant={props.feature ? "body1" : "h5"}
                   mr={"auto"}
                 >
                   Smart Contract
