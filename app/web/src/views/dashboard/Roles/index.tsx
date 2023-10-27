@@ -23,7 +23,7 @@ import { themePalette } from "../../../themes/schemes/palette";
 
 const Roles = () => {
   return (
-    <MainCard title={"Clients"}>
+    <MainCard title={"Roles"}>
       <Grid container>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2 }}>
           {Array.from({ length: 10 }).map((_, index) => (
