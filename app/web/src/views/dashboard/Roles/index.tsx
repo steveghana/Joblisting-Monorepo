@@ -194,17 +194,19 @@ const RoleCard = (props: IRoleCard) => {
                   <Button
                     size="small"
                     variant="outlined"
+                    sx={{ color: "black", borderColor: "black" }}
                     startIcon={<MessageRounded />}
                   >
                     Message
                   </Button>
                   <Button
                     size="small"
-                    color="error"
-                    variant="outlined"
+                    // color=""
+                    sx={{ background: "black", color: "white" }}
+                    variant="contained"
                     startIcon={<BlockOutlined />}
                   >
-                    Remove
+                    Learn more
                   </Button>
                 </Box>
               </Box>
