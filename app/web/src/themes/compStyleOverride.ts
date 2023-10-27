@@ -37,6 +37,13 @@ export default function componentStyleOverrides(theme) {
         },
       },
     },
+    MuiDrawer: {
+      styleOverrides: {
+        root: {
+          background: "transparent",
+        },
+      },
+    },
     MuiPaper: {
       defaultProps: {
         elevation: 0,
