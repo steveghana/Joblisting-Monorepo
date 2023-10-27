@@ -30,12 +30,23 @@ const Roles = () => {
             <RoleCard key={index} />
           ))}
         </Grid>
+        <Typography variant="h4" fontWeight={700} textAlign={"center"} m={2}>
+          Featured Jobs
+        </Typography>
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 8 }}>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <RoleCard feature={true} key={index} />
+          ))}
+        </Grid>
       </Grid>
     </MainCard>
   );
 };
+interface IRoleCard {
+  feature?: boolean;
+}
 type Anchor = "top" | "left" | "bottom" | "right";
-const RoleCard = () => {
+const RoleCard = (props: IRoleCard) => {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -87,31 +98,41 @@ const RoleCard = () => {
           <Grid className="avatar" display={"flex"} gap={"1rem"} item>
             <Avatar alt="user" variant="rounded" />
             <Box mr={"auto"}>
-              <Typography fontWeight={700} variant="h4" mr={"auto"}>
+              <Typography
+                fontWeight={700}
+                variant={props.feature ? "body1" : "h4"}
+                mr={"auto"}
+              >
                 Smart Contract
               </Typography>
-              <Typography variant="caption" color={"black"}>
-                #1 Rated & Highest convertion all in one real estate platform
-              </Typography>
-              <Box
-                sx={{ color: themePalette.primary.light }}
-                display={"flex"}
-                gap={".3rem"}
-                alignItems={"center"}
-              >
-                <People sx={{ color: themePalette.primary.dark }} />
-                <Typography variant="caption" fontWeight={700}>
-                  11 - 50
-                </Typography>
-                <Typography variant="caption" fontWeight={700}>
-                  Employees
-                </Typography>
-              </Box>
+              {!props.feature && (
+                <>
+                  <Typography variant="caption" color={"black"}>
+                    #1 Rated & Highest convertion all in one real estate
+                    platform
+                  </Typography>
+                  <Box
+                    sx={{ color: themePalette.primary.light }}
+                    display={"flex"}
+                    gap={".3rem"}
+                    alignItems={"center"}
+                  >
+                    <People sx={{ color: themePalette.primary.dark }} />
+                    <Typography variant="caption" fontWeight={700}>
+                      11 - 50
+                    </Typography>
+                    <Typography variant="caption" fontWeight={700}>
+                      Employees
+                    </Typography>
+                  </Box>
+                </>
+              )}
             </Box>
-
-            <ButtonBase>
-              <MoreHoriz />
-            </ButtonBase>
+            {!props.feature && (
+              <ButtonBase>
+                <MoreHoriz />
+              </ButtonBase>
+            )}
           </Grid>
           {/* <Divider sx={{ margin: "1rem 0" }} /> */}
           <Grid my={1} className="mail links" item>
@@ -127,39 +148,68 @@ const RoleCard = () => {
               <Typography variant="caption">Actively Hiring</Typography>
             </Button>
             {/* <Divider sx={{ margin: "1rem 0" }} /> */}
-            <Box my={2} alignItems={"center"} gap={".8rem"} display={"flex"}>
+            <Box
+              my={2}
+              alignItems={"center"}
+              gap={".8rem"}
+              display={"flex"}
+              flexWrap={"wrap"}
+            >
               <Typography fontWeight={700} variant="body2">
                 Fullstack Developer
               </Typography>
               <Typography fontWeight={400} variant="subtitle1" mr={"auto"}>
-                Remote
+                Isreal Remote
               </Typography>
-              <Box display={"flex"} gap={1} alignItems={"center"}>
-                <Typography>Posted 4 weeks ago</Typography>
-                <AllInclusive
-                  fontSize="small"
-                  sx={{ color: themePalette.primary.main }}
-                />
+              <Box
+                ml={props.feature ? "auto" : "0"}
+                display={"flex"}
+                flexDirection={props.feature ? "column" : "row"}
+                gap={1}
+              >
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  alignItems={"flex-end"}
+                  justifyContent={"flex-end"}
+                  // gap={1}
+                >
+                  {/* <AllInclusive
+                      sx={{
+                        color: themePalette.primary.main,
+                        fontSize: ".8rem",
+                      }}
+                    /> */}
+                  <Typography
+                    ml={props.feature ? "auto" : "0"}
+                    variant="caption"
+                    fontWeight={700}
+                    color={"green"}
+                  >
+                    Recruiter recently active
+                  </Typography>
+                  <Typography>Posted 4 weeks ago</Typography>
+                </Box>
+                <Box display={"flex"} justifyContent={"flex-end"} gap={"1rem"}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<MessageRounded />}
+                  >
+                    Message
+                  </Button>
+                  <Button
+                    size="small"
+                    color="error"
+                    variant="outlined"
+                    startIcon={<BlockOutlined />}
+                  >
+                    Remove
+                  </Button>
+                </Box>
               </Box>
             </Box>
             <Divider sx={{ margin: "1rem 0" }} />
-            <Box display={"flex"} justifyContent={"flex-end"} gap={"1rem"}>
-              <Button
-                size="small"
-                variant="outlined"
-                startIcon={<MessageRounded />}
-              >
-                Message
-              </Button>
-              <Button
-                size="small"
-                color="error"
-                variant="outlined"
-                startIcon={<BlockOutlined />}
-              >
-                Remove
-              </Button>
-            </Box>
           </Grid>
         </Grid>
       </SubCard>
