@@ -39,7 +39,7 @@ export default function componentStyleOverrides(theme) {
     },
     MuiDrawer: {
       styleOverrides: {
-        root: {
+        paper: {
           background: "transparent",
         },
       },

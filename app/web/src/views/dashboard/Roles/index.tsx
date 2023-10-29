@@ -21,6 +21,7 @@ import {
   People,
 } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
+import CustomDrawer from "../../../components/Drawer";
 
 const Roles = () => {
   return (
@@ -50,55 +51,20 @@ const Roles = () => {
 interface IRoleCard {
   feature?: boolean;
 }
-type Anchor = "top" | "left" | "bottom" | "right";
 const RoleCard = (props: IRoleCard) => {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
+  const [openDrawer, setOpenDrawer] = React.useState({
     bottom: false,
-    right: false,
   });
 
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-  const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      Hello
-    </Box>
-  );
   return (
-    <>
-      <Drawer
-        anchor={"bottom"}
-        open={state["bottom"]}
-        onClose={toggleDrawer("bottom", false)}
-      >
-        <Box
-          sx={{ borderRadius: "50px 50px 0 0", background: "green" }}
-          height={"85vh"}
-        >
-          {list("bottom")}
-        </Box>
-      </Drawer>
+    <CustomDrawer
+      component={<div>Hello from here</div>}
+      setOpenDrawer={setOpenDrawer}
+      openDrawer={openDrawer}
+    >
       <Grid
         sx={{ cursor: "pointer" }}
-        onClick={toggleDrawer("bottom", true)}
+        onClick={() => setOpenDrawer({ ...openDrawer, ["bottom"]: true })}
         item
         xs={2}
         sm={4}
@@ -175,6 +141,8 @@ const RoleCard = (props: IRoleCard) => {
                 <Box
                   ml={props.feature ? "auto" : "0"}
                   display={"flex"}
+                  justifyContent={"center"}
+                  flexWrap={"wrap"}
                   flexDirection={props.feature ? "column" : "row"}
                   gap={1}
                 >
@@ -203,21 +171,30 @@ const RoleCard = (props: IRoleCard) => {
                   </Box>
                   <Box
                     display={"flex"}
-                    justifyContent={"flex-end"}
+                    // flexWrap={"wrap"}
+                    justifyContent={"center"}
                     gap={"1rem"}
                   >
                     <Button
                       size="small"
                       variant="outlined"
-                      sx={{ color: "black", borderColor: "black" }}
+                      sx={{
+                        color: "black",
+                        borderColor: "black",
+                        maxHeight: "30px",
+                      }}
                       startIcon={<MessageRounded />}
                     >
-                      Message
+                      <Typography variant="caption">Message</Typography>
                     </Button>
                     <Button
                       size="small"
                       // color=""
-                      sx={{ background: "black", color: "white" }}
+                      sx={{
+                        background: "black",
+                        color: "white",
+                        maxHeight: "30px",
+                      }}
                       variant="contained"
                       startIcon={<BlockOutlined />}
                     >
@@ -231,7 +208,7 @@ const RoleCard = (props: IRoleCard) => {
           </Grid>
         </SubCard>
       </Grid>
-    </>
+    </CustomDrawer>
   );
 };
 
