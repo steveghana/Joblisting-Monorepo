@@ -23,6 +23,7 @@ import {
 import { themePalette } from "../../../themes/schemes/palette";
 import CustomDrawer from "../../../components/Drawer";
 import Dot from "../../../components/Dot";
+import RoleDetails from "./roleTabs";
 
 const Roles = () => {
   return (
@@ -59,7 +60,7 @@ const RoleCard = (props: IRoleCard) => {
 
   return (
     <CustomDrawer
-      component={<div>Hello from here</div>}
+      component={<RoleDetails />}
       setOpenDrawer={setOpenDrawer}
       openDrawer={openDrawer}
     >
@@ -106,13 +107,12 @@ const RoleCard = (props: IRoleCard) => {
                 </Box>
                 {/* )} */}
               </Box>
-              {/* {!props.feature && (
-              <ButtonBase>
-                <MoreHoriz />
-              </ButtonBase>
-            )} */}
+              {!props.feature && (
+                <ButtonBase>
+                  <MoreHoriz fontSize={"small"} />
+                </ButtonBase>
+              )}
             </Grid>
-            {/* <Divider sx={{ margin: "1rem 0" }} /> */}
             <Grid my={1} className="mail links" item>
               <Button
                 sx={{
