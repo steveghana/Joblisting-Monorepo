@@ -19,6 +19,18 @@ export const roleData: IRoleData = {
       rolename:
         "Superstar Full Stack Developer for Fast-Growing SaaS - (NodeJS/React)",
     },
+    {
+      description: [
+        "Join A Fast Growing SaaS Platform - Positioned to be the next Unicorn in Engagement Software.arge",
+        "Smarter Contact is a cutting-edge SMS marketing platform focused on AI-powered automation and CRM.",
+      ],
+      joblocation: "Remote",
+      jobtype: "Full-time",
+      location: "Argentina",
+      postedDate: new Date(),
+      rolename:
+        "Superstar Full Stack Developer for Fast-Growing SaaS - (NodeJS/React)",
+    },
   ],
   founders: {
     name: "unknown",
