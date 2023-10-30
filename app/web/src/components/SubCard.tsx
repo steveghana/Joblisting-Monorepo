@@ -57,14 +57,14 @@ const SubCard: React.FC<ISubCard> = forwardRef(
         {/* card header and action */}
         {!darkTitle && title && (
           <CardHeader
-            sx={{ p: 2.5 }}
+            sx={{ p: 2 }}
             title={<Typography variant="h5">{title}</Typography>}
             // action={secondary}
           />
         )}
         {darkTitle && title && (
           <CardHeader
-            sx={{ p: 2.5 }}
+            sx={{ p: 2 }}
             title={<Typography variant="h4">{title}</Typography>}
             // action={secondary}
           />
@@ -83,7 +83,7 @@ const SubCard: React.FC<ISubCard> = forwardRef(
         {/* card content */}
         {content && (
           <CardContent
-            sx={{ p: 2.5, ...contentSX }}
+            sx={{ p: 1.4, ...contentSX }}
             className={contentClass || ""}
           >
             {children}

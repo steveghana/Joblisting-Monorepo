@@ -22,6 +22,7 @@ import {
 } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
 import CustomDrawer from "../../../components/Drawer";
+import Dot from "../../../components/Dot";
 
 const Roles = () => {
   return (
@@ -38,7 +39,7 @@ const Roles = () => {
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 2, md: 4, lg: 8 }}
+          columns={{ xs: 2, md: 4, lg: 16 }}
         >
           {Array.from({ length: 4 }).map((_, index) => (
             <RoleCard feature={true} key={index} />
@@ -71,45 +72,45 @@ const RoleCard = (props: IRoleCard) => {
         md={4}
       >
         <SubCard sx={{ cursor: "pointer" }}>
-          <Grid container direction="column" spacing={1}>
-            <Grid className="avatar" display={"flex"} gap={"1rem"} item>
+          <Grid container direction="column" spacing={0}>
+            <Grid className="avatar" display={"flex"} gap={0.8} item>
               <Avatar alt="user" variant="rounded" />
               <Box mr={"auto"}>
                 <Typography
-                  fontWeight={700}
-                  variant={props.feature ? "body1" : "h5"}
+                  fontWeight={500}
+                  variant={props.feature ? "h5" : "h4"}
                   mr={"auto"}
                 >
                   Smart Contract
                 </Typography>
-                {!props.feature && (
-                  <>
-                    <Typography variant="caption" color={"black"}>
-                      #1 Rated & Highest convertion all in one real estate
-                      platform
+                {/* {!props.feature && ( */}
+                <Box>
+                  <Typography variant="caption" color={"black"}>
+                    #1 Rated & Highest convertion all in one real estate
+                    platform
+                  </Typography>
+                  <Box
+                    sx={{ color: themePalette.primary.light }}
+                    display={"flex"}
+                    gap={".3rem"}
+                    alignItems={"center"}
+                  >
+                    <People sx={{ color: themePalette.primary.dark }} />
+                    <Typography variant="caption" fontWeight={700}>
+                      11 - 50
                     </Typography>
-                    <Box
-                      sx={{ color: themePalette.primary.light }}
-                      display={"flex"}
-                      gap={".3rem"}
-                      alignItems={"center"}
-                    >
-                      <People sx={{ color: themePalette.primary.dark }} />
-                      <Typography variant="caption" fontWeight={700}>
-                        11 - 50
-                      </Typography>
-                      <Typography variant="caption" fontWeight={700}>
-                        Employees
-                      </Typography>
-                    </Box>
-                  </>
-                )}
+                    <Typography variant="caption" fontWeight={700}>
+                      Employees
+                    </Typography>
+                  </Box>
+                </Box>
+                {/* )} */}
               </Box>
-              {!props.feature && (
-                <ButtonBase>
-                  <MoreHoriz />
-                </ButtonBase>
-              )}
+              {/* {!props.feature && (
+              <ButtonBase>
+                <MoreHoriz />
+              </ButtonBase>
+            )} */}
             </Grid>
             {/* <Divider sx={{ margin: "1rem 0" }} /> */}
             <Grid my={1} className="mail links" item>
@@ -129,51 +130,73 @@ const RoleCard = (props: IRoleCard) => {
                 my={2}
                 alignItems={"center"}
                 gap={".8rem"}
+                borderRadius={2}
+                p={1}
+                border={"2px solid rgba(0, 0, 0, 0.1)"}
                 display={"flex"}
                 flexWrap={"wrap"}
               >
                 <Typography fontWeight={700} variant="body2">
-                  Fullstack Developer
+                  Fullstack Developer with Nodejs and React skills -{" "}
+                  <b>Fulltime</b>
                 </Typography>
-                <Typography fontWeight={400} variant="subtitle1" mr={"auto"}>
-                  Isreal Remote
-                </Typography>
+                <Box display={"flex"} alignItems={"center"} gap={0.4}>
+                  <Typography fontWeight={400} variant="subtitle1" mr={"auto"}>
+                    Isreal{" "}
+                  </Typography>
+                  <Dot />
+                  <Typography>Remote</Typography>
+                </Box>
                 <Box
-                  ml={props.feature ? "auto" : "0"}
+                  sx={{
+                    ml: { md: 0, lg: "auto" },
+                    flexDirection: { sm: "column", md: "row" },
+                    justifyContent: { sm: "flex-end", md: "flex-start" },
+                  }}
                   display={"flex"}
-                  justifyContent={"center"}
+                  justifyContent={"flex-start"}
                   flexWrap={"wrap"}
+                  alignItems={"center"}
                   flexDirection={props.feature ? "column" : "row"}
                   gap={1}
                 >
                   <Box
                     display={"flex"}
                     flexDirection={"column"}
-                    alignItems={"flex-end"}
-                    justifyContent={"flex-end"}
-                    // gap={1}
+                    sx={{
+                      justifyContent: { md: "flex-start", lg: "flex-end" },
+                      alignItems: { md: "flex-start", lg: "flex-end" },
+                    }}
                   >
-                    {/* <AllInclusive
-                      sx={{
-                        color: themePalette.primary.main,
-                        fontSize: ".8rem",
-                      }}
-                    /> */}
                     <Typography
-                      ml={props.feature ? "auto" : "0"}
                       variant="caption"
                       fontWeight={700}
                       color={"green"}
                     >
                       Recruiter recently active
                     </Typography>
-                    <Typography>Posted 4 weeks ago</Typography>
+                    <Typography>
+                      <AllInclusive
+                        sx={{
+                          color: themePalette.primary.main,
+                          fontSize: ".7rem",
+                          mr: 0.2,
+                        }}
+                      />
+                      Posted 4 weeks ago
+                    </Typography>
                   </Box>
-                  <Box
+                  <Grid
                     display={"flex"}
-                    // flexWrap={"wrap"}
+                    sx={{
+                      width: {
+                        md: "100%",
+                        lg: props.feature ? "100%" : "auto",
+                      },
+                    }}
+                    //
                     justifyContent={"center"}
-                    gap={"1rem"}
+                    gap={0.5}
                   >
                     <Button
                       size="small"
@@ -183,27 +206,28 @@ const RoleCard = (props: IRoleCard) => {
                         borderColor: "black",
                         maxHeight: "30px",
                       }}
-                      startIcon={<MessageRounded />}
                     >
-                      <Typography variant="caption">Message</Typography>
+                      <Typography variant="caption">save</Typography>
                     </Button>
                     <Button
-                      size="small"
+                      size="medium"
                       // color=""
+                      fullWidth
                       sx={{
                         background: "black",
                         color: "white",
                         maxHeight: "30px",
+                        width: "100%",
                       }}
                       variant="contained"
-                      startIcon={<BlockOutlined />}
                     >
-                      Learn more
+                      <Typography sx={{ wordBreak: "keep-all" }}>
+                        Learn More
+                      </Typography>
                     </Button>
-                  </Box>
+                  </Grid>
                 </Box>
               </Box>
-              <Divider sx={{ margin: "1rem 0" }} />
             </Grid>
           </Grid>
         </SubCard>

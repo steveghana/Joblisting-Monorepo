@@ -153,7 +153,7 @@ export const PureLightTheme = createTheme({
       color: theme.darkTextSecondary,
     },
     caption: {
-      fontSize: "0.75rem",
+      fontSize: "0.7rem",
       color: theme.darkTextSecondary,
       fontFamily: ["Poppins"].join(","),
 
