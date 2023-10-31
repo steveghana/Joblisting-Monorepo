@@ -23,10 +23,10 @@ const RoleTabs = () => {
     setCurrentTab(value);
   };
   return (
-    <Grid container>
-      <Grid item lg={8}>
+    <Grid onClick={(e) => e.stopPropagation()} container>
+      <Grid item>
         <SubCard>
-          <Container maxWidth="lg">
+          <Container maxWidth="xl">
             <Grid
               container
               direction="row"
