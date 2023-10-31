@@ -1,5 +1,7 @@
 import { Container, Grid, Tab, Tabs } from "@mui/material";
 import SubCard from "../../../components/SubCard";
+import PerfectScrollbar from "react-perfect-scrollbar";
+
 import React, { ChangeEvent } from "react";
 import { styled } from "@mui/system";
 import RoleDetails from "./roledetails";
@@ -33,6 +35,7 @@ const RoleTabs = () => {
               justifyContent="center"
               alignItems="stretch"
               spacing={3}
+              // height={"80%"}
             >
               <Grid item xs={12}>
                 <TabsWrapper

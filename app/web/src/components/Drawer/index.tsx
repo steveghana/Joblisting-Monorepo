@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Drawer } from "@mui/material";
+import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
+import PerfectScrollbar from "react-perfect-scrollbar";
+
 type ICustomDrawer = {
   children: React.ReactElement;
   component: React.ReactElement;
@@ -13,6 +15,8 @@ type ICustomDrawer = {
   >;
 };
 const CustomDrawer = (props: ICustomDrawer) => {
+  const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const list = () => (
     <Box
       sx={{ width: "auto" }}
@@ -40,10 +44,22 @@ const CustomDrawer = (props: ICustomDrawer) => {
         }
       >
         <Box
-          sx={{ borderRadius: "35px 35px 0 0", background: "white" }}
+          sx={{
+            borderRadius: "35px 35px 0 0",
+            background: "white",
+          }}
           height={"89vh"}
         >
-          {list()}
+          <PerfectScrollbar
+            component="div"
+            style={{
+              height: !matchUpMd ? "calc(89vh - 16px)" : "calc(89vh - 18px)",
+              paddingLeft: "16px",
+              paddingRight: "16px",
+            }}
+          >
+            {list()}
+          </PerfectScrollbar>
         </Box>
       </Drawer>
       {props.children}

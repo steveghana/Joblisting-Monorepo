@@ -1,17 +1,35 @@
 import React from "react";
 import MainCard from "../../../components/MainCard";
-import { Button, Card, Grid, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  ButtonBase,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { roleData } from "./roledata";
 import { Box } from "@mui/system";
-import { ArrowForward } from "@mui/icons-material";
+import { ArrowForward, LocationOn } from "@mui/icons-material";
 import Dot from "../../../components/Dot";
 import SubCard from "../../../components/SubCard";
+import Label from "../../../components/Label";
+import Text from "../../../components/Text";
+import { themePalette } from "../../../themes/schemes/palette";
 
 const RoleDetails = () => {
   return (
     <Card>
-      <Grid display={"flex"} flexWrap={"wrap"} gap={1}>
-        <Grid lg={9} md={6} container>
+      <Grid
+        display={"flex"}
+        flexWrap={"wrap"}
+        justifyContent={"space-between"}
+        gap={1}
+      >
+        <Grid lg={8} md={6} sm={12}>
           <Grid item display={"flex"} flexDirection={"column"} my={2} gap={1}>
             <Typography fontWeight={700} variant="h2">
               {roleData.name}
@@ -51,7 +69,11 @@ const RoleDetails = () => {
               // flexWrap={"wrap"}
             >
               <Box>
-                <Typography fontWeight={700} variant="body2">
+                <Typography
+                  color={themePalette.primary.main}
+                  fontWeight={700}
+                  variant="body2"
+                >
                   {job.rolename} - <b>{job.jobtype}</b>
                 </Typography>
                 <Box display={"flex"} alignItems={"center"} gap={0.4}>
@@ -91,22 +113,81 @@ const RoleDetails = () => {
                     size="small"
                     // color=""
                     sx={{
-                      background: "black",
                       color: "white",
                       maxHeight: "30px",
                     }}
                     variant="contained"
                   >
-                    <Typography>Learn</Typography>
+                    <Typography>apply</Typography>
                   </Button>
                 </Grid>
               </Box>
             </Box>
           ))}
+          <Typography my={2} variant="h5">
+            Founders
+          </Typography>
+          <Grid lg={3.3}>
+            <SubCard>
+              <Grid
+                display={"flex"}
+                gap={1}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Avatar alt="Founder" />
+                <Box>
+                  <Typography mt={2}>Founder at Smart Contract</Typography>
+                  <Typography fontWeight={700}>Steve Williams</Typography>
+                </Box>
+              </Grid>
+            </SubCard>
+          </Grid>
         </Grid>{" "}
-        <Grid lg={3} md={6}>
+        <Grid lg={2} md={5} sm={12}>
           <SubCard>
-            <Typography>Hello</Typography>
+            <Grid container direction="column" spacing={1}>
+              <Grid className="avatar" display={"flex"} gap={"1rem"} item>
+                <Typography variant="h5" color={"grey"} fontWeight={700}>
+                  About role
+                </Typography>
+              </Grid>
+              <Divider sx={{ margin: "1rem 0" }} />
+              <Grid className="mail links" item>
+                <Box>
+                  <ButtonBase sx={{ borderRadius: "12px" }}></ButtonBase>
+                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                    Website
+                  </Typography>
+                  <Typography variant="caption">demo@svtech.com</Typography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+                <Box>
+                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                    Phone
+                  </Typography>
+                  <Typography variant="caption">+233 554566677</Typography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+
+                <Box>
+                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                    Location
+                  </Typography>
+                  <Typography variant="caption">Melbourne</Typography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+                <Box>
+                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                    Industry
+                  </Typography>
+                  <Typography variant="caption">
+                    <Chip label={"cloud security"} />
+                  </Typography>
+                </Box>
+                <Divider sx={{ margin: "1rem 0" }} />
+              </Grid>
+            </Grid>
           </SubCard>
         </Grid>
       </Grid>
