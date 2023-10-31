@@ -1,9 +1,17 @@
-import { ButtonBase, Container, Grid, Tab, Tabs } from "@mui/material";
+import {
+  Avatar,
+  ButtonBase,
+  Container,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import SubCard from "../../../components/SubCard";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 import React, { ChangeEvent } from "react";
-import { styled } from "@mui/system";
+import { Box, styled } from "@mui/system";
 import RoleDetails from "./roledetails";
 import { Close } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
@@ -38,7 +46,7 @@ const RoleTabs = (props: IRoleTabs) => {
   };
   return (
     <Grid onClick={(e) => e.stopPropagation()} container>
-      <Grid item>
+      <Grid item position={"relative"}>
         <SubCard>
           <Container maxWidth="xl">
             <Grid
@@ -46,9 +54,47 @@ const RoleTabs = (props: IRoleTabs) => {
               direction="row"
               justifyContent="center"
               alignItems="stretch"
+              // m={"auto"}
               spacing={3}
+              sx={{ padding: "3rem 3rem 0 3rem" }}
               // height={"80%"}
             >
+              <ButtonBase>
+                <Close
+                  fontSize="medium"
+                  onClick={() =>
+                    props.setOpenDrawer({
+                      ...props.openDrawer,
+                      ["bottom"]: false,
+                    })
+                  }
+                  sx={{
+                    background: themePalette.dark.light,
+                    p: 0.3,
+                    borderRadius: "50%",
+
+                    position: "fixed",
+                    right: "0",
+                    translate: "-3rem -4rem",
+                  }}
+                />
+              </ButtonBase>
+              <Box
+                sx={{ width: "100%" }}
+                display={"flex"}
+                gap={1}
+                alignItems={"center"}
+                flexWrap={"wrap"}
+              >
+                <Avatar sx={{ width: 56, height: 56 }} variant="rounded" />
+                <Box>
+                  <Typography variant="h4">Smart Contract</Typography>
+                  <Typography>
+                    Makes cloud security simple, contextual and automated for
+                    customers
+                  </Typography>
+                </Box>
+              </Box>
               <Grid
                 item
                 xs={12}
@@ -67,22 +113,8 @@ const RoleTabs = (props: IRoleTabs) => {
                     <Tab key={tab.value} label={tab.label} value={tab.value} />
                   ))}
                 </TabsWrapper>
-                <ButtonBase>
-                  <Close
-                    onClick={() =>
-                      props.setOpenDrawer({
-                        ...props.openDrawer,
-                        ["bottom"]: false,
-                      })
-                    }
-                    sx={{
-                      background: themePalette.dark.light,
-                      p: 0.3,
-                      borderRadius: "50%",
-                    }}
-                  />
-                </ButtonBase>
               </Grid>
+
               <Grid item xs={12}>
                 {currentTab === "overview" && (
                   <RoleDetails setCurrentTab={setCurrentTab} />
