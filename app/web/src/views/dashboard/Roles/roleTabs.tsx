@@ -69,13 +69,13 @@ const RoleTabs = (props: IRoleTabs) => {
                     })
                   }
                   sx={{
-                    background: themePalette.dark.light,
+                    background: themePalette.grey[100],
                     p: 0.3,
                     borderRadius: "50%",
 
                     position: "fixed",
                     right: "0",
-                    translate: "-3rem -4rem",
+                    translate: "-3rem -2.5rem",
                   }}
                 />
               </ButtonBase>
