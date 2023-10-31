@@ -60,7 +60,9 @@ const RoleCard = (props: IRoleCard) => {
 
   return (
     <CustomDrawer
-      component={<RoleDetails />}
+      component={
+        <RoleDetails setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} />
+      }
       setOpenDrawer={setOpenDrawer}
       openDrawer={openDrawer}
     >

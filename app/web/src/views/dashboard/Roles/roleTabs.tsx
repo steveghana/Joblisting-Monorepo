@@ -1,10 +1,12 @@
-import { Container, Grid, Tab, Tabs } from "@mui/material";
+import { ButtonBase, Container, Grid, Tab, Tabs } from "@mui/material";
 import SubCard from "../../../components/SubCard";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 import React, { ChangeEvent } from "react";
 import { styled } from "@mui/system";
 import RoleDetails from "./roledetails";
+import { Close } from "@mui/icons-material";
+import { themePalette } from "../../../themes/schemes/palette";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -12,7 +14,17 @@ const TabsWrapper = styled(Tabs)(
     }
 `
 );
-const RoleTabs = () => {
+type IRoleTabs = {
+  setOpenDrawer: (
+    value: React.SetStateAction<{
+      bottom: boolean;
+    }>
+  ) => void;
+  openDrawer: {
+    bottom: boolean;
+  };
+};
+const RoleTabs = (props: IRoleTabs) => {
   const [currentTab, setCurrentTab] = React.useState<string>("overview");
   const tabs = [
     { value: "overview", label: "Overview" },
@@ -37,7 +49,12 @@ const RoleTabs = () => {
               spacing={3}
               // height={"80%"}
             >
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+                display={"flex"}
+                justifyContent={"space-between"}
+              >
                 <TabsWrapper
                   onChange={handleTabsChange}
                   value={currentTab}
@@ -50,9 +67,26 @@ const RoleTabs = () => {
                     <Tab key={tab.value} label={tab.label} value={tab.value} />
                   ))}
                 </TabsWrapper>
+                <ButtonBase>
+                  <Close
+                    onClick={() =>
+                      props.setOpenDrawer({
+                        ...props.openDrawer,
+                        ["bottom"]: false,
+                      })
+                    }
+                    sx={{
+                      background: themePalette.dark.light,
+                      p: 0.3,
+                      borderRadius: "50%",
+                    }}
+                  />
+                </ButtonBase>
               </Grid>
               <Grid item xs={12}>
-                {currentTab === "overview" && <RoleDetails />}
+                {currentTab === "overview" && (
+                  <RoleDetails setCurrentTab={setCurrentTab} />
+                )}
                 {currentTab === "jobs" && <div>Jobs</div>}
                 {/* {currentTab === "notifications" && <NotificationsTab />} */}
               </Grid>

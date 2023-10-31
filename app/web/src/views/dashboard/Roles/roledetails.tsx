@@ -19,8 +19,10 @@ import SubCard from "../../../components/SubCard";
 import Label from "../../../components/Label";
 import Text from "../../../components/Text";
 import { themePalette } from "../../../themes/schemes/palette";
-
-const RoleDetails = () => {
+interface IRoleDetails {
+  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
+}
+const RoleDetails = (props: IRoleDetails) => {
   return (
     <Card>
       <Grid
@@ -48,7 +50,7 @@ const RoleDetails = () => {
           >
             <Typography variant="h4">Jobs</Typography>
             <Button
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => props.setCurrentTab("jobs")}
               variant="text"
               sx={{ color: "grey" }}
               endIcon={<ArrowForward />}
@@ -127,7 +129,7 @@ const RoleDetails = () => {
           <Typography my={2} variant="h5">
             Founders
           </Typography>
-          <Grid lg={3.3}>
+          <Grid lg={4}>
             <SubCard>
               <Grid
                 display={"flex"}
