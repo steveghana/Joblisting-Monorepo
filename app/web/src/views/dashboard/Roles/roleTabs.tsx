@@ -32,6 +32,8 @@ type IRoleTabs = {
   };
 };
 const RoleTabs = (props: IRoleTabs) => {
+  const theme = useTheme();
+  const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
   const [currentTab, setCurrentTab] = React.useState<string>("overview");
   const tabs = [
     { value: "overview", label: "Overview" },
@@ -70,7 +72,11 @@ const RoleTabs = (props: IRoleTabs) => {
                     borderRadius: "50%",
                     position: "fixed",
                     right: "0",
-                    translate: "-3rem -2.5rem",
+                    translate: {
+                      lg: "-3rem -2vh",
+                      sm: "-3rem -1vh",
+                      xs: "-3rem -6vh",
+                    },
                   }}
                 />
               </ButtonBase>
@@ -106,14 +112,20 @@ const RoleTabs = (props: IRoleTabs) => {
                   textColor="primary"
                   indicatorColor="primary"
                 >
-                  {tabs.map((tab) => (
-                    <Tab
-                      sx={{ fontSize: ".7rem" }}
-                      key={tab.value}
-                      label={tab.label}
-                      value={tab.value}
-                    />
-                  ))}
+                  {tabs.map((tab) => {
+                    // Only render the "People" tab on larger screens
+                    if (tab.value === "people" && !isLargerScreen) {
+                      return null;
+                    }
+                    return (
+                      <Tab
+                        sx={{ fontSize: ".7rem" }}
+                        key={tab.value}
+                        label={tab.label}
+                        value={tab.value}
+                      />
+                    );
+                  })}
                 </TabsWrapper>
               </Grid>
 

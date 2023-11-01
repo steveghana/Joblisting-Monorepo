@@ -17,13 +17,14 @@ import { ArrowForward } from "@mui/icons-material";
 import Dot from "../../../components/Dot";
 import SubCard from "../../../components/SubCard";
 import { themePalette } from "../../../themes/schemes/palette";
+import { useNavigate } from "react-router";
 interface IRoleDetails {
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
 }
 const RoleDetails = (props: IRoleDetails) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
-
+  const navigate = useNavigate();
   return (
     <Card>
       <Grid
@@ -115,6 +116,8 @@ const RoleDetails = (props: IRoleDetails) => {
                     <Typography variant="caption">save</Typography>
                   </Button>
                   <Button
+                    href="/job-submttion"
+                    // onClick={() => navigate("job-submttion")}
                     fullWidth
                     sx={{
                       color: "white",

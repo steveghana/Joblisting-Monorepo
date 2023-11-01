@@ -1,0 +1,73 @@
+import React, { useState } from "react";
+import PersonalInfoForm from "./Personalinfo";
+import WorkExperienceForm from "./experience";
+import SkillsForm from "./skills";
+import AvailabilityForm from "./availability";
+import AdditionalInfoForm from "./additionalnfo";
+
+const JobSubmissionContainer: React.FC = () => {
+  const [formData, setFormData] = useState({});
+  const [step, setStep] = useState(1);
+
+  const handlePersonalInfoSubmit = (values: any) => {
+    setFormData({ ...formData, ...values });
+    setStep(step + 1);
+  };
+
+  const handleWorkExperienceSubmit = (values: any) => {
+    setFormData({ ...formData, workExperience: values.workExperience });
+    setStep(step + 1);
+  };
+  interface Skill {
+    skillName: string;
+  }
+
+  const handleSkillsSubmit = (values: string[]) => {
+    setFormData({ ...formData, skills: values });
+    setStep(step + 1);
+  };
+
+  const handleAvailabilitySubmit = (value: string) => {
+    setFormData({ ...formData, availability: value });
+    setStep(step + 1);
+  };
+
+  const handleAdditionalInfoSubmit = (value: string) => {
+    setFormData({ ...formData, coverLetter: value });
+    // Handle final form submission here
+  };
+
+  const handleBack = () => {
+    setStep(step - 1);
+  };
+
+  return (
+    <div>
+      <h2>Job Submission</h2>
+      {step === 1 && <PersonalInfoForm onSubmit={handlePersonalInfoSubmit} />}
+      {step === 2 && (
+        <WorkExperienceForm
+          onSubmit={handleWorkExperienceSubmit}
+          onBack={handleBack}
+        />
+      )}
+      {step === 3 && (
+        <SkillsForm onSubmit={handleSkillsSubmit} onBack={handleBack} />
+      )}
+      {step === 4 && (
+        <AvailabilityForm
+          onSubmit={handleAvailabilitySubmit}
+          onBack={handleBack}
+        />
+      )}
+      {step === 5 && (
+        <AdditionalInfoForm
+          onSubmit={handleAdditionalInfoSubmit}
+          onBack={handleBack}
+        />
+      )}
+    </div>
+  );
+};
+
+export default JobSubmissionContainer;

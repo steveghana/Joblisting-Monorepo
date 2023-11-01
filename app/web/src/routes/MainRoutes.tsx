@@ -6,6 +6,7 @@ import Loadable from "../components/Loadable";
 import Home from "../views/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
+import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -112,6 +113,10 @@ const MainRoutes = {
     {
       path: "sample-page",
       element: <SamplePage />,
+    },
+    {
+      path: "job-submttion",
+      element: <JobSubmissionContainer />,
     },
   ],
 };
