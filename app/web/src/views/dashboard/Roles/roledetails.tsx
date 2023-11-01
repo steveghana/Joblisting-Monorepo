@@ -1,28 +1,29 @@
 import React from "react";
-import MainCard from "../../../components/MainCard";
 import {
   Avatar,
+  Box,
   Button,
   ButtonBase,
   Card,
-  CardContent,
   Chip,
   Divider,
   Grid,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { roleData } from "./roledata";
-import { Box } from "@mui/system";
-import { ArrowForward, LocationOn } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import Dot from "../../../components/Dot";
 import SubCard from "../../../components/SubCard";
-import Label from "../../../components/Label";
-import Text from "../../../components/Text";
 import { themePalette } from "../../../themes/schemes/palette";
 interface IRoleDetails {
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
 }
 const RoleDetails = (props: IRoleDetails) => {
+  const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <Card>
       <Grid
@@ -66,6 +67,7 @@ const RoleDetails = (props: IRoleDetails) => {
               p={1}
               border={"2px solid rgba(0, 0, 0, 0.1)"}
               display={"flex"}
+              flexWrap={"wrap"}
               gap={2}
               width={"100%"}
               // flexWrap={"wrap"}
@@ -94,6 +96,7 @@ const RoleDetails = (props: IRoleDetails) => {
                 }}
                 display={"flex"}
                 justifyContent={"flex-start"}
+                flexWrap={"wrap"}
                 alignItems={"center"}
                 //   flexDirection={props.feature ? "column" : "row"}
                 gap={1}
@@ -112,8 +115,7 @@ const RoleDetails = (props: IRoleDetails) => {
                     <Typography variant="caption">save</Typography>
                   </Button>
                   <Button
-                    size="small"
-                    // color=""
+                    fullWidth
                     sx={{
                       color: "white",
                       maxHeight: "30px",
@@ -146,52 +148,54 @@ const RoleDetails = (props: IRoleDetails) => {
             </SubCard>
           </Grid>
         </Grid>{" "}
-        <Grid lg={2} md={5} sm={12}>
-          <SubCard>
-            <Grid container direction="column" spacing={1}>
-              <Grid className="avatar" display={"flex"} gap={"1rem"} item>
-                <Typography variant="h5" color={"grey"} fontWeight={700}>
-                  About role
-                </Typography>
-              </Grid>
-              <Divider sx={{ margin: "1rem 0" }} />
-              <Grid className="mail links" item>
-                <Box>
-                  <ButtonBase sx={{ borderRadius: "12px" }}></ButtonBase>
-                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
-                    Website
+        {matchUpMd && (
+          <Grid lg={2} md={12} sm={12}>
+            <SubCard>
+              <Grid container direction="column" spacing={1}>
+                <Grid className="avatar" display={"flex"} gap={"1rem"} item>
+                  <Typography variant="h5" color={"grey"} fontWeight={700}>
+                    About role
                   </Typography>
-                  <Typography variant="caption">demo@svtech.com</Typography>
-                </Box>
+                </Grid>
                 <Divider sx={{ margin: "1rem 0" }} />
-                <Box>
-                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
-                    Phone
-                  </Typography>
-                  <Typography variant="caption">+233 554566677</Typography>
-                </Box>
-                <Divider sx={{ margin: "1rem 0" }} />
+                <Grid className="mail links" item>
+                  <Box>
+                    <ButtonBase sx={{ borderRadius: "12px" }}></ButtonBase>
+                    <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                      Website
+                    </Typography>
+                    <Typography variant="caption">demo@svtech.com</Typography>
+                  </Box>
+                  <Divider sx={{ margin: "1rem 0" }} />
+                  <Box gap={1}>
+                    <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                      Phone
+                    </Typography>
+                    <Typography variant="caption">+233 554566677</Typography>
+                  </Box>
+                  <Divider sx={{ margin: "1rem 0" }} />
 
-                <Box>
-                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
-                    Location
-                  </Typography>
-                  <Typography variant="caption">Melbourne</Typography>
-                </Box>
-                <Divider sx={{ margin: "1rem 0" }} />
-                <Box>
-                  <Typography fontWeight={500} variant="h5" mr={"auto"}>
-                    Industry
-                  </Typography>
-                  <Typography variant="caption">
-                    <Chip label={"cloud security"} />
-                  </Typography>
-                </Box>
-                <Divider sx={{ margin: "1rem 0" }} />
+                  <Box>
+                    <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                      Location
+                    </Typography>
+                    <Typography variant="caption">Melbourne</Typography>
+                  </Box>
+                  <Divider sx={{ margin: "1rem 0" }} />
+                  <Box>
+                    <Typography fontWeight={500} variant="h5" mr={"auto"}>
+                      Industry
+                    </Typography>
+                    <Typography variant="caption">
+                      <Chip label={"cloud security"} />
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ margin: "1rem 0" }} />
+                </Grid>
               </Grid>
-            </Grid>
-          </SubCard>
-        </Grid>
+            </SubCard>
+          </Grid>
+        )}
       </Grid>
     </Card>
   );

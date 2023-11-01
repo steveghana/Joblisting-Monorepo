@@ -6,12 +6,11 @@ import {
   Tab,
   Tabs,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import SubCard from "../../../components/SubCard";
-import PerfectScrollbar from "react-perfect-scrollbar";
-
 import React, { ChangeEvent } from "react";
-import { Box, styled } from "@mui/system";
+import { Box, styled, useTheme } from "@mui/system";
 import RoleDetails from "./roledetails";
 import { Close } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
@@ -45,19 +44,16 @@ const RoleTabs = (props: IRoleTabs) => {
     setCurrentTab(value);
   };
   return (
-    <Grid onClick={(e) => e.stopPropagation()} container>
+    <Grid onClick={(e) => e.stopPropagation()}>
       <Grid item position={"relative"}>
         <SubCard>
-          <Container maxWidth="xl">
+          <Container maxWidth="lg">
             <Grid
               container
               direction="row"
               justifyContent="center"
               alignItems="stretch"
-              // m={"auto"}
               spacing={3}
-              sx={{ padding: "3rem 3rem 0 3rem" }}
-              // height={"80%"}
             >
               <ButtonBase>
                 <Close
@@ -72,7 +68,6 @@ const RoleTabs = (props: IRoleTabs) => {
                     background: themePalette.grey[100],
                     p: 0.3,
                     borderRadius: "50%",
-
                     position: "fixed",
                     right: "0",
                     translate: "-3rem -2.5rem",
@@ -83,6 +78,8 @@ const RoleTabs = (props: IRoleTabs) => {
                 sx={{ width: "100%" }}
                 display={"flex"}
                 gap={1}
+                mt={2}
+                p={2}
                 alignItems={"center"}
                 flexWrap={"wrap"}
               >
@@ -110,7 +107,12 @@ const RoleTabs = (props: IRoleTabs) => {
                   indicatorColor="primary"
                 >
                   {tabs.map((tab) => (
-                    <Tab key={tab.value} label={tab.label} value={tab.value} />
+                    <Tab
+                      sx={{ fontSize: ".7rem" }}
+                      key={tab.value}
+                      label={tab.label}
+                      value={tab.value}
+                    />
                   ))}
                 </TabsWrapper>
               </Grid>
