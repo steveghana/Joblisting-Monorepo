@@ -1,17 +1,31 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, useTheme, useMediaQuery } from "@mui/material";
+import CustomButton from "../../../../components/button";
 
 const PersonalInfoForm = ({ onSubmit }) => {
+  const theme = useTheme();
+
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <Formik
       initialValues={{ name: "", email: "", phoneNumber: "" }}
       onSubmit={onSubmit}
     >
-      {() => (
+      {({
+        values,
+        errors,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        isSubmitting,
+        touched,
+      }) => (
         <Form>
           <Field
             name="name"
+            value={values.name}
             as={TextField}
             label="Name"
             variant="outlined"
@@ -34,9 +48,15 @@ const PersonalInfoForm = ({ onSubmit }) => {
             fullWidth
             margin="normal"
           />
-          <Button type="submit" variant="contained" color="primary">
+          <CustomButton
+            // sx={{ width: "500px" }}
+            fullWidth={matchUpMd ? false : true}
+            text="Next"
+            type="submit"
+          />
+          {/* <Button type="submit" variant="contained" color="primary">
             Next
-          </Button>
+          </Button> */}
         </Form>
       )}
     </Formik>

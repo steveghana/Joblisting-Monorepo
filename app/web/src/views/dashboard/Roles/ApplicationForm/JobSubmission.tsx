@@ -10,6 +10,8 @@ const JobSubmissionContainer: React.FC = () => {
   const [step, setStep] = useState(1);
 
   const handlePersonalInfoSubmit = (values: any) => {
+    // if (values.filter((value) => !value.name.length)) return;
+
     setFormData({ ...formData, ...values });
     setStep(step + 1);
   };
@@ -23,6 +25,7 @@ const JobSubmissionContainer: React.FC = () => {
   }
 
   const handleSkillsSubmit = (values: string[]) => {
+    if (values.filter((value) => !value.length)) return;
     setFormData({ ...formData, skills: values });
     setStep(step + 1);
   };
