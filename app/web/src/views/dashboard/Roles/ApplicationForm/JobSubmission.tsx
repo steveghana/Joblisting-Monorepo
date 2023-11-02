@@ -25,7 +25,7 @@ const JobSubmissionContainer: React.FC = () => {
   }
 
   const handleSkillsSubmit = (values: string[]) => {
-    if (values.filter((value) => !value.length)) return;
+    // if (values.filter((value) => !value.length)) return;
     setFormData({ ...formData, skills: values });
     setStep(step + 1);
   };

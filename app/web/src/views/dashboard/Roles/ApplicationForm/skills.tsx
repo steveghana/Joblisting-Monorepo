@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { Autocomplete, Chip, TextField, Button } from "@mui/material";
+import { Autocomplete, Chip, TextField, Button, Box } from "@mui/material";
+import CustomButton from "../../../../components/button";
 
 interface SkillsFormProps {
   onSubmit: (values: string[]) => void;
@@ -47,12 +48,26 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ onSubmit, onBack }) => {
               />
             )}
           />
-          <Button onClick={onBack} variant="outlined">
-            Back
-          </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Next
-          </Button>
+          <Box
+            width={"100%"}
+            gap={1}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <CustomButton
+              variant="outlined"
+              onClick={onBack}
+              // fullWidth={matchUpMd ? false : true}
+              text="Back"
+              type="submit"
+            />
+            <CustomButton
+              variant="contained"
+              // fullWidth={matchUpMd ? false : true}
+              text="Next"
+              type="submit"
+            />
+          </Box>
         </Form>
       )}
     </Formik>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, Typography, Box } from "@mui/material";
+import CustomButton from "../../../../components/button";
 
 interface AvailabilityData {
   availability: string;
@@ -34,12 +35,26 @@ const AvailabilityForm: React.FC<AvailabilityFormProps> = ({
             multiline
             rows={4}
           />
-          <Button onClick={onBack} variant="outlined">
-            Back
-          </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Next
-          </Button>
+          <Box
+            width={"100%"}
+            gap={1}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <CustomButton
+              variant="outlined"
+              onClick={onBack}
+              // fullWidth={matchUpMd ? false : true}
+              text="Back"
+              type="submit"
+            />
+            <CustomButton
+              variant="contained"
+              // fullWidth={matchUpMd ? false : true}
+              text="Next"
+              type="submit"
+            />
+          </Box>
         </Form>
       )}
     </Formik>

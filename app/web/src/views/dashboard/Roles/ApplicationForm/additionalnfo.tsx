@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
+import CustomButton from "../../../../components/button";
 
 interface AdditionalInfoData {
   coverLetter: string;
@@ -34,12 +35,26 @@ const AdditionalInfoForm: React.FC<AdditionalInfoFormProps> = ({
             multiline
             rows={8}
           />
-          <Button onClick={onBack} variant="outlined">
-            Back
-          </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Submit Application
-          </Button>
+          <Box
+            width={"100%"}
+            gap={1}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <CustomButton
+              variant="outlined"
+              onClick={onBack}
+              // fullWidth={matchUpMd ? false : true}
+              text="Back"
+              type="submit"
+            />
+            <CustomButton
+              variant="contained"
+              // fullWidth={matchUpMd ? false : true}
+              text="Submit Application"
+              type="submit"
+            />
+          </Box>
         </Form>
       )}
     </Formik>

@@ -1,6 +1,13 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button, useTheme, useMediaQuery } from "@mui/material";
+import {
+  TextField,
+  Button,
+  useTheme,
+  useMediaQuery,
+  OutlinedInput,
+  Box,
+} from "@mui/material";
 import CustomButton from "../../../../components/button";
 
 const PersonalInfoForm = ({ onSubmit }) => {
@@ -48,12 +55,13 @@ const PersonalInfoForm = ({ onSubmit }) => {
             fullWidth
             margin="normal"
           />
-          <CustomButton
-            // sx={{ width: "500px" }}
-            fullWidth={matchUpMd ? false : true}
-            text="Next"
-            type="submit"
-          />
+          <Box width={"100%"} display={"flex"} justifyContent={"center"}>
+            <CustomButton
+              fullWidth={matchUpMd ? false : true}
+              text="Next"
+              type="submit"
+            />
+          </Box>
           {/* <Button type="submit" variant="contained" color="primary">
             Next
           </Button> */}
