@@ -1,6 +1,13 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { Autocomplete, Chip, TextField, Button, Box } from "@mui/material";
+import {
+  Autocomplete,
+  Chip,
+  TextField,
+  Button,
+  Box,
+  Typography,
+} from "@mui/material";
 import CustomButton from "../../../../components/button";
 
 interface SkillsFormProps {
@@ -18,59 +25,63 @@ const availableSkills = [
 
 const SkillsForm: React.FC<SkillsFormProps> = ({ onSubmit, onBack }) => {
   return (
-    <Formik
-      initialValues={{ selectedSkills: [] }}
-      onSubmit={(values) => {
-        onSubmit(values.selectedSkills);
-      }}
-    >
-      {({ values, setFieldValue }) => (
-        <Form>
-          <Autocomplete
-            multiple
-            id="skills-autocomplete"
-            options={availableSkills}
-            value={values.selectedSkills}
-            onChange={(_, newValue) => {
-              setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
-            }}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip label={option} {...getTagProps({ index })} />
-              ))
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Select Skills"
+    <>
+      <Typography variant="h4">Add Skills</Typography>
+
+      <Formik
+        initialValues={{ selectedSkills: [] }}
+        onSubmit={(values) => {
+          onSubmit(values.selectedSkills);
+        }}
+      >
+        {({ values, setFieldValue }) => (
+          <Form>
+            <Autocomplete
+              multiple
+              id="skills-autocomplete"
+              options={availableSkills}
+              value={values.selectedSkills}
+              onChange={(_, newValue) => {
+                setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
+              }}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip label={option} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Skills"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
+            />
+            <Box
+              width={"100%"}
+              gap={1}
+              display={"flex"}
+              justifyContent={"center"}
+            >
+              <CustomButton
                 variant="outlined"
-                fullWidth
+                onClick={onBack}
+                // fullWidth={matchUpMd ? false : true}
+                text="Back"
+                type="submit"
               />
-            )}
-          />
-          <Box
-            width={"100%"}
-            gap={1}
-            display={"flex"}
-            justifyContent={"center"}
-          >
-            <CustomButton
-              variant="outlined"
-              onClick={onBack}
-              // fullWidth={matchUpMd ? false : true}
-              text="Back"
-              type="submit"
-            />
-            <CustomButton
-              variant="contained"
-              // fullWidth={matchUpMd ? false : true}
-              text="Next"
-              type="submit"
-            />
-          </Box>
-        </Form>
-      )}
-    </Formik>
+              <CustomButton
+                variant="contained"
+                // fullWidth={matchUpMd ? false : true}
+                text="Next"
+                type="submit"
+              />
+            </Box>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 

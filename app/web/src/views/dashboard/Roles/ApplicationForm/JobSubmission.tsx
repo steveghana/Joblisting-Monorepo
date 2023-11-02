@@ -4,6 +4,7 @@ import WorkExperienceForm from "./experience";
 import SkillsForm from "./skills";
 import AvailabilityForm from "./availability";
 import AdditionalInfoForm from "./additionalnfo";
+import { Grid } from "@mui/material";
 
 const JobSubmissionContainer: React.FC = () => {
   const [formData, setFormData] = useState({});
@@ -45,8 +46,7 @@ const JobSubmissionContainer: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Job Submission</h2>
+    <Grid>
       {step === 1 && <PersonalInfoForm onSubmit={handlePersonalInfoSubmit} />}
       {step === 2 && (
         <WorkExperienceForm
@@ -69,7 +69,7 @@ const JobSubmissionContainer: React.FC = () => {
           onBack={handleBack}
         />
       )}
-    </div>
+    </Grid>
   );
 };
 

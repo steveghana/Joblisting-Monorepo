@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 import CustomButton from "../../../../components/button";
 
 interface AdditionalInfoData {
@@ -17,47 +17,51 @@ const AdditionalInfoForm: React.FC<AdditionalInfoFormProps> = ({
   onBack,
 }) => {
   return (
-    <Formik
-      initialValues={{ coverLetter: "" }}
-      onSubmit={(values) => {
-        onSubmit(values.coverLetter);
-      }}
-    >
-      {() => (
-        <Form>
-          <Field
-            name="coverLetter"
-            as={TextField}
-            label="Cover Letter"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            multiline
-            rows={8}
-          />
-          <Box
-            width={"100%"}
-            gap={1}
-            display={"flex"}
-            justifyContent={"center"}
-          >
-            <CustomButton
+    <>
+      <Typography variant="h4">Cover Letter</Typography>
+
+      <Formik
+        initialValues={{ coverLetter: "" }}
+        onSubmit={(values) => {
+          onSubmit(values.coverLetter);
+        }}
+      >
+        {() => (
+          <Form>
+            <Field
+              name="coverLetter"
+              as={TextField}
+              label="Cover Letter"
               variant="outlined"
-              onClick={onBack}
-              // fullWidth={matchUpMd ? false : true}
-              text="Back"
-              type="submit"
+              fullWidth
+              margin="normal"
+              multiline
+              rows={8}
             />
-            <CustomButton
-              variant="contained"
-              // fullWidth={matchUpMd ? false : true}
-              text="Submit Application"
-              type="submit"
-            />
-          </Box>
-        </Form>
-      )}
-    </Formik>
+            <Box
+              width={"100%"}
+              gap={1}
+              display={"flex"}
+              justifyContent={"center"}
+            >
+              <CustomButton
+                variant="outlined"
+                onClick={onBack}
+                // fullWidth={matchUpMd ? false : true}
+                text="Back"
+                type="submit"
+              />
+              <CustomButton
+                variant="contained"
+                // fullWidth={matchUpMd ? false : true}
+                text="Submit Application"
+                type="submit"
+              />
+            </Box>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 
