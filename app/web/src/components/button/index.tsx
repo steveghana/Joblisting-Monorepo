@@ -16,7 +16,7 @@ function CustomButton(props: IButtonProps) {
     <Button
       {...props} // Spread all properties from IButtonProps
       // fullWidth
-      variant="contained"
+      variant={props.variant || "contained"}
       sx={{ mt: 3, mb: 2, borderRadius: "10px", minWidth: "200px" }}
     >
       <Typography textTransform={"none"} variant="button">

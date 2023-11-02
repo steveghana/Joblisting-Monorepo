@@ -73,6 +73,7 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ onSubmit, onBack }) => {
               />
               <CustomButton
                 variant="contained"
+                disabled={values.selectedSkills.length === 0}
                 // fullWidth={matchUpMd ? false : true}
                 text="Next"
                 type="submit"

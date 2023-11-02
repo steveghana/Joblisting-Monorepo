@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PersonalInfoForm from "./Personalinfo";
 import WorkExperienceForm from "./experience";
 import SkillsForm from "./skills";
-import AvailabilityForm from "./availability";
 import AdditionalInfoForm from "./additionalnfo";
 import { Grid } from "@mui/material";
 
@@ -31,10 +30,10 @@ const JobSubmissionContainer: React.FC = () => {
     setStep(step + 1);
   };
 
-  const handleAvailabilitySubmit = (value: string) => {
-    setFormData({ ...formData, availability: value });
-    setStep(step + 1);
-  };
+  // const handleAvailabilitySubmit = (value: string) => {
+  //   setFormData({ ...formData, availability: value });
+  //   setStep(step + 1);
+  // };
 
   const handleAdditionalInfoSubmit = (value: string) => {
     setFormData({ ...formData, coverLetter: value });
@@ -57,13 +56,13 @@ const JobSubmissionContainer: React.FC = () => {
       {step === 3 && (
         <SkillsForm onSubmit={handleSkillsSubmit} onBack={handleBack} />
       )}
-      {step === 4 && (
+      {/* {step === 4 && (
         <AvailabilityForm
           onSubmit={handleAvailabilitySubmit}
           onBack={handleBack}
         />
-      )}
-      {step === 5 && (
+      )} */}
+      {step === 4 && (
         <AdditionalInfoForm
           onSubmit={handleAdditionalInfoSubmit}
           onBack={handleBack}

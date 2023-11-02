@@ -11,6 +11,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import CustomButton from "../../../../components/button";
+import FileInput from "./FileInput";
 
 const PersonalInfoForm = ({ onSubmit }) => {
   const theme = useTheme();
@@ -55,17 +56,10 @@ const PersonalInfoForm = ({ onSubmit }) => {
                 margin="normal"
               />
             ))}
-            {/* {formFields.map(({ name, label }) => (
-              <Field
-                key={name}
-                name={name}
-                as={TextField}
-                label={label}
-                variant="outlined"
-                fullWidth
-                margin="normal"
-              />
-            )} */}
+            <Field
+              name="resume"
+              component={FileInput} // Custom component for file input
+            />
 
             <Box
               display="flex"
@@ -79,7 +73,12 @@ const PersonalInfoForm = ({ onSubmit }) => {
             </Box>
 
             <Box width="100%" display="flex" justifyContent="center">
-              <CustomButton fullWidth={!matchUpMd} text="Next" type="submit" />
+              <CustomButton
+                fullWidth={!matchUpMd}
+                text="Next"
+                type="submit"
+                variant="contained"
+              />
             </Box>
           </Form>
         )}

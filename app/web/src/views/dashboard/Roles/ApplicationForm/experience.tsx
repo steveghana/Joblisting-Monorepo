@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { TextField, Button, Typography, Box, Grid } from "@mui/material";
 import CustomButton from "../../../../components/button";
 
 const WorkExperienceForm = ({ onSubmit, onBack }) => {
@@ -14,9 +14,9 @@ const WorkExperienceForm = ({ onSubmit, onBack }) => {
             <FieldArray
               name="workExperience"
               render={(arrayHelpers) => (
-                <div>
+                <Grid>
                   {values.workExperience.map((exp, index) => (
-                    <div key={index}>
+                    <Grid key={index}>
                       <Field
                         name={`workExperience[${index}].jobTitle`}
                         as={TextField}
@@ -55,9 +55,10 @@ const WorkExperienceForm = ({ onSubmit, onBack }) => {
                       >
                         Remove
                       </Button>
-                    </div>
+                    </Grid>
                   ))}
-                  <Button
+                  <CustomButton
+                    text="Add Experience"
                     onClick={() =>
                       arrayHelpers.push({
                         jobTitle: "",
@@ -66,13 +67,13 @@ const WorkExperienceForm = ({ onSubmit, onBack }) => {
                         endDate: "",
                       })
                     }
+                    type="button"
                     variant="outlined"
-                  >
-                    Add Experience
-                  </Button>
-                </div>
+                  />
+                </Grid>
               )}
             />
+
             <Box
               width={"100%"}
               gap={1}
@@ -88,6 +89,7 @@ const WorkExperienceForm = ({ onSubmit, onBack }) => {
               />
               <CustomButton
                 variant="contained"
+                disabled={values.workExperience.length === 0}
                 // fullWidth={matchUpMd ? false : true}
                 text="Next"
                 type="submit"
