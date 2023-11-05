@@ -17,20 +17,25 @@ import CustomButton from "../../../../components/button";
 import FileInput from "./FileInput";
 import { Grid } from "@mui/material";
 import { availableSkills } from "./skills";
+import { useNavigate } from "react-router";
 const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [formData, setFormData] = useState({});
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
+  const navigate = useNavigate();
   const formFields = [
     { name: "name", label: "Name" },
     { name: "email", label: "Email" },
     { name: "phoneNumber", label: "Phone Number" },
   ];
 
-  const handlePersonalInfoSubmit = (values: any) =>
+  const handlePersonalInfoSubmit = (values: any) => {
     setFormData({ ...formData, ...values, selectedFile });
+    //Save data in the database : TO DO
+    //TOD): add a global snackbar and context for toggling the snackbar globally
+    navigate("/dashboard/jobs/roles");
+  };
 
   const onFileSelect = (file: File) => setSelectedFile(file);
 
