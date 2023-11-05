@@ -15,22 +15,12 @@ import {
 } from "@mui/material";
 import CustomButton from "../../../../components/button";
 import FileInput from "./FileInput";
-import SkillsForm from "./skills";
-import AdditionalInfoForm from "./additionalnfo";
 import { Grid } from "@mui/material";
-
+import { availableSkills } from "./skills";
 const JobSubmissionContainer: React.FC = () => {
-  const availableSkills = [
-    "JavaScript",
-    "React",
-    "Node.js",
-    "Next.js",
-    // Add more skills here
-  ];
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [formData, setFormData] = useState({});
-  const [step, setStep] = useState(1);
 
   const formFields = [
     { name: "name", label: "Name" },
@@ -39,25 +29,10 @@ const JobSubmissionContainer: React.FC = () => {
   ];
 
   const handlePersonalInfoSubmit = (values: any) => {
-    console.log(values);
+    console.log(values, "data");
     // if (values.filter((value) => !value.name.length)) return;
 
     setFormData({ ...formData, ...values });
-    setStep(step + 1);
-  };
-
-  // const handleAvailabilitySubmit = (value: string) => {
-  //   setFormData({ ...formData, availability: value });
-  //   setStep(step + 1);
-  // };
-
-  const handleAdditionalInfoSubmit = (value: string) => {
-    setFormData({ ...formData, coverLetter: value });
-    // Handle final form submission here
-  };
-
-  const handleBack = () => {
-    setStep(step - 1);
   };
 
   return (
@@ -68,6 +43,7 @@ const JobSubmissionContainer: React.FC = () => {
           name: "",
           email: "",
           phoneNumber: "",
+          coverLetter: "",
           selectedSkills: [],
         }}
         validationSchema={Yup.object().shape({
@@ -155,7 +131,7 @@ const JobSubmissionContainer: React.FC = () => {
             <Box width="100%" display="flex" justifyContent="center">
               <CustomButton
                 fullWidth={!matchUpMd}
-                text="Submit application "
+                text="Submit application"
                 type="submit"
                 variant="contained"
               />
