@@ -69,7 +69,9 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
-      <small>Files Supported: PDF, TEXT, DOC, DOCX</small>
+      <Box>
+        <small>Files Supported: PDF, TEXT, DOC, DOCX</small>
+      </Box>
       {selectedFile && (
         <Box mt={2}>
           <BorderLinearProgress variant="determinate" value={uploadProgress} />

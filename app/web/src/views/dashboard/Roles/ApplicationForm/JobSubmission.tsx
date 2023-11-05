@@ -140,7 +140,7 @@ const JobSubmissionContainer: React.FC = () => {
               fullWidth
               margin="normal"
               multiline
-              rows={8}
+              rows={6}
             />
 
             <Box
