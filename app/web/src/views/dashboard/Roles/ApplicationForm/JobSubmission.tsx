@@ -104,10 +104,7 @@ const JobSubmissionContainer: React.FC = () => {
                 margin="normal"
               />
             ))}
-            <Field
-              name="resume"
-              component={FileInput} // Custom component for file input
-            />
+
             <Autocomplete
               multiple
               id="skills-autocomplete"
@@ -130,6 +127,20 @@ const JobSubmissionContainer: React.FC = () => {
                 />
               )}
             />
+            <Field
+              name="resume"
+              component={FileInput} // Custom component for file input
+            />
+            <Field
+              name="coverLetter"
+              as={TextField}
+              label="Cover Letter"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              multiline
+              rows={8}
+            />
 
             <Box
               display="flex"
@@ -137,13 +148,13 @@ const JobSubmissionContainer: React.FC = () => {
               alignItems="center"
               sx={{ mt: 3 }}
             >
-              <FormHelperText error>{errors.Name}</FormHelperText>
+              {/* <FormHelperText error>{errors.Name}</FormHelperText> */}
             </Box>
 
             <Box width="100%" display="flex" justifyContent="center">
               <CustomButton
                 fullWidth={!matchUpMd}
-                text="Next"
+                text="Submit application "
                 type="submit"
                 variant="contained"
               />
