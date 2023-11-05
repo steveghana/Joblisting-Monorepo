@@ -21,6 +21,7 @@ const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [formData, setFormData] = useState({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const formFields = [
     { name: "name", label: "Name" },
@@ -28,12 +29,10 @@ const JobSubmissionContainer: React.FC = () => {
     { name: "phoneNumber", label: "Phone Number" },
   ];
 
-  const handlePersonalInfoSubmit = (values: any) => {
-    console.log(values, "data");
-    // if (values.filter((value) => !value.name.length)) return;
+  const handlePersonalInfoSubmit = (values: any) =>
+    setFormData({ ...formData, ...values, selectedFile });
 
-    setFormData({ ...formData, ...values });
-  };
+  const onFileSelect = (file: File) => setSelectedFile(file);
 
   return (
     <Grid>
@@ -48,7 +47,7 @@ const JobSubmissionContainer: React.FC = () => {
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string()
-            .email("Must be a valid email")
+            .email("Enter a valid email")
             .max(255)
             .required("Email is required"),
           name: Yup.string()
@@ -56,7 +55,7 @@ const JobSubmissionContainer: React.FC = () => {
             .min(2)
             .required("Please enter a valid name"),
           phoneNumber: Yup.string()
-            .matches(/^[0-9]{8,15}$/, "Please enter a valid phone number")
+            .matches(/^\+?[0-9]{8,15}$/, "Please enter a valid phone number")
             .required("Please enter your phone number"),
         })}
         onSubmit={handlePersonalInfoSubmit}
@@ -104,10 +103,12 @@ const JobSubmissionContainer: React.FC = () => {
                 />
               )}
             />
-            <Field
-              name="resume"
-              component={FileInput} // Custom component for file input
+            <FileInput
+              name="File"
+              onFileSelect={onFileSelect}
+              labelText="Insert Your Resume"
             />
+
             <Field
               name="coverLetter"
               as={TextField}
@@ -125,7 +126,11 @@ const JobSubmissionContainer: React.FC = () => {
               alignItems="center"
               sx={{ mt: 3 }}
             >
-              {/* <FormHelperText error>{errors.Name}</FormHelperText> */}
+              <FormHelperText error>{errors.name as string}</FormHelperText>
+              <FormHelperText error>{errors.email as string}</FormHelperText>
+              <FormHelperText error>
+                {errors.phoneNumber as string}
+              </FormHelperText>
             </Box>
 
             <Box width="100%" display="flex" justifyContent="center">

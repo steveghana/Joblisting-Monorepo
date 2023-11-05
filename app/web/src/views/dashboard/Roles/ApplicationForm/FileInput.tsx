@@ -1,22 +1,23 @@
 import React, { useState, useRef } from "react";
-import { Button, Typography, Box, styled, Grid } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Box,
+  styled,
+  Grid,
+  InputProps,
+} from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import { themePalette } from "../../../../themes/schemes/palette";
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
-  },
-}));
+import { Close } from "@mui/icons-material";
+
+interface Props extends InputProps {
+  onFileSelect: (file: File | null) => void;
+  labelText: string;
+}
 const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -24,8 +25,9 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-    // onFileSelect(file);
+    onFileSelect(file);
 
+    setSelectedFile(file);
     // Simulate an upload process (e.g., using a timeout)
     const simulateUpload = () => {
       let progress = 0;
@@ -35,7 +37,6 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
           setUploadProgress(progress);
         } else {
           clearInterval(interval);
-          setSelectedFile(file);
         }
       }, 100);
     };
@@ -70,19 +71,26 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
             display={"flex"}
             p={2}
             sx={{
-              background: "red",
+              background: themePalette.primary.main,
               height: "100%",
               borderBottomLeftRadius: 7,
               borderTopLeftRadius: 7,
             }}
           >
-            <Box sx={{ height: "100%" }} /* width={"20%"} */>PDF</Box>
+            <Box sx={{ height: "100%" }} /* width={"20%"} */>
+              <Typography color={"white"}>
+                {selectedFile?.type?.split("/")[1].toUpperCase()}
+              </Typography>
+            </Box>
           </Box>
           <Box>
             <Typography>{selectedFile?.name}</Typography>
             <Typography>
               Last used on {new Date().toLocaleDateString()}
             </Typography>
+          </Box>
+          <Box ml={"auto"} px={2}>
+            <Close fontSize="medium" onClick={() => setSelectedFile(null)} />
           </Box>
         </Box>
       )}
@@ -127,10 +135,5 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
     </Box>
   );
 };
-
-interface Props {
-  onFileSelect: (file: File | null) => void;
-  labelText: string;
-}
 
 export default StylishFileInput;
