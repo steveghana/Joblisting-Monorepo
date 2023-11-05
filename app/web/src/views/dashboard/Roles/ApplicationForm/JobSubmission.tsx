@@ -39,6 +39,7 @@ const JobSubmissionContainer: React.FC = () => {
   ];
 
   const handlePersonalInfoSubmit = (values: any) => {
+    console.log(values);
     // if (values.filter((value) => !value.name.length)) return;
 
     setFormData({ ...formData, ...values });
