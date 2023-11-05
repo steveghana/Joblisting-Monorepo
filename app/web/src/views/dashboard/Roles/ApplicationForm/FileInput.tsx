@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
-import { Button, Typography, Box, styled } from "@mui/material";
+import { Button, Typography, Box, styled, Grid } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
+import { themePalette } from "../../../../themes/schemes/palette";
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
@@ -23,10 +24,8 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-    setSelectedFile(file);
     // onFileSelect(file);
 
-    console.log(file);
     // Simulate an upload process (e.g., using a timeout)
     const simulateUpload = () => {
       let progress = 0;
@@ -36,8 +35,9 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
           setUploadProgress(progress);
         } else {
           clearInterval(interval);
+          setSelectedFile(file);
         }
-      }, 500);
+      }, 100);
     };
 
     // Start simulating the upload process
@@ -53,6 +53,40 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
   return (
     <Box mt={2}>
       <Typography variant="h5">{labelText}</Typography>
+      {selectedFile?.name && (
+        <Box
+          my={1}
+          alignItems={"center"}
+          borderRadius={4}
+          // p={1}
+          border={"2px solid rgba(0, 0, 0, 0.1)"}
+          display={"flex"}
+          // flexWrap={"wrap"}
+          gap={2}
+          width={"100%"}
+          // flexWrap={"wrap"}
+        >
+          <Box
+            display={"flex"}
+            p={2}
+            sx={{
+              background: "red",
+              height: "100%",
+              borderBottomLeftRadius: 7,
+              borderTopLeftRadius: 7,
+            }}
+          >
+            <Box sx={{ height: "100%" }} /* width={"20%"} */>PDF</Box>
+          </Box>
+          <Box>
+            <Typography>{selectedFile?.name}</Typography>
+            <Typography>
+              Last used on {new Date().toLocaleDateString()}
+            </Typography>
+          </Box>
+        </Box>
+      )}
+
       <Button
         color="error"
         variant="contained"
@@ -74,7 +108,11 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
       </Box>
       {selectedFile && (
         <Box mt={2}>
-          <BorderLinearProgress variant="determinate" value={uploadProgress} />
+          <LinearProgress
+            sx={{ height: 10, borderRadius: 5 }}
+            variant="determinate"
+            value={uploadProgress}
+          />
           <Typography variant="body2" color="textSecondary">
             {uploadProgress < 100 ? "Uploading..." : "Upload complete"}
           </Typography>
