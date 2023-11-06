@@ -5,11 +5,14 @@ import { Grid, Container } from "@mui/material";
 
 import ProfileCover from "../../../content/applications/Users/profile/ProfileCover";
 import RecentActivity from "../../../content/applications/Users/profile/RecentActivity";
+import { IUser, Iuser } from "../../../types/user";
 
 function ManagementUserProfile() {
-  const user = {
+  const user: Omit<IUser, "token" | "role"> = {
     savedCards: 7,
-    name: "itai azogui",
+    firstName: "itai",
+    email: "sv@gmail.com",
+    lastName: "azogui",
     coverImg: "/static/images/placeholders/covers/5.jpg",
     avatar: "/static/images/avatars/4.jpg",
     description:

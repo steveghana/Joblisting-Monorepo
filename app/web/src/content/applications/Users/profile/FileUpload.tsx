@@ -1,24 +1,15 @@
 import * as React from "react";
-// import AspectRatio from '@mui/joy/AspectRatio';
-// import Box from '@mui/joy/Box';
-// import Card, { CardProps } from '@mui/joy/Card';
-// import CardContent from '@mui/joy/CardContent';
-// import IconButton from '@mui/joy/IconButton';
-// import LinearProgress from '@mui/joy/LinearProgress';
-// import Typography from '@mui/joy/Typography';
+import AspectRatio from "@mui/joy/AspectRatio";
+import Box from "@mui/joy/Box";
+import Card, { CardProps } from "@mui/joy/Card";
+import CardContent from "@mui/joy/CardContent";
+import IconButton from "@mui/joy/IconButton";
+import LinearProgress from "@mui/joy/LinearProgress";
+import Typography from "@mui/joy/Typography";
 
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardProps,
-  IconButton,
-  LinearProgress,
-  Typography,
-} from "@mui/material";
 
 export default function FileUpload({
   icon,
@@ -46,18 +37,18 @@ export default function FileUpload({
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {/* <AspectRatio
+      <AspectRatio
         ratio="1"
         variant="soft"
         color="neutral"
         sx={{
           minWidth: 32,
-          borderRadius: '50%',
-          '--Icon-fontSize': '16px',
+          borderRadius: "50%",
+          "--Icon-fontSize": "16px",
         }}
-      > */}
-      <div>{icon ?? <InsertDriveFileRoundedIcon />}</div>
-      {/* </AspectRatio> */}
+      >
+        <div>{icon ?? <InsertDriveFileRoundedIcon />}</div>
+      </AspectRatio>
       <CardContent>
         <Typography fontSize="sm">{fileName}</Typography>
         <Typography level="body-xs">{fileSize}</Typography>
@@ -78,21 +69,21 @@ export default function FileUpload({
         </Box>
       </CardContent>
       {progress >= 100 ? (
-        // <AspectRatio
-        //   ratio="1"
-        //   variant="solid"
-        //   color="success"
-        //   sx={{
-        //     minWidth: 20,
-        //     borderRadius: '50%',
-        //     '--Icon-fontSize': '14px',
-        //   }}
-        // >
-        <div>
-          <CheckRoundedIcon />
-        </div>
+        <AspectRatio
+          ratio="1"
+          variant="solid"
+          color="success"
+          sx={{
+            minWidth: 20,
+            borderRadius: "50%",
+            "--Icon-fontSize": "14px",
+          }}
+        >
+          <div>
+            <CheckRoundedIcon />
+          </div>
+        </AspectRatio>
       ) : (
-        // </AspectRatio>
         <IconButton
           variant="plain"
           color="danger"

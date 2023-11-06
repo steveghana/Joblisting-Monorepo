@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
-// import Card, { CardProps } from '@mui/joy/Card';
-// import Link from '@mui/joy/Link';
-// import Typography from '@mui/joy/Typography';
-// import AspectRatio from '@mui/joy/AspectRatio';
+import Card, { CardProps } from "@mui/joy/Card";
+import Link from "@mui/joy/Link";
+import Typography from "@mui/joy/Typography";
+import AspectRatio from "@mui/joy/AspectRatio";
 
 import FileUploadRoundedIcon from "@mui/icons-material/FileUploadRounded";
-import { Card, CardProps, Link, Typography } from "@mui/material";
 
 export default function DropZone({
   icon,
@@ -33,18 +32,18 @@ export default function DropZone({
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {/* <AspectRatio
+      <AspectRatio
         ratio="1"
         variant="solid"
         color="primary"
         sx={{
           minWidth: 32,
-          borderRadius: '50%',
-          '--Icon-fontSize': '16px',
+          borderRadius: "50%",
+          "--Icon-fontSize": "16px",
         }}
-      > */}
-      <div>{icon ?? <FileUploadRoundedIcon />}</div>
-      {/* </AspectRatio> */}
+      >
+        <div>{icon ?? <FileUploadRoundedIcon />}</div>
+      </AspectRatio>
 
       <Typography level="body-sm" textAlign="center">
         <Link component="button" overlay>

@@ -1,19 +1,11 @@
-import {
-  Autocomplete,
-  FormControl,
-  FormControlProps,
-  FormLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
 import * as React from "react";
-// import Autocomplete from "@mui/joy/Autocomplete";
-// import AutocompleteOption from "@mui/joy/AutocompleteOption";
-// import AspectRatio from "@mui/joy/AspectRatio";
-// import FormControl, { FormControlProps } from "@mui/joy/FormControl";
-// import FormLabel from "@mui/joy/FormLabel";
-// import ListItemDecorator from "@mui/joy/ListItemDecorator";
-// import Typography from "@mui/joy/Typography";
+import Autocomplete from "@mui/joy/Autocomplete";
+import AutocompleteOption from "@mui/joy/AutocompleteOption";
+import AspectRatio from "@mui/joy/AspectRatio";
+import FormControl, { FormControlProps } from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import Typography from "@mui/joy/Typography";
 
 export default function ContrySelector({ sx, ...props }: FormControlProps) {
   return (
@@ -29,25 +21,29 @@ export default function ContrySelector({ sx, ...props }: FormControlProps) {
         // defaultValue={{ code: 'TH', label: 'Thailand', phone: '66' }}
         options={countries}
         renderOption={(optionProps, option) => (
-          // <AutocompleteOption {...optionProps}>
-          //   <ListItemDecorator>
-          //     <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: "50%" }}>
-          //       <img
-          //         loading="lazy"
-          //         width="20"
-          //         srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-          //         src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-          //         alt=""
-          //       />
-          //     </AspectRatio>
-          //   </ListItemDecorator>
-          //   {option.label}
-          <Typography component="span" textColor="text.tertiary" ml={0.5}>
-            (+{option.phone})
-          </Typography>
-          // </AutocompleteOption>
+          <AutocompleteOption {...optionProps}>
+            <ListItemDecorator>
+              <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: "50%" }}>
+                <img
+                  loading="lazy"
+                  width="20"
+                  srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                  src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                  alt=""
+                />
+              </AspectRatio>
+            </ListItemDecorator>
+            {option.label}
+            <Typography component="span" textColor="text.tertiary" ml={0.5}>
+              (+{option.phone})
+            </Typography>
+          </AutocompleteOption>
         )}
-        renderInput={(params) => <TextField {...params} label="Movie" />}
+        slotProps={{
+          input: {
+            autoComplete: "new-password", // disable autocomplete and autofill
+          },
+        }}
       />
     </FormControl>
   );
