@@ -70,30 +70,17 @@ export default function MyProfile({ user }: Iuser) {
           <Stack
             direction="row"
             spacing={3}
-            sx={{
-              display: {
-                xs: "none",
-                md: "flex",
-                flexDirection: { sm: "column" },
-              },
-              my: 1,
-            }}
+            sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
           >
-            {/* <Stack direction="column" spacing={1}>
+            <Stack direction="column" spacing={1}>
               <AspectRatio
                 ratio="1"
                 maxHeight={200}
                 sx={{ flex: 1, minWidth: 120, borderRadius: "100%" }}
               >
                 <img
-                  src={
-                    user.avatar ||
-                    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                  }
-                  srcSet={
-                    user.avatar ||
-                    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                  }
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
                   loading="lazy"
                   alt=""
                 />
@@ -115,7 +102,7 @@ export default function MyProfile({ user }: Iuser) {
               >
                 <EditRoundedIcon />
               </IconButton>
-            </Stack> */}
+            </Stack>
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
               <Stack spacing={1}>
                 <FormLabel>Name</FormLabel>
@@ -128,14 +115,9 @@ export default function MyProfile({ user }: Iuser) {
                     gap: 2,
                   }}
                 >
+                  <Input size="sm" placeholder="First name" />
                   <Input
                     size="sm"
-                    placeholder="First name"
-                    defaultValue={user.firstName || ""}
-                  />
-                  <Input
-                    size="sm"
-                    defaultValue={user.lastName}
                     placeholder="Last name"
                     sx={{ flexGrow: 1 }}
                   />
@@ -144,10 +126,7 @@ export default function MyProfile({ user }: Iuser) {
               <Stack direction="row" spacing={2}>
                 <FormControl>
                   <FormLabel>Role</FormLabel>
-                  <Input
-                    size="sm"
-                    defaultValue={user.jobtitle || "UI Developer"}
-                  />
+                  <Input size="sm" defaultValue="UI Developer" />
                 </FormControl>
                 <FormControl sx={{ flexGrow: 1 }}>
                   <FormLabel>Email</FormLabel>
@@ -156,7 +135,7 @@ export default function MyProfile({ user }: Iuser) {
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
                     placeholder="email"
-                    defaultValue={user.email || "siriwatk@test.com"}
+                    defaultValue="siriwatk@test.com"
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>
@@ -173,13 +152,13 @@ export default function MyProfile({ user }: Iuser) {
                     defaultValue="1"
                   >
                     <Option value="1">
-                      {/* Indochina Time (Bangkok){" "} */}
+                      Indochina Time (Bangkok){" "}
                       <Typography textColor="text.tertiary" ml={0.5}>
                         — GMT+07:00
                       </Typography>
                     </Option>
                     <Option value="2">
-                      {/* Indochina Time (Ho Chi Minh City){" "} */}
+                      Indochina Time (Ho Chi Minh City){" "}
                       <Typography textColor="text.tertiary" ml={0.5}>
                         — GMT+07:00
                       </Typography>
