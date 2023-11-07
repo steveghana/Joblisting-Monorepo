@@ -6,22 +6,8 @@ import { Grid, Container } from "@mui/material";
 import ProfileCover from "../../../content/applications/Users/profile/ProfileCover";
 import RecentActivity from "../../../content/applications/Users/profile/RecentActivity";
 import { IUser, Iuser } from "../../../types/user";
-
+import { userdata as user } from "../../../content/applications/Users/settings/userdata";
 function ManagementUserProfile() {
-  const user: Omit<IUser, "token" | "role"> = {
-    savedCards: 7,
-    firstName: "itai",
-    email: "sv@gmail.com",
-    lastName: "azogui",
-    coverImg: "/static/images/placeholders/covers/5.jpg",
-    avatar: "/static/images/avatars/4.jpg",
-    description:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage",
-    jobtitle: "Ceo",
-    location: "Tel aviv, Israel",
-    followers: "465",
-  };
-
   return (
     <>
       {/* <Helmet>

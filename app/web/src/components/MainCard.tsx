@@ -17,7 +17,23 @@ const headerSX = {
 };
 
 // ==============================|| CUSTOM MAIN CARD ||============================== //
-
+interface IMainCard {
+  border?: boolean;
+  boxShadow?: boolean;
+  children?: React.ReactNode;
+  content?: boolean;
+  elevation?: number;
+  contentClass?: string;
+  contentSX?: Record<any, any>;
+  darkTitle?: boolean;
+  secondary?: React.ReactElement | string | Record<any, any>;
+  shadow?: string;
+  sx?: Record<any, any>;
+  title?: React.ReactElement | string | Record<any, any>;
+}
+type IAny = {
+  ref?: any;
+} & IMainCard;
 const MainCard: React.FC<IAny> = forwardRef(
   (
     {
@@ -78,23 +94,7 @@ const MainCard: React.FC<IAny> = forwardRef(
     );
   }
 );
-interface IMainCard {
-  border?: boolean;
-  boxShadow?: boolean;
-  children?: React.ReactNode;
-  content?: boolean;
-  elevation?: number;
-  contentClass?: string;
-  contentSX?: Record<any, any>;
-  darkTitle?: boolean;
-  secondary?: React.ReactElement | string | Record<any, any>;
-  shadow?: string;
-  sx?: Record<any, any>;
-  title?: React.ReactElement | string | Record<any, any>;
-}
-type IAny = {
-  ref?: any;
-} & IMainCard;
+
 // MainCard.propTypes = {};
 
 export default MainCard;

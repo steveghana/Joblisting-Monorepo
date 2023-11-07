@@ -131,11 +131,15 @@ const JobSubmissionContainer: React.FC = () => {
               alignItems="center"
               sx={{ mt: 3 }}
             >
-              <FormHelperText error>{errors.name as string}</FormHelperText>
-              <FormHelperText error>{errors.email as string}</FormHelperText>
+              <FormHelperText error>
+                {(errors.name as string) ||
+                  (errors.email as string) ||
+                  (errors.phoneNumber as string)}
+              </FormHelperText>
+              {/* <FormHelperText error>{errors.email as string}</FormHelperText>
               <FormHelperText error>
                 {errors.phoneNumber as string}
-              </FormHelperText>
+              </FormHelperText> */}
             </Box>
 
             <Box width="100%" display="flex" justifyContent="center">
