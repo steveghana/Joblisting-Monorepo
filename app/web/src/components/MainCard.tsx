@@ -85,7 +85,10 @@ const MainCard: React.FC<IAny> = forwardRef(
 
         {/* card content */}
         {content && (
-          <CardContent sx={contentSX} className={contentClass}>
+          <CardContent
+            sx={{ ...contentSX, py: 2, px: 1 }}
+            className={contentClass}
+          >
             {children}
           </CardContent>
         )}

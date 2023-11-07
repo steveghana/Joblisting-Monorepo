@@ -33,10 +33,10 @@ function ManagementUserSettings() {
       <MainCard>
         <Container maxWidth="lg">
           <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="stretch"
+          // container
+          // direction="row"
+          // justifyContent="center"
+          // alignItems="stretch"
           >
             <Grid item xs={12}>
               <TabsWrapper

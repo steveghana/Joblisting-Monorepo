@@ -17,6 +17,7 @@ import NavigationScroll from "./layout/NavigationScroll";
 import { PureLightTheme } from "./themes/schemes/PureLightTheme";
 // import { themeCreator } from "./themes/base";
 // ==============================|| APP ||============================== //
+import Status404 from "./views/status/Status404";
 
 const App = () => {
   const customization = useSelector((state: any) => state.customization);
@@ -25,23 +26,7 @@ const App = () => {
     console.log(error.message);
     return (
       <>
-        <div className="error-page">
-          <div className="error-img">
-            <img src={Error404} alt="" />
-          </div>
-          <div className="content">
-            <h2>
-              Oops <br />
-              <span>nothing</span> here...
-            </h2>
-            <p>
-              Uhol, we can't seem to find the pages you're looking for Try going
-              back to previous page or Contact us for more information
-            </p>
-            <button className="btn">Go Back</button>
-          </div>
-        </div>
-        <hr className="line" />
+        <Status404 />
       </>
     );
   }

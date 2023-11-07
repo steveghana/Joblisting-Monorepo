@@ -98,9 +98,7 @@ function EditProfileTab({ ...others }) {
   return (
     <Grid container spacing={1}>
       {/* <Grid item xs={12}> */}
-      <CssVarsProvider disableTransitionOnChange>
-        <CssBaseline />
-        {/* <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+      {/* <Box sx={{ display: "flex", minHeight: "100dvh" }}>
           <Box
             component="main"
             className="MainContent"
@@ -123,10 +121,18 @@ function EditProfileTab({ ...others }) {
               overflow: "auto",
             }}
           > */}
-        {/* </Box> */}
-        {/* </Box> */}
-        <MyProfile user={user} />
-      </CssVarsProvider>
+      {/* </Box> */}
+      {/* </Box> */}
+      <Grid container py={2}>
+        <SubCard>
+          <Grid item direction="column" spacing={1}>
+            <CssVarsProvider disableTransitionOnChange>
+              <CssBaseline />
+              <MyProfile user={user} />
+            </CssVarsProvider>
+          </Grid>
+        </SubCard>
+      </Grid>
       {/* </Grid> */}
     </Grid>
   );

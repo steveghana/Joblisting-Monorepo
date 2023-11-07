@@ -39,6 +39,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import { themeTypography } from "../../../../themes/schemes/typography";
 import { Formik } from "formik";
 import { Accessibility } from "@mui/icons-material";
+import Avatar from "../../../../components/extended/Avatar";
 export default function MyProfile(...others) {
   const theme = useTheme();
   const experience = [3, 4, 5, 6, 7];
@@ -60,53 +61,64 @@ export default function MyProfile(...others) {
           mx: "auto",
         }}
       >
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Personal info</Typography>
-            <Typography level="body-sm">
-              Customize how your profile information will apper to the networks.
-            </Typography>
-          </Box>
-          <Divider />
-          <Formik
-            initialValues={{
-              email: "",
-              url: "",
-              bio: "",
-              phone: "",
-              location: "",
-              firstName: "",
-              experience: "",
-              lastName: "",
-              submit: null,
-            }}
-            onSubmit={async (values, setters) => {
-              console.log(values, "from submitting");
-              // await register(values, setters, scriptedRef);
-            }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values,
-            }) => (
-              <form noValidate onSubmit={handleSubmit} {...others}>
+        <Formik
+          initialValues={{
+            email: "",
+            url: "",
+            bio: "",
+            phone: "",
+            location: "",
+            firstName: "",
+            experience: "",
+            lastName: "",
+            submit: null,
+          }}
+          onSubmit={async (values, setters) => {
+            console.log(values, "from submitting");
+            // await register(values, setters, scriptedRef);
+          }}
+        >
+          {({
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            values,
+          }) => (
+            <form noValidate onSubmit={handleSubmit} {...others}>
+              <Card sx={{ border: "none" }}>
+                <Box sx={{ mb: 1 }}>
+                  <Typography level="title-md">Personal info</Typography>
+                  <Typography level="body-sm">
+                    Customize how your profile information will apper to the
+                    networks.
+                  </Typography>
+                </Box>
+                <Divider />
+
                 <Stack
                   direction={md ? "column" : "row"}
                   spacing={2.5}
                   // sx={{ my: 1 }}
                 >
                   <Stack direction={md ? "row" : "column"} spacing={1}>
+                    {/* <Avatar size="xl">
+                      <img
+                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                        loading="lazy"
+                        alt=""
+                      />
+                    </Avatar> */}
                     <AspectRatio
+                      poenfdnfl
                       ratio="1"
-                      maxHeight={md ? 180 : 200}
+                      maxHeight={md ? 260 : 200}
                       sx={{
                         flex: 1,
-                        minWidth: md ? 108 : 120,
+                        minWidth: md ? 58 : 120,
                         borderRadius: "100%",
                       }}
                     >
@@ -247,83 +259,88 @@ export default function MyProfile(...others) {
                     </div>
                   </Stack>
                 </Stack>
-              </form>
-            )}
-          </Formik>
-          {/* <Stack
+
+                {/* <Stack
             direction="column"
             spacing={2}
             sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
           >
             
           </Stack> */}
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Bio</Typography>
-            <Typography level="body-sm">
-              Write a short introduction to be displayed on your profile
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack spacing={2} sx={{ my: 1 }}>
-            <EditorToolbar />
-            <Textarea
-              size="sm"
-              minRows={4}
-              sx={{ mt: 1.5 }}
-              defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
-            />
-            <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
-              275 characters left
-            </FormHelperText>
-          </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Portfolio projects</Typography>
-            <Typography level="body-sm">
-              Share a few snippets of your work.
-            </Typography>
-          </Box>
+              </Card>
+              <Card>
+                <Box sx={{ mb: 1 }}>
+                  <Typography level="title-md">Bio</Typography>
+                  <Typography level="body-sm">
+                    Write a short introduction to be displayed on your profile
+                  </Typography>
+                </Box>
+                <Divider />
+                <Stack spacing={2} sx={{ my: 1 }}>
+                  <EditorToolbar />
+                  <Textarea
+                    size="sm"
+                    minRows={4}
+                    sx={{ mt: 1.5 }}
+                    defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
+                  />
+                  <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
+                    275 characters left
+                  </FormHelperText>
+                </Stack>
+                <CardOverflow
+                  sx={{ borderTop: "1px solid", borderColor: "divider" }}
+                >
+                  <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+                    <Button size="sm" variant="outlined" color="neutral">
+                      Cancel
+                    </Button>
+                    <Button size="sm" variant="solid">
+                      Save
+                    </Button>
+                  </CardActions>
+                </CardOverflow>
+              </Card>
+              <Card>
+                <Box sx={{ mb: 1 }}>
+                  <Typography level="title-md">Portfolio projects</Typography>
+                  <Typography level="body-sm">
+                    Share a few snippets of your work.
+                  </Typography>
+                </Box>
 
-          <Divider />
-          <Stack spacing={2} sx={{ my: 1 }}>
-            <DropZone />
-            <FileUpload
-              icon={<InsertDriveFileRoundedIcon />}
-              fileName="Tech design requirements.pdf"
-              fileSize="200 kB"
-              progress={100}
-            />
-            <FileUpload
-              icon={<VideocamRoundedIcon />}
-              fileName="Dashboard prototype recording.mp4"
-              fileSize="16 MB"
-              progress={40}
-            />
-          </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
+                <Divider />
+                <Stack spacing={2} sx={{ my: 1 }}>
+                  <DropZone />
+                  <FileUpload
+                    icon={<InsertDriveFileRoundedIcon />}
+                    fileName="Tech design requirements.pdf"
+                    fileSize="200 kB"
+                    progress={100}
+                  />
+                  <FileUpload
+                    icon={<VideocamRoundedIcon />}
+                    fileName="Dashboard prototype recording.mp4"
+                    fileSize="16 MB"
+                    progress={40}
+                  />
+                </Stack>
+                <CardOverflow
+                  sx={{ borderTop: "1px solid", borderColor: "divider" }}
+                >
+                  <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+                    <Button size="sm" variant="outlined" color="neutral">
+                      Cancel
+                    </Button>
+                    <Button size="sm" variant="solid">
+                      Save
+                    </Button>
+                  </CardActions>
+                </CardOverflow>
+              </Card>
+            </form>
+          )}
+        </Formik>
       </Stack>
     </Box>
   );
