@@ -1,4 +1,6 @@
 import React from "react";
+import * as Yup from "yup";
+
 import {
   Box,
   Button,
@@ -34,7 +36,7 @@ import EditorToolbar, {
   LargeTextField,
 } from "../../../../content/applications/Users/settings/EditorToolbar";
 import SubCard from "../../../../components/SubCard";
-// import CountrySelector from "../../../../content/applications/Users/settings/CountrySelector";
+import CountrySelector from "../../../../content/applications/Users/settings/CountrySelector";
 
 // import Textarea from "@mui/joy/Textarea";
 // import FormHelperText from "@mui/joy/FormHelperText";
@@ -90,10 +92,23 @@ const validate = (values: FormValues) => {
 };
 
 const communicationOptions = [
-  { label: "Email", value: "email", checked: true },
-  { label: "Video Calls", value: "video_calls", checked: false },
-  { label: "Project Management Tools", value: "project_tools", checked: false },
+  { label: "Email", value: "email" },
+  { label: "Video Calls", value: "video_calls" },
+  { label: "Project Management Tools", value: "project_tools" },
   // Add more communication options as needed
+];
+const formFields = [
+  { name: "name", label: "FullName", type: "text" },
+  { name: "email", label: "Email", type: "text" },
+  { name: "phoneNumber", label: "Phone Number", type: "text" },
+  { name: "projectName", label: "Project Name or Title", type: "text" },
+  { name: "budget", label: "Budget", type: "text" },
+  { name: "startDate", label: "Start Date", type: "date" },
+  {
+    name: "projectDuration",
+    label: "Project Duration (in days)",
+    type: "text",
+  },
 ];
 
 const AddClientForm = () => {
@@ -101,21 +116,24 @@ const AddClientForm = () => {
     // Handle form submission (e.g., send data to the server)
     console.log("Form values:", values);
   };
-  const [state, setState] = React.useState({
+  const [communicationType, setcommunicationType] = React.useState({
     email: true,
     video_calls: false,
     project_tools: false,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
+    setcommunicationType({
+      ...communicationType,
       [event.target.name]: event.target.checked,
     });
   };
 
-  //   const { email, project_tools,video_calls } = state;
-  const error = communicationOptions.filter((v) => v.value).length !== 2;
+  const { email, project_tools, video_calls } = communicationType;
+  const error =
+    [email, project_tools, video_calls].filter((v) => v).length !== 1;
+  const twoOrMore =
+    [email, project_tools, video_calls].filter((v) => v).length >= 2;
   const theme = useTheme();
   const md = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -127,6 +145,19 @@ const AddClientForm = () => {
         <Typography variant="h4"></Typography>
         <Formik
           initialValues={initialValues}
+          validationSchema={Yup.object().shape({
+            email: Yup.string()
+              .email("Enter a valid email")
+              .max(255)
+              .required("Email is required"),
+            name: Yup.string()
+              .max(255)
+              .min(2)
+              .required("Please enter a valid name"),
+            phoneNumber: Yup.string()
+              .matches(/^\+?[0-9]{8,15}$/, "Please enter a valid phone number")
+              .required("Please enter your phone number"),
+          })}
           validate={validate}
           onSubmit={handleSubmit}
         >
@@ -191,31 +222,27 @@ const AddClientForm = () => {
                             gap: 2,
                           }}
                         >
-                          <Field
-                            name="projectName"
-                            type="text"
-                            as={TextField}
-                            label="Project Name or Title"
-                            variant="outlined"
-                            fullWidth
-                          />
-                          <ErrorMessage name="projectName" component="div" />
-                          <Card sx={{ my: 1 }}>
-                            <Box sx={{ mb: 1 }}>
+                          {formFields.map((field) => (
+                            <>
                               <Field
-                                name="projectDescription"
-                                type="text"
+                                name={field.name}
+                                type={field.type}
                                 as={TextField}
-                                label="Project Description"
+                                label={field.type !== "date" && field.label}
+                                placeholder={
+                                  field.type === "date" && field.label
+                                }
                                 variant="outlined"
                                 fullWidth
-                                placeholder={
-                                  "Write a short description of the project"
-                                }
                               />
-                              <Typography></Typography>
-                            </Box>
-                            <Divider />
+                              <ErrorMessage name={field.name} component="div" />
+                            </>
+                          ))}
+                          <div>
+                            <CountrySelector />
+                          </div>
+                          <Divider />
+                          <Card sx={{ my: 1 }}>
                             <Stack spacing={2} sx={{ my: 1 }}>
                               <LargeTextField />
                             </Stack>
@@ -226,50 +253,8 @@ const AddClientForm = () => {
                             component="div"
                           />
                         </FormControl>
-                        <FormControl>
-                          <Field
-                            name="budget"
-                            type="text"
-                            as={TextField}
-                            label="Budget"
-                            variant="outlined"
-                            fullWidth
-                          />
-                          <ErrorMessage name="budget" component="div" />
-                        </FormControl>
                       </Stack>
                       <Stack direction="column" spacing={2}>
-                        <FormControl>
-                          <Field
-                            name="startDate"
-                            type="date"
-                            as={TextField}
-                            label="Start Date"
-                            variant="outlined"
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
-                          <ErrorMessage name="startDate" component="div" />
-                        </FormControl>
-                        <FormControl
-                          // error={Boolean(touched.email && errors.email)}
-                          sx={{ flexGrow: 1 }}
-                        >
-                          <Field
-                            name="projectDuration"
-                            type="text"
-                            as={TextField}
-                            label="Project Duration (in days)"
-                            variant="outlined"
-                            fullWidth
-                          />
-                          <ErrorMessage
-                            name="projectDuration"
-                            component="div"
-                          />
-                        </FormControl>
                         <FormControl>
                           <Typography variant="h6">
                             Communication Preferences
@@ -282,25 +267,20 @@ const AddClientForm = () => {
                               sx={{ m: 3 }}
                               variant="standard"
                             >
-                              <FormLabel component="legend">Pick two</FormLabel>
+                              <FormLabel component="legend">Pick One</FormLabel>
                               <FormGroup>
                                 {communicationOptions.map((option) => (
                                   <>
-                                    <Field
-                                      key={option.value}
-                                      type="checkbox"
-                                      label={option.label}
-                                      value={option.value}
-                                      as={Checkbox}
-                                    />
                                     <FormControlLabel
                                       key={option.value}
                                       name="communicationPreferences"
                                       control={
                                         <Checkbox
-                                          checked={option.checked}
-                                          onChange={handleChange}
+                                          checked={
+                                            communicationType[option.value]
+                                          }
                                           name={option.value}
+                                          onChange={handleChange}
                                         />
                                       }
                                       label={option.label}
@@ -308,31 +288,28 @@ const AddClientForm = () => {
                                   </>
                                 ))}
                               </FormGroup>
-                              <FormHelperText>
-                                You can display an error
-                              </FormHelperText>
+                              {twoOrMore && (
+                                <FormHelperText>
+                                  You can only pick a single item
+                                </FormHelperText>
+                              )}
                             </FormControl>
-                            <Select>
-                              {communicationOptions.map((option) => (
-                                <Field
-                                  key={option.value}
-                                  name="communicationPreferences"
-                                  type="checkbox"
-                                  label={option.label}
-                                  value={option.value}
-                                  as={Checkbox}
-                                />
-                                //   <MenuItem>{option.value}</MenuItem>
-                              ))}
-                            </Select>
                           </Box>
                         </FormControl>
                       </Stack>
-                      <div>{/* <CountrySelector /> */}</div>
                       <div>
-                        <FormControl sx={{ display: { sm: "contents" } }}>
+                        <FormControl
+                          //   fullWidth
+                          fullWidth
+                          //   sx={{ display: { sm: "contents" } }}
+                        >
                           <FormLabel>Timezone</FormLabel>
                           <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={"— GMT+07:00"}
+                            placeholder="Selecet time zone"
+                            onChange={handleChange}
                             startAdornment={<AccessTimeFilledRounded />}
                             // defaultValue="1"
                           >
