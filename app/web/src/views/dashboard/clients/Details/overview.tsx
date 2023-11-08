@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import companyInfo from "./data.json";
 import { ICompany } from "../../../../types/company";
+import { Protect } from "../../../../components/auth/requireAuth";
 
 const ClientDetails = () => {
   const { clientDetails } = companyInfo as ICompany;
@@ -103,5 +104,4 @@ const ClientDetails = () => {
     </Container>
   );
 };
-
-export default ClientDetails;
+export default Protect(ClientDetails, ["Ceo"]);

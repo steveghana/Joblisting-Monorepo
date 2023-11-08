@@ -28,6 +28,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       // Redirect to the login page or handle authentication as needed
       router("/auth/login");
     }
+    console.log(allowedRoles, role);
     if (
       userRole &&
       !allowedRoles.includes(userRole)

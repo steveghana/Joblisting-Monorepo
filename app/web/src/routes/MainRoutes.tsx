@@ -9,6 +9,7 @@ import { Navigate } from "react-router";
 import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
 import ClientDetails from "../views/dashboard/clients/Details/overview";
 import AddClient from "../views/dashboard/clients/Details/addclient";
+import Status404 from "../views/status/Status404";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -36,6 +37,14 @@ export const homeRoutes = {
       path: "/",
       element: <Home />,
     },
+    {
+      path: "/access-denied",
+      element: <Status404 />,
+    },
+    {
+      path: "*",
+      element: <Status404 />,
+    },
   ],
 };
 const MainRoutes = {
@@ -50,6 +59,10 @@ const MainRoutes = {
     {
       path: "dashboard",
       children: [
+        {
+          path: "",
+          element: <Navigate to="default" replace />,
+        },
         {
           path: "default",
           element: <DashboardDefault />,

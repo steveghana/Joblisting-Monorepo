@@ -18,6 +18,7 @@ import { PureLightTheme } from "./themes/schemes/PureLightTheme";
 // import { themeCreator } from "./themes/base";
 // ==============================|| APP ||============================== //
 import Status404 from "./views/status/Status404";
+import Status500 from "./views/status/Status500";
 
 const App = () => {
   const customization = useSelector((state: any) => state.customization);
@@ -26,7 +27,7 @@ const App = () => {
     console.log(error.message);
     return (
       <>
-        <Status404 />
+        <Status500 />
       </>
     );
   }

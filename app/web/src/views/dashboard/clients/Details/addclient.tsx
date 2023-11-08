@@ -37,6 +37,7 @@ import EditorToolbar, {
 } from "../../../../content/applications/Users/settings/EditorToolbar";
 import SubCard from "../../../../components/SubCard";
 import CountrySelector from "../../../../content/applications/Users/settings/CountrySelector";
+import { Protect } from "../../../../components/auth/requireAuth";
 
 // import Textarea from "@mui/joy/Textarea";
 // import FormHelperText from "@mui/joy/FormHelperText";
@@ -141,7 +142,7 @@ const AddClientForm = () => {
     // <CssVarsProvider disableTransitionOnChange>
     //   <CssBaseline />
     <Grid container>
-      <Grid item lg={12}>
+      <Grid item md={12} sm={12}>
         <Typography variant="h4"></Typography>
         <Formik
           initialValues={initialValues}
@@ -348,5 +349,4 @@ const AddClientForm = () => {
     </Grid>
   );
 };
-
-export default AddClientForm;
+export default Protect(AddClientForm, ["Ceo"]);

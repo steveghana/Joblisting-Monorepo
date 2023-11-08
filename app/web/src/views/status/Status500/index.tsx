@@ -10,6 +10,7 @@ import {
 // import { Helmet } from "react-helmet-async";
 import RefreshTwoToneIcon from "@mui/icons-material/RefreshTwoTone";
 import LoadingButton from "@mui/lab/LoadingButton";
+import status404 from "../../../assets/status/500.svg";
 
 import { styled } from "@mui/material/styles";
 
@@ -54,7 +55,7 @@ function Status500() {
       {/* <Helmet>
         <title>Status - 500</title>
       </Helmet> */}
-      <MainContent>
+      <MainContent height={"100vh"}>
         <Grid
           container
           sx={{ height: "100%" }}
@@ -71,11 +72,7 @@ function Status500() {
           >
             <Container maxWidth="sm">
               <Box textAlign="center">
-                <img
-                  alt="500"
-                  height={260}
-                  src="/static/images/status/500.svg"
-                />
+                <img alt="500" height={260} src={status404} />
                 <Typography variant="h2" sx={{ my: 2 }}>
                   There was an error, please try again later
                 </Typography>

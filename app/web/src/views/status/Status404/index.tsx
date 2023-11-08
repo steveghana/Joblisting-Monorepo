@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 // import { Helmet } from "react-helmet-async";
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
-
+import status404 from "../../../assets/status/404.svg";
 import { styled } from "@mui/material/styles";
 
 const MainContent = styled(Box)(
@@ -44,10 +44,10 @@ function Status404() {
       {/* <Helmet>
         <title>Status - 404</title>
       </Helmet> */}
-      <MainContent>
-        <Container maxWidth="md">
+      <MainContent sx={{ height: "100vh" }}>
+        <Container maxWidth="xl">
           <Box textAlign="center">
-            <img alt="404" height={180} src="/static/images/status/404.svg" />
+            <img alt="404" height={180} src={status404} />
             <Typography variant="h2" sx={{ my: 2 }}>
               The page you were looking for doesn't exist.
             </Typography>
