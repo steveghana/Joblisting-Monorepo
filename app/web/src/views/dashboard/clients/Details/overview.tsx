@@ -12,8 +12,11 @@ import {
   ListItemAvatar,
   Divider,
 } from "@mui/material";
+import companyInfo from "./data.json";
+import { ICompany } from "../../../../types/company";
 
 const ClientDetails = () => {
+  const { clientDetails } = companyInfo as ICompany;
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" component="h1" gutterBottom>
@@ -29,10 +32,10 @@ const ClientDetails = () => {
                 src="company-logo.png"
               />
               <Typography variant="h5" component="h2">
-                Company Name
+                {clientDetails.companyName}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                About the Company
+                {clientDetails.aboutTheCompany}
               </Typography>
             </Box>
           </Paper>
@@ -44,25 +47,16 @@ const ClientDetails = () => {
                 Roles Available
               </Typography>
               <List>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>1</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Role 1"
-                    secondary="Role Description 1"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>2</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Role 2"
-                    secondary="Role Description 2"
-                  />
-                </ListItem>
-                {/* Add more roles as needed */}
+                {clientDetails.developerRoles.map(
+                  ({ role, description }, i) => (
+                    <ListItem key={role}>
+                      <ListItemAvatar>
+                        <Avatar>{i}</Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={role} secondary={description} />
+                    </ListItem>
+                  )
+                )}
               </List>
             </Box>
           </Paper>
@@ -74,6 +68,7 @@ const ClientDetails = () => {
                 About the Company
               </Typography>
               <Typography variant="body1">
+                {clientDetails.aboutTheCompany}
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </Typography>
@@ -87,25 +82,19 @@ const ClientDetails = () => {
                 Team Members
               </Typography>
               <List>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>1</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="John Doe"
-                    secondary="Front-End Developer"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>2</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Jane Smith"
-                    secondary="Back-End Developer"
-                  />
-                </ListItem>
-                {/* Add more team members as needed */}
+                {clientDetails.teamMembers.map((member, i) => (
+                  <ListItem key={member.name}>
+                    <ListItemAvatar>
+                      <Avatar src={member.profile} alt="developer">
+                        {i}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={member.name}
+                      secondary={member.role}
+                    />
+                  </ListItem>
+                ))}
               </List>
             </Box>
           </Paper>
