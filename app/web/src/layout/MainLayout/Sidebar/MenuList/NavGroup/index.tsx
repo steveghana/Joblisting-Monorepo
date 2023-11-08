@@ -11,7 +11,7 @@ import { themeTypography } from "../../../../../themes/schemes/typography";
 // themeTypography
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 
-const NavGroup = ({ item }) => {
+const NavGroup = ({ item }: INavgroup) => {
   const theme = useTheme();
 
   // menu list collapse & items
@@ -65,8 +65,8 @@ const NavGroup = ({ item }) => {
   );
 };
 
-NavGroup.propTypes = {
-  item: PropTypes.object,
-};
+interface INavgroup {
+  item: Record<any, any>;
+}
 
 export default NavGroup;

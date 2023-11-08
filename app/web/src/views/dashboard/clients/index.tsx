@@ -10,10 +10,17 @@ import MainCard from "../../../components/MainCard";
 import SubCard from "../../../components/SubCard";
 import { Box } from "@mui/system";
 import { BlockOutlined, MessageRounded, MoreHoriz } from "@mui/icons-material";
-
+import CustomButton from "../../../components/button";
+import { useNavigate } from "react-router";
 const Clients = () => {
+  const navigate = useNavigate();
   return (
     <MainCard title={"Clients"}>
+      <CustomButton
+        text="Add new Client"
+        onClick={() => navigate("/dashboard/customers/clients/add")}
+      />
+
       <Grid container>
         <Grid
           container

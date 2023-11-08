@@ -8,6 +8,7 @@ import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
 import ClientDetails from "../views/dashboard/clients/Details/overview";
+import AddClient from "../views/dashboard/clients/Details/addclient";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -60,6 +61,10 @@ const MainRoutes = {
         {
           path: "customers/clients/:id",
           element: <ClientDetails />,
+        },
+        {
+          path: "customers/clients/add",
+          element: <AddClient />,
         },
         {
           path: "jobs/roles",
