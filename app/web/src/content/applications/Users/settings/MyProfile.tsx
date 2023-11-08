@@ -46,6 +46,7 @@ export default function MyProfile(...others) {
 
   const md = useMediaQuery(theme.breakpoints.down("sm"));
   const tab = useMediaQuery(theme.breakpoints.only("md"));
+
   return (
     <Box
       sx={{
@@ -88,7 +89,7 @@ export default function MyProfile(...others) {
             values,
           }) => (
             <form noValidate onSubmit={handleSubmit} {...others}>
-              <Card sx={{ border: "none" }}>
+              <Card>
                 <Box sx={{ mb: 1 }}>
                   <Typography level="title-md">Personal info</Typography>
                   <Typography level="body-sm">
@@ -101,7 +102,7 @@ export default function MyProfile(...others) {
                 <Stack
                   direction={md ? "column" : "row"}
                   spacing={2.5}
-                  // sx={{ my: 1 }}
+                  sx={{ my: 1 }}
                 >
                   <Stack direction={md ? "row" : "column"} spacing={1}>
                     {/* <Avatar size="xl">
@@ -113,7 +114,6 @@ export default function MyProfile(...others) {
                       />
                     </Avatar> */}
                     <AspectRatio
-                      poenfdnfl
                       ratio="1"
                       maxHeight={md ? 260 : 200}
                       sx={{
@@ -149,7 +149,7 @@ export default function MyProfile(...others) {
                   </Stack>
                   <Stack spacing={2} sx={{ flexGrow: 1 }}>
                     <Stack spacing={1}>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>FirstName</FormLabel>
                       <FormControl
                         sx={{
                           // display: "flex",
@@ -166,6 +166,9 @@ export default function MyProfile(...others) {
                           type="text"
                           defaultValue=""
                         />
+                        <FormLabel htmlFor="outlined-adornment-email-register">
+                          LastName
+                        </FormLabel>
                         <Input
                           placeholder="Last Name"
                           value={values.lastName}
@@ -178,11 +181,12 @@ export default function MyProfile(...others) {
                       </FormControl>
                       <FormControl>
                         <FormLabel htmlFor="outlined-adornment-email-register">
-                          Portfolio / Github / LinkedIn
+                          Github / LinkedIn
                         </FormLabel>
                         <Input
                           type="url"
                           value={values.url}
+                          placeholder="URL"
                           name="url"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -259,16 +263,8 @@ export default function MyProfile(...others) {
                     </div>
                   </Stack>
                 </Stack>
-
-                {/* <Stack
-            direction="column"
-            spacing={2}
-            sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
-          >
-            
-          </Stack> */}
               </Card>
-              <Card>
+              <Card sx={{ my: 1 }}>
                 <Box sx={{ mb: 1 }}>
                   <Typography level="title-md">Bio</Typography>
                   <Typography level="body-sm">

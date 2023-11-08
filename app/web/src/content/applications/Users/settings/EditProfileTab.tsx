@@ -124,14 +124,12 @@ function EditProfileTab({ ...others }) {
       {/* </Box> */}
       {/* </Box> */}
       <Grid container py={2}>
-        <SubCard>
-          <Grid item direction="column" spacing={1}>
-            <CssVarsProvider disableTransitionOnChange>
-              <CssBaseline />
-              <MyProfile user={user} />
-            </CssVarsProvider>
-          </Grid>
-        </SubCard>
+        {/* <Grid item direction="column" spacing={1}> */}
+        <CssVarsProvider disableTransitionOnChange>
+          <CssBaseline />
+          <MyProfile user={user} />
+        </CssVarsProvider>
+        {/* </Grid> */}
       </Grid>
       {/* </Grid> */}
     </Grid>
