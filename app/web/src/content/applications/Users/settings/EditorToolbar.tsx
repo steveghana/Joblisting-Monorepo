@@ -30,9 +30,6 @@ export default function EditorToolbar({ sx, ...props }: BoxProps) {
           "& > button": { "--Icon-fontSize": "16px" },
           flexDirection: {
             lg: "row",
-            md: "column",
-            sm: "column",
-            xs: "column",
           },
         },
         ...(Array.isArray(sx) ? sx : [sx]),
