@@ -13,6 +13,7 @@ import {
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../components/SubCard";
 import CustomButton from "../../../../components/button";
+import { useNavigate } from "react-router";
 
 // const communicationPreferencesValidationSchema = Yup.object().shape({
 //   communicationPreferences: Yup.array()
@@ -26,7 +27,7 @@ const CommunicationPreferences = ({ onSubmit }) => {
     { label: "Video Calls", value: "video_calls" },
     { label: "Project Management Tools", value: "project_tools" },
   ];
-
+  const navigate = useNavigate();
   const [communicationType, setcommunicationType] = React.useState({
     email: true,
     video_calls: false,
@@ -53,6 +54,7 @@ const CommunicationPreferences = ({ onSubmit }) => {
           (preference) => communicationType[preference] === true
         );
         onSubmit(values);
+        navigate("/dashboard/customers/clients");
       }}
     >
       {({ isSubmitting }) => (

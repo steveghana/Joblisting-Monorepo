@@ -7,6 +7,7 @@ import {
   TextField,
   FormControl,
   CardActions,
+  FormHelperText,
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../components/SubCard";
@@ -56,7 +57,13 @@ const ClientInfo = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="name" component="div" />
+                <ErrorMessage name="name" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -68,7 +75,13 @@ const ClientInfo = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="email" component="div" />
+                <ErrorMessage name="email" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -80,7 +93,13 @@ const ClientInfo = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="phoneNumber" component="div" />
+                <ErrorMessage name="phoneNumber" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -91,8 +110,14 @@ const ClientInfo = ({ onNext }) => {
                   label="Project Name or Title"
                   variant="outlined"
                   fullWidth
-                />
-                <ErrorMessage name="projectName" component="div" />
+                />{" "}
+                <ErrorMessage name="projectName" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -104,7 +129,13 @@ const ClientInfo = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="budget" component="div" />
+                <ErrorMessage name="budget" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -114,9 +145,16 @@ const ClientInfo = ({ onNext }) => {
                   as={TextField}
                   label="Start Date"
                   variant="outlined"
+                  placeholder=""
                   fullWidth
                 />
-                <ErrorMessage name="startDate" component="div" />
+                <ErrorMessage name="startDate" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -128,14 +166,19 @@ const ClientInfo = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="projectDuration" component="div" />
+                <ErrorMessage name="projectDuration" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
             </Stack>
+            <CardActions sx={{ justifyContent: "flex-end", pt: 2 }}>
+              <CustomButton text="Next" variant="contained" type="submit" />
+            </CardActions>
           </SubCard>
-
-          <CardActions sx={{ justifyContent: "flex-end", pt: 2 }}>
-            <CustomButton text="Next" variant="contained" type="submit" />
-          </CardActions>
         </Form>
       )}
     </Formik>

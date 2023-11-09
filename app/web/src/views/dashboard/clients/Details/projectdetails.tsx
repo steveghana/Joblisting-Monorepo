@@ -26,7 +26,7 @@ const projectDetailsValidationSchema = Yup.object().shape({
   ),
   designPreferences: Yup.string().required("Design Preferences are required"),
   selectedSkills: Yup.array().required("Competitor Analysis is required"),
-  //   milestones: Yup.array().of(Yup.string().required("Milestone is required")),
+  DevsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
 });
 
