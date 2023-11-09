@@ -11,8 +11,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import SubCard from "../../../../components/SubCard";
-import CustomButton from "../../../../components/button";
+import SubCard from "../../../../../components/SubCard";
+import CustomButton from "../../../../../components/button";
 import { useNavigate } from "react-router";
 
 // const communicationPreferencesValidationSchema = Yup.object().shape({
@@ -21,7 +21,7 @@ import { useNavigate } from "react-router";
 //     .max(1, ""),
 // });
 
-const CommunicationPreferences = ({ onSubmit }) => {
+const CommunicationPreferences = ({ onNext }) => {
   const communicationOptions = [
     { label: "Email", value: "email" },
     { label: "Video Calls", value: "video_calls" },
@@ -53,8 +53,7 @@ const CommunicationPreferences = ({ onSubmit }) => {
         values.communicationPreferences = Object.keys(communicationType).find(
           (preference) => communicationType[preference] === true
         );
-        onSubmit(values);
-        navigate("/dashboard/customers/clients");
+        onNext(values);
       }}
     >
       {({ isSubmitting }) => (

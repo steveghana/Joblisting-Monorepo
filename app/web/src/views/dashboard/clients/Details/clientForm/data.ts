@@ -3,7 +3,7 @@ export const projectRequirementFields = {
   designPreferences: "",
   targetAudience: "",
   competitorAnalysis: "",
-  dataContent: "",
+  aboutTheProject: "",
   securityCompliance: "",
   DevsNeeded: "0",
   integrationsAPIs: "",
