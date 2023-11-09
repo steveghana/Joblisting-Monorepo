@@ -11,13 +11,13 @@ const WorkExperienceForm = ({ onSubmit, onBack }) => {
         {({ values }) => (
           <Form>
             <FieldArray
-              name="workExperience"
+              name="Project"
               render={(arrayHelpers) => (
                 <Grid>
                   {values.workExperience.map((exp, index) => (
                     <Grid key={index}>
                       <Field
-                        name={`workExperience[${index}].jobTitle`}
+                        name={`workExperience[${index}].projectTitle`}
                         as={TextField}
                         label="Job Title"
                         variant="outlined"

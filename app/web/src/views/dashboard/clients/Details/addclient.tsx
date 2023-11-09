@@ -8,7 +8,7 @@ import CustomButton from "../../../../components/button";
 import { Protect } from "../../../../components/auth/requireAuth";
 
 const AddClientForm = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 

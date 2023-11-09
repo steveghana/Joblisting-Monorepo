@@ -18,6 +18,11 @@ import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import SubCard from "../../../../components/SubCard";
 import CustomButton from "../../../../components/button";
 import { availableSkills } from "../../Roles/ApplicationForm/skills";
+import {
+  experienceLevel,
+  projectRequirementFields,
+  testingQAOptions,
+} from "./data";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
@@ -37,37 +42,11 @@ const methodologyOptions = [
   // Add more options as needed
 ];
 
-const testingQAOptions = [
-  { label: "Manual Testing", value: "manual_testing" },
-  { label: "Automated Testing", value: "automated_testing" },
-  { label: "Performance Testing", value: "performance_testing" },
-];
-const experienceLevel = [
-  { label: "Senior", value: "senior" },
-  { label: "Mid-Level", value: "midlevel" },
-  { label: "Junior/Entry level", value: "entry" },
-  { label: "Intern", value: "intern" },
-];
 const ProjectDetails = ({ onNext }) => {
   //  ks
   return (
     <Formik
-      initialValues={{
-        technicalRequirements: "",
-        designPreferences: "",
-        targetAudience: "",
-        competitorAnalysis: "",
-        dataContent: "",
-        securityCompliance: "",
-        DevsNeeded: "0",
-        integrationsAPIs: "",
-        experience: "midlevel",
-        testingQA: "",
-        milestones: [],
-        selectedSkills: [],
-
-        methodology: "",
-      }}
+      initialValues={projectRequirementFields}
       validationSchema={projectDetailsValidationSchema}
       onSubmit={(values) => onNext(values)}
     >
