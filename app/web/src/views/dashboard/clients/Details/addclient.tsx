@@ -62,35 +62,32 @@ const initialValues = {
   additionalComments: "",
 };
 
-const validate = (values: FormValues) => {
-  const errors: Partial<FormValues> = {};
-
-  if (!values.projectName) {
-    errors.projectName = "Project name is required";
-  }
-
-  if (!values.projectDescription) {
-    errors.projectDescription = "Project description is required";
-  }
-
-  if (!values.budget) {
-    errors.budget = "Budget is required";
-  } else if (isNaN(Number(values.budget))) {
-    errors.budget = "Budget must be a number";
-  }
-
-  if (!values.startDate) {
-    errors.startDate = "Start date is required";
-  }
-
-  if (!values.projectDuration) {
-    errors.projectDuration = "Project duration is required";
-  } else if (isNaN(Number(values.projectDuration))) {
-    errors.projectDuration = "Project duration must be a number";
-  }
-
-  return errors;
-};
+const validate =
+  //complete validation with Yup
+  Yup.object().shape({
+    email: Yup.string()
+      .email("Enter a valid email")
+      .max(255)
+      .required("Email is required"),
+    name: Yup.string().max(255).min(2).required("Please enter a valid name"),
+    projectName: Yup.string()
+      .max(255)
+      .min(2)
+      .required("Please enter a valid name"),
+    projectDescription: Yup.string()
+      .max(300)
+      .min(2)
+      .required("Project description is required"),
+    budget: Yup.number().max(300).min(2),
+    projectDuration: Yup.number()
+      .max(300)
+      .min(2)
+      .required("Enter project duration in days, and it should be a number(s)"),
+    startDate: Yup.date().required("Pleas select a valid date"),
+    phoneNumber: Yup.string()
+      .matches(/^\+?[0-9]{8,15}$/, "Please enter a valid phone number")
+      .required("Please enter your phone number"),
+  });
 
 const communicationOptions = [
   { label: "Email", value: "email" },
@@ -146,20 +143,7 @@ const AddClientForm = () => {
         <Typography variant="h4"></Typography>
         <Formik
           initialValues={initialValues}
-          validationSchema={Yup.object().shape({
-            email: Yup.string()
-              .email("Enter a valid email")
-              .max(255)
-              .required("Email is required"),
-            name: Yup.string()
-              .max(255)
-              .min(2)
-              .required("Please enter a valid name"),
-            phoneNumber: Yup.string()
-              .matches(/^\+?[0-9]{8,15}$/, "Please enter a valid phone number")
-              .required("Please enter your phone number"),
-          })}
-          validate={validate}
+          validationSchema={validate}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
