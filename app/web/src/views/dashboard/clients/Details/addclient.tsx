@@ -8,7 +8,7 @@ import CustomButton from "../../../../components/button";
 import { Protect } from "../../../../components/auth/requireAuth";
 
 const AddClientForm = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
@@ -22,13 +22,14 @@ const AddClientForm = () => {
   };
 
   const handleSubmit = (values) => {
+    console.log("submitted");
     // Combine all form data and submit as needed
     const finalFormData = { ...formData, ...values };
     console.log("Final Form Data:", finalFormData);
     // Add your submission logic here
 
     // For demonstration purposes, navigate to a success page
-    navigate("/success");
+    // navigate("/success");
   };
 
   return (

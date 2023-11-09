@@ -1,9 +1,23 @@
+// Inside the ProjectDetails component
+
 import React from "react";
 import * as Yup from "yup";
-import { FormControl, TextField, Stack, CardActions } from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import {
+  FormControl,
+  TextField,
+  Select,
+  MenuItem,
+  Stack,
+  CardActions,
+  Autocomplete,
+  Chip,
+  InputLabel,
+  FormHelperText,
+} from "@mui/material";
+import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import SubCard from "../../../../components/SubCard";
 import CustomButton from "../../../../components/button";
+import { availableSkills } from "../../Roles/ApplicationForm/skills";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
@@ -11,17 +25,31 @@ const projectDetailsValidationSchema = Yup.object().shape({
     "Technical Requirements are required"
   ),
   designPreferences: Yup.string().required("Design Preferences are required"),
-  targetAudience: Yup.string().required("Target Audience is required"),
-  competitorAnalysis: Yup.string().required("Competitor Analysis is required"),
-  dataContent: Yup.string().required("Data Content is required"),
-  securityCompliance: Yup.string().required("Security Compliance is required"),
-  integrationsAPIs: Yup.string().required("Integrations/APIs are required"),
-  testingQA: Yup.string().required("Testing/QA is required"),
+  selectedSkills: Yup.array().required("Competitor Analysis is required"),
   //   milestones: Yup.array().of(Yup.string().required("Milestone is required")),
   methodology: Yup.string().required("Methodology is required"),
 });
 
+const methodologyOptions = [
+  { label: "Agile", value: "agile" },
+  { label: "Waterfall", value: "waterfall" },
+  { label: "Scrum", value: "scrum" },
+  // Add more options as needed
+];
+
+const testingQAOptions = [
+  { label: "Manual Testing", value: "manual_testing" },
+  { label: "Automated Testing", value: "automated_testing" },
+  { label: "Performance Testing", value: "performance_testing" },
+];
+const experienceLevel = [
+  { label: "Senior", value: "senior" },
+  { label: "Mid-Level", value: "midlevel" },
+  { label: "Junior/Entry level", value: "entry" },
+  { label: "Intern", value: "intern" },
+];
 const ProjectDetails = ({ onNext }) => {
+  //  ks
   return (
     <Formik
       initialValues={{
@@ -31,20 +59,140 @@ const ProjectDetails = ({ onNext }) => {
         competitorAnalysis: "",
         dataContent: "",
         securityCompliance: "",
+        DevsNeeded: "0",
         integrationsAPIs: "",
+        experience: "midlevel",
         testingQA: "",
-        // milestones: [],
+        milestones: [],
+        selectedSkills: [],
+
         methodology: "",
       }}
-      //   validationSchema={projectDetailsValidationSchema}
+      validationSchema={projectDetailsValidationSchema}
       onSubmit={(values) => onNext(values)}
     >
-      {({ isSubmitting, values, handleChange }) => (
+      {({ isSubmitting, values, setFieldValue }) => (
         <Form>
           <SubCard title="Step 2: Project Details">
             <Stack spacing={2}>
-              {/* ... Other fields ... */}
-
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Dev Methodology
+                </InputLabel>
+                <Field
+                  name="methodology"
+                  as={Select}
+                  //   label=" DevMethodology"
+                  variant="outlined"
+                  fullWidth
+                  defaultValue="Agile"
+                >
+                  {methodologyOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Field>
+                <ErrorMessage name="methodology" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <FormControl fullWidth>
+                <Field
+                  name="DevsNeeded"
+                  as={TextField}
+                  label="Developers Needed"
+                  variant="outlined"
+                  value={values.DevsNeeded}
+                  fullWidth
+                />
+                <ErrorMessage name="DevsNeeded" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Experience level
+                </InputLabel>
+                <Field
+                  name="experience"
+                  label="Experience Level"
+                  as={Select}
+                  variant="outlined"
+                  fullWidth
+                >
+                  {experienceLevel.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Field>
+                <ErrorMessage name="experience" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Testing/QA
+                </InputLabel>
+                <Field
+                  name="testingQA"
+                  as={Select}
+                  label="Testing/QA"
+                  //   value={values.testingQA || "Agile"}
+                  variant="outlined"
+                  fullWidth
+                >
+                  {testingQAOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </FormControl>
+              <FormControl fullWidth>
+                <Autocomplete
+                  multiple
+                  id="skills-autocomplete"
+                  options={availableSkills}
+                  value={values.selectedSkills}
+                  onChange={(_, newValue) => {
+                    setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
+                  }}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip label={option} {...getTagProps({ index })} />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Skills Required"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                />
+                <ErrorMessage name="testingQA" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
               <FormControl fullWidth>
                 <Field
                   name="technicalRequirements"
@@ -56,7 +204,13 @@ const ProjectDetails = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="technicalRequirements" component="div" />
+                <ErrorMessage name="technicalRequirements" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -70,35 +224,13 @@ const ProjectDetails = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="designPreferences" component="div" />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <Field
-                  name="targetAudience"
-                  type="text"
-                  as={TextField}
-                  label="Target Audience"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                />
-                <ErrorMessage name="targetAudience" component="div" />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <Field
-                  name="competitorAnalysis"
-                  type="text"
-                  as={TextField}
-                  label="Competitor Analysis"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                />
-                <ErrorMessage name="competitorAnalysis" component="div" />
+                <ErrorMessage name="designPreferences" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>
@@ -112,7 +244,6 @@ const ProjectDetails = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="securityCompliance" component="div" />
               </FormControl>
 
               <FormControl fullWidth>
@@ -126,61 +257,25 @@ const ProjectDetails = ({ onNext }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="integrationsAPIs" component="div" />
               </FormControl>
-
               <FormControl fullWidth>
                 <Field
-                  name="testingQA"
+                  name="dataContent"
                   type="text"
                   as={TextField}
-                  label="Testing/QA"
+                  label="Any additional Data to add"
                   multiline
                   rows={4}
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="testingQA" component="div" />
-              </FormControl>
-
-              {/* Milestones - Dynamic List */}
-              <FormControl fullWidth>
-                {/* <FormLabel>Milestones</FormLabel> */}
-                {values.milestones.map((milestone, index) => (
-                  <div key={index}>
-                    <TextField
-                      name={`milestones[${index}]`}
-                      value={milestone}
-                      onChange={handleChange}
-                      label={`Milestone ${index + 1}`}
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </div>
-                ))}
-                <ErrorMessage name="milestones" component="div" />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <Field
-                  name="methodology"
-                  type="text"
-                  as={TextField}
-                  label="Methodology"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                />
-                <ErrorMessage name="methodology" component="div" />
               </FormControl>
             </Stack>
+            <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
+              <CustomButton text="Back" variant="outlined" />
+              <CustomButton text="Next" variant="contained" type="submit" />
+            </CardActions>
           </SubCard>
-
-          <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
-            <CustomButton text="Back" variant="outlined" />
-            <CustomButton text="Next" variant="contained" type="submit" />
-          </CardActions>
         </Form>
       )}
     </Formik>
