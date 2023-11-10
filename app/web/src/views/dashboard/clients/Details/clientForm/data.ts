@@ -11,6 +11,9 @@ export const projectRequirementFields = {
   testingQA: "",
   milestones: [],
   selectedSkills: [],
+  name: "",
+  phoneNumber: "",
+  email: "",
 
   methodology: "",
 };
@@ -18,6 +21,9 @@ export const ReviewLabelObj = {
   companyName: "Company Name",
   projectTitle: "Project Title",
   description: "Description",
+  name: "Client Name",
+  phoneNumber: "Phone Number",
+  email: "Email",
   // technicalRequirements: "Technical Requirements",
   // designPreferences: "Design Preferences",
   selectedSkills: "Selected Skills",

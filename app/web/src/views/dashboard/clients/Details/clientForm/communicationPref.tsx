@@ -14,6 +14,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../../components/SubCard";
 import CustomButton from "../../../../../components/button";
 import { useNavigate } from "react-router";
+import { useFormData } from "./clientFormContext";
 
 // const communicationPreferencesValidationSchema = Yup.object().shape({
 //   communicationPreferences: Yup.array()
@@ -28,11 +29,14 @@ const CommunicationPreferences = ({ onNext }) => {
     { label: "Project Management Tools", value: "project_tools" },
   ];
   const navigate = useNavigate();
+  const { formDataState, dispatch } = useFormData();
+
   const [communicationType, setcommunicationType] = React.useState({
     email: true,
     video_calls: false,
     project_tools: false,
   });
+  // const { formDataState, dispatch } = useFormData();
   const { email, project_tools, video_calls } = communicationType;
   const error =
     [email, project_tools, video_calls].filter((v) => v).length !== 1;
@@ -46,14 +50,14 @@ const CommunicationPreferences = ({ onNext }) => {
   };
   return (
     <Formik
-      initialValues={{
-        communicationPreferences: "",
-      }}
+      initialValues={formDataState["Communication Type"]}
       onSubmit={(values) => {
         values.communicationPreferences = Object.keys(communicationType).find(
           (preference) => communicationType[preference] === true
         );
-        onNext({ "Communication Type": { ...values } });
+        dispatch({ type: "updatecommunicationPreference", payload: values });
+
+        onNext(values);
       }}
     >
       {({ isSubmitting }) => (

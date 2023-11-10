@@ -26,6 +26,7 @@ import {
   testingQAOptions,
   methodologyOptions,
 } from "./data";
+import { useFormData } from "./clientFormContext";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
@@ -39,19 +40,17 @@ const projectDetailsValidationSchema = Yup.object().shape({
 });
 
 const ProjectDetails = ({ onNext }) => {
+  const { formDataState, dispatch } = useFormData();
+
   return (
     <Formik
-      initialValues={{
-        // technicalRequirements: "",
-        // designPreferences: "",
-        selectedSkills: [],
-        DevsNeeded: "",
-        methodology: "Agile",
-        experience: "",
-        testingQA: "",
-      }}
+      initialValues={formDataState["Project Details"]}
       validationSchema={projectDetailsValidationSchema}
-      onSubmit={(values) => onNext({ ["Project Details"]: { ...values } })}
+      onSubmit={(values) => {
+        dispatch({ type: "updateProjectInfo", payload: values });
+
+        onNext(values);
+      }}
     >
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>

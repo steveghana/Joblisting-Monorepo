@@ -15,11 +15,16 @@ import {
   FormLabel,
   Divider,
   ButtonBase,
+  Chip,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import SubCard from "../../../../../components/SubCard";
 import { ExpandMore } from "@mui/icons-material";
 import { ReviewLabelObj } from "./data";
+import { useFormData } from "./clientFormContext";
+import { themePalette } from "../../../../../themes/schemes/palette";
 
 // Replace ExpandMoreIcon with the actual Material-UI ExpandMore icon component
 
@@ -38,7 +43,9 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
   onReviewSubmit,
   onEdit,
 }) => {
-  console.log(formData);
+  const { formDataState } = useFormData();
+
+  console.log(formDataState, "this is the form");
   return (
     <Formik
       initialValues={{ agreedToTerms: false }}
@@ -48,10 +55,11 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
         <Form>
           <SubCard>
             <CardContent>
-              <Typography variant="h6">Review and Submit</Typography>
+              <Typography variant="body2">Review and Submit</Typography>
 
+              <Divider />
               <Grid>
-                {Object.keys(formData).map((item, index) => (
+                {Object.keys(formDataState).map((item, index) => (
                   <>
                     <Accordion>
                       <AccordionSummary
@@ -59,7 +67,9 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                       >
-                        <Typography>{item}</Typography>
+                        <Typography variant="h6" fontWeight={"bold"}>
+                          {item}
+                        </Typography>
                       </AccordionSummary>
                       <AccordionDetails
                         sx={{
@@ -67,22 +77,28 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                           justifyContent: "space-between",
                         }}
                       >
-                        {/* <Divider /> */}
                         <Grid>
-                          {Object.entries(formData[item]).map(
-                            ([key, value], index) => (
-                              <Grid mb={2} item xs={12} key={key}>
-                                <FormLabel component="legend">
+                          {Object.entries(
+                            formDataState[item] as Record<
+                              string,
+                              string | [string]
+                            >
+                          ).map(([key, value], index) => (
+                            <Grid my={index !== 0 && 4} item xs={12} key={key}>
+                              <FormLabel component="legend">
+                                <Typography fontWeight={"bold"}>
                                   {ReviewLabelObj[key]}*
-                                </FormLabel>
-                                <Typography mt={1}>
-                                  {Array.isArray(value)
-                                    ? value.join(", ")
-                                    : value}
                                 </Typography>
-                              </Grid>
-                            )
-                          )}
+                              </FormLabel>
+                              <Typography mt={1}>
+                                {Array.isArray(value)
+                                  ? value?.map((value) => (
+                                      <Chip label={value} />
+                                    ))
+                                  : value}
+                              </Typography>
+                            </Grid>
+                          ))}
                         </Grid>
                         {/* <Divider /> */}
                         <ButtonBase
@@ -107,10 +123,13 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
 
               {/* Add more accordions for different sections as needed */}
 
-              <Field name="agreedToTerms" type="checkbox" />
-              <label htmlFor="agreedToTerms">
-                I agree to the terms and conditions
-              </label>
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                // label="Label"
+                label={"I agree to the terms and conditions"}
+                name="agreedToTerms"
+                // sx={{ background: themePalette.primary.light }}
+              />
             </CardContent>
             <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
               <Button

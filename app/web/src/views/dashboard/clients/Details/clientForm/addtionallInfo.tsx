@@ -14,6 +14,8 @@ import {
   Button,
 } from "@mui/material";
 import SubCard from "../../../../../components/SubCard";
+import { useFormData } from "./clientFormContext";
+import CustomButton from "../../../../../components/button";
 
 // Validation schema for Additional Data
 const additionalDataValidationSchema = Yup.object().shape({
@@ -21,11 +23,16 @@ const additionalDataValidationSchema = Yup.object().shape({
 });
 
 const AdditionalData = ({ onNext }) => {
+  const { formDataState, dispatch } = useFormData();
+
   return (
     <Formik
-      initialValues={{ dataContent: "" }}
+      initialValues={formDataState["Additional Data"]}
       validationSchema={additionalDataValidationSchema}
-      onSubmit={(values) => onNext({ "Any Additional Data": { ...values } })}
+      onSubmit={(values) => {
+        dispatch({ type: "updateadditionalData", payload: values });
+        onNext(values);
+      }}
     >
       {({ isSubmitting }) => (
         <Form>
@@ -51,18 +58,12 @@ const AdditionalData = ({ onNext }) => {
                 </ErrorMessage>
               </FormControl>
 
-              <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
-                <Button type="button" variant="outlined">
-                  Back
-                </Button>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={isSubmitting}
-                >
-                  Next
-                </Button>
-              </CardActions>
+              <CustomButton
+                type="submit"
+                variant="contained"
+                disabled={isSubmitting}
+                text="Next"
+              />
             </Stack>
           </Box>
         </Form>
