@@ -36,7 +36,9 @@ const AddClientForm = () => {
     setFormData((prevData) => ({ ...prevData, ...data }));
     setStep((prevStep) => prevStep + 1);
   };
-
+  const handleSkipTonext = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
   const handleBack = () => setStep((prevStep) => prevStep - 1);
 
   const handleSubmit = (values) => {
@@ -73,33 +75,33 @@ const AddClientForm = () => {
                 onReviewSubmit={handleSubmit}
               />
             )}
-          </SubCard>
-        </Grid>
-        {step < 4 && (
-          <CardActions sx={{ justifyContent: "center" }}>
-            {step > 0 && (
-              <CustomButton
-                text="Back"
-                type="button"
-                variant="outlined"
-                onClick={handleBack}
-              />
-            )}
-            {/* <Button
+            {step < 4 && (
+              <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
+                {step > 0 && (
+                  <CustomButton
+                    text="Back"
+                    type="button"
+                    variant="outlined"
+                    onClick={handleBack}
+                  />
+                )}
+                {/* <Button
               type="button"
               variant="contained"
               onClick={() => navigate("/dashboard")}
               >
               Cancel
             </Button> */}
-            <CustomButton
-              text=" Skip to Next Step"
-              type="button"
-              variant="contained"
-              onClick={handleNext}
-            />
-          </CardActions>
-        )}
+                <CustomButton
+                  text=" Skip to Next Step"
+                  type="button"
+                  variant="contained"
+                  onClick={handleSkipTonext}
+                />
+              </Box>
+            )}
+          </SubCard>
+        </Grid>
       </Grid>
     </Grid>
   );

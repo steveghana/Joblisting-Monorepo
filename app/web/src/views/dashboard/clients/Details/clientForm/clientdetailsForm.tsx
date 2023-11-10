@@ -25,12 +25,17 @@ const ProjectInfo = ({ onNext }) => {
     <Formik
       initialValues={{ companyName: "", projectTitle: "", description: "" }}
       validationSchema={projectInfoValidationSchema}
-      onSubmit={(values) => onNext(values)}
+      onSubmit={(values) => {
+        console.log(values, "from info");
+        onNext(values);
+      }}
     >
       {({ isSubmitting }) => (
         <Form>
           <Box>
-            <Typography variant="h6">Step 1: Project Information</Typography>
+            <Typography my={2} variant="h6">
+              Step 1: Project Information
+            </Typography>
             <Stack spacing={2}>
               <FormControl fullWidth>
                 <Field

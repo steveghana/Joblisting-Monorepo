@@ -56,7 +56,9 @@ const ProjectDetails = ({ onNext }) => {
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>
           <Box>
-            <Typography variant="h6">Step 2: Project Details</Typography>
+            <Typography my={2} variant="h6">
+              Step 2: Project Details
+            </Typography>
             <Stack spacing={2}>
               <FormControl fullWidth>
                 <InputLabel id="methodology-label">Dev Methodology</InputLabel>

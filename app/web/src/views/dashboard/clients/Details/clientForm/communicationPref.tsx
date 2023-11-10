@@ -97,16 +97,13 @@ const CommunicationPreferences = ({ onNext }) => {
                   ) : null}
                 </>
               </FormControl>
-            </Stack>
-            <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
-              <CustomButton text="Back" variant="outlined" />
               <CustomButton
-                text="Submit"
+                text="Next"
                 disabled={error || twoOrMore}
                 variant="contained"
                 type="submit"
               />
-            </CardActions>
+            </Stack>
           </SubCard>
         </Form>
       )}

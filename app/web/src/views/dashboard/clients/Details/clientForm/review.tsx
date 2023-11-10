@@ -51,16 +51,16 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid container spacing={2}>
-                    {/* {Object.entries(formData).map(([key, value]) => (
+                    {Object.entries(formData).map(([key, value]) => (
                       <Grid item xs={12} key={key}>
                         <Typography variant="subtitle1" fontWeight="bold">
-                          {key}:
+                          {key.toUpperCase()}:
                         </Typography>
                         <Typography>
                           {Array.isArray(value) ? value.join(", ") : value}
                         </Typography>
                       </Grid>
-                    ))} */}
+                    ))}
                   </Grid>
                 </AccordionDetails>
               </Accordion>
