@@ -14,6 +14,18 @@ export const projectRequirementFields = {
 
   methodology: "",
 };
+export const ReviewLabelObj = {
+  companyName: "Company Name",
+  projectTitle: "Project Title",
+  description: "Description",
+  technicalRequirements: "Technical Requirements",
+  designPreferences: "Design Preferences",
+  selectedSkills: "Selected Skills",
+  DevsNeeded: "Developers Needed For the Project",
+  methodology: " Development Methodology",
+  dataContent: "Any Additional Data",
+  communicationPreferences: "Communication Type",
+};
 export const testingQAOptions = [
   { label: "Manual Testing", value: "manual_testing" },
   { label: "Automated Testing", value: "automated_testing" },

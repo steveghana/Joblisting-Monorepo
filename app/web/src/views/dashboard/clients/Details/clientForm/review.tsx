@@ -12,10 +12,12 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  FormLabel,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import SubCard from "../../../../../components/SubCard";
 import { ExpandMore } from "@mui/icons-material";
+import { ReviewLabelObj } from "./data";
 
 // Replace ExpandMoreIcon with the actual Material-UI ExpandMore icon component
 
@@ -53,9 +55,10 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                   <Grid container spacing={2}>
                     {Object.entries(formData).map(([key, value]) => (
                       <Grid item xs={12} key={key}>
-                        <Typography variant="subtitle1" fontWeight="bold">
-                          {key.toUpperCase()}:
-                        </Typography>
+                        <FormLabel component="legend">
+                          {ReviewLabelObj[key]}
+                        </FormLabel>
+
                         <Typography>
                           {Array.isArray(value) ? value.join(", ") : value}
                         </Typography>

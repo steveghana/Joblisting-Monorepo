@@ -29,13 +29,13 @@ import {
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
-  // technicalRequirements: Yup.string().required(
-  //   "Technical Requirements are required"
-  // ),
-  // designPreferences: Yup.string().required("Design Preferences are required"),
-  // selectedSkills: Yup.array().required("Skills are required"),
-  // DevsNeeded: Yup.string().required("Enter the number of developers needed"),
-  // methodology: Yup.string().required("Methodology is required"),
+  technicalRequirements: Yup.string().required(
+    "Technical Requirements are required"
+  ),
+  designPreferences: Yup.string().required("Design Preferences are required"),
+  selectedSkills: Yup.array().required("Skills are required"),
+  DevsNeeded: Yup.string().required("Enter the number of developers needed"),
+  methodology: Yup.string().required("Methodology is required"),
 });
 
 const ProjectDetails = ({ onNext }) => {
