@@ -25,7 +25,7 @@ const AdditionalData = ({ onNext }) => {
     <Formik
       initialValues={{ dataContent: "" }}
       validationSchema={additionalDataValidationSchema}
-      onSubmit={(values) => onNext({ ...values, step: 3 })}
+      onSubmit={(values) => onNext({ "Any Additional Data": { ...values } })}
     >
       {({ isSubmitting }) => (
         <Form>

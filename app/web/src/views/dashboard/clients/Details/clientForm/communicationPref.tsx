@@ -53,7 +53,7 @@ const CommunicationPreferences = ({ onNext }) => {
         values.communicationPreferences = Object.keys(communicationType).find(
           (preference) => communicationType[preference] === true
         );
-        onNext({ ...values, step: 4 });
+        onNext({ "Communication Type": { ...values } });
       }}
     >
       {({ isSubmitting }) => (

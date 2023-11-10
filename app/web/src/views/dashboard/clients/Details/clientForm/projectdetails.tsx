@@ -29,10 +29,10 @@ import {
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
-  technicalRequirements: Yup.string().required(
-    "Technical Requirements are required"
-  ),
-  designPreferences: Yup.string().required("Design Preferences are required"),
+  // technicalRequirements: Yup.string().required(
+  //   "Technical Requirements are required"
+  // ),
+  // designPreferences: Yup.string().required("Design Preferences are required"),
   selectedSkills: Yup.array().required("Skills are required"),
   DevsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
@@ -42,8 +42,8 @@ const ProjectDetails = ({ onNext }) => {
   return (
     <Formik
       initialValues={{
-        technicalRequirements: "",
-        designPreferences: "",
+        // technicalRequirements: "",
+        // designPreferences: "",
         selectedSkills: [],
         DevsNeeded: "",
         methodology: "Agile",
@@ -51,7 +51,7 @@ const ProjectDetails = ({ onNext }) => {
         testingQA: "",
       }}
       validationSchema={projectDetailsValidationSchema}
-      onSubmit={(values) => onNext({ ...values, step: 2 })}
+      onSubmit={(values) => onNext({ ["Project Details"]: { ...values } })}
     >
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>

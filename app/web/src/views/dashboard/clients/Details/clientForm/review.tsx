@@ -13,6 +13,8 @@ import {
   AccordionSummary,
   AccordionDetails,
   FormLabel,
+  Divider,
+  ButtonBase,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import SubCard from "../../../../../components/SubCard";
@@ -21,10 +23,14 @@ import { ReviewLabelObj } from "./data";
 
 // Replace ExpandMoreIcon with the actual Material-UI ExpandMore icon component
 
+type FormData = {
+  [key: string]: string | string[] | boolean;
+};
+
 interface ReviewAndSubmitProps {
   formData: FormData;
   onReviewSubmit: (values: { agreedToTerms: boolean }) => void;
-  onEdit: (target: string) => void;
+  onEdit: (target: number) => void;
 }
 
 const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
@@ -43,28 +49,61 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
           <SubCard>
             <CardContent>
               <Typography variant="h6">Review and Submit</Typography>
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMore />}>
-                  <Typography variant="subtitle1">
-                    Client Information
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container spacing={2}>
-                    {Object.entries(formData).map(([key, value]) => (
-                      <Grid item xs={12} key={key}>
-                        <FormLabel component="legend">
-                          {ReviewLabelObj[key]}
-                        </FormLabel>
 
-                        <Typography>
-                          {Array.isArray(value) ? value.join(", ") : value}
-                        </Typography>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
+              <Grid>
+                {Object.keys(formData).map((item, index) => (
+                  <>
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography>{item}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {/* <Divider /> */}
+                        <Grid>
+                          {Object.entries(formData[item]).map(
+                            ([key, value], index) => (
+                              <Grid mb={2} item xs={12} key={key}>
+                                <FormLabel component="legend">
+                                  {ReviewLabelObj[key]}*
+                                </FormLabel>
+                                <Typography mt={1}>
+                                  {Array.isArray(value)
+                                    ? value.join(", ")
+                                    : value}
+                                </Typography>
+                              </Grid>
+                            )
+                          )}
+                        </Grid>
+                        {/* <Divider /> */}
+                        <ButtonBase
+                          sx={{
+                            alignSelf: "flex-start",
+                            padding: 1,
+                            outline: "none",
+                          }}
+                        >
+                          <Typography
+                            color={"blue"}
+                            onClick={() => onEdit(index)}
+                          >
+                            Edit
+                          </Typography>
+                        </ButtonBase>
+                      </AccordionDetails>
+                    </Accordion>
+                  </>
+                ))}
+              </Grid>
 
               {/* Add more accordions for different sections as needed */}
 

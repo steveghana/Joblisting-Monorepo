@@ -26,8 +26,8 @@ const ProjectInfo = ({ onNext }) => {
       initialValues={{ companyName: "", projectTitle: "", description: "" }}
       validationSchema={projectInfoValidationSchema}
       onSubmit={(values) => {
-        console.log(values, "from info");
-        onNext({ ...values, step: 1 });
+        console.log({ CompanyInfo: { ...values } }, "from info");
+        onNext({ ["Company Name"]: { ...values } });
       }}
     >
       {({ isSubmitting }) => (
