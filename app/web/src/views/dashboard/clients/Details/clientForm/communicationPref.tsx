@@ -53,12 +53,14 @@ const CommunicationPreferences = ({ onNext }) => {
         values.communicationPreferences = Object.keys(communicationType).find(
           (preference) => communicationType[preference] === true
         );
-        onNext(values);
+        onNext({ ...values, step: 4 });
       }}
     >
       {({ isSubmitting }) => (
         <Form>
-          <SubCard title="Step 3: Communication Preferences">
+          <SubCard title="Step 4: Communication Preferences">
+            {/* <Typography variant="h6">Step 3: Additional Data</Typography> */}
+
             <Stack spacing={2}>
               <FormControl
                 required

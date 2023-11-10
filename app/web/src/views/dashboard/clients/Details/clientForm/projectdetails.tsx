@@ -51,7 +51,7 @@ const ProjectDetails = ({ onNext }) => {
         testingQA: "",
       }}
       validationSchema={projectDetailsValidationSchema}
-      onSubmit={(values) => onNext(values)}
+      onSubmit={(values) => onNext({ ...values, step: 2 })}
     >
       {({ isSubmitting, values, setFieldValue }) => (
         <Form>

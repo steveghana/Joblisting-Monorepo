@@ -21,18 +21,16 @@ import { ReviewLabelObj } from "./data";
 
 // Replace ExpandMoreIcon with the actual Material-UI ExpandMore icon component
 
-type FormData = {
-  [key: string]: string | string[] | boolean;
-};
-
 interface ReviewAndSubmitProps {
   formData: FormData;
   onReviewSubmit: (values: { agreedToTerms: boolean }) => void;
+  onEdit: (target: string) => void;
 }
 
 const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
   formData,
   onReviewSubmit,
+  onEdit,
 }) => {
   console.log(formData);
   return (

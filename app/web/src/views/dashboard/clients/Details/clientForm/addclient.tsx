@@ -26,21 +26,102 @@ const steps = [
   "Communication Preferences",
   "Review and Submit",
 ];
+// Define an interface for the form data
+export interface FormData {
+  companyInfo?: CompanyInfoData;
+  projectDetails?: ProjectDetailsData;
+  additionalData?: AdditionalDataData;
+  communicationPreferences?: CommunicationPreferencesData;
+  reviewAndSubmit?: ReviewAndSubmitData;
+}
+enum FormStep {
+  CompanyInfo = 0,
+  ProjectDetails = 1,
+  AdditionalData = 2,
+  CommunicationPreferences = 3,
+  ReviewAndSubmit = 4,
+}
+// Define types for each step
+type CompanyInfoData = {
+  // Define properties for CompanyInfoData
+};
 
+type ProjectDetailsData = {
+  // Define properties for ProjectDetailsData
+};
+
+type AdditionalDataData = {
+  // Define properties for AdditionalDataData
+};
+
+type CommunicationPreferencesData = {
+  // Define properties for CommunicationPreferencesData
+};
+
+type ReviewAndSubmitData = {
+  // Define properties for ReviewAndSubmitData
+};
 const AddClientForm = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState<FormStep>(FormStep.CompanyInfo);
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
-  const handleNext = (data) => {
-    setFormData((prevData) => ({ ...prevData, ...data }));
-    setStep((prevStep) => prevStep + 1);
+  const handleNext = (data: any) => {
+    setFormData((prevData) => ({ ...prevData, [step]: data }));
+    setStep(nextStep(step));
   };
-  const handleSkipTonext = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
-  const handleBack = () => setStep((prevStep) => prevStep - 1);
 
+  const handleBack = () => setStep(prevStep);
+
+  const nextStep = (currentStep: FormStep): FormStep => {
+    // Define the logic to determine the next step based on the current step
+    switch (currentStep) {
+      case FormStep.CompanyInfo:
+        return FormStep.ProjectDetails;
+      case FormStep.ProjectDetails:
+        return FormStep.AdditionalData;
+      case FormStep.AdditionalData:
+        return FormStep.CommunicationPreferences;
+      case FormStep.CommunicationPreferences:
+        return FormStep.ReviewAndSubmit;
+      default:
+        return currentStep;
+    }
+  };
+
+  const prevStep = (currentStep: FormStep): FormStep => {
+    // Define the logic to determine the previous step based on the current step
+    switch (currentStep) {
+      case FormStep.ProjectDetails:
+        return FormStep.CompanyInfo;
+      case FormStep.AdditionalData:
+        return FormStep.ProjectDetails;
+      case FormStep.CommunicationPreferences:
+        return FormStep.AdditionalData;
+      case FormStep.ReviewAndSubmit:
+        return FormStep.CommunicationPreferences;
+      default:
+        return currentStep;
+    }
+  };
+  const renderStepComponent = (step: FormStep) => {
+    switch (step) {
+      case FormStep.CompanyInfo:
+        return <CompanyInfo onNext={handleNext} />;
+      case FormStep.ProjectDetails:
+        return <ProjectDetails onNext={handleNext} />;
+      case FormStep.AdditionalData:
+        return <AdditionalData onNext={handleNext} />;
+      case FormStep.CommunicationPreferences:
+        return <CommunicationPreferences onNext={handleNext} />;
+      case FormStep.ReviewAndSubmit:
+        return (
+          <ReviewAndSubmit formData={formData} onReviewSubmit={handleSubmit} />
+        );
+      default:
+        return null;
+    }
+  };
   const handleSubmit = (values) => {
     console.log("submitted");
     // Combine all form data and submit as needed
@@ -65,19 +146,10 @@ const AddClientForm = () => {
         </Stepper>
         <Grid mt={2}>
           <SubCard>
-            {step === 0 && <CompanyInfo onNext={handleNext} />}
-            {step === 1 && <ProjectDetails onNext={handleNext} />}
-            {step === 2 && <AdditionalData onNext={handleNext} />}
-            {step === 3 && <CommunicationPreferences onNext={handleNext} />}
-            {step === 4 && (
-              <ReviewAndSubmit
-                formData={formData}
-                onReviewSubmit={handleSubmit}
-              />
-            )}
-            {step < 4 && (
+            {renderStepComponent(step)}
+            {step !== FormStep.ReviewAndSubmit && (
               <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
-                {step > 0 && (
+                {step !== FormStep.CompanyInfo && (
                   <CustomButton
                     text="Back"
                     type="button"

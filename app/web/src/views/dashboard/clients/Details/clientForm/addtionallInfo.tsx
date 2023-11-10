@@ -25,12 +25,12 @@ const AdditionalData = ({ onNext }) => {
     <Formik
       initialValues={{ dataContent: "" }}
       validationSchema={additionalDataValidationSchema}
-      onSubmit={(values) => onNext(values)}
+      onSubmit={(values) => onNext({ ...values, step: 3 })}
     >
       {({ isSubmitting }) => (
         <Form>
           <Box>
-            <Typography variant="h6">Step 4: Additional Data</Typography>
+            <Typography variant="h6">Step 3: Additional Data</Typography>
             <Stack spacing={2}>
               <FormControl fullWidth>
                 <Field

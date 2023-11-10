@@ -27,7 +27,7 @@ const ProjectInfo = ({ onNext }) => {
       validationSchema={projectInfoValidationSchema}
       onSubmit={(values) => {
         console.log(values, "from info");
-        onNext(values);
+        onNext({ ...values, step: 1 });
       }}
     >
       {({ isSubmitting }) => (
