@@ -24,8 +24,6 @@ export const ReviewLabelObj = {
   name: "Client Name",
   phoneNumber: "Phone Number",
   email: "Email",
-  // technicalRequirements: "Technical Requirements",
-  // designPreferences: "Design Preferences",
   selectedSkills: "Selected Skills",
   DevsNeeded: "Developers Needed For the Project",
   methodology: " Development Methodology",

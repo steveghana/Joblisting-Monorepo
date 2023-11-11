@@ -1,13 +1,9 @@
 import React from "react";
 import {
-  Box,
   Typography,
-  Card,
   CardContent,
   CardActions,
   Button,
-  List,
-  ListItem,
   Grid,
   Accordion,
   AccordionSummary,
@@ -26,12 +22,9 @@ import { ReviewLabelObj } from "./data";
 import { useFormData } from "./clientFormContext";
 import { themePalette } from "../../../../../themes/schemes/palette";
 
-// Replace ExpandMoreIcon with the actual Material-UI ExpandMore icon component
-
 type FormData = {
   [key: string]: string | string[] | boolean;
 };
-
 interface ReviewAndSubmitProps {
   formData: FormData;
   onReviewSubmit: (values: { agreedToTerms: boolean }) => void;
@@ -39,7 +32,6 @@ interface ReviewAndSubmitProps {
 }
 
 const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
-  formData,
   onReviewSubmit,
   onEdit,
 }) => {

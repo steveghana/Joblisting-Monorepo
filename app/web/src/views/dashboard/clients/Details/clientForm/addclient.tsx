@@ -8,6 +8,8 @@ import {
   Stepper,
   Step,
   StepLabel,
+  StepIconProps,
+  styled,
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import CompanyInfo from "./clientdetailsForm";
@@ -19,6 +21,19 @@ import { Protect } from "../../../../../components/auth/requireAuth";
 import SubCard from "../../../../../components/SubCard";
 import CustomButton from "../../../../../components/button";
 import { FormDataProvider } from "./clientFormContext";
+import {
+  Call,
+  Check,
+  GroupAdd,
+  PeopleAlt,
+  Settings,
+  VerifiedUserRounded,
+  VideoLabel,
+  Work,
+} from "@mui/icons-material";
+import StepConnector, {
+  stepConnectorClasses,
+} from "@mui/material/StepConnector";
 const steps = [
   "Company Info",
   "Project Details",
@@ -27,6 +42,72 @@ const steps = [
   "Review and Submit",
 ];
 type Form = {};
+
+const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 22,
+  },
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundImage: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+    },
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundImage: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+    },
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    height: 3,
+    border: 0,
+    backgroundColor:
+      theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
+    borderRadius: 1,
+  },
+}));
+
+const ColorlibStepIconRoot = styled("div")<{
+  ownerState: { completed?: boolean; active?: boolean };
+}>(({ theme, ownerState }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
+  zIndex: 1,
+  color: "#fff",
+  width: 50,
+  height: 50,
+  display: "flex",
+  borderRadius: "50%",
+  justifyContent: "center",
+  alignItems: "center",
+  ...(ownerState.active && {
+    backgroundImage: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+    boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
+  }),
+  ...(ownerState.completed && {
+    backgroundImage: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+  }),
+}));
+
+function ColorlibStepIcon(props: StepIconProps) {
+  const { active, completed, className } = props;
+
+  const icons: { [index: string]: React.ReactElement } = {
+    1: <PeopleAlt />,
+    2: <Work />,
+    3: <VideoLabel />,
+    4: <Call />,
+    5: <Check />,
+  };
+
+  return (
+    <ColorlibStepIconRoot
+      ownerState={{ completed, active }}
+      className={className}
+    >
+      {icons[String(props.icon)]}
+    </ColorlibStepIconRoot>
+  );
+}
 const AddClientForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
@@ -76,13 +157,26 @@ const AddClientForm = () => {
       <Grid container>
         <Grid item md={12} sm={12}>
           <Typography variant="h4"></Typography>
-          <Stepper activeStep={step} alternativeLabel>
+          <Stepper
+            alternativeLabel
+            activeStep={step}
+            connector={<ColorlibConnector />}
+          >
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel StepIconComponent={ColorlibStepIcon}>
+                  {label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          {/* <Stepper activeStep={step} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
-          </Stepper>
+          </Stepper> */}
           <Grid mt={2}>
             <SubCard>
               {step === 0 && <CompanyInfo onNext={handleNext} />}
