@@ -113,15 +113,10 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                 ))}
               </Grid>
 
-              {/* Add more accordions for different sections as needed */}
-
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                // label="Label"
-                label={"I agree to the terms and conditions"}
-                name="agreedToTerms"
-                // sx={{ background: themePalette.primary.light }}
-              />
+              <Field name="agreedToTerms" type="checkbox" as={Checkbox} />
+              <label htmlFor="agreedToTerms">
+                I agree to the terms and conditions
+              </label>
             </CardContent>
             <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
               <Button
