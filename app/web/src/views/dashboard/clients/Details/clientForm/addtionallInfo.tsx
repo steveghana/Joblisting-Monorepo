@@ -12,6 +12,10 @@ import {
   FormHelperText,
   CardActions,
   Button,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import SubCard from "../../../../../components/SubCard";
 import { useFormData } from "./clientFormContext";
@@ -20,8 +24,25 @@ import CustomButton from "../../../../../components/button";
 // Validation schema for Additional Data
 const additionalDataValidationSchema = Yup.object().shape({
   dataContent: Yup.string().required("Additional Data is required"),
+  durationForEmployment: Yup.string().required(
+    "Employment duration is required"
+  ),
+  whenToStart: Yup.string().required("Select when the project starts"),
 });
-
+const Duration = [
+  { label: "Less than a week" },
+  { label: "1 to 4 weeks" },
+  { label: "1 to 3 months" },
+  { label: "3 to 6 months" },
+  { label: "Longer than 6 months" },
+  { label: "I will decide later" },
+];
+const whenToStart = [
+  { label: "Immediately" },
+  { label: "In 1 to 2 weeks" },
+  { label: "More than 2 weeks from now" },
+  { label: "I'll decide later" },
+];
 const AdditionalData = ({ onNext }) => {
   const { formDataState, dispatch } = useFormData();
 
@@ -34,11 +55,51 @@ const AdditionalData = ({ onNext }) => {
         onNext(values);
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, handleChange, values }) => (
         <Form>
           <Box>
             <Typography variant="h6">Step 3: Additional Data</Typography>
-            <Stack spacing={2}>
+            <Stack mt={2} spacing={2}>
+              <FormControl>
+                <FormLabel component="legend">
+                  How Long Do you Need the Developer
+                </FormLabel>
+                {Duration.map((duration) => (
+                  <RadioGroup
+                    aria-label="items"
+                    name="durationForEmployment"
+                    value={values.durationForEmployment}
+                    onChange={handleChange}
+                    row
+                  >
+                    <FormControlLabel
+                      value={duration.label}
+                      control={<Radio />}
+                      label={duration.label}
+                    />
+                  </RadioGroup>
+                ))}
+              </FormControl>
+              <FormControl>
+                <FormLabel component="legend">
+                  When do you need the developer to start?
+                </FormLabel>
+                {whenToStart.map((startDay) => (
+                  <RadioGroup
+                    aria-label="items"
+                    name="whenToStart"
+                    value={values.whenToStart}
+                    onChange={handleChange}
+                    row
+                  >
+                    <FormControlLabel
+                      value={startDay.label}
+                      control={<Radio />}
+                      label={startDay.label}
+                    />
+                  </RadioGroup>
+                ))}
+              </FormControl>
               <FormControl fullWidth>
                 <Field
                   name="dataContent"

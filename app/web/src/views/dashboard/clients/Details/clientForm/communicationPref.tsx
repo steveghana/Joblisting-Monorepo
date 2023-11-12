@@ -9,6 +9,8 @@ import {
   Stack,
   CardActions,
   FormControlLabel,
+  RadioGroup,
+  Radio,
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../../components/SubCard";
@@ -28,44 +30,49 @@ const CommunicationPreferences = ({ onNext }) => {
     { label: "Video Calls", value: "video_calls" },
     { label: "Project Management Tools", value: "project_tools" },
   ];
-  const navigate = useNavigate();
+  const EmploymentType = [
+    { label: "Full time (40 or more hrs/week)" },
+    { label: "Part time (Less than 40 hrs/week)" },
+    { label: "Hourly" },
+    { label: "I'll decide later" },
+  ];
   const { formDataState, dispatch } = useFormData();
 
-  const [communicationType, setcommunicationType] = React.useState({
-    email: true,
-    video_calls: false,
-    project_tools: false,
-  });
-  // const { formDataState, dispatch } = useFormData();
-  const { email, project_tools, video_calls } = communicationType;
-  const error =
-    [email, project_tools, video_calls].filter((v) => v).length !== 1;
-  const twoOrMore =
-    [email, project_tools, video_calls].filter((v) => v).length >= 2;
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setcommunicationType({
-      ...communicationType,
-      [event.target.name]: event.target.checked,
-    });
-  };
   return (
     <Formik
       initialValues={formDataState["Communication Type"]}
       onSubmit={(values) => {
-        values.communicationPreferences = Object.keys(communicationType).find(
-          (preference) => communicationType[preference] === true
-        );
         dispatch({ type: "updatecommunicationPreference", payload: values });
 
         onNext(values);
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values, handleChange }) => (
         <Form>
           <SubCard title="Step 4: Communication Preferences">
             {/* <Typography variant="h6">Step 3: Additional Data</Typography> */}
 
             <Stack spacing={2}>
+              <FormControl>
+                <FormLabel component="legend">
+                  How Long Do you Need the Developer
+                </FormLabel>
+                {EmploymentType.map((duration) => (
+                  <RadioGroup
+                    aria-label="items"
+                    name="employmentType"
+                    value={values.employmentType}
+                    onChange={handleChange}
+                    row
+                  >
+                    <FormControlLabel
+                      value={duration.label}
+                      control={<Radio />}
+                      label={duration.label}
+                    />
+                  </RadioGroup>
+                ))}
+              </FormControl>
               <FormControl
                 required
                 component="fieldset"
@@ -76,22 +83,24 @@ const CommunicationPreferences = ({ onNext }) => {
                 <FormGroup>
                   {communicationOptions.map((option) => (
                     <>
-                      <FormControlLabel
+                      <RadioGroup
                         key={option.value}
+                        aria-label="items"
                         name="communicationPreferences"
-                        control={
-                          <Checkbox
-                            checked={communicationType[option.value]}
-                            name={option.value}
-                            onChange={handleChange}
-                          />
-                        }
-                        label={option.label}
-                      />
+                        value={values.communicationPreferences}
+                        onChange={handleChange}
+                        row
+                      >
+                        <FormControlLabel
+                          value={option.value}
+                          control={<Radio />}
+                          label={option.label}
+                        />
+                      </RadioGroup>
                     </>
                   ))}
                 </FormGroup>
-                <>
+                {/* <>
                   {twoOrMore ? (
                     <FormHelperText error variant="filled">
                       Pick only one communication preference
@@ -101,11 +110,11 @@ const CommunicationPreferences = ({ onNext }) => {
                       Pick at least one communication preference
                     </FormHelperText>
                   ) : null}
-                </>
+                </> */}
               </FormControl>
               <CustomButton
                 text="Next"
-                disabled={error || twoOrMore}
+                disabled={isSubmitting}
                 variant="contained"
                 type="submit"
               />

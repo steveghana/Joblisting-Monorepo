@@ -5,6 +5,8 @@ interface FormDataState {
     name: string;
     email: string;
     phoneNumber: string;
+    numOfEmployees: string;
+
     companyName: string;
     projectTitle: string;
     description: string;
@@ -17,10 +19,14 @@ interface FormDataState {
     testingQA: string;
   };
   ["Additional Data"]: {
+    durationForEmployment: string;
+
+    whenToStart: string;
     dataContent: string;
   };
   ["Communication Type"]: {
     communicationPreferences: string;
+    employmentType: string;
   };
   // Add other steps' data as needed
 }
@@ -49,6 +55,7 @@ const initialState: FormDataState = {
     email: "",
     phoneNumber: "",
     companyName: "",
+    numOfEmployees: "",
     projectTitle: "",
     description: "",
   },
@@ -60,10 +67,13 @@ const initialState: FormDataState = {
     testingQA: "",
   },
   ["Additional Data"]: {
+    durationForEmployment: "",
     dataContent: "",
+    whenToStart: "",
   },
   ["Communication Type"]: {
     communicationPreferences: "",
+    employmentType: "",
   },
   // Add other steps' data as needed
 };

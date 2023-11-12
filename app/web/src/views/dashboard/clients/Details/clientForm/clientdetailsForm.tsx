@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
@@ -12,6 +12,8 @@ import {
   Checkbox,
   FormControlLabel,
   FormLabel,
+  RadioGroup,
+  Radio,
 } from "@mui/material";
 import { useFormData } from "./clientFormContext";
 import CustomButton from "../../../../../components/button";
@@ -50,19 +52,7 @@ const employed = [
 
 const ProjectInfo = ({ onNext }) => {
   const { formDataState, dispatch } = useFormData();
-  const [EmploymentType, setEmploymentType] = React.useState({
-    low: true,
-    mid: false,
-    high: false,
-  });
-  const { high, low, mid } = EmploymentType;
-  const error = [high, low, mid].filter((v) => v).length !== 1;
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmploymentType({
-      ...EmploymentType,
-      [event.target.value]: event.target.checked,
-    });
-  };
+  console.log(formDataState["Client info"]);
   return (
     <Formik
       initialValues={formDataState["Client info"]}
@@ -73,7 +63,7 @@ const ProjectInfo = ({ onNext }) => {
         onNext(values);
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values, handleChange }) => (
         <Form>
           <Box>
             <Typography my={2} variant="h6">
@@ -96,25 +86,20 @@ const ProjectInfo = ({ onNext }) => {
                   How many people are employed at the company?
                 </FormLabel>
                 {employed.map((employed) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={handleChange}
-                        value={employed.value}
-                        icon={<CircleOutlined />}
-                        checkedIcon={<Circle />}
-                      />
-                    }
-                    label={employed.label}
-                  />
+                  <RadioGroup
+                    aria-label="items"
+                    name="numOfEmployees"
+                    value={values.numOfEmployees}
+                    onChange={handleChange}
+                    row
+                  >
+                    <FormControlLabel
+                      value={employed.value}
+                      control={<Radio />}
+                      label={employed.label}
+                    />
+                  </RadioGroup>
                 ))}
-                <>
-                  {error && (
-                    <FormHelperText error variant="filled">
-                      Pick at least one communication preference
-                    </FormHelperText>
-                  )}
-                </>
               </FormControl>
               <FormControl fullWidth>
                 <Field
