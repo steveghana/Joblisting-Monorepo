@@ -20,6 +20,7 @@ const rolesData = [
     title: "Back-End Developer",
     description: "Manages server-side logic and databases.",
   },
+
   // Add more role descriptions as needed
 ];
 

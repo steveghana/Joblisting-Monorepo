@@ -49,7 +49,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
             <CardContent>
               <Typography variant="body2">Review and Submit</Typography>
 
-              <Divider />
+              <Divider sx={{ mt: 1 }} />
               <Grid>
                 {Object.keys(formDataState).map((item, index) => (
                   <>

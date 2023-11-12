@@ -9,9 +9,18 @@ import {
   Stack,
   FormControl,
   FormHelperText,
+  Checkbox,
+  FormControlLabel,
+  FormLabel,
 } from "@mui/material";
 import { useFormData } from "./clientFormContext";
 import CustomButton from "../../../../../components/button";
+import {
+  Circle,
+  CircleOutlined,
+  ThumbDownOffAlt,
+  ThumbUp,
+} from "@mui/icons-material";
 
 // Validation schema for Project Info
 const projectInfoValidationSchema = Yup.object().shape({
@@ -33,9 +42,27 @@ const formFields = [
   { name: "email", label: "Email" },
   { name: "phoneNumber", label: "Phone Number" },
 ];
+const employed = [
+  { label: "Less than 10", value: "low" },
+  { label: "11 - 50", value: "mid" },
+  { label: "51 - 200", value: "high" },
+];
 
 const ProjectInfo = ({ onNext }) => {
   const { formDataState, dispatch } = useFormData();
+  const [EmploymentType, setEmploymentType] = React.useState({
+    low: true,
+    mid: false,
+    high: false,
+  });
+  const { high, low, mid } = EmploymentType;
+  const error = [high, low, mid].filter((v) => v).length !== 1;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmploymentType({
+      ...EmploymentType,
+      [event.target.value]: event.target.checked,
+    });
+  };
   return (
     <Formik
       initialValues={formDataState["Client info"]}
@@ -64,6 +91,31 @@ const ProjectInfo = ({ onNext }) => {
                   margin="normal"
                 />
               ))}
+              <FormControl>
+                <FormLabel component="legend">
+                  How many people are employed at the company?
+                </FormLabel>
+                {employed.map((employed) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={handleChange}
+                        value={employed.value}
+                        icon={<CircleOutlined />}
+                        checkedIcon={<Circle />}
+                      />
+                    }
+                    label={employed.label}
+                  />
+                ))}
+                <>
+                  {error && (
+                    <FormHelperText error variant="filled">
+                      Pick at least one communication preference
+                    </FormHelperText>
+                  )}
+                </>
+              </FormControl>
               <FormControl fullWidth>
                 <Field
                   name="companyName"
