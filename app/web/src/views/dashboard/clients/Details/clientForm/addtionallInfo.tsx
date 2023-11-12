@@ -21,7 +21,6 @@ import SubCard from "../../../../../components/SubCard";
 import { useFormData } from "./clientFormContext";
 import CustomButton from "../../../../../components/button";
 
-// Validation schema for Additional Data
 const additionalDataValidationSchema = Yup.object().shape({
   dataContent: Yup.string().required("Additional Data is required"),
   durationForEmployment: Yup.string().required(

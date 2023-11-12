@@ -17,7 +17,7 @@ export const themeOption = {
   // customization,
 };
 const themeColors = {
-  primary: "#5569ff",
+  primary: "#00f2fe",
   secondary: "#6E759F",
   success: "#57CA22",
   warning: "#FFA319",

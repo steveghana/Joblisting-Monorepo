@@ -1,12 +1,32 @@
 export default function componentStyleOverrides(theme) {
   const bgColor = theme.colors?.grey50;
   return {
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          // color: "#4facfe",
+          outline: "none",
+          "&.Mui-checked": {
+            color: "#4facfe",
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           fontWeight: 500,
+          borderColor: "#4facfe",
           borderRadius: "4px",
+          transition: "1s ease",
+          "&.MuiButton-contained": {
+            background: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+          },
           outline: "none",
+          "&.MuiButton-contained:hover": {
+            transition: "1s ease",
+            background: "linear-gradient(to left, #4facfe 0%, #00f2fe 100%)",
+          },
         },
       },
     },

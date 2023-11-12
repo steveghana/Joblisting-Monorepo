@@ -24,7 +24,7 @@ function CustomButton(props: IButtonProps) {
         borderRadius: "10px",
         minWidth: "100px",
         // background: "red",
-        background: props.variant === "contained" && themePalette.primary.main,
+        // background: props.variant === "contained" && themePalette.primary.main,
       }}
     >
       <Typography textTransform={"none"} variant="button">
