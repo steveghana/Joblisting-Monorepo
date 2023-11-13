@@ -186,15 +186,7 @@ export const styleOverrides = {
       dark: colors.warning.dark,
       contrastText: colors.alpha.white[100],
     },
-    // text: {
-    //   primary: colors.alpha.black[100],
-    //   secondary: colors.alpha.black[70],
-    //   disabled: colors.alpha.black[50],
-    // },
-    // background: {
-    //   paper: colors.alpha.white[100],
-    //   default: colors.layout.general.bodyBg,
-    // },
+
     orange: {
       light: themeOption.colors?.orangeLight,
       main: themeOption.colors?.orangeMain,
