@@ -1,4 +1,4 @@
-export type IClient = {
+export type IDev = {
   firstName: string;
   lastName: string;
   email: string;

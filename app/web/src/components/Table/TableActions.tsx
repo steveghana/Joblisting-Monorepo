@@ -1,11 +1,11 @@
 import React from "react";
-import { IClient } from "../../types/client";
+import { IDev } from "../../types/client";
 import { MRT_Row, MRT_TableInstance } from "material-react-table";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 interface IActions {
-  row: MRT_Row<IClient>;
-  table: MRT_TableInstance<IClient>;
+  row: MRT_Row<IDev>;
+  table: MRT_TableInstance<IDev>;
   onConfirmDelete: () => void;
 }
 function TableActions({ row, table, onConfirmDelete }: IActions) {

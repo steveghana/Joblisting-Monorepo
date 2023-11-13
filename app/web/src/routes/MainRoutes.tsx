@@ -8,7 +8,7 @@ import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
 import ClientDetails from "../views/dashboard/clients/Details/overview";
-import AddClient from "../views/dashboard/clients/Details/clientForm/addclient";
+import AddClient from "../views/dashboard/clients/Details";
 import Status404 from "../views/status/Status404";
 
 // dashboard routing

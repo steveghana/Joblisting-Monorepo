@@ -6,7 +6,7 @@ export type IJobs = {
   jobtype: "Full-time" | "Part-time";
   postedDate: Date;
 };
-export type Iclient = {
+export type IDev = {
   name: string;
   role: string;
 };
@@ -15,5 +15,5 @@ export interface IRoleData {
   subName: string;
   description: string;
   jobs: IJobs[];
-  founders: Iclient;
+  founders: IDev;
 }

@@ -25,8 +25,8 @@ import {
   projectRequirementFields,
   testingQAOptions,
   methodologyOptions,
-} from "./data";
-import { useFormData } from "./clientFormContext";
+} from "../../../../../lib/data";
+import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({

@@ -1,4 +1,4 @@
-import { IClient } from "../types/client";
+import { IDev } from "../types/client";
 
 // validation.ts
 export const validateRequired = (value: string) => !!value.length;
@@ -10,7 +10,7 @@ export const validateEmail = (email: string) =>
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 
-export function validateUser(user: IClient) {
+export function validateUser(user: IDev) {
   return {
     firstName: !validateRequired(user.firstName)
       ? "First Name is Required"

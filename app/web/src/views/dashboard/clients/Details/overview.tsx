@@ -12,7 +12,7 @@ import {
   ListItemAvatar,
   Divider,
 } from "@mui/material";
-import companyInfo from "./data.json";
+import companyInfo from "../../../../lib/data.json";
 import { ICompany } from "../../../../types/company";
 import { Protect } from "../../../../components/auth/requireAuth";
 

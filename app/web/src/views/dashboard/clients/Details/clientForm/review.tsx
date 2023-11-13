@@ -18,8 +18,8 @@ import {
 import { Formik, Form, Field } from "formik";
 import SubCard from "../../../../../components/SubCard";
 import { ExpandMore } from "@mui/icons-material";
-import { ReviewLabelObj } from "./data";
-import { useFormData } from "./clientFormContext";
+import { ReviewLabelObj } from "../../../../../lib/data";
+import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { themePalette } from "../../../../../themes/schemes/palette";
 
 type FormData = {

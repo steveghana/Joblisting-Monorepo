@@ -7,15 +7,15 @@ import {
   MRT_Row,
   MRT_TableInstance,
 } from "material-react-table";
-import { validateUser } from "../../../../../lib/tablevalidate";
+import { validateUser } from "./tablevalidate";
 import {
   UseMutateAsyncFunction,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { IClient } from "../../../../../types/client";
-import { data } from "./data";
+import { IDev } from "../types/client";
+import { data } from "../lib/data";
 
 interface ExampleFormProps {
   validationErrors: Record<string, string | undefined>;
@@ -43,13 +43,13 @@ interface ExampleFormProps {
 type ITableProps = {
   item: {
     exitCreatingMode: () => void;
-    row: MRT_Row<IClient>;
-    table: MRT_TableInstance<IClient>;
-    values: Record<LiteralUnion<keyof IClient, string>, any>;
+    row: MRT_Row<IDev>;
+    table: MRT_TableInstance<IDev>;
+    values: Record<LiteralUnion<keyof IDev, string>, any>;
   };
 };
 interface IQuery {
-  creatUser: UseMutateAsyncFunction<void, Error, IClient, void>;
+  creatUser: UseMutateAsyncFunction<void, Error, IDev, void>;
   setValidationErrors: React.Dispatch<
     React.SetStateAction<Record<string, string>>
   >;

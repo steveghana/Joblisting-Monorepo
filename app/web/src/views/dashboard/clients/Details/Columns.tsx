@@ -1,44 +1,32 @@
 import React, { useMemo } from "react";
-
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useColums } from "../../../../hooks/useColumns";
+import {
+  useCreateUser,
+  useDeleteUser,
+  useGetUsers,
+  useUpdateUser,
+} from "../../../../hooks/useQury";
+import {
+  handleCreateUser,
+  handleSaveUser,
+  openDeleteConfirmModal,
+} from "../../../../utils/TableCrud";
+import TableDetail from "../../../../components/Table/Detail";
+import TableActions from "../../../../components/Table/TableActions";
+import RowAction from "../../../../components/Table/RowAction";
+import TopToolbar from "../../../../components/Table/topToolBar";
+import CreatRow from "../../../../components/Table/CreatRow";
 //MRT Imports
 import {
   MaterialReactTable,
   useMaterialReactTable,
-  type MRT_ColumnDef,
-  MRT_EditActionButtons,
-  // createRow,
-  type MRT_Row,
-  type MRT_TableOptions,
-  MRT_GlobalFilterTextField,
-  MRT_ToggleFiltersButton,
 } from "material-react-table";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //Material UI Imports
-import {
-  Box,
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  MenuItem,
-  Tooltip,
-  Typography,
-  lighten,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-//Icons Imports
-import { AccountCircle, Send } from "@mui/icons-material";
-
-//Mock Data
-import { data } from "./data";
+import { Button } from "@mui/material";
+import { data } from "../../../../lib/data";
 
 export type Employee = {
   firstName: string;
@@ -51,7 +39,7 @@ export type Employee = {
   avatar: string;
 };
 
-const Example = () => {
+const TableRowAndColumn = () => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -113,19 +101,13 @@ const Example = () => {
     onEditingRowSave: (item) =>
       handleSaveUser(item, updateUser, setValidationErrors),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
-      <>
-        <DialogTitle variant="h3">Create New User</DialogTitle>
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
-          {internalEditComponents} {/* or render custom edit components here */}
-        </DialogContent>
-        <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row} />
-        </DialogActions>
-      </>
+      <CreatRow
+        internalEditComponents={internalEditComponents}
+        row={row}
+        table={table}
+      />
     ),
-    renderDetailPanel: ({ row }) => <TableDetail row={row} />,
+    // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
       <TableActions
         row={row}
@@ -133,14 +115,15 @@ const Example = () => {
         onConfirmDelete={() => openDeleteConfirmModal(row, updateUser)}
       />
     ),
-    renderRowActionMenuItems: ({ closeMenu }) =>
-      ["View Profile", "Send Email"].map((action, index) => (
-        <RowAction
-          actionString={action}
-          key={index}
-          close={() => closeMenu()}
-        />
-      )),
+    // renderRowActionMenuItems: ({ closeMenu }) => [
+    //   ["View Profile", "Send Email"].map((action, index) => (
+    //     <RowAction
+    //       actionString={action}
+    //       key={index}
+    //       close={() => closeMenu()}
+    //     />
+    //   )),
+    // ],
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
         variant="contained"
@@ -168,40 +151,13 @@ const Example = () => {
 
   return <MaterialReactTable table={table} />;
 };
-//CREATE hook (post new user to api)
-
-//READ hook (get users from api)
-
 const queryClient = new QueryClient();
 
-//Date Picker Imports - these should just be in your Context Provider
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { IClient } from "../../../../../types/client";
-import { useColums } from "./useColumns";
-import {
-  useCreateUser,
-  useDeleteUser,
-  useGetUsers,
-  useUpdateUser,
-} from "../../../../../hooks/useQury";
-import {
-  handleCreateUser,
-  handleSaveUser,
-  openDeleteConfirmModal,
-} from "./exampleForm";
-import TableDetail from "../../../../../components/Table/Detail";
-import TableActions from "../../../../../components/Table/TableActions";
-import RowAction from "../../../../../components/Table/RowAction";
-import TopToolbar from "../../../../../components/Table/topToolBar";
-// import AdapterDateFns from "@mui/lab/AdapterDateFns";
-const ExampleWithLocalizationProvider = () => (
-  //App.tsx or AppProviders file
+const ClientTableData = () => (
   <QueryClientProvider client={queryClient}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Example />
+      <TableRowAndColumn />
     </LocalizationProvider>
   </QueryClientProvider>
 );
-
-export default ExampleWithLocalizationProvider;
+export default ClientTableData;

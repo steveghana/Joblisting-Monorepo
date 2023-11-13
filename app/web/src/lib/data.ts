@@ -1,4 +1,4 @@
-import { IClient } from "../../../../../types/client";
+import { IDev } from "../types/client";
 
 export const projectRequirementFields = {
   technicalRequirements: "",
@@ -51,7 +51,7 @@ export const methodologyOptions = [
   { label: "Scrum", value: "scrum" },
   // Add more options as needed
 ];
-export const data: IClient[] = [
+export const data: IDev[] = [
   {
     firstName: "Dusty",
     lastName: "Kuvalis",

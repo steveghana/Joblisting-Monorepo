@@ -2,8 +2,8 @@ import * as React from "react";
 import { Button, FormControl, Typography, Box } from "@mui/material";
 
 import BackIcon from "@mui/icons-material/ArrowBack";
-import EmailField from "./../Fields/EmailField";
-import checkValid from "../../../lib/checkvalid";
+// import EmailField from "./../Fields/EmailField";
+import checkValid from "../../../utils/checkvalid";
 
 export interface ForgetProps {
   handleForget: (forgetVars: { email: string }) => any;
@@ -41,7 +41,7 @@ const Forget: React.FC<ForgetProps & NaviProps> = ({
           <b>Forget Your Password</b>
         </Typography>
         <br />
-        <EmailField {...{ email, setEmail, textFieldVariant, loading }} />
+        {/* <EmailField {...{ email, setEmail, textFieldVariant, loading }} /> */}
 
         <FormControl margin="none" fullWidth>
           <Button
