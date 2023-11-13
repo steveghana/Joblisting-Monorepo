@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 import { Component } from "react";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { Protect } from "../../../components/auth/requireAuth";
+import ExampleWithLocalizationProvider from "./Details/clientForm/Columns";
 const Clients = () => {
   const navigate = useNavigate();
   return (
@@ -24,8 +25,8 @@ const Clients = () => {
         text="Add new Client"
         onClick={() => navigate("/dashboard/customers/clients/add")}
       />
-
-      <Grid container>
+      <ExampleWithLocalizationProvider />
+      {/* <Grid container>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -45,11 +46,9 @@ const Clients = () => {
             >
               <ClientCard />
             </Grid>
-
-            /* Remember to replace the index with the client id */
           ))}
         </Grid>
-      </Grid>
+      </Grid> */}
     </MainCard>
   );
 };
