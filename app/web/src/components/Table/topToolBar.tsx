@@ -4,12 +4,12 @@ import { Box, Button } from "@mui/material";
 import { lighten } from "@mui/system";
 import {
   MRT_GlobalFilterTextField,
+  MaterialReactTable,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-import { MaterialReactTable } from "material-react-table";
 
 interface TopToolbarProps {
-  table: MaterialReactTable<any>; // Change 'any' to the type of your table data
+  table: any; // Change 'any' to the type of your table data
 }
 
 const TopToolbar: React.FC<TopToolbarProps> = ({ table }) => {

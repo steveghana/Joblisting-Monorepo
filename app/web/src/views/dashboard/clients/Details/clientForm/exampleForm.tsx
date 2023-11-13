@@ -8,7 +8,12 @@ import {
   MRT_TableInstance,
 } from "material-react-table";
 import { validateUser } from "../../../../../lib/tablevalidate";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  UseMutateAsyncFunction,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { IClient } from "../../../../../types/client";
 import { data } from "./data";
 
@@ -35,18 +40,25 @@ interface ExampleFormProps {
 //   deleteUser,
 //   table,
 // }) => {
-interface ICreate {
+type ITableProps = {
   item: {
     exitCreatingMode: () => void;
     row: MRT_Row<IClient>;
     table: MRT_TableInstance<IClient>;
-    values: Record<LiteralUnion<string, string>, any>;
+    values: Record<LiteralUnion<keyof IClient, string>, any>;
   };
+};
+interface IQuery {
+  creatUser: UseMutateAsyncFunction<void, Error, IClient, void>;
+  setValidationErrors: React.Dispatch<
+    React.SetStateAction<Record<string, string>>
+  >;
 }
+
 export const handleCreateUser = async (
-  { values, table }: any,
-  createUser,
-  setValidationErrors
+  { values, table }: ITableProps["item"],
+  createUser: IQuery["creatUser"],
+  setValidationErrors: IQuery["setValidationErrors"]
 ) => {
   const newValidationErrors = validateUser(values);
   if (Object.values(newValidationErrors).some((error) => error)) {
