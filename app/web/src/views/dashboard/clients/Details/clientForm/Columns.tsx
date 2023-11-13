@@ -27,7 +27,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  ListItemIcon,
   MenuItem,
   Tooltip,
   Typography,
@@ -126,74 +125,22 @@ const Example = () => {
         </DialogActions>
       </>
     ),
-    renderDetailPanel: ({ row }) => (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <img
-          alt="avatar"
-          height={200}
-          src={row.original.avatar}
-          loading="lazy"
-          style={{ borderRadius: "50%" }}
-        />
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h4">Signature Catch Phrase:</Typography>
-          <Typography variant="h1">
-            &quot;{row.original.signatureCatchPhrase}&quot;
-          </Typography>
-        </Box>
-      </Box>
-    ),
+    renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
-      <Box sx={{ display: "flex", gap: "1rem" }}>
-        <Tooltip title="Edit">
-          <IconButton onClick={() => table.setEditingRow(row)}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <IconButton
-            color="error"
-            onClick={() => openDeleteConfirmModal(row, updateUser)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <TableActions
+        row={row}
+        table={table}
+        onConfirmDelete={() => openDeleteConfirmModal(row, updateUser)}
+      />
     ),
-    renderRowActionMenuItems: ({ closeMenu }) => [
-      <MenuItem
-        key={0}
-        onClick={() => {
-          // View profile logic...
-          closeMenu();
-        }}
-        sx={{ m: 0 }}
-      >
-        <ListItemIcon>
-          <AccountCircle />
-        </ListItemIcon>
-        View Profile
-      </MenuItem>,
-      <MenuItem
-        key={1}
-        onClick={() => {
-          // Send email logic...
-          closeMenu();
-        }}
-        sx={{ m: 0 }}
-      >
-        <ListItemIcon>
-          <Send />
-        </ListItemIcon>
-        Send Email
-      </MenuItem>,
-    ],
+    renderRowActionMenuItems: ({ closeMenu }) =>
+      ["View Profile", "Send Email"].map((action, index) => (
+        <RowAction
+          actionString={action}
+          key={index}
+          close={() => closeMenu()}
+        />
+      )),
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
         variant="contained"
@@ -307,6 +254,9 @@ import {
   handleSaveUser,
   openDeleteConfirmModal,
 } from "./exampleForm";
+import TableDetail from "../../../../../components/Table/Detail";
+import TableActions from "../../../../../components/Table/TableActions";
+import RowAction from "../../../../../components/Table/RowAction";
 // import AdapterDateFns from "@mui/lab/AdapterDateFns";
 const ExampleWithLocalizationProvider = () => (
   //App.tsx or AppProviders file
