@@ -100,14 +100,14 @@ const MainRoutes = {
           children: [
             {
               path: "",
-              element: <Navigate to="details" replace />,
+              element: <Navigate to="details/:id" replace />,
             },
             {
-              path: "details",
+              path: "details/:id",
               element: <UserProfile />,
             },
             {
-              path: "settings",
+              path: "settings/:id",
               element: <UserSettings />,
             },
           ],
@@ -122,6 +122,7 @@ const MainRoutes = {
           path: "all",
           element: <AllDevs />,
         },
+
         {
           path: "interviews",
           element: <Interviews />,

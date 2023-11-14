@@ -17,13 +17,19 @@ import UploadTwoToneIcon from "@mui/icons-material/UploadTwoTone";
 import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone";
 import MyProfile from "../settings/MyProfile";
 import { Iuser } from "../../../../types/user";
+import { useNavigate } from "react-router";
 
 const ProfileCover = ({ user }: Iuser) => {
+  const navigate = useNavigate();
   return (
     <>
       <Box display="flex">
         <Tooltip arrow placement="top" title="Go back">
-          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+          <IconButton
+            color="primary"
+            onClick={() => navigate(-1)}
+            sx={{ p: 2, mr: 2 }}
+          >
             <ArrowBackTwoToneIcon />
           </IconButton>
         </Tooltip>

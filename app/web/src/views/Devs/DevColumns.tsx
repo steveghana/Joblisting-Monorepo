@@ -36,11 +36,13 @@ import { data } from "../../lib/data";
 import { IColumnType } from "../../types/table";
 import { IClient } from "../../types/client";
 import { IDev } from "../../types/devs";
+import { useNavigate } from "react-router";
 
 const DevTableRowAndColumn = () => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
+  const navigate = useNavigate();
   const columns = useDevsColums();
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
@@ -72,7 +74,9 @@ const DevTableRowAndColumn = () => {
     enableColumnPinning: true,
     enableFacetedValues: true,
     enableRowActions: true,
+
     enableRowSelection: true,
+    // enableRowSelection: (row: MRT_Row) => console.log('ite w'),
     initialState: { showColumnFilters: true, showGlobalFilter: true },
     paginationDisplayMode: "pages",
     positionToolbarAlertBanner: "bottom",
@@ -93,6 +97,18 @@ const DevTableRowAndColumn = () => {
       shape: "rounded",
       variant: "outlined",
     },
+    muiTableBodyCellProps: ({ row }) => ({
+      onClick: (event) => {
+        event.stopPropagation();
+        console.info(row.id);
+        navigate(`/management/profile/details/:${row.id}`);
+      },
+      sx: {
+        cursor: "pointer", //you might want to change the cursor too when adding an onClick
+      },
+    }),
+
+    // onRowSelectionChange: () => console.log("selected"),
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
       handleCreate(item, createUser, setValidationErrors),
@@ -106,6 +122,7 @@ const DevTableRowAndColumn = () => {
         table={table}
       />
     ),
+
     // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
       <TableActions
@@ -114,6 +131,7 @@ const DevTableRowAndColumn = () => {
         onConfirmDelete={() => openDeleteConfirmModal(row, updateUser)}
       />
     ),
+
     // renderRowActionMenuItems: ({ closeMenu }) => [
     //   ["View Profile", "Send Email"].map((action, index) => (
     //     <RowAction
