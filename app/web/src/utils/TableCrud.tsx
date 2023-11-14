@@ -25,7 +25,7 @@ interface ExampleFormProps {
   >;
   createUser: any; // Change 'any' to the type of your createUser export function
   isCreatingUser: boolean;
-  updateUser: any; // Change 'any' to the type of your updateUser export function
+  updateClient: any; // Change 'any' to the type of your updateClient export function
   isUpdatingUser: boolean;
   deleteUser: any; // Change 'any' to the type of your deleteUser export function
   table: any; // Change 'any' to the type of your table data
@@ -36,7 +36,7 @@ interface ExampleFormProps {
 //   setValidationErrors,
 //   createUser,
 //   isCreatingUser,
-//   updateUser,
+//   updateClient,
 //   isUpdatingUser,
 //   deleteUser,
 //   table,
@@ -56,15 +56,15 @@ type ITableProps = {
   };
 };
 interface IQuery {
-  creatUser: UseMutateAsyncFunction<void, Error, IClient, void>;
+  creatClient: UseMutateAsyncFunction<void, Error, IClient, void>;
   setValidationErrors: React.Dispatch<
     React.SetStateAction<Record<string, string>>
   >;
 }
 
-export const handleCreateUser = async (
+export const handleCreateClient = async (
   { values, table }: ITableProps["item"],
-  createUser: IQuery["creatUser"],
+  createClient: IQuery["creatClient"],
   setValidationErrors: IQuery["setValidationErrors"]
 ) => {
   const newValidationErrors = validateUser(values);
@@ -73,13 +73,13 @@ export const handleCreateUser = async (
     return;
   }
   setValidationErrors({});
-  await createUser(values as any);
+  await createClient(values as any);
   table.setCreatingRow(null);
 };
 
-export const handleSaveUser = async (
+export const handleSaveClient = async (
   { values, table }: ITableProps["item"],
-  updateUser,
+  updateClient,
   setValidationErrors
 ) => {
   const newValidationErrors = validateUser(values);
@@ -88,7 +88,7 @@ export const handleSaveUser = async (
     return;
   }
   setValidationErrors({});
-  await updateUser(values);
+  await updateClient(values);
   table.setEditingRow(null);
 };
 

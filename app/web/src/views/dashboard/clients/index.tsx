@@ -16,7 +16,7 @@ import { useNavigate } from "react-router";
 import { Component } from "react";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { Protect } from "../../../components/auth/requireAuth";
-import ExampleWithLocalizationProvider from "./Details/Columns";
+import ExampleWithLocalizationProvider from "./Details/ClientColumns";
 const Clients = () => {
   const navigate = useNavigate();
   return (

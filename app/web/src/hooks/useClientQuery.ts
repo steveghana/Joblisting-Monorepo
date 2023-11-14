@@ -5,8 +5,9 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 // import { IClient } from "../types/devs";
 import { data } from "../lib/data";
 import { IClient } from "../types/client";
+import { clientData } from "../lib/clientData";
 
-export function useCreateUser() {
+export function useCreateClient() {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -30,18 +31,18 @@ export function useCreateUser() {
   });
 }
 
-export function useGetUsers() {
+export function useGetClients() {
   return useQuery<IClient[]>({
     queryKey: ["users"],
     queryFn: async () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      return Promise.resolve(data);
+      return Promise.resolve(clientData);
     },
     refetchOnWindowFocus: false,
   });
 }
 
-export function useUpdateUser() {
+export function useUpdateClient() {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -61,7 +62,7 @@ export function useUpdateUser() {
   });
 }
 
-export function useDeleteUser() {
+export function useDeleteClient() {
   const queryClient = useQueryClient();
 
   return useMutation({

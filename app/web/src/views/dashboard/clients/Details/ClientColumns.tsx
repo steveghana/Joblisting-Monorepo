@@ -7,15 +7,15 @@ import {
   useDevsColums,
 } from "../../../../hooks/useColumns";
 import {
-  useCreateUser,
-  useDeleteUser,
-  useGetUsers,
-  useUpdateUser,
-} from "../../../../hooks/useQury";
+  useCreateClient,
+  useDeleteClient,
+  useGetClients,
+  useUpdateClient,
+} from "../../../../hooks/useClientQuery";
 import {
   IColumnTypeString,
-  handleCreateUser,
-  handleSaveUser,
+  handleCreateClient,
+  handleSaveClient,
   openDeleteConfirmModal,
 } from "../../../../utils/TableCrud";
 import TableDetail from "../../../../components/Table/Detail";
@@ -44,19 +44,19 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
   >({});
   const columns = useClientColums();
   const { mutateAsync: createUser, isPending: isCreatingUser } =
-    useCreateUser();
+    useCreateClient();
   //call READ hook
   const {
     data: fetchedUsers = [],
     isError: isLoadingUsersError,
     isFetching: isFetchingUsers,
     isLoading: isLoadingUsers,
-  } = useGetUsers();
+  } = useGetClients();
   const { mutateAsync: updateUser, isPending: isUpdatingUser } =
-    useUpdateUser();
+    useUpdateClient();
   //call DELETE hook
   const { mutateAsync: deleteUser, isPending: isDeletingUser } =
-    useDeleteUser();
+    useDeleteClient();
   const tableData = {
     Dev: data,
     Client: clientData,
@@ -99,10 +99,10 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
     },
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
-      handleCreateUser(item, createUser, setValidationErrors),
+      handleCreateClient(item, createUser, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: (item) =>
-      handleSaveUser(item, updateUser, setValidationErrors),
+      handleSaveClient(item, updateUser, setValidationErrors),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CreatRow
         internalEditComponents={internalEditComponents}
