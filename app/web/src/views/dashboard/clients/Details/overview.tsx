@@ -11,15 +11,40 @@ import {
   ListItemText,
   ListItemAvatar,
   Divider,
+  Tooltip,
+  IconButton,
+  Button,
 } from "@mui/material";
 import companyInfo from "../../../../lib/data.json";
 import { ICompany } from "../../../../types/company";
 import { Protect } from "../../../../components/auth/requireAuth";
+import { useNavigate } from "react-router";
+import { ArrowBackTwoTone } from "@mui/icons-material";
+import NewRoleForm from "./RoleForm";
 
 const ClientDetails = () => {
   const { clientDetails } = companyInfo as ICompany;
+  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Container maxWidth="lg">
+      <Tooltip arrow placement="top" title="Go back">
+        <IconButton
+          color="primary"
+          onClick={() => navigate(-1)}
+          sx={{ p: 2, mr: 2 }}
+        >
+          <ArrowBackTwoTone />
+        </IconButton>
+      </Tooltip>
+
       <Typography variant="h4" component="h1" gutterBottom>
         Client Details
       </Typography>
@@ -44,6 +69,18 @@ const ClientDetails = () => {
         <Grid item xs={12} sm={8}>
           <Paper elevation={3}>
             <Box p={2}>
+              <Button
+                sx={{ my: 2 }}
+                onClick={handleClickOpen}
+                variant="contained"
+              >
+                Add new Role
+              </Button>
+              <NewRoleForm
+                onClose={handleClose}
+                // onOPen={handleClickOpen}
+                open={open}
+              />
               <Typography variant="h5" component="h2" gutterBottom>
                 Roles Available
               </Typography>

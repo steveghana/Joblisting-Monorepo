@@ -44,9 +44,4 @@ const ProfileCover = ({ user }: Iuser) => {
   );
 };
 
-ProfileCover.propTypes = {
-  // @ts-ignore
-  user: PropTypes.object.isRequired,
-};
-
 export default ProfileCover;

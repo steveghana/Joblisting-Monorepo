@@ -29,11 +29,14 @@ import { clientData } from "../../../../lib/clientData";
 import { data } from "../../../../lib/data";
 import { IColumnType } from "../../../../types/table";
 import { IClient } from "../../../../types/client";
+import { useNavigate } from "react-router";
 
 const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
+  const navigate = useNavigate();
+
   const columns = useClientColums();
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
@@ -89,6 +92,16 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
       shape: "rounded",
       variant: "outlined",
     },
+    muiTableBodyCellProps: ({ row }) => ({
+      onClick: (event) => {
+        event.stopPropagation();
+        console.info(row.id);
+        navigate(`/dashboard/customers/clients/${row.id}`);
+      },
+      sx: {
+        cursor: "pointer", //you might want to change the cursor too when adding an onClick
+      },
+    }),
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
       handleCreate(item, createUser, setValidationErrors),
@@ -148,7 +161,7 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
 };
 const queryClient = new QueryClient();
 
-const ClientTableData = ({ columnType }: IColumnType) => (
+const ClientTableData = () => (
   <QueryClientProvider client={queryClient}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ClientTableRowAndColumn columnType={"Client"} />
