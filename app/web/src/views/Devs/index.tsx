@@ -6,6 +6,7 @@ import { Grid, Container, Button } from "@mui/material";
 import RecentOrders from "../../content/applications/Transactions/RecentOrders";
 import { Protect } from "../../components/auth/requireAuth";
 import MainCard from "../../components/MainCard";
+import DevTableData from "./DevColumns";
 
 function ApplicationsTransactions() {
   return (
@@ -23,7 +24,8 @@ function ApplicationsTransactions() {
             spacing={3}
           >
             <Grid item xs={12}>
-              <RecentOrders />
+              <DevTableData />
+              {/* <RecentOrders /> */}
             </Grid>
           </Grid>
         </Container>

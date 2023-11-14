@@ -41,45 +41,30 @@ interface ExampleFormProps {
 //   deleteUser,
 //   table,
 // }) => {
-export type IColumnTypeString = {
-  Client: IClient;
-  Dev: IDev;
-};
+// export type IColumnTypeString = {
+//   Client: IClient;
+//   Dev: IDev;
+// };
 
-type ITableProps = {
-  item: {
-    exitCreatingMode?: () => void;
-    exitEditingMode?: () => void;
-    row: MRT_Row<IClient>;
-    table: MRT_TableInstance<IClient>;
-    values: LiteralUnion<keyof IClient, any>; // Use keyof IT to get the keys of IClient or IDev
-  };
-};
-interface IQuery {
-  creatClient: UseMutateAsyncFunction<void, Error, IClient, void>;
-  setValidationErrors: React.Dispatch<
-    React.SetStateAction<Record<string, string>>
-  >;
-}
+// type ITableProps = {
+//   item: {
+//     exitCreatingMode?: () => void;
+//     exitEditingMode?: () => void;
+//     row: MRT_Row<IClient>;
+//     table: MRT_TableInstance<IClient>;
+//     values: LiteralUnion<keyof IClient, any>; // Use keyof IT to get the keys of IClient or IDev
+//   };
+// };
+// interface IQuery {
+//   creatClient: UseMutateAsyncFunction<void, Error, IClient, void>;
+//   setValidationErrors: React.Dispatch<
+//     React.SetStateAction<Record<string, string>>
+//   >;
+// }
 
-export const handleCreateClient = async (
-  { values, table }: ITableProps["item"],
-  createClient: IQuery["creatClient"],
-  setValidationErrors: IQuery["setValidationErrors"]
-) => {
-  const newValidationErrors = validateUser(values);
-  if (Object.values(newValidationErrors).some((error) => error)) {
-    setValidationErrors(newValidationErrors);
-    return;
-  }
-  setValidationErrors({});
-  await createClient(values as any);
-  table.setCreatingRow(null);
-};
-
-export const handleSaveClient = async (
-  { values, table }: ITableProps["item"],
-  updateClient,
+export const handleCreate = async (
+  { values, table },
+  create,
   setValidationErrors
 ) => {
   const newValidationErrors = validateUser(values);
@@ -88,7 +73,22 @@ export const handleSaveClient = async (
     return;
   }
   setValidationErrors({});
-  await updateClient(values);
+  await create(values as any);
+  table.setCreatingRow(null);
+};
+
+export const handleSave = async (
+  { values, table },
+  update,
+  setValidationErrors
+) => {
+  const newValidationErrors = validateUser(values);
+  if (Object.values(newValidationErrors).some((error) => error)) {
+    setValidationErrors(newValidationErrors);
+    return;
+  }
+  setValidationErrors({});
+  await update(values);
   table.setEditingRow(null);
 };
 

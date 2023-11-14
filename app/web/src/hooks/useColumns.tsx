@@ -128,6 +128,13 @@ export const useDevsColums = () => {
             header: "Email",
             size: 300,
           },
+          {
+            accessorKey: "projectName", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: "Project Name",
+            size: 300,
+          },
         ],
       },
       {

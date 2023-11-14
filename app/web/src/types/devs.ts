@@ -5,6 +5,6 @@ export type IDev = {
   jobTitle: string;
   salary: number;
   startDate: string;
-  signatureCatchPhrase: string;
+  projectName: string;
   avatar: string;
 };
