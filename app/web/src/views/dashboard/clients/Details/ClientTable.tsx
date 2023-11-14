@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 const ClientTable = () => (
   <QueryClientProvider client={queryClient}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <ClientTableData />
+      <ClientTableData columnType="Client" />
     </LocalizationProvider>
   </QueryClientProvider>
 );

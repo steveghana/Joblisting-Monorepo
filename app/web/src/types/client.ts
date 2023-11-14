@@ -1,10 +1,10 @@
-export type IDev = {
+export interface IClient {
   firstName: string;
-  lastName: string;
-  email: string;
-  jobTitle: string;
-  salary: number;
-  startDate: string;
-  signatureCatchPhrase: string;
   avatar: string;
-};
+  companyName: string;
+  email: string;
+  lastName: string;
+  phoneNumber: string;
+  projectTitle: string;
+  startDate: string;
+}

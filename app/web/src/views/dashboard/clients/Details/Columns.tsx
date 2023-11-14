@@ -1,7 +1,11 @@
 import React, { useMemo } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useColums } from "../../../../hooks/useColumns";
+import {
+  useClientColums,
+  useColumns,
+  useDevsColums,
+} from "../../../../hooks/useColumns";
 import {
   useCreateUser,
   useDeleteUser,
@@ -9,6 +13,7 @@ import {
   useUpdateUser,
 } from "../../../../hooks/useQury";
 import {
+  IColumnTypeString,
   handleCreateUser,
   handleSaveUser,
   openDeleteConfirmModal,
@@ -20,30 +25,24 @@ import TopToolbar from "../../../../components/Table/topToolBar";
 import CreatRow from "../../../../components/Table/CreatRow";
 //MRT Imports
 import {
+  MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //Material UI Imports
 import { Button } from "@mui/material";
+import { clientData } from "../../../../lib/clientData";
 import { data } from "../../../../lib/data";
+import { IColumnType } from "../../../../types/table";
+import { IClient } from "../../../../types/client";
+import { IDev } from "../../../../types/devs";
 
-export type Employee = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  jobTitle: string;
-  salary: number;
-  startDate: string;
-  signatureCatchPhrase: string;
-  avatar: string;
-};
-
-const TableRowAndColumn = () => {
+const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
-  const columns = useColums();
+  const columns = useClientColums();
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateUser();
   //call READ hook
@@ -58,12 +57,16 @@ const TableRowAndColumn = () => {
   //call DELETE hook
   const { mutateAsync: deleteUser, isPending: isDeletingUser } =
     useDeleteUser();
-
+  const tableData = {
+    Dev: data,
+    Client: clientData,
+  };
   //CREATE action
 
   const table = useMaterialReactTable({
     columns,
-    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    // data,
+    data: clientData, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableColumnFilterModes: true,
     createDisplayMode: "modal", //default ('row', and 'custom' are also available)
     editDisplayMode: "modal", //default ('row', 'cell', 'table', and 'custom' are also available)
@@ -153,10 +156,10 @@ const TableRowAndColumn = () => {
 };
 const queryClient = new QueryClient();
 
-const ClientTableData = () => (
+const ClientTableData = ({ columnType }: IColumnType) => (
   <QueryClientProvider client={queryClient}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <TableRowAndColumn />
+      <ClientTableRowAndColumn columnType={"Client"} />
     </LocalizationProvider>
   </QueryClientProvider>
 );

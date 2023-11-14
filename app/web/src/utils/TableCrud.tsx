@@ -14,8 +14,9 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { IDev } from "../types/client";
+import { IDev } from "../types/devs";
 import { data } from "../lib/data";
+import { IClient } from "../types/client";
 
 interface ExampleFormProps {
   validationErrors: Record<string, string | undefined>;
@@ -40,16 +41,22 @@ interface ExampleFormProps {
 //   deleteUser,
 //   table,
 // }) => {
+export type IColumnTypeString = {
+  Client: IClient;
+  Dev: IDev;
+};
+
 type ITableProps = {
   item: {
-    exitCreatingMode: () => void;
-    row: MRT_Row<IDev>;
-    table: MRT_TableInstance<IDev>;
-    values: Record<LiteralUnion<keyof IDev, string>, any>;
+    exitCreatingMode?: () => void;
+    exitEditingMode?: () => void;
+    row: MRT_Row<IClient>;
+    table: MRT_TableInstance<IClient>;
+    values: LiteralUnion<keyof IClient, any>; // Use keyof IT to get the keys of IClient or IDev
   };
 };
 interface IQuery {
-  creatUser: UseMutateAsyncFunction<void, Error, IDev, void>;
+  creatUser: UseMutateAsyncFunction<void, Error, IClient, void>;
   setValidationErrors: React.Dispatch<
     React.SetStateAction<Record<string, string>>
   >;
@@ -66,12 +73,12 @@ export const handleCreateUser = async (
     return;
   }
   setValidationErrors({});
-  await createUser(values);
+  await createUser(values as any);
   table.setCreatingRow(null);
 };
 
 export const handleSaveUser = async (
-  { values, table }: any,
+  { values, table }: ITableProps["item"],
   updateUser,
   setValidationErrors
 ) => {

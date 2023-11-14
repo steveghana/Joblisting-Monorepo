@@ -1,4 +1,4 @@
-import { IDev } from "../types/client";
+import { IDev } from "../types/devs";
 
 // validation.ts
 export const validateRequired = (value: string) => !!value.length;

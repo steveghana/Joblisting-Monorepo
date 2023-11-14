@@ -1,14 +1,14 @@
 import React from "react";
-import { IDev } from "../../types/client";
+import { IDev } from "../../types/devs";
 import { MRT_Row, MRT_TableInstance } from "material-react-table";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-interface IActions {
-  row: MRT_Row<IDev>;
-  table: MRT_TableInstance<IDev>;
+interface IActions<T> {
+  row: MRT_Row<T>;
+  table: MRT_TableInstance<T>;
   onConfirmDelete: () => void;
 }
-function TableActions({ row, table, onConfirmDelete }: IActions) {
+function TableActions<T>({ row, table, onConfirmDelete }: IActions<T>) {
   return (
     <Box sx={{ display: "flex", gap: "1rem" }}>
       <Tooltip title="Edit">

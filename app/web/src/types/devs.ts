@@ -1,7 +1,4 @@
-export type IColumnType = {
-  columnType: "Dev" | "Client";
-};
-export type Employee = {
+export type IDev = {
   firstName: string;
   lastName: string;
   email: string;

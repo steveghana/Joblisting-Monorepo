@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { MRT_Row } from "material-react-table";
 import React from "react";
-import { IDev } from "../../types/client";
+import { IDev } from "../../types/devs";
 
 function TableDetail({ row }: { row: MRT_Row<IDev> }) {
   return (

@@ -5,13 +5,13 @@ import {
   MRT_TableInstance,
 } from "material-react-table";
 import React from "react";
-import { IDev } from "../../types/client";
-type ICreateRow = {
-  table: MRT_TableInstance<IDev>;
-  row: MRT_Row<IDev>;
+import { IDev } from "../../types/devs";
+type ICreateRow<T> = {
+  table: MRT_TableInstance<T>;
+  row: MRT_Row<T>;
   internalEditComponents: React.ReactNode[];
 };
-function CreatRow({ table, row, internalEditComponents }: ICreateRow) {
+function CreatRow<T>({ table, row, internalEditComponents }: ICreateRow<T>) {
   return (
     <>
       <DialogTitle variant="h3">Create New User</DialogTitle>
