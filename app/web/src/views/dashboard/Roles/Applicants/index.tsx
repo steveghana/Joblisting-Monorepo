@@ -5,24 +5,24 @@ import {
   useClientColums,
   useColumns,
   useDevsColums,
-} from "../../hooks/useColumns";
+} from "../../../../hooks/useColumns";
 import {
   useCreateClient,
   useDeleteClient,
   useGetClients,
   useUpdateClient,
-} from "../../hooks/useClientQuery";
+} from "../../../../hooks/useClientQuery";
 import {
   // IColumnTypeString,
   handleCreate,
   handleSave,
   openDeleteConfirmModal,
-} from "../../utils/ClientTableCrud";
-import TableDetail from "../../components/Table/Detail";
-import TableActions from "../../components/Table/TableActions";
-import RowAction from "../../components/Table/RowAction";
-import TopToolbar from "../../components/Table/topToolBar";
-import CreatRow from "../../components/Table/CreatRow";
+} from "../../../../utils/ClientTableCrud";
+import TableDetail from "../../../../components/Table/Detail";
+import TableActions from "../../../../components/Table/TableActions";
+import RowAction from "../../../../components/Table/RowAction";
+import TopToolbar from "../../../../components/Table/topToolBar";
+import CreatRow from "../../../../components/Table/CreatRow";
 //MRT Imports
 import {
   MRT_ColumnDef,
@@ -32,14 +32,14 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //Material UI Imports
 import { Button } from "@mui/material";
-import { data } from "../../lib/data";
-import { IColumnType } from "../../types/table";
-import { IClient } from "../../types/client";
-import { IDev } from "../../types/devs";
+import { data } from "../../../../lib/data";
+import { IColumnType } from "../../../../types/table";
+import { IClient } from "../../../../types/client";
+import { IDev } from "../../../../types/devs";
 import { useNavigate } from "react-router";
-import { getDefaultMRTOptions } from "../../components/Table/DefaultColumnOpt";
+import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumnOpt";
 
-const DevTableData = () => {
+const ApplicantTable = () => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -79,19 +79,6 @@ const DevTableData = () => {
       size: "small",
       variant: "outlined",
     },
-
-    muiTableBodyCellProps: ({ row }) => ({
-      onClick: (event) => {
-        event.stopPropagation();
-        console.info(row.id);
-        navigate(`/management/profile/details/:${row.id}`);
-      },
-      sx: {
-        cursor: "pointer", //you might want to change the cursor too when adding an onClick
-      },
-    }),
-
-    // onRowSelectionChange: () => console.log("selected"),
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
       handleCreate(item, createUser, setValidationErrors),
@@ -106,7 +93,7 @@ const DevTableData = () => {
       />
     ),
 
-    // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
+    renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
       <TableActions
         row={row}
@@ -151,5 +138,4 @@ const DevTableData = () => {
 
   return <MaterialReactTable table={table} />;
 };
-
-export default DevTableData;
+export default ApplicantTable;

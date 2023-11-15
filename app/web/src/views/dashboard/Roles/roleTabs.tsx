@@ -15,6 +15,7 @@ import RoleDetails from "./roledetails";
 import { Close } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
 import JobsPage from "./JobsTab";
+import ApplicantTable from "./Applicants";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -135,6 +136,7 @@ const RoleTabs = (props: IRoleTabs) => {
                   <RoleDetails setCurrentTab={setCurrentTab} />
                 )}
                 {currentTab === "jobs" && <JobsPage />}
+                {currentTab === "applicants" && <ApplicantTable />}
                 {/* {currentTab === "notifications" && <NotificationsTab />} */}
               </Grid>
             </Grid>

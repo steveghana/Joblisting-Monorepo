@@ -83,13 +83,12 @@ const JobsList: React.FC<JobsListProps> = ({ jobs }) => {
                   <Typography>{job.joblocation}</Typography>
                   <Dot />
                   <Typography fontWeight={400} variant="subtitle1">
-                    {job.location.country}
+                    {job.location.country.join(" - ")}
                   </Typography>
                   <Dot />
                   <Typography fontWeight={400} variant="subtitle1">
                     {job.location.continent}
                   </Typography>
-                  <Dot />
                 </Box>
                 <Typography>{job.salary}</Typography>
               </Box>

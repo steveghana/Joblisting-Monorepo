@@ -30,8 +30,9 @@ import { data } from "../../../../lib/data";
 import { IColumnType } from "../../../../types/table";
 import { IClient } from "../../../../types/client";
 import { useNavigate } from "react-router";
+import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumnOpt";
 
-const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
+const ClientTableData = () => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -52,29 +53,15 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
   //call DELETE hook
   const { mutateAsync: deleteUser, isPending: isDeletingUser } =
     useDeleteClient();
-  const tableData = {
-    Dev: data,
-    Client: clientData,
-  };
-  //CREATE action
+
+  const defaultMRTOptions = getDefaultMRTOptions<IClient>();
 
   const table = useMaterialReactTable({
+    ...defaultMRTOptions,
     columns,
     // data,
     data: clientData, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-    enableColumnFilterModes: true,
-    createDisplayMode: "modal", //default ('row', and 'custom' are also available)
-    editDisplayMode: "modal", //default ('row', 'cell', 'table', and 'custom' are also available)
-    enableEditing: true,
-    enableColumnOrdering: true,
-    enableGrouping: true,
-    enableColumnPinning: true,
-    enableFacetedValues: true,
-    enableRowActions: true,
-    enableRowSelection: true,
-    initialState: { showColumnFilters: true, showGlobalFilter: true },
-    paginationDisplayMode: "pages",
-    positionToolbarAlertBanner: "bottom",
+
     getRowId: (row) => row.email,
     muiToolbarAlertBannerProps: isLoadingUsersError
       ? {
@@ -82,16 +69,7 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
           children: "Error loading data",
         }
       : undefined,
-    muiSearchTextFieldProps: {
-      size: "small",
-      variant: "outlined",
-    },
-    muiPaginationProps: {
-      color: "secondary",
-      rowsPerPageOptions: [10, 20, 30],
-      shape: "rounded",
-      variant: "outlined",
-    },
+
     muiTableBodyCellProps: ({ row }) => ({
       onClick: (event) => {
         event.stopPropagation();
@@ -159,13 +137,5 @@ const ClientTableRowAndColumn = ({ columnType }: IColumnType) => {
 
   return <MaterialReactTable table={table} />;
 };
-const queryClient = new QueryClient();
 
-const ClientTableData = () => (
-  <QueryClientProvider client={queryClient}>
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <ClientTableRowAndColumn columnType={"Client"} />
-    </LocalizationProvider>
-  </QueryClientProvider>
-);
 export default ClientTableData;

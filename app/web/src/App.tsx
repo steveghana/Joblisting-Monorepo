@@ -19,9 +19,14 @@ import { PureLightTheme } from "./themes/schemes/PureLightTheme";
 // ==============================|| APP ||============================== //
 import Status404 from "./views/status/Status404";
 import Status500 from "./views/status/Status500";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const App = () => {
   const customization = useSelector((state: any) => state.customization);
+  const queryClient = new QueryClient();
+
   function fallbackRender({ error, resetErrorBoundary }) {
     // Call resetErrorBoundary() to reset the error boundary and retry the render.
     console.log(error.message);
@@ -39,14 +44,18 @@ const App = () => {
         // Reset the state of your app so the error doesn't happen again
       }}
     >
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={PureLightTheme}>
-          <CssBaseline />
-          <NavigationScroll>
-            <Routes />
-          </NavigationScroll>
-        </ThemeProvider>
-      </StyledEngineProvider>
+      <QueryClientProvider client={queryClient}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={PureLightTheme}>
+              <CssBaseline />
+              <NavigationScroll>
+                <Routes />
+              </NavigationScroll>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </LocalizationProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 };
