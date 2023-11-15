@@ -83,7 +83,10 @@ const RoleDetails = (props: IRoleDetails) => {
                 </Typography>
                 <Box display={"flex"} alignItems={"center"} gap={0.4}>
                   <Typography fontWeight={400} variant="subtitle1">
-                    {job.location}
+                    {job.location.continent}
+                  </Typography>
+                  <Typography fontWeight={400} variant="subtitle1">
+                    {job.location.country}
                   </Typography>
                   <Dot />
                   <Typography>{job.joblocation}</Typography>
