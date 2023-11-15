@@ -8,7 +8,7 @@ import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
 import ClientDetails from "../views/dashboard/clients/Details/overview";
-import AddClient from "../views/dashboard/clients/Details";
+import AddClient from "../views/dashboard/clients/Details/clientForm";
 import Status404 from "../views/status/Status404";
 
 // dashboard routing
@@ -22,7 +22,7 @@ const AllDevs = Loadable(lazy(() => import("../views/Devs")));
 const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
 const Roles = Loadable(lazy(() => import("../views/dashboard/Roles")));
 const Interviews = Loadable(lazy(() => import("../views/Devs/Interviews")));
-const Hub = Loadable(lazy(() => import("../views/Devs/DevHub")));
+const Hub = Loadable(lazy(() => import("../views/Devs/devHub")));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import("../views/HR")));

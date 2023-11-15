@@ -55,6 +55,87 @@ const TeamMember: React.FC<TeamMemberProps> = ({ name, role, profile }) => {
   );
 };
 
+const ClientDetailsPage: React.FC<{ data: /* FormDataState */ any }> = ({
+  data,
+}) => {
+  const paperStyle: React.CSSProperties = {
+    padding: "16px",
+    marginBottom: "16px",
+  };
+
+  return (
+    <Container>
+      <Typography variant="h4" align="center" style={{ marginBottom: "16px" }}>
+        Client Details
+      </Typography>
+
+      {/* Client Info */}
+      <Paper elevation={3} style={paperStyle}>
+        <Typography variant="h5" gutterBottom>
+          Client Information
+        </Typography>
+        <Divider />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle1">
+              <strong>Name:</strong> {data["Client info"].name}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle1">
+              <strong>Email:</strong> {data["Client info"].email}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle1">
+              <strong>Phone Number:</strong> {data["Client info"].phoneNumber}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle1">
+              <strong>Company Name:</strong> {data["Client info"].companyName}
+            </Typography>
+          </Grid>
+          {/* Add other fields as needed */}
+        </Grid>
+      </Paper>
+
+      {/* Project Details */}
+      <Paper elevation={3} style={paperStyle}>
+        <Typography variant="h5" gutterBottom>
+          Project Details
+        </Typography>
+        <Divider />
+        <Grid container spacing={2}>
+          {/* Add fields from Project Details */}
+        </Grid>
+      </Paper>
+
+      {/* Additional Data */}
+      <Paper elevation={3} style={paperStyle}>
+        <Typography variant="h5" gutterBottom>
+          Additional Data
+        </Typography>
+        <Divider />
+        <Grid container spacing={2}>
+          {/* Add fields from Additional Data */}
+        </Grid>
+      </Paper>
+
+      {/* Communication Type */}
+      <Paper elevation={3} style={paperStyle}>
+        <Typography variant="h5" gutterBottom>
+          Communication Type
+        </Typography>
+        <Divider />
+        <Grid container spacing={2}>
+          {/* Add fields from Communication Type */}
+        </Grid>
+      </Paper>
+    </Container>
+  );
+};
+
 const ClientDetails: React.FC = () => {
   return (
     <Container>

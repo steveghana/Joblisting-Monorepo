@@ -1,15 +1,15 @@
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import TableRowAndColumns from "./ClientColumns";
+import TableRowAndColumns from "./clientColumns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import ClientTableData from "./ClientColumns";
+import ClientTableData from "./clientColumns";
 
 const queryClient = new QueryClient();
 
 const ClientTable = () => (
   <QueryClientProvider client={queryClient}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <ClientTableData columnType="Client" />
+      <ClientTableData />
     </LocalizationProvider>
   </QueryClientProvider>
 );

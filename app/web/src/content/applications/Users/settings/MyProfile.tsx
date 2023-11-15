@@ -33,7 +33,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DropZone from "./DropZone";
 import FileUpload from "./FileUpload";
 import CountrySelector from "./CountrySelector";
-import EditorToolbar from "./EditorToolbar";
+import EditorToolbar, { LargeTextField } from "./EditorToolbar";
+
 import { Iuser } from "../../../../types/user";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { themeTypography } from "../../../../themes/schemes/typography";
@@ -45,7 +46,7 @@ export default function MyProfile(...others) {
   const experience = [3, 4, 5, 6, 7];
 
   const md = useMediaQuery(theme.breakpoints.down("sm"));
-  const tab = useMediaQuery(theme.breakpoints.only("md"));
+  // const tab = useMediaQuery(theme.breakpoints.only("md"));
 
   return (
     <Box
@@ -211,7 +212,7 @@ export default function MyProfile(...others) {
                           onChange={handleChange}
                           type="email"
                           defaultValue="siriwatk@test.com"
-                          sx={{ ...themeTypography.customInput, flexGrow: 1 }}
+                          // sx={{ ...themeTypography.customInput, flexGrow: 1 }}
                           size="sm"
                           startDecorator={<EmailRoundedIcon />}
                         />
@@ -273,16 +274,7 @@ export default function MyProfile(...others) {
                 </Box>
                 <Divider />
                 <Stack spacing={2} sx={{ my: 1 }}>
-                  <EditorToolbar />
-                  <Textarea
-                    size="sm"
-                    minRows={4}
-                    sx={{ mt: 1.5 }}
-                    defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
-                  />
-                  <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
-                    275 characters left
-                  </FormHelperText>
+                  <LargeTextField />
                 </Stack>
                 <CardOverflow
                   sx={{ borderTop: "1px solid", borderColor: "divider" }}

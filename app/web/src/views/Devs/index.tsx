@@ -6,7 +6,7 @@ import { Grid, Container, Button } from "@mui/material";
 import RecentOrders from "../../content/applications/Transactions/RecentOrders";
 import { Protect } from "../../components/auth/requireAuth";
 import MainCard from "../../components/MainCard";
-import DevTableData from "./DevColumns";
+import DevTableData from "./devColumns";
 
 function ApplicationsTransactions() {
   return (

@@ -66,7 +66,7 @@ function RecentActivity() {
           <FavoriteTwoToneIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
-          <Typography variant="h3">New clients</Typography>
+          <Typography variant="h3">Connected clients</Typography>
 
           <Box pt={2} display="flex">
             <Box pr={8}>

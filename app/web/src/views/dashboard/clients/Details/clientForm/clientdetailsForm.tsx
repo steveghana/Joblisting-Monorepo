@@ -23,6 +23,7 @@ import {
   ThumbDownOffAlt,
   ThumbUp,
 } from "@mui/icons-material";
+import ContrySelector from "../../../../../content/applications/Users/settings/CountrySelector";
 
 // Validation schema for Project Info
 const projectInfoValidationSchema = Yup.object().shape({
@@ -81,6 +82,10 @@ const ProjectInfo = ({ onNext }) => {
                   margin="normal"
                 />
               ))}
+              <Box my={1}>
+                <ContrySelector />
+              </Box>
+              {/* <Country */}
               <FormControl>
                 <FormLabel component="legend">
                   How many people are employed at the company?
@@ -117,7 +122,6 @@ const ProjectInfo = ({ onNext }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-
               <FormControl fullWidth>
                 <Field
                   name="projectTitle"
@@ -134,7 +138,6 @@ const ProjectInfo = ({ onNext }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-
               <FormControl fullWidth>
                 <Field
                   name="description"
@@ -153,7 +156,6 @@ const ProjectInfo = ({ onNext }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-
               <CustomButton
                 text="Next"
                 type="submit"

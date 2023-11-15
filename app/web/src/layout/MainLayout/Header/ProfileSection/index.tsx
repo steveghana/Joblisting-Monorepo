@@ -303,7 +303,7 @@ const ProfileSection = () => {
                             handleListItemClick(
                               event,
                               0,
-                              "management/profile/settings"
+                              `management/profile/settings/${1}`
                             )
                           }
                         >

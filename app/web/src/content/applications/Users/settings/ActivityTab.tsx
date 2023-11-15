@@ -40,7 +40,7 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(
     // },
   })
 );
-function ActivityTab() {
+function ActivityTab({ insettings }: { insettings?: boolean }) {
   const [isdev, setisdev] = useState(true);
   const devSkills = [
     "React.js",
@@ -60,25 +60,32 @@ function ActivityTab() {
         <Grid item xs={12} sm={12} lg={4} mr={2}>
           <SubCard>
             <Grid container direction="column" spacing={1}>
-              <Grid className="avatar" display={"flex"} gap={"1rem"} item>
-                <Avatar alt="user" />
-                <Grid mr={"auto"}>
-                  <MuiTypography variant="h5" fontWeight={700}>
-                    JWT User
-                  </MuiTypography>
-                  <MuiTypography variant="caption" gutterBottom>
-                    Ui/Ux designer
-                  </MuiTypography>
+              {insettings && (
+                <Grid className="avatar" display={"flex"} gap={"1rem"} item>
+                  <Avatar alt="user" />
+                  <Grid mr={"auto"}>
+                    <MuiTypography variant="h5" fontWeight={700}>
+                      JWT User
+                    </MuiTypography>
+                    <MuiTypography variant="caption" gutterBottom>
+                      Ui/Ux designer
+                    </MuiTypography>
+                  </Grid>
+                  <Chip color="primary" label="Pro" />
                 </Grid>
-                <Chip color="primary" label="Pro" />
-              </Grid>
+              )}
               <Divider sx={{ margin: "1rem 0" }} />
               <Grid className="mail links" item>
                 <Box alignItems={"center"} gap={".4rem"} display={"flex"}>
                   <ButtonBase sx={{ borderRadius: "12px" }}>
                     <IconMail stroke={1.5} size="1.3rem" />
                   </ButtonBase>
-                  <MuiTypography fontWeight={700} variant="h5" mr={"auto"}>
+                  <MuiTypography
+                    fontWeight={700}
+                    variant="body2"
+                    component={"legend"}
+                    mr={"auto"}
+                  >
                     Email
                   </MuiTypography>
                   <MuiTypography variant="caption">
@@ -91,7 +98,12 @@ function ActivityTab() {
                     <Phone />
                     {/* <IconMail stroke={1.5} size="1.3rem" /> */}
                   </ButtonBase>
-                  <MuiTypography fontWeight={700} variant="h5" mr={"auto"}>
+                  <MuiTypography
+                    fontWeight={700}
+                    variant="body2"
+                    component={"legend"}
+                    mr={"auto"}
+                  >
                     Phone
                   </MuiTypography>
                   <MuiTypography variant="caption">
@@ -105,149 +117,159 @@ function ActivityTab() {
                     {/* <IconMail stroke={1.5} size="1.3rem" /> */}
                     <LocationOn />
                   </ButtonBase>
-                  <MuiTypography fontWeight={700} variant="h5" mr={"auto"}>
+                  <MuiTypography
+                    fontWeight={700}
+                    variant="body2"
+                    component={"legend"}
+                    mr={"auto"}
+                  >
                     Location
                   </MuiTypography>
                   <MuiTypography variant="caption">Melbourne</MuiTypography>
                 </Box>
                 <Divider sx={{ margin: "1rem 0" }} />
-                <Grid item xs={12}>
-                  <Card>
-                    <Box
-                      p={1.5}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <Box>
-                        <MuiTypography variant="h4" gutterBottom>
-                          Account Settings
-                        </MuiTypography>
-                        <MuiTypography variant="subtitle2">
-                          Manage details related to your account
-                        </MuiTypography>
-                      </Box>
-                    </Box>
-                    <Divider />
-                    <CardContent sx={{ p: 4 }}>
-                      <MuiTypography variant="subtitle2">
-                        <Grid container spacing={0}>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            md={3}
-                            textAlign={{ sm: "right" }}
-                          >
-                            <Box pr={3} pb={2}>
-                              Language:
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12} sm={8} md={9}>
-                            <Text color="black">
-                              <b>English (US)</b>
-                            </Text>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            md={3}
-                            textAlign={{ sm: "right" }}
-                          >
-                            <Box pr={3} pb={2}>
-                              Timezone:
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12} sm={8} md={9}>
-                            <Text color="black">
-                              <b>GMT +2</b>
-                            </Text>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            md={3}
-                            textAlign={{ sm: "right" }}
-                          >
-                            <Box pr={3} pb={2}>
-                              Account status:
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12} sm={8} md={9}>
-                            <Label color="success">
-                              <DoneTwoToneIcon fontSize="small" />
-                              <b>Active</b>
-                            </Label>
-                          </Grid>
-                        </Grid>
-                      </MuiTypography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12}>
-                  <Card>
-                    <Box
-                      p={3}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <Box>
-                        <MuiTypography variant="h4" gutterBottom>
-                          Email Addresses
-                        </MuiTypography>
-                        <MuiTypography variant="subtitle2">
-                          Manage details related to your associated email
-                          addresses
-                        </MuiTypography>
-                      </Box>
-                    </Box>
-                    <Divider />
-                    <CardContent sx={{ p: 1.4 }}>
-                      <MuiTypography variant="subtitle2">
-                        <Grid container spacing={0}>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            md={3}
-                            textAlign={{ sm: "right" }}
-                          >
-                            <Box pr={3} pb={2}>
-                              Email ID:
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12} sm={8} md={9}>
-                            <Text color="black">
-                              <b>example@demo.com</b>
-                            </Text>
-                            <Box pl={1} component="span">
-                              <Label color="success">Primary</Label>
-                            </Box>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            md={3}
-                            textAlign={{ sm: "right" }}
-                          >
-                            <Box pr={3} pb={2}>
-                              Email ID:
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12} sm={8} md={9}>
-                            <Text color="black">
-                              <b>demo@example.com</b>
-                            </Text>
-                          </Grid>
-                        </Grid>
-                      </MuiTypography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                {insettings && (
+                  <>
+                    <Grid item xs={12}>
+                      <Card>
+                        <Box
+                          p={1.5}
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Box>
+                            <MuiTypography variant="h4" gutterBottom>
+                              Account Settings
+                            </MuiTypography>
+                            <MuiTypography variant="subtitle2">
+                              Manage details related to your account
+                            </MuiTypography>
+                          </Box>
+                        </Box>
+                        <Divider />
+                        <CardContent sx={{ p: 4 }}>
+                          <MuiTypography variant="subtitle2">
+                            <Grid container spacing={0}>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                md={3}
+                                textAlign={{ sm: "right" }}
+                              >
+                                <Box pr={3} pb={2}>
+                                  Language:
+                                </Box>
+                              </Grid>
+                              <Grid item xs={12} sm={8} md={9}>
+                                <Text color="black">
+                                  <b>English (US)</b>
+                                </Text>
+                              </Grid>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                md={3}
+                                textAlign={{ sm: "right" }}
+                              >
+                                <Box pr={3} pb={2}>
+                                  Timezone:
+                                </Box>
+                              </Grid>
+                              <Grid item xs={12} sm={8} md={9}>
+                                <Text color="black">
+                                  <b>GMT +2</b>
+                                </Text>
+                              </Grid>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                md={3}
+                                textAlign={{ sm: "right" }}
+                              >
+                                <Box pr={3} pb={2}>
+                                  Account status:
+                                </Box>
+                              </Grid>
+                              <Grid item xs={12} sm={8} md={9}>
+                                <Label color="success">
+                                  <DoneTwoToneIcon fontSize="small" />
+                                  <b>Active</b>
+                                </Label>
+                              </Grid>
+                            </Grid>
+                          </MuiTypography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Card>
+                        <Box
+                          p={3}
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Box>
+                            <MuiTypography variant="h4" gutterBottom>
+                              Email Addresses
+                            </MuiTypography>
+                            <MuiTypography variant="subtitle2">
+                              Manage details related to your associated email
+                              addresses
+                            </MuiTypography>
+                          </Box>
+                        </Box>
+                        <Divider />
+                        <CardContent sx={{ p: 1.4 }}>
+                          <MuiTypography variant="subtitle2">
+                            <Grid container spacing={0}>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                md={3}
+                                textAlign={{ sm: "right" }}
+                              >
+                                <Box pr={3} pb={2}>
+                                  Email ID:
+                                </Box>
+                              </Grid>
+                              <Grid item xs={12} sm={8} md={9}>
+                                <Text color="black">
+                                  <b>example@demo.com</b>
+                                </Text>
+                                <Box pl={1} component="span">
+                                  <Label color="success">Primary</Label>
+                                </Box>
+                              </Grid>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                md={3}
+                                textAlign={{ sm: "right" }}
+                              >
+                                <Box pr={3} pb={2}>
+                                  Email ID:
+                                </Box>
+                              </Grid>
+                              <Grid item xs={12} sm={8} md={9}>
+                                <Text color="black">
+                                  <b>demo@example.com</b>
+                                </Text>
+                              </Grid>
+                            </Grid>
+                          </MuiTypography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
           </SubCard>
@@ -273,7 +295,8 @@ function ActivityTab() {
                   {Object.keys(userDetailsFields).map((field) => (
                     <Grid display={"flex"} my={1.5}>
                       <MuiTypography
-                        variant="h5"
+                        variant="body2"
+                        component={"legend"}
                         sx={{ minWidth: "40%" }}
                         fontWeight={700}
                       >

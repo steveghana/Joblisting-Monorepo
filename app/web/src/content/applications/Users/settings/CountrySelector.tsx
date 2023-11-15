@@ -26,7 +26,7 @@ export default function ContrySelector({ sx, ...props }: FormControlProps) {
           autoHighlight
           autoComplete={false}
           isOptionEqualToValue={(option, value) => option.code === value.code}
-          defaultValue={{ code: "TH", label: "Thailand", phone: "66" }}
+          defaultValue={{ code: "IL", label: "Israel", phone: "972" }}
           options={countries}
           renderOption={(optionProps, option) => (
             <AutocompleteOption {...optionProps}>

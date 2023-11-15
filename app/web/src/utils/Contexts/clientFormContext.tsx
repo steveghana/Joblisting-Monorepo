@@ -55,6 +55,7 @@ const initialState: FormDataState = {
     email: "",
     phoneNumber: "",
     companyName: "",
+
     numOfEmployees: "",
     projectTitle: "",
     description: "",

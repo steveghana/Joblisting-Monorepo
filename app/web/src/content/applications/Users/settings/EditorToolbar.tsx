@@ -2,6 +2,9 @@ import * as React from "react";
 import {
   Box,
   BoxProps,
+  ButtonBase,
+  FormControl,
+  FormHelperText,
   IconButton,
   MenuItem,
   Select,
@@ -13,6 +16,8 @@ import FormatItalicRoundedIcon from "@mui/icons-material/FormatItalicRounded";
 import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { useState } from "react";
+// import FormHelperText from "@mui/joy/FormHelperText";
+// import Textarea from "@mui/joy/Textarea";
 
 export default function EditorToolbar({ sx, ...props }: BoxProps) {
   const theme = useTheme();
@@ -35,22 +40,16 @@ export default function EditorToolbar({ sx, ...props }: BoxProps) {
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      <Select defaultValue="1" sx={{ minWidth: 160 }}>
-        <MenuItem value="1">Normal text</MenuItem>
-        <MenuItem value="2" sx={{ fontFamily: "code" }}>
-          Code text
-        </MenuItem>
-      </Select>
       <Box>
-        <IconButton size="small" color="default" sx={{ outline: "none" }}>
+        <ButtonBase>
           <FormatBoldRoundedIcon />
-        </IconButton>
-        <IconButton size="small" color="default">
+        </ButtonBase>
+        <ButtonBase>
           <FormatItalicRoundedIcon />
-        </IconButton>
-        <IconButton size="small" color="default">
+        </ButtonBase>
+        <ButtonBase>
           <FormatListBulletedRoundedIcon />
-        </IconButton>
+        </ButtonBase>
       </Box>
     </Box>
   );
@@ -66,21 +65,24 @@ export function LargeTextField() {
   };
 
   return (
-    <div>
+    <FormControl>
       <EditorToolbar />
       <TextareaAutosize
-        minRows={1}
-        style={{ width: "100%", minHeight: "150px", padding: 1 }}
+        // size="sm"
+        minRows={6}
+        // sx={{ mt: 1.5 }}
         value={text}
-        onChange={handleChange}
         placeholder="Enter your description here..."
+        onChange={handleChange}
       />
-      <Typography
-        variant="body2"
-        color={words > wordLimit ? "error" : "textSecondary"}
-      >
+      {/* <TextareaAutosize
+        style={{ marginTop: 1.5 }}
+        minRows={4}
+        placeholder="Enter your description here..."
+      /> */}
+      <Typography variant="caption" fontSize={".7rem"}>
         {words} words ({wordLimit - words} words left)
       </Typography>
-    </div>
+    </FormControl>
   );
 }

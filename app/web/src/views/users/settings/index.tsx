@@ -53,7 +53,7 @@ function ManagementUserSettings() {
               </TabsWrapper>
             </Grid>
             <Grid item xs={12}>
-              {currentTab === "profile" && <ActivityTab />}
+              {currentTab === "profile" && <ActivityTab insettings={true} />}
               {currentTab === "edit_profile" && <EditProfileTab />}
               {currentTab === "notifications" && <NotificationsTab />}
               {currentTab === "security" && <SecurityTab />}

@@ -38,7 +38,7 @@ const RoleTabs = (props: IRoleTabs) => {
   const tabs = [
     { value: "overview", label: "Overview" },
     { value: "jobs", label: "Jobs" },
-    { value: "people", label: "People" },
+    { value: "applicants", label: "Applicants" },
   ];
   const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
     //dont propagate to the drawer component
