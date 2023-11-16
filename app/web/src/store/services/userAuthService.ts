@@ -34,6 +34,7 @@ export const userApi = createApi({
         body: user,
       }),
     }),
+
     registerUser: builder.mutation<IResponse, IRegister>({
       query: (user) => ({
         url: "user/register", // Replace with the appropriate API endpoint

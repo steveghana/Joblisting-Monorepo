@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userApi } from "./services/userService"; // Import your user service
+import { userApi } from "./services/userAuthService"; // Import your user service
 import customizationReducer from "./customizationReducer";
 const store = configureStore({
   reducer: {

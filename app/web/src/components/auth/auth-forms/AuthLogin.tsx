@@ -37,7 +37,7 @@ import useScriptRef from "../../../hooks/useScriptRef";
 import { themeTypography } from "../../../themes/schemes/typography";
 import CustomButton from "../../button";
 import { GitHub, Google, LinkedIn } from "@mui/icons-material";
-import { useLoginUserMutation } from "../../../store/services/userService";
+import { useLoginUserMutation } from "../../../store/services/userAuthService";
 import { useNavigate } from "react-router";
 const Social = {
   Github: {
@@ -99,14 +99,9 @@ const FirebaseLogin = ({ ...others }) => {
       router("/dashboard/default");
       return true;
     } catch (error) {
-      console.log(error, "thi is an error");
-      // if (scriptedRef.current) {
       setters.setStatus({ success: false });
       setters.setErrors({ submit: error.data });
       setters.setSubmitting(false);
-      // }
-      console.log(error, "from");
-      // throw error;
     }
   }
 

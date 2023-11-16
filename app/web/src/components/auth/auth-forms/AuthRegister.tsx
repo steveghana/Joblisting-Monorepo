@@ -40,7 +40,7 @@ import { themeTypography } from "../../../themes/schemes/typography";
 import CustomButton from "../../button";
 import RoleAuth from "../roleAuthForm";
 import { IProfession } from "../../../types/roles";
-import { useRegisterUserMutation } from "../../../store/services/userService";
+import { useRegisterUserMutation } from "../../../store/services/userAuthService";
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
