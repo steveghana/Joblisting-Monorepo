@@ -72,7 +72,7 @@ const FirebaseLogin = ({ ...others }) => {
   const router = useNavigate();
 
   const [checked, setChecked] = useState(true);
-  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const [loginUser, { isLoading }] = useLoginUserMutation({});
   const googleHandler = async () => {
     console.error("Login");
   };

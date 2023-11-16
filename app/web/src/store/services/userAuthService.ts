@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IProfession } from "../../types/roles";
 import axios from "axios";
 import _api_url from "../../api/_api_url";
+import { useTypedDispatch } from "..";
 
 interface IUser {
   email: string;
@@ -34,6 +35,19 @@ export const userApi = createApi({
         method: "POST",
         body: user,
       }),
+      transformResponse: (response: { data: IResponse }, meta, arg) => {
+        // Dispatch data to Redux store upon successful query
+        // const dispatch = useTypedDispatch();
+        // dispatch();
+        return response.data;
+      },
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
+      // providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
 
     registerUser: builder.mutation<IResponse, IRegister>({
@@ -43,7 +57,17 @@ export const userApi = createApi({
         body: user,
       }),
     }),
+    getUser: builder.query<IResponse, { id: string }>({
+      query: ({ id }) => ({
+        url: `user/${id}`, // Replace with the appropriate API endpoint
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useLoginUserMutation, useRegisterUserMutation } = userApi;
+export const {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+  useGetUserQuery,
+} = userApi;

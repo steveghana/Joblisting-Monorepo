@@ -29,7 +29,7 @@ export const devApi = createApi({
         body: dev,
       }),
     }),
-    getDevs: builder.query<IDev, IDev>({
+    getDevs: builder.query<IDev, void>({
       query: () => ({
         url: "dev/get", // Replace with the appropriate API endpoint
         method: "GET",

@@ -47,7 +47,7 @@ export const roleApi = createApi({
         method: "GET",
       }),
     }),
-    getRoles: builder.query<IRoleData, any>({
+    getRoles: builder.query<IRoleData, void>({
       query: () => ({
         url: "role/get", // Replace with the appropriate API endpoint
         method: "GET",

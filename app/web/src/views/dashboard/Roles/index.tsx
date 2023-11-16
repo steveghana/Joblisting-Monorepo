@@ -24,8 +24,11 @@ import { themePalette } from "../../../themes/schemes/palette";
 import CustomDrawer from "../../../components/Drawer";
 import Dot from "../../../components/Dot";
 import RoleDetails from "./roleTabs";
+import { useGetRolesQuery } from "../../../store/services/roleService";
 
 const Roles = () => {
+  const { data, isLoading, isFetching, isError } = useGetRolesQuery();
+
   return (
     <MainCard title={"Roles"}>
       <Grid container>

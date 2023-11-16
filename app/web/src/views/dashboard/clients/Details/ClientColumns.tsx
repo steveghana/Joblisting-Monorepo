@@ -31,28 +31,35 @@ import { IColumnType } from "../../../../types/table";
 import { IClient } from "../../../../types/client";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumnOpt";
+import {
+  useGetClientsQuery,
+  useUpdateClientMutation,
+  useDeletClientMutation,
+} from "../../../../store/services/ClientServce";
 
 const ClientTableData = () => {
+  const { data, isLoading, isFetching, isError } = useGetClientsQuery();
+  const { mutateAsync: createUser, isPending: isCreatingUser } =
+    useCreateClient();
+  const [
+    updateUser,
+    {
+      isError: isUpdateingError,
+      isLoading: isUpdatingUser,
+      error: updateError,
+    },
+  ] = useUpdateClientMutation();
+  const [
+    deleteuser,
+    { isError: isDeletingError, isLoading: isDeletingUser, error: deleteError },
+  ] = useDeletClientMutation();
+
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
   const navigate = useNavigate();
 
   const columns = useClientColums();
-  const { mutateAsync: createUser, isPending: isCreatingUser } =
-    useCreateClient();
-  //call READ hook
-  const {
-    data: fetchedUsers = [],
-    isError: isLoadingUsersError,
-    isFetching: isFetchingUsers,
-    isLoading: isLoadingUsers,
-  } = useGetClients();
-  const { mutateAsync: updateUser, isPending: isUpdatingUser } =
-    useUpdateClient();
-  //call DELETE hook
-  const { mutateAsync: deleteUser, isPending: isDeletingUser } =
-    useDeleteClient();
 
   const defaultMRTOptions = getDefaultMRTOptions<IClient>();
 
@@ -63,7 +70,7 @@ const ClientTableData = () => {
     data: clientData, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
     getRowId: (row) => row.email,
-    muiToolbarAlertBannerProps: isLoadingUsersError
+    muiToolbarAlertBannerProps: isError
       ? {
           color: "error",
           children: "Error loading data",
@@ -128,10 +135,10 @@ const ClientTableData = () => {
     ),
     renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
     state: {
-      isLoading: isLoadingUsers,
+      isLoading: isLoading,
       isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
-      showAlertBanner: isLoadingUsersError,
-      showProgressBars: isFetchingUsers,
+      showAlertBanner: isError,
+      showProgressBars: isFetching,
     },
   });
 

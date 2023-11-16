@@ -1,66 +1,48 @@
-import React, { useMemo } from "react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import {
-  useClientColums,
-  useColumns,
-  useDevsColums,
-} from "../../hooks/useColumns";
-import {
-  useCreateClient,
-  useDeleteClient,
-  useGetClients,
-  useUpdateClient,
-} from "../../hooks/useClientQuery";
+import React from "react";
+import { useDevsColums } from "../../hooks/useColumns";
+
 import {
   // IColumnTypeString,
   handleCreate,
   handleSave,
   openDeleteConfirmModal,
 } from "../../utils/ClientTableCrud";
-import TableDetail from "../../components/Table/Detail";
 import TableActions from "../../components/Table/TableActions";
-import RowAction from "../../components/Table/RowAction";
 import TopToolbar from "../../components/Table/topToolBar";
 import CreatRow from "../../components/Table/CreatRow";
-//MRT Imports
 import {
-  MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-//Material UI Imports
 import { Button } from "@mui/material";
 import { data } from "../../lib/data";
-import { IColumnType } from "../../types/table";
-import { IClient } from "../../types/client";
 import { IDev } from "../../types/devs";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../components/Table/DefaultColumnOpt";
+import {
+  useAddDevMutation,
+  useDeletDevMutation,
+  useGetDevsQuery,
+  useUpdateDevMutation,
+} from "../../store/services/DevsService";
 
 const DevTableData = () => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
+  const { data: devs, isLoading, isFetching, isError } = useGetDevsQuery();
+  const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
+  const [
+    updateUser,
+    { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError },
+  ] = useUpdateDevMutation();
+  const [
+    deleteuser,
+    { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError },
+  ] = useDeletDevMutation();
   const navigate = useNavigate();
   const columns = useDevsColums();
-  const { mutateAsync: createUser, isPending: isCreatingUser } =
-    useCreateClient();
-  //call READ hook
-  const {
-    data: fetchedUsers = [],
-    isError: isLoadingUsersError,
-    isFetching: isFetchingUsers,
-    isLoading: isLoadingUsers,
-  } = useGetClients();
-  const { mutateAsync: updateUser, isPending: isUpdatingUser } =
-    useUpdateClient();
-  //call DELETE hook
-  const { mutateAsync: deleteUser, isPending: isDeletingUser } =
-    useDeleteClient();
 
-  //CREATE action
   const defaultMRTOptions = getDefaultMRTOptions<IDev>();
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
@@ -69,7 +51,7 @@ const DevTableData = () => {
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
     getRowId: (row) => row.email,
-    muiToolbarAlertBannerProps: isLoadingUsersError
+    muiToolbarAlertBannerProps: isError
       ? {
           color: "error",
           children: "Error loading data",
@@ -142,10 +124,10 @@ const DevTableData = () => {
     ),
     renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
     state: {
-      isLoading: isLoadingUsers,
-      isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
-      showAlertBanner: isLoadingUsersError,
-      showProgressBars: isFetchingUsers,
+      isLoading: isLoading,
+      isSaving: isCreatingDev || isUpdatingDev || isDeletingDev,
+      showAlertBanner: isError,
+      showProgressBars: isFetching,
     },
   });
 

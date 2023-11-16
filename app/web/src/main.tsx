@@ -1,23 +1,18 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
-
 import "nprogress/nprogress.css";
 import "../src/assets/scss/style.scss";
-// import config from "./src/config";
-
-// import App from "./App.tsx";
 import App from "./App";
-// import { SidebarProvider } from "./contexts/SidebarContext.tsx";
 import { Provider } from "react-redux";
-import store from "./store";
-// import { SidebarProvider } from './contexts/SidebarContext.tsx';
-
+import store, { persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import FullscreenProgress from "./components/FullscreenProgress/FullscreenProgress";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
+    {/* <PersistGate loading={<FullscreenProgress />} persistor={persistor}> */}
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    {/* </PersistGate> */}
   </Provider>
 );

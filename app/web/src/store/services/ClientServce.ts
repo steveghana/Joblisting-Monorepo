@@ -28,28 +28,34 @@ export const clientApi = createApi({
   reducerPath: CLIENT_API_KEY,
   baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
-    updateClient: builder.mutation<IResponse, { id: string; data: IClient }>({
+    updateClient: builder.mutation<IClient, { id: string; data: IClient }>({
       query: ({ data, id }) => ({
         url: `client/${id}`, // Replace with the appropriate API endpoint
         method: "UPDATE",
         body: data,
       }),
     }),
-    deletClient: builder.mutation<IResponse, { id: string }>({
+    deletClient: builder.mutation<IClient, { id: string }>({
       query: ({ id }) => ({
         url: `client/delete${id}`, // Replace with the appropriate API endpoint
         method: "DELETE",
       }),
     }),
 
-    addClient: builder.mutation<IResponse, IRegister>({
+    addClient: builder.mutation<IClient, IRegister>({
       query: (client) => ({
         url: "client/add", // Replace with the appropriate API endpoint
         method: "POST",
         body: client,
       }),
     }),
-    getClient: builder.query<IResponse, IRegister>({
+    getClient: builder.query<IClient, { id: string }>({
+      query: ({ id }) => ({
+        url: `client/get/${id}`, // Replace with the appropriate API endpoint
+        method: "GET",
+      }),
+    }),
+    getClients: builder.query<IClient, void>({
       query: () => ({
         url: "client/get", // Replace with the appropriate API endpoint
         method: "GET",
@@ -62,5 +68,5 @@ export const {
   useUpdateClientMutation,
   useAddClientMutation,
   useDeletClientMutation,
-  useGetClientQuery,
+  useGetClientsQuery,
 } = clientApi;
