@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { DevelopersService } from '../services/developers.service';
 import { CreateDeveloperDto } from '../dto/create-developer.dto';
@@ -27,8 +28,9 @@ export class DevelopersController {
   }
 
   @Get()
-  findAll() {
-    return this.developersService.findAll();
+  findAll(@Res() res) {
+    const result = this.developersService.findAll();
+    res.json(result);
   }
 
   @Get(':id')

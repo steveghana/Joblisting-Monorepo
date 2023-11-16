@@ -49,10 +49,10 @@ import { HttpExceptionFilter } from '../../middleware/err.Middleware';
   controllers: [],
   providers: [
     // AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: AuthenticationTtlMiddleware,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: AuthenticationTtlMiddleware,
+    // },
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,

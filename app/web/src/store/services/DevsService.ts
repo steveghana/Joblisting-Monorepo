@@ -29,11 +29,23 @@ export const devApi = createApi({
         body: dev,
       }),
     }),
-    getDevs: builder.query<IDev, void>({
+    getDevs: builder.query<string, void>({
       query: () => ({
-        url: "dev/get", // Replace with the appropriate API endpoint
-        method: "GET",
+        url: "developers", // Replace with the appropriate API endpoint
+        // method: "GET",
+        responseHandler: (response: { text: () => any }) => response.text(),
       }),
+      transformResponse: (response, meta) => {
+        const parsedData = JSON.parse(response as string);
+        console.log(parsedData);
+        return parsedData;
+      },
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
     }),
     getDev: builder.query<IDev, { id: string }>({
       query: ({ id }) => ({

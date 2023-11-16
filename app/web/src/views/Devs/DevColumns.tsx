@@ -30,7 +30,16 @@ const DevTableData = () => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
-  const { data: devs, isLoading, isFetching, isError } = useGetDevsQuery();
+  const {
+    data: devs,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+    currentData,
+  } = useGetDevsQuery();
+  console.log(devs);
+
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [
     updateUser,

@@ -17,6 +17,7 @@ import {
 import { RESET_STATE_ACTION_TYPE } from "./actions";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { unauthenticatedMiddleware } from "./middleware/unauthenticatedMiddleware";
+import { rtkQueryErrorLogger } from "./middleware/err";
 
 const reducers = {
   [USER_API_KEY]: userApi.reducer,
@@ -46,6 +47,7 @@ const store = configureStore({
       },
     }).concat([
       unauthenticatedMiddleware,
+      rtkQueryErrorLogger,
       userApi.middleware,
       clientApi.middleware,
       roleApi.middleware,

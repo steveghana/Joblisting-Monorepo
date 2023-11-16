@@ -26,8 +26,8 @@ export class DevelopersService {
   }
 
   findAll() {
-    throw new HttpException('exists', HttpStatus.BAD_REQUEST);
-    // return `This action returns all developers`;
+    // throw new HttpException('exists', HttpStatus.BAD_REQUEST);
+    return `This action returns all developers`;
   }
 
   findOne(id: number) {
