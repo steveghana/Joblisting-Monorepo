@@ -23,9 +23,9 @@ const axiosInstance = axios.create({
     Authorization: authToken ? authToken : "",
   },
 });
-
+export const CLIENT_API_KEY = "clientApi";
 export const clientApi = createApi({
-  reducerPath: "clientApi",
+  reducerPath: CLIENT_API_KEY,
   baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
     updateClient: builder.mutation<IResponse, { id: string; data: IClient }>({

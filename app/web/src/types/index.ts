@@ -13,14 +13,3 @@ export type IJobs = {
   jobtype: "Full-time" | "Part-time";
   postedDate: Date;
 };
-export type IDev = {
-  name: string;
-  role: string;
-};
-export interface IRoleData {
-  name: string;
-  subName: string;
-  description: string;
-  jobs: IJobs[];
-  founders: IDev;
-}

@@ -16,39 +16,17 @@ import { useNavigate } from "react-router";
 import { Component } from "react";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { Protect } from "../../../components/auth/requireAuth";
-import ExampleWithLocalizationProvider from "./Details/clientColumns";
+import ClientTable from "./Details/clientColumns";
 const Clients = () => {
   const navigate = useNavigate();
+
   return (
     <MainCard title={"Clients"}>
       <CustomButton
         text="Add new Client"
         onClick={() => navigate("/dashboard/customers/clients/add")}
       />
-      <ExampleWithLocalizationProvider />
-      {/* <Grid container>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 2, sm: 8, md: 12, lg: 16 }}
-        >
-          {Array.from({ length: 10 }).map((_, index) => (
-            <Grid
-              onClick={() => {
-                console.log(index);
-                navigate(`/dashboard/customers/clients/${index}`);
-              }}
-              key={index}
-              item
-              xs={2}
-              sm={4}
-              md={4}
-            >
-              <ClientCard />
-            </Grid>
-          ))}
-        </Grid>
-      </Grid> */}
+      <ClientTable />
     </MainCard>
   );
 };

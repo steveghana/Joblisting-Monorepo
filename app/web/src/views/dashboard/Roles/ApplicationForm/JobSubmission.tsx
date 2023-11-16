@@ -18,6 +18,7 @@ import FileInput from "./FileInput";
 import { Grid } from "@mui/material";
 import { availableSkills } from "./skills";
 import { useNavigate } from "react-router";
+import { ApplicantsSubmission } from "../../../../types/roles";
 const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -38,18 +39,19 @@ const JobSubmissionContainer: React.FC = () => {
   };
 
   const onFileSelect = (file: File) => setSelectedFile(file);
-
+  const initialState: ApplicantsSubmission = {
+    name: "",
+    email: "",
+    phoneNumber: "",
+    coverLetter: "",
+    resume: {},
+    selectedSkills: [""],
+  };
   return (
     <Grid>
       <Typography variant="h4">Personal Info</Typography>
       <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          phoneNumber: "",
-          coverLetter: "",
-          selectedSkills: [],
-        }}
+        initialValues={initialState}
         validationSchema={Yup.object().shape({
           email: Yup.string()
             .email("Enter a valid email")

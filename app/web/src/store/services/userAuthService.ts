@@ -22,6 +22,7 @@ const axiosInstance = axios.create({
     Authorization: authToken ? authToken : "",
   },
 });
+export const USER_API_KEY = "userApi";
 
 export const userApi = createApi({
   reducerPath: "userApi",

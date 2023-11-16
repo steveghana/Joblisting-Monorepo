@@ -1,4 +1,4 @@
-import { IRoleData } from "../../../types";
+import { IRoleData } from "../../../types/roles";
 
 export const roleData: IRoleData = {
   description:
