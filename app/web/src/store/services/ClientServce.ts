@@ -48,6 +48,13 @@ export const clientApi = createApi({
         method: "POST",
         body: client,
       }),
+      transformResponse: (response, meta) => {
+        const parsedData = JSON.parse(response as string);
+        console.log(parsedData);
+        return parsedData;
+      },
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (response, meta, arg) => response.data,
     }),
     getClient: builder.query<IClient, { id: string }>({
       query: ({ id }) => ({

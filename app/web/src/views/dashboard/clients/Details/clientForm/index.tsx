@@ -119,8 +119,6 @@ const AddClientForm = () => {
   const { formDataState } = useFormData();
 
   const navigate = useNavigate();
-  const [createClient, { isLoading, isError, isSuccess, error }] =
-    useAddClientMutation();
 
   const handleNext = (data, step) => {
     setFormData((prevData) => ({
@@ -150,93 +148,74 @@ const AddClientForm = () => {
     // When the "Edit" button is clicked, go back to the relevant step
     setStep(targetStep);
   };
-  const handleSubmit = (values) => {
-    console.log("submitted");
-    // Combine all form data and submit as needed
-    const finalFormData = { formData };
-    console.log("Final Form Data:", finalFormData);
-    createClient({
-      ...formDataState,
-    }).unwrap();
-
-    // } catch (error) {
-
-    // }
-    // Add your submission logic here
-
-    // For demonstration purposes, navigate to a success page
-    // navigate("/success");
-  };
 
   return (
-    <FormDataProvider>
-      <Grid container>
-        <Grid item md={12} sm={12}>
-          <Typography variant="h4"></Typography>
-          <Stepper
-            alternativeLabel
-            activeStep={step}
-            connector={<ColorlibConnector />}
-          >
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel StepIconComponent={ColorlibStepIcon}>
-                  {label}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {/* <Stepper activeStep={step} alternativeLabel>
+    <Grid container>
+      <Grid item md={12} sm={12}>
+        <Typography variant="h4"></Typography>
+        <Stepper
+          alternativeLabel
+          activeStep={step}
+          connector={<ColorlibConnector />}
+        >
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        {/* <Stepper activeStep={step} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
           </Stepper> */}
-          <Grid mt={2}>
-            <SubCard>
-              {step === 0 && <CompanyInfo onNext={handleNext} />}
-              {step === 1 && <ProjectDetails onNext={handleNext} />}
-              {step === 2 && <AdditionalData onNext={handleNext} />}
-              {step === 3 && <CommunicationPreferences onNext={handleNext} />}
-              {step === 4 && (
-                <ReviewAndSubmit
-                  formData={formData[step]}
-                  onReviewSubmit={handleSubmit}
-                  onEdit={(newstep) => handleEdit(newstep)}
-                />
+        <Grid mt={2}>
+          <SubCard>
+            {step === 0 && <CompanyInfo onNext={handleNext} />}
+            {step === 1 && <ProjectDetails onNext={handleNext} />}
+            {step === 2 && <AdditionalData onNext={handleNext} />}
+            {step === 3 && <CommunicationPreferences onNext={handleNext} />}
+            {step === 4 && (
+              <ReviewAndSubmit
+                formData={formData[step]}
+                // onReviewSubmit={handleSubmit}
+                onEdit={(newstep) => handleEdit(newstep)}
+              />
+            )}
+            {/* <>
+              {isError && (
+                <FormHelperText error variant="filled">
+                  {error as string}
+                </FormHelperText>
               )}
-              <>
-                {isError && (
-                  <FormHelperText error variant="filled">
-                    {error as string}
-                  </FormHelperText>
-                )}
-              </>
-              {step < 4 && (
-                <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
-                  {step > 0 && (
-                    <CustomButton
-                      text="Back"
-                      type="button"
-                      variant="outlined"
-                      onClick={handleBack}
-                    />
-                  )}
-
+            </> */}
+            {step < 4 && (
+              <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
+                {step > 0 && (
                   <CustomButton
-                    text=" Skip to Next Step"
+                    text="Back"
                     type="button"
-                    variant="contained"
-                    onClick={handleSkipTonext}
+                    variant="outlined"
+                    onClick={handleBack}
                   />
-                </Box>
-              )}
-            </SubCard>
-          </Grid>
+                )}
+
+                <CustomButton
+                  text=" Skip to Next Step"
+                  type="button"
+                  variant="contained"
+                  onClick={handleSkipTonext}
+                />
+              </Box>
+            )}
+          </SubCard>
         </Grid>
       </Grid>
-    </FormDataProvider>
+    </Grid>
   );
 };
 

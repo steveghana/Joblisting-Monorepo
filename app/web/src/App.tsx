@@ -11,7 +11,8 @@ import {
 import Routes from "./routes";
 import Error404 from "./assets/404-bg.jpg";
 // defaultTheme
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // project imports
 import NavigationScroll from "./layout/NavigationScroll";
 import { PureLightTheme } from "./themes/schemes/PureLightTheme";
@@ -56,6 +57,7 @@ const App = () => {
           </StyledEngineProvider>
         </LocalizationProvider>
       </QueryClientProvider>
+      <ToastContainer />
     </ErrorBoundary>
   );
 };

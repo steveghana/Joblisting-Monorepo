@@ -5,19 +5,22 @@ import {
   ExtendButtonBase,
   Typography,
 } from "@mui/material";
+import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton";
 import React from "react";
 import { themePalette } from "../../themes/schemes/palette";
 import { Box } from "@mui/system";
+import { Send } from "@mui/icons-material";
 
-interface IButtonProps extends ButtonProps {
+interface IButtonProps extends LoadingButtonProps {
   text: string; // Add your custom text property
 }
 
 function CustomButton(props: IButtonProps) {
   return (
-    <Button
+    <LoadingButton
       {...props} // Spread all properties from IButtonProps
       // fullWidth
+      loadingPosition="end"
       variant={props.variant || "contained"}
       sx={{
         mt: 3,
@@ -33,7 +36,7 @@ function CustomButton(props: IButtonProps) {
       <Typography textTransform={"none"} variant="button">
         {props.text}
       </Typography>
-    </Button>
+    </LoadingButton>
   );
 }
 

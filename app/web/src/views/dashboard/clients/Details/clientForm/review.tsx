@@ -20,17 +20,18 @@ import * as Yup from "yup";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../../components/SubCard";
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, Send } from "@mui/icons-material";
 import { ReviewLabelObj } from "../../../../../lib/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { themePalette } from "../../../../../themes/schemes/palette";
+import CustomButton from "../../../../../components/button";
+import { useAddClientMutation } from "../../../../../store/services/ClientServce";
 
 type FormData = {
   [key: string]: string | string[] | boolean;
 };
 interface ReviewAndSubmitProps {
   formData: FormData;
-  onReviewSubmit: (values: { agreedToTerms: boolean }) => void;
   onEdit: (target: number) => void;
 }
 const reviewSchema = Yup.object().shape({
@@ -38,18 +39,27 @@ const reviewSchema = Yup.object().shape({
     .oneOf([true], "Must agree to terms")
     .required("You must agree to terms and conditions"),
 });
-const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
-  onReviewSubmit,
-  onEdit,
-}) => {
+const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
   const { formDataState } = useFormData();
-
+  const [createClient, { isLoading, isError, isSuccess, error }] =
+    useAddClientMutation();
+  const handleSubmit = (values) => {
+    console.log("Final Form Data:", formDataState);
+    try {
+      createClient({
+        ...formDataState,
+      }).unwrap();
+    } catch (error) {
+      console.log(error, "from eerror");
+    }
+    // navigate("/success");
+  };
   console.log(formDataState, "this is the form");
   return (
     <Formik
       validationSchema={reviewSchema}
       initialValues={{ agreedToTerms: false }}
-      onSubmit={(values) => onReviewSubmit(values)}
+      onSubmit={(values) => handleSubmit(values)}
     >
       {({ isSubmitting }) => (
         <Form>
@@ -136,14 +146,15 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
               </ErrorMessage>
             </CardContent>
             <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
-              <Button
+              <CustomButton
                 fullWidth
+                endIcon={<Send />}
                 type="submit"
                 variant="contained"
-                // disabled={isSubmitting}
-              >
-                Submit
-              </Button>
+                disabled={isLoading}
+                loading={isLoading}
+                text="Submit"
+              />
             </CardActions>
           </SubCard>
         </Form>
