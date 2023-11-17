@@ -20,18 +20,26 @@ export class Client {
   @Column()
   description: string;
 
-  @Column()
-  industry: string;
+  @Column('simple-array')
+  industry: [string];
+
+  @Column({ nullable: true })
+  avatar?: string;
 
   @Column()
-  contact_person: string;
+  phoneNumber: string;
+  @Column()
+  companyName: string;
 
   @Column()
   email: string;
+  @Column()
+  numOfEmployees: string;
 
   @Column()
-  phone_number: string;
-
+  projectTitle: string;
+  @Column()
+  startDate: Date;
   // Define the association with Roles
   @OneToMany((type) => Role, (role) => role.client)
   roles: Role[];

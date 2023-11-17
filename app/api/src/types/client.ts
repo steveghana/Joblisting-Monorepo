@@ -1,16 +1,34 @@
 export interface IClient {
-  id: number;
-
+  id?: number;
+  avatar?: string;
   name: string;
-
-  description: string;
-
-  industry: string;
-
-  contact_person: string;
-
   email: string;
+  industry: string[];
+  // country:Record<string, any>
+  numOfEmployees: string;
+  companyName: string;
+  description: string;
+  phoneNumber: string;
+  projectTitle: string;
+  startDate: Date;
+}
+export interface IClientFormData {
+  ['Client info']: IClient;
+  ['Project Details']: {
+    selectedSkills: string[];
+    DevsNeeded: string;
+    methodology: string;
+    experience: string;
+    testingQA: string;
+  };
+  ['Additional Data']: {
+    durationForEmployment: string;
 
-  phone_number: string;
-  role?: Record<any, any>;
+    whenToStart: string;
+    dataContent: string;
+  };
+  ['Communication Type']: {
+    communicationPreferences: string;
+    employmentType: string;
+  };
 }

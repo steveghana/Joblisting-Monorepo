@@ -1,55 +1,13 @@
 import { createContext, useContext, useReducer, ReactNode } from "react";
+import {
+  ClientFormDataAction,
+  ClientFormDataContextProps,
+  ClientFormDataState,
+} from "../../types/client";
 
-interface FormDataState {
-  ["Client info"]: {
-    name: string;
-    email: string;
-    phoneNumber: string;
-    numOfEmployees: string;
+const FormDataContext = createContext<ClientFormDataContextProps | null>(null);
 
-    companyName: string;
-    projectTitle: string;
-    description: string;
-  };
-  ["Project Details"]: {
-    selectedSkills: string[];
-    DevsNeeded: string;
-    methodology: string;
-    experience: string;
-    testingQA: string;
-  };
-  ["Additional Data"]: {
-    durationForEmployment: string;
-
-    whenToStart: string;
-    dataContent: string;
-  };
-  ["Communication Type"]: {
-    communicationPreferences: string;
-    employmentType: string;
-  };
-  // Add other steps' data as needed
-}
-
-type FormDataAction =
-  | { type: "updateProjectInfo"; payload: FormDataState["Project Details"] }
-  | { type: "updateclientInfo"; payload: FormDataState["Client info"] }
-  | { type: "updateadditionalData"; payload: FormDataState["Additional Data"] }
-  | {
-      type: "updatecommunicationPreference";
-      payload: FormDataState["Communication Type"];
-    }
-  // Add other action types as needed
-  | { type: "reset"; payload: FormDataState };
-
-interface FormDataContextProps {
-  formDataState: FormDataState;
-  dispatch: (action: FormDataAction) => void;
-}
-
-const FormDataContext = createContext<FormDataContextProps | null>(null);
-
-const initialState: FormDataState = {
+const initialState: ClientFormDataState = {
   ["Client info"]: {
     name: "",
     email: "",
@@ -76,13 +34,12 @@ const initialState: FormDataState = {
     communicationPreferences: "",
     employmentType: "",
   },
-  // Add other steps' data as needed
 };
 
 const formDataReducer = (
-  state: FormDataState,
-  action: FormDataAction
-): FormDataState => {
+  state: ClientFormDataState,
+  action: ClientFormDataAction
+): ClientFormDataState => {
   switch (action.type) {
     case "updateProjectInfo":
       return { ...state, ["Project Details"]: action.payload };
@@ -92,7 +49,7 @@ const formDataReducer = (
       return { ...state, ["Additional Data"]: action.payload };
     case "updatecommunicationPreference":
       return { ...state, ["Communication Type"]: action.payload };
-    // Add cases for other steps as needed
+
     case "reset":
       return action.payload;
     default:
@@ -114,7 +71,7 @@ const FormDataProvider = ({ children }: FormDataProviderProps) => {
   );
 };
 
-const useFormData = (): FormDataContextProps => {
+const useFormData = (): ClientFormDataContextProps => {
   const context = useContext(FormDataContext);
   if (!context) {
     throw new Error("useFormData must be used within a FormDataProvider");

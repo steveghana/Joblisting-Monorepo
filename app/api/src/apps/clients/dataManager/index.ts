@@ -49,21 +49,21 @@ class Client {
   get email(): string {
     return this.data.email;
   }
-  get industry(): string {
+  get industry(): string[] {
     return this.data.industry;
   }
   get name(): string {
     return this.data.name;
   }
   get phone_number(): string {
-    return this.data.phone_number;
+    return this.data.phoneNumber;
   }
   get description(): string {
     return this.data.description;
   }
-  get role(): Record<any, any> {
-    return this.data.role;
-  }
+  // get role(): Record<any, any> {
+  //   return this.data.;
+  // }
 
   get exists(): boolean {
     return this.data !== null;

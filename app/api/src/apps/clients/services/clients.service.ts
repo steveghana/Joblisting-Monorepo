@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClientDto } from '../dto/create-client.dto';
-import { UpdateClientDto } from '../dto/update-client.dto';
+// import { CreateClientDto } from '../dto/create-client.dto';
+// import { UpdateClientDto } from '../dto/update-client.dto';
 import Client from '../dataManager';
+import { IClientFormData } from '@/types/client';
 
 @Injectable()
 export class ClientsService {
-  create(createClientDto: CreateClientDto) {
+  create(createClientDto: IClientFormData) {
     // Client.createClient()
     return 'This action adds a new client';
   }
@@ -18,7 +19,7 @@ export class ClientsService {
     return `This action returns a #${id} client`;
   }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
+  update(id: number, updateClientDto: Partial<IClientFormData>) {
     return `This action updates a #${id} client`;
   }
 

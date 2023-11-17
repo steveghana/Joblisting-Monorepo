@@ -1,13 +1,6 @@
 import React, { useMemo } from "react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useClientColums } from "../../../../hooks/useColumns";
-import {
-  useCreateClient,
-  useDeleteClient,
-  useGetClients,
-  useUpdateClient,
-} from "../../../../hooks/useClientQuery";
+import { useCreateClient } from "../../../../hooks/useClientQuery";
 import {
   // IColumnTypeString,
   handleCreate,
@@ -22,12 +15,9 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //Material UI Imports
 import { Button } from "@mui/material";
 import { clientData } from "../../../../lib/clientData";
-import { data } from "../../../../lib/data";
-import { IColumnType } from "../../../../types/table";
 import { IClient } from "../../../../types/client";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumnOpt";

@@ -14,17 +14,19 @@ import { UpdateDeveloperDto } from '../dto/update-developer.dto';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { AuthService } from '../../auth/services/user.service';
 import { first } from 'rxjs';
+import { Response } from 'express';
 
 @Controller('developers')
 export class DevelopersController {
   constructor(private readonly developersService: DevelopersService) {}
 
   @Post()
-  create(@Body() createDeveloperDto: CreateDeveloperDto) {
+  create(@Body() createDeveloperDto: CreateDeveloperDto, @Res() res: Response) {
     // const { email, password, phone_number, username, address, firstName, lastName } = createDeveloperDto;
 
     // const userData = this.authservice.register(email, password,firstName, lastName, "developer" )
-    return this.developersService.create(createDeveloperDto);
+    const result = this.developersService.create(createDeveloperDto);
+    return res.json(result);
   }
 
   @Get()
@@ -34,8 +36,9 @@ export class DevelopersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.developersService.findOne(+id);
+  findOne(@Param('id') id: string, @Res() res: Response) {
+    const result = this.developersService.findOne(+id);
+    return res.json(result);
   }
 
   @Patch(':id')
