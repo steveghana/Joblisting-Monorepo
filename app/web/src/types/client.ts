@@ -1,9 +1,12 @@
+import { CountryType } from "../content/applications/Users/settings/CountrySelector";
+
 export interface IClient {
   firstName: string;
   avatar?: string;
   companyName: string;
   email: string;
   lastName: string;
+  country: CountryType;
   phoneNumber: string;
   projectTitle: string;
   startDate: string;
@@ -14,6 +17,7 @@ export interface ClientFormDataState {
     email: string;
     phoneNumber: string;
     numOfEmployees: string;
+    country: CountryType;
 
     companyName: string;
     projectTitle: string;

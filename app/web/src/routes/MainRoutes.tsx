@@ -10,6 +10,7 @@ import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/Job
 import ClientDetails from "../views/dashboard/clients/Details/overview";
 import AddClient from "../views/dashboard/clients/Details/clientForm";
 import Status404 from "../views/status/Status404";
+import { FormDataProvider } from "../utils/Contexts/clientFormContext";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -77,7 +78,11 @@ const MainRoutes = {
         },
         {
           path: "customers/clients/add",
-          element: <AddClient />,
+          element: (
+            <FormDataProvider>
+              <AddClient />,
+            </FormDataProvider>
+          ),
         },
         {
           path: "jobs/roles",

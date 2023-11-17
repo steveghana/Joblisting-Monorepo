@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IProfession } from "../../types/roles";
 import axios from "axios";
 import _api_url from "../../api/_api_url";
-import { IClient } from "../../types/client";
+import { ClientFormDataState, IClient } from "../../types/client";
 
 interface IUser {
   email: string;
@@ -42,9 +42,9 @@ export const clientApi = createApi({
       }),
     }),
 
-    addClient: builder.mutation<IClient, IRegister>({
+    addClient: builder.mutation<IClient, ClientFormDataState>({
       query: (client) => ({
-        url: "client/add", // Replace with the appropriate API endpoint
+        url: "client", // Replace with the appropriate API endpoint
         method: "POST",
         body: client,
       }),

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Autocomplete from "@mui/joy/Autocomplete";
+import Autocomplete, { AutocompleteProps } from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 import AspectRatio from "@mui/joy/AspectRatio";
 import FormControl, { FormControlProps } from "@mui/joy/FormControl";
@@ -8,13 +8,24 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import Typography from "@mui/joy/Typography";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
-
-export default function ContrySelector({ sx, ...props }: FormControlProps) {
+// React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+interface FormProps {
+  sx: Record<any, any>;
+  onChange: any;
+  name: string;
+}
+export default function ContrySelector({ sx, onChange, name, ...props }: any) {
+  const handleCountryChange = (_, value) => {
+    if (onChange) {
+      const event = { target: { name, value } };
+      onChange(event);
+    }
+  };
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <FormControl
-        {...props}
+        // {...props}
         sx={[
           { display: { sm: "contents" } },
           ...(Array.isArray(sx) ? sx : [sx]),
@@ -22,9 +33,15 @@ export default function ContrySelector({ sx, ...props }: FormControlProps) {
       >
         <FormLabel>Country</FormLabel>
         <Autocomplete
+          // {...props}
+          // nam
+          name={name}
           size="sm"
           autoHighlight
           autoComplete={false}
+          onChange={handleCountryChange}
+          // onChange={}
+          // onChange={(e) => console.log(e.target)}
           isOptionEqualToValue={(option, value) => option.code === value.code}
           defaultValue={{ code: "IL", label: "Israel", phone: "972" }}
           options={countries}
@@ -61,7 +78,7 @@ export default function ContrySelector({ sx, ...props }: FormControlProps) {
   );
 }
 
-interface CountryType {
+export interface CountryType {
   code: string;
   label: string;
   phone: string;

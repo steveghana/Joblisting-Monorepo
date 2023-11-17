@@ -14,8 +14,11 @@ import {
   Chip,
   Checkbox,
   FormControlLabel,
+  FormHelperText,
 } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../../components/SubCard";
 import { ExpandMore } from "@mui/icons-material";
 import { ReviewLabelObj } from "../../../../../lib/data";
@@ -30,7 +33,11 @@ interface ReviewAndSubmitProps {
   onReviewSubmit: (values: { agreedToTerms: boolean }) => void;
   onEdit: (target: number) => void;
 }
-
+const reviewSchema = Yup.object().shape({
+  agreedToTerms: Yup.boolean()
+    .oneOf([true], "Must agree to terms")
+    .required("You must agree to terms and conditions"),
+});
 const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
   onReviewSubmit,
   onEdit,
@@ -40,6 +47,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
   console.log(formDataState, "this is the form");
   return (
     <Formik
+      validationSchema={reviewSchema}
       initialValues={{ agreedToTerms: false }}
       onSubmit={(values) => onReviewSubmit(values)}
     >
@@ -73,7 +81,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                           {Object.entries(
                             formDataState[item] as Record<
                               string,
-                              string | [string]
+                              string | [string] | any
                             >
                           ).map(([key, value], index) => (
                             <Grid my={index !== 0 && 4} item xs={12} key={key}>
@@ -87,6 +95,8 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
                                   ? value?.map((value) => (
                                       <Chip label={value} />
                                     ))
+                                  : value?.label
+                                  ? value.label
                                   : value}
                               </Typography>
                             </Grid>
@@ -117,13 +127,20 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({
               <label htmlFor="agreedToTerms">
                 I agree to the terms and conditions
               </label>
+              <ErrorMessage name="agreedToTerms" component="div">
+                {(msg) => (
+                  <FormHelperText error variant="filled">
+                    {msg}
+                  </FormHelperText>
+                )}
+              </ErrorMessage>
             </CardContent>
             <CardActions sx={{ justifyContent: "space-between", pt: 2 }}>
               <Button
                 fullWidth
                 type="submit"
                 variant="contained"
-                disabled={isSubmitting}
+                // disabled={isSubmitting}
               >
                 Submit
               </Button>

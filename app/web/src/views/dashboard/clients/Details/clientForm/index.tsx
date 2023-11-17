@@ -10,6 +10,7 @@ import {
   StepLabel,
   StepIconProps,
   styled,
+  FormHelperText,
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import CompanyInfo from "./clientdetailsForm";
@@ -20,7 +21,10 @@ import ReviewAndSubmit from "./review";
 import { Protect } from "../../../../../components/auth/requireAuth";
 import SubCard from "../../../../../components/SubCard";
 import CustomButton from "../../../../../components/button";
-import { FormDataProvider } from "../../../../../utils/Contexts/clientFormContext";
+import {
+  FormDataProvider,
+  useFormData,
+} from "../../../../../utils/Contexts/clientFormContext";
 import {
   Call,
   Check,
@@ -34,6 +38,7 @@ import {
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
+import { useAddClientMutation } from "../../../../../store/services/ClientServce";
 const steps = [
   "Company Info",
   "Project Details",
@@ -111,7 +116,11 @@ function ColorlibStepIcon(props: StepIconProps) {
 const AddClientForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
+  const { formDataState } = useFormData();
+
   const navigate = useNavigate();
+  const [createClient, { isLoading, isError, isSuccess, error }] =
+    useAddClientMutation();
 
   const handleNext = (data, step) => {
     setFormData((prevData) => ({
@@ -144,8 +153,15 @@ const AddClientForm = () => {
   const handleSubmit = (values) => {
     console.log("submitted");
     // Combine all form data and submit as needed
-    const finalFormData = { ...formData, ...values };
+    const finalFormData = { formData };
     console.log("Final Form Data:", finalFormData);
+    createClient({
+      ...formDataState,
+    }).unwrap();
+
+    // } catch (error) {
+
+    // }
     // Add your submission logic here
 
     // For demonstration purposes, navigate to a success page
@@ -190,6 +206,13 @@ const AddClientForm = () => {
                   onEdit={(newstep) => handleEdit(newstep)}
                 />
               )}
+              <>
+                {isError && (
+                  <FormHelperText error variant="filled">
+                    {error as string}
+                  </FormHelperText>
+                )}
+              </>
               {step < 4 && (
                 <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
                   {step > 0 && (

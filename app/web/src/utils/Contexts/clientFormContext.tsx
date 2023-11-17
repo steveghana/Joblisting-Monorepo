@@ -13,7 +13,7 @@ const initialState: ClientFormDataState = {
     email: "",
     phoneNumber: "",
     companyName: "",
-
+    country: { code: "IL", label: "Israel", phone: "972" },
     numOfEmployees: "",
     projectTitle: "",
     description: "",
@@ -21,7 +21,7 @@ const initialState: ClientFormDataState = {
   ["Project Details"]: {
     selectedSkills: [],
     DevsNeeded: "",
-    methodology: "Agile",
+    methodology: "agile",
     experience: "",
     testingQA: "",
   },

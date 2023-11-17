@@ -17,12 +17,7 @@ import {
 } from "@mui/material";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import CustomButton from "../../../../../components/button";
-import {
-  Circle,
-  CircleOutlined,
-  ThumbDownOffAlt,
-  ThumbUp,
-} from "@mui/icons-material";
+
 import ContrySelector from "../../../../../content/applications/Users/settings/CountrySelector";
 
 // Validation schema for Project Info
@@ -83,7 +78,7 @@ const ProjectInfo = ({ onNext }) => {
                 />
               ))}
               <Box my={1}>
-                <ContrySelector />
+                <ContrySelector onChange={handleChange} name={"country"} />
               </Box>
               {/* <Country */}
               <FormControl>
