@@ -17,14 +17,17 @@ import SubCard from "../../../../../components/SubCard";
 import CustomButton from "../../../../../components/button";
 import { useNavigate } from "react-router";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
+import { ArrowBack, BackHand } from "@mui/icons-material";
+import { Box } from "@mui/system";
 
-// const communicationPreferencesValidationSchema = Yup.object().shape({
-//   communicationPreferences: Yup.array()
-//     .min(1, "")
-//     .max(1, ""),
-// });
+const validate = Yup.object().shape({
+  communicationPreferences: Yup.string().required(
+    "Select a communication preference"
+  ),
+  employmentType: Yup.string().required("Employment type is required"),
+});
 
-const CommunicationPreferences = ({ onNext }) => {
+const CommunicationPreferences = ({ onNext, handleBack }) => {
   const communicationOptions = [
     { label: "Email", value: "email" },
     { label: "Video Calls", value: "video_calls" },
@@ -41,6 +44,7 @@ const CommunicationPreferences = ({ onNext }) => {
   return (
     <Formik
       initialValues={formDataState["Communication Type"]}
+      validationSchema={validate}
       onSubmit={(values) => {
         dispatch({ type: "updatecommunicationPreference", payload: values });
 
@@ -72,6 +76,13 @@ const CommunicationPreferences = ({ onNext }) => {
                     />
                   </RadioGroup>
                 ))}
+                <ErrorMessage name="employmentType" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
               <FormControl
                 required
@@ -99,6 +110,13 @@ const CommunicationPreferences = ({ onNext }) => {
                       </RadioGroup>
                     </>
                   ))}
+                  <ErrorMessage name="communicationPreferences" component="div">
+                    {(msg) => (
+                      <FormHelperText error variant="filled">
+                        {msg}
+                      </FormHelperText>
+                    )}
+                  </ErrorMessage>
                 </FormGroup>
                 {/* <>
                   {twoOrMore ? (
@@ -112,12 +130,24 @@ const CommunicationPreferences = ({ onNext }) => {
                   ) : null}
                 </> */}
               </FormControl>
-              <CustomButton
-                text="Next"
-                disabled={isSubmitting}
-                variant="contained"
-                type="submit"
-              />
+              <Box display={"flex"} gap={1}>
+                <CustomButton
+                  text="Next"
+                  fullWidth
+                  disabled={isSubmitting}
+                  variant="contained"
+                  type="submit"
+                />
+                <CustomButton
+                  text="Back"
+                  fullWidth
+                  startIcon={<ArrowBack />}
+                  disabled={isSubmitting}
+                  type="button"
+                  variant="outlined"
+                  onClick={handleBack}
+                />
+              </Box>
             </Stack>
           </SubCard>
         </Form>

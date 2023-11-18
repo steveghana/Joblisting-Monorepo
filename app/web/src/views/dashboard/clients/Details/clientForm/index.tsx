@@ -176,9 +176,18 @@ const AddClientForm = () => {
         <Grid mt={2}>
           <SubCard>
             {step === 0 && <CompanyInfo onNext={handleNext} />}
-            {step === 1 && <ProjectDetails onNext={handleNext} />}
-            {step === 2 && <AdditionalData onNext={handleNext} />}
-            {step === 3 && <CommunicationPreferences onNext={handleNext} />}
+            {step === 1 && (
+              <ProjectDetails handleBack={handleBack} onNext={handleNext} />
+            )}
+            {step === 2 && (
+              <AdditionalData handleBack={handleBack} onNext={handleNext} />
+            )}
+            {step === 3 && (
+              <CommunicationPreferences
+                handleBack={handleBack}
+                onNext={handleNext}
+              />
+            )}
             {step === 4 && (
               <ReviewAndSubmit
                 formData={formData[step]}
@@ -195,15 +204,6 @@ const AddClientForm = () => {
             </> */}
             {step < 4 && (
               <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
-                {step > 0 && (
-                  <CustomButton
-                    text="Back"
-                    type="button"
-                    variant="outlined"
-                    onClick={handleBack}
-                  />
-                )}
-
                 <CustomButton
                   text=" Skip to Next Step"
                   type="button"

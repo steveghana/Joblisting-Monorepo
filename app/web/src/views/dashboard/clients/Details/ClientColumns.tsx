@@ -57,7 +57,7 @@ const ClientTableData = () => {
     ...defaultMRTOptions,
     columns,
     // data,
-    data: clientData, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    data: [], //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
     getRowId: (row) => row.email,
     muiToolbarAlertBannerProps: isError

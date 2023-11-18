@@ -25,14 +25,15 @@ const projectInfoValidationSchema = Yup.object().shape({
   companyName: Yup.string().required("Company Name is required"),
   projectTitle: Yup.string().required("Project Title is required"),
   description: Yup.string().required("Description is required"),
-  // email: Yup.string()
-  //   .email("Must be a valid email")
-  //   .max(255)
-  //   .required("Email is required"),
-  // name: Yup.string().max(255).min(2).required("Please enter a valid name"),
-  // phoneNumber: Yup.string()
-  //   .matches(/^[0-9]{8,15}$/, "Please enter a valid phone number")
-  //   .required("Please enter your phone number"),
+  email: Yup.string()
+    .email("Must be a valid email")
+    .max(255)
+    .required("Email is required"),
+  name: Yup.string().max(255).min(2).required("Please enter a valid name"),
+  phoneNumber: Yup.string()
+    .matches(/^[0-9]{8,15}$/, "Please enter a valid phone number")
+    .required("Please enter your phone number"),
+  numOfEmployees: Yup.string().required("Select number of employees"),
 });
 
 const formFields = [
@@ -67,15 +68,24 @@ const ProjectInfo = ({ onNext }) => {
             </Typography>
             <Stack spacing={2}>
               {formFields.map((item) => (
-                <Field
-                  key={item.name}
-                  name={item.name}
-                  as={TextField}
-                  label={item.label}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                />
+                <>
+                  <Field
+                    key={item.name}
+                    name={item.name}
+                    as={TextField}
+                    label={item.label}
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                  />
+                  <ErrorMessage name={item.name} component="div">
+                    {(msg) => (
+                      <FormHelperText error variant="filled">
+                        {msg}
+                      </FormHelperText>
+                    )}
+                  </ErrorMessage>
+                </>
               ))}
               <Box my={1}>
                 <ContrySelector onChange={handleChange} name={"country"} />
@@ -100,6 +110,13 @@ const ProjectInfo = ({ onNext }) => {
                     />
                   </RadioGroup>
                 ))}
+                <ErrorMessage name="numOfEmployees" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
               <FormControl fullWidth>
                 <Field

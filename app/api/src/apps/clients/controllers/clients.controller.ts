@@ -23,12 +23,16 @@ export class ClientsController {
   @Post()
   create(@Body() createClientDto: any, @Res() res: Response) {
     console.log(createClientDto, 'this is the data from the client');
-    return res.json(
-      new HttpException(
-        'user already exists, try signing up',
-        HttpStatus.BAD_REQUEST,
-      ),
+    throw new HttpException(
+      'user already exists, try signing up',
+      HttpStatus.BAD_REQUEST,
     );
+    // return res.json(
+    //   new HttpException(
+    //     'user already exists, try signing up',
+    //     HttpStatus.BAD_REQUEST,
+    //   ),
+    // );
     // return this.clientsService.create(createClientDto);
   }
 

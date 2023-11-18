@@ -20,6 +20,7 @@ import {
 import SubCard from "../../../../../components/SubCard";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import CustomButton from "../../../../../components/button";
+import { ArrowBack, BackHand } from "@mui/icons-material";
 
 const additionalDataValidationSchema = Yup.object().shape({
   dataContent: Yup.string().required("Additional Data is required"),
@@ -42,7 +43,7 @@ const whenToStart = [
   { label: "More than 2 weeks from now" },
   { label: "I'll decide later" },
 ];
-const AdditionalData = ({ onNext }) => {
+const AdditionalData = ({ onNext, handleBack }) => {
   const { formDataState, dispatch } = useFormData();
 
   return (
@@ -78,6 +79,13 @@ const AdditionalData = ({ onNext }) => {
                     />
                   </RadioGroup>
                 ))}
+                <ErrorMessage name="durationForEmployment" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel component="legend">
@@ -98,6 +106,13 @@ const AdditionalData = ({ onNext }) => {
                     />
                   </RadioGroup>
                 ))}
+                <ErrorMessage name="whenToStart" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
               <FormControl fullWidth>
                 <Field
@@ -118,12 +133,24 @@ const AdditionalData = ({ onNext }) => {
                 </ErrorMessage>
               </FormControl>
 
-              <CustomButton
-                type="submit"
-                variant="contained"
-                disabled={isSubmitting}
-                text="Next"
-              />
+              <Box display={"flex"} gap={1}>
+                <CustomButton
+                  text="Next"
+                  fullWidth
+                  disabled={isSubmitting}
+                  variant="contained"
+                  type="submit"
+                />
+                <CustomButton
+                  text="Back"
+                  fullWidth
+                  startIcon={<ArrowBack />}
+                  disabled={isSubmitting}
+                  type="button"
+                  variant="outlined"
+                  onClick={handleBack}
+                />
+              </Box>
             </Stack>
           </Box>
         </Form>

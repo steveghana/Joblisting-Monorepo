@@ -27,6 +27,7 @@ import {
   methodologyOptions,
 } from "../../../../../lib/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
+import { ArrowBack, BackHand } from "@mui/icons-material";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
@@ -34,12 +35,13 @@ const projectDetailsValidationSchema = Yup.object().shape({
   //   "Technical Requirements are required"
   // ),
   // designPreferences: Yup.string().required("Design Preferences are required"),
+  experience: Yup.string().required("Experience level is required"),
   selectedSkills: Yup.array().required("Skills are required"),
   DevsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
 });
 
-const ProjectDetails = ({ onNext }) => {
+const ProjectDetails = ({ onNext, handleBack }) => {
   const { formDataState, dispatch } = useFormData();
 
   return (
@@ -174,9 +176,24 @@ const ProjectDetails = ({ onNext }) => {
                 </ErrorMessage>
               </FormControl>
 
-              <Button type="submit" variant="contained" disabled={isSubmitting}>
-                Next
-              </Button>
+              <Box display={"flex"} gap={1}>
+                <CustomButton
+                  text="Next"
+                  fullWidth
+                  disabled={isSubmitting}
+                  variant="contained"
+                  type="submit"
+                />
+                <CustomButton
+                  text="Back"
+                  fullWidth
+                  startIcon={<ArrowBack />}
+                  disabled={isSubmitting}
+                  type="button"
+                  variant="outlined"
+                  onClick={handleBack}
+                />
+              </Box>
             </Stack>
           </Box>
         </Form>
