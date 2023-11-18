@@ -11,17 +11,31 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
-// import { CreateClientDto } from '../dto/create-client.dto';
-// import { UpdateClientDto } from '../dto/update-client.dto';
+// import { ClientDto } from './client.dto';
+import { UpdateClientDto } from '../dto/update-client.dto';
+import { ClientDto } from '../dto/create-client.dto';
 import { IClientFormData } from '@/types/client';
 import { Response } from 'express';
+import {
+  ApiBadRequestResponse,
+  ApiInternalServerErrorResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('client')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  create(@Body() createClientDto: any, @Res() res: Response) {
+  @ApiTags('login')
+  @ApiOperation({
+    description: 'loggin new business',
+  })
+  // @UsePipes(ValidationPipe)
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  create(@Body() createClientDto: ClientDto, @Res() res: Response) {
     console.log(createClientDto, 'this is the data from the client');
     throw new HttpException(
       'user already exists, try signing up',

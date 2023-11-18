@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IProfession } from "../../types/roles";
+import { IProfession, IRoleData } from "../../types/roles";
 import axios from "axios";
 import _api_url from "../../api/_api_url";
 import { useTypedDispatch } from "..";
@@ -35,18 +35,17 @@ export const userApi = createApi({
         method: "POST",
         body: user,
       }),
-      transformResponse: (response: { data: IResponse }, meta, arg) => {
+      transformResponse: (response: IResponse, meta, arg) => {
         // Dispatch data to Redux store upon successful query
         // const dispatch = useTypedDispatch();
         // dispatch();
-        return response.data;
+
+        return response;
       },
       // Pick out errors and prevent nested properties in a hook or selector
-      transformErrorResponse: (
-        response: { status: string | number },
-        meta,
-        arg
-      ) => response.status,
+
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (response, meta, arg) => response.data,
       // providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
 
@@ -56,12 +55,34 @@ export const userApi = createApi({
         method: "POST",
         body: user,
       }),
+      transformResponse: (response: { data: IResponse }, meta, arg) => {
+        // Dispatch data to Redux store upon successful query
+        // const dispatch = useTypedDispatch();
+        // dispatch();
+
+        return response.data;
+      },
+      // Pick out errors and prevent nested properties in a hook or selector
+
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (response, meta, arg) => response.data,
     }),
     getUser: builder.query<IResponse, { id: string }>({
       query: ({ id }) => ({
         url: `user/${id}`, // Replace with the appropriate API endpoint
         method: "GET",
       }),
+      transformResponse: (response: { data: IResponse }, meta, arg) => {
+        // Dispatch data to Redux store upon successful query
+        // const dispatch = useTypedDispatch();
+        // dispatch();
+
+        return response.data;
+      },
+      // Pick out errors and prevent nested properties in a hook or selector
+
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (response, meta, arg) => response.data,
     }),
   }),
 });

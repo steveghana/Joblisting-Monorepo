@@ -62,7 +62,7 @@ export const clientApi = createApi({
         method: "GET",
       }),
     }),
-    getClients: builder.query<IClient, void>({
+    getClients: builder.query<IClient[], void>({
       query: () => ({
         url: "client/get", // Replace with the appropriate API endpoint
         method: "GET",

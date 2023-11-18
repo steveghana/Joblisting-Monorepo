@@ -10,6 +10,7 @@ import {
 import TableActions from "../../../../components/Table/TableActions";
 import TopToolbar from "../../../../components/Table/topToolBar";
 import CreatRow from "../../../../components/Table/CreatRow";
+
 //MRT Imports
 import {
   MaterialReactTable,
@@ -27,8 +28,7 @@ import {
   useDeletClientMutation,
 } from "../../../../store/services/ClientServce";
 
-const ClientTableData = () => {
-  const { data, isLoading, isFetching, isError } = useGetClientsQuery();
+const ClientTableData = ({ data, isLoading, isFetching, isError }) => {
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
   const [
@@ -57,7 +57,7 @@ const ClientTableData = () => {
     ...defaultMRTOptions,
     columns,
     // data,
-    data: [], //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
     getRowId: (row) => row.email,
     muiToolbarAlertBannerProps: isError

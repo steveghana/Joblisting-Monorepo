@@ -17,8 +17,12 @@ import { Component } from "react";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { Protect } from "../../../components/auth/requireAuth";
 import ClientTable from "./Details/clientColumns";
+import { useGetClientsQuery } from "../../../store/services/ClientServce";
+import NoData from "../../../components/NoData";
+
 const Clients = () => {
   const navigate = useNavigate();
+  const { data, isLoading, isFetching, isError } = useGetClientsQuery();
 
   return (
     <MainCard title={"Clients"}>
@@ -26,7 +30,16 @@ const Clients = () => {
         text="Add new Client"
         onClick={() => navigate("/dashboard/customers/clients/add")}
       />
-      <ClientTable />
+      {[].length ? (
+        <ClientTable
+          data={[]}
+          isError={isError}
+          isFetching={isFetching}
+          isLoading={isLoading}
+        />
+      ) : (
+        <NoData />
+      )}
     </MainCard>
   );
 };

@@ -66,43 +66,31 @@ const Social = {
 
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
-  const scriptedRef = useScriptRef();
+
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const customization = useSelector((state: any) => state.customization);
   const router = useNavigate();
 
   const [checked, setChecked] = useState(true);
-  const [loginUser, { isLoading }] = useLoginUserMutation({});
+  const [loginUser, { isLoading, isError, error }] = useLoginUserMutation({});
   const googleHandler = async () => {
     console.error("Login");
   };
-  async function login(values, setters, scriptedRef) {
-    try {
-      // const s = await api.user.login(values.email, values.password, false);
-      const data = await loginUser({
-        password: values.password,
-        email: values.email,
-        rememberMe: false,
-      }).unwrap();
+  async function login(values) {
+    // const s = await api.user.login(values.email, values.password, false);
+    const data = await loginUser({
+      password: values.password,
+      email: values.email,
+      rememberMe: false,
+    }).unwrap();
+    if (!data) return;
+    const { authTokenId, role } = data;
+    if (!authTokenId) return;
+    localStorage.setItem("auth_token", authTokenId);
+    localStorage.setItem("role", role);
 
-      if (!data) return;
-      const { authTokenId, role } = data;
-      // console.log(authTokenId, role);
-      if (!authTokenId) return;
-      localStorage.setItem("auth_token", authTokenId);
-      localStorage.setItem("role", role);
-
-      if (scriptedRef.current) {
-        setters.setStatus({ success: true });
-        setters.setSubmitting(false);
-      }
-      router("/dashboard/default");
-      return true;
-    } catch (error) {
-      setters.setStatus({ success: false });
-      setters.setErrors({ submit: error.data });
-      setters.setSubmitting(false);
-    }
+    router("/dashboard/default");
+    return true;
   }
 
   const [showPassword, setShowPassword] = useState(false);
@@ -134,7 +122,7 @@ const FirebaseLogin = ({ ...others }) => {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, setters) => {
-          await login(values, setters, scriptedRef);
+          await login(values);
         }}
       >
         {({
@@ -322,14 +310,14 @@ const FirebaseLogin = ({ ...others }) => {
                 Forgot Password?
               </Typography>
             </Stack>
-            {errors.submit && (
+            {isError && (
               <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
                 sx={{ mt: 3 }}
               >
-                <FormHelperText error>{errors.submit as string}</FormHelperText>
+                <FormHelperText error>{error as string}</FormHelperText>
               </Box>
             )}
 
@@ -337,7 +325,7 @@ const FirebaseLogin = ({ ...others }) => {
               <AnimateButton>
                 <CustomButton
                   disableElevation
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isLoading}
                   fullWidth
                   size="large"
                   text="Sign in"

@@ -18,14 +18,14 @@ export default function componentStyleOverrides(theme) {
           fontWeight: 500,
           borderColor: "#4facfe",
           borderRadius: "4px",
-          transition: "background 1s ease",
+          // transition: "background 1s ease",
           "&.MuiButton-contained": {
             // background: "#4facfe",
             background: "linear-gradient(to left, #4facfe 0%, #47a4f5 100%)",
           },
           outline: "none",
           "&.MuiButton-contained:hover": {
-            transition: "1s ease",
+            // transition: "1s ease",
             background: "linear-gradient(to left, #4facfe 0%, #47a4f5 100%)",
           },
         },
