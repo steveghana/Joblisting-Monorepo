@@ -22,7 +22,7 @@ import {
 import { UserEntity } from '../models/user.entity';
 import { IUser } from '../models/user';
 import { GoogleLoginUserDto } from '../controllers/user.dto';
-import { IProfession } from '@/types/user';
+import { IProfession } from '../../../types/user';
 // import { Cache } from 'cache-manager';
 
 @Injectable()

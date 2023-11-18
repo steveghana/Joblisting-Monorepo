@@ -4,7 +4,7 @@ import {
 } from '../../../util/dependencyInjector';
 import { createApplication, getApplicationById } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
-import { IApplication, IStatusApplication } from '@/types/application';
+import { IApplication, IStatusApplication } from '../../../types/application';
 
 class Application {
   dependencies: Dependencies = null;

@@ -25,7 +25,8 @@ export class Client {
 
   @Column({ nullable: true })
   avatar?: string;
-
+  @Column()
+  communicationPreferences: string;
   @Column()
   phoneNumber: string;
   @Column()
@@ -38,7 +39,7 @@ export class Client {
 
   @Column()
   projectTitle: string;
-  @Column()
+  @Column({ nullable: true })
   startDate: Date;
   // Define the association with Roles
   @OneToMany((type) => Role, (role) => role.client)

@@ -6,21 +6,14 @@ import {
   IsArray,
   IsDateString,
   IsEnum,
+  isString,
+  ValidateNested,
+  IsOptional,
 } from 'class-validator';
-
+import { Type } from 'class-transformer';
 // Enum for employment type
-enum EmploymentType {
-  FullTime = 'Full Time',
-  PartTime = 'Part Time',
-  Contract = 'Contract',
-}
 
 // Enum for communication preferences
-enum CommunicationPreferences {
-  Email = 'Email',
-  Phone = 'Phone',
-  Both = 'Both',
-}
 
 export class ClientDto {
   @IsNotEmpty()
@@ -31,7 +24,7 @@ export class ClientDto {
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   industry: string[];
 
@@ -61,7 +54,7 @@ export class ClientDto {
   projectTitle: string;
 
   // Assuming startDate is a date string
-  @IsNotEmpty()
+  @IsOptional()
   @IsDateString()
   startDate: Date;
 
@@ -124,12 +117,12 @@ export class AdditionalDataDto {
 export class CommunicationTypeDto {
   // Assuming communicationPreferences is a string
   @IsNotEmpty()
-  @IsEnum(CommunicationPreferences)
+  @IsString()
   communicationPreferences: string;
 
   // Assuming employmentType is a string
   @IsNotEmpty()
-  @IsEnum(EmploymentType)
+  @IsString()
   employmentType: string;
 
   constructor(data: IClientFormData['Communication Type']) {
@@ -138,24 +131,23 @@ export class CommunicationTypeDto {
 }
 
 export class ClientFormDataDto {
+  @Type(() => ClientDto)
+  @ValidateNested()
   @IsNotEmpty()
-  clientInfo: ClientDto;
+  'Client info': ClientDto;
 
+  @Type(() => ProjectDetailsDto)
+  @ValidateNested()
   @IsNotEmpty()
-  projectDetails: ProjectDetailsDto;
+  'Project Details': ProjectDetailsDto;
 
+  @Type(() => AdditionalDataDto)
+  @ValidateNested()
   @IsNotEmpty()
-  additionalData: AdditionalDataDto;
+  'Additional Data': AdditionalDataDto;
 
+  @Type(() => CommunicationTypeDto)
+  @ValidateNested()
   @IsNotEmpty()
-  communicationType: CommunicationTypeDto;
-
-  constructor(data: IClientFormData) {
-    this.clientInfo = new ClientDto(data['Client info']);
-    this.projectDetails = new ProjectDetailsDto(data['Project Details']);
-    this.additionalData = new AdditionalDataDto(data['Additional Data']);
-    this.communicationType = new CommunicationTypeDto(
-      data['Communication Type'],
-    );
-  }
+  'Communication Type': CommunicationTypeDto;
 }

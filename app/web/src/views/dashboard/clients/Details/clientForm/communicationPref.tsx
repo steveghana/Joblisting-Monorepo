@@ -37,6 +37,7 @@ const CommunicationPreferences = ({ onNext, handleBack }) => {
     { label: "Full time (40 or more hrs/week)" },
     { label: "Part time (Less than 40 hrs/week)" },
     { label: "Hourly" },
+    { label: "Contract" },
     { label: "I'll decide later" },
   ];
   const { formDataState, dispatch } = useFormData();

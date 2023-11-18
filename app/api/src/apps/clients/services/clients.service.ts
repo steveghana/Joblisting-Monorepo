@@ -1,22 +1,85 @@
-import { Injectable } from '@nestjs/common';
-// import { CreateClientDto } from '../dto/create-client.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ClientFormDataDto } from '../dto/create-client.dto';
+import {
+  Dependencies,
+  injectDependencies,
+} from '../../../util/dependencyInjector';
 // import { UpdateClientDto } from '../dto/update-client.dto';
 import Client from '../dataManager';
-import { IClientFormData } from '@/types/client';
+import { IClientFormData } from '../../../types/client';
+import { useTransaction } from '../../../Config/transaction';
+import Roles from '../../../apps/roles/dataManager';
+import { getAllClients } from '../DBQueries';
 
 @Injectable()
 export class ClientsService {
-  create(createClientDto: IClientFormData) {
-    // Client.createClient()
-    return 'This action adds a new client';
+  create(
+    createClientDto: ClientFormDataDto,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
+    return useTransaction(async (transaction) => {
+      console.log(createClientDto, 'client data');
+      const [client, clientMethods] = await Client.findElseCreate(
+        {
+          //TODO change  industry and startDate later
+          industry: ['Tech', 'Real Estate'],
+          startDate: new Date(),
+          ...createClientDto['Client info'],
+          communicationPreferences:
+            createClientDto['Communication Type'].communicationPreferences,
+        },
+        transaction,
+        dependencies,
+      );
+      if (clientMethods.exists) {
+        console.log('throwing new exceptions ...........');
+        throw new HttpException(
+          'client already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const {
+        'Additional Data': additionalData,
+        'Client info': clientInfo,
+        'Communication Type': communicationType,
+        'Project Details': projectDetails,
+      } = createClientDto;
+
+      const role = await Roles.createRoles(
+        {
+          client,
+          clientId: client.id,
+          title: client.projectTitle,
+          description: client.description,
+          vacancy_status:
+            additionalData.whenToStart !== 'i will decide later'
+              ? 'Open'
+              : 'Closed',
+          skills_required: projectDetails.selectedSkills,
+          numOfEmployees: clientInfo.numOfEmployees,
+          ...additionalData,
+          ...projectDetails,
+        },
+        transaction,
+        dependencies,
+      );
+      return client;
+    });
   }
 
   findAll() {
-    return `This action returns all clients`;
+    return useTransaction(async (transaction) => {
+      const data = await Client.getAll();
+      return data;
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} client`;
+    return useTransaction(async (transaction) => {
+      const data = await Client.getById(id);
+      return data;
+    });
   }
 
   update(id: number, updateClientDto: Partial<IClientFormData>) {

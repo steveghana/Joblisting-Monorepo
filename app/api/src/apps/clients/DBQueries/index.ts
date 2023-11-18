@@ -7,26 +7,53 @@ import { DeepPartial, EntityManager } from 'typeorm';
 import { Client } from '../entities/client.entity';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
-import { IClient } from '@/types/client';
+import { IClient } from '../../../types/client';
+import { ensureTransaction } from '../../../Config/transaction';
+import { ClientFormDataDto } from '../dto/create-client.dto';
 
-export async function createClient(
-  // roleId: number,
-  clientData: IClient,
+export const getAllClients = (
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
-) /* : Promise<ICredentialToken> */ {
+) => {
   dependencies = injectDependencies(dependencies, ['db']);
-  const clientRepo = transaction.getRepository(dependencies.db.models.client);
-  let newApplication = await clientRepo.create({
-    ...clientData,
-  });
-  let data = await clientRepo.save(newApplication);
-
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return data;
+
+  return myDataSource.manager
+    .getRepository(dependencies.db.models.client)
+    .find({});
+};
+
+export function findElseCreateClient(
+  email: string,
+  clientInfo: IClient & { communicationPreferences: string },
+  transactionParam: EntityManager = null,
+  dependencies: Dependencies = null,
+): Promise<[Client, boolean]> {
+  dependencies = injectDependencies(dependencies, ['db']);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+  return ensureTransaction(
+    transactionParam,
+    async (transaction) => {
+      const clientRepo = transaction.getRepository(
+        dependencies.db.models.client,
+      );
+      const existingClient = (await clientRepo.findOne({
+        where: { email: email.toLowerCase() },
+      })) as unknown as Client;
+      if (existingClient) {
+        return [existingClient, false];
+      }
+
+      const newClient = clientRepo.create({ ...clientInfo });
+      let data = (await clientRepo.save(newClient)) as Client;
+      return [data, true];
+    },
+    dependencies,
+  );
 }
 
-export function getApplicationById(
+export function getClientById(
   id: number,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -42,6 +69,8 @@ export function getApplicationById(
 }
 
 export default {
-  createClient,
-  getApplicationById,
+  getAllClients,
+  // createClient,
+  getClientById,
+  findElseCreateClient,
 };

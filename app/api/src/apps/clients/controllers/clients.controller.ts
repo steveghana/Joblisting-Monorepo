@@ -9,12 +9,15 @@ import {
   Res,
   HttpException,
   HttpStatus,
+  UsePipes,
+  ValidationPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
 // import { ClientDto } from './client.dto';
 import { UpdateClientDto } from '../dto/update-client.dto';
-import { ClientDto } from '../dto/create-client.dto';
-import { IClientFormData } from '@/types/client';
+import { ClientDto, ClientFormDataDto } from '../dto/create-client.dto';
+import { IClientFormData } from '../../../types/client';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
@@ -22,37 +25,33 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { ValidationError, validate } from 'class-validator';
+import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 
 @Controller('client')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  @ApiTags('login')
+  @ApiTags('creat client')
   @ApiOperation({
     description: 'loggin new business',
   })
-  // @UsePipes(ValidationPipe)
+  @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  create(@Body() createClientDto: ClientDto, @Res() res: Response) {
-    console.log(createClientDto, 'this is the data from the client');
-    throw new HttpException(
-      'user already exists, try signing up',
-      HttpStatus.BAD_REQUEST,
-    );
-    // return res.json(
-    //   new HttpException(
-    //     'user already exists, try signing up',
-    //     HttpStatus.BAD_REQUEST,
-    //   ),
-    // );
-    // return this.clientsService.create(createClientDto);
+  async create(
+    @Body() createClientDto: ClientFormDataDto,
+    @Res() res: Response,
+  ) {
+    const result = await this.clientsService.create(createClientDto);
+    return res.status(200).send(result);
   }
 
   @Get()
-  findAll() {
-    return this.clientsService.findAll();
+  findAll(@Res() res: Response) {
+    const result = this.clientsService.findAll();
+    return result;
   }
 
   @Get(':id')

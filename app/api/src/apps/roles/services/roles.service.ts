@@ -4,22 +4,26 @@ import { UpdateRoleDto } from '../dto/update-role.dto';
 import Roles from '../dataManager';
 import Client from '../../clients/dataManager';
 import { useTransaction } from '../../../util/transaction';
+import { Dependencies } from '../../../util/dependencyInjector';
 
 @Injectable()
 export class RolesService {
-  public async create(createRoleDto: CreateRoleDto) {
+  public async create(
+    createRoleDto: CreateRoleDto,
+    dependencies: Dependencies = null,
+  ) {
     const { client, ...rest } = createRoleDto;
     return useTransaction(async (transaction) => {
-      let clientDetails;
-      clientDetails = await Client.getById(createRoleDto.clientId);
-      if (!clientDetails.data) {
-        clientDetails = Client.createClient(createRoleDto.client, transaction);
-      }
-      const data = await Roles.createRoles({
-        ...rest,
-        client: clientDetails.data,
-        vacancy_status: 'Open',
-      });
+      let clientDetails = await Client.getById(createRoleDto.clientId);
+
+      const data = await Roles.createRoles(
+        {
+          client: clientDetails.data,
+          ...rest,
+        },
+        transaction,
+        dependencies,
+      );
       return data;
     });
   }

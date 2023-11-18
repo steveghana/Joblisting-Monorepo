@@ -6,23 +6,27 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { RolesService } from '../services/roles.service';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
+import { Response } from 'express';
 
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @Post()
-  create(@Body() createRoleDto: CreateRoleDto) {
-    return this.rolesService.create(createRoleDto);
+  create(@Body() createRoleDto: CreateRoleDto, @Res() res: Response) {
+    const result = this.rolesService.create(createRoleDto);
+    return res.json(result);
   }
 
   @Get()
-  findAll() {
-    return this.rolesService.findAll();
+  findAll(@Res() res: Response) {
+    const result = this.rolesService.findAll();
+    return res.json(result);
   }
 
   @Get(':id')

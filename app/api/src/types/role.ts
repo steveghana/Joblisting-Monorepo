@@ -1,9 +1,9 @@
 import { IApplication } from './application';
-import { IClient } from './client';
+import { IClient, IClientFormData } from './client';
 // import { IDeveloper } from './developer';
 import { Iinterviews } from './interviews';
 
-export type IRole = {
+export interface IRole {
   id?: number;
 
   client: IClient;
@@ -12,8 +12,15 @@ export type IRole = {
   // developer: any;
 
   title: string;
-
+  durationForEmployment: string;
+  DevsNeeded: string;
+  methodology: string;
+  experience: string;
+  testingQA: string;
+  whenToStart: string;
+  dataContent: string;
   description: string;
+  numOfEmployees: string;
 
   skills_required: string[]; // Store skills as JSON
 
@@ -22,4 +29,4 @@ export type IRole = {
   interviews?: any[];
 
   application?: IApplication[];
-};
+}

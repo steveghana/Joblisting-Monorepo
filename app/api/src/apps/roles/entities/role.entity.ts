@@ -30,6 +30,22 @@ export class Role {
 
   @Column()
   description: string;
+  @Column()
+  durationForEmployment: string;
+  @Column()
+  DevsNeeded: string;
+  @Column()
+  methodology: string;
+  @Column()
+  experience: string;
+  @Column()
+  testingQA: string;
+  @Column()
+  whenToStart: string;
+  @Column()
+  dataContent: string;
+  @Column()
+  numOfEmployees: string;
 
   @Column('simple-json')
   skills_required: string[]; // Store skills as JSON
