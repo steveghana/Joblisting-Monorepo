@@ -76,6 +76,7 @@ export class ClientsController {
     @Body() updateClientDto: Partial<IClientFormData['Client info']>,
     @Res() res: Response,
   ) {
+    console.log(updateClientDto);
     const result = await this.clientsService.update(+id, updateClientDto);
     console.log(result, 'from update');
     return res.status(200).send(result);
