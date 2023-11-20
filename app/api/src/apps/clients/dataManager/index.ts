@@ -48,67 +48,52 @@ class Client {
 
     return newclient;
   }
-  static async getAll(dependencies: Dependencies = null): Promise<Client[]> {
-    dependencies = injectDependencies(dependencies, ['db']);
-    const newClients: Client[] = [];
+  // static async getAll(
+  //   transaction: EntityManager,
+  //   dependencies: Dependencies = null,
+  // ): Promise<Client[]> {
+  //   dependencies = injectDependencies(dependencies, ['db']);
+  //   const newClients: Client[] = [];
 
-    // Fetch all clients
-    const allClientsData = await getAllClients(null, dependencies);
+  //   // Fetch all clients
+  //   const allClientsData = await getAllClients(transaction, dependencies);
+  //   console.log(allClientsData, 'from clients');
+  //   // Create Client instances for each fetched data
+  //   // for (const clientData of allClientsData) {
+  //     const newClient = new Client(dependencies);
+  //     newClient.data = clientData;
+  //     newClients.push(newClient);
+  //   // }
 
-    // Create Client instances for each fetched data
-    for (const clientData of allClientsData) {
-      const newClient = new Client(dependencies);
-      newClient.data = clientData;
-      newClients.push(newClient);
-    }
+  //   return newClients;
+  // }
 
-    return newClients;
-  }
-
-  get id(): number | number[] {
-    if (Array.isArray(this.data)) {
-      return this.data.map((client) => client.id);
-    }
+  get id(): number {
     return this.data.id;
   }
 
-  get email(): string | string[] {
-    if (Array.isArray(this.data)) {
-      return this.data.map((client) => client.email);
-    }
+  get email(): string {
     return this.data.email;
   }
 
-  get industry(): string[] | string[][] {
-    if (Array.isArray(this.data)) {
-      return this.data.map((client) => client.industry);
-    }
+  get industry(): string[] {
     return this.data.industry;
   }
 
-  get name(): string | string[] {
-    if (Array.isArray(this.data)) {
-      return this.data.map((client) => client.name);
-    }
+  get name(): string {
     return this.data.name;
   }
 
   // ... modify other getters as needed ...
 
-  get phone_number(): string | string[] {
-    if (Array.isArray(this.data)) {
-      return this.data.map((client: IClient) => client.phoneNumber);
-    }
+  get phone_number(): string {
     return this.data.phoneNumber;
   }
-  get description(): string | string[] {
-    if (Array.isArray(this.data)) {
-      return this.data.map((client: IClient) => client.description);
-    }
+  get description(): string {
     return this.data.description;
   }
   get exists(): boolean {
-    return Array.isArray(this.data) ? this.data.length > 0 : this.data !== null;
+    return this.data !== null;
   }
 }
 

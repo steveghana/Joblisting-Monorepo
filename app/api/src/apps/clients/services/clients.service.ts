@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ClientFormDataDto } from '../dto/create-client.dto';
+import { ClientDto, ClientFormDataDto } from '../dto/create-client.dto';
 import {
   Dependencies,
   injectDependencies,
@@ -31,7 +31,7 @@ export class ClientsService {
         transaction,
         dependencies,
       );
-      if (clientMethods.exists) {
+      if (!clientMethods._isNewlyCreated) {
         console.log('throwing new exceptions ...........');
         console.log(client);
         throw new HttpException(
@@ -64,15 +64,16 @@ export class ClientsService {
         transaction,
         dependencies,
       );
-      console.log(client, 'client data');
+      // console.log(client, role, 'client data');
 
-      return { client, role };
+      return client;
     });
   }
 
-  findAll() {
+  findAll(dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
-      const data = await Client.getAll();
+      const data = await getAllClients(transaction, dependencies);
+      console.log(data, 'client data');
       return data;
     });
   }
@@ -80,7 +81,11 @@ export class ClientsService {
   findOne(id: number) {
     return useTransaction(async (transaction) => {
       const data = await Client.getById(id);
-      return data;
+
+      // console.log(data, 'from getthtin client');
+      // const dataDto = this.mapEntityToDto(data.data);
+      // return dataDto;
+      return data.data;
     });
   }
 

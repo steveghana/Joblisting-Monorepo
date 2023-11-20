@@ -18,9 +18,9 @@ export const getAllClients = (
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
-  return myDataSource.manager
+  return transaction
     .getRepository(dependencies.db.models.client)
-    .find({});
+    .find({ relations: ['roles'] });
 };
 
 export function findElseCreateClient(
@@ -45,15 +45,9 @@ export function findElseCreateClient(
         return [existingClient, false];
       } else {
         const newClient = clientRepo.create({ ...clientInfo });
-        try {
-          const savedClient = await clientRepo.save(newClient);
-          console.log(savedClient, 'this is the saved data...........');
-          return [savedClient, true];
-        } catch (error) {
-          console.error('Error saving client:', error.message);
-          // Handle the error (e.g., log, throw a custom exception, etc.)
-          return [null, false];
-        }
+        const savedClient = await clientRepo.save(newClient);
+        console.log(savedClient, 'this is the saved data...........');
+        return [savedClient, true];
       }
     },
     dependencies,

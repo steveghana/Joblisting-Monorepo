@@ -49,15 +49,15 @@ export class ClientsController {
   }
 
   @Get()
-  findAll(@Res() res: Response) {
-    const result = this.clientsService.findAll();
-    return res.status(200).json(result);
+  async findAll(@Res() res: Response) {
+    const result = await this.clientsService.findAll();
+    return res.status(200).send(result);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Res() res: Response) {
-    const result = this.clientsService.findOne(+id);
-    return res.status(200).json(result);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.clientsService.findOne(+id);
+    return res.status(200).send(result);
   }
 
   @Patch(':id')
