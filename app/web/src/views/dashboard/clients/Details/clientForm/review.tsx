@@ -26,6 +26,7 @@ import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { themePalette } from "../../../../../themes/schemes/palette";
 import CustomButton from "../../../../../components/button";
 import { useAddClientMutation } from "../../../../../store/services/ClientServce";
+import { useNavigate } from "react-router";
 
 type FormData = {
   [key: string]: string | string[] | boolean;
@@ -41,7 +42,8 @@ const reviewSchema = Yup.object().shape({
 });
 const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
   const { formDataState } = useFormData();
-  const [createClient, { isLoading, isError, isSuccess, error }] =
+  const navigate = useNavigate();
+  const [createClient, { data, isLoading, isError, isSuccess, error }] =
     useAddClientMutation();
   const handleSubmit = (values) => {
     console.log("Final Form Data:", formDataState);
@@ -49,10 +51,11 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
       createClient({
         ...formDataState,
       }).unwrap();
+      console.log(data, "data from client");
+      navigate("/dashboard/customers/clients");
     } catch (error) {
       console.log(error, "from eerror");
     }
-    // navigate("/success");
   };
   console.log(formDataState, "this is the form");
   return (

@@ -1,4 +1,5 @@
 // import "reflect-metadata"
+// import s from '../../clients/controllers/clients.controller.spec'
 // import {
 //     createTestingConnections,
 //     closeTestingConnections,
@@ -39,7 +40,7 @@
 
 //                 console.log(orphanedComments)
 
-//                 // throws an error 
+//                 // throws an error
 //                 const postsWithoutComments = await postRepo.find({
 //                     where: { comments: IsNull() },
 //                 })

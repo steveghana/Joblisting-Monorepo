@@ -1,6 +1,4 @@
 import {
-  CACHE_MANAGER,
-  CacheModule,
   Inject,
   Logger,
   Module,
@@ -8,6 +6,8 @@ import {
   Next,
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import { CACHE_MANAGER, CacheModule} from '@nestjs/cache-manager'
+
 import * as redisStore from 'cache-manager-ioredis';
 import { RedisCacheService } from './redis.service';
 

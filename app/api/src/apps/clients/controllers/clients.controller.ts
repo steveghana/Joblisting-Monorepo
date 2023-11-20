@@ -45,18 +45,19 @@ export class ClientsController {
     @Res() res: Response,
   ) {
     const result = await this.clientsService.create(createClientDto);
-    return res.status(200).send(result);
+    return res.json(result);
   }
 
   @Get()
   findAll(@Res() res: Response) {
     const result = this.clientsService.findAll();
-    return result;
+    return res.status(200).json(result);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientsService.findOne(+id);
+  findOne(@Param('id') id: string, @Res() res: Response) {
+    const result = this.clientsService.findOne(+id);
+    return res.status(200).json(result);
   }
 
   @Patch(':id')
@@ -64,11 +65,13 @@ export class ClientsController {
     @Param('id') id: string,
     @Body() updateClientDto: Partial<IClientFormData>,
   ) {
-    return this.clientsService.update(+id, updateClientDto);
+    const result = this.clientsService.update(+id, updateClientDto);
+    return result;
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.clientsService.remove(+id);
+    const result = this.clientsService.remove(+id);
+    return result;
   }
 }

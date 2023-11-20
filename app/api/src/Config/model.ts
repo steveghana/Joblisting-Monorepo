@@ -2,7 +2,7 @@
 import { AuthtokenEntity as authToken } from '../apps/auth/models/Token/authToken.entity';
 import { CredentialTokenEntity as credentialToken } from '../apps/auth/models/CredentialToken/credentialToken.entity';
 import { UserEntity as user } from '../apps/auth/models/user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 import { Application as application } from '../apps/applications/entities/application.entity';
 import { Role as role } from '../apps/roles/entities/role.entity';
 import { Interview as interviews } from '../apps/interviews/entities/interview.entity';
@@ -10,7 +10,7 @@ import { Developer as developer } from '../apps/developers/entities/developer.en
 import { ClockHours as clockedHours } from '../apps/clocked-hours/entities/clocked-hour.entity';
 import { Client as client } from '../apps/clients/entities/client.entity';
 
-type RepositoryType<T> = Repository<T>;
+type RepositoryType<T extends ObjectLiteral> = Repository<T>;
 export type Repositories = {
   authToken: RepositoryType<authToken>;
   user: RepositoryType<user>;

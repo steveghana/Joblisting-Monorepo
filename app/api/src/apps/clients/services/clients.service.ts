@@ -19,7 +19,6 @@ export class ClientsService {
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
     return useTransaction(async (transaction) => {
-      console.log(createClientDto, 'client data');
       const [client, clientMethods] = await Client.findElseCreate(
         {
           //TODO change  industry and startDate later
@@ -34,6 +33,7 @@ export class ClientsService {
       );
       if (clientMethods.exists) {
         console.log('throwing new exceptions ...........');
+        console.log(client);
         throw new HttpException(
           'client already exists',
           HttpStatus.BAD_REQUEST,
@@ -64,7 +64,9 @@ export class ClientsService {
         transaction,
         dependencies,
       );
-      return client;
+      console.log(client, 'client data');
+
+      return { client, role };
     });
   }
 

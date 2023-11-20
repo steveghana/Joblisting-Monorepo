@@ -27,14 +27,12 @@ class Client {
     dependencies: Dependencies = null,
   ): Promise<[IClient, Client]> {
     dependencies = injectDependencies(dependencies, ['db']);
-    console.log(clientDetails, 'this is the cleint datailaefklf');
     const [clientData, isNewlyCreated] = await findElseCreateClient(
       clientDetails.email.toLowerCase(),
       clientDetails,
       transaction,
       dependencies,
     );
-
     const newclient = new Client(dependencies);
     (newclient.data as unknown) = clientData;
     (newclient._isNewlyCreated as unknown) = isNewlyCreated;
