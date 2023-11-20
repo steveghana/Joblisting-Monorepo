@@ -22,6 +22,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:single": "jest --config ./src/apps/api-gateway/test/jest-single.json",
+    "test:unit": "jest --config ./src/apps/api-gateway/test/jest-unit.json",
     "test:e2e": "jest --config ./src/apps/api-gateway/test/jest-e2e.json",
     "typeorm": "npm run build && ts-node ../../node_modules/typeorm/cli",
     "typeorm:run-migrations": "npm run typeorm migration:run -- -d ./db/data-source.ts",

@@ -9,6 +9,7 @@ import {
   isString,
   ValidateNested,
   IsOptional,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 // Enum for employment type
@@ -16,6 +17,9 @@ import { Type } from 'class-transformer';
 // Enum for communication preferences
 
 export class ClientDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
   @IsNotEmpty()
   @IsString()
   name: string;

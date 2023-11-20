@@ -4,11 +4,12 @@ import {
 } from '../../../util/dependencyInjector';
 import {
   // createClient,
-  getAllClients,
+  deleteClient,
+  updateClient,
   getClientById,
   findElseCreateClient,
 } from '../DBQueries/index';
-import { EntityManager } from 'typeorm';
+import { EntityManager, ObjectLiteral } from 'typeorm';
 import { IClient } from '@/types/client';
 import { ClientFormDataDto } from '../dto/create-client.dto';
 
@@ -67,6 +68,25 @@ class Client {
 
   //   return newClients;
   // }
+  static async destroy(
+    clientId: number,
+    // tableIds: number[],
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<number> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await deleteClient(clientId, transaction, dependencies);
+  }
+
+  static async update(
+    clientId: number,
+    client: Partial<IClient>,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<ObjectLiteral> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await updateClient(clientId, client, transaction, dependencies);
+  }
 
   get id(): number {
     return this.data.id;

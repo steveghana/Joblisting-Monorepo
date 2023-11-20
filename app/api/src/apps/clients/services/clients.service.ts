@@ -73,7 +73,9 @@ export class ClientsService {
   findAll(dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const data = await getAllClients(transaction, dependencies);
-      console.log(data, 'client data');
+      if (!data.length) {
+        return null;
+      }
       return data;
     });
   }
@@ -81,19 +83,40 @@ export class ClientsService {
   findOne(id: number) {
     return useTransaction(async (transaction) => {
       const data = await Client.getById(id);
-
-      // console.log(data, 'from getthtin client');
-      // const dataDto = this.mapEntityToDto(data.data);
-      // return dataDto;
+      console.log(data.data, 'from client');
+      if (!data.data) {
+        return null;
+      }
       return data.data;
     });
   }
 
-  update(id: number, updateClientDto: Partial<IClientFormData>) {
-    return `This action updates a #${id} client`;
+  update(
+    id: number,
+    updateClientDto: Partial<IClientFormData['Client info']>,
+    dependencies: Dependencies = null,
+  ) {
+    return useTransaction(async (transaction) => {
+      const data = await Client.update(id, updateClientDto, transaction);
+      if (!data) {
+        throw new HttpException(
+          'Something went wrong, couldnt update client',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return data;
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+  remove(id: number, dependencies: Dependencies = null) {
+    return useTransaction(async (transaction) => {
+      const deleted = await Client.destroy(id, transaction);
+      if (!deleted) {
+        throw new HttpException(
+          'Something went wrong, couldnt delete client',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    });
   }
 }

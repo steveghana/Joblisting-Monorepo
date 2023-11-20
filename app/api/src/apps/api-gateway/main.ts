@@ -39,12 +39,12 @@ export async function init() {
   app.use(helmet());
 
   // Global pipes
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     transform: true,
-  //     whitelist: true,
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
+  );
   app.enableCors();
   app.useLogger(new Logger());
   app.useGlobalFilters(new HttpExceptionFilter());

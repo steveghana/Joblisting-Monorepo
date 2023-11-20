@@ -66,11 +66,56 @@ export function getClientById(
     .getRepository(dependencies.db.models.client)
     .findOne({
       where: { id },
+      relations: ['roles'],
     });
 }
+export async function deleteClient(
+  id: number,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+): Promise<number> {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const roles = transaction.getRepository(dependencies.db.models.role);
 
+  // delete all previous relations between area - table
+  await roles.delete({
+    client: {
+      id,
+    },
+  });
+
+  const { affected } = await transaction
+    .getRepository(dependencies.db.models.client)
+    .delete({
+      id,
+    });
+  return affected;
+  // delete all  tables
+}
+
+export async function updateClient(
+  id: number,
+  updates: Partial<IClient>,
+  transactionParam: EntityManager = null,
+  dependencies: Dependencies = null,
+) {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const clientRepo = transactionParam.getRepository(
+    dependencies.db.models.client,
+  );
+  return await ensureTransaction(
+    transactionParam,
+    async (transaction) => {
+      const { generatedMaps } = await clientRepo.update({ id }, { ...updates });
+      return generatedMaps;
+    },
+    dependencies,
+  );
+}
 export default {
   getAllClients,
+  updateClient,
+  deleteClient,
   // createClient,
   getClientById,
   findElseCreateClient,

@@ -7,15 +7,10 @@ import {
   Param,
   Delete,
   Res,
-  HttpException,
-  HttpStatus,
-  UsePipes,
-  ValidationPipe,
   UseFilters,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
 // import { ClientDto } from './client.dto';
-import { UpdateClientDto } from '../dto/update-client.dto';
 import { ClientDto, ClientFormDataDto } from '../dto/create-client.dto';
 import { IClientFormData } from '../../../types/client';
 import { Response } from 'express';
@@ -35,7 +30,7 @@ export class ClientsController {
   @Post()
   @ApiTags('creat client')
   @ApiOperation({
-    description: 'loggin new business',
+    description: 'create a new client',
   })
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
@@ -45,10 +40,18 @@ export class ClientsController {
     @Res() res: Response,
   ) {
     const result = await this.clientsService.create(createClientDto);
+    console.log(result);
     return res.json(result);
   }
 
   @Get()
+  @ApiTags('get clients')
+  @ApiOperation({
+    description: 'get all existing clients',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async findAll(@Res() res: Response) {
     const result = await this.clientsService.findAll();
     return res.status(200).send(result);
@@ -61,17 +64,33 @@ export class ClientsController {
   }
 
   @Patch(':id')
-  update(
+  @ApiTags('update client')
+  @ApiOperation({
+    description: 'update a client',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async update(
     @Param('id') id: string,
-    @Body() updateClientDto: Partial<IClientFormData>,
+    @Body() updateClientDto: Partial<IClientFormData['Client info']>,
+    @Res() res: Response,
   ) {
-    const result = this.clientsService.update(+id, updateClientDto);
-    return result;
+    const result = await this.clientsService.update(+id, updateClientDto);
+    console.log(result, 'from update');
+    return res.status(200).send(result);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    const result = this.clientsService.remove(+id);
-    return result;
+  @ApiTags('dlt client')
+  @ApiOperation({
+    description: 'delete a client from the db',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.clientsService.remove(+id);
+    return res.status(200).json(result);
   }
 }
