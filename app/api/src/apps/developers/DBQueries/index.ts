@@ -20,17 +20,18 @@ export async function enrollDev(
   const newUser = await userRepo.create({
     ...user,
   });
+
   await userRepo.save(newUser);
   let dev = await devRepo.create({
+    user: newUser,
     ...rest,
-    user,
   });
   let devData = await devRepo.save(dev);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return devData;
+  return devData as unknown as IDev;
 }
 
-export function getDevById(
+export async function getDevById(
   id: number,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -38,11 +39,12 @@ export function getDevById(
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
-  return myDataSource.manager
+  const dev = await myDataSource.manager
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
     });
+  return dev as unknown as IDev;
 }
 
 export default {

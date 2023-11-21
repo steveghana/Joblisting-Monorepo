@@ -22,6 +22,7 @@ export async function createRoles(
     ...applicationData,
   });
   let data = await role.save(newApplication);
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
@@ -46,9 +47,7 @@ export async function deleteRole(
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
-  const roles = transaction.getRepository(dependencies.db.models.role);
 
-  // delete all previous relations between area - table
   const { affected } = await transaction
     .getRepository(dependencies.db.models.role)
     .delete({

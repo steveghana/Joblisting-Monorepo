@@ -5,6 +5,7 @@ Here's a suggested approach:
 Role Application without Full Registration:
 
 Allow developers to apply for specific roles without going through the full registration process.
+
 Capture the necessary information during the role application, and store it in a separate table or collection in the database.
 Notification and Acceptance:
 

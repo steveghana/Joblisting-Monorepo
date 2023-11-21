@@ -18,21 +18,21 @@ class Developers {
     devData: IDev,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<Developers> {
+  ): Promise<IDev> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Developers(dependencies);
     newApplication.data = await enrollDev(devData, transaction, dependencies);
-    return newApplication;
+    return newApplication.data;
   }
 
   static async getById(
     id: number,
     dependencies: Dependencies = null,
-  ): Promise<Developers> {
+  ): Promise<IDev> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Developers(dependencies);
     newApplication.data = await getDevById(id, null, dependencies);
-    return newApplication;
+    return newApplication.data;
   }
 
   get id(): number {

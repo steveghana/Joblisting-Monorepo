@@ -51,7 +51,7 @@ async function send(
   context: Context = globalContext,
 ): Promise<SendReturn> {
   const sendMailOptions = {
-    from: options.from || 'noreply@q-int.com',
+    from: options.from || 'noreply@Savannahtech.io',
     to: options.to,
     sender: options.sender,
     subject: options.subject,
@@ -78,13 +78,13 @@ async function send(
 }
 
 function sendStyled(
-  options: SendOptions & { rtl?: boolean },
+  options: SendOptions,
   context: Context = globalContext,
 ): Promise<SendReturn> {
   return send(
     {
       ...options,
-      html: `<html dir="${options.rtl ? 'rtl' : 'ltr'}" >
+      html: `<html>
     <head>
         <style>
             body {

@@ -12,15 +12,15 @@ export interface IDev {
   user: IUser;
 
   name: string;
-
+  skills: string[];
   phone_number: string;
 
   address: string;
 
-  role_status: 'InHouse' | 'Pending' | 'Interview' | 'External';
+  role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
   // application: IApplication;
   // In House, Pending Interview, External
-  years_of_experience: number;
+  years_of_experience: string;
 
   roles: IRole;
   // Define the associations with Interviews, ClockHours, and Applications

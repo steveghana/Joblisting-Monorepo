@@ -36,6 +36,15 @@ export class RolesService {
     });
   }
 
+  getAllApplicants(dependencies: Dependencies = null) {
+    return useTransaction(async (transaction) => {
+      const data = await getAllRoles(transaction, dependencies);
+      if (!data.length) {
+        return null;
+      }
+      return data;
+    });
+  }
   findAll(dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const data = await getAllRoles(transaction, dependencies);
@@ -46,14 +55,24 @@ export class RolesService {
     });
   }
 
+  getApplicant(id: number) {
+    return useTransaction(async (transaction) => {
+      const data = await Roles.getById(id);
+      console.log(data, 'from client');
+      if (!data) {
+        return null;
+      }
+      return data;
+    });
+  }
   findOne(id: number) {
     return useTransaction(async (transaction) => {
       const data = await Roles.getById(id);
-      console.log(data.data, 'from client');
-      if (!data.data) {
+      console.log(data, 'from client');
+      if (!data) {
         return null;
       }
-      return data.data;
+      return data;
     });
   }
 

@@ -56,14 +56,11 @@ class Roles {
     dependencies = injectDependencies(dependencies, ['db']);
     return await updateRole(roleId, role, transaction, dependencies);
   }
-  static async getById(
-    id: number,
-    dependencies: Dependencies = null,
-  ): Promise<Roles> {
+  static async getById(id: number, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Roles(dependencies);
     newApplication.data = await getRoleById(id, null, dependencies);
-    return newApplication;
+    return newApplication.data;
   }
 
   get id(): number {

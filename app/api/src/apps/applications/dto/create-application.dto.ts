@@ -3,8 +3,10 @@ import { IDev } from '@/types/developer';
 import {
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
+  IsArray,
   Matches,
   MaxLength,
   MinLength,
@@ -15,22 +17,46 @@ export class CreateApplicationDto {
   @IsNotEmpty({
     message: 'role is required',
   })
+  @IsNumber()
   roleId: number;
 
-  developer: Partial<IDev>;
+  // developer: Partial<IDev>;
+  @IsNotEmpty({
+    message: 'role is required',
+  })
+  @IsString()
+  name: string;
+  @IsNotEmpty({
+    message: 'role is required',
+  })
+  @IsString()
+  phoneNumber: string;
+  @IsNotEmpty({
+    message: 'role is required',
+  })
+  @IsString()
+  address: string;
+  @IsNotEmpty({
+    message: 'role is required',
+  })
+  @IsNotEmpty()
+  @IsArray()
+  skills: string[];
+  @IsString()
+  email: string;
 
-  background_questions: Record<string, string>; // Store background questions as JSON
-
-  years_of_experience: number;
+  @IsString()
+  years_of_experience: string;
   @IsOptional()
-  cover_letter: string;
+  coverLetter: string;
 
-  @IsString({
-    message: 'resume is required is required',
+  @IsOptional()
+  background_questions?: Record<string, string>;
+
+  @IsNotEmpty({
+    message: 'Resume is required',
   })
-  resume: string;
-  @IsString({
-    message: 'resume is required is required',
-  })
+  resume: Record<string, any>;
+
   status: IStatusApplication;
 }

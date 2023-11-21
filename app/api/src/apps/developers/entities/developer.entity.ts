@@ -29,11 +29,11 @@ export class Developer extends AssociableModel {
   @Column()
   phone_number: string;
   @Column()
-  years_of_experience: number;
+  years_of_experience: string;
   @Column()
   address: string;
-  @Column()
-  role_status: 'InHouse' | 'Pending' | 'Interview' | 'External';
+  @Column({ default: 'External' })
+  role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
   @OneToMany((type) => Role, (role) => role.developers)
   roles: Role;
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
@@ -45,6 +45,6 @@ export class Developer extends AssociableModel {
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
   clockHours: ClockHours[];
 
-  @OneToMany((type) => Application, (application) => application.developer)
-  applications: Application[];
+  // @OneToMany((type) => Application, (application) => application.developer)
+  // applications: Application[];
 }
