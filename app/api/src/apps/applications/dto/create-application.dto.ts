@@ -27,7 +27,7 @@ export class CreateApplicationDto {
   @IsString()
   name: string;
   @IsNotEmpty({
-    message: 'phoneNumberis required',
+    message: 'phoneNumber is required',
   })
   @IsString()
   phoneNumber: string;
