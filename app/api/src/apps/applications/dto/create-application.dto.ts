@@ -22,22 +22,22 @@ export class CreateApplicationDto {
 
   // developer: Partial<IDev>;
   @IsNotEmpty({
-    message: 'role is required',
+    message: 'name is required',
   })
   @IsString()
   name: string;
   @IsNotEmpty({
-    message: 'role is required',
+    message: 'phoneNumberis required',
   })
   @IsString()
   phoneNumber: string;
   @IsNotEmpty({
-    message: 'role is required',
+    message: 'address is required',
   })
   @IsString()
   address: string;
   @IsNotEmpty({
-    message: 'role is required',
+    message: 'skills is required',
   })
   @IsNotEmpty()
   @IsArray()

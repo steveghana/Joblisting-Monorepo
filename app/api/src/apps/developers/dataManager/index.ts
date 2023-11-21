@@ -21,6 +21,7 @@ class Developers {
   ): Promise<IDev> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Developers(dependencies);
+
     newApplication.data = await enrollDev(devData, transaction, dependencies);
     return newApplication.data;
   }
