@@ -1,20 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from '../dto/create-application.dto';
-import { UpdateApplicationDto } from '../dto/update-application.dto';
 import Application from '../dataManager';
-import cryptoUtil from '../../../util/crypto';
 
-import {
-  generateAlphanumeric,
-  useTransaction,
-} from '../../../util/transaction';
+import { useTransaction } from '../../../util/transaction';
 import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
 import Roles from '../../../apps/roles/dataManager';
 import { getAllApplicants } from '../DBQueries';
-import Developers from '../../../apps/developers/dataManager';
 import { DevelopersService } from '../../../apps/developers/services/developers.service';
 
 @Injectable()

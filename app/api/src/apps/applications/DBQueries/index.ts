@@ -40,13 +40,10 @@ export async function deleteApplicant(
   const rolesRepo = transaction.getRepository(
     dependencies.db.models.application,
   );
-
-  // delete all previous relations between area - table
   const { affected } = await rolesRepo.delete({
     id,
   });
   return affected;
-  // delete all  tables
 }
 export function getApplicationById(
   id: number,

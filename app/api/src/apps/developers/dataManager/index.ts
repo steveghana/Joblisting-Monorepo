@@ -2,7 +2,12 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { enrollDev, getDevById } from '../DBQueries/index';
+import {
+  enrollDev,
+  getDevById,
+  deleteDev,
+  updateDev,
+} from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IDev } from '@/types/developer';
 
@@ -25,7 +30,20 @@ class Developers {
     newApplication.data = await enrollDev(devData, transaction, dependencies);
     return newApplication.data;
   }
-
+  static async update(
+    applicantId: number,
+    applicantion: Partial<IDev>,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<any> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await updateDev(
+      applicantId,
+      applicantion,
+      transaction,
+      dependencies,
+    );
+  }
   static async getById(
     id: number,
     dependencies: Dependencies = null,
@@ -35,7 +53,14 @@ class Developers {
     newApplication.data = await getDevById(id, null, dependencies);
     return newApplication.data;
   }
-
+  static async destroy(
+    devId: number,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<number> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await deleteDev(devId, transaction, dependencies);
+  }
   get id(): number {
     return this.data.id;
   }

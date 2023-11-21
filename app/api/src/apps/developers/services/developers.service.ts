@@ -1,26 +1,17 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateDeveloperDto } from '../dto/create-developer.dto';
-import { UpdateDeveloperDto } from '../dto/update-developer.dto';
-import { CreateUserDto } from '../../../apps/users/dto/create-user.dto';
 import {
   generateAlphanumeric,
   useTransaction,
 } from '../../../util/transaction';
 import Developers from '../dataManager';
-import User from '@/apps/auth/services/userEntity';
 import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { IUser } from '@/types/user';
 import Roles from '../../../apps/roles/dataManager';
 import cryptoUtil from '../../../util/crypto';
-
+import { getAllDevs } from '../DBQueries';
 @Injectable()
 export class DevelopersService {
   create(
@@ -103,20 +94,52 @@ export class DevelopersService {
     });
   }
 
-  findAll() {
-    // throw new HttpException('exists', HttpStatus.BAD_REQUEST);
-    return `This action returns all developers`;
+  findAll(dependencies: Dependencies = null) {
+    return useTransaction(async (transaction) => {
+      const data = await getAllDevs(transaction, dependencies);
+      if (!data.length) {
+        return null;
+      }
+      return data;
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} developer`;
+    return useTransaction(async (transaction) => {
+      const data = await Developers.getById(id);
+      if (!data) {
+        return null;
+      }
+      return data;
+    });
   }
 
-  update(id: number, updateDeveloperDto: UpdateDeveloperDto) {
-    return `This action updates a #${id} developer`;
+  update(
+    id: number,
+    updateDevDto: Partial<CreateDeveloperDto>,
+    dependencies: Dependencies = null,
+  ) {
+    return useTransaction(async (transaction) => {
+      const data = await Developers.update(id, updateDevDto, transaction);
+      if (!data) {
+        throw new HttpException(
+          'Something went wrong, couldnt update client',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return data;
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} developer`;
+    return useTransaction(async (transaction) => {
+      const deleted = await Developers.destroy(id, transaction);
+      if (!deleted) {
+        throw new HttpException(
+          'Something went wrong, couldnt delete developer',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    });
   }
 }
