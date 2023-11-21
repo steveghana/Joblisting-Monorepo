@@ -7,8 +7,17 @@ import {
   Param,
   Delete,
   Res,
+  UseFilters,
 } from '@nestjs/common';
 import { RolesService } from '../services/roles.service';
+import {
+  ApiBadRequestResponse,
+  ApiInternalServerErrorResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { ValidationError, validate } from 'class-validator';
+import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
 import { Response } from 'express';
@@ -18,29 +27,71 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @Post()
-  create(@Body() createRoleDto: CreateRoleDto, @Res() res: Response) {
-    const result = this.rolesService.create(createRoleDto);
+  @ApiTags('create a role')
+  @ApiOperation({
+    description: 'creating a role associated with a specific client',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async create(@Body() createRoleDto: CreateRoleDto, @Res() res: Response) {
+    const result = await this.rolesService.create(createRoleDto);
     return res.json(result);
   }
 
   @Get()
-  findAll(@Res() res: Response) {
-    const result = this.rolesService.findAll();
+  @ApiTags('Get roles')
+  @ApiOperation({
+    description: 'Get all roles with their client relations',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async findAll(@Res() res: Response) {
+    const result = await this.rolesService.findAll();
     return res.json(result);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.rolesService.findOne(+id);
+  @ApiTags('Get a role by id')
+  @ApiOperation({
+    description: 'Get a single role by id',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.rolesService.findOne(+id);
+    return res.json(result);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
-    return this.rolesService.update(+id, updateRoleDto);
+  @ApiTags('update a role')
+  @ApiOperation({
+    description: 'update a role',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async update(
+    @Param('id') id: string,
+    @Body() updateRoleDto: Partial<CreateRoleDto>,
+    @Res() res: Response,
+  ) {
+    const result = await this.rolesService.update(+id, updateRoleDto);
+    return res.json(result);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.rolesService.remove(+id);
+  @ApiTags('delete a role')
+  @ApiOperation({
+    description: 'delete a role',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.rolesService.remove(+id);
+    return res.json(result);
   }
 }

@@ -21,9 +21,9 @@ export class Role {
   @JoinColumn({ name: 'client_id' })
   client: Client;
 
-  @ManyToOne((type) => Developer, (developer) => developer.roles)
+  @OneToMany((type) => Developer, (developer) => developer.roles)
   @JoinColumn({ name: 'developer_id' })
-  developer: Developer;
+  developers: Developer[];
 
   @Column()
   title: string;

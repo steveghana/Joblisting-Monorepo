@@ -106,8 +106,8 @@ export async function updateClient(
   return await ensureTransaction(
     transactionParam,
     async (transaction) => {
-      const { generatedMaps } = await clientRepo.update({ id }, { ...updates });
-      return generatedMaps;
+      const data = await clientRepo.update({ id }, { ...updates });
+      return data;
     },
     dependencies,
   );

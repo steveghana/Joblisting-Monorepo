@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+
 import Roles from '../dataManager';
 import Client from '../../clients/dataManager';
 import { useTransaction } from '../../../util/transaction';
 import { Dependencies } from '../../../util/dependencyInjector';
+import { getAllRoles } from '../DBQueries';
+import { IRole } from '@/types/role';
 
 @Injectable()
 export class RolesService {
@@ -12,14 +15,19 @@ export class RolesService {
     createRoleDto: CreateRoleDto,
     dependencies: Dependencies = null,
   ) {
-    const { client, ...rest } = createRoleDto;
+    const { clientId, ...rest } = createRoleDto;
     return useTransaction(async (transaction) => {
-      let clientDetails = await Client.getById(createRoleDto.clientId);
+      let clientDetails = await Client.getById(clientId);
 
-      const data = await Roles.createRoles(
+      const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
           ...rest,
+          vacancy_status:
+            createRoleDto.whenToStart !== 'I will decide later'
+              ? 'Open'
+              : 'Closed',
+          skills_required: createRoleDto.selectedSkills,
         },
         transaction,
         dependencies,
@@ -28,19 +36,58 @@ export class RolesService {
     });
   }
 
-  findAll() {
-    return `This action returns all roles`;
+  findAll(dependencies: Dependencies = null) {
+    return useTransaction(async (transaction) => {
+      const data = await getAllRoles(transaction, dependencies);
+      if (!data.length) {
+        return null;
+      }
+      return data;
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} role`;
+    return useTransaction(async (transaction) => {
+      const data = await Roles.getById(id);
+      console.log(data.data, 'from client');
+      if (!data.data) {
+        return null;
+      }
+      return data.data;
+    });
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`;
+  update(
+    id: number,
+    updateClientDto: Partial<CreateRoleDto>,
+    dependencies: Dependencies = null,
+  ) {
+    return useTransaction(async (transaction) => {
+      const { selectedSkills, ...rest } = updateClientDto;
+      const data = await Roles.update(
+        id,
+        { skills_required: selectedSkills, ...rest },
+        transaction,
+      );
+      if (!data) {
+        throw new HttpException(
+          'Something went wrong, couldnt update role',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return data;
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} role`;
+  remove(id: number, dependencies: Dependencies = null) {
+    return useTransaction(async (transaction) => {
+      const deleted = await Roles.destroy(id, transaction);
+      if (!deleted) {
+        throw new HttpException(
+          'Something went wrong, couldnt delete role',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    });
   }
 }

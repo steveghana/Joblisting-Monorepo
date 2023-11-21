@@ -2,7 +2,12 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { createRoles, getRoleById } from '../DBQueries/index';
+import {
+  createRoles,
+  getRoleById,
+  deleteRole,
+  updateRole,
+} from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IClient } from '@/types/client';
 import { IRole } from '@/types/role';
@@ -32,7 +37,25 @@ class Roles {
     );
     return newApplication;
   }
+  static async destroy(
+    roleId: number,
+    // tableIds: number[],
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<number> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await deleteRole(roleId, transaction, dependencies);
+  }
 
+  static async update(
+    roleId: number,
+    role: Partial<IRole>,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<any> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await updateRole(roleId, role, transaction, dependencies);
+  }
   static async getById(
     id: number,
     dependencies: Dependencies = null,

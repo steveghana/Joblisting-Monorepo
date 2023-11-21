@@ -6,7 +6,7 @@ import { Iinterviews } from './interviews';
 export interface IRole {
   id?: number;
 
-  client: IClient;
+  client?: IClient;
   clientId?: number;
 
   // developer: any;

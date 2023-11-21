@@ -83,7 +83,7 @@ class Client {
     client: Partial<IClient>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<ObjectLiteral> {
+  ): Promise<any> {
     dependencies = injectDependencies(dependencies, ['db']);
     return await updateClient(clientId, client, transaction, dependencies);
   }

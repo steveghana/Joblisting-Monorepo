@@ -34,7 +34,7 @@ export class Developer extends AssociableModel {
   address: string;
   @Column()
   role_status: 'InHouse' | 'Pending' | 'Interview' | 'External';
-  @OneToMany((type) => Role, (role) => role.developer)
+  @OneToMany((type) => Role, (role) => role.developers)
   roles: Role;
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
   interviewsAsInterviewer: Interview[];
