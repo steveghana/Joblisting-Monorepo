@@ -10,14 +10,15 @@ import { IDev } from '@/types/developer';
 import { ensureTransaction } from '../../../Config/transaction';
 
 export async function enrollDev(
-  applicationData: IDev,
+  devDataset: IDev,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
+  console.log(devDataset);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const userRepo = transaction.getRepository(dependencies.db.models.user);
-  const { user, ...rest } = applicationData;
+  const { user, ...rest } = devDataset;
   const newUser = await userRepo.create({
     ...user,
   });

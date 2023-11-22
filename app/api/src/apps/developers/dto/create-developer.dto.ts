@@ -17,13 +17,10 @@ import { IRole } from '@/types/role';
 import { IUser } from '@/types/user';
 type IinterviewAs = 'interviewee' | 'interviewer';
 // type INewUser = Pick<IDev, 'address' | ''>
-export class CreateDeveloperDto implements IDev {
+export class CreateDeveloperDto {
   name: string;
-  user: IUser;
-  @IsNotEmpty({
-    message: 'please enter your address',
-  })
-  address: string;
+  fullName?: string;
+  address?: string;
   @IsNotEmpty({
     message: 'please enter your years of experience',
   })
@@ -49,10 +46,8 @@ export class CreateDeveloperDto implements IDev {
   skills: string[];
   @IsString()
   email: string;
-
   @IsString()
   years_of_experience: string;
   role_status: 'InHouse' | 'Pending' | 'External' | 'Accepted';
-  roles: IRole;
   //   user: IUser;
 }

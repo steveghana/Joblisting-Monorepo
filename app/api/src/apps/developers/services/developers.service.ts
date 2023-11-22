@@ -27,7 +27,6 @@ export class DevelopersService {
         email,
         name,
         phone_number,
-        roles,
         skills,
         roleId,
         years_of_experience,
@@ -52,16 +51,19 @@ export class DevelopersService {
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
-      const devEnrolled = await Developers.enrollDev({
-        roles,
-        address,
-        name,
-        phone_number,
-        user: { address, email, fullName: name, password: passwordHash },
-        role_status: 'Accepted',
-        skills,
-        years_of_experience,
-      });
+      const devEnrolled = await Developers.enrollDev(
+        {
+          roles: role,
+          address,
+          name,
+          phone_number,
+          user: { address, email, fullName: name, password: passwordHash },
+          role_status: 'Accepted',
+          skills,
+          years_of_experience,
+        },
+        transaction,
+      );
       void dependencies.email.sendStyled({
         to: [email],
         subject: 'Your Role Application has been Accepted',
@@ -97,6 +99,7 @@ export class DevelopersService {
   findAll(dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const data = await getAllDevs(transaction, dependencies);
+      console.log(data);
       if (!data.length) {
         return null;
       }
