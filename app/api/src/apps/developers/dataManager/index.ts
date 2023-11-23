@@ -71,8 +71,11 @@ class Developers {
   get phone(): string {
     return this.data.phone_number;
   }
-  get name(): string {
-    return this.data.name;
+  get firstName(): string {
+    return this.data.firstName;
+  }
+  get lastName(): string {
+    return this.data.lastName;
   }
   get roleStatus(): string {
     return this.data.role_status;

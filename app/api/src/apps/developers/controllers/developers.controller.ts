@@ -21,23 +21,23 @@ export class DevelopersController {
   constructor(private readonly developersService: DevelopersService) {}
 
   @Post()
-  create(@Body() createDeveloperDto: CreateDeveloperDto, @Res() res: Response) {
-    // const { email, password, phone_number, username, address, firstName, lastName } = createDeveloperDto;
-
-    // const userData = this.authservice.register(email, password,firstName, lastName, "developer" )
-    const result = this.developersService.create(createDeveloperDto);
+  async create(
+    @Body() createDeveloperDto: CreateDeveloperDto,
+    @Res() res: Response,
+  ) {
+    const result = await this.developersService.create(createDeveloperDto);
     return res.json(result);
   }
 
   @Get()
-  findAll(@Res() res) {
-    const result = this.developersService.findAll();
+  async findAll(@Res() res) {
+    const result = await this.developersService.findAll();
     res.json(result);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Res() res: Response) {
-    const result = this.developersService.findOne(+id);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.developersService.findOne(+id);
     return res.json(result);
   }
 

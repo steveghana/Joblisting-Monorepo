@@ -15,18 +15,18 @@ export async function enrollDev(
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  console.log(devDataset);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const userRepo = transaction.getRepository(dependencies.db.models.user);
   const { user, ...rest } = devDataset;
   const newUser = await userRepo.create({
     ...user,
+    role: 'Developer',
   });
 
   await userRepo.save(newUser);
   let dev = await devRepo.create({
-    user: newUser,
     ...rest,
+    user: newUser,
   });
   let devData = await devRepo.save(dev);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
