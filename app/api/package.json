@@ -10,6 +10,7 @@
     "generate-secret": "node -e \"console.log(require('crypto').randomBytes(64).toString('hex'))\"",
     "profiler": "ndb -- node dist/src/apps/api-gateway/main.js",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "dev": "nodemon cross-env NODE_ENV=development ts-node ./src/apps/api-gateway/main.ts",
     "start": "nodemon cross-env NODE_ENV=development ts-node ./src/apps/api-gateway/main.ts",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",
