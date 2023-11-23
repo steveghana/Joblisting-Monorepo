@@ -18,12 +18,21 @@ import { IUser } from '@/types/user';
 type IinterviewAs = 'interviewee' | 'interviewer';
 // type INewUser = Pick<IDev, 'address' | ''>
 export class CreateDeveloperDto {
-  name: string;
-  fullName?: string;
-  address?: string;
   @IsNotEmpty({
-    message: 'please enter your years of experience',
+    message: 'please enter your first name',
   })
+  @IsString()
+  firstName: string;
+  @IsNotEmpty({
+    message: 'please add your last name',
+  })
+  @IsString()
+  lastName: string;
+  @IsNotEmpty({
+    message: 'please enter your address',
+  })
+  @IsString()
+  address: string;
   @IsNotEmpty({
     message: 'role is required',
   })

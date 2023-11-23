@@ -23,7 +23,9 @@ export class Developer extends AssociableModel {
   @JoinColumn({ name: 'user_id' })
   user: User;
   @Column()
-  name: string;
+  firstName: string;
+  @Column()
+  lastName: string;
   @Column('simple-json')
   skills: string[];
   @Column()

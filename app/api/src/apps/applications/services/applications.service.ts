@@ -89,7 +89,8 @@ export class ApplicationsService {
         const enrollDev = await this.developersService.create({
           address,
           email,
-          name,
+          firstName: name.split(' ')[0],
+          lastName: name.split(' ')[1],
           phone_number,
           skills,
           roleId,

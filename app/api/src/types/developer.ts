@@ -11,7 +11,9 @@ export interface IDev {
 
   user: IUser;
 
-  name: string;
+  firstName: string;
+  lastName: string;
+
   skills: string[];
   phone_number: string;
 

@@ -21,6 +21,8 @@ export interface ApplicantsSubmission {
   email: string;
   phoneNumber: string;
   coverLetter: string;
+  address: string;
   resume: Record<string, any>;
-  selectedSkills: [string];
+  selectedSkills: string[];
+  years_of_experience: string;
 }
