@@ -9,6 +9,7 @@ import {
   getUsers,
   createUsers,
   findElseCreateUser,
+  deletUser,
 } from './userEntityGateway';
 import { IUser } from '../models/user';
 import cryptoUtil from '../../../util/crypto';
@@ -80,7 +81,6 @@ class User {
       transaction,
       dependencies,
     );
-
     const newUser = new User(user.email, dependencies);
     (newUser.data as unknown) = userData;
     (newUser._isNewlyCreated as unknown) = isNewlyCreated;
@@ -109,6 +109,14 @@ class User {
     dependencies = injectDependencies(dependencies, ['db']);
     await createUsers(users, transaction, dependencies);
   }
+  static async destroy(
+    user: Pick<IUser, 'email' | 'id'>,
+    transaction: EntityManager,
+    dependencies: Dependencies = null,
+  ) {
+    const done = await deletUser(user, transaction, dependencies);
+    return done;
+  }
 
   async exists(): Promise<boolean> {
     await this.getDataIfNeeded();
@@ -119,7 +127,6 @@ class User {
     await this.getDataIfNeeded();
     return cryptoUtil.compare(password, this.data.password);
   }
-
   async update(
     user: Partial<Omit<IUser, 'email'>>,
     transaction: EntityManager,

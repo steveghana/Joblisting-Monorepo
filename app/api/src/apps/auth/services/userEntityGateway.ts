@@ -55,7 +55,7 @@ export function findElseCreateUser(
       if (existingUser) {
         return [existingUser, false];
       }
-
+      console.log(existingUser);
       const newUser = userRepo.create({ ...user });
       let data = (await userRepo.save(newUser)) as UserEntity;
       return [data, true];
@@ -125,7 +125,18 @@ export async function updateUser(
   );
   return done;
 }
+export async function deletUser(
+  user: Pick<IUser, 'email' | 'id'>,
+  transaction: EntityManager,
+  dependencies: Dependencies = null,
+) {
+  dependencies = injectDependencies(dependencies, ['db']);
 
+  const { email, id } = user;
+  const userRepo = transaction.getRepository(dependencies.db.models.user);
+  const done = await userRepo.delete({ id, email });
+  return done;
+}
 export default {
   findOrCreateUser,
   findElseCreateUser,
