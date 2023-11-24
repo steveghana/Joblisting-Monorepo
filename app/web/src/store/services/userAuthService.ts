@@ -13,10 +13,12 @@ interface IRegister {
     firstName: string;
     lastName: string;
     role: IProfession;
+    phoneNumber: string;
   } & IUser;
 }
 const authToken = sessionStorage.getItem("authToken");
-type IResponse = { role: string; authTokenId: string };
+type IResponseRg = { role: string; token: string };
+type IResponseLg = { role: string; authTokenId: string };
 const axiosInstance = axios.create({
   baseURL: _api_url.getApiUrl(),
   headers: {
@@ -29,13 +31,13 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
-    loginUser: builder.mutation<IResponse, IUser & { rememberMe: boolean }>({
+    loginUser: builder.mutation<IResponseLg, IUser & { rememberMe: boolean }>({
       query: (user) => ({
         url: "user/login", // Replace with the appropriate API endpoint
         method: "POST",
         body: user,
       }),
-      transformResponse: (response: IResponse, meta, arg) => {
+      transformResponse: (response: IResponseLg, meta, arg) => {
         // Dispatch data to Redux store upon successful query
         // const dispatch = useTypedDispatch();
         // dispatch();
@@ -45,44 +47,66 @@ export const userApi = createApi({
       // Pick out errors and prevent nested properties in a hook or selector
 
       // Pick out errors and prevent nested properties in a hook or selector
-      transformErrorResponse: (response, meta, arg) => response.data,
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
       // providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
 
-    registerUser: builder.mutation<IResponse, IRegister>({
+    registerUser: builder.mutation<IResponseRg, IRegister>({
       query: (user) => ({
         url: "user/register", // Replace with the appropriate API endpoint
         method: "POST",
         body: user,
       }),
-      transformResponse: (response: { data: IResponse }, meta, arg) => {
+      transformResponse: (response: IResponseRg, meta, arg) => {
         // Dispatch data to Redux store upon successful query
         // const dispatch = useTypedDispatch();
         // dispatch();
+        console.log(response, "from regstiening");
 
-        return response.data;
+        return response;
       },
       // Pick out errors and prevent nested properties in a hook or selector
 
       // Pick out errors and prevent nested properties in a hook or selector
-      transformErrorResponse: (response, meta, arg) => response.data,
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
     }),
-    getUser: builder.query<IResponse, { id: string }>({
+    getUser: builder.query<IUser, { id: string }>({
       query: ({ id }) => ({
         url: `user/${id}`, // Replace with the appropriate API endpoint
         method: "GET",
       }),
-      transformResponse: (response: { data: IResponse }, meta, arg) => {
+      transformResponse: (response: IUser, meta, arg) => {
         // Dispatch data to Redux store upon successful query
         // const dispatch = useTypedDispatch();
         // dispatch();
 
-        return response.data;
+        return response;
       },
       // Pick out errors and prevent nested properties in a hook or selector
 
       // Pick out errors and prevent nested properties in a hook or selector
-      transformErrorResponse: (response, meta, arg) => response.data,
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
     }),
   }),
 });

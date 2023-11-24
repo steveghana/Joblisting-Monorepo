@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { IProfession } from "../../types/roles";
 import CustomButton from "../button";
+import { ArrowForward, ArrowForwardIos } from "@mui/icons-material";
 interface RoleProps {
   setisNew: () => void;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
@@ -98,21 +99,26 @@ function RoleAuth(props: RoleProps) {
 
         <FormControlLabel
           control={<Radio />}
-          label="Developer"
-          value="Developer"
+          label="CTO"
+          value="CTO"
           sx={{
             my: 1,
             borderRadius: "5px",
             border:
-              props.selectedValue === "Developer"
+              props.selectedValue === "CTO"
                 ? "1px solid blue"
                 : "1px solid gray",
           }}
-          checked={props.selectedValue === "Developer"}
+          checked={props.selectedValue === "CTO"}
           onChange={handleRadioChange}
         />
         <FormHelperText>{helperText}</FormHelperText>
-        <CustomButton text="continue" onClick={onMoveToRegister} />
+        <CustomButton
+          text="continue"
+          endIcon={<ArrowForward />}
+          loadingPosition="end"
+          onClick={onMoveToRegister}
+        />
       </RadioGroup>
     </FormControl>
   );

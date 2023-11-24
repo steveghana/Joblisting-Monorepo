@@ -5,12 +5,12 @@ import { useTheme } from "@mui/material/styles";
 import { Divider, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 
 // project imports
-import AuthWrapper1 from "../AuthWrapper1";
 import AuthCardWrapper from "../AuthCardWrapper";
 import Logo from "../../Logo";
 import AuthRegister from "../auth-forms/AuthRegister";
 import AuthFooter from "../../AuthFooter";
 import AuthWrapper2 from "../Authwrapper";
+import LogoSection from "../../../layout/MainLayout/LogoSection";
 
 // assets
 
@@ -32,7 +32,7 @@ const Register = () => {
               mb={2}
             >
               <Link to="#">
-                <Logo />
+                <LogoSection />
               </Link>
             </Grid>
             <Grid
@@ -81,7 +81,7 @@ const Register = () => {
                 >
                   <Typography
                     component={Link}
-                    to="/management/profile/details"
+                    to="/auth/login"
                     variant="subtitle1"
                     sx={{ textDecoration: "none" }}
                   >
@@ -93,7 +93,7 @@ const Register = () => {
           </AuthCardWrapper>
         </Grid>
 
-        <Grid xs={12}>
+        <Grid xs={12} item>
           <AuthFooter />
         </Grid>
       </>

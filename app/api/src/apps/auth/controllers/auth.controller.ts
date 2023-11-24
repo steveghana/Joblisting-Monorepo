@@ -59,8 +59,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  register(@Body() req: any, @Res() res: Response) {
-    return this.authService.register(
+  async register(@Body() req: any, @Res() res: Response) {
+    const result = await this.authService.register(
       req.user.email,
       req.user.password,
       req.user.firstName,
@@ -68,6 +68,8 @@ export class AuthController {
       req.user.role,
       req.user.country,
     );
+    console.log(result);
+    res.status(200).json(result);
   }
   // @UseGuards(AuthGuard('local'))
   @Post('/login')

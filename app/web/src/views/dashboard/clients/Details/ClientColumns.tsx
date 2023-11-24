@@ -27,8 +27,18 @@ import {
   useUpdateClientMutation,
   useDeletClientMutation,
 } from "../../../../store/services/ClientServce";
-
-const ClientTableData = ({ data, isLoading, isFetching, isError }) => {
+interface IClientTableData {
+  data: IClient[];
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+}
+const ClientTableData = ({
+  data,
+  isLoading,
+  isFetching,
+  isError,
+}: IClientTableData) => {
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
   const [
@@ -59,7 +69,7 @@ const ClientTableData = ({ data, isLoading, isFetching, isError }) => {
     // data,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
-    getRowId: (row) => row.email,
+    getRowId: (row) => String(row.id),
     muiToolbarAlertBannerProps: isError
       ? {
           color: "error",

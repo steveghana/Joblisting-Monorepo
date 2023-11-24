@@ -17,6 +17,7 @@ import AuthLogin from "../auth-forms/AuthLogin";
 import Logo from "../../Logo";
 import AuthFooter from "../../AuthFooter";
 import AuthWrapper2 from "../Authwrapper";
+import LogoSection from "../../../layout/MainLayout/LogoSection";
 
 // assets
 
@@ -38,7 +39,7 @@ const Login = () => {
               mb={2}
             >
               <Link to="#">
-                <Logo />
+                <LogoSection />
               </Link>
             </Grid>
             <Grid
@@ -94,7 +95,7 @@ const Login = () => {
                 >
                   <Typography
                     component={Link}
-                    to="/management/profile/settings"
+                    to="/auth/register"
                     variant="subtitle1"
                     sx={{ textDecoration: "none" }}
                   >

@@ -8,7 +8,7 @@ export default function AuthWrapper2(props) {
         sx={{ height: "100vh", overflow: "hidden" }}
       >
         <CssBaseline />
-        <Grid item xs={false} sm={4} md={7}>
+        <Grid item xs={false} sm={4} md={7} sx={{ display: { xs: "none" } }}>
           <Typography
             justifyContent={"center"}
             alignItems={"center"}

@@ -22,7 +22,7 @@ import {
 
 // third party
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { ErrorMessage, Formik } from "formik";
 
 // project imports
 import useScriptRef from "../../../hooks/useScriptRef";
@@ -41,6 +41,7 @@ import CustomButton from "../../button";
 import RoleAuth from "../roleAuthForm";
 import { IProfession } from "../../../types/roles";
 import { useRegisterUserMutation } from "../../../store/services/userAuthService";
+import { Send } from "@mui/icons-material";
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -56,26 +57,34 @@ const FirebaseRegister = ({ ...others }) => {
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
-  const [registerUser] = useRegisterUserMutation();
+  const [registerUser, { isError, error }] = useRegisterUserMutation();
   const router = useNavigate();
   async function register(values, setters, scriptedRef) {
     const { setStatus, setErrors, setSubmitting } = setters;
-    const { firstName, password, email, lastName, role: uerRole } = values;
+    const {
+      firstName,
+      password,
+      email,
+      lastName,
+      role: uerRole,
+      phoneNumber,
+    } = values;
     try {
       const data = await registerUser({
         user: {
           firstName,
           password,
           email,
+          phoneNumber,
           lastName,
           role: uerRole,
         },
       }).unwrap();
-
+      console.log(data);
       if (!data) return;
-      const { authTokenId, role } = data;
-      if (!authTokenId) return;
-      localStorage.setItem("auth_token", authTokenId);
+      const { token, role } = data;
+      if (!token) return;
+      localStorage.setItem("auth_token", token);
       localStorage.setItem("role", role);
       if (scriptedRef.current) {
         setStatus({ success: true });
@@ -127,6 +136,7 @@ const FirebaseRegister = ({ ...others }) => {
           password: "",
           firstName: "",
           lastName: "",
+          phoneNumber: "",
           role: "Ceo" || "Marketing" || "Recruitment" || "Developer",
           submit: null,
         }}
@@ -136,6 +146,9 @@ const FirebaseRegister = ({ ...others }) => {
             .max(255)
             .required("Email is required"),
           password: Yup.string().max(255).required("Password is required"),
+          phoneNumber: Yup.string()
+            .matches(/^[0-9]{8,15}$/, "Please enter a valid phone number")
+            .required("Please enter your phone number"),
         })}
         onSubmit={async (values, setters) => {
           console.log(values, "from submitting");
@@ -163,7 +176,6 @@ const FirebaseRegister = ({ ...others }) => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="text"
-                  defaultValue=""
                   sx={{ ...themeTypography.customInput }}
                 />
               </Grid>
@@ -177,9 +189,27 @@ const FirebaseRegister = ({ ...others }) => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="text"
-                  defaultValue=""
                   sx={{ ...themeTypography.customInput }}
                 />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  value={values.phoneNumber}
+                  label="Phone"
+                  margin="normal"
+                  name="phoneNumber"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="tel"
+                  sx={{ ...themeTypography.customInput }}
+                />
+                <FormHelperText
+                  error
+                  id="standard-weight-helper-text-password-register"
+                >
+                  {errors.phoneNumber}
+                </FormHelperText>
               </Grid>
             </Grid>
             <FormControl
@@ -295,6 +325,16 @@ const FirebaseRegister = ({ ...others }) => {
                 />
               </Grid>
             </Grid>
+            {isError && (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ mt: 3 }}
+              >
+                <FormHelperText error>{error as string}</FormHelperText>
+              </Box>
+            )}
             {errors.submit && (
               <Box
                 display="flex"
@@ -316,6 +356,8 @@ const FirebaseRegister = ({ ...others }) => {
                   variant="contained"
                   text="Sign up"
                   type="submit"
+                  loadingPosition="end"
+                  endIcon={<Send />}
 
                   // color="secondary"
                 />

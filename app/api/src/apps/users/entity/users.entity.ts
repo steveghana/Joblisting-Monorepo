@@ -1,5 +1,5 @@
 import { Developer } from '../../developers/entities/developer.entity';
-import { Role } from '../../enums/role.enum';
+import { Role } from '../../../util/enums/role.enum';
 import {
   Column,
   Entity,

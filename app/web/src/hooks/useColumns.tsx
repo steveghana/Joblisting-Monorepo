@@ -1,7 +1,7 @@
 import { MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
 import { IDev } from "../types/devs";
-import { Box } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import { AccountCircle, Send } from "@mui/icons-material";
 import { IClient } from "../types/client";
 export const useClientColums = () => {
@@ -12,7 +12,7 @@ export const useClientColums = () => {
         header: "Client Info",
         columns: [
           {
-            accessorFn: (row) => `${row.firstName}  ${row.lastName}`, //accessorFn used to join multiple data into a single cell
+            accessorFn: (row) => `${row.name}`, //accessorFn used to join multiple data into a single cell
             id: "name", //id is still required when using accessorFn instead of accessorKey
             header: "Name",
             size: 250,
@@ -24,15 +24,17 @@ export const useClientColums = () => {
                   gap: "1rem",
                 }}
               >
-                <img
+                <Avatar src={row.original.avatar} />
+
+                {/* <img
                   alt="avatar"
                   height={30}
                   src={row.original.avatar}
                   loading="lazy"
                   style={{ borderRadius: "50%" }}
-                />
+                /> */}
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
-                <span>{renderedCellValue}</span>
+                <span>{renderedCellValue || ""}</span>
               </Box>
             ),
           },

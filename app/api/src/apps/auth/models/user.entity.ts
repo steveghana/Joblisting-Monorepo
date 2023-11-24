@@ -15,7 +15,12 @@ import { CredentialTokenEntity } from './CredentialToken/credentialToken.entity'
 import AssociableModel from '../../../Config/associable';
 // import { Role } from '../../enums/role.enum';
 import { Developer } from '../../developers/entities/developer.entity';
-export type IProfession = 'Ceo' | 'Marketing' | 'Recruitment' | 'Developer';
+export type IProfession =
+  | 'Ceo'
+  | 'Marketing'
+  | 'Recruitment'
+  | 'Developer'
+  | 'CTO';
 
 @Entity('user')
 export class UserEntity extends AssociableModel {

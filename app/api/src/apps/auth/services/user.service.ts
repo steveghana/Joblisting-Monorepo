@@ -131,7 +131,7 @@ export class AuthService {
         transaction,
         dependencies,
       );
-      if (!(await UserMethods.passwordMatches(''))) {
+      if (!(await UserMethods.isNewlyCreated)) {
         console.log('throwing new exceptions ...........');
 
         throw new HttpException(

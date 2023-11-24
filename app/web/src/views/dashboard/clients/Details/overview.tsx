@@ -18,21 +18,30 @@ import {
 import companyInfo from "../../../../lib/data.json";
 import { ICompany } from "../../../../types/company";
 import { Protect } from "../../../../components/auth/requireAuth";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { ArrowBackTwoTone } from "@mui/icons-material";
 import NewRoleForm from "./RoleForm";
+import { useGetClientQuery } from "../../../../store/services/ClientServce";
+import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
 
 const ClientDetails = () => {
   const { clientDetails } = companyInfo as ICompany;
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { data, isError, isLoading, isFetching } = useGetClientQuery({
+    id: +id,
+  });
   const [open, setOpen] = React.useState(false);
-
+  console.log(data);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
   return (
     <Container maxWidth="lg">
       <Tooltip arrow placement="top" title="Go back">

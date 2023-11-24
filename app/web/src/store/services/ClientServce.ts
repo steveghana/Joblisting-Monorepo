@@ -37,7 +37,7 @@ export const clientApi = createApi({
     }),
     deletClient: builder.mutation<IClient, { id: string }>({
       query: ({ id }) => ({
-        url: `client/delete${id}`, // Replace with the appropriate API endpoint
+        url: `client/${id}`, // Replace with the appropriate API endpoint
         method: "DELETE",
       }),
     }),
@@ -54,19 +54,38 @@ export const clientApi = createApi({
         return parsedData;
       },
       // Pick out errors and prevent nested properties in a hook or selector
-      transformErrorResponse: (response, meta, arg) => response.data,
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
     }),
-    getClient: builder.query<IClient, { id: string }>({
+    getClient: builder.query<IClient, { id: number }>({
       query: ({ id }) => ({
-        url: `client/get/${id}`, // Replace with the appropriate API endpoint
+        url: `client/${id}`, // Replace with the appropriate API endpoint
         method: "GET",
       }),
     }),
     getClients: builder.query<IClient[], void>({
       query: () => ({
-        url: "client/get", // Replace with the appropriate API endpoint
+        url: "client", // Replace with the appropriate API endpoint
         method: "GET",
       }),
+      transformResponse: (response: IClient[], meta) => {
+        console.log(response, "response from query");
+        return response;
+      },
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
     }),
   }),
 });
@@ -76,4 +95,5 @@ export const {
   useAddClientMutation,
   useDeletClientMutation,
   useGetClientsQuery,
+  useGetClientQuery,
 } = clientApi;

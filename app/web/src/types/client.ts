@@ -1,11 +1,12 @@
 import { CountryType } from "../content/applications/Users/settings/CountrySelector";
 
 export interface IClient {
-  firstName: string;
+  id?: number;
+  name: string;
   avatar?: string;
   companyName: string;
   email: string;
-  lastName: string;
+  // lastName: string;
   country: CountryType;
   phoneNumber: string;
   projectTitle: string;

@@ -9,30 +9,34 @@ import {
 } from "@mui/material";
 import MainCard from "../../../components/MainCard";
 import SubCard from "../../../components/SubCard";
-import { Box, GridProps } from "@mui/system";
+import { Box } from "@mui/system";
 import { BlockOutlined, MessageRounded, MoreHoriz } from "@mui/icons-material";
 import CustomButton from "../../../components/button";
 import { useNavigate } from "react-router";
-import { Component } from "react";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { Protect } from "../../../components/auth/requireAuth";
 import ClientTable from "./Details/clientColumns";
 import { useGetClientsQuery } from "../../../store/services/ClientServce";
 import NoData from "../../../components/NoData";
+import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
 
 const Clients = () => {
   const navigate = useNavigate();
   const { data, isLoading, isFetching, isError } = useGetClientsQuery();
+  console.log("clients:", data);
 
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
   return (
     <MainCard title={"Clients"}>
       <CustomButton
         text="Add new Client"
         onClick={() => navigate("/dashboard/customers/clients/add")}
       />
-      {[].length ? (
+
+      {data?.length ? (
         <ClientTable
-          data={[]}
+          data={data}
           isError={isError}
           isFetching={isFetching}
           isLoading={isLoading}
