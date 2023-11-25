@@ -24,7 +24,9 @@ import ContrySelector from "../../../../../content/applications/Users/settings/C
 const projectInfoValidationSchema = Yup.object().shape({
   companyName: Yup.string().required("Company Name is required"),
   projectTitle: Yup.string().required("Project Title is required"),
-  description: Yup.string().required("Description is required"),
+  aboutTheCompany: Yup.string().required(
+    "Give some brief introduction about the company"
+  ),
   email: Yup.string()
     .email("Must be a valid email")
     .max(255)
@@ -136,6 +138,22 @@ const ProjectInfo = ({ onNext }) => {
               </FormControl>
               <FormControl fullWidth>
                 <Field
+                  name="companyLogo"
+                  as={TextField}
+                  label="Company Logo link"
+                  variant="outlined"
+                  fullWidth
+                />
+                <ErrorMessage name="companyLogo" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <FormControl fullWidth>
+                <Field
                   name="projectTitle"
                   as={TextField}
                   label="Project Title"
@@ -152,15 +170,15 @@ const ProjectInfo = ({ onNext }) => {
               </FormControl>
               <FormControl fullWidth>
                 <Field
-                  name="description"
+                  name="aboutTheCompany"
                   as={TextField}
-                  label="Description"
+                  label="About The Company"
                   multiline
                   rows={4}
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="description" component="div">
+                <ErrorMessage name="aboutTheCompany" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}

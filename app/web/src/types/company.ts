@@ -1,4 +1,3 @@
-// types.ts
 export interface ICompany {
   clientDetails: {
     companyName: string;
@@ -13,7 +12,6 @@ export interface ICompany {
     additionalInformation: string;
   };
 }
-
 export type IinitialValues = {
   projectName: string;
   projectDescription: string;

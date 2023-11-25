@@ -23,7 +23,7 @@ import CustomButton from "../../../../../components/button";
 import { ArrowBack, BackHand } from "@mui/icons-material";
 
 const additionalDataValidationSchema = Yup.object().shape({
-  dataContent: Yup.string().required("Additional Data is required"),
+  // dataContent: Yup.string().required("Additional Data is required"),
   durationForEmployment: Yup.string().required(
     "Employment duration is required"
   ),

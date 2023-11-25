@@ -1,12 +1,11 @@
 import { CountryType } from "../content/applications/Users/settings/CountrySelector";
-
 export interface IClient {
   id?: number;
   name: string;
   avatar?: string;
+  companyLogo: string;
   companyName: string;
   email: string;
-  // lastName: string;
   country: CountryType;
   phoneNumber: string;
   projectTitle: string;
@@ -16,24 +15,24 @@ export interface ClientFormDataState {
   ["Client info"]: {
     name: string;
     email: string;
+    companyLogo: string;
     phoneNumber: string;
     numOfEmployees: string;
     country: CountryType;
-
     companyName: string;
     projectTitle: string;
-    description: string;
+    aboutTheCompany: string;
   };
   ["Project Details"]: {
     selectedSkills: string[];
     DevsNeeded: string;
     methodology: string;
+    aboutTheProject: string;
     experience: string;
     testingQA: string;
   };
   ["Additional Data"]: {
     durationForEmployment: string;
-
     whenToStart: string;
     dataContent: string;
   };
@@ -57,7 +56,6 @@ export type ClientFormDataAction =
       payload: ClientFormDataState["Communication Type"];
     }
   | { type: "reset"; payload: ClientFormDataState };
-
 export interface ClientFormDataContextProps {
   formDataState: ClientFormDataState;
   dispatch: (action: ClientFormDataAction) => void;

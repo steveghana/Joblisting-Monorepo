@@ -31,9 +31,9 @@ import { ArrowBack, BackHand } from "@mui/icons-material";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
-  // technicalRequirements: Yup.string().required(
-  //   "Technical Requirements are required"
-  // ),
+  aboutTheProject: Yup.string().required(
+    "Give us some information about the project"
+  ),
   // designPreferences: Yup.string().required("Design Preferences are required"),
   experience: Yup.string().required("Experience level is required"),
   selectedSkills: Yup.array().required("Skills are required"),
@@ -168,6 +168,24 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                   )}
                 />
                 <ErrorMessage name="selectedSkills" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <FormControl fullWidth>
+                <Field
+                  name="aboutTheProject"
+                  as={TextField}
+                  label="About The Project"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                />
+                <ErrorMessage name="aboutTheProject" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}
