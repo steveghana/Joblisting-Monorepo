@@ -110,7 +110,7 @@ class Client {
     return this.data.phoneNumber;
   }
   get description(): string {
-    return this.data.description;
+    return this.data.aboutTheCompany;
   }
   get exists(): boolean {
     return this.data !== null;

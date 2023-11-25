@@ -103,7 +103,7 @@ export class DevelopersService {
       <h2>Role Details:</h2>
       <ul>
         <li><strong>Role:</strong>${role.title}</li>
-        <li><strong>Description:</strong>${role.description}</li>
+        <li><strong>Description:</strong>${role.aboutTheProject}</li>
         <li><strong>Start Date:</strong>${role.whenToStart}</li>
       </ul>
       <h2>Limited Access:</h2>

@@ -2,7 +2,7 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../util/dependencyInjector';
+} from '../../../../../util/dependencyInjector';
 import shortUrl from '../Entity/shortUrl';
 import { Cache } from 'cache-manager';
 

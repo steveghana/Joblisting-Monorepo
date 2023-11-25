@@ -73,6 +73,9 @@ export class ProjectDetailsDto {
   @IsNotEmpty()
   @IsString()
   DevsNeeded: string;
+  @IsNotEmpty()
+  @IsString()
+  aboutTheProject: string;
 
   // Assuming methodology is a string
   @IsNotEmpty()

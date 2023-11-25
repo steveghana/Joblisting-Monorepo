@@ -9,8 +9,9 @@ const config = {
   databasePort: 5432,
 
   BusinessURL: 'http://localhost:5173',
-
+  roleUrl: '',
   logSql: true,
+  roleUrlComponaentLength: 22,
 
   authentication: {
     passwordHashIterations: Math.pow(2, 17), // We hash using PBKDF2 with SHA512. In this case OWASP recommends at least 120,000 iterations https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#pbkdf2

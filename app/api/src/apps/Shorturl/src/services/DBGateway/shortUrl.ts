@@ -1,7 +1,7 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../util/dependencyInjector';
+} from '../../../../../util/dependencyInjector';
 import {
   LessThanOrEqual,
   IsNull,
@@ -19,7 +19,7 @@ async function destroyExpired(
 ): Promise<void> {
   dependencies = injectDependencies(dependencies, ['db']);
   let shortRepo = myDataSource.manager.getRepository(
-    dependencies.db.models.shortUrl,
+    dependencies.db.models.roleShortUrl,
   );
   await shortRepo
     .createQueryBuilder()
@@ -42,9 +42,9 @@ async function resolveShortUrl(
   dependencies = injectDependencies(dependencies, ['db']);
 
   let shortRepo = myDataSource.manager.getRepository(
-    dependencies.db.models.shortUrl,
+    dependencies.db.models.roleShortUrl,
   );
-  // let item = await 
+  // let item = await
   // console.log(item, shortComponent, 'from short');
 
   const [shortUrl] = await Promise.all([
@@ -68,7 +68,7 @@ async function create(
 ): Promise<{ shortComponent: string }> {
   dependencies = injectDependencies(dependencies, ['db']);
   let shortRepo = myDataSource.manager.getRepository(
-    dependencies.db.models.shortUrl,
+    dependencies.db.models.roleShortUrl,
   );
 
   let data = shortRepo.create({

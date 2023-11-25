@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm';
-import AssociableModel from '../../../../apps/Config/associable';
+// import AssociableModel from '../../apps/Config/associable';
 
 @Entity({ name: 'shorturl' })
-export class ShortUrlEntity extends AssociableModel {
+export class ShortUrlEntity {
   @Column({ unique: true, primary: true })
   shortComponent!: string;
 

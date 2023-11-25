@@ -53,6 +53,9 @@ export class CreateRoleDto {
   @IsNotEmpty()
   @IsString()
   title: string;
+  @IsNotEmpty()
+  @IsString()
+  aboutTheProject: string;
   // vacancy_status: 'Open' | 'Closed';
   constructor(data: IRole) {
     Object.assign(this, data);

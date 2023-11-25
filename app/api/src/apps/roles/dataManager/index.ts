@@ -80,7 +80,7 @@ class Roles {
     return this.data.title;
   }
   get description(): string {
-    return this.data.description;
+    return this.data.aboutCompany;
   }
   get role(): string {
     return this.data.vacancy_status;

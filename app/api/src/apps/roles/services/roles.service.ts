@@ -22,6 +22,7 @@ export class RolesService {
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
+          aboutTheProject: createRoleDto.aboutTheProject,
           ...rest,
           vacancy_status:
             createRoleDto.whenToStart !== 'I will decide later'

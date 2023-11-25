@@ -10,7 +10,8 @@ export interface IRole {
   clientId?: number;
 
   // developer: any;
-
+  aboutTheProject: string;
+  aboutCompany?: string;
   title: string;
   durationForEmployment: string;
   DevsNeeded: string;
@@ -19,7 +20,7 @@ export interface IRole {
   testingQA: string;
   whenToStart: string;
   dataContent: string;
-  description: string;
+  // description: string;
   numOfEmployees: string;
 
   skills_required: string[]; // Store skills as JSON

@@ -17,7 +17,7 @@ import {
   Res,
   Next,
 } from '@nestjs/common';
-import validationUtil from '../../../util/validation';
+import validationUtil from '../../../../util/validation';
 
 import {
   ApiBadRequestResponse,
@@ -29,7 +29,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ShortUrlService } from '../services/service/short.service';
-import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
+import { HttpExceptionFilter } from '../../../../middleware/err.Middleware';
 import { Response } from 'express';
 
 @Controller('/short')

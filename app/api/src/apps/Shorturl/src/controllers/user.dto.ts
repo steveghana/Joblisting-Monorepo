@@ -14,8 +14,6 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type as ValidateType } from 'class-transformer';
-import validateUtil from '../../../util/validation';
-import { QueueGroupPossibleTypes } from '@/apps/types/queueGroup';
 export class User {
   @ApiProperty({ description: 'email', required: true })
   @IsString()
@@ -74,9 +72,7 @@ export class BusinessDTO {
   @ApiProperty({ description: '' })
   @IsString()
   readonly centerLong: string;
-  @ApiProperty({ description: 'BusinessType', required: true })
-  @IsString()
-  readonly type: [keyof typeof QueueGroupPossibleTypes];
+  // @ApiProperty({ description: 'BusinessType', required: true })
 }
 
 export class LoginUser {

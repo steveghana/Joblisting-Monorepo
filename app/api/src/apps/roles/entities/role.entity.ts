@@ -37,6 +37,8 @@ export class Role {
   @Column()
   methodology: string;
   @Column()
+  aboutTheProject: string;
+  @Column()
   experience: string;
   @Column()
   testingQA: string;

@@ -9,6 +9,7 @@ import { Interview as interviews } from '../apps/interviews/entities/interview.e
 import { Developer as developer } from '../apps/developers/entities/developer.entity';
 import { ClockHours as clockedHours } from '../apps/clocked-hours/entities/clocked-hour.entity';
 import { Client as client } from '../apps/clients/entities/client.entity';
+import { ShortUrlEntity as roleShortUrl } from '../apps/Shorturl/src/model/shortUrl.entity';
 
 type RepositoryType<T extends ObjectLiteral> = Repository<T>;
 export type Repositories = {
@@ -33,6 +34,7 @@ export function createRepositories(
 export const EntitiesRepositoryMap = {
   authToken,
   credentialToken,
+  roleShortUrl,
   user,
   application,
   role,
@@ -45,6 +47,7 @@ export const EntitiesRepositoryMap = {
 const Entities = [
   authToken,
   credentialToken,
+  roleShortUrl,
   user,
   application,
   role,
