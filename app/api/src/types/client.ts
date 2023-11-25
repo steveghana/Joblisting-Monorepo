@@ -4,13 +4,14 @@ export interface IClient {
   name: string;
   email: string;
   industry: string[];
-  // country:Record<string, any>
   numOfEmployees: string;
   companyName: string;
-  description: string;
   phoneNumber: string;
   projectTitle: string;
   startDate: Date;
+  companyLogo: string;
+  aboutTheCompany: string;
+  country: Record<string, any>;
 }
 export interface IClientFormData {
   ['Client info']: IClient;
@@ -18,12 +19,12 @@ export interface IClientFormData {
     selectedSkills: string[];
     DevsNeeded: string;
     methodology: string;
+    aboutTheProject: string;
     experience: string;
     testingQA: string;
   };
   ['Additional Data']: {
     durationForEmployment: string;
-
     whenToStart: string;
     dataContent: string;
   };

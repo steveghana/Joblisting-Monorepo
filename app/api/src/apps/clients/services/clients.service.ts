@@ -23,6 +23,7 @@ export class ClientsService {
         {
           //TODO change  industry and startDate later
           industry: ['Tech', 'Real Estate'],
+          
           startDate: new Date(),
           ...createClientDto['Client info'],
           communicationPreferences:
@@ -51,7 +52,7 @@ export class ClientsService {
           client,
           clientId: client.id,
           title: client.projectTitle,
-          description: client.description,
+          aboutCompany: projectDetails.,
           vacancy_status:
             additionalData.whenToStart !== 'i will decide later'
               ? 'Open'

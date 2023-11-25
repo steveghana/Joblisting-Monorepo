@@ -23,35 +23,32 @@ export class ClientDto {
   @IsNotEmpty()
   @IsString()
   name: string;
-
   @IsNotEmpty()
   @IsEmail()
   email: string;
-
   @IsOptional()
   @IsArray()
   industry: string[];
-
-  // Assuming numOfEmployees is a string
   @IsNotEmpty()
   @IsString()
   numOfEmployees: string;
-
-  // Assuming companyName is a string
   @IsNotEmpty()
   @IsString()
   companyName: string;
-
-  // Assuming description is a string
+  @IsOptional()
+  @IsString()
+  companyLogo: string;
   @IsNotEmpty()
   @IsString()
-  description: string;
-
+  aboutTheCompany: string;
+  // Assuming description is a string
+  // @IsNotEmpty()
+  // @IsString()
+  country: Record<string, any>;
   // Assuming phoneNumber is a string
   @IsNotEmpty()
   @IsString()
   phoneNumber: string;
-
   // Assuming projectTitle is a string
   @IsNotEmpty()
   @IsString()
@@ -81,8 +78,6 @@ export class ProjectDetailsDto {
   @IsNotEmpty()
   @IsString()
   methodology: string;
-
-  // Assuming experience is a string
   @IsNotEmpty()
   @IsString()
   experience: string;

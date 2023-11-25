@@ -19,6 +19,12 @@ export class Client {
 
   @Column()
   description: string;
+  @Column()
+  companyLogo: string;
+  @Column()
+  aboutTheCompany: string;
+  @Column('simple-array')
+  country: Record<string, any>;
 
   @Column('simple-array')
   industry: [string];
