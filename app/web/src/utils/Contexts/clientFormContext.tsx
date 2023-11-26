@@ -25,7 +25,7 @@ const initialState: ClientFormDataState = {
     methodology: "agile",
     aboutTheProject: "",
     experience: "",
-    testingQA: "",
+    hiringRole: "",
   },
   ["Additional Data"]: {
     durationForEmployment: "",

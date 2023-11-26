@@ -52,7 +52,9 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
         ...formDataState,
       }).unwrap();
       console.log(data, "data from client");
-      navigate("/dashboard/customers/clients");
+      if (!isError || !error) {
+        navigate("/dashboard/customers/clients");
+      }
     } catch (error) {
       console.log(error, "from eerror");
     }

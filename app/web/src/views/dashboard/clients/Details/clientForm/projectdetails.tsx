@@ -23,16 +23,19 @@ import { availableSkills } from "../../../Roles/ApplicationForm/skills";
 import {
   experienceLevel,
   projectRequirementFields,
-  testingQAOptions,
   methodologyOptions,
 } from "../../../../../lib/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { ArrowBack, BackHand } from "@mui/icons-material";
+import { techRoles } from "../../../../../lib/jobs";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
   aboutTheProject: Yup.string().required(
     "Give us some information about the project"
+  ),
+  hiringRole: Yup.string().required(
+    "Please select the role you are hiring for!"
   ),
   // designPreferences: Yup.string().required("Design Preferences are required"),
   experience: Yup.string().required("Experience level is required"),
@@ -127,20 +130,28 @@ const ProjectDetails = ({ onNext, handleBack }) => {
               </FormControl>
 
               <FormControl fullWidth>
-                <InputLabel id="testingQA-label">Testing/QA</InputLabel>
+                <InputLabel id="role-label">
+                  Select role Are You Hiring For
+                </InputLabel>
                 <Field
-                  name="testingQA"
+                  name="hiringRole"
                   as={Select}
-                  label="Testing/QA"
                   variant="outlined"
                   fullWidth
                 >
-                  {testingQAOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {Object.keys(techRoles).map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
                     </MenuItem>
                   ))}
                 </Field>
+                <ErrorMessage name="hiringRole" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
               </FormControl>
 
               <FormControl fullWidth>

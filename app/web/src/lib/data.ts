@@ -39,11 +39,7 @@ export const ReviewLabelObj = {
   testingQA: "Testing Type",
   communicationPreferences: "Communication Type",
 };
-export const testingQAOptions = [
-  { label: "Manual Testing", value: "manual_testing" },
-  { label: "Automated Testing", value: "automated_testing" },
-  { label: "Performance Testing", value: "performance_testing" },
-];
+
 export const experienceLevel = [
   { label: "Senior", value: "senior" },
   { label: "Mid-Level", value: "midlevel" },

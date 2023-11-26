@@ -3,6 +3,7 @@ import { ClientsService } from '../services/clients.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
+import { ClientFormDataDto } from '../dto/create-client.dto';
 
 describe('ClientsController', () => {
   let app: INestApplication;
@@ -26,13 +27,17 @@ describe('ClientsController', () => {
         industry: ['IT'],
         numOfEmployees: '1-10',
         companyName: 'Test Company',
-        description: 'Test Description',
+        aboutTheCompany: 'This is some simple information about the company',
+        companyLogo:
+          'https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?w=740&t=st=1700966058~exp=1700966658~hmac=17dfd9bcfcabb3b720f5d5631a276b7838df67cf6d98092a26a95ff6afe6d5dd',
         phoneNumber: '1234567890',
         projectTitle: 'Test Project',
+        country: { code: 'IL', label: 'Israel', phone: '972' },
         startDate: new Date(),
       },
       'Project Details': {
         selectedSkills: ['Node.js'],
+        aboutTheProject: 'This is some simple informtion about the project',
         DevsNeeded: '3',
         methodology: 'agile',
         experience: 'entry',

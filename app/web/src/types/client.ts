@@ -1,15 +1,18 @@
 import { CountryType } from "../content/applications/Users/settings/CountrySelector";
 export interface IClient {
   id?: number;
-  name: string;
   avatar?: string;
-  companyLogo: string;
-  companyName: string;
+  name: string;
   email: string;
-  country: CountryType;
+  industry: string[];
+  numOfEmployees: string;
+  companyName: string;
   phoneNumber: string;
   projectTitle: string;
-  startDate: string;
+  startDate: Date;
+  companyLogo: string;
+  aboutTheCompany: string;
+  country: Record<string, any>;
 }
 export interface ClientFormDataState {
   ["Client info"]: {
@@ -29,7 +32,7 @@ export interface ClientFormDataState {
     methodology: string;
     aboutTheProject: string;
     experience: string;
-    testingQA: string;
+    hiringRole: string;
   };
   ["Additional Data"]: {
     durationForEmployment: string;

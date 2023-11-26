@@ -22,12 +22,12 @@ export class ClientsService {
       const [client, clientMethods] = await Client.findElseCreate(
         {
           //TODO change  industry and startDate later
-          industry: ['Tech', 'Real Estate'],
+          // industry: ['Tech', 'Real Estate'],
 
           startDate: new Date(),
-          ...createClientDto['Client info'],
           communicationPreferences:
             createClientDto['Communication Type'].communicationPreferences,
+          ...createClientDto['Client Info'],
         },
         transaction,
         dependencies,
@@ -42,7 +42,7 @@ export class ClientsService {
       }
       const {
         'Additional Data': additionalData,
-        'Client info': clientInfo,
+        'Client Info': clientInfo,
         'Communication Type': communicationType,
         'Project Details': projectDetails,
       } = createClientDto;
@@ -53,7 +53,7 @@ export class ClientsService {
           clientId: client.id,
           title: client.projectTitle,
           aboutCompany: client.aboutTheCompany,
-
+          DevsNeeded: projectDetails.devsNeeded,
           vacancy_status:
             additionalData.whenToStart !== 'i will decide later'
               ? 'Open'

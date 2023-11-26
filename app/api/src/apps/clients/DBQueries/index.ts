@@ -44,7 +44,11 @@ export function findElseCreateClient(
       if (existingClient) {
         return [existingClient, false];
       } else {
-        const newClient = clientRepo.create({ ...clientInfo });
+        const newClient = clientRepo.create({
+          ...clientInfo,
+          description:
+            'This is some demo description, remove column descr. later',
+        });
         const savedClient = await clientRepo.save(newClient);
         console.log(savedClient, 'this is the saved data...........');
         return [savedClient, true];

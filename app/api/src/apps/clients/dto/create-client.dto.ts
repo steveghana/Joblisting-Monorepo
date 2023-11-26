@@ -19,7 +19,7 @@ import { Type } from 'class-transformer';
 export class ClientDto {
   @IsOptional()
   @IsNumber()
-  id: number;
+  id?: number;
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -42,7 +42,7 @@ export class ClientDto {
   @IsString()
   aboutTheCompany: string;
   // Assuming description is a string
-  // @IsNotEmpty()
+  @IsNotEmpty()
   // @IsString()
   country: Record<string, any>;
   // Assuming phoneNumber is a string
@@ -72,7 +72,7 @@ export class ProjectDetailsDto {
   // Assuming DevsNeeded is a string
   @IsNotEmpty()
   @IsString()
-  DevsNeeded: string;
+  devsNeeded: string;
   @IsNotEmpty()
   @IsString()
   aboutTheProject: string;
@@ -107,7 +107,7 @@ export class AdditionalDataDto {
   whenToStart: string;
 
   // Assuming dataContent is a string
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   dataContent: string;
 
@@ -136,7 +136,7 @@ export class ClientFormDataDto {
   @Type(() => ClientDto)
   @ValidateNested()
   @IsNotEmpty()
-  'Client info': ClientDto;
+  'Client Info': ClientDto;
 
   @Type(() => ProjectDetailsDto)
   @ValidateNested()

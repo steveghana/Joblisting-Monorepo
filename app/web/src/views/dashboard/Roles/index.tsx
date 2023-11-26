@@ -25,6 +25,7 @@ import CustomDrawer from "../../../components/Drawer";
 import Dot from "../../../components/Dot";
 import RoleDetails from "./roleTabs";
 import { useGetRolesQuery } from "../../../store/services/roleService";
+import { IRoleData } from "../../../types/roles";
 
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
@@ -33,11 +34,11 @@ const Roles = () => {
     <MainCard title={"Roles"}>
       <Grid container>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2 }}>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <RoleCard key={index} />
+          {data?.map((role, index) => (
+            <RoleCard key={index} role={role} />
           ))}
         </Grid>
-        <Typography variant="h4" fontWeight={700} textAlign={"center"} m={2}>
+        {/* <Typography variant="h4" fontWeight={700} textAlign={"center"} m={2}>
           Featured Jobs
         </Typography>
         <Grid
@@ -48,19 +49,30 @@ const Roles = () => {
           {Array.from({ length: 4 }).map((_, index) => (
             <RoleCard feature={true} key={index} />
           ))}
-        </Grid>
+        </Grid> */}
       </Grid>
     </MainCard>
   );
 };
 interface IRoleCard {
   feature?: boolean;
+  role: IRoleData;
 }
 const RoleCard = (props: IRoleCard) => {
   const [openDrawer, setOpenDrawer] = React.useState({
     bottom: false,
   });
-
+  console.log(props?.role, "this is the rles");
+  const {
+    aboutTheProject,
+    durationForEmployment,
+    experience,
+    skills_required,
+    title,
+    vacancy_status,
+    client,
+    aboutCompany,
+  } = props?.role;
   return (
     <CustomDrawer
       component={
@@ -80,20 +92,19 @@ const RoleCard = (props: IRoleCard) => {
         <SubCard sx={{ cursor: "pointer" }}>
           <Grid container direction="column" spacing={0}>
             <Grid className="avatar" display={"flex"} gap={0.8} item>
-              <Avatar alt="user" variant="rounded" />
+              <Avatar alt="user" variant="rounded" src={client.companyLogo} />
               <Box mr={"auto"}>
                 <Typography
                   fontWeight={500}
                   variant={props.feature ? "h5" : "h4"}
                   mr={"auto"}
                 >
-                  Smart Contract
+                  {client.projectTitle}
                 </Typography>
                 {/* {!props.feature && ( */}
                 <Box>
                   <Typography variant="caption" color={"black"}>
-                    #1 Rated & Highest convertion all in one real estate
-                    platform
+                    {client.aboutTheCompany}
                   </Typography>
                   <Box
                     sx={{ color: themePalette.primary.light }}
@@ -103,7 +114,7 @@ const RoleCard = (props: IRoleCard) => {
                   >
                     <People sx={{ color: themePalette.primary.dark }} />
                     <Typography variant="caption" fontWeight={700}>
-                      11 - 50
+                      {client.numOfEmployees}
                     </Typography>
                     <Typography variant="caption" fontWeight={700}>
                       Employees
@@ -128,7 +139,9 @@ const RoleCard = (props: IRoleCard) => {
                 disabled={true}
                 startIcon={<CheckCircle color="success" />}
               >
-                <Typography variant="caption">Actively Hiring</Typography>
+                <Typography variant="caption">
+                  {vacancy_status === "Open" && "Actively Hiring"}
+                </Typography>
               </Button>
               {/* <Divider sx={{ margin: "1rem 0" }} /> */}
               <Box
@@ -142,12 +155,13 @@ const RoleCard = (props: IRoleCard) => {
                 flexWrap={"wrap"}
               >
                 <Typography fontWeight={700} variant="body2">
+                  {}
                   Fullstack Developer with Nodejs and React skills -{" "}
-                  <b>Fulltime</b>
+                  <b>{durationForEmployment}</b>
                 </Typography>
                 <Box display={"flex"} alignItems={"center"} gap={0.4}>
                   <Typography fontWeight={400} variant="subtitle1" mr={"auto"}>
-                    Isreal{" "}
+                    {client.country.label}{" "}
                   </Typography>
                   <Dot />
                   <Typography>Remote</Typography>
@@ -188,6 +202,7 @@ const RoleCard = (props: IRoleCard) => {
                           mr: 0.2,
                         }}
                       />
+                      {}
                       Posted 4 weeks ago
                     </Typography>
                   </Box>
