@@ -88,7 +88,7 @@ class Client {
     return await updateClient(clientId, client, transaction, dependencies);
   }
 
-  get id(): number {
+  get id(): string {
     return this.data.id;
   }
 

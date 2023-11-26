@@ -18,8 +18,8 @@ import AssociableModel from '../../../Config/associable';
 // Application Entity
 @Entity('applications')
 export class Application extends AssociableModel {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne((type) => Role, (role) => role.application)
   @JoinColumn({ name: 'role_id' })

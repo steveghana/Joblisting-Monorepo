@@ -26,7 +26,7 @@ export class ClientsService {
 
           startDate: new Date(),
           communicationPreferences:
-            createClientDto['Communication Type'].communicationPreferences,
+            createClientDto['Project Details'].communicationPreferences,
           ...createClientDto['Client Info'],
         },
         transaction,
@@ -41,9 +41,8 @@ export class ClientsService {
         );
       }
       const {
-        'Additional Data': additionalData,
+        'Role Info': additionalData,
         'Client Info': clientInfo,
-        'Communication Type': communicationType,
         'Project Details': projectDetails,
       } = createClientDto;
 
@@ -52,14 +51,12 @@ export class ClientsService {
           client,
           clientId: client.id,
           title: client.projectTitle,
-          employmentType: communicationType.employmentType,
           aboutCompany: client.aboutTheCompany,
           vacancy_status:
             additionalData.whenToStart !== "I'll decide later"
               ? 'Open'
               : 'Closed',
-          skills_required: projectDetails.selectedSkills,
-          numOfEmployees: clientInfo.numOfEmployees,
+          selectedSkills: projectDetails.selectedSkills,
           ...additionalData,
           ...projectDetails,
         },

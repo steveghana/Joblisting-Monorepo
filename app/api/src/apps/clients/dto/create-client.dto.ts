@@ -16,10 +16,10 @@ import { Type } from 'class-transformer';
 
 // Enum for communication preferences
 
-export class ClientDto {
+export class ClientDto implements IClient {
   @IsOptional()
   @IsNumber()
-  id?: number;
+  id?: string;
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -41,6 +41,7 @@ export class ClientDto {
   @IsNotEmpty()
   @IsString()
   aboutTheCompany: string;
+  avatar?: string;
   // Assuming description is a string
   @IsNotEmpty()
   // @IsString()
@@ -90,10 +91,13 @@ export class ProjectDetailsDto {
   @IsString()
   experience: string;
 
+  @IsOptional()
+  @IsString()
+  roleName: string;
   // Assuming testingQA is a string
   @IsNotEmpty()
   @IsString()
-  testingQA: string;
+  communicationPreferences: string;
 
   constructor(data: IClientFormData['Project Details']) {
     Object.assign(this, data);
@@ -105,22 +109,44 @@ export class AdditionalDataDto {
   @IsNotEmpty()
   @IsString()
   durationForEmployment: string;
-
   // Assuming whenToStart is a string
   @IsNotEmpty()
   @IsString()
   whenToStart: string;
-
-  // Assuming dataContent is a string
   @IsOptional()
   @IsString()
-  dataContent: string;
+  salary: string;
+  @IsOptional()
+  @IsString()
+  location: string;
+  @IsOptional()
+  @IsString()
+  roleCategory: string;
+  @IsOptional()
+  @IsString()
+  postedDate: Date;
+  @IsNotEmpty()
+  @IsString()
+  tasks: string[]; // Array of tasks
+  employmentType: string;
 
   constructor(data: IClientFormData['Additional Data']) {
     Object.assign(this, data);
   }
 }
 
+export interface JobInfo {
+  id: string;
+  description: string[];
+  jobLocation: string;
+  employmentType: string;
+  salary: string;
+  location: string;
+  roleCategory: string;
+  postedDate: Date;
+  roleName: string;
+  tasks: string[]; // Array of tasks
+}
 export class CommunicationTypeDto {
   // Assuming communicationPreferences is a string
   @IsNotEmpty()
@@ -151,10 +177,5 @@ export class ClientFormDataDto {
   @Type(() => AdditionalDataDto)
   @ValidateNested()
   @IsNotEmpty()
-  'Additional Data': AdditionalDataDto;
-
-  @Type(() => CommunicationTypeDto)
-  @ValidateNested()
-  @IsNotEmpty()
-  'Communication Type': CommunicationTypeDto;
+  'Role Info': AdditionalDataDto;
 }

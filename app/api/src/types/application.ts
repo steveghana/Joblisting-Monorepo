@@ -2,7 +2,7 @@ import { IDev } from './developer';
 import { IRole } from './role';
 export interface ApplicantsSubmission {}
 export interface IApplication {
-  id?: number;
+  id?: string;
   name: string;
   email: string;
   phoneNumber: string;

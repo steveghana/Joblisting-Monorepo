@@ -17,7 +17,7 @@ export interface IClient {
   country: Record<string, any>;
 }
 export interface JobInfo {
-  id: string;
+  roleId: string;
   description: string[];
   jobLocation: string;
   employmentType: string;
@@ -55,7 +55,6 @@ export interface ClientFormDataState {
     salary: string;
     location: string;
     roleCategory: string;
-    postedDate: Date;
     tasks: string[]; // Array of tasks
     employmentType: string; // Employment types related to the role
     // roleName: string;

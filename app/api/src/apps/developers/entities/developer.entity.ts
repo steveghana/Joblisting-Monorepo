@@ -16,8 +16,8 @@ import {
 } from 'typeorm';
 @Entity('developer')
 export class Developer extends AssociableModel {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne((type) => User, (user) => user.developer)
   @JoinColumn({ name: 'user_id' })

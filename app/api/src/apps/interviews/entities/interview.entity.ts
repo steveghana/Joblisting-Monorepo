@@ -14,8 +14,8 @@ import {
 // Interview Entity
 @Entity('interviews')
 export class Interview extends AssociableModel {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne((type) => Role, (role) => role.interviews)
   @JoinColumn({ name: 'role_id' })

@@ -2,7 +2,7 @@ import { IDev } from './developer';
 import { IRole } from './role';
 
 export interface Iinterviews {
-  id?: number;
+  id?: string;
 
   role: IRole;
 

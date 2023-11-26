@@ -12,8 +12,8 @@ import {
 } from 'typeorm';
 @Entity('clients')
 export class Client extends AssociableModel {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;

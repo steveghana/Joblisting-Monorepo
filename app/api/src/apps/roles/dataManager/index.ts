@@ -63,7 +63,7 @@ class Roles {
     return newApplication.data;
   }
 
-  get id(): number {
+  get id(): string {
     return this.data.id;
   }
 
@@ -74,7 +74,7 @@ class Roles {
     return this.data.client;
   }
   get skills(): string[] {
-    return this.data.skills_required;
+    return this.data.selectedSkills;
   }
   get title(): string {
     return this.data.title;

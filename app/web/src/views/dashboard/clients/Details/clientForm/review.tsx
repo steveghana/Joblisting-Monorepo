@@ -118,8 +118,6 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
                                     ))
                                   : value?.label
                                   ? value.label
-                                  : key === "postedDate"
-                                  ? (value as Date).toLocaleDateString()
                                   : value?.length > 70
                                   ? value.slice(0, 70) + "...."
                                   : value}

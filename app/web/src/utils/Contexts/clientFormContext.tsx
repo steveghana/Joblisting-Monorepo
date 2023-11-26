@@ -32,7 +32,6 @@ const initialState: ClientFormDataState = {
     durationForEmployment: "",
     employmentType: "",
     location: "Telaviv",
-    postedDate: new Date(),
     whenToStart: "",
     roleCategory: "Engineering",
     salary: "",

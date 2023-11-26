@@ -15,8 +15,8 @@ import {
 // Role Entity
 @Entity('roles')
 export class Role extends AssociableModel {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne((type) => Client, (client) => client.roles)
   @JoinColumn({ name: 'client_id' })

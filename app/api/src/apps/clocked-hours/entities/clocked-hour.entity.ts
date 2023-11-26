@@ -13,8 +13,8 @@ import {
 // ClockHours Entity
 @Entity('clock_hours')
 export class ClockHours extends AssociableModel {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne((type) => Developer, (developer) => developer.clockHours)
   @JoinColumn({ name: 'developer_id' })
