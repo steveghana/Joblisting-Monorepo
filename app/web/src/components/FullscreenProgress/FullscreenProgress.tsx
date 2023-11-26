@@ -3,7 +3,7 @@ import React from "react";
 
 const FullscreenProgress = () => {
   return (
-    <div className="loader">
+    <div id="preRender">
       <div className="loader-inner">
         <div className="loader-line-wrap">
           <div className="loader-line"></div>
