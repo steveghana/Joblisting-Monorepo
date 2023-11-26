@@ -11,12 +11,13 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
+import AssociableModel from '../../../Config/associable';
 
 // Developer Entity
 
 // Application Entity
 @Entity('applications')
-export class Application {
+export class Application extends AssociableModel {
   @PrimaryGeneratedColumn()
   id: number;
 
