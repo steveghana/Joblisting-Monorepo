@@ -25,16 +25,22 @@ const initialState: ClientFormDataState = {
     methodology: "agile",
     aboutTheProject: "",
     experience: "",
-    hiringRole: "",
-  },
-  ["Additional Data"]: {
-    durationForEmployment: "",
-    dataContent: "",
-    whenToStart: "",
-  },
-  ["Communication Type"]: {
     communicationPreferences: "",
+    roleName: "",
+  },
+  ["Role Info"]: {
+    durationForEmployment: "",
     employmentType: "",
+    location: {
+      continent: "",
+      country: "",
+    },
+    postedDate: new Date(),
+    whenToStart: "",
+    roleCategory: "",
+    roleName: "",
+    salary: "",
+    tasks: [""],
   },
 };
 
@@ -47,11 +53,8 @@ const formDataReducer = (
       return { ...state, ["Project Details"]: action.payload };
     case "updateclientInfo":
       return { ...state, ["Client info"]: action.payload };
-    case "updateadditionalData":
-      return { ...state, ["Additional Data"]: action.payload };
-    case "updatecommunicationPreference":
-      return { ...state, ["Communication Type"]: action.payload };
-
+    case "updateRoleInfo":
+      return { ...state, ["Role Info"]: action.payload };
     case "reset":
       return action.payload;
     default:

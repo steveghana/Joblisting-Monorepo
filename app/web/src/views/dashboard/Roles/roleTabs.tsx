@@ -170,7 +170,7 @@ const RoleTabs = (props: IRoleTabs) => {
                       client={client}
                     />
                   )}
-                  {currentTab === "jobs" && <JobsPage />}
+                  {currentTab === "jobs" && <JobsPage client={client} />}
                   {currentTab === "applicants" && <ApplicantTable />}
                   {/* {currentTab === "notifications" && <NotificationsTab />} */}
                 </Grid>

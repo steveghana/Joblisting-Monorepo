@@ -31,6 +31,7 @@ import {
 import { useNavigate } from "react-router";
 import { roleData } from "../roledata";
 import RoleSummary from "../roleSummary";
+import { IClient } from "../../../../types/client";
 // import RoleSummary from "./roleSummary";
 interface Job {
   id: number;
@@ -39,7 +40,7 @@ interface Job {
   location: string;
 }
 
-const JobsPage: React.FC = () => {
+const JobsPage: React.FC<{ client: IClient }> = (props) => {
   const [jobs, setJobs] = useState(roleData.jobs);
   const [filters, setFilters] = useState<Record<string, any>>({});
   const theme = useTheme();

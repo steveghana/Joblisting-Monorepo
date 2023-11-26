@@ -33,7 +33,7 @@ const projectInfoValidationSchema = Yup.object().shape({
     .required("Email is required"),
   name: Yup.string().max(255).min(2).required("Please enter a valid name"),
   phoneNumber: Yup.string()
-    .matches(/^[0-9]{8,15}$/, "Please enter a valid phone number")
+    .matches(/^\+?[0-9]{8,15}$/, "Please enter a valid phone number")
     .required("Please enter your phone number"),
   numOfEmployees: Yup.string().required("Select number of employees"),
 });

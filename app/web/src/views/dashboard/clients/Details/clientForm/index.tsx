@@ -16,7 +16,6 @@ import { useNavigate } from "react-router";
 import CompanyInfo from "./clientdetailsForm";
 import ProjectDetails from "./projectdetails";
 import AdditionalData from "./addtionallInfo";
-import CommunicationPreferences from "./communicationPref";
 import ReviewAndSubmit from "./review";
 import { Protect } from "../../../../../components/auth/requireAuth";
 import SubCard from "../../../../../components/SubCard";
@@ -38,15 +37,12 @@ import {
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
-import { useAddClientMutation } from "../../../../../store/services/ClientServce";
 const steps = [
   "Company Info",
   "Project Details",
   "Additional Data",
-  "Communication Preferences",
   "Review and Submit",
 ];
-type Form = {};
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -100,8 +96,7 @@ function ColorlibStepIcon(props: StepIconProps) {
     1: <PeopleAlt />,
     2: <Work />,
     3: <VideoLabel />,
-    4: <Call />,
-    5: <Check />,
+    4: <Check />,
   };
 
   return (
@@ -182,13 +177,8 @@ const AddClientForm = () => {
             {step === 2 && (
               <AdditionalData handleBack={handleBack} onNext={handleNext} />
             )}
+
             {step === 3 && (
-              <CommunicationPreferences
-                handleBack={handleBack}
-                onNext={handleNext}
-              />
-            )}
-            {step === 4 && (
               <ReviewAndSubmit
                 formData={formData[step]}
                 // onReviewSubmit={handleSubmit}
@@ -202,7 +192,7 @@ const AddClientForm = () => {
                 </FormHelperText>
               )}
             </> */}
-            {step < 4 && (
+            {step < 3 && (
               <Box display={"flex"} gap={1} sx={{ justifyContent: "center" }}>
                 <CustomButton
                   text=" Skip to Next Step"

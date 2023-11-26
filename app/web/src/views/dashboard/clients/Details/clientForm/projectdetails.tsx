@@ -16,6 +16,11 @@ import {
   Autocomplete,
   Chip,
   FormHelperText,
+  FormGroup,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
 } from "@mui/material";
 import SubCard from "../../../../../components/SubCard";
 import CustomButton from "../../../../../components/button";
@@ -28,20 +33,25 @@ import {
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { ArrowBack, BackHand } from "@mui/icons-material";
 import { techRoles } from "../../../../../lib/jobs";
-
+const communicationOptions = [
+  { label: "Email", value: "email" },
+  { label: "Video Calls", value: "video_calls" },
+  { label: "Project Management Tools", value: "project_tools" },
+];
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
   aboutTheProject: Yup.string().required(
     "Give us some information about the project"
   ),
-  hiringRole: Yup.string().required(
-    "Please select the role you are hiring for!"
-  ),
+  roleName: Yup.string().required("Please select the role you are hiring for!"),
   // designPreferences: Yup.string().required("Design Preferences are required"),
   experience: Yup.string().required("Experience level is required"),
   selectedSkills: Yup.array().required("Skills are required"),
   devsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
+  communicationPreferences: Yup.string().required(
+    "Select a communication preference"
+  ),
 });
 
 const ProjectDetails = ({ onNext, handleBack }) => {
@@ -57,7 +67,7 @@ const ProjectDetails = ({ onNext, handleBack }) => {
         onNext(values);
       }}
     >
-      {({ isSubmitting, values, setFieldValue }) => (
+      {({ isSubmitting, values, setFieldValue, handleChange }) => (
         <Form>
           <Box>
             <Typography my={2} variant="h6">
@@ -133,19 +143,14 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                 <InputLabel id="role-label">
                   Select role Are You Hiring For
                 </InputLabel>
-                <Field
-                  name="hiringRole"
-                  as={Select}
-                  variant="outlined"
-                  fullWidth
-                >
+                <Field name="roleName" as={Select} variant="outlined" fullWidth>
                   {Object.keys(techRoles).map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
                   ))}
                 </Field>
-                <ErrorMessage name="hiringRole" component="div">
+                <ErrorMessage name="roleName" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}
@@ -186,6 +191,35 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
+              <FormGroup>
+                <FormLabel component="legend">Pick One</FormLabel>
+
+                {communicationOptions.map((option) => (
+                  <>
+                    <RadioGroup
+                      key={option.value}
+                      aria-label="items"
+                      name="communicationPreferences"
+                      value={values.communicationPreferences}
+                      onChange={handleChange}
+                      row
+                    >
+                      <FormControlLabel
+                        value={option.value}
+                        control={<Radio />}
+                        label={option.label}
+                      />
+                    </RadioGroup>
+                  </>
+                ))}
+                <ErrorMessage name="communicationPreferences" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormGroup>
               <FormControl fullWidth>
                 <Field
                   name="aboutTheProject"
@@ -207,13 +241,6 @@ const ProjectDetails = ({ onNext, handleBack }) => {
 
               <Box display={"flex"} gap={1}>
                 <CustomButton
-                  text="Next"
-                  fullWidth
-                  disabled={isSubmitting}
-                  variant="contained"
-                  type="submit"
-                />
-                <CustomButton
                   text="Back"
                   fullWidth
                   startIcon={<ArrowBack />}
@@ -221,6 +248,13 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                   type="button"
                   variant="outlined"
                   onClick={handleBack}
+                />
+                <CustomButton
+                  text="Next"
+                  fullWidth
+                  disabled={isSubmitting}
+                  variant="contained"
+                  type="submit"
                 />
               </Box>
             </Stack>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import {
   Box,
   Typography,
@@ -16,6 +16,8 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  FormGroup,
+  InputLabel,
 } from "@mui/material";
 import SubCard from "../../../../../components/SubCard";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
@@ -28,6 +30,11 @@ const additionalDataValidationSchema = Yup.object().shape({
     "Employment duration is required"
   ),
   whenToStart: Yup.string().required("Select when the project starts"),
+
+  employmentType: Yup.string().required("Employment type is required"),
+  tasks: Yup.array()
+    .of(Yup.string().required("Add and fill at least one task"))
+    .min(1, "Add and fill at least one task"),
 });
 const Duration = [
   { label: "Less than a week" },
@@ -43,23 +50,94 @@ const whenToStart = [
   { label: "More than 2 weeks from now" },
   { label: "I'll decide later" },
 ];
+
+const EmploymentType = [
+  { label: "Full time (40 or more hrs/week)" },
+  { label: "Part time (Less than 40 hrs/week)" },
+  { label: "Hourly" },
+  { label: "Contract" },
+  { label: "I'll decide later" },
+];
 const AdditionalData = ({ onNext, handleBack }) => {
   const { formDataState, dispatch } = useFormData();
 
   return (
     <Formik
-      initialValues={formDataState["Additional Data"]}
+      initialValues={formDataState["Role Info"]}
       validationSchema={additionalDataValidationSchema}
       onSubmit={(values) => {
-        dispatch({ type: "updateadditionalData", payload: values });
+        dispatch({ type: "updateRoleInfo", payload: values });
         onNext(values);
       }}
     >
-      {({ isSubmitting, handleChange, values }) => (
+      {({ isSubmitting, handleChange, values, setFieldValue }) => (
         <Form>
           <Box>
-            <Typography variant="h6">Step 3: Additional Data</Typography>
+            <Typography variant="h6">Step 3: Role Info</Typography>
             <Stack mt={2} spacing={2}>
+              {/* ... (Previous form fields) */}
+
+              {/* Tasks Section */}
+              <Typography variant="subtitle1">Tasks</Typography>
+              <FormControl fullWidth>
+                <FieldArray
+                  name="tasks"
+                  render={(arrayHelpers) => (
+                    <div>
+                      {values.tasks.map((task, taskIndex) => (
+                        <div key={taskIndex}>
+                          <Field
+                            name={`tasks.${taskIndex}`}
+                            as={TextField}
+                            label={`Task ${taskIndex + 1}`}
+                            variant="outlined"
+                            fullWidth
+                          />
+                          <Box
+                            display={"flex"}
+                            // justifyContent={"space-between"}
+                            gap={1}
+                          >
+                            <CustomButton
+                              size="small"
+                              type="button"
+                              variant="contained"
+                              onClick={() => arrayHelpers.push("")}
+                              text="Add Task"
+                            />
+                            {/* {values.tasks.length > 1 && ( */}
+                            <CustomButton
+                              size="small"
+                              type="button"
+                              variant="outlined"
+                              onClick={() => arrayHelpers.remove(taskIndex)}
+                              text="Remove Task"
+                            />
+                            {/* )} */}
+                          </Box>
+                        </div>
+                      ))}
+                      {values.tasks.length < 1 && (
+                        <CustomButton
+                          size="small"
+                          type="button"
+                          variant="contained"
+                          onClick={() => arrayHelpers.push("")}
+                          text="Add a new task"
+                        />
+                      )}
+                    </div>
+                  )}
+                />
+                <ErrorMessage name="tasks" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+
               <FormControl>
                 <FormLabel component="legend">
                   How Long Do you Need the Developer
@@ -114,13 +192,39 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
+
+              <FormControl>
+                <FormLabel component="legend">
+                  How Long Do you Need the Developer
+                </FormLabel>
+                {EmploymentType.map((duration) => (
+                  <RadioGroup
+                    aria-label="items"
+                    name="employmentType"
+                    value={values.employmentType}
+                    onChange={handleChange}
+                    row
+                  >
+                    <FormControlLabel
+                      value={duration.label}
+                      control={<Radio />}
+                      label={duration.label}
+                    />
+                  </RadioGroup>
+                ))}
+                <ErrorMessage name="employmentType" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
               <FormControl fullWidth>
                 <Field
-                  name="dataContent"
+                  name="salary"
                   as={TextField}
-                  label="Any additional Data to add"
-                  multiline
-                  rows={4}
+                  label="Expect salary"
                   variant="outlined"
                   fullWidth
                 />
@@ -132,15 +236,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-
               <Box display={"flex"} gap={1}>
-                <CustomButton
-                  text="Next"
-                  fullWidth
-                  disabled={isSubmitting}
-                  variant="contained"
-                  type="submit"
-                />
                 <CustomButton
                   text="Back"
                   fullWidth
@@ -149,6 +245,13 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   type="button"
                   variant="outlined"
                   onClick={handleBack}
+                />
+                <CustomButton
+                  text="Next"
+                  fullWidth
+                  disabled={isSubmitting}
+                  variant="contained"
+                  type="submit"
                 />
               </Box>
             </Stack>

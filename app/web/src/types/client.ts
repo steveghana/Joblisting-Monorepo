@@ -16,6 +16,21 @@ export interface IClient {
   aboutTheCompany: string;
   country: Record<string, any>;
 }
+export interface JobInfo {
+  id: string;
+  description: string[];
+  jobLocation: string;
+  employmentType: string;
+  salary: string;
+  location: {
+    continent: string;
+    country: string[];
+  };
+  roleCategory: string;
+  postedDate: Date;
+  roleName: string;
+  tasks: string[]; // Array of tasks
+}
 export interface ClientFormDataState {
   ["Client info"]: {
     name: string;
@@ -34,17 +49,24 @@ export interface ClientFormDataState {
     methodology: string;
     aboutTheProject: string;
     experience: string;
-    hiringRole: string;
+    roleName: string;
+    communicationPreferences: string;
   };
-  ["Additional Data"]: {
+  ["Role Info"]: {
     durationForEmployment: string;
     whenToStart: string;
-    dataContent: string;
+    salary: string;
+    location: LocationInfo;
+    roleCategory: string;
+    postedDate: Date;
+    tasks: string[]; // Array of tasks
+    employmentType: string; // Employment types related to the role
+    roleName: string;
   };
-  ["Communication Type"]: {
-    communicationPreferences: string;
-    employmentType: string;
-  };
+}
+interface LocationInfo {
+  continent: string;
+  country: string;
 }
 export type ClientFormDataAction =
   | {
@@ -53,12 +75,8 @@ export type ClientFormDataAction =
     }
   | { type: "updateclientInfo"; payload: ClientFormDataState["Client info"] }
   | {
-      type: "updateadditionalData";
-      payload: ClientFormDataState["Additional Data"];
-    }
-  | {
-      type: "updatecommunicationPreference";
-      payload: ClientFormDataState["Communication Type"];
+      type: "updateRoleInfo";
+      payload: ClientFormDataState["Role Info"];
     }
   | { type: "reset"; payload: ClientFormDataState };
 export interface ClientFormDataContextProps {
