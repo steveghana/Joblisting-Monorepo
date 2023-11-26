@@ -31,16 +31,12 @@ const initialState: ClientFormDataState = {
   ["Role Info"]: {
     durationForEmployment: "",
     employmentType: "",
-    location: {
-      continent: "",
-      country: "",
-    },
+    location: "Telaviv",
     postedDate: new Date(),
     whenToStart: "",
-    roleCategory: "",
-    roleName: "",
+    roleCategory: "Engineering",
     salary: "",
-    tasks: [""],
+    tasks: [],
   },
 };
 

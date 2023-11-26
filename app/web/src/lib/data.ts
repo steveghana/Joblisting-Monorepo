@@ -37,7 +37,17 @@ export const ReviewLabelObj = {
   dataContent: "Any Additional Data",
   experience: "Experience Level",
   testingQA: "Testing Type",
-  communicationPreferences: "Communication Type",
+  location: "Job Location",
+  postedDate: "Date",
+  roleCategory: " Role Category",
+  roleName: "Name of the Role",
+  salary: "Salary for the role",
+  tasks: "Tasks to perform in the role",
+  companyLogo: "Company Logo link",
+  aboutTheCompany: "Information about the company",
+  devsNeeded: "Developers needed for the Project",
+  aboutTheProject: "Information about the Project",
+  communicationPreferences: " Choice of communication",
 };
 
 export const experienceLevel = [

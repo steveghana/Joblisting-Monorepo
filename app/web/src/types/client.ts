@@ -22,10 +22,7 @@ export interface JobInfo {
   jobLocation: string;
   employmentType: string;
   salary: string;
-  location: {
-    continent: string;
-    country: string[];
-  };
+  location: string;
   roleCategory: string;
   postedDate: Date;
   roleName: string;
@@ -56,12 +53,12 @@ export interface ClientFormDataState {
     durationForEmployment: string;
     whenToStart: string;
     salary: string;
-    location: LocationInfo;
+    location: string;
     roleCategory: string;
     postedDate: Date;
     tasks: string[]; // Array of tasks
     employmentType: string; // Employment types related to the role
-    roleName: string;
+    // roleName: string;
   };
 }
 interface LocationInfo {

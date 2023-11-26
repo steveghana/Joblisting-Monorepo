@@ -27,6 +27,7 @@ import { themePalette } from "../../../../../themes/schemes/palette";
 import CustomButton from "../../../../../components/button";
 import { useAddClientMutation } from "../../../../../store/services/ClientServce";
 import { useNavigate } from "react-router";
+import { techRoles } from "../../../../../lib/jobs";
 
 type FormData = {
   [key: string]: string | string[] | boolean;
@@ -106,12 +107,21 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
                                 </Typography>
                               </FormLabel>
                               <Typography mt={1}>
-                                {Array.isArray(value)
-                                  ? value?.map((value) => (
-                                      <Chip label={value} />
+                                {Array.isArray(value) &&
+                                key === "selectedSkills"
+                                  ? value?.map((value, index) => (
+                                      <Chip label={value} key={index} />
+                                    ))
+                                  : Array.isArray(value) && key === "tasks"
+                                  ? value?.map((value, i) => (
+                                      <Typography key={i}>{value}</Typography>
                                     ))
                                   : value?.label
                                   ? value.label
+                                  : key === "postedDate"
+                                  ? (value as Date).toLocaleDateString()
+                                  : value?.length > 70
+                                  ? value.slice(0, 70) + "...."
                                   : value}
                               </Typography>
                             </Grid>
