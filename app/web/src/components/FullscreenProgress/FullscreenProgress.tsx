@@ -3,16 +3,25 @@ import React from "react";
 
 const FullscreenProgress = () => {
   return (
-    <Box
-      position="absolute"
-      width="100%"
-      height="100vh"
-      justifyContent="center"
-      alignItems="center"
-      display="flex"
-    >
-      <CircularProgress />
-    </Box>
+    <div className="loader">
+      <div className="loader-inner">
+        <div className="loader-line-wrap">
+          <div className="loader-line"></div>
+        </div>
+        <div className="loader-line-wrap">
+          <div className="loader-line"></div>
+        </div>
+        <div className="loader-line-wrap">
+          <div className="loader-line"></div>
+        </div>
+        <div className="loader-line-wrap">
+          <div className="loader-line"></div>
+        </div>
+        <div className="loader-line-wrap">
+          <div className="loader-line"></div>
+        </div>
+      </div>
+    </div>
   );
 };
 
