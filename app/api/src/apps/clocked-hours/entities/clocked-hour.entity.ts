@@ -1,4 +1,5 @@
 // Import necessary modules from TypeORM
+import AssociableModel from '../../../Config/associable';
 import { Developer } from '../../developers/entities/developer.entity';
 import {
   Entity,
@@ -11,7 +12,7 @@ import {
 } from 'typeorm';
 // ClockHours Entity
 @Entity('clock_hours')
-export class ClockHours {
+export class ClockHours extends AssociableModel {
   @PrimaryGeneratedColumn()
   id: number;
 
