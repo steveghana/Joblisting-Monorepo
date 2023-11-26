@@ -20,7 +20,6 @@ export async function createRoles(
   const role = transaction.getRepository(dependencies.db.models.role);
   let newApplication = await role.create({
     ...applicationData,
-    description: 'This is some demo description, remove column descr. later',
   });
   let data = await role.save(newApplication);
 
@@ -39,7 +38,7 @@ export function getRoleById(
     .getRepository(dependencies.db.models.role)
     .findOne({
       where: { id },
-      relations: ['client', 'application', 'interviews'],
+      relations: ['client', 'application', 'interviews', 'developers'],
     });
 }
 export async function deleteRole(

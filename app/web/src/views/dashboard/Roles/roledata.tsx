@@ -1,6 +1,6 @@
 import { IRoleData } from "../../../types/roles";
 
-export const roleData: IRoleData = {
+export const roleData = {
   description:
     "We help real estate professionals build relationships, generate leads, close deals, and achieve their earning potential up to 8x faster with a text and voice messaging CRM built for conversion.",
   name: "Smarter Contact careers",

@@ -9,13 +9,17 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import SubCard from "../../../components/SubCard";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Box, styled, useTheme } from "@mui/system";
 import RoleDetails from "./roledetails";
 import { Close } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
 import JobsPage from "./JobsTab";
 import ApplicantTable from "./Applicants";
+import { useGetRoleQuery } from "../../../store/services/roleService";
+import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
+import NoData from "../../../components/NoData";
+import { useGetClientQuery } from "../../../store/services/ClientServce";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -32,9 +36,26 @@ type IRoleTabs = {
   openDrawer: {
     bottom: boolean;
   };
+  roleId: string;
+  clientId: number;
 };
 const RoleTabs = (props: IRoleTabs) => {
   const theme = useTheme();
+  // const { data, isError, isLoading, isFetching, error } = useGetRoleQuery({
+  //   id: props.roleId,
+  // });
+  const {
+    data: client,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useGetClientQuery({
+    id: props.clientId,
+  });
+  console.log(client, "client data with relations");
+  // Empty dependency array ensures the effect runs only once after the initial render
+
   const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
   const [currentTab, setCurrentTab] = React.useState<string>("overview");
   const tabs = [
@@ -47,99 +68,114 @@ const RoleTabs = (props: IRoleTabs) => {
     event.stopPropagation();
     setCurrentTab(value);
   };
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
   return (
-    <Grid onClick={(e) => e.stopPropagation()}>
+    <Grid container onClick={(e) => e.stopPropagation()}>
       <Grid item position={"relative"}>
         <SubCard>
           <Container maxWidth="lg">
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="stretch"
-              spacing={3}
-            >
-              <ButtonBase>
-                <Close
-                  fontSize="medium"
-                  onClick={() =>
-                    props.setOpenDrawer({
-                      ...props.openDrawer,
-                      ["bottom"]: false,
-                    })
-                  }
-                  sx={{
-                    background: themePalette.grey[100],
-                    p: 0.3,
-                    borderRadius: "50%",
-                    position: "fixed",
-                    right: "0",
-                    translate: {
-                      lg: "-3rem -2vh",
-                      sm: "-3rem -1vh",
-                      xs: "-3rem -6vh",
-                    },
-                  }}
-                />
-              </ButtonBase>
-              <Box
-                sx={{ width: "100%" }}
-                display={"flex"}
-                gap={1}
-                mt={2}
-                p={2}
-                alignItems={"center"}
-                flexWrap={"wrap"}
-              >
-                <Avatar sx={{ width: 56, height: 56 }} variant="rounded" />
-                <Box>
-                  <Typography variant="h4">Smart Contract</Typography>
-                  <Typography>
-                    Makes cloud security simple, contextual and automated for
-                    customers
-                  </Typography>
-                </Box>
-              </Box>
+            {!client ? (
+              <NoData />
+            ) : (
               <Grid
                 item
-                xs={12}
-                display={"flex"}
-                justifyContent={"space-between"}
+                direction="row"
+                justifyContent="center"
+                alignItems="stretch"
+                spacing={3}
               >
-                <TabsWrapper
-                  onChange={handleTabsChange}
-                  value={currentTab}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                  textColor="primary"
-                  indicatorColor="primary"
-                >
-                  {tabs.map((tab) => {
-                    // Only render the "People" tab on larger screens
-                    if (tab.value === "people" && !isLargerScreen) {
-                      return null;
+                <ButtonBase>
+                  <Close
+                    fontSize="medium"
+                    onClick={() =>
+                      props.setOpenDrawer({
+                        ...props.openDrawer,
+                        ["bottom"]: false,
+                      })
                     }
-                    return (
-                      <Tab
-                        sx={{ fontSize: ".7rem" }}
-                        key={tab.value}
-                        label={tab.label}
-                        value={tab.value}
-                      />
-                    );
-                  })}
-                </TabsWrapper>
-              </Grid>
+                    sx={{
+                      background: themePalette.grey[100],
+                      p: 0.3,
+                      borderRadius: "50%",
+                      position: "fixed",
+                      right: "0",
+                      translate: {
+                        lg: "-3rem -2vh",
+                        sm: "-3rem -1vh",
+                        xs: "-3rem -6vh",
+                      },
+                    }}
+                  />
+                </ButtonBase>
+                <Box
+                  sx={{ width: "100%" }}
+                  display={"flex"}
+                  gap={1}
+                  mt={2}
+                  p={2}
+                  alignItems={"center"}
+                  flexWrap={"wrap"}
+                >
+                  <Avatar
+                    sx={{ width: 56, height: 56 }}
+                    variant="rounded"
+                    src={client.companyLogo}
+                  />
+                  <Box>
+                    <Typography variant="h4">{client.companyName}</Typography>
+                    <Typography>
+                      {client.aboutTheCompany}
+                      {/* Makes cloud security simple, contextual and automated for
+                    customers */}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Grid
+                  item
+                  xs={12}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                >
+                  <TabsWrapper
+                    onChange={handleTabsChange}
+                    value={currentTab}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    textColor="primary"
+                    indicatorColor="primary"
+                  >
+                    {tabs.map((tab) => {
+                      // Only render the "People" tab on larger screens
+                      if (tab.value === "people" && !isLargerScreen) {
+                        return null;
+                      }
+                      return (
+                        <Tab
+                          sx={{ fontSize: ".7rem" }}
+                          key={tab.value}
+                          label={tab.label}
+                          value={tab.value}
+                        />
+                      );
+                    })}
+                  </TabsWrapper>
+                </Grid>
 
-              <Grid item xs={12}>
-                {currentTab === "overview" && (
-                  <RoleDetails setCurrentTab={setCurrentTab} />
-                )}
-                {currentTab === "jobs" && <JobsPage />}
-                {currentTab === "applicants" && <ApplicantTable />}
-                {/* {currentTab === "notifications" && <NotificationsTab />} */}
+                <Grid item xs={12}>
+                  {currentTab === "overview" && (
+                    <RoleDetails
+                      setCurrentTab={setCurrentTab}
+                      client={client}
+                    />
+                  )}
+                  {currentTab === "jobs" && <JobsPage />}
+                  {currentTab === "applicants" && <ApplicantTable />}
+                  {/* {currentTab === "notifications" && <NotificationsTab />} */}
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Container>
         </SubCard>
       </Grid>

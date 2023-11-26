@@ -40,7 +40,7 @@ const projectDetailsValidationSchema = Yup.object().shape({
   // designPreferences: Yup.string().required("Design Preferences are required"),
   experience: Yup.string().required("Experience level is required"),
   selectedSkills: Yup.array().required("Skills are required"),
-  DevsNeeded: Yup.string().required("Enter the number of developers needed"),
+  devsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
 });
 
@@ -90,13 +90,13 @@ const ProjectDetails = ({ onNext, handleBack }) => {
 
               <FormControl fullWidth>
                 <Field
-                  name="DevsNeeded"
+                  name="devsNeeded"
                   as={TextField}
                   label="Developers Needed"
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="DevsNeeded" component="div">
+                <ErrorMessage name="devsNeeded" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}

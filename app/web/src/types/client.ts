@@ -1,4 +1,5 @@
 import { CountryType } from "../content/applications/Users/settings/CountrySelector";
+import { IRoleData } from "./roles";
 export interface IClient {
   id?: number;
   avatar?: string;
@@ -9,6 +10,7 @@ export interface IClient {
   companyName: string;
   phoneNumber: string;
   projectTitle: string;
+  roles?: IRoleData[];
   startDate: Date;
   companyLogo: string;
   aboutTheCompany: string;
@@ -28,7 +30,7 @@ export interface ClientFormDataState {
   };
   ["Project Details"]: {
     selectedSkills: string[];
-    DevsNeeded: string;
+    devsNeeded: string;
     methodology: string;
     aboutTheProject: string;
     experience: string;

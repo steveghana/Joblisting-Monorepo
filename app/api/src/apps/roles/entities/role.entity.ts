@@ -1,3 +1,4 @@
+import AssociableModel from '../../../Config/associable';
 import { Application } from '../../applications/entities/application.entity';
 import { Client } from '../../clients/entities/client.entity';
 import { Developer } from '../../developers/entities/developer.entity';
@@ -13,7 +14,7 @@ import {
 } from 'typeorm';
 // Role Entity
 @Entity('roles')
-export class Role {
+export class Role extends AssociableModel {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -27,13 +28,10 @@ export class Role {
 
   @Column()
   title: string;
-
-  @Column()
-  description: string;
   @Column()
   durationForEmployment: string;
   @Column()
-  DevsNeeded: string;
+  devsNeeded: string;
   @Column()
   methodology: string;
   @Column()
@@ -41,9 +39,13 @@ export class Role {
   @Column()
   experience: string;
   @Column()
-  testingQA: string;
+  hiringRole: string;
+  @Column({ default: 'Remote' })
+  roleType: string;
   @Column()
   whenToStart: string;
+  @Column()
+  employmentType: string;
   @Column()
   dataContent: string;
   @Column()

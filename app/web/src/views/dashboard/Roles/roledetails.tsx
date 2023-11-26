@@ -17,14 +17,14 @@ import { ArrowForward } from "@mui/icons-material";
 import Dot from "../../../components/Dot";
 import SubCard from "../../../components/SubCard";
 import { themePalette } from "../../../themes/schemes/palette";
-import { useNavigate } from "react-router";
+import { IClient } from "../../../types/client";
 interface IRoleDetails {
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
+  client: IClient;
 }
-const RoleDetails = (props: IRoleDetails) => {
+const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
-  const navigate = useNavigate();
   return (
     <Card>
       <Grid
@@ -36,12 +36,12 @@ const RoleDetails = (props: IRoleDetails) => {
         <Grid lg={8} md={6} sm={12}>
           <Grid item display={"flex"} flexDirection={"column"} my={2} gap={1}>
             <Typography fontWeight={700} variant="h2">
-              {roleData.name}
+              {client.companyName}
             </Typography>
             <Typography fontWeight={600} variant="h4">
-              {roleData.subName}
+              {client.aboutTheCompany}
             </Typography>
-            <Typography variant="body2">{roleData.description}</Typography>
+            <Typography variant="body2">{client.projectTitle}</Typography>
           </Grid>
           <Box
             my={2}
@@ -52,7 +52,7 @@ const RoleDetails = (props: IRoleDetails) => {
           >
             <Typography variant="h4">Jobs</Typography>
             <Button
-              onClick={(e) => props.setCurrentTab("jobs")}
+              onClick={(e) => setCurrentTab("jobs")}
               variant="text"
               sx={{ color: "grey" }}
               endIcon={<ArrowForward />}
@@ -60,9 +60,10 @@ const RoleDetails = (props: IRoleDetails) => {
               <Typography variant="caption">view jobs </Typography>
             </Button>
           </Box>
-          {roleData.jobs.map((job) => (
+          {client.roles.map((job, i) => (
             <Box
               my={1}
+              key={job?.client.name}
               alignItems={"flex-start"}
               borderRadius={2}
               p={1}
@@ -79,17 +80,17 @@ const RoleDetails = (props: IRoleDetails) => {
                   fontWeight={700}
                   variant="body2"
                 >
-                  {job.rolename} - <b>{job.jobtype}</b>
+                  {job.hiringRole} - <b>{job.employmentType}</b>
                 </Typography>
                 <Box display={"flex"} alignItems={"center"} gap={0.4}>
-                  <Typography fontWeight={400} variant="subtitle1">
+                  {/* <Typography fontWeight={400} variant="subtitle1">
                     {job.location.continent}
-                  </Typography>
+                  </Typography> */}
                   <Typography fontWeight={400} variant="subtitle1">
-                    {job.location.country}
+                    {client.country.label}
                   </Typography>
                   <Dot />
-                  <Typography>{job.joblocation}</Typography>
+                  <Typography>{job.roleType}</Typography>
                 </Box>
               </Box>
               <Box
@@ -145,10 +146,15 @@ const RoleDetails = (props: IRoleDetails) => {
                 justifyContent={"space-between"}
                 alignItems={"center"}
               >
-                <Avatar alt="Founder" />
+                <Avatar
+                  alt="Founder"
+                  src={client.avatar || client.companyLogo}
+                />
                 <Box>
-                  <Typography mt={2}>Founder at Smart Contract</Typography>
-                  <Typography fontWeight={700}>Steve Williams</Typography>
+                  <Typography mt={2}>
+                    Founder at {client.companyName}
+                  </Typography>
+                  <Typography fontWeight={700}>{client.name}</Typography>
                 </Box>
               </Grid>
             </SubCard>
@@ -177,7 +183,9 @@ const RoleDetails = (props: IRoleDetails) => {
                     <Typography fontWeight={500} variant="h5" mr={"auto"}>
                       Phone
                     </Typography>
-                    <Typography variant="caption">+233 554566677</Typography>
+                    <Typography variant="caption">
+                      {client.phoneNumber}
+                    </Typography>
                   </Box>
                   <Divider sx={{ margin: "1rem 0" }} />
 
@@ -185,16 +193,20 @@ const RoleDetails = (props: IRoleDetails) => {
                     <Typography fontWeight={500} variant="h5" mr={"auto"}>
                       Location
                     </Typography>
-                    <Typography variant="caption">Melbourne</Typography>
+                    <Typography variant="caption">
+                      {client.country.label}
+                    </Typography>
                   </Box>
                   <Divider sx={{ margin: "1rem 0" }} />
                   <Box>
                     <Typography fontWeight={500} variant="h5" mr={"auto"}>
                       Industry
                     </Typography>
-                    <Typography variant="caption">
-                      <Chip label={"cloud security"} />
-                    </Typography>
+                    {client.industry.map((item, i) => (
+                      <Typography key={i} variant="caption">
+                        <Chip label={item} />
+                      </Typography>
+                    ))}
                   </Box>
                   <Divider sx={{ margin: "1rem 0" }} />
                 </Grid>

@@ -35,7 +35,7 @@ const Duration = [
   { label: "1 to 3 months" },
   { label: "3 to 6 months" },
   { label: "Longer than 6 months" },
-  { label: "I will decide later" },
+  { label: "I'll decide later" },
 ];
 const whenToStart = [
   { label: "Immediately" },

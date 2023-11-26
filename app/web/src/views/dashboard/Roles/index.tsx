@@ -23,21 +23,30 @@ import {
 import { themePalette } from "../../../themes/schemes/palette";
 import CustomDrawer from "../../../components/Drawer";
 import Dot from "../../../components/Dot";
-import RoleDetails from "./roleTabs";
+import RoleTabs from "./roleTabs";
 import { useGetRolesQuery } from "../../../store/services/roleService";
 import { IRoleData } from "../../../types/roles";
+import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
+import NoData from "../../../components/NoData";
 
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
 
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
   return (
     <MainCard title={"Roles"}>
       <Grid container>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2 }}>
-          {data?.map((role, index) => (
-            <RoleCard key={index} role={role} />
-          ))}
-        </Grid>
+        {!data?.length ? (
+          <NoData />
+        ) : (
+          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2 }}>
+            {data?.map((role, index) => (
+              <RoleCard key={index} role={role} />
+            ))}
+          </Grid>
+        )}
         {/* <Typography variant="h4" fontWeight={700} textAlign={"center"} m={2}>
           Featured Jobs
         </Typography>
@@ -62,7 +71,6 @@ const RoleCard = (props: IRoleCard) => {
   const [openDrawer, setOpenDrawer] = React.useState({
     bottom: false,
   });
-  console.log(props?.role, "this is the rles");
   const {
     aboutTheProject,
     durationForEmployment,
@@ -73,10 +81,16 @@ const RoleCard = (props: IRoleCard) => {
     client,
     aboutCompany,
   } = props?.role;
+
   return (
     <CustomDrawer
       component={
-        <RoleDetails setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} />
+        <RoleTabs
+          setOpenDrawer={setOpenDrawer}
+          openDrawer={openDrawer}
+          roleId={props.role.id}
+          clientId={props.role.client.id}
+        />
       }
       setOpenDrawer={setOpenDrawer}
       openDrawer={openDrawer}

@@ -14,10 +14,11 @@ export interface IRole {
   aboutCompany?: string;
   title: string;
   durationForEmployment: string;
-  DevsNeeded: string;
+  employmentType: string;
+  devsNeeded: string;
   methodology: string;
   experience: string;
-  testingQA: string;
+  hiringRole: string;
   whenToStart: string;
   dataContent: string;
   // description: string;

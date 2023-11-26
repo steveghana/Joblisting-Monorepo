@@ -1,4 +1,5 @@
 // Import necessary modules from TypeORM
+import AssociableModel from '../../../Config/associable';
 import { Developer } from '../../developers/entities/developer.entity';
 import { Role } from '../../roles/entities/role.entity';
 import {
@@ -12,7 +13,7 @@ import {
 } from 'typeorm';
 // Interview Entity
 @Entity('interviews')
-export class Interview {
+export class Interview extends AssociableModel {
   @PrimaryGeneratedColumn()
   id: number;
 

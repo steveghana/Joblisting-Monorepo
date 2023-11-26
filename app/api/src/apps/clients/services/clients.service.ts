@@ -52,10 +52,10 @@ export class ClientsService {
           client,
           clientId: client.id,
           title: client.projectTitle,
+          employmentType: communicationType.employmentType,
           aboutCompany: client.aboutTheCompany,
-          DevsNeeded: projectDetails.devsNeeded,
           vacancy_status:
-            additionalData.whenToStart !== 'i will decide later'
+            additionalData.whenToStart !== "I'll decide later"
               ? 'Open'
               : 'Closed',
           skills_required: projectDetails.selectedSkills,

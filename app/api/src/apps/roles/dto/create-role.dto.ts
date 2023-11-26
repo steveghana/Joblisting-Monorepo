@@ -25,7 +25,7 @@ export class CreateRoleDto {
   id?: number;
   @IsNotEmpty()
   @IsString()
-  DevsNeeded: string;
+  devsNeeded: string;
   @IsOptional()
   @IsString()
   dataContent: string;
@@ -43,7 +43,7 @@ export class CreateRoleDto {
   numOfEmployees: string;
   @IsOptional()
   @IsString()
-  testingQA: string;
+  hiringRole: string;
   @IsNotEmpty()
   @IsString()
   whenToStart: string;
@@ -53,6 +53,9 @@ export class CreateRoleDto {
   @IsNotEmpty()
   @IsString()
   title: string;
+  @IsNotEmpty()
+  @IsString()
+  employmentType: string;
   @IsNotEmpty()
   @IsString()
   aboutTheProject: string;

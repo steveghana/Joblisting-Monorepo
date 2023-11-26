@@ -12,7 +12,7 @@ export type IProfession =
 
 export type UserRoleSelection = IProfession[]; // UserRole is defined as in the previous answer
 export interface IRoleData {
-  id?: number;
+  id?: string;
 
   client?: IClient;
 
@@ -21,10 +21,12 @@ export interface IRoleData {
   aboutCompany?: string;
   title: string;
   durationForEmployment: string;
+  hiringRole: string;
+  roleType: string;
   DevsNeeded: string;
   methodology: string;
   experience: string;
-  testingQA: string;
+  employmentType: string;
   whenToStart: string;
   dataContent: string;
   // description: string;

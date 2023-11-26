@@ -1,4 +1,5 @@
 // Client Entity
+import AssociableModel from '../../../Config/associable';
 import { Role } from '../../roles/entities/role.entity';
 import {
   Entity,
@@ -10,15 +11,12 @@ import {
   OneToOne,
 } from 'typeorm';
 @Entity('clients')
-export class Client {
+export class Client extends AssociableModel {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
-
-  @Column()
-  description: string;
   @Column()
   companyLogo: string;
   @Column()
