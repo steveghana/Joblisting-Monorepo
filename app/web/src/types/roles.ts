@@ -1,5 +1,5 @@
 import { IJobs } from ".";
-import { userRole } from "../lib/roles";
+import { userRole } from "../lib/data/roles";
 import { IClient } from "./client";
 
 // export type IRole = "Ceo" | "developer" | "hr";

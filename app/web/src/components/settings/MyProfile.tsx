@@ -35,12 +35,12 @@ import FileUpload from "./FileUpload";
 import CountrySelector from "./CountrySelector";
 import EditorToolbar, { LargeTextField } from "./EditorToolbar";
 
-import { Iuser } from "../../../../types/user";
+import { Iuser } from "../../types/user";
 import { useMediaQuery, useTheme } from "@mui/material";
-import { themeTypography } from "../../../../themes/schemes/typography";
+import { themeTypography } from "../../themes/schemes/typography";
 import { Formik } from "formik";
 import { Accessibility } from "@mui/icons-material";
-import Avatar from "../../../../components/extended/Avatar";
+import Avatar from "../extended/Avatar";
 export default function MyProfile(...others) {
   const theme = useTheme();
   const experience = [3, 4, 5, 6, 7];

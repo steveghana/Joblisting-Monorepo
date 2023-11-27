@@ -15,7 +15,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { IDev } from "../types/devs";
-import { data } from "../lib/data";
+import { data } from "../lib/data/data";
 import { IClient } from "../types/client";
 
 interface ExampleFormProps {

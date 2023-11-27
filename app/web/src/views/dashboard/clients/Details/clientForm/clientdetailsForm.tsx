@@ -18,7 +18,7 @@ import {
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import CustomButton from "../../../../../components/button";
 
-import ContrySelector from "../../../../../content/applications/Users/settings/CountrySelector";
+import ContrySelector from "../../../../../components/settings/CountrySelector";
 
 // Validation schema for Project Info
 const projectInfoValidationSchema = Yup.object().shape({

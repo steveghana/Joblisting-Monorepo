@@ -15,7 +15,7 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { Button } from "@mui/material";
-import { data } from "../../lib/data";
+import { data } from "../../lib/data/data";
 import { IDev } from "../../types/devs";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../components/Table/DefaultColumnOpt";

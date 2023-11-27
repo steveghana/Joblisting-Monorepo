@@ -13,21 +13,21 @@ import { styled } from "@mui/material/styles";
 import MuiTypography from "@mui/material/Typography";
 import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone";
 
-import MainCard from "../../../../components/MainCard";
-import CardSecondaryAction from "../../../../components/CardSecondaryAction";
-import { gridSpacing } from "../../../../store/constant";
-import SubCard from "../../../../components/SubCard";
+import MainCard from "../MainCard";
+import CardSecondaryAction from "../CardSecondaryAction";
+import { gridSpacing } from "../../store/constant";
+import SubCard from "../SubCard";
 import { Email, EmailOutlined, LocationOn, Phone } from "@mui/icons-material";
-import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
+import { componentThemeoption } from "../../themes/schemes/PureLightTheme";
 import { Stack, shouldForwardProp } from "@mui/system";
 import { IconMail } from "@tabler/icons";
 
 import { Box } from "@mui/system";
-import { themePalette } from "../../../../themes/schemes/palette";
+import { themePalette } from "../../themes/schemes/palette";
 import { userDetailsFields } from "./userdata";
 import { useState } from "react";
-import Text from "../../../../components/Text";
-import Label from "../../../../components/Label";
+import Text from "../Text";
+import Label from "../Label";
 const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(
   ({ theme }) => ({
     ...componentThemeoption.commonAvatar,

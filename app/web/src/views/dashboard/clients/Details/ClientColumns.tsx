@@ -18,7 +18,7 @@ import {
 } from "material-react-table";
 //Material UI Imports
 import { Button } from "@mui/material";
-import { clientData } from "../../../../lib/clientData";
+import { clientData } from "../../../../lib/data/clientData";
 import { IClient } from "../../../../types/client";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumnOpt";

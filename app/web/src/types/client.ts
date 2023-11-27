@@ -1,4 +1,4 @@
-import { CountryType } from "../content/applications/Users/settings/CountrySelector";
+import { CountryType } from "../components/settings/CountrySelector";
 import { IRoleData } from "./roles";
 export interface IClient {
   id?: number;

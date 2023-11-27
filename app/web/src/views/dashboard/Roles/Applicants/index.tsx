@@ -32,7 +32,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 //Material UI Imports
 import { Button } from "@mui/material";
-import { data } from "../../../../lib/data";
+import { data } from "../../../../lib/data/data";
 import { IColumnType } from "../../../../types/table";
 import { IClient } from "../../../../types/client";
 import { IDev } from "../../../../types/devs";

@@ -3,9 +3,9 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 // import { data } from "./data";
 // import { validateUser } from "./validation";
 // import { IClient } from "../types/devs";
-import { data } from "../lib/data";
+import { data } from "../lib/data/data";
 import { IClient } from "../types/client";
-import { clientData } from "../lib/clientData";
+import { clientData } from "../lib/data/clientData";
 
 export function useCreateClient() {
   const queryClient = useQueryClient();
@@ -51,12 +51,10 @@ export function useUpdateClient() {
       return Promise.resolve();
     },
     onMutate: (newUserInfo: IClient) => {
-      queryClient.setQueryData(
-        ["users"],
-        (prevUsers: any) =>
-          prevUsers?.map((prevUser: IClient) =>
-            prevUser.email === newUserInfo.email ? newUserInfo : prevUser
-          )
+      queryClient.setQueryData(["users"], (prevUsers: any) =>
+        prevUsers?.map((prevUser: IClient) =>
+          prevUser.email === newUserInfo.email ? newUserInfo : prevUser
+        )
       );
     },
   });
@@ -71,10 +69,8 @@ export function useDeleteClient() {
       return Promise.resolve();
     },
     onMutate: (userId: string) => {
-      queryClient.setQueryData(
-        ["users"],
-        (prevUsers: any) =>
-          prevUsers?.filter((user: IClient) => user.email !== userId)
+      queryClient.setQueryData(["users"], (prevUsers: any) =>
+        prevUsers?.filter((user: IClient) => user.email !== userId)
       );
     },
   });

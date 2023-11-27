@@ -1,4 +1,4 @@
-import { IDev } from "../types/devs";
+import { IDev } from "../../types/devs";
 
 export const projectRequirementFields = {
   technicalRequirements: "",

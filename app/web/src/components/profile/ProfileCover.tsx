@@ -17,10 +17,10 @@ import ArrowForwardTwoToneIcon from "@mui/icons-material/ArrowForwardTwoTone";
 import UploadTwoToneIcon from "@mui/icons-material/UploadTwoTone";
 import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone";
 import MyProfile from "../settings/MyProfile";
-import { Iuser } from "../../../../types/user";
+import { Iuser } from "../../types/user";
 import { useNavigate } from "react-router";
 import ActivityTab from "../settings/ActivityTab";
-import SubCard from "../../../../components/SubCard";
+import SubCard from "../SubCard";
 import { Mail } from "@mui/icons-material";
 
 const Input = styled("input")({

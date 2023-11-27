@@ -28,7 +28,7 @@ import {
   Chip,
 } from "@mui/material";
 
-import Label from "../../../components/Label";
+import Label from "../Label";
 import { DevDetails, DevInterveiwStatus, DevStatus } from "./crypto_order";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";

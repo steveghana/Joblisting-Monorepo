@@ -1,4 +1,4 @@
-import { IClient } from "../types/client";
+import { IClient } from "../../types/client";
 
 export const clientData: IClient[] = [
   {

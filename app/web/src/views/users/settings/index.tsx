@@ -2,10 +2,10 @@ import { useState, ChangeEvent } from "react";
 import { Container, Tabs, Tab, Grid } from "@mui/material";
 import Footer from "../../../components/Footer";
 import { styled } from "@mui/material/styles";
-import ActivityTab from "../../../content/applications/Users/settings/ActivityTab";
-import EditProfileTab from "../../../content/applications/Users/settings/EditProfileTab";
-import NotificationsTab from "../../../content/applications/Users/settings/NotificationsTab";
-import SecurityTab from "../../../content/applications/Users/settings/SecurityTab";
+import ActivityTab from "../../../components/settings/ActivityTab";
+import EditProfileTab from "../../../components/settings/EditProfileTab";
+import NotificationsTab from "../../../components/settings/NotificationsTab";
+import SecurityTab from "../../../components/settings/SecurityTab";
 import MainCard from "../../../components/MainCard";
 const TabsWrapper = styled(Tabs)(
   () => `

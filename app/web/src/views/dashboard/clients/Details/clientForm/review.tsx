@@ -21,13 +21,13 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SubCard from "../../../../../components/SubCard";
 import { ExpandMore, Send } from "@mui/icons-material";
-import { ReviewLabelObj } from "../../../../../lib/data";
+import { ReviewLabelObj } from "../../../../../lib/data/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { themePalette } from "../../../../../themes/schemes/palette";
 import CustomButton from "../../../../../components/button";
 import { useAddClientMutation } from "../../../../../store/services/ClientServce";
 import { useNavigate } from "react-router";
-import { techRoles } from "../../../../../lib/jobs";
+import { techRoles } from "../../../../../lib/data/jobs";
 
 type FormData = {
   [key: string]: string | string[] | boolean;

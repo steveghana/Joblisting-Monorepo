@@ -2,10 +2,10 @@ import { useState } from "react";
 
 // import { Helmet } from "react-helmet-async";
 
-import TopBarContent from "../../content/applications/Messenger/TopBarContent";
-import BottomBarContent from "../../content/applications/Messenger/BottomBarContent";
-import SidebarContent from "../../content/applications/Messenger/SidebarContent";
-import ChatContent from "../../content/applications/Messenger/ChatContent";
+import TopBarContent from "../../components/Messenger/TopBarContent";
+import BottomBarContent from "../../components/Messenger/BottomBarContent";
+import SidebarContent from "../../components/Messenger/SidebarContent";
+import ChatContent from "../../components/Messenger/ChatContent";
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
 
 // import Scrollbar from "../../../../../components/Scrollbar";

@@ -14,18 +14,18 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { gridSpacing } from "../../../../store/constant";
+import { gridSpacing } from "../../store/constant";
 import MuiTypography from "@mui/material/Typography";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone";
-import Text from "../../../../components/Text";
-import Label from "../../../../components/Label";
-import SubCard from "../../../../components/SubCard";
+import Text from "../Text";
+import Label from "../Label";
+import SubCard from "../SubCard";
 import { Formik } from "formik";
-import { themeTypography } from "../../../../themes/schemes/typography";
-import AnimateButton from "../../../../components/extended/AnimateButton";
-import CustomButton from "../../../../components/button";
-import MainCard from "../../../../components/MainCard";
+import { themeTypography } from "../../themes/schemes/typography";
+import AnimateButton from "../extended/AnimateButton";
+import CustomButton from "../button";
+import MainCard from "../MainCard";
 import MyProfile from "./MyProfile";
 import { userdata as user } from "./userdata";
 import { styled } from "@mui/material/styles";

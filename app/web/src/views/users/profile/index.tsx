@@ -3,10 +3,10 @@
 
 import { Grid, Container } from "@mui/material";
 
-import ProfileCover from "../../../content/applications/Users/profile/ProfileCover";
-import RecentActivity from "../../../content/applications/Users/profile/RecentActivity";
+import ProfileCover from "../../../components/profile/ProfileCover";
+import RecentActivity from "../../../components/profile/RecentActivity";
 import { IUser, Iuser } from "../../../types/user";
-import { userdata as user } from "../../../content/applications/Users/settings/userdata";
+import { userdata as user } from "../../../components/settings/userdata";
 function ManagementUserProfile() {
   return (
     <>

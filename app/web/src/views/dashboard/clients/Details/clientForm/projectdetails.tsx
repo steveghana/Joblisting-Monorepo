@@ -29,10 +29,10 @@ import {
   experienceLevel,
   projectRequirementFields,
   methodologyOptions,
-} from "../../../../../lib/data";
+} from "../../../../../lib/data/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { ArrowBack, BackHand } from "@mui/icons-material";
-import { techRoles } from "../../../../../lib/jobs";
+import { techRoles } from "../../../../../lib/data/jobs";
 const communicationOptions = [
   { label: "Email", value: "email" },
   { label: "Video Calls", value: "video_calls" },

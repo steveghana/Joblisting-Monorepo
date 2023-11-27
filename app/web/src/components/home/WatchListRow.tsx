@@ -1,17 +1,23 @@
 import {
+  Button,
   Card,
   Box,
+  CardActions,
   Typography,
   Avatar,
-  Grid,
   alpha,
-  useTheme,
+  Stack,
+  Divider,
   styled,
+  useTheme,
 } from "@mui/material";
-import Label from "../../../components/Label";
-import Text from "../../../components/Text";
+import Text from "../Text";
+import Label from "../Label";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
+import TrendingDownTwoToneIcon from "@mui/icons-material/TrendingDownTwoTone";
+import TrendingUpTwoToneIcon from "@mui/icons-material/TrendingUpTwoTone";
+import TrendingFlatTwoToneIcon from "@mui/icons-material/TrendingFlatTwoTone";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -41,11 +47,14 @@ const AvatarWrapper = styled(Avatar)(
 `
 );
 
-function WatchListColumn() {
+function WatchListRow() {
   const theme = useTheme();
 
-  const chartOptions: ApexOptions = {
+  const Box1Options: ApexOptions = {
     chart: {
+      animations: {
+        enabled: false,
+      },
       background: "transparent",
       toolbar: {
         show: false,
@@ -57,32 +66,6 @@ function WatchListColumn() {
         enabled: false,
       },
     },
-    fill: {
-      gradient: {
-        shade: "light",
-        type: "vertical",
-        shadeIntensity: 0.1,
-        inverseColors: false,
-        opacityFrom: 0.8,
-        opacityTo: 0,
-        stops: [0, 100],
-      },
-    },
-    colors: [theme.colors?.primary.main],
-    dataLabels: {
-      enabled: false,
-    },
-    theme: {
-      mode: theme.palette.mode,
-    },
-    stroke: {
-      show: true,
-      colors: [theme.colors?.primary.main],
-      width: 3,
-    },
-    legend: {
-      show: false,
-    },
     labels: [
       "Monday",
       "Tueday",
@@ -92,22 +75,30 @@ function WatchListColumn() {
       "Saturday",
       "Sunday",
     ],
-    xaxis: {
-      labels: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
+    stroke: {
+      curve: "smooth",
+      colors: [theme.colors?.primary.main],
+      width: 2,
     },
     yaxis: {
       show: false,
-      tickAmount: 5,
+    },
+    colors: [theme.colors?.primary.main],
+    grid: {
+      padding: {
+        top: 10,
+        right: 5,
+        bottom: 10,
+        left: 5,
+      },
+    },
+    theme: {
+      mode: theme.palette.mode,
     },
     tooltip: {
+      fixed: {
+        enabled: true,
+      },
       x: {
         show: true,
       },
@@ -123,43 +114,47 @@ function WatchListColumn() {
       },
     },
   };
-  const chart1Data = [
+
+  const Box1Data = [
     {
-      name: "Bitcoin Price",
+      name: "Bitcoin",
       data: [55.701, 57.598, 48.607, 46.439, 58.755, 46.978, 58.16],
     },
   ];
-  const chart2Data = [
+
+  const Box2Data = [
     {
-      name: "Ethereum Price",
-      data: [13, 16, 14, 20, 8, 11, 20],
+      name: "Ethereum",
+      data: [1.854, 1.873, 1.992, 2.009, 1.909, 1.942, 1.884],
     },
   ];
-  const chart3Data = [
+
+  const Box3Data = [
     {
-      name: "Cardano Price",
-      data: [51.85, 41.77, 22.09, 42.0, 71.9, 51.84, 31.84],
+      name: "Cardano",
+      data: [13, 16, 14, 18, 8, 11, 20],
     },
   ];
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="stretch"
-      spacing={3}
-    >
-      <Grid item md={4} xs={12}>
-        <Card
+    <Card>
+      <Stack
+        direction="row"
+        justifyContent="space-evenly"
+        alignItems="stretch"
+        divider={<Divider orientation="vertical" flexItem />}
+        spacing={0}
+      >
+        <Box
           sx={{
-            overflow: "visible",
+            width: "100%",
+            p: 3,
           }}
         >
           <Box
-            sx={{
-              p: 3,
-            }}
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="space-between"
           >
             <Box display="flex" alignItems="center">
               <AvatarWrapper>
@@ -177,19 +172,25 @@ function WatchListColumn() {
                 </Typography>
               </Box>
             </Box>
+            <Label color="secondary">24h</Label>
+          </Box>
+          <Box
+            mt={3}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                pt: 3,
               }}
             >
               <Typography
                 variant="h2"
                 sx={{
                   pr: 1,
-                  mb: 1,
                 }}
               >
                 $56,475.99
@@ -198,43 +199,31 @@ function WatchListColumn() {
                 <b>+12.5%</b>
               </Text>
             </Box>
-            <Box
+            <TrendingUpTwoToneIcon
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
+                color: `${theme.colors?.success.main}`,
               }}
-            >
-              <Label color="success">+$500</Label>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  pl: 1,
-                }}
-              >
-                last 24h
-              </Typography>
-            </Box>
+            />
           </Box>
-          <Chart
-            options={chartOptions}
-            series={chart1Data}
-            type="area"
-            height={200}
-          />
-        </Card>
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <Card
+          <Box pt={2}>
+            <Chart
+              options={Box1Options}
+              series={Box1Data}
+              type="line"
+              height={100}
+            />
+          </Box>
+        </Box>
+        <Box
           sx={{
-            overflow: "visible",
+            width: "100%",
+            p: 3,
           }}
         >
           <Box
-            sx={{
-              p: 3,
-            }}
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="space-between"
           >
             <Box display="flex" alignItems="center">
               <AvatarWrapper>
@@ -252,19 +241,25 @@ function WatchListColumn() {
                 </Typography>
               </Box>
             </Box>
+            <Label color="secondary">24h</Label>
+          </Box>
+          <Box
+            mt={3}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                pt: 3,
               }}
             >
               <Typography
                 variant="h2"
                 sx={{
                   pr: 1,
-                  mb: 1,
                 }}
               >
                 $1,968.00
@@ -273,43 +268,31 @@ function WatchListColumn() {
                 <b>-3.24%</b>
               </Text>
             </Box>
-            <Box
+            <TrendingDownTwoToneIcon
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
+                color: `${theme.colors?.error.main}`,
               }}
-            >
-              <Label color="error">-$90</Label>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  pl: 1,
-                }}
-              >
-                last 24h
-              </Typography>
-            </Box>
+            />
           </Box>
-          <Chart
-            options={chartOptions}
-            series={chart2Data}
-            type="area"
-            height={200}
-          />
-        </Card>
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <Card
+          <Box pt={2}>
+            <Chart
+              options={Box1Options}
+              series={Box2Data}
+              type="line"
+              height={100}
+            />
+          </Box>
+        </Box>
+        <Box
           sx={{
-            overflow: "visible",
+            width: "100%",
+            p: 3,
           }}
         >
           <Box
-            sx={{
-              p: 3,
-            }}
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="space-between"
           >
             <Box display="flex" alignItems="center">
               <AvatarWrapper>
@@ -327,19 +310,25 @@ function WatchListColumn() {
                 </Typography>
               </Box>
             </Box>
+            <Label color="secondary">24h</Label>
+          </Box>
+          <Box
+            mt={3}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                pt: 3,
               }}
             >
               <Typography
                 variant="h2"
                 sx={{
                   pr: 1,
-                  mb: 1,
                 }}
               >
                 $23.00
@@ -348,35 +337,35 @@ function WatchListColumn() {
                 <b>-0.33%</b>
               </Text>
             </Box>
-            <Box
+            <TrendingFlatTwoToneIcon
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
+                color: `${theme.colors?.warning.main}`,
               }}
-            >
-              <Label color="error">-$5</Label>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  pl: 1,
-                }}
-              >
-                last 24h
-              </Typography>
-            </Box>
+            />
           </Box>
-          <Chart
-            options={chartOptions}
-            series={chart3Data}
-            type="area"
-            height={200}
-          />
-        </Card>
-      </Grid>
-    </Grid>
+          <Box pt={2}>
+            <Chart
+              options={Box1Options}
+              series={Box3Data}
+              type="line"
+              height={100}
+            />
+          </Box>
+        </Box>
+      </Stack>
+      <Divider />
+      <CardActions
+        disableSpacing
+        sx={{
+          p: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="outlined">View more assets</Button>
+      </CardActions>
+    </Card>
   );
 }
 
-export default WatchListColumn;
+export default WatchListRow;

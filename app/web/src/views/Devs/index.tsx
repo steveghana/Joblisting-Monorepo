@@ -1,9 +1,9 @@
-import PageHeader from "../../content/applications/Transactions/PageHeader";
+import PageHeader from "../../components/Transactions/PageHeader";
 import PageTitleWrapper from "../../components/PageTitleWrapper";
 import { Grid, Container, Button } from "@mui/material";
 // import Footer from "../../../../../components/Footer";
 
-import RecentOrders from "../../content/applications/Transactions/RecentOrders";
+import RecentOrders from "../../components/Transactions/RecentOrders";
 import { Protect } from "../../components/auth/requireAuth";
 import MainCard from "../../components/MainCard";
 import DevTableData from "./devColumns";
