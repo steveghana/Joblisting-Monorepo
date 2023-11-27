@@ -51,12 +51,12 @@ export class ClientsService {
           client,
           clientId: client.id,
           title: client.projectTitle,
-          aboutCompany: client.aboutTheCompany,
+          // aboutCompany: client.aboutTheCompany,
           vacancy_status:
             additionalData.whenToStart !== "I'll decide later"
               ? 'Open'
               : 'Closed',
-          selectedSkills: projectDetails.selectedSkills,
+          // selectedSkills: projectDetails.selectedSkills,
           ...additionalData,
           ...projectDetails,
         },
@@ -79,7 +79,7 @@ export class ClientsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Client.getById(id);
       console.log(data.data, 'from client');
@@ -91,7 +91,7 @@ export class ClientsService {
   }
 
   update(
-    id: number,
+    id: string,
     updateClientDto: Partial<IClientFormData['Client info']>,
     dependencies: Dependencies = null,
   ) {
@@ -107,7 +107,7 @@ export class ClientsService {
     });
   }
 
-  remove(id: number, dependencies: Dependencies = null) {
+  remove(id: string, dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const deleted = await Client.destroy(id, transaction);
       if (!deleted) {

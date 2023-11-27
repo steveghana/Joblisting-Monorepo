@@ -5,15 +5,15 @@ import { IsNotEmpty } from 'class-validator';
 type IinterviewAs = 'interviewee' | 'interviewer';
 type Interview = Iinterviews & {
   interviewAs: IinterviewAs;
-  interveiweeId: number;
-  interviewerId: number;
+  interveiweeId: string;
+  interviewerId: string;
 };
 export class CreateInterviewDto implements Interview {
   interviewAs: IinterviewAs;
   @IsNotEmpty({
     message: 'please enter your address',
   })
-  roleId: number;
+  roleId: string;
   @IsNotEmpty({
     message: 'please enter your scheduled date',
   })
@@ -22,11 +22,11 @@ export class CreateInterviewDto implements Interview {
   @IsNotEmpty({
     message: 'interviewee Id is required',
   })
-  interveiweeId: number;
+  interveiweeId: string;
   @IsNotEmpty({
     message: 'interviewer Id is required',
   })
-  interviewerId: number;
+  interviewerId: string;
   interviewee: IDev;
   interviewer: IDev;
   role: IRole;

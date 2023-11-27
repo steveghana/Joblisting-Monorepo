@@ -18,7 +18,7 @@ export class CreateApplicationDto {
     message: 'role is required',
   })
   @IsNumber()
-  roleId: number;
+  roleId: string;
 
   // developer: Partial<IDev>;
   @IsNotEmpty({

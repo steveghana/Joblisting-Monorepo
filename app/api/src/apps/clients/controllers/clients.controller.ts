@@ -59,7 +59,7 @@ export class ClientsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() res: Response) {
-    const result = await this.clientsService.findOne(+id);
+    const result = await this.clientsService.findOne(id);
     return res.status(200).send(result);
   }
 
@@ -77,7 +77,7 @@ export class ClientsController {
     @Res() res: Response,
   ) {
     console.log(updateClientDto);
-    const result = await this.clientsService.update(+id, updateClientDto);
+    const result = await this.clientsService.update(id, updateClientDto);
     console.log(result, 'from update');
     return res.status(200).send(result);
   }
@@ -91,7 +91,7 @@ export class ClientsController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async remove(@Param('id') id: string, @Res() res: Response) {
-    const result = await this.clientsService.remove(+id);
+    const result = await this.clientsService.remove(id);
     return res.status(200).json(result);
   }
 }

@@ -32,7 +32,7 @@ export async function createApplication(
   return data;
 }
 export async function deleteApplicant(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ): Promise<number> {
@@ -46,7 +46,7 @@ export async function deleteApplicant(
   return affected;
 }
 export function getApplicationById(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
@@ -86,7 +86,7 @@ export const getAllApplicants = async (
     .find({ relations: ['role'] });
 };
 export async function updateApplication(
-  id: number,
+  id: string,
   updates: Partial<IApplication>,
   transactionParam: EntityManager = null,
   dependencies: Dependencies = null,

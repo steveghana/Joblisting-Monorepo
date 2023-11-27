@@ -40,7 +40,7 @@ class Client {
     return [clientData, newclient];
   }
   static async getById(
-    id: number,
+    id: string,
     dependencies: Dependencies = null,
   ): Promise<Client> {
     dependencies = injectDependencies(dependencies, ['db']);
@@ -69,7 +69,7 @@ class Client {
   //   return newClients;
   // }
   static async destroy(
-    clientId: number,
+    clientId: string,
     // tableIds: number[],
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -79,7 +79,7 @@ class Client {
   }
 
   static async update(
-    clientId: number,
+    clientId: string,
     client: Partial<IClient>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,

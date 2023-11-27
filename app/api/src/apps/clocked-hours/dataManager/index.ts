@@ -16,7 +16,7 @@ class Hours {
   }
 
   static async createHours(
-    developerId: number,
+    developerId: string,
     application: Ihours,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -33,7 +33,7 @@ class Hours {
   }
 
   static async getByDeveloperId(
-    id: number,
+    id: string,
     dependencies: Dependencies = null,
   ): Promise<Hours> {
     dependencies = injectDependencies(dependencies, ['db']);
@@ -43,7 +43,7 @@ class Hours {
     return newApplication;
   }
 
-  get id(): number {
+  get id(): string {
     return this.data.id;
   }
 

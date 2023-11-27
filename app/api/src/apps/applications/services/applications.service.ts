@@ -56,7 +56,7 @@ export class ApplicationsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Application.getById(id);
       console.log(data, 'from client');
@@ -68,7 +68,7 @@ export class ApplicationsService {
   }
 
   update(
-    id: number,
+    id: string,
     updateApplication: Partial<CreateApplicationDto>,
     dependencies: Dependencies = null,
   ) {
@@ -115,7 +115,7 @@ export class ApplicationsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return useTransaction(async (transaction) => {
       const deleted = await Application.destroy(id, transaction);
       if (!deleted) {

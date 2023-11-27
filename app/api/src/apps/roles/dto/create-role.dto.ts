@@ -102,7 +102,7 @@ export interface JobInfo {
 export class CreateRoleDto {
   @IsNotEmpty()
   @IsString()
-  clientId: number;
+  clientId: string;
 
   id?: string;
   @Type(() => ProjectDetailsDto)

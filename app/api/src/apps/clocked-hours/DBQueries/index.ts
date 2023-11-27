@@ -9,7 +9,7 @@ import uuid from '../../../util/uuid';
 import { Ihours } from '@/types/hours';
 
 export async function createHours(
-  developerId: number,
+  developerId: string,
   applicationData: Ihours,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -43,7 +43,7 @@ export async function createHours(
 }
 
 export function getHoursByDeveloper(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {

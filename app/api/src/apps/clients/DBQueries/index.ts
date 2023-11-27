@@ -57,7 +57,7 @@ export function findElseCreateClient(
 }
 
 export function getClientById(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
@@ -72,7 +72,7 @@ export function getClientById(
     });
 }
 export async function deleteClient(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ): Promise<number> {
@@ -96,7 +96,7 @@ export async function deleteClient(
 }
 
 export async function updateClient(
-  id: number,
+  id: string,
   updates: Partial<IClient>,
   transactionParam: EntityManager = null,
   dependencies: Dependencies = null,

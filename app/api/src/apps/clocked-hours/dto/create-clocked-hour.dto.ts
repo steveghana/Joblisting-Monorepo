@@ -3,5 +3,5 @@ export class CreateClockedHourDto implements Ihours {
   date: Date;
   developer: Record<any, any>;
   hours_worked: number;
-  id: number;
+  id: string;
 }
