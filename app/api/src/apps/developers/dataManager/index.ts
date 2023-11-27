@@ -31,7 +31,7 @@ class Developers {
     return newApplication.data;
   }
   static async update(
-    applicantId: number,
+    applicantId: string,
     applicantion: Partial<IDev>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -45,7 +45,7 @@ class Developers {
     );
   }
   static async getById(
-    id: number,
+    id: string,
     dependencies: Dependencies = null,
   ): Promise<IDev> {
     dependencies = injectDependencies(dependencies, ['db']);
@@ -54,14 +54,14 @@ class Developers {
     return newApplication.data;
   }
   static async destroy(
-    devId: number,
+    devId: string,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
   ): Promise<number> {
     dependencies = injectDependencies(dependencies, ['db']);
     return await deleteDev(devId, transaction, dependencies);
   }
-  get id(): number {
+  get id(): string {
     return this.data.id;
   }
 

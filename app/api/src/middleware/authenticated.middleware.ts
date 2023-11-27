@@ -5,7 +5,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import asyncWrapper from '../util/asyncWrapper';
 import { Dependencies, injectDependencies } from '../util/dependencyInjector';
 import AuthToken from '../apps/auth/dataManager/authToken';
 

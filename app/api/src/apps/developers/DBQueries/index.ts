@@ -44,7 +44,7 @@ export const getAllDevs = async (
     .find({ relations: ['roles'] });
 };
 export async function getDevById(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
@@ -60,7 +60,7 @@ export async function getDevById(
   return dev as unknown as IDev;
 }
 export async function updateDev(
-  id: number,
+  id: string,
   updates: Partial<IDev>,
   transactionParam: EntityManager = null,
   dependencies: Dependencies = null,
@@ -79,7 +79,7 @@ export async function updateDev(
   );
 }
 export async function deleteDev(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ): Promise<number> {

@@ -20,4 +20,6 @@ export interface IRole {
   interviews?: any[];
 
   application?: IApplication[];
+  createdAt?: Date;
+  updateAt?: Date;
 }

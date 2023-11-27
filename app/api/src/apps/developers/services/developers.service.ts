@@ -104,7 +104,7 @@ export class DevelopersService {
       <ul>
         <li><strong>Role:</strong>${role.title}</li>
         <li><strong>Description:</strong>${role.aboutTheProject}</li>
-        <li><strong>Start Date:</strong>${role.whenToStart}</li>
+        <li><strong>Start Date:</strong>${role.createdAt}</li>
       </ul>
       <h2>Limited Access:</h2>
       <p>You can now access a restricted part of our system related to the applied role. Please follow the instructions below:</p>
@@ -138,7 +138,7 @@ export class DevelopersService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Developers.getById(id);
       if (!data) {
@@ -149,7 +149,7 @@ export class DevelopersService {
   }
 
   update(
-    id: number,
+    id: string,
     updateDevDto: Partial<CreateDeveloperDto>,
     dependencies: Dependencies = null,
   ) {
@@ -165,7 +165,7 @@ export class DevelopersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return useTransaction(async (transaction) => {
       const {
         user: { id: userId, email },

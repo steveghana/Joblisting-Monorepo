@@ -61,7 +61,7 @@ export class RolesController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async findOne(@Param('id') id: string, @Res() res: Response) {
-    const result = await this.rolesService.findOne(+id);
+    const result = await this.rolesService.findOne(id);
     return res.json(result);
   }
 
@@ -78,7 +78,7 @@ export class RolesController {
     @Body() updateRoleDto: Partial<CreateRoleDto>,
     @Res() res: Response,
   ) {
-    const result = await this.rolesService.update(+id, updateRoleDto);
+    const result = await this.rolesService.update(id, updateRoleDto);
     return res.json(result);
   }
 
@@ -91,7 +91,7 @@ export class RolesController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async remove(@Param('id') id: string, @Res() res: Response) {
-    const result = await this.rolesService.remove(+id);
+    const result = await this.rolesService.remove(id);
     return res.json(result);
   }
 }

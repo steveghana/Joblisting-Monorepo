@@ -37,7 +37,7 @@ export class CreateDeveloperDto {
     message: 'role is required',
   })
   @IsNumber()
-  roleId: number;
+  roleId: string;
   @IsNotEmpty({
     message: 'role is required',
   })

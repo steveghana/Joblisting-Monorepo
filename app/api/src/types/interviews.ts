@@ -11,6 +11,8 @@ export interface Iinterviews {
   interviewee: IDev;
 
   scheduled_date: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   status: 'Scheduled' | 'Completed' | 'Canceled'; //
 }

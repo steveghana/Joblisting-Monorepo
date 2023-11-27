@@ -9,7 +9,7 @@ import uuid from '../../../util/uuid';
 import { Iinterviews } from '@/types/interviews';
 
 export async function scheduleInterview(
-  roleId: number,
+  roleId: string,
   applicationData: Iinterviews,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -35,7 +35,7 @@ export async function scheduleInterview(
 }
 
 export function getApplicationById(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {

@@ -16,7 +16,7 @@ class Interviews {
   }
 
   static async createInterviews(
-    roleId: number,
+    roleId: string,
     // developerId: number,
 
     application: Iinterviews,
@@ -35,7 +35,7 @@ class Interviews {
   }
 
   static async getById(
-    id: number,
+    id: string,
     dependencies: Dependencies = null,
   ): Promise<Interviews> {
     dependencies = injectDependencies(dependencies, ['db']);
@@ -44,7 +44,7 @@ class Interviews {
     return newApplication;
   }
 
-  get id(): number {
+  get id(): string {
     return this.data.id;
   }
 
@@ -64,7 +64,12 @@ class Interviews {
   get role(): Record<any, any> {
     return this.data.role;
   }
-
+  get createdAt(): Date {
+    return this.data.createdAt;
+  }
+  get updatedAt(): Date {
+    return this.data.updatedAt;
+  }
   get exists(): boolean {
     return this.data !== null;
   }

@@ -15,21 +15,20 @@ export class RolesService {
     createRoleDto: CreateRoleDto,
     dependencies: Dependencies = null,
   ) {
-    const { clientId, ...rest } = createRoleDto;
+    const { clientId } = createRoleDto;
     return useTransaction(async (transaction) => {
       let clientDetails = await Client.getById(clientId);
 
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
-          aboutTheProject: createRoleDto.aboutTheProject,
 
-          ...rest,
+          ...createRoleDto['Project Details'],
+          ...createRoleDto['Role Info'],
           vacancy_status:
-            createRoleDto.whenToStart !== 'I will decide later'
+            createRoleDto['Role Info'].whenToStart !== 'I will decide later'
               ? 'Open'
               : 'Closed',
-          skills_required: createRoleDto.selectedSkills,
         },
         transaction,
         dependencies,
@@ -57,7 +56,7 @@ export class RolesService {
     });
   }
 
-  getApplicant(id: number) {
+  getApplicant(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Roles.getById(id);
       console.log(data, 'from client');
@@ -67,7 +66,7 @@ export class RolesService {
       return data;
     });
   }
-  findOne(id: number) {
+  findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Roles.getById(id);
       console.log(data, 'from client');
@@ -79,15 +78,19 @@ export class RolesService {
   }
 
   update(
-    id: number,
+    id: string,
     updateClientDto: Partial<CreateRoleDto>,
     dependencies: Dependencies = null,
   ) {
     return useTransaction(async (transaction) => {
-      const { selectedSkills, ...rest } = updateClientDto;
+      // const { , ...rest } = updateClientDto;
       const data = await Roles.update(
         id,
-        { skills_required: selectedSkills, ...rest },
+        {
+          selectedSkills: updateClientDto['Role Info'].selectedSkills,
+          ...updateClientDto['Project Details'],
+          ...updateClientDto['Role Info'],
+        },
         transaction,
       );
       if (!data) {
@@ -100,7 +103,7 @@ export class RolesService {
     });
   }
 
-  remove(id: number, dependencies: Dependencies = null) {
+  remove(id: string, dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const deleted = await Roles.destroy(id, transaction);
       if (!deleted) {

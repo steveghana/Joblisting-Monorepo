@@ -38,7 +38,7 @@ export function getRoleById(
     .getRepository(dependencies.db.models.role)
     .findOne({
       where: { id },
-      relations: ['client', 'application', 'interviews', 'developers'],
+      relations: ['client', 'application', 'interviews', 'developers', 'jobs'],
     });
 }
 export async function deleteRole(

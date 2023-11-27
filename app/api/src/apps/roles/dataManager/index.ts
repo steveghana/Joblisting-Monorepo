@@ -94,6 +94,12 @@ class Roles {
   get roleStatus(): string {
     return this.data.vacancy_status;
   }
+  get createdAt(): Date {
+    return this.data.createdAt;
+  }
+  get updateAt(): Date {
+    return this.data.updateAt;
+  }
 
   get exists(): boolean {
     return this.data !== null;
