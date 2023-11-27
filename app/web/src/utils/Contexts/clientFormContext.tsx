@@ -20,7 +20,6 @@ const initialState: ClientFormDataState = {
     companyLogo: "",
   },
   ["Project Details"]: {
-    selectedSkills: [],
     devsNeeded: "",
     methodology: "agile",
     title: "",

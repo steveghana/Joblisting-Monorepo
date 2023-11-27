@@ -12,10 +12,11 @@ import {
   OneToOne,
 } from 'typeorm';
 // Interview Entity
+import uuid from '../../../util/uuid';
 @Entity('interviews')
 export class Interview extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuid.makeUuid();
 
   @ManyToOne((type) => Role, (role) => role.interviews)
   @JoinColumn({ name: 'role_id' })

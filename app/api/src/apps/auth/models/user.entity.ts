@@ -14,6 +14,7 @@ import { AuthtokenEntity } from './Token/authToken.entity';
 import { CredentialTokenEntity } from './CredentialToken/credentialToken.entity';
 import AssociableModel from '../../../Config/associable';
 // import { Role } from '../../enums/role.enum';
+import uuid from '../../../util/uuid';
 import { Developer } from '../../developers/entities/developer.entity';
 export type IProfession =
   | 'Ceo'
@@ -25,7 +26,7 @@ export type IProfession =
 @Entity('user')
 export class UserEntity extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuid.makeUuid();
 
   @Column({ default: '' })
   firstName: string;

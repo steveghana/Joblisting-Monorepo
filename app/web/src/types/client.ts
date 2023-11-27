@@ -41,7 +41,6 @@ export interface ClientFormDataState {
     aboutTheCompany: string;
   };
   ["Project Details"]: {
-    selectedSkills: string[];
     devsNeeded: string;
     aboutTheProject: string;
     title: string;

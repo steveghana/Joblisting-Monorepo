@@ -15,14 +15,14 @@ import { Type } from 'class-transformer';
 import {
   ProjectDetailsDto,
   RoleInfoDto,
-} from '@/apps/roles/dto/create-role.dto';
+} from '../../../apps/roles/dto/create-role.dto';
 // Enum for employment type
 
 // Enum for communication preferences
 
-export class ClientDto implements IClient {
+export class ClientDto {
   @IsOptional()
-  @IsNumber()
+  @IsString()
   id?: string;
   @IsNotEmpty()
   @IsString()

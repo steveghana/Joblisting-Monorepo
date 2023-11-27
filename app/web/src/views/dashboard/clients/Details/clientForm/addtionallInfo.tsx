@@ -18,18 +18,27 @@ import {
   Radio,
   FormGroup,
   InputLabel,
+  Select,
+  MenuItem,
+  Autocomplete,
+  Chip,
 } from "@mui/material";
 import SubCard from "../../../../../components/SubCard";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import CustomButton from "../../../../../components/button";
 import { ArrowBack, BackHand } from "@mui/icons-material";
+import { techRoles } from "../../../../../lib/data/jobs";
+import { availableSkills } from "../../../Roles/ApplicationForm/skills";
 
 const additionalDataValidationSchema = Yup.object().shape({
   // dataContent: Yup.string().required("Additional Data is required"),
   durationForEmployment: Yup.string().required(
     "Employment duration is required"
   ),
+  selectedSkills: Yup.array().required("Skills are required"),
+
   whenToStart: Yup.string().required("Select when the project starts"),
+  roleName: Yup.string().required("Please select the role you are hiring for!"),
 
   employmentType: Yup.string().required("Employment type is required"),
   tasks: Yup.array()
@@ -78,6 +87,23 @@ const AdditionalData = ({ onNext, handleBack }) => {
               {/* ... (Previous form fields) */}
 
               {/* Tasks Section */}
+              <FormControl fullWidth>
+                <Field
+                  name="title"
+                  as={TextField}
+                  label="Expect title"
+                  placeHolder={"eg. Senior Fullstack Engineer"}
+                  variant="outlined"
+                  fullWidth
+                />
+                <ErrorMessage name="title" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
               <Typography variant="subtitle1">Tasks</Typography>
               <FormControl fullWidth>
                 <FieldArray
@@ -137,7 +163,57 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-
+              <FormControl fullWidth>
+                <InputLabel id="role-label">
+                  Select role Are You Hiring For
+                </InputLabel>
+                <Field name="roleName" as={Select} variant="outlined" fullWidth>
+                  {Object.keys(techRoles).map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Field>
+                <ErrorMessage name="roleName" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <FormControl fullWidth>
+                <Autocomplete
+                  multiple
+                  id="skills-autocomplete"
+                  options={availableSkills}
+                  value={values.selectedSkills}
+                  onChange={(_, newValue) => {
+                    setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
+                  }}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip label={option} {...getTagProps({ index })} />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      name="selectedSkills"
+                      label="Skills Required"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                />
+                <ErrorMessage name="selectedSkills" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
               <FormControl>
                 <FormLabel component="legend">
                   How Long Do you Need the Developer
@@ -195,7 +271,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
 
               <FormControl>
                 <FormLabel component="legend">
-                  How Long Do you Need the Developer
+                  Whats the employment type
                 </FormLabel>
                 {EmploymentType.map((duration) => (
                   <RadioGroup
@@ -228,7 +304,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <ErrorMessage name="dataContent" component="div">
+                <ErrorMessage name="salary" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}

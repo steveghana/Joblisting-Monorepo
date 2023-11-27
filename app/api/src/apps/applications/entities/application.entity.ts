@@ -12,6 +12,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import AssociableModel from '../../../Config/associable';
+import uuid from '../../../util/uuid';
 
 // Developer Entity
 
@@ -19,7 +20,7 @@ import AssociableModel from '../../../Config/associable';
 @Entity('applications')
 export class Application extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuid.makeUuid();
 
   @ManyToOne((type) => Role, (role) => role.application)
   @JoinColumn({ name: 'role_id' })

@@ -53,7 +53,7 @@ export class ApplicationsController {
     @Body() application: CreateApplicationDto,
     @Res() res: Response,
   ) {
-    const result = await this.applicationsService.findOne(+id);
+    const result = await this.applicationsService.findOne(id);
     return res.json(result);
   }
   @Get('')
@@ -70,7 +70,7 @@ export class ApplicationsController {
   }
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {
-    const result = await this.applicationsService.remove(+id);
+    const result = await this.applicationsService.remove(id);
     return res.json(result);
   }
 }

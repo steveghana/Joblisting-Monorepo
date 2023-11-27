@@ -54,7 +54,7 @@ export class RoleInfoDto {
   @IsString()
   roleName: string;
   @IsNotEmpty()
-  @IsArray()
+  // @IsArray()
   selectedSkills: string[];
   // Assuming whenToStart is a string
   @IsNotEmpty()
@@ -66,7 +66,12 @@ export class RoleInfoDto {
   @IsNotEmpty()
   @IsString()
   employmentType: string;
-
+  @IsNotEmpty()
+  @IsString()
+  roleType: string;
+  @IsNotEmpty()
+  @IsString()
+  jobType: string;
   @IsOptional()
   @IsString()
   roleCategory: string;
@@ -74,24 +79,25 @@ export class RoleInfoDto {
   @IsString()
   postedDate: Date;
   @IsNotEmpty()
-  @IsString()
   tasks: string[];
   @IsOptional()
   @IsString()
-  description: string[];
+  description: string;
   constructor(data: JobInfo) {
     Object.assign(this, data);
   }
 }
 
 export interface JobInfo {
-  description: string[];
-  id: string;
-  role: IRole;
+  description: string;
+  id?: string;
+  role?: IRole;
   roleType: string;
   whenToStart: string;
   employmentType: string;
-  jobtype: string;
+  selectedSkills: string[];
+
+  jobType: string;
   salary: string;
   roleCategory: string;
   postedDate: Date;
@@ -100,10 +106,11 @@ export interface JobInfo {
 }
 
 export class CreateRoleDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   clientId: string;
-
+  @IsOptional()
+  @IsString()
   id?: string;
   @Type(() => ProjectDetailsDto)
   @ValidateNested()

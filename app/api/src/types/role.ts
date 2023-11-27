@@ -14,7 +14,6 @@ export interface IRole {
   methodology: string;
   experience: string;
   communicationPreferences: string;
-  selectedSkills: string[];
   jobs?: JobInfo[];
   vacancy_status: 'Open' | 'Closed'; // Open, Closed
   interviews?: any[];

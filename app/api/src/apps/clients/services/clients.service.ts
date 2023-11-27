@@ -41,7 +41,7 @@ export class ClientsService {
         );
       }
       const {
-        'Role Info': additionalData,
+        'Role Info': roleinfo,
         'Client Info': clientInfo,
         'Project Details': projectDetails,
       } = createClientDto;
@@ -53,13 +53,11 @@ export class ClientsService {
           title: client.projectTitle,
           // aboutCompany: client.aboutTheCompany,
           vacancy_status:
-            additionalData.whenToStart !== "I'll decide later"
-              ? 'Open'
-              : 'Closed',
+            roleinfo.whenToStart !== "I'll decide later" ? 'Open' : 'Closed',
           // selectedSkills: projectDetails.selectedSkills,
-          ...additionalData,
           ...projectDetails,
         },
+        roleinfo,
         transaction,
         dependencies,
       );

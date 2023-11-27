@@ -27,12 +27,10 @@ import CustomButton from "../../../../../components/button";
 import { availableSkills } from "../../../Roles/ApplicationForm/skills";
 import {
   experienceLevel,
-  projectRequirementFields,
   methodologyOptions,
 } from "../../../../../lib/data/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { ArrowBack, BackHand } from "@mui/icons-material";
-import { techRoles } from "../../../../../lib/data/jobs";
 const communicationOptions = [
   { label: "Email", value: "email" },
   { label: "Video Calls", value: "video_calls" },
@@ -43,10 +41,8 @@ const projectDetailsValidationSchema = Yup.object().shape({
   aboutTheProject: Yup.string().required(
     "Give us some information about the project"
   ),
-  roleName: Yup.string().required("Please select the role you are hiring for!"),
   // designPreferences: Yup.string().required("Design Preferences are required"),
   experience: Yup.string().required("Experience level is required"),
-  selectedSkills: Yup.array().required("Skills are required"),
   devsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
   communicationPreferences: Yup.string().required(
@@ -139,58 +135,6 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                 </ErrorMessage>
               </FormControl>
 
-              <FormControl fullWidth>
-                <InputLabel id="role-label">
-                  Select role Are You Hiring For
-                </InputLabel>
-                <Field name="roleName" as={Select} variant="outlined" fullWidth>
-                  {Object.keys(techRoles).map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Field>
-                <ErrorMessage name="roleName" component="div">
-                  {(msg) => (
-                    <FormHelperText error variant="filled">
-                      {msg}
-                    </FormHelperText>
-                  )}
-                </ErrorMessage>
-              </FormControl>
-
-              <FormControl fullWidth>
-                <Autocomplete
-                  multiple
-                  id="skills-autocomplete"
-                  options={availableSkills}
-                  value={values.selectedSkills}
-                  onChange={(_, newValue) => {
-                    setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
-                  }}
-                  renderTags={(value, getTagProps) =>
-                    value.map((option, index) => (
-                      <Chip label={option} {...getTagProps({ index })} />
-                    ))
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      name="selectedSkills"
-                      label="Skills Required"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  )}
-                />
-                <ErrorMessage name="selectedSkills" component="div">
-                  {(msg) => (
-                    <FormHelperText error variant="filled">
-                      {msg}
-                    </FormHelperText>
-                  )}
-                </ErrorMessage>
-              </FormControl>
               <FormGroup>
                 <FormLabel component="legend">Pick One</FormLabel>
 

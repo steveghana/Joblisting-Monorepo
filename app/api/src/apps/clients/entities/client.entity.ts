@@ -10,10 +10,11 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
+import uuid from '../../../util/uuid';
 @Entity('clients')
 export class Client extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuid.makeUuid();
 
   @Column()
   name: string;

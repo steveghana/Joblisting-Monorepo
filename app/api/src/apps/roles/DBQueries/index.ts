@@ -8,21 +8,32 @@ import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { IRole } from '../../../types/role';
 import { ensureTransaction } from '../../../Config/transaction';
+import { JobInfo } from '../dto/create-role.dto';
 
 export async function createRoles(
   // roleId: number,
   applicationData: IRole,
+  job: JobInfo,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
   console.log(applicationData, 'role daa');
   const role = transaction.getRepository(dependencies.db.models.role);
+  const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
+  const { jobs, ...rest } = applicationData;
   let newApplication = await role.create({
-    ...applicationData,
+    ...rest,
   });
-  let data = await role.save(newApplication);
 
+  let data = await role.save(newApplication);
+  const createJob = await jobRepo.create({
+    role: data,
+    ...job,
+
+    postedDate: new Date(),
+  });
+  await jobRepo.save(createJob);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
@@ -69,7 +80,7 @@ export const getAllRoles = (
 };
 export async function updateRole(
   id: string,
-  updates: Partial<IRole>,
+  updates: Partial<Omit<IRole, 'jobs'>>,
   transactionParam: EntityManager = null,
   dependencies: Dependencies = null,
 ) {

@@ -18,17 +18,17 @@ export class RolesService {
     const { clientId } = createRoleDto;
     return useTransaction(async (transaction) => {
       let clientDetails = await Client.getById(clientId);
-
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
-
           ...createRoleDto['Project Details'],
-          ...createRoleDto['Role Info'],
           vacancy_status:
             createRoleDto['Role Info'].whenToStart !== 'I will decide later'
               ? 'Open'
               : 'Closed',
+        },
+        {
+          ...createRoleDto['Role Info'],
         },
         transaction,
         dependencies,

@@ -14,10 +14,11 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
+import uuid from '../../../util/uuid';
 @Entity('developer')
 export class Developer extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuid.makeUuid();
 
   @ManyToOne((type) => User, (user) => user.developer)
   @JoinColumn({ name: 'user_id' })
@@ -36,7 +37,8 @@ export class Developer extends AssociableModel {
   address: string;
   @Column({ default: 'External' })
   role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
-  @OneToMany((type) => Role, (role) => role.developers)
+  @ManyToOne((type) => Role, (role) => role.developers)
+  @JoinColumn({ name: 'developer_id' })
   roles: Role;
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
   interviewsAsInterviewer: Interview[];

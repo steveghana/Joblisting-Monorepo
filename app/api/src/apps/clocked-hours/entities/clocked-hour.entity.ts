@@ -10,11 +10,12 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
+import uuid from '../../../util/uuid';
 // ClockHours Entity
 @Entity('clock_hours')
 export class ClockHours extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string = uuid.makeUuid();
 
   @ManyToOne((type) => Developer, (developer) => developer.clockHours)
   @JoinColumn({ name: 'developer_id' })

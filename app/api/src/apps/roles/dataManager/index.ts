@@ -12,6 +12,7 @@ import { EntityManager } from 'typeorm';
 import { IClient } from '@/types/client';
 import { IRole } from '@/types/role';
 import { IApplication } from '@/types/application';
+import { JobInfo } from '../dto/create-role.dto';
 
 class Roles {
   dependencies: Dependencies = null;
@@ -24,14 +25,16 @@ class Roles {
   static async createRoles(
     // roleId: number,
     application: IRole,
+    jobinfo: JobInfo,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<Roles> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Roles(dependencies);
     newApplication.data = await createRoles(
       // roleId,
       application,
+      jobinfo,
       transaction,
       dependencies,
     );
@@ -76,9 +79,6 @@ class Roles {
   get client(): IClient {
     return this.data.client;
   }
-  get skills(): string[] {
-    return this.data.selectedSkills;
-  }
   get title(): string {
     return this.data.title;
   }
@@ -88,8 +88,8 @@ class Roles {
   get aboutTheProject(): string {
     return this.data.aboutTheProject;
   }
-  get skillNeeded(): string[] {
-    return this.data.selectedSkills;
+  get Jobs(): JobInfo[] {
+    return this.data.jobs;
   }
   get roleStatus(): string {
     return this.data.vacancy_status;
