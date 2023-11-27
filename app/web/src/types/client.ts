@@ -43,17 +43,19 @@ export interface ClientFormDataState {
   ["Project Details"]: {
     selectedSkills: string[];
     devsNeeded: string;
-    methodology: string;
     aboutTheProject: string;
+    title: string;
+    methodology: string;
     experience: string;
-    roleName: string;
     communicationPreferences: string;
   };
   ["Role Info"]: {
+    roleName: string;
+    selectedSkills: string[];
+    description: string;
     durationForEmployment: string;
     whenToStart: string;
     salary: string;
-    location: string;
     roleCategory: string;
     tasks: string[]; // Array of tasks
     employmentType: string; // Employment types related to the role

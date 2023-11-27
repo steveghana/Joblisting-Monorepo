@@ -12,6 +12,7 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
+import { Job } from './jobs.entity';
 // Role Entity
 @Entity('roles')
 export class Role extends AssociableModel {
@@ -21,6 +22,8 @@ export class Role extends AssociableModel {
   @ManyToOne((type) => Client, (client) => client.roles)
   @JoinColumn({ name: 'client_id' })
   client: Client;
+  @OneToMany(() => Job, (job) => job.role)
+  jobs: Job[];
 
   @ManyToOne((type) => Developer, (developer) => developer.roles)
   @JoinColumn({ name: 'developer_id' })
@@ -28,8 +31,7 @@ export class Role extends AssociableModel {
 
   @Column()
   title: string;
-  @Column()
-  durationForEmployment: string;
+
   @Column()
   devsNeeded: string;
   @Column()
@@ -39,20 +41,10 @@ export class Role extends AssociableModel {
   @Column()
   experience: string;
   @Column()
-  hiringRole: string;
-  @Column({ default: 'Remote' })
-  roleType: string;
-  @Column()
-  whenToStart: string;
-  @Column()
-  employmentType: string;
-  @Column()
-  dataContent: string;
-  @Column()
-  numOfEmployees: string;
+  communicationPreferences: string;
 
   @Column('simple-json')
-  skills_required: string[]; // Store skills as JSON
+  selectedSkills: string[]; // Store skills as JSON
 
   @Column()
   vacancy_status: 'Open' | 'Closed'; // Open, Closed

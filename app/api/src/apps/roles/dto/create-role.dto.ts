@@ -26,11 +26,6 @@ export class ProjectDetailsDto {
   @IsOptional()
   @IsString()
   title: string;
-  @IsOptional()
-  @IsString()
-  numOfEmployees: string;
-
-  // Assuming methodology is a string
   @IsNotEmpty()
   @IsString()
   methodology: string;
@@ -41,7 +36,6 @@ export class ProjectDetailsDto {
   @IsOptional()
   @IsString()
   roleName: string;
-  // Assuming testingQA is a string
   @IsNotEmpty()
   @IsString()
   communicationPreferences: string;

@@ -38,7 +38,7 @@ class Roles {
     return newApplication;
   }
   static async destroy(
-    roleId: number,
+    roleId: string,
     // tableIds: number[],
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -48,7 +48,7 @@ class Roles {
   }
 
   static async update(
-    roleId: number,
+    roleId: string,
     role: Partial<IRole>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -56,7 +56,7 @@ class Roles {
     dependencies = injectDependencies(dependencies, ['db']);
     return await updateRole(roleId, role, transaction, dependencies);
   }
-  static async getById(id: number, dependencies: Dependencies = null) {
+  static async getById(id: string, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Roles(dependencies);
     newApplication.data = await getRoleById(id, null, dependencies);
@@ -70,6 +70,9 @@ class Roles {
   get applications(): IApplication[] {
     return this.data.application;
   }
+  get developersNeed(): string {
+    return this.data.devsNeeded;
+  }
   get client(): IClient {
     return this.data.client;
   }
@@ -79,10 +82,16 @@ class Roles {
   get title(): string {
     return this.data.title;
   }
-  get description(): string {
-    return this.data.aboutCompany;
+  get experience(): string {
+    return this.data.experience;
   }
-  get role(): string {
+  get aboutTheProject(): string {
+    return this.data.aboutTheProject;
+  }
+  get skillNeeded(): string[] {
+    return this.data.selectedSkills;
+  }
+  get roleStatus(): string {
     return this.data.vacancy_status;
   }
 

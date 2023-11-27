@@ -27,7 +27,7 @@ export async function createRoles(
   return data;
 }
 export function getRoleById(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
@@ -42,7 +42,7 @@ export function getRoleById(
     });
 }
 export async function deleteRole(
-  id: number,
+  id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ): Promise<number> {
@@ -68,7 +68,7 @@ export const getAllRoles = (
     .find({ relations: ['client'] });
 };
 export async function updateRole(
-  id: number,
+  id: string,
   updates: Partial<IRole>,
   transactionParam: EntityManager = null,
   dependencies: Dependencies = null,
