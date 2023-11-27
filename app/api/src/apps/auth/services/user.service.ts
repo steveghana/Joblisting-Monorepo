@@ -10,9 +10,9 @@ import {
 import { EmailTemplate } from './emailtemplate';
 import { useTransaction } from '../../../Config/transaction';
 import cryptoUtil from '../../../util/crypto';
-import User from './userEntity';
-import CredentialToken from './Credentials/DataManager/credentialToken';
-import AuthToken from './Token/DataManager/authToken';
+import User from '../dataManager/userEntity';
+import CredentialToken from '../dataManager/credentialToken';
+import AuthToken from '../dataManager/authToken';
 import { JwtService } from '@nestjs/jwt';
 import {
   Dependencies,

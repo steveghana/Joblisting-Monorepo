@@ -3,16 +3,16 @@ import { subMilliseconds } from 'date-fns';
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../../util/dependencyInjector';
+} from '../../../util/dependencyInjector';
 import { HttpException, HttpStatus, Next } from '@nestjs/common';
 
-import { IUser } from '../../../../../types/user';
+import { IUser } from '../../../types/user';
 import { Brackets, DeepPartial, EntityManager, LessThan } from 'typeorm';
-import { AuthtokenEntity } from '../../../models/Token/authToken.entity';
-import { useTransaction } from '../../../../../Config/transaction';
-import { CredentialTokenEntity } from '../../../models/CredentialToken/credentialToken.entity';
-import myDataSource from '../../../../../../db/data-source';
-import { ICredentialToken } from '../../../../../types/credentialToken';
+import { AuthtokenEntity } from '../models/Token/authToken.entity';
+import { useTransaction } from '../../../Config/transaction';
+import { CredentialTokenEntity } from '../models/CredentialToken/credentialToken.entity';
+import myDataSource from '../../../../db/data-source';
+import { ICredentialToken } from '../../../types/credentialToken';
 
 type IAuthToken = {
   id: string;

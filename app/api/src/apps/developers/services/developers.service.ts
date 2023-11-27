@@ -12,7 +12,7 @@ import {
 import Roles from '../../../apps/roles/dataManager';
 import cryptoUtil from '../../../util/crypto';
 import { getAllDevs } from '../DBQueries';
-import User from '../../../apps/auth/services/userEntity';
+import User from '../../auth/dataManager/userEntity';
 @Injectable()
 export class DevelopersService {
   public async create(

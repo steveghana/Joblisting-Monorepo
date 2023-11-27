@@ -3,7 +3,7 @@ import { ApplicationsModule } from '../applications/applications.module';
 import { AuthModule } from '../auth/auth.module';
 import { ClientsModule } from '../clients/clients.module';
 import { ClockedHoursModule } from '../clocked-hours/clocked-hours.module';
-import { DevelopersModule } from '../developers/developers.module';
+import { DevelopersModule } from '../developers/tests/developers.module';
 import { InterviewsModule } from '../interviews/interviews.module';
 import { RolesModule } from '../roles/roles.module';
 // import s from '../../apps/clients/controllers/clients.controller.spec'

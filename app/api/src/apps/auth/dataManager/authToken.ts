@@ -1,7 +1,7 @@
 import {
   Dependencies,
   injectDependencies,
-} from '../../../../../util/dependencyInjector';
+} from '../../../util/dependencyInjector';
 import {
   createAuthToken,
   getAuthTokenWithUser,
@@ -9,11 +9,11 @@ import {
   deactivateExpiredAuthTokens,
   deactivateAuthToken,
   deactiveAuthTokenOfCredentialToken,
-} from '../DbQueries/authToken';
-import { IUser } from '../../../../../types/user';
-import { IAuthToken } from '../../../models/Token/authToken';
+} from '../DBQueries/authToken';
+import { IUser } from '../../../types/user';
+import { IAuthToken } from '../models/Token/authToken';
 import { EntityManager } from 'typeorm';
-import { AuthtokenEntity } from '../../../models/Token/authToken.entity';
+import { AuthtokenEntity } from '../models/Token/authToken.entity';
 
 class AuthToken {
   private _id: string = null;
