@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ClockedHoursService } from './services/clocked-hours.service';
+import { ClockedHoursService } from '../services/clocked-hours.service';
 
 describe('ClockedHoursService', () => {
   let service: ClockedHoursService;

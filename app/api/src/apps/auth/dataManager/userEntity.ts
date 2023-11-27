@@ -10,7 +10,7 @@ import {
   createUsers,
   findElseCreateUser,
   deletUser,
-} from '../services/userEntityGateway';
+} from '../DBQueries/user';
 import { IUser } from '../models/user';
 import cryptoUtil from '../../../util/crypto';
 import { UserEntity } from '../models/user.entity';

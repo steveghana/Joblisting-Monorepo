@@ -1,4 +1,4 @@
-import { ClientsController } from './clients.controller';
+import { ClientsController } from '../controllers/clients.controller';
 import { ClientsService } from '../services/clients.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';

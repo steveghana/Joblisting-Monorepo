@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ClockedHoursController } from './controllers/clocked-hours.controller';
-import { ClockedHoursService } from './services/clocked-hours.service';
+import { ClockedHoursController } from '../controllers/clocked-hours.controller';
+import { ClockedHoursService } from '../services/clocked-hours.service';
 
 describe('ClockedHoursController', () => {
   let controller: ClockedHoursController;

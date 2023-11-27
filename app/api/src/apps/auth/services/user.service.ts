@@ -7,7 +7,6 @@ import {
   // CACHE_MANAGER,
   Next,
 } from '@nestjs/common';
-import { EmailTemplate } from './emailtemplate';
 import { useTransaction } from '../../../Config/transaction';
 import cryptoUtil from '../../../util/crypto';
 import User from '../dataManager/userEntity';
