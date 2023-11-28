@@ -11,13 +11,14 @@ import {
   MaxLength,
   MinLength,
   isNumber,
+  isString,
 } from 'class-validator';
 
 export class CreateApplicationDto {
   @IsNotEmpty({
     message: 'role is required',
   })
-  @IsNumber()
+  @IsString()
   roleId: string;
 
   // developer: Partial<IDev>;
@@ -45,7 +46,10 @@ export class CreateApplicationDto {
   email: string;
 
   @IsString()
-  yearsOfExperience: string;
+  @IsNotEmpty({
+    message: 'Years of experience is required',
+  })
+  years_of_experience: string;
   @IsOptional()
   coverLetter: string;
 
