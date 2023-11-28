@@ -41,7 +41,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails) => {
           justifyContent={"space-between"}
           gap={1}
         >
-          <Grid lg={8} md={6} sm={12}>
+          <Grid item lg={8} md={6} sm={12}>
             <Grid item display={"flex"} flexDirection={"column"} my={2} gap={1}>
               <Typography fontWeight={700} variant="h2">
                 {role.client.companyName}
@@ -126,7 +126,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails) => {
                       <Typography variant="caption">save</Typography>
                     </Button>
                     <Button
-                      href="/job-submttion"
+                      href={`/job-submttion/${role.id}`}
                       // onClick={() => navigate("job-submttion")}
                       fullWidth
                       sx={{
