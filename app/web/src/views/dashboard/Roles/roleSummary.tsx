@@ -54,7 +54,7 @@ const RoleSummary: React.FC<{ client: IClient }> = ({ client }) => {
                 Industry
               </Typography>
               {client.industry.map((item, i) => (
-                <Typography variant="caption" mx={1}>
+                <Typography key={item} variant="caption" mx={1}>
                   <Chip label={item} />
                 </Typography>
               ))}
