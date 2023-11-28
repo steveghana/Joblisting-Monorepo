@@ -18,6 +18,7 @@ import { themePalette } from "../../../../themes/schemes/palette";
 import Dot from "../../../../components/Dot";
 import { FiberManualRecord } from "@mui/icons-material";
 import NoData from "../../../../components/NoData";
+import { formatTimeDifference } from "../../../../utils/timeFormatter";
 
 interface JobsListProps {
   jobs: IJobs[];
@@ -26,6 +27,7 @@ interface JobsListProps {
 
 const JobsList: React.FC<JobsListProps> = ({ jobs, location }) => {
   console.log(jobs, "this is the jobs");
+  const now = new Date();
   return (
     <Grid lg={7} md={8} sm={12} mt={2}>
       {!jobs?.length ? (
@@ -55,11 +57,13 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location }) => {
                   />
                   {/* use the date */}
                   <Typography whiteSpace={"nowrap"} variant="caption">
-                    Posted I month ago
+                    Posted {formatTimeDifference(now, new Date(job.postedDate))}{" "}
+                    ago
                   </Typography>
                 </Box>
               </Box>
               <Box>
+                <Typography>{job.description}</Typography>
                 <List>
                   {job.tasks.map((t) => (
                     <ListItem sx={{ display: "flex" }}>
@@ -98,48 +102,94 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location }) => {
                   <Typography>{job.salary}</Typography>
                 </Box>
                 <Box
-                  sx={{
-                    ml: { md: 0, lg: "auto" },
-                    flexDirection: { sm: "column", md: "row" },
-                    justifyContent: { sm: "flex-end", md: "flex-start" },
-                  }}
-                  display={"flex"}
-                  justifyContent={"flex-start"}
-                  flexWrap={"wrap"}
+                  my={2}
                   alignItems={"center"}
-                  //   flexDirection={props.feature ? "column" : "row"}
-                  gap={1}
+                  gap={".8rem"}
+                  borderRadius={2}
+                  p={1}
+                  border={"2px solid rgba(0, 0, 0, 0.1)"}
+                  display={"flex"}
+                  flexWrap={"wrap"}
                 >
-                  <Typography>Posted 4 weeks ago</Typography>
-                  <Grid display={"flex"} justifyContent={"center"} gap={0.5}>
-                    <Button
-                      size="small"
-                      variant="outlined"
+                  <Typography fontWeight={700} variant="body2">
+                    {job.roleName}
+                  </Typography>
+                  <Box display={"flex"} alignItems={"center"} gap={0.4}>
+                    <Dot />
+                    <Typography
+                      fontWeight={400}
+                      variant="subtitle1"
+                      mr={"auto"}
+                    >
+                      {location.label}{" "}
+                    </Typography>
+                    <Dot />
+                    <Typography>{job.jobType}</Typography>
+                    <Dot />
+                    <Typography fontWeight={700}>{job.roleType}</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      ml: { md: 0, lg: "auto" },
+                      flexDirection: { sm: "column", md: "row" },
+                      justifyContent: { sm: "flex-end", md: "flex-start" },
+                    }}
+                    display={"flex"}
+                    justifyContent={"flex-start"}
+                    flexWrap={"wrap"}
+                    alignItems={"center"}
+                    // flexDirection={props.feature ? "column" : "row"}
+                    gap={1}
+                  >
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
                       sx={{
-                        color: "black",
-                        borderColor: "black",
-                        maxHeight: "30px",
+                        justifyContent: { md: "flex-start", lg: "flex-end" },
+                        alignItems: { md: "flex-start", lg: "flex-end" },
                       }}
                     >
-                      <Typography variant="caption">save</Typography>
-                    </Button>
-                    <Button
-                      href="/job-submttion"
-                      // onClick={() => navigate("job-submttion")}
-                      fullWidth
-                      sx={{
-                        color: "white",
-                        maxHeight: "30px",
-                      }}
-                      variant="contained"
-                    >
-                      <Typography>apply</Typography>
-                    </Button>
-                  </Grid>
+                      <Typography>
+                        <ClockIcon
+                          sx={{
+                            color: themePalette.primary.main,
+                            fontSize: ".7rem",
+                            mr: 0.2,
+                          }}
+                        />
+                        Posted{" "}
+                        {formatTimeDifference(now, new Date(job.postedDate))}{" "}
+                        ago
+                      </Typography>
+                    </Box>
+                    <Grid display={"flex"} justifyContent={"center"} gap={0.5}>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        sx={{
+                          color: "black",
+                          borderColor: "black",
+                          maxHeight: "30px",
+                        }}
+                      >
+                        <Typography variant="caption">save</Typography>
+                      </Button>
+                      <Button
+                        href="/job-submttion"
+                        // onClick={() => navigate("job-submttion")}
+                        fullWidth
+                        sx={{
+                          color: "white",
+                          maxHeight: "30px",
+                        }}
+                        variant="contained"
+                      >
+                        <Typography>apply</Typography>
+                      </Button>
+                    </Grid>
+                  </Box>
                 </Box>
               </Box>
-              <Typography>{job.projectTitle}</Typography>
-              <Typography>{location.label}</Typography>
             </CardContent>
           </Card>
         ))

@@ -33,6 +33,7 @@ import { roleData } from "../roledata";
 import RoleSummary from "../roleSummary";
 import { IClient } from "../../../../types/client";
 import { IJobs } from "../../../../types";
+import NoData from "../../../../components/NoData";
 // import RoleSummary from "./roleSummary";
 interface Job {
   id: number;
@@ -71,41 +72,51 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient }> = (props) => {
   return (
     <Container>
       <Typography variant="h1">Jobs</Typography>
-      <Card>
-        <Grid
-          display={"flex"}
-          flexWrap={"wrap"}
-          justifyContent={"space-between"}
-          gap={1}
-        >
-          <Grid>
-            <Grid item display={"flex"} flexDirection={"column"} my={2} gap={1}>
-              <Typography fontWeight={700} variant="h2">
-                {roleData.name}
-              </Typography>
-              <Typography fontWeight={600} variant="h4">
-                {roleData.subName}
-              </Typography>
-              <Typography variant="body2">{roleData.description}</Typography>
-            </Grid>
-            <Box
-              my={2}
-              display={"flex"}
-              justifyContent={"space-between"}
-              flexWrap={"wrap"}
-              alignItems={"flex-start"}
-              sx={{ width: "100%" }}
-            >
-              <JobFilters
-                filters={categoryByfilter}
-                onChange={handleFilterChange}
-              />
-              <JobsList jobs={jobs} location={props.client.country} />
-              {matchUpMd && <RoleSummary />}
-            </Box>
-          </Grid>{" "}
-        </Grid>
-      </Card>
+      {!jobs.length ? (
+        <NoData />
+      ) : (
+        <Card>
+          <Grid
+            display={"flex"}
+            flexWrap={"wrap"}
+            justifyContent={"space-between"}
+            gap={1}
+          >
+            <Grid>
+              <Grid
+                item
+                display={"flex"}
+                flexDirection={"column"}
+                my={2}
+                gap={1}
+              >
+                <Typography fontWeight={700} variant="h2">
+                  {roleData.name}
+                </Typography>
+                <Typography fontWeight={600} variant="h4">
+                  {roleData.subName}
+                </Typography>
+                <Typography variant="body2">{roleData.description}</Typography>
+              </Grid>
+              <Box
+                my={2}
+                display={"flex"}
+                justifyContent={"space-between"}
+                flexWrap={"wrap"}
+                alignItems={"flex-start"}
+                sx={{ width: "100%" }}
+              >
+                <JobFilters
+                  filters={categoryByfilter}
+                  onChange={handleFilterChange}
+                />
+                <JobsList jobs={jobs} location={props.client.country} />
+                {matchUpMd && <RoleSummary client={props.client} />}
+              </Box>
+            </Grid>{" "}
+          </Grid>
+        </Card>
+      )}
     </Container>
   );
 };

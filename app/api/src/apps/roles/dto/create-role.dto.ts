@@ -83,6 +83,9 @@ export class RoleInfoDto {
   @IsOptional()
   @IsString()
   description: string;
+  @IsOptional()
+  @IsString()
+  country: string;
   constructor(data: JobInfo) {
     Object.assign(this, data);
   }

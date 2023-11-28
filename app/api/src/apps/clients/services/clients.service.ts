@@ -21,9 +21,6 @@ export class ClientsService {
     return useTransaction(async (transaction) => {
       const [client, clientMethods] = await Client.findElseCreate(
         {
-          //TODO change  industry and startDate later
-          // industry: ['Tech', 'Real Estate'],
-
           startDate: new Date(),
           communicationPreferences:
             createClientDto['Project Details'].communicationPreferences,
@@ -51,17 +48,14 @@ export class ClientsService {
           client,
           clientId: client.id,
           title: client.projectTitle,
-          // aboutCompany: client.aboutTheCompany,
           vacancy_status:
             roleinfo.whenToStart !== "I'll decide later" ? 'Open' : 'Closed',
-          // selectedSkills: projectDetails.selectedSkills,
           ...projectDetails,
         },
-        roleinfo,
+        { ...roleinfo, country: client.country.label },
         transaction,
         dependencies,
       );
-      // console.log(client, role, 'client data');
 
       return client;
     });

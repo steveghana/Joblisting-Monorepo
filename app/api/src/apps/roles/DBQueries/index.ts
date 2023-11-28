@@ -76,7 +76,7 @@ export const getAllRoles = (
 
   return transaction
     .getRepository(dependencies.db.models.role)
-    .find({ relations: ['client'] });
+    .find({ relations: ['client', 'jobs'] });
 };
 export async function updateRole(
   id: string,

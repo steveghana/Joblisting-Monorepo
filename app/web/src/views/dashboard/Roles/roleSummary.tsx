@@ -12,8 +12,9 @@ import {
   useTheme,
 } from "@mui/material";
 import SubCard from "../../../components/SubCard";
+import { IClient } from "../../../types/client";
 
-const RoleSummary = () => {
+const RoleSummary: React.FC<{ client: IClient }> = ({ client }) => {
   return (
     <Grid lg={2} md={12} sm={12}>
       <SubCard>
@@ -35,9 +36,9 @@ const RoleSummary = () => {
             <Divider sx={{ margin: "1rem 0" }} />
             <Box gap={1}>
               <Typography fontWeight={500} variant="h5" mr={"auto"}>
-                Phone
+                Email
               </Typography>
-              <Typography variant="caption">+233 554566677</Typography>
+              <Typography variant="caption">{client.email}</Typography>
             </Box>
             <Divider sx={{ margin: "1rem 0" }} />
 
@@ -45,16 +46,18 @@ const RoleSummary = () => {
               <Typography fontWeight={500} variant="h5" mr={"auto"}>
                 Location
               </Typography>
-              <Typography variant="caption">Melbourne</Typography>
+              <Typography variant="caption">{client.country.label}</Typography>
             </Box>
             <Divider sx={{ margin: "1rem 0" }} />
             <Box>
               <Typography fontWeight={500} variant="h5" mr={"auto"}>
                 Industry
               </Typography>
-              <Typography variant="caption">
-                <Chip label={"cloud security"} />
-              </Typography>
+              {client.industry.map((item, i) => (
+                <Typography variant="caption" mx={1}>
+                  <Chip label={item} />
+                </Typography>
+              ))}
             </Box>
             <Divider sx={{ margin: "1rem 0" }} />
           </Grid>

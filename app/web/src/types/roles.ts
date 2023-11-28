@@ -29,6 +29,7 @@ export interface IRoleData {
   employmentType: string;
   whenToStart: string;
   dataContent: string;
+  createdAt: string;
   // description: string;
   numOfEmployees: string;
 

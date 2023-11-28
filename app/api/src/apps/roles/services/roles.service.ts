@@ -18,6 +18,7 @@ export class RolesService {
     const { clientId } = createRoleDto;
     return useTransaction(async (transaction) => {
       let clientDetails = await Client.getById(clientId);
+      console.log(clientDetails, 'from client');
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,

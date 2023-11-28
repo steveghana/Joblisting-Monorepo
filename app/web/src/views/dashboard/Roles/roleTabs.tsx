@@ -76,104 +76,102 @@ const RoleTabs = (props: IRoleTabs) => {
       <Grid item position={"relative"}>
         <SubCard>
           <Container maxWidth="lg">
-            {!role ? (
-              <NoData />
-            ) : (
+            <Grid
+              item
+              direction="row"
+              justifyContent="center"
+              alignItems="stretch"
+              spacing={3}
+            >
+              <ButtonBase>
+                <Close
+                  fontSize="medium"
+                  onClick={() =>
+                    props.setOpenDrawer({
+                      ...props.openDrawer,
+                      ["bottom"]: false,
+                    })
+                  }
+                  sx={{
+                    background: themePalette.grey[100],
+                    p: 0.3,
+                    borderRadius: "50%",
+                    position: "fixed",
+                    right: "0",
+                    translate: {
+                      lg: "-3rem -2vh",
+                      sm: "-3rem -1vh",
+                      xs: "-3rem -6vh",
+                    },
+                  }}
+                />
+              </ButtonBase>
+              <Box
+                sx={{ width: "100%" }}
+                display={"flex"}
+                gap={1}
+                mt={2}
+                p={2}
+                alignItems={"center"}
+                flexWrap={"wrap"}
+              >
+                <Avatar
+                  sx={{ width: 56, height: 56 }}
+                  variant="rounded"
+                  src={role.client.companyLogo}
+                />
+                <Box>
+                  <Typography variant="h4">
+                    {role.client.companyName}
+                  </Typography>
+                  <Typography>
+                    {role.client.aboutTheCompany}
+                    {/* Makes cloud security simple, contextual and automated for
+                    customers */}
+                  </Typography>
+                </Box>
+              </Box>
               <Grid
                 item
-                direction="row"
-                justifyContent="center"
-                alignItems="stretch"
-                spacing={3}
+                xs={12}
+                display={"flex"}
+                justifyContent={"space-between"}
               >
-                <ButtonBase>
-                  <Close
-                    fontSize="medium"
-                    onClick={() =>
-                      props.setOpenDrawer({
-                        ...props.openDrawer,
-                        ["bottom"]: false,
-                      })
+                <TabsWrapper
+                  onChange={handleTabsChange}
+                  value={currentTab}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  textColor="primary"
+                  indicatorColor="primary"
+                >
+                  {tabs.map((tab) => {
+                    // Only render the "People" tab on larger screens
+                    if (tab.value === "people" && !isLargerScreen) {
+                      return null;
                     }
-                    sx={{
-                      background: themePalette.grey[100],
-                      p: 0.3,
-                      borderRadius: "50%",
-                      position: "fixed",
-                      right: "0",
-                      translate: {
-                        lg: "-3rem -2vh",
-                        sm: "-3rem -1vh",
-                        xs: "-3rem -6vh",
-                      },
-                    }}
-                  />
-                </ButtonBase>
-                <Box
-                  sx={{ width: "100%" }}
-                  display={"flex"}
-                  gap={1}
-                  mt={2}
-                  p={2}
-                  alignItems={"center"}
-                  flexWrap={"wrap"}
-                >
-                  <Avatar
-                    sx={{ width: 56, height: 56 }}
-                    variant="rounded"
-                    // src={role.companyLogo}
-                  />
-                  <Box>
-                    {/* <Typography variant="h4">{role.companyName}</Typography> */}
-                    <Typography>
-                      {/* {role.aboutTheCompany} */}
-                      {/* Makes cloud security simple, contextual and automated for
-                    customers */}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Grid
-                  item
-                  xs={12}
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                >
-                  <TabsWrapper
-                    onChange={handleTabsChange}
-                    value={currentTab}
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    textColor="primary"
-                    indicatorColor="primary"
-                  >
-                    {tabs.map((tab) => {
-                      // Only render the "People" tab on larger screens
-                      if (tab.value === "people" && !isLargerScreen) {
-                        return null;
-                      }
-                      return (
-                        <Tab
-                          sx={{ fontSize: ".7rem" }}
-                          key={tab.value}
-                          label={tab.label}
-                          value={tab.value}
-                        />
-                      );
-                    })}
-                  </TabsWrapper>
-                </Grid>
-
-                <Grid item xs={12}>
-                  {currentTab === "overview" && (
-                    <RoleDetails setCurrentTab={setCurrentTab} role={role} />
-                  )}
-                  {currentTab === "jobs" && (
-                    <JobsPage job={role.jobs} client={role.client} />
-                  )}
-                  {currentTab === "applicants" && <ApplicantTable />}
-                </Grid>
+                    return (
+                      <Tab
+                        sx={{ fontSize: ".7rem" }}
+                        key={tab.value}
+                        label={tab.label}
+                        value={tab.value}
+                      />
+                    );
+                  })}
+                </TabsWrapper>
               </Grid>
-            )}
+
+              <Grid item xs={12}>
+                {currentTab === "overview" && (
+                  <RoleDetails setCurrentTab={setCurrentTab} role={role} />
+                )}
+                {currentTab === "jobs" && (
+                  <JobsPage job={role.jobs} client={role.client} />
+                )}
+                {currentTab === "applicants" && <ApplicantTable />}
+              </Grid>
+            </Grid>
           </Container>
         </SubCard>
       </Grid>
