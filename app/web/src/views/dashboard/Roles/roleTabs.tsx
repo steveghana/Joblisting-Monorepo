@@ -53,7 +53,6 @@ const RoleTabs = (props: IRoleTabs) => {
   } = useGetRoleQuery({
     id: props.roleId,
   });
-  console.log(role, "role data with relations");
   // Empty dependency array ensures the effect runs only once after the initial render
 
   const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -72,7 +71,12 @@ const RoleTabs = (props: IRoleTabs) => {
     return <FullscreenProgress />;
   }
   return (
-    <Grid container onClick={(e) => e.stopPropagation()}>
+    <Grid
+      container
+      onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
+      onKeyUp={(e) => e.stopPropagation()}
+    >
       <Grid item position={"relative"}>
         <SubCard>
           <Container maxWidth="lg">
@@ -169,12 +173,16 @@ const RoleTabs = (props: IRoleTabs) => {
                 {currentTab === "jobs" && (
                   <JobsPage job={role.jobs} client={role.client} />
                 )}
-                {currentTab === "applicants" && <ApplicantTable />}
               </Grid>
             </Grid>
           </Container>
         </SubCard>
       </Grid>
+      {currentTab === "applicants" && (
+        <Box sx={{ overflowX: "hidden" }}>
+          <ApplicantTable applicants={role.application} />
+        </Box>
+      )}
     </Grid>
   );
 };

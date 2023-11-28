@@ -19,8 +19,7 @@ export class ApplicationsService {
     createApplicationDto: CreateApplicationDto,
     dependencies: Dependencies = null,
   ) {
-    const { roleId, yearsOfExperience, selectedSkills, ...rest } =
-      createApplicationDto;
+    const { roleId, years_of_experience, ...rest } = createApplicationDto;
     return useTransaction(async (transaction) => {
       let existingApplicant = await Application.getByEmail(
         createApplicationDto.email,
@@ -40,7 +39,7 @@ export class ApplicationsService {
       }
       return await Application.createApplication(
         role,
-        { ...rest, years_of_experience: yearsOfExperience },
+        { ...rest, years_of_experience },
         transaction,
         dependencies,
       );
@@ -84,7 +83,7 @@ export class ApplicationsService {
         phoneNumber: phone_number,
         selectedSkills,
         roleId,
-        yearsOfExperience,
+        years_of_experience,
       } = updateApplication;
       if (status === 'Accepted') {
         const enrollDev = await this.developersService.create({
@@ -95,7 +94,7 @@ export class ApplicationsService {
           phone_number,
           skills: selectedSkills,
           roleId,
-          years_of_experience: yearsOfExperience,
+          years_of_experience,
           role_status: 'Accepted',
         });
         if (!enrollDev) {

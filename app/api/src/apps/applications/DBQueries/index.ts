@@ -37,6 +37,7 @@ export async function deleteApplicant(
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
+  console.log(id, 'frm tidffijdfdf');
   const rolesRepo = transaction.getRepository(
     dependencies.db.models.application,
   );

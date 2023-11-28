@@ -43,13 +43,20 @@ export interface IRoleData {
 
   jobs: IJobs[];
 }
+export type IStatusApplication =
+  | "PendingShortlist"
+  | "Shortlisted"
+  | "Rejected"
+  | "Accepted";
 export interface ApplicantsSubmission {
+  id?: string;
   name: string;
   email: string;
   phoneNumber: string;
+  status?: IStatusApplication;
   coverLetter: string;
   address: string;
   resume: Record<string, any>;
   selectedSkills: string[];
-  yearsOfExperience: string;
+  years_of_experience: string;
 }

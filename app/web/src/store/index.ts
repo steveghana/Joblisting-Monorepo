@@ -18,12 +18,17 @@ import { RESET_STATE_ACTION_TYPE } from "./actions";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { unauthenticatedMiddleware } from "./middleware/unauthenticatedMiddleware";
 import { rtkQueryErrorLogger } from "./middleware/err";
+import {
+  APPLICATION_API_KEY,
+  applicantApi,
+} from "./services/applicationService";
 
 const reducers = {
   [USER_API_KEY]: userApi.reducer,
   [CLIENT_API_KEY]: clientApi.reducer,
   [DEV_API_KEY]: devApi.reducer,
   [ROLE_API_KEY]: roleApi.reducer,
+  [APPLICATION_API_KEY]: applicantApi.reducer,
   customization: customizationReducer,
 };
 
@@ -52,6 +57,7 @@ const store = configureStore({
       clientApi.middleware,
       roleApi.middleware,
       devApi.middleware,
+      applicantApi.middleware,
     ]),
 });
 

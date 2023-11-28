@@ -11,16 +11,6 @@ interface IActions<T> {
 function TableActions<T>({ row, table, onConfirmDelete }: IActions<T>) {
   return (
     <Box sx={{ display: "flex", gap: ".5rem" }}>
-      <Tooltip title="Edit">
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation();
-            table.setEditingRow(row);
-          }}
-        >
-          <Edit />
-        </IconButton>
-      </Tooltip>
       <Tooltip title="Delete">
         <IconButton
           color="error"

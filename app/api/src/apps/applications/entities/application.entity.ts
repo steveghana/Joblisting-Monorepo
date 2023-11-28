@@ -32,8 +32,11 @@ export class Application extends AssociableModel {
   phoneNumber: string;
   @Column()
   years_of_experience: string;
+  @Column('simple-json')
+  selectedSkills: string[];
   @Column()
   address: string;
+
   @Column({ type: 'simple-json', nullable: true })
   background_questions?: Record<string, string>; // Store background questions as JSON
   @Column({ type: 'simple-json', nullable: true })

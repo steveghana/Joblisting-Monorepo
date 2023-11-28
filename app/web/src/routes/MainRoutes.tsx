@@ -144,7 +144,7 @@ const MainRoutes = {
       element: <SamplePage />,
     },
     {
-      path: "job-submttion",
+      path: "job-submttion/:id",
       element: <JobSubmissionContainer />,
     },
   ],

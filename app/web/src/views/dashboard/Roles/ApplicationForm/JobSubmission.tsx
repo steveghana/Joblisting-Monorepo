@@ -18,26 +18,44 @@ import CustomButton from "../../../../components/button";
 import FileInput from "./FileInput";
 import { Grid } from "@mui/material";
 import { availableSkills } from "./skills";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { ApplicantsSubmission } from "../../../../types/roles";
+import { useAddApplicantsMutation } from "../../../../store/services/applicationService";
 const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [formData, setFormData] = useState({});
+  const { id } = useParams();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
+  const [addApplicant, { isLoading, isError, error }] =
+    useAddApplicantsMutation();
   const formFields = [
     { name: "name", label: "Name" },
     { name: "email", label: "Email" },
     { name: "phoneNumber", label: "Phone Number" },
     { name: "address", label: "Address" },
-    { name: "yearsOfExperience", label: "Years of experience" },
+    { name: "years_of_experience", label: "Years of experience" },
   ];
 
-  const handlePersonalInfoSubmit = (values) => {
+  const handlePersonalInfoSubmit = async (values) => {
     setFormData({ ...formData, ...values, selectedFile });
     //Save data in the database : TO DO
-    console.log({ ...values, resume: selectedFile }, "from values");
+    console.log(values);
+    try {
+      await addApplicant({
+        roleId: id,
+        ...values,
+        resume: selectedFile,
+      }).unwrap();
+      console.log(isError, error, "fjdjfklkfjdkfj");
+      if (!isError || !error) {
+        navigate("/dashboard/jobs/roles");
+      }
+    } catch (error) {
+      console.log(error, "from eerror");
+    }
+    // console.log({  }, "from values");
     //TOD): add a global snackbar and context for toggling the snackbar globally
     // navigate("/dashboard/jobs/roles");
   };
@@ -51,7 +69,7 @@ const JobSubmissionContainer: React.FC = () => {
     resume: {},
     selectedSkills: [],
     address: "",
-    yearsOfExperience: "",
+    years_of_experience: "",
   };
   return (
     <Grid>
@@ -64,7 +82,7 @@ const JobSubmissionContainer: React.FC = () => {
             .max(255)
             .required("Email is required"),
           address: Yup.string().required("address is required"),
-          yearsOfExperience: Yup.string().required(
+          years_of_experience: Yup.string().required(
             "years of experience is required and must be a number"
           ),
           selectedSkills: Yup.array().required("Skills are required"),
