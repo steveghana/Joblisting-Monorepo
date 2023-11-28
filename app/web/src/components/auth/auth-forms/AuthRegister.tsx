@@ -146,8 +146,9 @@ const FirebaseRegister = ({ ...others }) => {
             .max(255)
             .required("Email is required"),
           password: Yup.string().max(255).required("Password is required"),
+
           phoneNumber: Yup.string()
-            .matches(/^[0-9]{8,15}$/, "Please enter a valid phone number")
+            .matches(/^\+?[0-9]{8,15}$/, "Please enter a valid phone number")
             .required("Please enter your phone number"),
         })}
         onSubmit={async (values, setters) => {

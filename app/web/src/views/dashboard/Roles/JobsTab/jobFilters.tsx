@@ -1,5 +1,5 @@
 // JobFilters.tsx
-import React from "react";
+import React, { useRef } from "react";
 import {
   Box,
   TextField,
@@ -11,14 +11,25 @@ import {
   Checkbox,
 } from "@mui/material";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
+import { IJobs } from "../../../../types";
 
 interface JobFiltersProps {
-  filters: Record<string, any>;
+  filters: {
+    [x: string]: IJobs[];
+  }[];
   onChange: (newFilters: Record<string, any>) => void;
 }
 
 const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
   const [openStates, setOpenStates] = React.useState([true, true, true]);
+  const initialCheckboxes = Array.from(
+    { length: filters.length },
+    (_, index) => ({
+      id: `checkbox${index + 1}`,
+      checked: false,
+    })
+  );
+  const [checkboxes, setCheckboxes] = React.useState(initialCheckboxes);
   console.log(openStates);
   const handleButtonClick = (index) => {
     setOpenStates((prevStates) => {
@@ -27,13 +38,26 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
       return newStates;
     });
   };
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checkboxId
+  ) => {
     event.stopPropagation();
-    onChange({ ...filters, [event.target.name]: event.target.value });
+    setCheckboxes((prevCheckboxes) =>
+      prevCheckboxes.map((checkbox) =>
+        checkbox.id === checkboxId
+          ? { ...checkbox, checked: !checkbox.checked }
+          : checkbox
+      )
+    );
+    onChange({ ...filters, [event.target.name]: event.target.checked });
   };
+  console.log(checkboxes, "this is the check");
 
-  const handleApplyFilters = () => {
-    // Handle applying filters if needed
+  const handleToggleAll = () => {
+    setCheckboxes((prevCheckboxes) =>
+      prevCheckboxes.map((checkbox) => ({ ...checkbox, checked: false }))
+    );
   };
   return (
     <Grid
@@ -45,7 +69,7 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
     >
       <Card variant="outlined" sx={{ p: 1 }}>
         <Typography variant="subtitle1">Filter By</Typography>
-        {[...Array(3)].map((_, index) => (
+        {filters.map((item, index) => (
           <Box key={index}>
             <Box
               display={"flex"}
@@ -68,12 +92,28 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
               alignItems={"center"}
               sx={{ display: openStates[index] ? "flex" : "none" }}
             >
-              <FormControlLabel label="Engineering" control={<Checkbox />} />
-              <Typography variant="caption">0</Typography>
+              <FormControlLabel
+                label={Object.keys(item)[0]}
+                name={Object.keys(item)[0]}
+                control={
+                  <Checkbox
+                    checked={checkboxes[index].checked}
+                    onChange={(e) => handleFilterChange(e, index)}
+                  />
+                }
+              />
+              <Typography variant="caption">
+                {item[Object.keys(item)[0]].length}
+              </Typography>
             </Box>
           </Box>
         ))}
-        <Button variant="outlined" sx={{ my: 1 }} fullWidth>
+        <Button
+          onClick={handleToggleAll}
+          variant="outlined"
+          sx={{ my: 1 }}
+          fullWidth
+        >
           <Typography color={"grey"}>Clear all</Typography>
         </Button>
       </Card>

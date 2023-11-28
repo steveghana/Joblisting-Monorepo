@@ -45,15 +45,15 @@ const RoleTabs = (props: IRoleTabs) => {
   //   id: props.roleId,
   // });
   const {
-    data: client,
+    data: role,
     isLoading,
     isFetching,
     isError,
     error,
-  } = useGetClientQuery({
-    id: props.clientId,
+  } = useGetRoleQuery({
+    id: props.roleId,
   });
-  console.log(client, "client data with relations");
+  console.log(role, "role data with relations");
   // Empty dependency array ensures the effect runs only once after the initial render
 
   const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -76,7 +76,7 @@ const RoleTabs = (props: IRoleTabs) => {
       <Grid item position={"relative"}>
         <SubCard>
           <Container maxWidth="lg">
-            {!client ? (
+            {!role ? (
               <NoData />
             ) : (
               <Grid
@@ -121,12 +121,12 @@ const RoleTabs = (props: IRoleTabs) => {
                   <Avatar
                     sx={{ width: 56, height: 56 }}
                     variant="rounded"
-                    src={client.companyLogo}
+                    // src={role.companyLogo}
                   />
                   <Box>
-                    <Typography variant="h4">{client.companyName}</Typography>
+                    {/* <Typography variant="h4">{role.companyName}</Typography> */}
                     <Typography>
-                      {client.aboutTheCompany}
+                      {/* {role.aboutTheCompany} */}
                       {/* Makes cloud security simple, contextual and automated for
                     customers */}
                     </Typography>
@@ -165,14 +165,12 @@ const RoleTabs = (props: IRoleTabs) => {
 
                 <Grid item xs={12}>
                   {currentTab === "overview" && (
-                    <RoleDetails
-                      setCurrentTab={setCurrentTab}
-                      client={client}
-                    />
+                    <RoleDetails setCurrentTab={setCurrentTab} role={role} />
                   )}
-                  {currentTab === "jobs" && <JobsPage client={client} />}
+                  {currentTab === "jobs" && (
+                    <JobsPage job={role.jobs} client={role.client} />
+                  )}
                   {currentTab === "applicants" && <ApplicantTable />}
-                  {/* {currentTab === "notifications" && <NotificationsTab />} */}
                 </Grid>
               </Grid>
             )}

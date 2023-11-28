@@ -19,16 +19,15 @@ import SubCard from "../../../components/SubCard";
 import { themePalette } from "../../../themes/schemes/palette";
 import { useNavigate, useParams } from "react-router";
 import { IRoleData } from "../../../types/roles";
-import { IClient } from "../../../types/client";
 interface IRoleDetails {
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
-  client: IClient;
+  role: IRoleData;
 }
-const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
+const RoleDetails = ({ role, setCurrentTab }: IRoleDetails) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   // const navigate = useNavigate();
-  console.log(client.country.label, "clien");
+  // console.log(role.country.label, "clien");
   return (
     <Card>
       <Grid
@@ -40,10 +39,10 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
         <Grid lg={8} md={6} sm={12}>
           <Grid item display={"flex"} flexDirection={"column"} my={2} gap={1}>
             <Typography fontWeight={700} variant="h2">
-              {client.companyName}
+              {role.client.companyName}
             </Typography>
             <Typography fontWeight={600} variant="h4">
-              {client.aboutTheCompany}
+              {role.client.aboutTheCompany}
             </Typography>
             <Typography variant="body2">{/* {aboutTheProject} */}</Typography>
           </Grid>
@@ -64,7 +63,7 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
               <Typography variant="caption">view jobs </Typography>
             </Button>
           </Box>
-          {client.roles.map((job) => (
+          {role?.jobs.map((job) => (
             <Box
               my={1}
               alignItems={"flex-start"}
@@ -83,15 +82,12 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
                   fontWeight={700}
                   variant="body2"
                 >
-                  {job.hiringRole} - <b>{job.employmentType}</b>
+                  {job.roleName} - <b>{job.employmentType}</b>
                 </Typography>
                 <Box display={"flex"} alignItems={"center"} gap={0.4}>
                   <Typography fontWeight={400} variant="subtitle1">
-                    {/* {client.country.label} */}
+                    {role.client.country.label}
                   </Typography>
-                  {/* <Typography fontWeight={400} variant="subtitle1">
-                    {job.location.country}
-                  </Typography> */}
                   <Dot />
                   <Typography>{job.roleType}</Typography>
                 </Box>
@@ -149,10 +145,10 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
                 justifyContent={"space-between"}
                 alignItems={"center"}
               >
-                <Avatar alt="Founder" src={client.companyLogo} />
+                <Avatar alt="Founder" src={role.client.companyLogo} />
                 <Box>
                   <Typography mt={2}>
-                    Founder at {client.companyName}
+                    Founder at {role.client.companyName}
                   </Typography>
                   <Typography fontWeight={700}>Steve Williams</Typography>
                 </Box>
@@ -184,7 +180,7 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
                       Phone
                     </Typography>
                     <Typography variant="caption">
-                      {client.phoneNumber}
+                      {role.client.phoneNumber}
                     </Typography>
                   </Box>
                   <Divider sx={{ margin: "1rem 0" }} />
@@ -194,7 +190,7 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
                       Location
                     </Typography>
                     <Typography variant="caption">
-                      {client.country.label}
+                      {role.client.country.label}
                     </Typography>
                   </Box>
                   <Divider sx={{ margin: "1rem 0" }} />
@@ -202,7 +198,7 @@ const RoleDetails = ({ client, setCurrentTab }: IRoleDetails) => {
                     <Typography fontWeight={500} variant="h5" mr={"auto"}>
                       Industry
                     </Typography>
-                    {client.industry.map((item, i) => (
+                    {role.client.industry.map((item, i) => (
                       <Typography key={i} variant="caption">
                         <Chip label={item} />
                       </Typography>

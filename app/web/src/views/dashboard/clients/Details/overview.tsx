@@ -15,7 +15,7 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
-import companyInfo from "../../../../lib/data.json";
+import companyInfo from "../../../../lib/data/data.json";
 import { ICompany } from "../../../../types/company";
 import { Protect } from "../../../../components/auth/requireAuth";
 import { useNavigate, useParams } from "react-router";

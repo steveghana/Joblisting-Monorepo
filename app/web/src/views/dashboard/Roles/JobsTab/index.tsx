@@ -32,6 +32,7 @@ import { useNavigate } from "react-router";
 import { roleData } from "../roledata";
 import RoleSummary from "../roleSummary";
 import { IClient } from "../../../../types/client";
+import { IJobs } from "../../../../types";
 // import RoleSummary from "./roleSummary";
 interface Job {
   id: number;
@@ -40,23 +41,33 @@ interface Job {
   location: string;
 }
 
-const JobsPage: React.FC<{ client: IClient }> = (props) => {
-  const [jobs, setJobs] = useState(roleData.jobs);
-  const [filters, setFilters] = useState<Record<string, any>>({});
+const JobsPage: React.FC<{ job: IJobs[]; client: IClient }> = (props) => {
+  const [jobs, setJobs] = useState<IJobs[]>(props.job);
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleFilterChange = (newFilters: Record<string, any>) => {
-    setFilters(newFilters);
-    // Apply filtering logic here based on newFilters
-    const filteredJobs = roleData.jobs.filter((job) => {
-      // Implement your filtering logic based on newFilters
-      return true; // Placeholder logic, adjust as needed
-    });
+    // We are grabbing the first item in the keys since it can only be one
+    console.log(newFilters, "this filters");
+    let filterkey = Object.keys(newFilters)[1];
+    // Applying filtering logic here based on newFilters
+    const filteredJobs =
+      newFilters[filterkey] === true
+        ? props.job.filter((job) => {
+            return job.roleCategory === filterkey;
+          })
+        : props.job;
     setJobs(filteredJobs);
   };
-  console.log(expanded);
+  const categoryByfilter = props.job?.map((item) => {
+    //We want to categorise the array by their respective categories
+    return {
+      [item.roleCategory]: props.job.filter(
+        (t) => t.roleCategory === item.roleCategory
+      ),
+    };
+  });
   return (
     <Container>
       <Typography variant="h1">Jobs</Typography>
@@ -85,8 +96,11 @@ const JobsPage: React.FC<{ client: IClient }> = (props) => {
               alignItems={"flex-start"}
               sx={{ width: "100%" }}
             >
-              <JobFilters filters={filters} onChange={handleFilterChange} />
-              <JobsList jobs={jobs} />
+              <JobFilters
+                filters={categoryByfilter}
+                onChange={handleFilterChange}
+              />
+              <JobsList jobs={jobs} location={props.client.country} />
               {matchUpMd && <RoleSummary />}
             </Box>
           </Grid>{" "}
