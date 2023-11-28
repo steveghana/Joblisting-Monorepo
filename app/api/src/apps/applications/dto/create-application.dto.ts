@@ -39,14 +39,13 @@ export class CreateApplicationDto {
   @IsNotEmpty({
     message: 'skills is required',
   })
-  @IsNotEmpty()
   @IsArray()
-  skills: string[];
+  selectedSkills: string[];
   @IsString()
   email: string;
 
   @IsString()
-  years_of_experience: string;
+  yearsOfExperience: string;
   @IsOptional()
   coverLetter: string;
 

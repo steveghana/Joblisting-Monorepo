@@ -32,7 +32,7 @@ const initialState: ClientFormDataState = {
     employmentType: "",
     description: "",
     roleName: "",
-    selectedSkills: [""],
+    selectedSkills: [],
     whenToStart: "",
     roleCategory: "Engineering",
     salary: "",

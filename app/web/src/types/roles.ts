@@ -51,5 +51,5 @@ export interface ApplicantsSubmission {
   address: string;
   resume: Record<string, any>;
   selectedSkills: string[];
-  years_of_experience: string;
+  yearsOfExperience: string;
 }

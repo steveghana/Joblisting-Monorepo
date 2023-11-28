@@ -18,7 +18,7 @@ interface Props extends InputProps {
   onFileSelect: (file: File | null) => void;
   labelText: string;
 }
-const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
+const StylishFileInput = ({ onFileSelect, labelText, ...rest }: Props) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Specify type as HTMLInputElement | null
@@ -105,6 +105,7 @@ const StylishFileInput = ({ onFileSelect, labelText }: Props) => {
         Upload file
       </Button>
       <input
+        name={rest.name}
         ref={fileInputRef}
         type="file"
         accept=".pdf, .doc, .docx"

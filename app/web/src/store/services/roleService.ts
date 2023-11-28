@@ -5,7 +5,7 @@ import { ApplicantsSubmission, IRoleData } from "../../types/roles";
 export const ROLE_API_KEY = "RoleApi";
 
 export const roleApi = createApi({
-  reducerPath: "RoleApi",
+  reducerPath: ROLE_API_KEY,
   baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
     updateRole: builder.mutation<IRoleData, { id: string; data: IRoleData }>({
@@ -35,15 +35,27 @@ export const roleApi = createApi({
         method: "GET",
       }),
     }),
+    addApplicants: builder.query<ApplicantsSubmission, ApplicantsSubmission>({
+      query: () => ({
+        url: `role/applicants/`, // Replace with the appropriate API endpoint
+        method: "POST",
+      }),
+    }),
+    deleteApplicant: builder.query<ApplicantsSubmission, { id: string }>({
+      query: ({ id }) => ({
+        url: `role/applicants/:${id}`, // Replace with the appropriate API endpoint
+        method: "POST",
+      }),
+    }),
     getApplicants: builder.query<ApplicantsSubmission[], ApplicantsSubmission>({
       query: () => ({
-        url: `role/applicants/get/`, // Replace with the appropriate API endpoint
+        url: `role/applicants/`, // Replace with the appropriate API endpoint
         method: "GET",
       }),
     }),
     getApplicant: builder.query<ApplicantsSubmission, { id: string }>({
       query: ({ id }) => ({
-        url: `role/applicants/get/${id}`, // Replace with the appropriate API endpoint
+        url: `role/applicants/${id}`, // Replace with the appropriate API endpoint
         method: "GET",
       }),
     }),

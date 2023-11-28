@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PersonalInfoForm from "./Personalinfo";
 import WorkExperienceForm from "./experience";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
   TextField,
@@ -12,6 +12,7 @@ import {
   FormHelperText,
   Autocomplete,
   Chip,
+  FormControl,
 } from "@mui/material";
 import CustomButton from "../../../../components/button";
 import FileInput from "./FileInput";
@@ -29,13 +30,16 @@ const JobSubmissionContainer: React.FC = () => {
     { name: "name", label: "Name" },
     { name: "email", label: "Email" },
     { name: "phoneNumber", label: "Phone Number" },
+    { name: "address", label: "Address" },
+    { name: "yearsOfExperience", label: "Years of experience" },
   ];
 
-  const handlePersonalInfoSubmit = (values: any) => {
+  const handlePersonalInfoSubmit = (values) => {
     setFormData({ ...formData, ...values, selectedFile });
     //Save data in the database : TO DO
+    console.log({ ...values, resume: selectedFile }, "from values");
     //TOD): add a global snackbar and context for toggling the snackbar globally
-    navigate("/dashboard/jobs/roles");
+    // navigate("/dashboard/jobs/roles");
   };
 
   const onFileSelect = (file: File) => setSelectedFile(file);
@@ -45,7 +49,9 @@ const JobSubmissionContainer: React.FC = () => {
     phoneNumber: "",
     coverLetter: "",
     resume: {},
-    selectedSkills: [""],
+    selectedSkills: [],
+    address: "",
+    yearsOfExperience: "",
   };
   return (
     <Grid>
@@ -57,6 +63,12 @@ const JobSubmissionContainer: React.FC = () => {
             .email("Enter a valid email")
             .max(255)
             .required("Email is required"),
+          address: Yup.string().required("address is required"),
+          yearsOfExperience: Yup.string().required(
+            "years of experience is required and must be a number"
+          ),
+          selectedSkills: Yup.array().required("Skills are required"),
+
           name: Yup.string()
             .max(255)
             .min(2)
@@ -77,44 +89,71 @@ const JobSubmissionContainer: React.FC = () => {
         }) => (
           <Form>
             {formFields.map((item) => (
-              <Field
-                key={item.name}
-                name={item.name}
-                as={TextField}
-                label={item.label}
-                variant="outlined"
-                fullWidth
-                margin="normal"
-              />
-            ))}
-
-            <Autocomplete
-              multiple
-              id="skills-autocomplete"
-              options={availableSkills}
-              value={values.selectedSkills}
-              onChange={(_, newValue) => {
-                setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
-              }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip label={option} {...getTagProps({ index })} />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Select Skills"
+              <FormControl fullWidth>
+                <Field
+                  key={item.name}
+                  name={item.name}
+                  as={TextField}
+                  label={item.label}
                   variant="outlined"
                   fullWidth
+                  margin="normal"
                 />
-              )}
-            />
-            <FileInput
-              name="File"
-              onFileSelect={onFileSelect}
-              labelText="Insert Your Resume"
-            />
+                <ErrorMessage name={item.name} component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+            ))}
+            <FormControl fullWidth margin="normal">
+              <Autocomplete
+                multiple
+                id="skills-autocomplete"
+                options={availableSkills}
+                value={values.selectedSkills}
+                onChange={(_, newValue) => {
+                  setFieldValue("selectedSkills", newValue.slice(0, 10)); // Limit to 10 skills
+                }}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip label={option} {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    name="selectedSkills"
+                    label="Select Skills"
+                    variant="outlined"
+                    fullWidth
+                  />
+                )}
+              />
+              <ErrorMessage name="selectedSkills" component="div">
+                {(msg) => (
+                  <FormHelperText error variant="filled">
+                    {msg}
+                  </FormHelperText>
+                )}
+              </ErrorMessage>
+            </FormControl>
+            <FormControl fullWidth>
+              <FileInput
+                name="resume"
+                onFileSelect={onFileSelect}
+                labelText="Insert Your Resume"
+              />
+              <ErrorMessage name="resume" component="div">
+                {(msg) => (
+                  <FormHelperText error variant="filled">
+                    {msg}
+                  </FormHelperText>
+                )}
+              </ErrorMessage>
+            </FormControl>
 
             <Field
               name="coverLetter"
@@ -132,17 +171,7 @@ const JobSubmissionContainer: React.FC = () => {
               justifyContent="center"
               alignItems="center"
               sx={{ mt: 3 }}
-            >
-              <FormHelperText error>
-                {(errors.name as string) ||
-                  (errors.email as string) ||
-                  (errors.phoneNumber as string)}
-              </FormHelperText>
-              {/* <FormHelperText error>{errors.email as string}</FormHelperText>
-              <FormHelperText error>
-                {errors.phoneNumber as string}
-              </FormHelperText> */}
-            </Box>
+            ></Box>
 
             <Box width="100%" display="flex" justifyContent="center">
               <CustomButton

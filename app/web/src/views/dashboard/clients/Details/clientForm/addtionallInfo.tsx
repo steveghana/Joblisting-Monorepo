@@ -37,6 +37,7 @@ const additionalDataValidationSchema = Yup.object().shape({
   ),
   selectedSkills: Yup.array().required("Skills are required"),
 
+  title: Yup.string().required("Add the role title"),
   whenToStart: Yup.string().required("Select when the project starts"),
   roleName: Yup.string().required("Please select the role you are hiring for!"),
 
@@ -87,23 +88,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
               {/* ... (Previous form fields) */}
 
               {/* Tasks Section */}
-              <FormControl fullWidth>
-                <Field
-                  name="title"
-                  as={TextField}
-                  label="Expect title"
-                  placeHolder={"eg. Senior Fullstack Engineer"}
-                  variant="outlined"
-                  fullWidth
-                />
-                <ErrorMessage name="title" component="div">
-                  {(msg) => (
-                    <FormHelperText error variant="filled">
-                      {msg}
-                    </FormHelperText>
-                  )}
-                </ErrorMessage>
-              </FormControl>
+
               <Typography variant="subtitle1">Tasks</Typography>
               <FormControl fullWidth>
                 <FieldArray
@@ -156,6 +141,24 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 />
                 <ErrorMessage name="tasks" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              {/* <TextField plac/> */}
+              <FormControl fullWidth>
+                <Field
+                  name="title"
+                  as={TextField}
+                  label="Enter the role title"
+                  placeholder={"eg. Senior Fullstack Engineer"}
+                  variant="outlined"
+                  fullWidth
+                />
+                <ErrorMessage name="title" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}
