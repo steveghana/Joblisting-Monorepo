@@ -27,6 +27,9 @@ export class Job extends AssociableModel {
   whenToStart: string;
   @Column()
   employmentType: string;
+  @Column()
+  country: string;
+
   @Column('simple-json')
   selectedSkills: string[];
   //   @Column()

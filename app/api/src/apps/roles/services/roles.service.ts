@@ -29,6 +29,7 @@ export class RolesService {
         },
         {
           ...createRoleDto['Role Info'],
+          country: clientDetails.data.country.label,
         },
         transaction,
         dependencies,

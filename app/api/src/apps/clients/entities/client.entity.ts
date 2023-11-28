@@ -22,7 +22,7 @@ export class Client extends AssociableModel {
   companyLogo: string;
   @Column()
   aboutTheCompany: string;
-  @Column('simple-array')
+  @Column('simple-json')
   country: Record<string, any>;
 
   @Column('simple-array')

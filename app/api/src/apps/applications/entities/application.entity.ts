@@ -21,7 +21,6 @@ import uuid from '../../../util/uuid';
 export class Application extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
   id: string = uuid.makeUuid();
-
   @ManyToOne((type) => Role, (role) => role.application)
   @JoinColumn({ name: 'role_id' })
   role: Role;
@@ -31,22 +30,16 @@ export class Application extends AssociableModel {
   email: string;
   @Column()
   phoneNumber: string;
-  // @ManyToOne((type) => Developer, (developer) => developer.applications)
-  // @JoinColumn({ name: 'developer_id' })
-  // developer: Developer;
   @Column()
   years_of_experience: string;
   @Column()
   address: string;
-
   @Column({ type: 'simple-json', nullable: true })
   background_questions?: Record<string, string>; // Store background questions as JSON
   @Column({ type: 'simple-json', nullable: true })
   resume: Record<string, string>; // Store background questions as JSON
-
   @Column()
   coverLetter: string;
-
   @Column()
   status: IStatusApplication; // Submitted, Shortlisted, Rejected IStatusApplication
 }

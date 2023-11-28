@@ -96,7 +96,7 @@ export interface JobInfo {
   whenToStart: string;
   employmentType: string;
   selectedSkills: string[];
-
+  country: string;
   jobType: string;
   salary: string;
   roleCategory: string;
