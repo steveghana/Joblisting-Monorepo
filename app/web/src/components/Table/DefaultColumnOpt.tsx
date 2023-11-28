@@ -14,7 +14,7 @@ export const getDefaultMRTOptions = <TData extends MRT_RowData>(): Partial<
   enableColumnPinning: true,
   enableFacetedValues: true,
   enableRowActions: true,
-
+  // showAlertBanner:false,
   enableRowSelection: true,
   // enableRowSelection: (row: MRT_Row) => console.log('ite w'),
   initialState: { showColumnFilters: true, showGlobalFilter: true },
