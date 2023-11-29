@@ -10,7 +10,6 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
-// import { ClientDto } from './client.dto';
 import { ClientDto, ClientFormDataDto } from '../dto/create-client.dto';
 import { IClientFormData } from '../../../types/client';
 import { Response } from 'express';
@@ -20,7 +19,6 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ValidationError, validate } from 'class-validator';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 
 @Controller('client')
@@ -40,7 +38,6 @@ export class ClientsController {
     @Res() res: Response,
   ) {
     const result = await this.clientsService.create(createClientDto);
-    console.log(result);
     return res.json(result);
   }
 
@@ -76,9 +73,7 @@ export class ClientsController {
     @Body() updateClientDto: Partial<IClientFormData['Client info']>,
     @Res() res: Response,
   ) {
-    console.log(updateClientDto);
     const result = await this.clientsService.update(id, updateClientDto);
-    console.log(result, 'from update');
     return res.status(200).send(result);
   }
 
@@ -90,8 +85,12 @@ export class ClientsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async remove(@Param('id') id: string, @Res() res: Response) {
-    const result = await this.clientsService.remove(id);
+  async remove(
+    @Param('id') id: string,
+    @Res() res: Response,
+    @Body() roleIds: string[],
+  ) {
+    const result = await this.clientsService.remove(id, roleIds);
     return res.status(200).json(result);
   }
 }
