@@ -11,6 +11,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import uuid from '../../../util/uuid';
+import { Role } from '../../../apps/roles/entities/role.entity';
 // ClockHours Entity
 @Entity('clock_hours')
 export class ClockHours extends AssociableModel {
@@ -20,7 +21,9 @@ export class ClockHours extends AssociableModel {
   @ManyToOne((type) => Developer, (developer) => developer.clockHours)
   @JoinColumn({ name: 'developer_id' })
   developer: Developer;
-
+  @ManyToOne((type) => Role, (role) => role.clockedHours)
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
   @Column()
   date: Date;
 
