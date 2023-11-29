@@ -29,10 +29,11 @@ export interface JobInfo {
   tasks: string[]; // Array of tasks
 }
 export interface ClientFormDataState {
-  ["Client info"]: {
+  ["Client Info"]: {
     name: string;
     email: string;
     companyLogo: string;
+    industry: string[];
     phoneNumber: string;
     numOfEmployees: string;
     country: CountryType;
@@ -58,6 +59,9 @@ export interface ClientFormDataState {
     roleCategory: string;
     tasks: string[]; // Array of tasks
     employmentType: string; // Employment types related to the role
+    roleType: string;
+    jobType: string;
+
     // roleName: string;
   };
 }
@@ -70,7 +74,7 @@ export type ClientFormDataAction =
       type: "updateProjectInfo";
       payload: ClientFormDataState["Project Details"];
     }
-  | { type: "updateclientInfo"; payload: ClientFormDataState["Client info"] }
+  | { type: "updateclientInfo"; payload: ClientFormDataState["Client Info"] }
   | {
       type: "updateRoleInfo";
       payload: ClientFormDataState["Role Info"];

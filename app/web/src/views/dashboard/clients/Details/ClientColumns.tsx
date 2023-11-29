@@ -53,6 +53,7 @@ const ClientTableData = ({
       error: updateError,
     },
   ] = useUpdateClientMutation();
+  // console.log(roleIds);
   const [
     deleteuser,
     { isError: isDeletingError, isLoading: isDeletingUser, error: deleteError },
@@ -117,7 +118,13 @@ const ClientTableData = ({
       <>
         <AlertDialog
           deleteFn={async () => {
-            const response = await deleteuser({ id: row.original.id });
+            const roleIds = row.original?.roles.map((role) => role.id);
+
+            const response = await deleteuser({
+              id: row.original.id,
+              roleIds,
+            }).unwrap();
+            console.log(response, "frerekj");
             if (response) {
               refetch();
               toast.success("Action Successful", {

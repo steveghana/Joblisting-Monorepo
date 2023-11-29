@@ -8,11 +8,13 @@ import {
 const FormDataContext = createContext<ClientFormDataContextProps | null>(null);
 
 const initialState: ClientFormDataState = {
-  ["Client info"]: {
+  ["Client Info"]: {
     name: "",
     email: "",
     phoneNumber: "",
     companyName: "",
+    industry: [],
+
     country: { code: "IL", label: "Israel", phone: "972" },
     numOfEmployees: "",
     projectTitle: "",
@@ -29,13 +31,15 @@ const initialState: ClientFormDataState = {
   },
   ["Role Info"]: {
     durationForEmployment: "",
-    employmentType: "",
+    employmentType: "", //Fulltime partime
     description: "",
-    roleName: "",
+    roleName: "", // for oter to see
     selectedSkills: [],
     whenToStart: "",
     roleCategory: "Engineering",
     salary: "",
+    jobType: "Engineering",
+    roleType: "", // field
     tasks: [],
   },
 };
@@ -48,7 +52,7 @@ const formDataReducer = (
     case "updateProjectInfo":
       return { ...state, ["Project Details"]: action.payload };
     case "updateclientInfo":
-      return { ...state, ["Client info"]: action.payload };
+      return { ...state, ["Client Info"]: action.payload };
     case "updateRoleInfo":
       return { ...state, ["Role Info"]: action.payload };
     case "reset":
