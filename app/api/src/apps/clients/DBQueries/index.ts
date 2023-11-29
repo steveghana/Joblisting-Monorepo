@@ -78,8 +78,10 @@ export async function deleteClient(
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
   const roles = transaction.getRepository(dependencies.db.models.role);
+  const job = transaction.getRepository(dependencies.db.models.jobs);
 
   // delete all previous relations between area - table
+  await job.delete({});
   await roles.delete({
     client: {
       id,

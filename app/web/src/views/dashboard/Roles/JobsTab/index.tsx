@@ -29,7 +29,6 @@ import {
   ExpandMore,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { roleData } from "../roledata";
 import RoleSummary from "../roleSummary";
 import { IClient } from "../../../../types/client";
 import { IJobs } from "../../../../types";
@@ -42,7 +41,9 @@ interface Job {
   location: string;
 }
 
-const JobsPage: React.FC<{ job: IJobs[]; client: IClient }> = (props) => {
+const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (
+  props
+) => {
   const [jobs, setJobs] = useState<IJobs[]>(props.job);
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -87,16 +88,15 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient }> = (props) => {
                 item
                 display={"flex"}
                 flexDirection={"column"}
-                my={2}
+                // my={2}
                 gap={1}
               >
                 <Typography fontWeight={700} variant="h2">
-                  {roleData.name}
+                  {props.client.companyName}
                 </Typography>
-                <Typography fontWeight={600} variant="h4">
-                  {roleData.subName}
+                <Typography fontWeight={600} variant="h5">
+                  {props.client.aboutTheCompany}
                 </Typography>
-                <Typography variant="body2">{roleData.description}</Typography>
               </Grid>
               <Box
                 my={2}
@@ -110,7 +110,11 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient }> = (props) => {
                   filters={categoryByfilter}
                   onChange={handleFilterChange}
                 />
-                <JobsList jobs={jobs} location={props.client.country} />
+                <JobsList
+                  jobs={jobs}
+                  location={props.client.country}
+                  roleId={props.roleId}
+                />
                 {matchUpMd && <RoleSummary client={props.client} />}
               </Box>
             </Grid>{" "}

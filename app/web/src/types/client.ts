@@ -1,7 +1,7 @@
 import { CountryType } from "../components/settings/CountrySelector";
 import { IRoleData } from "./roles";
 export interface IClient {
-  id?: number;
+  id?: string;
   avatar?: string;
   name: string;
   email: string;

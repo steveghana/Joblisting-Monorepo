@@ -70,10 +70,11 @@ export const applicantApi = createApi({
         return message;
       },
     }),
-    getApplicants: builder.query<ApplicantsSubmission[], void>({
-      query: () => ({
-        url: `applications`, // Replace with the appropriate API endpoint
+    getApplicants: builder.query<ApplicantsSubmission[], { roleid: string }>({
+      query: ({ roleid }) => ({
+        url: `applications/all/${roleid}`, // Replace with the appropriate API endpoint
         method: "GET",
+        // body: roleid,
       }),
       transformResponse: (response: ApplicantsSubmission[], meta) => {
         console.log(response, "response from query");

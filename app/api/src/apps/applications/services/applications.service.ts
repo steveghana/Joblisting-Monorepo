@@ -46,11 +46,11 @@ export class ApplicationsService {
     });
   }
 
-  findAll(dependencies: Dependencies = null) {
+  findAll(roleId: string, dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
-      const data = await getAllApplicants(transaction, dependencies);
+      const data = await getAllApplicants(roleId, transaction, dependencies);
       if (!data.length) {
-        return null;
+        return [];
       }
       return data;
     });
@@ -59,7 +59,6 @@ export class ApplicationsService {
   findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Application.getById(id);
-      console.log(data, 'from client');
       if (!data) {
         return null;
       }

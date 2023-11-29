@@ -23,10 +23,16 @@ export class Role extends AssociableModel {
   @ManyToOne((type) => Client, (client) => client.roles)
   @JoinColumn({ name: 'client_id' })
   client: Client;
-  @OneToMany(() => Job, (job) => job.role)
+  @OneToMany(() => Job, (job) => job.role, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   jobs: Job[];
 
-  @OneToMany((type) => Developer, (developer) => developer.roles)
+  @OneToMany((type) => Developer, (developer) => developer.roles, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   developers: Developer[];
 
   @Column()
@@ -48,9 +54,15 @@ export class Role extends AssociableModel {
   @Column()
   vacancy_status: 'Open' | 'Closed'; // Open, Closed
 
-  @OneToMany((type) => Interview, (interview) => interview.role)
+  @OneToMany((type) => Interview, (interview) => interview.role, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   interviews: Interview[];
 
-  @OneToMany((type) => Application, (application) => application.role)
+  @OneToMany((type) => Application, (application) => application.role, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   application: Application[];
 }

@@ -20,11 +20,16 @@ export const getDefaultMRTOptions = <TData extends MRT_RowData>(): Partial<
   initialState: { showColumnFilters: true, showGlobalFilter: true },
   paginationDisplayMode: "pages",
   positionToolbarAlertBanner: "bottom",
-
   muiSearchTextFieldProps: {
-    size: "small",
+    placeholder: "Search all users",
+    sx: { minWidth: "300px" },
     variant: "outlined",
   },
+
+  // muiSearchTextFieldProps: {
+  //   size: "small",
+  //   variant: "outlined",
+  // },
   muiPaginationProps: {
     color: "secondary",
     rowsPerPageOptions: [10, 20, 30],

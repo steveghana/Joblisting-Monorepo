@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import PersonalInfoForm from "./Personalinfo";
-import WorkExperienceForm from "./experience";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -21,6 +19,7 @@ import { availableSkills } from "./skills";
 import { useNavigate, useParams } from "react-router";
 import { ApplicantsSubmission } from "../../../../types/roles";
 import { useAddApplicantsMutation } from "../../../../store/services/applicationService";
+import { toast } from "react-toastify";
 const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -28,8 +27,7 @@ const JobSubmissionContainer: React.FC = () => {
   const { id } = useParams();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
-  const [addApplicant, { isLoading, isError, error }] =
-    useAddApplicantsMutation();
+  const [addApplicant, { isLoading }] = useAddApplicantsMutation();
   const formFields = [
     { name: "name", label: "Name" },
     { name: "email", label: "Email" },
@@ -40,24 +38,21 @@ const JobSubmissionContainer: React.FC = () => {
 
   const handlePersonalInfoSubmit = async (values) => {
     setFormData({ ...formData, ...values, selectedFile });
-    //Save data in the database : TO DO
-    console.log(values);
     try {
-      await addApplicant({
+      const response = await addApplicant({
         roleId: id,
         ...values,
         resume: selectedFile,
       }).unwrap();
-      console.log(isError, error, "fjdjfklkfjdkfj");
-      if (!isError || !error) {
+      if (response) {
         navigate("/dashboard/jobs/roles");
+        toast.success("You Applied Successfully", {
+          position: "bottom-center",
+        });
       }
     } catch (error) {
       console.log(error, "from eerror");
     }
-    // console.log({  }, "from values");
-    //TOD): add a global snackbar and context for toggling the snackbar globally
-    // navigate("/dashboard/jobs/roles");
   };
 
   const onFileSelect = (file: File) => setSelectedFile(file);
@@ -193,6 +188,7 @@ const JobSubmissionContainer: React.FC = () => {
 
             <Box width="100%" display="flex" justifyContent="center">
               <CustomButton
+                disabled={isLoading}
                 fullWidth={!matchUpMd}
                 text="Submit application"
                 type="submit"

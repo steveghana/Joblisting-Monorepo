@@ -76,6 +76,7 @@ export function getApplicationByEmail(
     });
 }
 export const getAllApplicants = async (
+  roleid: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) => {
@@ -84,7 +85,7 @@ export const getAllApplicants = async (
 
   return await transaction
     .getRepository(dependencies.db.models.application)
-    .find({ relations: ['role'] });
+    .find({ where: { role: { id: roleid } }, relations: ['role'] });
 };
 export async function updateApplication(
   id: string,

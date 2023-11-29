@@ -27,17 +27,21 @@ import {
   useUpdateClientMutation,
   useDeletClientMutation,
 } from "../../../../store/services/ClientServce";
+import AlertDialog from "../../../../components/Dialog";
+import { toast } from "react-toastify";
 interface IClientTableData {
   data: IClient[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
+  refetch: any;
 }
 const ClientTableData = ({
   data,
   isLoading,
   isFetching,
   isError,
+  refetch,
 }: IClientTableData) => {
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
@@ -57,6 +61,15 @@ const ClientTableData = ({
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
+  const [open, setOpen] = React.useState(false);
+
+  const handleDialogOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const navigate = useNavigate();
 
   const columns = useClientColums();
@@ -69,7 +82,7 @@ const ClientTableData = ({
     // data,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
-    getRowId: (row) => String(row.id),
+    getRowId: (row) => row.id,
     muiToolbarAlertBannerProps: isError
       ? {
           color: "error",
@@ -100,40 +113,30 @@ const ClientTableData = ({
         table={table}
       />
     ),
-    // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
-      <TableActions
-        row={row}
-        table={table}
-        onConfirmDelete={() => openDeleteConfirmModal(row, updateUser)}
-      />
+      <>
+        <AlertDialog
+          deleteFn={async () => {
+            const response = await deleteuser({ id: row.original.id });
+            if (response) {
+              refetch();
+              toast.success("Action Successful", {
+                position: "bottom-center",
+              });
+            }
+          }}
+          handleClose={handleClose}
+          open={open}
+        />
+        <TableActions
+          row={row}
+          table={table}
+          onConfirmDelete={handleDialogOpen}
+        />
+      </>
     ),
-    // renderRowActionMenuItems: ({ closeMenu }) => [
-    //   ["View Profile", "Send Email"].map((action, index) => (
-    //     <RowAction
-    //       actionString={action}
-    //       key={index}
-    //       close={() => closeMenu()}
-    //     />
-    //   )),
-    // ],
-    renderTopToolbarCustomActions: ({ table }) => (
-      <Button
-        variant="contained"
-        onClick={() => {
-          table.setCreatingRow(true); //simplest way to open the create row modal with no default values
-          //or you can pass in a row object to set default values with the `createRow` helper function
-          // table.setCreatingRow(
-          //   createRow(table, {
-          //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
-          //   }),
-          // );
-        }}
-      >
-        Create New User
-      </Button>
-    ),
-    renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
+
+    // renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
     state: {
       isLoading: isLoading,
       isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,

@@ -37,7 +37,7 @@ type IRoleTabs = {
     bottom: boolean;
   };
   roleId: string;
-  clientId: number;
+  clientId: string;
 };
 const RoleTabs = (props: IRoleTabs) => {
   const theme = useTheme();
@@ -72,12 +72,12 @@ const RoleTabs = (props: IRoleTabs) => {
   }
   return (
     <Grid
-      container
+      // container
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => e.stopPropagation()}
       onKeyUp={(e) => e.stopPropagation()}
     >
-      <Grid item position={"relative"}>
+      <Grid position={"relative"}>
         <SubCard>
           <Container maxWidth="lg">
             <Grid
@@ -171,7 +171,11 @@ const RoleTabs = (props: IRoleTabs) => {
                   <RoleDetails setCurrentTab={setCurrentTab} role={role} />
                 )}
                 {currentTab === "jobs" && (
-                  <JobsPage job={role.jobs} client={role.client} />
+                  <JobsPage
+                    job={role.jobs}
+                    client={role.client}
+                    roleId={role.id}
+                  />
                 )}
               </Grid>
             </Grid>
@@ -179,8 +183,8 @@ const RoleTabs = (props: IRoleTabs) => {
         </SubCard>
       </Grid>
       {currentTab === "applicants" && (
-        <Box sx={{ overflowX: "hidden" }}>
-          <ApplicantTable applicants={role.application} />
+        <Box my={1}>
+          <ApplicantTable roleid={role.id} />
         </Box>
       )}
     </Grid>

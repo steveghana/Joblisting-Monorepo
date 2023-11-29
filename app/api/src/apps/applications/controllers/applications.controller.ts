@@ -50,13 +50,12 @@ export class ApplicationsController {
   async findOne(
     @Param('id') id: string,
 
-    @Body() application: CreateApplicationDto,
     @Res() res: Response,
   ) {
     const result = await this.applicationsService.findOne(id);
     return res.json(result);
   }
-  @Get('')
+  @Get('/all/:roleid')
   @ApiTags('Get applicants')
   @ApiOperation({
     description: 'Get all applicants related to a specifi role',
@@ -64,8 +63,8 @@ export class ApplicationsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async findAll(@Res() res: Response) {
-    const result = await this.applicationsService.findAll();
+  async findAll(@Res() res: Response, @Param('roleid') roleId: string) {
+    const result = await this.applicationsService.findAll(roleId);
     return res.json(result);
   }
   @Delete(':id')

@@ -17,15 +17,16 @@ import { ApplicantsSubmission } from "../../../../types/roles";
 import {
   useAddApplicantsMutation,
   useDeleteApplicantMutation,
+  useGetApplicantsQuery,
   useUpdateApplicantMutation,
 } from "../../../../store/services/applicationService";
 import { useApplicantsColumns } from "../../../../hooks/useApplicantsColumn";
 import AlertDialog from "../../../../components/Dialog";
 import NoData from "../../../../components/NoData";
 import { Grid } from "@mui/material";
-const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[] }> = ({
-  applicants,
-}) => {
+import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
+import { toast } from "react-toastify";
+const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -39,6 +40,13 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[] }> = ({
     setOpen(false);
   };
   const columns = useApplicantsColumns();
+  const {
+    data: applicants,
+    refetch,
+    isError,
+    isLoading,
+    isFetching,
+  } = useGetApplicantsQuery({ roleid });
   const [
     createApplicant,
     { isError: isCreatingError, isLoading: isAddingApplicant },
@@ -65,6 +73,7 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[] }> = ({
       size: "small",
       variant: "outlined",
     },
+
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
       handleCreate(item, createApplicant, setValidationErrors),
@@ -83,7 +92,15 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[] }> = ({
     renderRowActions: ({ row, table }) => (
       <>
         <AlertDialog
-          deleteFn={() => deleteuser({ id: row.original.id })}
+          deleteFn={async () => {
+            const response = await deleteuser({ id: row.original.id });
+            if (response) {
+              refetch();
+              toast.success("Action Successful", {
+                position: "bottom-center",
+              });
+            }
+          }}
           handleClose={handleClose}
           open={open}
         />
@@ -96,17 +113,23 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[] }> = ({
     ),
     renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
     state: {
-      isLoading: isAddingApplicant || isUpdatingUser || isDeletingUser,
-      isSaving: isAddingApplicant || isUpdatingUser || isDeletingUser,
-      showAlertBanner: isCreatingError || isUpdateingError || isDeletingError,
-      showProgressBars: isAddingApplicant || isUpdatingUser || isDeletingUser,
+      isLoading:
+        isAddingApplicant || isUpdatingUser || isDeletingUser || isLoading,
+      isSaving:
+        isAddingApplicant || isUpdatingUser || isDeletingUser || isLoading,
+      showAlertBanner:
+        isCreatingError || isUpdateingError || isDeletingError || isError,
+      showProgressBars:
+        isAddingApplicant || isUpdatingUser || isDeletingUser || isLoading,
     },
   });
-  if (!applicants.length) {
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
+  if (!applicants?.length) {
     return (
-      <Grid width={"100vw"}>
-        <NoData />
-      </Grid>
+      // <Grid width={"100%"} display={"flex"} justifyContent={"center"}>
+      <NoData />
     );
   }
   return <MaterialReactTable table={table} />;

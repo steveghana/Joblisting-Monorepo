@@ -56,7 +56,8 @@ export class UserEntity extends AssociableModel {
   authToken: AuthtokenEntity[];
   @OneToMany(() => CredentialTokenEntity, (credential) => credential.user)
   credentials: CredentialTokenEntity;
-  @OneToOne((type) => Developer, (developer) => developer.user)
-  @JoinColumn()
+  @OneToOne((type) => Developer, (developer) => developer.user, {
+    cascade: true,
+  })
   developer: Developer;
 }

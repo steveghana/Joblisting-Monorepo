@@ -9,6 +9,7 @@ import {
   CardContent,
   CardHeader,
   Divider,
+  Grid,
   Typography,
 } from "@mui/material";
 import { themePalette } from "../themes/schemes/palette";
@@ -82,12 +83,12 @@ const SubCard: React.FC<ISubCard> = forwardRef(
 
         {/* card content */}
         {content && (
-          <CardContent
-            sx={{ p: 1.4, ...contentSX }}
+          <Grid
+            sx={{ p: { lg: 1.4, sm: 0, xs: 0 }, ...contentSX }}
             className={contentClass || ""}
           >
             {children}
-          </CardContent>
+          </Grid>
         )}
         {!content && children}
       </Card>

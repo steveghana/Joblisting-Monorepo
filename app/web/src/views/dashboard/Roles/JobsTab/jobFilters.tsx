@@ -61,9 +61,10 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
   };
   return (
     <Grid
-      lg={3}
+      lg={2.5}
       md={4}
       xs={12}
+      m={1}
       // border={"1px solid grey"}
       width={"100%"}
     >

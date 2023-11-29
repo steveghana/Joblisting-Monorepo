@@ -1,5 +1,4 @@
 export type IJobs = {
-  rolename: string;
   task: string[];
   description: string[];
   id: string;
