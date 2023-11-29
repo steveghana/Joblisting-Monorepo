@@ -46,9 +46,8 @@ export class Client extends AssociableModel {
   projectTitle: string;
   @Column({ nullable: true })
   startDate: Date;
-  // Define the association with Roles
   @OneToMany((type) => Role, (role) => role.client, {
-    cascade: true,
+    // cascade: true,
     onDelete: 'CASCADE',
   })
   roles: Role[];

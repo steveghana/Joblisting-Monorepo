@@ -37,13 +37,10 @@ export class ClientsService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const {
-        'Role Info': roleinfo,
-        'Client Info': clientInfo,
-        'Project Details': projectDetails,
-      } = createClientDto;
+      const { 'Role Info': roleinfo, 'Project Details': projectDetails } =
+        createClientDto;
 
-      const role = await Roles.createRoles(
+      await Roles.createRoles(
         {
           client,
           clientId: client.id,
@@ -99,15 +96,16 @@ export class ClientsService {
     });
   }
 
-  remove(id: string, dependencies: Dependencies = null) {
+  remove(id: string, roleIds: string[], dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
-      const deleted = await Client.destroy(id, transaction);
+      const deleted = await Client.destroy(id, roleIds, transaction);
       if (!deleted) {
         throw new HttpException(
           'Something went wrong, couldnt delete client',
           HttpStatus.BAD_REQUEST,
         );
       }
+      return deleted;
     });
   }
 }
