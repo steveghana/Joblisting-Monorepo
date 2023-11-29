@@ -40,13 +40,16 @@ export default function AlertDialog({ handleClose, open, deleteFn }: IAlert) {
             mx={"auto"}
           >
             <LockOutlined color="warning" />
-            <Typography variant="caption" fontWeight={700}>
+            <Typography variant="h6" fontWeight={700}>
               Caution
             </Typography>
           </Grid>
           <IconButton
             sx={{ position: "absolute", top: 1, right: 0 }}
-            onClick={handleClose}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClose();
+            }}
           >
             <Close />
           </IconButton>
@@ -68,14 +71,20 @@ export default function AlertDialog({ handleClose, open, deleteFn }: IAlert) {
           >
             <CustomButton
               text="Disagree"
-              onClick={handleClose}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClose();
+              }}
               variant="outlined"
               endIcon={<ThumbDown fontSize="small" />}
             />
             <CustomButton
               text="Agree"
               autoFocus
-              onClick={proceed}
+              onClick={(e) => {
+                e.stopPropagation();
+                proceed();
+              }}
               endIcon={<ThumbUp fontSize="small" />}
             />
           </Grid>
