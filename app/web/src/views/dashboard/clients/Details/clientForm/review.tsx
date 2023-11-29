@@ -46,16 +46,16 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
   const navigate = useNavigate();
   const [createClient, { data, isLoading, isError, isSuccess, error }] =
     useAddClientMutation();
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log("Final Form Data:", formDataState);
     try {
-      createClient({
+      await createClient({
         ...formDataState,
       }).unwrap();
       console.log(data, "data from client");
-      if (!isError || !error) {
-        navigate("/dashboard/customers/clients");
-      }
+      // if (!isError || !error) {
+      //   navigate("/dashboard/customers/clients");
+      // }
     } catch (error) {
       console.log(error, "from eerror");
     }

@@ -14,11 +14,14 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
+  Autocomplete,
+  Chip,
 } from "@mui/material";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import CustomButton from "../../../../../components/button";
 
 import ContrySelector from "../../../../../components/settings/CountrySelector";
+import { industriesForTechStartups } from "../../../Roles/ApplicationForm/skills";
 
 // Validation schema for Project Info
 const projectInfoValidationSchema = Yup.object().shape({
@@ -51,10 +54,10 @@ const employed = [
 
 const ProjectInfo = ({ onNext }) => {
   const { formDataState, dispatch } = useFormData();
-  console.log(formDataState["Client info"]);
+  console.log(formDataState["Client Info"]);
   return (
     <Formik
-      initialValues={formDataState["Client info"]}
+      initialValues={formDataState["Client Info"]}
       validationSchema={projectInfoValidationSchema}
       onSubmit={(values) => {
         console.log({ CompanyInfo: { ...values } }, "from info");
@@ -62,7 +65,7 @@ const ProjectInfo = ({ onNext }) => {
         onNext(values);
       }}
     >
-      {({ isSubmitting, values, handleChange }) => (
+      {({ isSubmitting, values, handleChange, setFieldValue }) => (
         <Form>
           <Box>
             <Typography my={2} variant="h6">
@@ -92,6 +95,38 @@ const ProjectInfo = ({ onNext }) => {
               <Box my={1}>
                 <ContrySelector onChange={handleChange} name={"country"} />
               </Box>
+              <FormControl fullWidth>
+                <Autocomplete
+                  multiple
+                  id="industry-autocomplete"
+                  options={Object.keys(industriesForTechStartups)}
+                  value={values.industry}
+                  onChange={(_, newValue) => {
+                    setFieldValue("industry", newValue.slice(0, 10)); // Limit to 10 skills
+                  }}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip label={option} {...getTagProps({ index })} />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      name="industry"
+                      label="Select an industry"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                />
+                <ErrorMessage name="industry" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
               {/* <Country */}
               <FormControl>
                 <FormLabel component="legend">

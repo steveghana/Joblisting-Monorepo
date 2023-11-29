@@ -78,22 +78,22 @@ const ClientDetailsPage: React.FC<{ data: /* FormDataState */ any }> = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle1">
-              <strong>Name:</strong> {data["Client info"].name}
+              <strong>Name:</strong> {data["Client Info"].name}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle1">
-              <strong>Email:</strong> {data["Client info"].email}
+              <strong>Email:</strong> {data["Client Info"].email}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle1">
-              <strong>Phone Number:</strong> {data["Client info"].phoneNumber}
+              <strong>Phone Number:</strong> {data["Client Info"].phoneNumber}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle1">
-              <strong>Company Name:</strong> {data["Client info"].companyName}
+              <strong>Company Name:</strong> {data["Client Info"].companyName}
             </Typography>
           </Grid>
           {/* Add other fields as needed */}
