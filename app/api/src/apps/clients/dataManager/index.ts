@@ -70,12 +70,13 @@ class Client {
   // }
   static async destroy(
     clientId: string,
+    roleids: string[],
     // tableIds: number[],
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
   ): Promise<number> {
     dependencies = injectDependencies(dependencies, ['db']);
-    return await deleteClient(clientId, transaction, dependencies);
+    return await deleteClient(clientId, roleids, transaction, dependencies);
   }
 
   static async update(
