@@ -10,6 +10,7 @@ import uuid from '../../../util/uuid';
 import { IClient } from '../../../types/client';
 import { ensureTransaction } from '../../../Config/transaction';
 import { ClientFormDataDto } from '../dto/create-client.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export const getAllClients = (
   transaction: EntityManager = null,
@@ -73,30 +74,88 @@ export function getClientById(
 }
 export async function deleteClient(
   id: string,
+  roleIds: string[],
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
+
   const roles = transaction.getRepository(dependencies.db.models.role);
   const job = transaction.getRepository(dependencies.db.models.jobs);
+  const applicant = transaction.getRepository(
+    dependencies.db.models.application,
+  );
+  const developer = transaction.getRepository(dependencies.db.models.developer);
+  const interview = transaction.getRepository(
+    dependencies.db.models.interviews,
+  );
+  const clock_hours = transaction.getRepository(
+    dependencies.db.models.clockedHours,
+  );
 
-  // delete all previous relations between area - table
-  await job.delete({});
-  await roles.delete({
-    client: {
-      id,
-    },
-  });
+  // Check if there are roleIds provided, throw an exception if not
+  if (!roleIds.length) {
+    throw new HttpException(
+      'No role IDs provided. Unable to delete client.',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
 
+  // Delete related entities in a specific order according to their relation from client to nest child relations
+  // This is done to handle cascading deletions and dependencies between entities
+
+  // Delete clocked hours related to roles
+  await Promise.all(
+    roleIds.map(async (roleid) => {
+      await clock_hours.delete({ role: { id: roleid } });
+    }),
+  );
+
+  // Delete interviews related to roles
+  await Promise.all(
+    roleIds.map(async (roleid) => {
+      await interview.delete({ role: { id: roleid } });
+    }),
+  );
+
+  // Delete developers related to roles
+  await Promise.all(
+    roleIds.map(async (roleid) => {
+      await developer.delete({ roles: { id: roleid } });
+    }),
+  );
+
+  // Delete applicants related to roles
+  await Promise.all(
+    roleIds.map(async (roleid) => {
+      await applicant.delete({ role: { id: roleid } });
+    }),
+  );
+
+  // Delete jobs related to roles
+  await Promise.all(
+    roleIds.map(async (roleid) => {
+      await job.delete({ role: { id: roleid } });
+    }),
+  );
+
+  // Delete roles themselves
+  await Promise.all(
+    roleIds.map(async (roleid) => {
+      await roles.delete({ id: roleid });
+    }),
+  );
+
+  // Delete the main client entity
   const { affected } = await transaction
     .getRepository(dependencies.db.models.client)
     .delete({
       id,
     });
-  return affected;
-  // delete all  tables
-}
 
+  // Return the number of affected rows
+  return affected;
+}
 export async function updateClient(
   id: string,
   updates: Partial<IClient>,
