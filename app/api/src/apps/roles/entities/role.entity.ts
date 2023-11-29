@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { Job } from './jobs.entity';
 import uuid from '../../../util/uuid';
+import { ClockHours } from '../../../apps/clocked-hours/entities/clocked-hour.entity';
 // Role Entity
 @Entity('roles')
 export class Role extends AssociableModel {
@@ -24,16 +25,18 @@ export class Role extends AssociableModel {
   @JoinColumn({ name: 'client_id' })
   client: Client;
   @OneToMany(() => Job, (job) => job.role, {
-    cascade: true,
     onDelete: 'CASCADE',
   })
   jobs: Job[];
 
   @OneToMany((type) => Developer, (developer) => developer.roles, {
-    cascade: true,
     onDelete: 'CASCADE',
   })
   developers: Developer[];
+  @OneToMany((type) => ClockHours, (hours) => hours.role, {
+    onDelete: 'CASCADE',
+  })
+  clockedHours: ClockHours[];
 
   @Column()
   title: string;
