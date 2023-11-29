@@ -37,9 +37,9 @@ const additionalDataValidationSchema = Yup.object().shape({
   ),
   selectedSkills: Yup.array().required("Skills are required"),
 
-  title: Yup.string().required("Add the role title"),
+  roleName: Yup.string().required("Add the role title"),
   whenToStart: Yup.string().required("Select when the project starts"),
-  roleName: Yup.string().required("Please select the role you are hiring for!"),
+  roleType: Yup.string().required("Please select the role you are hiring for!"),
 
   employmentType: Yup.string().required("Employment type is required"),
   tasks: Yup.array()
@@ -151,7 +151,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
               {/* <TextField plac/> */}
               <FormControl fullWidth>
                 <Field
-                  name="title"
+                  name="roleName"
                   as={TextField}
                   label="Enter the role title"
                   placeholder={"eg. Senior Fullstack Engineer"}
@@ -166,18 +166,19 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
+
               <FormControl fullWidth>
                 <InputLabel id="role-label">
                   Select role Are You Hiring For
                 </InputLabel>
-                <Field name="roleName" as={Select} variant="outlined" fullWidth>
+                <Field name="roleType" as={Select} variant="outlined" fullWidth>
                   {Object.keys(techRoles).map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
                   ))}
                 </Field>
-                <ErrorMessage name="roleName" component="div">
+                <ErrorMessage name="roleType" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
                       {msg}
@@ -185,6 +186,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
+
               <FormControl fullWidth>
                 <Autocomplete
                   multiple
