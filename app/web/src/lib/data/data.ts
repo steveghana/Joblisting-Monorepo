@@ -43,6 +43,8 @@ export const ReviewLabelObj = {
   salary: "Salary for the role",
   tasks: "Tasks to perform in the role",
   companyLogo: "Company Logo link",
+  jobType: "Job Type",
+  roleType: "Role Type",
   aboutTheCompany: "Information about the company",
   devsNeeded: "Developers needed for the Project",
   aboutTheProject: "Information about the Project",

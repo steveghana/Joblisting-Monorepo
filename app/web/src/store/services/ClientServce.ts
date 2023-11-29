@@ -35,10 +35,11 @@ export const clientApi = createApi({
         body: data,
       }),
     }),
-    deletClient: builder.mutation<IClient, { id: string }>({
-      query: ({ id }) => ({
+    deletClient: builder.mutation<IClient, { id: string; roleIds: string[] }>({
+      query: ({ id, roleIds }) => ({
         url: `client/${id}`, // Replace with the appropriate API endpoint
         method: "DELETE",
+        body: roleIds,
       }),
     }),
 
@@ -48,10 +49,8 @@ export const clientApi = createApi({
         method: "POST",
         body: client,
       }),
-      transformResponse: (response, meta) => {
-        const parsedData = JSON.parse(response as string);
-        console.log(parsedData);
-        return parsedData;
+      transformResponse: (response: IClient, meta) => {
+        return response;
       },
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any, meta, arg) => {
