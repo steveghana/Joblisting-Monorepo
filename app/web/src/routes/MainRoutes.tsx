@@ -7,10 +7,11 @@ import Home from "../views/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
-import ClientDetails from "../views/dashboard/clients/Details/overview";
+import ClientDetails from "../views/dashboard/clients/Details";
 import AddClient from "../views/dashboard/clients/Details/clientForm";
 import Status404 from "../views/status/Status404";
 import { FormDataProvider } from "../utils/Contexts/clientFormContext";
+import Developers from "../views/Devs/Devs";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -125,7 +126,7 @@ const MainRoutes = {
       children: [
         {
           path: "all",
-          element: <AllDevs />,
+          element: <Developers />,
         },
 
         {
