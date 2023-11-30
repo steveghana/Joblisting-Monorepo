@@ -11,6 +11,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import uuid from '../../../util/uuid';
+import { Developer } from '../../../apps/developers/entities/developer.entity';
 @Entity('clients')
 export class Client extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
@@ -51,4 +52,9 @@ export class Client extends AssociableModel {
     onDelete: 'CASCADE',
   })
   roles: Role[];
+  @OneToMany((type) => Developer, (developer) => developer.client, {
+    // cascade: true,
+    onDelete: 'CASCADE',
+  })
+  developers: Developer[];
 }
