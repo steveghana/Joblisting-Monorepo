@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import _api_url from "../../api/_api_url";
-import { ApplicantsSubmission, IRoleData } from "../../types/roles";
+import {
+  ApplicantsSubmission,
+  IRoleData,
+  IStatusApplication,
+} from "../../types/roles";
 
 export const APPLICATION_API_KEY = "ApplcationApi";
 
@@ -50,12 +54,12 @@ export const applicantApi = createApi({
     }),
     updateApplicant: builder.mutation<
       ApplicantsSubmission,
-      Partial<ApplicantsSubmission> & { id: string }
+      { id: string; status: IStatusApplication }
     >({
-      query: (body) => ({
-        url: `applications/${body.id}`, // Replace with the appropriate API endpoint
+      query: ({ id, status }) => ({
+        url: `applications/${id}`, // Replace with the appropriate API endpoint
         method: "PATCH",
-        body,
+        body: { status },
       }),
       transformResponse: (response: ApplicantsSubmission, meta) => {
         console.log(response, "response from query");
