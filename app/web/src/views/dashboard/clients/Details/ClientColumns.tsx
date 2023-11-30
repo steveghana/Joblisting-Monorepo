@@ -34,7 +34,7 @@ interface IClientTableData {
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
-  refetch: any;
+  refetch: () => void;
 }
 const ClientTableData = ({
   data,
@@ -105,8 +105,8 @@ const ClientTableData = ({
     onCreatingRowSave: (item) =>
       handleCreate(item, createUser, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: (item) =>
-      handleSave(item, updateUser, setValidationErrors),
+    onEditingRowSave: ({ values, table, row }) =>
+      handleSave(values, { table, row }, updateUser, setValidationErrors),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CreatRow
         internalEditComponents={internalEditComponents}
