@@ -54,7 +54,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
         ...formDataState,
       }).unwrap();
       console.log(data, response, "data from client");
-      if (response && !isError && !error) {
+      if (response && !isError) {
         navigate("/dashboard/jobs/roles");
         toast.success("Client Added Succcessfully", {
           position: "bottom-center",
