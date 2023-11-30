@@ -19,6 +19,8 @@ import Dot from "../../../../components/Dot";
 import { FiberManualRecord } from "@mui/icons-material";
 import NoData from "../../../../components/NoData";
 import { formatTimeDifference } from "../../../../utils/timeFormatter";
+import SubCard from "../../../../components/SubCard";
+import CustomButton from "../../../../components/button";
 
 interface JobsListProps {
   jobs: IJobs[];
@@ -30,12 +32,12 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
   console.log(jobs, "this is the jobs");
   const now = new Date();
   return (
-    <Grid lg={7} md={8} sm={12} mt={2}>
+    <Grid container lg={7} md={8} sm={12} mt={2}>
       {!jobs?.length ? (
         <NoData />
       ) : (
         jobs?.map((job) => (
-          <Card key={job.id} variant="elevation">
+          <SubCard key={job.id}>
             {/* <CardContent> */}
             <Box display={"flex"} justifyContent={"space-between"}>
               <Box>
@@ -76,118 +78,78 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
                 ))}
               </List>
             </Box>
+
             <Box
-              my={1}
-              alignItems={"flex-start"}
+              my={2}
+              alignItems={"center"}
+              gap={".8rem"}
               borderRadius={2}
               p={1}
               border={"2px solid rgba(0, 0, 0, 0.1)"}
               display={"flex"}
               flexWrap={"wrap"}
-              gap={2}
-              width={"100%"}
-              // flexWrap={"wrap"}
             >
-              <Box>
-                <Box display={"flex"} alignItems={"center"} gap={0.4}>
-                  <Typography>{location.label}</Typography>
-                  <Dot />
-                  {/* <Typography fontWeight={400} variant="subtitle1">
-                      {job.location.country.join(" - ")}
-                    </Typography>
-                    <Dot />
-                    <Typography fontWeight={400} variant="subtitle1">
-                      {job.location.continent}
-                    </Typography> */}
-                </Box>
-                <Typography>{job.salary}</Typography>
+              <Typography fontWeight={700} variant="body2">
+                {job.roleName}
+              </Typography>
+              <Box display={"flex"} alignItems={"center"} gap={0.4}>
+                <Dot />
+                <Typography fontWeight={400} variant="subtitle1" mr={"auto"}>
+                  {location.label}{" "}
+                </Typography>
+                <Dot />
+                <Typography>{job.jobType}</Typography>
+                <Dot />
+                <Typography fontWeight={700}>{job.roleType}</Typography>
               </Box>
               <Box
-                my={2}
-                alignItems={"center"}
-                gap={".8rem"}
-                borderRadius={2}
-                p={1}
-                border={"2px solid rgba(0, 0, 0, 0.1)"}
+                sx={{
+                  ml: { md: 0, lg: "auto" },
+                  flexDirection: { sm: "column", md: "row" },
+                  justifyContent: { sm: "flex-end", md: "flex-start" },
+                }}
                 display={"flex"}
+                justifyContent={"flex-start"}
                 flexWrap={"wrap"}
+                alignItems={"center"}
+                // flexDirection={props.feature ? "column" : "row"}
+                gap={1}
               >
-                <Typography fontWeight={700} variant="body2">
-                  {job.roleName}
-                </Typography>
-                <Box display={"flex"} alignItems={"center"} gap={0.4}>
-                  <Dot />
-                  <Typography fontWeight={400} variant="subtitle1" mr={"auto"}>
-                    {location.label}{" "}
-                  </Typography>
-                  <Dot />
-                  <Typography>{job.jobType}</Typography>
-                  <Dot />
-                  <Typography fontWeight={700}>{job.roleType}</Typography>
-                </Box>
                 <Box
-                  sx={{
-                    ml: { md: 0, lg: "auto" },
-                    flexDirection: { sm: "column", md: "row" },
-                    justifyContent: { sm: "flex-end", md: "flex-start" },
-                  }}
                   display={"flex"}
-                  justifyContent={"flex-start"}
-                  flexWrap={"wrap"}
-                  alignItems={"center"}
-                  // flexDirection={props.feature ? "column" : "row"}
-                  gap={1}
+                  flexDirection={"column"}
+                  sx={{
+                    justifyContent: { md: "flex-start", lg: "flex-end" },
+                    alignItems: { md: "flex-start", lg: "flex-end" },
+                  }}
                 >
-                  <Box
-                    display={"flex"}
-                    flexDirection={"column"}
-                    sx={{
-                      justifyContent: { md: "flex-start", lg: "flex-end" },
-                      alignItems: { md: "flex-start", lg: "flex-end" },
-                    }}
-                  >
-                    <Typography>
-                      <ClockIcon
-                        sx={{
-                          color: themePalette.primary.main,
-                          fontSize: ".7rem",
-                          mr: 0.2,
-                        }}
-                      />
-                      Posted{" "}
-                      {formatTimeDifference(now, new Date(job.postedDate))} ago
-                    </Typography>
-                  </Box>
-                  <Grid display={"flex"} justifyContent={"center"} gap={0.5}>
-                    <Button
-                      size="small"
-                      variant="outlined"
+                  <Typography>
+                    <ClockIcon
                       sx={{
-                        color: "black",
-                        borderColor: "black",
-                        maxHeight: "30px",
+                        color: themePalette.primary.main,
+                        fontSize: ".7rem",
+                        mr: 0.2,
                       }}
-                    >
-                      <Typography variant="caption">save</Typography>
-                    </Button>
-                    <Button
-                      href={`/job-submttion/${roleId}`}
-                      // onClick={() => navigate("job-submttion")}
-                      fullWidth
-                      sx={{
-                        color: "white",
-                        maxHeight: "30px",
-                      }}
-                      variant="contained"
-                    >
-                      <Typography>apply</Typography>
-                    </Button>
-                  </Grid>
+                    />
+                    Posted {formatTimeDifference(now, new Date(job.postedDate))}{" "}
+                    ago
+                  </Typography>
                 </Box>
+                <Grid
+                  display={"flex"}
+                  justifyContent={"center"}
+                  sx={{ width: { xs: "100%" } }}
+                >
+                  <CustomButton
+                    size="small"
+                    href={`/job-submttion/${roleId}`}
+                    fullWidth
+                    text="Apply"
+                  />
+                </Grid>
               </Box>
             </Box>
-            {/* </CardContent> */}
-          </Card>
+          </SubCard>
         ))
       )}
     </Grid>
