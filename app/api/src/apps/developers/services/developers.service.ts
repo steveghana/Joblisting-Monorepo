@@ -13,6 +13,7 @@ import Roles from '../../../apps/roles/dataManager';
 import cryptoUtil from '../../../util/crypto';
 import { getAllDevs } from '../DBQueries';
 import User from '../../auth/dataManager/userEntity';
+import { IDev } from '@/types/developer';
 @Injectable()
 export class DevelopersService {
   public async create(
@@ -24,6 +25,7 @@ export class DevelopersService {
       address,
       email,
       firstName,
+      salary,
       lastName,
       phone_number,
       skills,
@@ -84,7 +86,9 @@ export class DevelopersService {
         {
           roles: role,
           address,
+          salary: salary || 0,
           firstName,
+          client: role.client,
           lastName,
           phone_number,
           user,
@@ -130,11 +134,20 @@ export class DevelopersService {
   findAll(dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const data = await getAllDevs(transaction, dependencies);
-      console.log(data);
       if (!data.length) {
-        return null;
+        return [];
       }
-      return data;
+      return data.map((item) => ({
+        id: item.id,
+        firstName: item.user.firstName,
+        lastName: item.user.lastName,
+        email: item.user.email,
+        jobTitle: item.roles.title,
+        salary: item.salary,
+        startDate: item.createdAt.toLocaleDateString(),
+        projectName: item.client.projectTitle,
+        avatar: item.user.avatar,
+      }));
     });
   }
 
@@ -150,10 +163,11 @@ export class DevelopersService {
 
   update(
     id: string,
-    updateDevDto: Partial<CreateDeveloperDto>,
+    updateDevDto: Partial<IDev>,
     dependencies: Dependencies = null,
   ) {
     return useTransaction(async (transaction) => {
+      console.log(updateDevDto, 'dev tos');
       const data = await Developers.update(id, updateDevDto, transaction);
       if (!data) {
         throw new HttpException(
