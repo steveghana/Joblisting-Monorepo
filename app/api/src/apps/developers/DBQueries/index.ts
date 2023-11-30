@@ -22,7 +22,6 @@ export async function enrollDev(
     ...user,
     role: 'Developer',
   });
-
   await userRepo.save(newUser);
   let dev = await devRepo.create({
     ...rest,
@@ -38,10 +37,9 @@ export const getAllDevs = async (
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
   return await transaction
     .getRepository(dependencies.db.models.developer)
-    .find({ relations: ['roles'] });
+    .find({ relations: ['roles', 'client', 'user'] });
 };
 export async function getDevById(
   id: string,
