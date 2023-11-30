@@ -62,7 +62,7 @@ export const clientApi = createApi({
         return Array.isArray(message) ? message.join(",") : message;
       },
     }),
-    getClient: builder.query<IClient, { id: number }>({
+    getClient: builder.query<IClient, { id: string }>({
       query: ({ id }) => ({
         url: `client/${id}`, // Replace with the appropriate API endpoint
         method: "GET",
