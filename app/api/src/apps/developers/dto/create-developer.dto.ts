@@ -33,6 +33,11 @@ export class CreateDeveloperDto {
   })
   @IsString()
   address: string;
+  @IsOptional({
+    message: 'Salary is required',
+  })
+  @IsNumber()
+  salary: number;
   @IsNotEmpty({
     message: 'role is required',
   })
