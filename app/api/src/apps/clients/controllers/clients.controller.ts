@@ -51,6 +51,7 @@ export class ClientsController {
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async findAll(@Res() res: Response) {
     const result = await this.clientsService.findAll();
+    console.log(result);
     return res.status(200).send(result);
   }
 
