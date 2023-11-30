@@ -1,15 +1,4 @@
-import React from "react";
-import { Container, Typography, Paper, Box, makeStyles } from "@mui/material";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-  },
-  roleItem: {
-    marginBottom: theme.spacing(2),
-  },
-}));
-
+import { Container, Typography, Paper, Box } from "@mui/material";
 const rolesData = [
   {
     title: "Front-End Developer",
@@ -20,8 +9,6 @@ const rolesData = [
     title: "Back-End Developer",
     description: "Manages server-side logic and databases.",
   },
-
-  // Add more role descriptions as needed
 ];
 
 const DeveloperRoles = () => {
