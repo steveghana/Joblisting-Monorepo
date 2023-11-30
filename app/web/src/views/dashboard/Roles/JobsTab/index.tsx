@@ -33,6 +33,7 @@ import RoleSummary from "../roleSummary";
 import { IClient } from "../../../../types/client";
 import { IJobs } from "../../../../types";
 import NoData from "../../../../components/NoData";
+import SubCard from "../../../../components/SubCard";
 // import RoleSummary from "./roleSummary";
 interface Job {
   id: number;
@@ -71,12 +72,14 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (
     };
   });
   return (
-    <Container>
-      <Typography variant="h1">Jobs</Typography>
+    <Container sx={{ p: { lg: "inherit", xs: 0 } }}>
+      <Typography my={"1"} variant="h2">
+        Jobs
+      </Typography>
       {!jobs.length ? (
         <NoData />
       ) : (
-        <Card>
+        <SubCard>
           <Grid
             display={"flex"}
             flexWrap={"wrap"}
@@ -91,10 +94,10 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (
                 // my={2}
                 gap={1}
               >
-                <Typography fontWeight={700} variant="h2">
-                  {props.client.companyName}
+                <Typography fontWeight={700} variant="h5">
+                  Careers at {props.client.companyName}
                 </Typography>
-                <Typography fontWeight={600} variant="h5">
+                <Typography fontWeight={600} variant="subtitle1">
                   {props.client.aboutTheCompany}
                 </Typography>
               </Grid>
@@ -119,7 +122,7 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (
               </Box>
             </Grid>{" "}
           </Grid>
-        </Card>
+        </SubCard>
       )}
     </Container>
   );
