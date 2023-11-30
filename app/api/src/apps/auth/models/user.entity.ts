@@ -38,6 +38,8 @@ export class UserEntity extends AssociableModel {
 
   @Column({ nullable: false })
   password: string;
+  @Column({ nullable: true })
+  avatar: string;
 
   @Column({
     /* type: 'enum', enum: Role, default: Role.USER */
