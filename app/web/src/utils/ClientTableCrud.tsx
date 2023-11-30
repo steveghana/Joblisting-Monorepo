@@ -17,6 +17,7 @@ import {
 import { IDev } from "../types/devs";
 import { data } from "../lib/data/data";
 import { IClient } from "../types/client";
+import { toast } from "react-toastify";
 
 interface ExampleFormProps {
   validationErrors: Record<string, string | undefined>;
@@ -78,17 +79,35 @@ export const handleCreate = async (
 };
 
 export const handleSave = async (
-  { values, table },
+  values,
+  { table, row },
   update,
   setValidationErrors
 ) => {
-  const newValidationErrors = validateUser(values);
-  if (Object.values(newValidationErrors).some((error) => error)) {
-    setValidationErrors(newValidationErrors);
-    return;
+  console.log(values, row, "this is the valies");
+  if (Object.keys(values)[0] === "salary") {
+    const { salary } = values;
+    const regex = /^\d+$/;
+
+    if (!regex.test(salary)) {
+      toast.error("Salary must be a number(s)", {
+        position: "bottom-center",
+      });
+      return;
+    }
   }
+  // const newValidationErrors = validateUser(values);
+  // if (Object.values(newValidationErrors).some((error) => error)) {
+  //   setValidationErrors(newValidationErrors);
+  //   return;
+  // }
   setValidationErrors({});
-  await update(values);
+  const response = await update({ ...values, id: row.id }).unwrap();
+  console.log(response, "from respons");
+  if (!response) return;
+  toast.success("Applicant updated Successfully", {
+    position: "bottom-center",
+  });
   table.setEditingRow(null);
 };
 
