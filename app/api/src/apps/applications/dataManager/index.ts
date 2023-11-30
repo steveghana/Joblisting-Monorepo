@@ -72,7 +72,7 @@ class Application {
     applicantion: Partial<IApplication>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<any> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
     return await updateApplication(
       applicantId,
