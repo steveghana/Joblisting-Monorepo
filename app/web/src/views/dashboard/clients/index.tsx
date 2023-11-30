@@ -37,7 +37,7 @@ const Clients = () => {
 
       {data?.length ? (
         <ClientTable
-          refetch={refetch}
+          refetch={() => refetch()}
           data={data}
           isError={isError}
           isFetching={isFetching}
