@@ -9,6 +9,7 @@ import TableActions from "../../../../components/Table/TableActions";
 import TopToolbar from "../../../../components/Table/topToolBar";
 //MRT Imports
 import {
+  MRT_TableOptions,
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
@@ -39,7 +40,10 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const columns = useApplicantsColumns();
+  const columns = useApplicantsColumns({
+    validationErrors,
+    setValidationErrors,
+  });
   const {
     data: applicants,
     refetch,
@@ -57,6 +61,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     useDeleteApplicantMutation();
 
   const defaultMRTOptions = getDefaultMRTOptions<ApplicantsSubmission>();
+
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
     columns,
@@ -73,13 +78,14 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
       size: "small",
       variant: "outlined",
     },
-
+    createDisplayMode: "row", //default ('row', and 'custom' are also available)
+    editDisplayMode: "row",
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
       handleCreate(item, createApplicant, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: (item) =>
-      handleSave(item, updateUser, setValidationErrors),
+    onEditingRowSave: ({ values, table, row }) =>
+      handleSave(values, { table, row }, updateUser, setValidationErrors),
     // renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
     //   <CreatRow
     //     internalEditComponents={internalEditComponents}
