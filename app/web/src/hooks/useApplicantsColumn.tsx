@@ -5,7 +5,22 @@ import { Avatar, Box, Typography } from "@mui/material";
 import { AccountCircle, Send } from "@mui/icons-material";
 import { IClient } from "../types/client";
 import { ApplicantsSubmission } from "../types/roles";
-export const useApplicantsColumns = () => {
+export const appliacantState = [
+  "PendingShortlist",
+  "Shortlisted",
+  "Rejected",
+  "Accepted",
+];
+type IApplicationProps = {
+  setValidationErrors: React.Dispatch<
+    React.SetStateAction<Record<string, string>>
+  >;
+  validationErrors: Record<string, string>;
+};
+export const useApplicantsColumns = ({
+  validationErrors,
+  setValidationErrors,
+}: IApplicationProps) => {
   return useMemo<MRT_ColumnDef<ApplicantsSubmission>[]>(
     () => [
       {
@@ -16,6 +31,7 @@ export const useApplicantsColumns = () => {
             accessorFn: (row) => `${row.name}`, //accessorFn used to join multiple data into a single cell
             id: "name", //id is still required when using accessorFn instead of accessorKey
             header: "Name",
+            enableEditing: false,
             size: 250,
             Cell: ({ renderedCellValue, row }) => (
               <Box
@@ -35,30 +51,34 @@ export const useApplicantsColumns = () => {
           {
             accessorKey: "email", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
+            enableEditing: false,
             filterVariant: "autocomplete",
             header: "Email",
-            size: 200,
+            size: 250,
           },
           {
             accessorKey: "years_of_experience", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
+            enableEditing: false,
             // filterVariant: "autocomplete",
             filterVariant: "range", //if not using filter modes feature, use this instead of filterFn
 
             header: "Years of Experience",
-            size: 200,
+            size: 30,
           },
           {
             accessorKey: "phoneNumber", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
+            enableEditing: false,
             filterVariant: "autocomplete",
             header: "Phone Number",
-            size: 200,
+            size: 150,
           },
           {
             accessorKey: "address", //hey a simple column for once
             header: "Address",
-            size: 200,
+            enableEditing: false,
+            size: 250,
           },
         ],
       },
@@ -69,11 +89,17 @@ export const useApplicantsColumns = () => {
           {
             accessorKey: "status",
             filterVariant: "autocomplete",
-
+            editVariant: "select",
+            editSelectOptions: appliacantState,
+            muiEditTextFieldProps: {
+              select: true,
+              error: !!validationErrors?.state,
+              helperText: validationErrors?.state,
+            },
             // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
             // filterFn: "between",
             header: "Status",
-            size: 200,
+            size: 150,
             //custom conditional format and styling
             Cell: ({ cell }) => (
               <Box
