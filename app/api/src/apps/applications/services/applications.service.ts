@@ -10,6 +10,7 @@ import {
 import Roles from '../../../apps/roles/dataManager';
 import { getAllApplicants } from '../DBQueries';
 import { DevelopersService } from '../../../apps/developers/services/developers.service';
+import { IStatusApplication } from '@/types/application';
 
 @Injectable()
 export class ApplicationsService {
@@ -68,26 +69,26 @@ export class ApplicationsService {
 
   update(
     id: string,
-    updateApplication: Partial<CreateApplicationDto>,
+    status: IStatusApplication,
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
-
     return useTransaction(async (transaction) => {
+      const applicant = await Application.getById(id);
       const {
-        status,
         address,
         email,
         name,
         phoneNumber: phone_number,
         selectedSkills,
-        roleId,
+        role: { id: roleId },
         years_of_experience,
-      } = updateApplication;
+      } = applicant;
       if (status === 'Accepted') {
         const enrollDev = await this.developersService.create({
           address,
           email,
+          salary: 0, //initial value of 0
           firstName: name.split(' ')[0],
           lastName: name.split(' ')[1],
           phone_number,
@@ -103,7 +104,7 @@ export class ApplicationsService {
           );
         }
       }
-      const data = await Application.update(id, updateApplication, transaction);
+      const data = await Application.update(id, { status }, transaction);
       if (!data) {
         throw new HttpException(
           'Something went wrong, couldnt update role',
