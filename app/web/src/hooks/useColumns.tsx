@@ -102,7 +102,9 @@ export const useDevsColums = () => {
             accessorFn: (row) => `${row.firstName} ${row.lastName}`, //accessorFn used to join multiple data into a single cell
             id: "name", //id is still required when using accessorFn instead of accessorKey
             header: "Name",
-            size: 250,
+            enableEditing: false,
+
+            size: 200,
             Cell: ({ renderedCellValue, row }) => (
               <Box
                 sx={{
@@ -111,13 +113,15 @@ export const useDevsColums = () => {
                   gap: "1rem",
                 }}
               >
-                <img
+                {/* <img
                   alt="avatar"
                   height={30}
                   src={row.original.avatar}
                   loading="lazy"
                   style={{ borderRadius: "50%" }}
-                />
+                /> */}
+                <Avatar src={row.original.avatar} />
+
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
                 <span>{renderedCellValue}</span>
               </Box>
@@ -126,16 +130,20 @@ export const useDevsColums = () => {
           {
             accessorKey: "email", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
+            enableEditing: false,
+
             filterVariant: "autocomplete",
             header: "Email",
-            size: 300,
+            size: 100,
           },
           {
             accessorKey: "projectName", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             filterVariant: "autocomplete",
+            enableEditing: false,
+
             header: "Project Name",
-            size: 300,
+            size: 150,
           },
         ],
       },
@@ -148,7 +156,9 @@ export const useDevsColums = () => {
             // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
             filterFn: "between",
             header: "Salary",
-            size: 200,
+            enableEditing: true,
+
+            size: 100,
             //custom conditional format and styling
             Cell: ({ cell }) => (
               <Box
@@ -176,15 +186,19 @@ export const useDevsColums = () => {
               </Box>
             ),
           },
-          {
-            accessorKey: "jobTitle", //hey a simple column for once
-            header: "Job Title",
-            size: 350,
-          },
+          // {
+          //   accessorKey: "jobTitle", //hey a simple column for once
+          //   header: "Job Title",
+          //   enableEditing: false,
+
+          //   size: 200,
+          // },
           {
             accessorFn: (row) => new Date(row.startDate), //convert to Date for sorting and filtering
             id: "startDate",
             header: "Start Date",
+            enableEditing: false,
+
             filterVariant: "date",
             filterFn: "lessThan",
             sortingFn: "datetime",
