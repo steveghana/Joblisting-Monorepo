@@ -3,7 +3,8 @@
     "turbo": "^1.10.13"
   },
   "scripts": {
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "batch:commit": "commit_files.bat"
   },
   "workspaces": [
     "app/*"
