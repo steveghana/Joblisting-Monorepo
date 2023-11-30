@@ -22,23 +22,30 @@ import { getDefaultMRTOptions } from "../../components/Table/DefaultColumnOpt";
 import {
   useAddDevMutation,
   useDeletDevMutation,
-  useGetDevsQuery,
   useUpdateDevMutation,
 } from "../../store/services/DevsService";
-
-const DevTableData = () => {
+import AlertDialog from "../../components/Dialog";
+import { toast } from "react-toastify";
+type IDevTableData = {
+  devs: IDev[];
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  refetch: () => void;
+};
+const DevTableData = ({
+  devs,
+  isLoading,
+  isFetching,
+  isError,
+  refetch,
+}: IDevTableData) => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
-  const {
-    data: devs,
-    isLoading,
-    isFetching,
-    isError,
-    error,
-    currentData,
-  } = useGetDevsQuery();
-  console.log(devs);
+
+  console.log(data);
+  const [open, setOpen] = React.useState(false);
 
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [
@@ -52,14 +59,21 @@ const DevTableData = () => {
   const navigate = useNavigate();
   const columns = useDevsColums();
 
+  const handleDialogOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const defaultMRTOptions = getDefaultMRTOptions<IDev>();
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
     columns,
     // data,
-    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    data: devs, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 
-    getRowId: (row) => row.email,
+    getRowId: (row) => row.id,
     muiToolbarAlertBannerProps: isError
       ? {
           color: "error",
@@ -75,7 +89,7 @@ const DevTableData = () => {
       onClick: (event) => {
         event.stopPropagation();
         console.info(row.id);
-        navigate(`/management/profile/details/:${row.id}`);
+        navigate(`/management/profile/details/${row.id}`);
       },
       sx: {
         cursor: "pointer", //you might want to change the cursor too when adding an onClick
@@ -87,8 +101,13 @@ const DevTableData = () => {
     onCreatingRowSave: (item) =>
       handleCreate(item, createUser, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: (item) =>
-      handleSave(item, updateUser, setValidationErrors),
+    onEditingRowSave: ({ values, table, row }) =>
+      handleSave(
+        { salary: values.salary || 0 },
+        { table, row },
+        updateUser,
+        setValidationErrors
+      ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CreatRow
         internalEditComponents={internalEditComponents}
@@ -99,11 +118,29 @@ const DevTableData = () => {
 
     // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
-      <TableActions
-        row={row}
-        table={table}
-        onConfirmDelete={() => openDeleteConfirmModal(row, updateUser)}
-      />
+      <>
+        <AlertDialog
+          deleteFn={async () => {
+            const response = await deleteuser({
+              id: row.original.id,
+            }).unwrap();
+            console.log(response, "frerekj");
+            if (response) {
+              refetch();
+              toast.success("Action Successful", {
+                position: "bottom-center",
+              });
+            }
+          }}
+          handleClose={handleClose}
+          open={open}
+        />
+        <TableActions
+          row={row}
+          table={table}
+          onConfirmDelete={handleDialogOpen}
+        />
+      </>
     ),
 
     // renderRowActionMenuItems: ({ closeMenu }) => [
