@@ -22,6 +22,7 @@ import CustomButton from "../../../../../components/button";
 
 import ContrySelector from "../../../../../components/settings/CountrySelector";
 import { industriesForTechStartups } from "../../../Roles/ApplicationForm/skills";
+import { employed, formFields } from "../../../../../lib/data/formFieldData";
 
 // Validation schema for Project Info
 const projectInfoValidationSchema = Yup.object().shape({
@@ -40,17 +41,6 @@ const projectInfoValidationSchema = Yup.object().shape({
     .required("Please enter your phone number"),
   numOfEmployees: Yup.string().required("Select number of employees"),
 });
-
-const formFields = [
-  { name: "name", label: "Name" },
-  { name: "email", label: "Email" },
-  { name: "phoneNumber", label: "Phone Number" },
-];
-const employed = [
-  { label: "Less than 10", value: "low" },
-  { label: "11 - 50", value: "mid" },
-  { label: "51 - 200", value: "high" },
-];
 
 const ProjectInfo = ({ onNext }) => {
   const { formDataState, dispatch } = useFormData();
@@ -141,7 +131,7 @@ const ProjectInfo = ({ onNext }) => {
                     row
                   >
                     <FormControlLabel
-                      value={employed.value}
+                      value={employed.label}
                       control={<Radio />}
                       label={employed.label}
                     />

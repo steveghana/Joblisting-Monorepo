@@ -30,6 +30,7 @@ import FullscreenProgress from "../../../components/FullscreenProgress/Fullscree
 import NoData from "../../../components/NoData";
 import { ClockIcon } from "@mui/x-date-pickers";
 import { formatTimeDifference } from "../../../utils/timeFormatter";
+import { EmploymentType } from "../../../lib/data/formFieldData";
 
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
@@ -83,6 +84,7 @@ const RoleCard = (props: IRoleCard) => {
     createdAt,
     jobs,
   } = props?.role;
+
   // Create a relative time formatter in your locale
   // with default values explicitly passed in.
 
@@ -115,7 +117,13 @@ const RoleCard = (props: IRoleCard) => {
           >
             <SubCard sx={{ cursor: "pointer" }}>
               <Grid container direction="column" spacing={0}>
-                <Grid className="avatar" display={"flex"} gap={0.8} item>
+                <Grid
+                  className="avatar"
+                  display={"flex"}
+                  alignItems={"flex-start"}
+                  gap={0.8}
+                  item
+                >
                   <Avatar
                     alt="user"
                     variant="rounded"
@@ -127,6 +135,9 @@ const RoleCard = (props: IRoleCard) => {
                       variant={props.feature ? "h5" : "h4"}
                       mr={"auto"}
                     >
+                      {client.companyName}
+                    </Typography>
+                    <Typography variant="caption" fontWeight={700}>
                       {client.projectTitle}
                     </Typography>
                     {/* {!props.feature && ( */}
@@ -138,6 +149,7 @@ const RoleCard = (props: IRoleCard) => {
                         sx={{ color: themePalette.primary.light }}
                         display={"flex"}
                         gap={".3rem"}
+                        my={1}
                         alignItems={"center"}
                       >
                         <People sx={{ color: themePalette.primary.dark }} />
@@ -157,7 +169,7 @@ const RoleCard = (props: IRoleCard) => {
                     </ButtonBase>
                   )}
                 </Grid>
-                <Grid my={1} className="mail links" item>
+                <Grid mb={1} className="mail links" item>
                   {vacancy_status === "Open" && (
                     <Button
                       sx={{
@@ -183,7 +195,7 @@ const RoleCard = (props: IRoleCard) => {
                     flexWrap={"wrap"}
                   >
                     <Typography fontWeight={700} variant="body2">
-                      {experience} - {job.roleName}
+                      {experience.toUpperCase()} - {job.roleName}
                     </Typography>
                     <Box display={"flex"} alignItems={"center"} gap={0.4}>
                       <Dot />
@@ -197,7 +209,13 @@ const RoleCard = (props: IRoleCard) => {
                       <Dot />
                       <Typography>{job.jobType}</Typography>
                       <Dot />
-                      <Typography fontWeight={700}>{job.roleType}</Typography>
+                      <Typography fontWeight={700}>
+                        {
+                          EmploymentType.filter(
+                            (item) => item.label === job.employmentType
+                          )[0].value
+                        }
+                      </Typography>
                     </Box>
                     <Box
                       sx={{
@@ -250,17 +268,6 @@ const RoleCard = (props: IRoleCard) => {
                         justifyContent={"center"}
                         gap={0.5}
                       >
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          sx={{
-                            color: "black",
-                            borderColor: "black",
-                            maxHeight: "30px",
-                          }}
-                        >
-                          <Typography variant="caption">save</Typography>
-                        </Button>
                         <Button
                           size="medium"
                           // color=""

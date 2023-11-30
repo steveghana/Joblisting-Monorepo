@@ -29,6 +29,11 @@ import CustomButton from "../../../../../components/button";
 import { ArrowBack, BackHand } from "@mui/icons-material";
 import { techRoles } from "../../../../../lib/data/jobs";
 import { availableSkills } from "../../../Roles/ApplicationForm/skills";
+import {
+  Duration,
+  EmploymentType,
+  whenToStart,
+} from "../../../../../lib/data/formFieldData";
 
 const additionalDataValidationSchema = Yup.object().shape({
   // dataContent: Yup.string().required("Additional Data is required"),
@@ -46,28 +51,7 @@ const additionalDataValidationSchema = Yup.object().shape({
     .of(Yup.string().required("Add and fill at least one task"))
     .min(1, "Add and fill at least one task"),
 });
-const Duration = [
-  { label: "Less than a week" },
-  { label: "1 to 4 weeks" },
-  { label: "1 to 3 months" },
-  { label: "3 to 6 months" },
-  { label: "Longer than 6 months" },
-  { label: "I'll decide later" },
-];
-const whenToStart = [
-  { label: "Immediately" },
-  { label: "In 1 to 2 weeks" },
-  { label: "More than 2 weeks from now" },
-  { label: "I'll decide later" },
-];
 
-const EmploymentType = [
-  { label: "Full time (40 or more hrs/week)" },
-  { label: "Part time (Less than 40 hrs/week)" },
-  { label: "Hourly" },
-  { label: "Contract" },
-  { label: "I'll decide later" },
-];
 const AdditionalData = ({ onNext, handleBack }) => {
   const { formDataState, dispatch } = useFormData();
 

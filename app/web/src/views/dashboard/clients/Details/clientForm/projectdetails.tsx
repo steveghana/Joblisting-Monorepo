@@ -1,20 +1,14 @@
-// ProjectDetails.js
-
-import React from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import {
   Box,
   Typography,
   TextField,
-  Button,
   Stack,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Autocomplete,
-  Chip,
   FormHelperText,
   FormGroup,
   RadioGroup,
@@ -22,20 +16,15 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
-import SubCard from "../../../../../components/SubCard";
 import CustomButton from "../../../../../components/button";
-import { availableSkills } from "../../../Roles/ApplicationForm/skills";
 import {
   experienceLevel,
   methodologyOptions,
 } from "../../../../../lib/data/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { ArrowBack, BackHand } from "@mui/icons-material";
-const communicationOptions = [
-  { label: "Email", value: "email" },
-  { label: "Video Calls", value: "video_calls" },
-  { label: "Project Management Tools", value: "project_tools" },
-];
+import { communicationOptions } from "../../../../../lib/data/formFieldData";
+
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
   aboutTheProject: Yup.string().required(
@@ -121,7 +110,7 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                   fullWidth
                 >
                   {experienceLevel.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                    <MenuItem key={option.value} value={option.label}>
                       {option.label}
                     </MenuItem>
                   ))}

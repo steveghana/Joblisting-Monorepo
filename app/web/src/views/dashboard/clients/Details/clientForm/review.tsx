@@ -28,6 +28,7 @@ import CustomButton from "../../../../../components/button";
 import { useAddClientMutation } from "../../../../../store/services/ClientServce";
 import { useNavigate } from "react-router";
 import { techRoles } from "../../../../../lib/data/jobs";
+import { toast } from "react-toastify";
 
 type FormData = {
   [key: string]: string | string[] | boolean;
@@ -49,13 +50,16 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
   const handleSubmit = async (values) => {
     console.log("Final Form Data:", formDataState);
     try {
-      await createClient({
+      const response = await createClient({
         ...formDataState,
       }).unwrap();
-      console.log(data, "data from client");
-      // if (!isError || !error) {
-      //   navigate("/dashboard/customers/clients");
-      // }
+      console.log(data, response, "data from client");
+      if (response && !isError && !error) {
+        navigate("/dashboard/jobs/roles");
+        toast.success("Client Added Succcessfully", {
+          position: "bottom-center",
+        });
+      }
     } catch (error) {
       console.log(error, "from eerror");
     }

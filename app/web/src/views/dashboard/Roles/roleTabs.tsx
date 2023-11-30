@@ -81,11 +81,12 @@ const RoleTabs = (props: IRoleTabs) => {
         <SubCard>
           <Container maxWidth="lg">
             <Grid
-              item
+              // item
+              container
               direction="row"
               justifyContent="center"
               alignItems="stretch"
-              spacing={3}
+              // spacing={3}
             >
               <ButtonBase>
                 <Close
@@ -115,7 +116,7 @@ const RoleTabs = (props: IRoleTabs) => {
                 display={"flex"}
                 gap={1}
                 mt={2}
-                p={2}
+                p={{ lg: 2, md: 1, sm: 0 }}
                 alignItems={"center"}
                 flexWrap={"wrap"}
               >
