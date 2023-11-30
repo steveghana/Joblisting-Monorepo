@@ -15,6 +15,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import uuid from '../../../util/uuid';
+import { Client } from '../../../apps/clients/entities/client.entity';
 @Entity('developer')
 export class Developer extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
@@ -23,6 +24,9 @@ export class Developer extends AssociableModel {
   @ManyToOne((type) => User, (user) => user.developer)
   @JoinColumn({ name: 'user_id' })
   user: User;
+  @ManyToOne((type) => Client, (client) => client.roles)
+  @JoinColumn({ name: 'client_id' })
+  client: Client;
   @Column()
   firstName: string;
   @Column()
@@ -31,6 +35,8 @@ export class Developer extends AssociableModel {
   skills: string[];
   @Column()
   phone_number: string;
+  @Column()
+  salary: number;
   @Column()
   years_of_experience: string;
   @Column()
