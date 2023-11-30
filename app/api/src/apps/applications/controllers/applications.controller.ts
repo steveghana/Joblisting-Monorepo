@@ -4,9 +4,12 @@ import {
   Post,
   Body,
   Param,
+  Patch,
   Delete,
   Res,
   UseFilters,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -18,6 +21,7 @@ import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { Response } from 'express';
 import { ApplicationsService } from '../services/applications.service';
 import { CreateApplicationDto } from '../dto/create-application.dto';
+import { IStatusApplication } from '@/types/application';
 
 @Controller('applications')
 export class ApplicationsController {
@@ -53,6 +57,23 @@ export class ApplicationsController {
     @Res() res: Response,
   ) {
     const result = await this.applicationsService.findOne(id);
+    return res.json(result);
+  }
+  @Patch(':id')
+  @ApiTags('Get applicant')
+  @ApiOperation({
+    description: 'Get a single applicant by id',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async update(
+    @Param('id') id: string,
+    @Body() body: { status: CreateApplicationDto['status'] },
+
+    @Res() res: Response,
+  ) {
+    const result = await this.applicationsService.update(id, body.status);
     return res.json(result);
   }
   @Get('/all/:roleid')
