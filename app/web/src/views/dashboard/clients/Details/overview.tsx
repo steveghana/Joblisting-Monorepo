@@ -23,14 +23,12 @@ import { ArrowBackTwoTone } from "@mui/icons-material";
 import NewRoleForm from "./RoleForm";
 import { useGetClientQuery } from "../../../../store/services/ClientServce";
 import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
+import NoData from "../../../../components/NoData";
+import { IClient } from "../../../../types/client";
 
-const ClientDetails = () => {
+const ClientDetailsOverview = ({ data }: { data: IClient }) => {
   const { clientDetails } = companyInfo as ICompany;
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const { data, isError, isLoading, isFetching } = useGetClientQuery({
-    id: +id,
-  });
+
   const [open, setOpen] = React.useState(false);
   console.log(data);
   const handleClickOpen = () => {
@@ -39,44 +37,15 @@ const ClientDetails = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  if (isLoading || isFetching) {
-    return <FullscreenProgress />;
+
+  if (!data) {
+    return <NoData />;
   }
   return (
     <Container maxWidth="lg">
-      <Tooltip arrow placement="top" title="Go back">
-        <IconButton
-          color="primary"
-          onClick={() => navigate(-1)}
-          sx={{ p: 2, mr: 2 }}
-        >
-          <ArrowBackTwoTone />
-        </IconButton>
-      </Tooltip>
-
-      <Typography variant="h4" component="h1" gutterBottom>
-        Client Details
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
-          <Paper elevation={3}>
-            <Box p={2}>
-              <Avatar
-                variant="rounded"
-                alt="Company Logo"
-                src="company-logo.png"
-              />
-              <Typography variant="h5" component="h2">
-                {clientDetails.companyName}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {clientDetails.aboutTheCompany}
-              </Typography>
-            </Box>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={8}>
-          <Paper elevation={3}>
+      <Grid container spacing={1} mt={2}>
+        <Grid item xs={12} sm={12}>
+          <Paper elevation={2}>
             <Box p={2}>
               <Button
                 sx={{ my: 2 }}
@@ -94,16 +63,17 @@ const ClientDetails = () => {
                 Roles Available
               </Typography>
               <List>
-                {clientDetails.developerRoles.map(
-                  ({ role, description }, i) => (
-                    <ListItem key={role}>
-                      <ListItemAvatar>
-                        <Avatar>{i}</Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={role} secondary={description} />
-                    </ListItem>
-                  )
-                )}
+                {data.roles.map((role, i) => (
+                  <ListItem key={role.id}>
+                    <ListItemAvatar>
+                      <Avatar>{i}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={role.title}
+                      secondary={role.aboutTheProject}
+                    />
+                  </ListItem>
+                ))}
               </List>
             </Box>
           </Paper>
@@ -150,4 +120,4 @@ const ClientDetails = () => {
     </Container>
   );
 };
-export default Protect(ClientDetails, ["Ceo"]);
+export default Protect(ClientDetailsOverview, ["Ceo"]);
