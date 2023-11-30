@@ -5,6 +5,7 @@ import {
   Body,
   Patch,
   Param,
+  UseFilters,
   Delete,
   Res,
 } from '@nestjs/common';
@@ -15,6 +16,14 @@ import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { AuthService } from '../../auth/services/user.service';
 import { first } from 'rxjs';
 import { Response } from 'express';
+import {
+  ApiBadRequestResponse,
+  ApiInternalServerErrorResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
+import { IDev } from '@/types/developer';
 
 @Controller('developers')
 export class DevelopersController {
@@ -30,9 +39,16 @@ export class DevelopersController {
   }
 
   @Get()
-  async findAll(@Res() res) {
+  @ApiTags('Get applicant')
+  @ApiOperation({
+    description: 'Get a single applicant by id',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async findAll(@Res() res: Response) {
     const result = await this.developersService.findAll();
-    res.json(result);
+    return res.json(result);
   }
 
   @Get(':id')
@@ -42,15 +58,22 @@ export class DevelopersController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
-    @Body() updateDeveloperDto: UpdateDeveloperDto,
+    @Body() updateDeveloperDto: Partial<IDev>,
+    @Res() res: Response,
   ) {
-    return this.developersService.update(id, updateDeveloperDto);
+    const { id: devId, salary, ...rest } = updateDeveloperDto;
+    const result = await this.developersService.update(id, {
+      salary: +salary,
+      ...rest,
+    });
+    return res.json(result);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.developersService.remove(id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.developersService.remove(id);
+    return res.json(result);
   }
 }
