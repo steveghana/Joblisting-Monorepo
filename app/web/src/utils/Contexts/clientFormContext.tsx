@@ -38,7 +38,7 @@ const initialState: ClientFormDataState = {
     whenToStart: "",
     roleCategory: "Engineering",
     salary: "",
-    jobType: "Engineering",
+    jobType: "Remote",
     roleType: "", // field
     tasks: [],
   },
