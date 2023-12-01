@@ -39,7 +39,7 @@ export const getAllDevs = async (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return await transaction
     .getRepository(dependencies.db.models.developer)
-    .find({ relations: ['roles', 'client', 'user'] });
+    .find({ relations: ['roles', 'client', 'user', 'job'] });
 };
 export async function getDevById(
   id: string,
@@ -53,7 +53,7 @@ export async function getDevById(
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
-      relations: ['clockHours', 'roles'],
+      relations: ['clockHours', 'roles', 'user'],
     });
   return dev as unknown as IDev;
 }
