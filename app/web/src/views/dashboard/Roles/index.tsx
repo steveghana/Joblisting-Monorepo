@@ -34,7 +34,6 @@ import { EmploymentType } from "../../../lib/data/formFieldData";
 
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
-
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
@@ -213,7 +212,7 @@ const RoleCard = (props: IRoleCard) => {
                         {
                           EmploymentType.filter(
                             (item) => item.label === job.employmentType
-                          )[0].value
+                          )[0]?.value
                         }
                       </Typography>
                     </Box>
