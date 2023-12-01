@@ -30,8 +30,6 @@ export class ClientsService {
         dependencies,
       );
       if (!clientMethods._isNewlyCreated) {
-        console.log('throwing new exceptions ...........');
-        console.log(client);
         throw new HttpException(
           'client already exists',
           HttpStatus.BAD_REQUEST,
@@ -64,7 +62,16 @@ export class ClientsService {
       if (!data.length) {
         return null;
       }
-      return data;
+      return data.map(({ developers, roles, country, ...rest }) => {
+        return {
+          developersLength: developers.length,
+          rolesOpen: roles.filter((role) => role.vacancy_status === 'Open')
+            .length,
+          roles: roles,
+          countrylabel: country.label,
+          ...rest,
+        };
+      });
     });
   }
 
