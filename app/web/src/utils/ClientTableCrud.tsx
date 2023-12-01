@@ -88,7 +88,6 @@ export const handleSave = async (
   if (Object.keys(values)[0] === "salary") {
     const { salary } = values;
     const regex = /^\d+$/;
-
     if (!regex.test(salary)) {
       toast.error("Salary must be a number(s)", {
         position: "bottom-center",
@@ -96,19 +95,20 @@ export const handleSave = async (
       return;
     }
   }
-  // const newValidationErrors = validateUser(values);
-  // if (Object.values(newValidationErrors).some((error) => error)) {
-  //   setValidationErrors(newValidationErrors);
-  //   return;
-  // }
-  setValidationErrors({});
-  const response = await update({ ...values, id: row.id }).unwrap();
-  console.log(response, "from respons");
-  if (!response) return;
-  toast.success("Applicant updated Successfully", {
-    position: "bottom-center",
-  });
-  table.setEditingRow(null);
+  try {
+    setValidationErrors({});
+    const response = await update({ ...values, id: row.id }).unwrap();
+    console.log(response, "from respons");
+    if (!response) return;
+    toast.success("Updated Successfully", {
+      position: "bottom-center",
+    });
+    table.setEditingRow(null);
+  } catch (error) {
+    toast.error("Couldn't update Please try again later", {
+      position: "bottom-center",
+    });
+  }
 };
 
 export const openDeleteConfirmModal = (row: any, deleteUser) => {
