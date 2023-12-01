@@ -21,7 +21,7 @@ export const getAllClients = (
 
   return transaction
     .getRepository(dependencies.db.models.client)
-    .find({ relations: ['roles'] });
+    .find({ relations: ['roles', 'developers'] });
 };
 
 export function findElseCreateClient(
