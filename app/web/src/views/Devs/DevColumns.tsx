@@ -15,7 +15,7 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { Button } from "@mui/material";
-import { data } from "../../lib/data/data";
+// import { data } from "../../lib/data/data";
 import { IDev } from "../../types/devs";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../components/Table/DefaultColumnOpt";
@@ -44,7 +44,6 @@ const DevTableData = ({
     Record<string, string | undefined>
   >({});
 
-  console.log(data);
   const [open, setOpen] = React.useState(false);
 
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
@@ -121,6 +120,7 @@ const DevTableData = ({
       <>
         <AlertDialog
           deleteFn={async () => {
+            console.log(row.id);
             const response = await deleteuser({
               id: row.original.id,
             }).unwrap();
