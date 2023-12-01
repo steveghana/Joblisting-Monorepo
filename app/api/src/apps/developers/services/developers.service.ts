@@ -21,6 +21,7 @@ export class DevelopersService {
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
+    console.log(createDeveloperDto, 'data');
     const {
       address,
       email,
@@ -141,8 +142,11 @@ export class DevelopersService {
         id: item.id,
         firstName: item.user.firstName,
         lastName: item.user.lastName,
+        clientName: item.client.name,
+        companyName: item.client.companyName,
         email: item.user.email,
         jobTitle: item.roles.title,
+        // jobType: item.job.jobType,
         salary: item.salary,
         startDate: item.createdAt.toLocaleDateString(),
         projectName: item.client.projectTitle,
@@ -184,20 +188,9 @@ export class DevelopersService {
       const {
         user: { id: userId, email },
       } = await Developers.getById(id);
-      if (!userId || email) {
+      if (!userId || !email) {
         throw new HttpException(
           'The user you are trying to delete doesnt exist',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      const userDeleted = await User.destroy(
-        { email, id: userId },
-        transaction,
-      );
-      if (!userDeleted) {
-        throw new HttpException(
-          'Couldnt delete user, please try again later',
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -208,6 +201,17 @@ export class DevelopersService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      const userDeleted = await User.destroy(
+        { email, id: userId },
+        transaction,
+      );
+      if (!userDeleted) {
+        throw new HttpException(
+          'Couldnt delete user, please try again later',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return deleted;
     });
   }
 }
