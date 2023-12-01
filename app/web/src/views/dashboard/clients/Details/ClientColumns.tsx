@@ -45,6 +45,7 @@ const ClientTableData = ({
 }: IClientTableData) => {
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
+  console.log(data, "from the client");
   const [
     updateUser,
     {
@@ -94,7 +95,6 @@ const ClientTableData = ({
     muiTableBodyCellProps: ({ row }) => ({
       onClick: (event) => {
         event.stopPropagation();
-        console.info(row.id);
         navigate(`/dashboard/customers/clients/${row.id}`);
       },
       sx: {
@@ -118,13 +118,13 @@ const ClientTableData = ({
       <>
         <AlertDialog
           deleteFn={async () => {
+            console.log(row.original);
             const roleIds = row.original?.roles.map((role) => role.id);
-
+            console.log(roleIds);
             const response = await deleteuser({
               id: row.original.id,
               roleIds,
             }).unwrap();
-            console.log(response, "frerekj");
             if (response) {
               refetch();
               toast.success("Action Successful", {
