@@ -11,6 +11,7 @@ import Roles from '../../../apps/roles/dataManager';
 import { getAllApplicants } from '../DBQueries';
 import { DevelopersService } from '../../../apps/developers/services/developers.service';
 import { IStatusApplication } from '@/types/application';
+import User from '../../../apps/auth/dataManager/userEntity';
 
 @Injectable()
 export class ApplicationsService {
@@ -22,6 +23,17 @@ export class ApplicationsService {
   ) {
     const { roleId, years_of_experience, ...rest } = createApplicationDto;
     return useTransaction(async (transaction) => {
+      console.log(createApplicationDto.email);
+      const existinguser = await User.getByEmails(
+        [createApplicationDto.email],
+        transaction,
+      );
+      if (existinguser.length) {
+        throw new HttpException(
+          'A user with the same email already exist',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       let existingApplicant = await Application.getByEmail(
         createApplicationDto.email,
       );
@@ -90,7 +102,7 @@ export class ApplicationsService {
           email,
           salary: 0, //initial value of 0
           firstName: name.split(' ')[0],
-          lastName: name.split(' ')[1],
+          lastName: name.split(' ')[1] || '',
           phone_number,
           skills: selectedSkills,
           roleId,
@@ -103,6 +115,8 @@ export class ApplicationsService {
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
         }
+        const deletedApplicant = await Application.destroy(id, transaction);
+        return deletedApplicant;
       }
       const data = await Application.update(id, { status }, transaction);
       if (!data) {
@@ -111,6 +125,7 @@ export class ApplicationsService {
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
+
       return data;
     });
   }
