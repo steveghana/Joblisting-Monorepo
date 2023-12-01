@@ -43,14 +43,35 @@ export const useClientColums = () => {
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Email",
-            size: 300,
+            size: 150,
           },
           {
             accessorKey: "phoneNumber", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Phone Number",
-            size: 300,
+            size: 150,
+          },
+          {
+            accessorKey: "countrylabel", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: "Country",
+            size: 150,
+          },
+          {
+            accessorKey: "developersLength", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: " Devs Assigned",
+            size: 50,
+          },
+          {
+            accessorKey: "rolesOpen", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: "Open Roles",
+            size: 50,
           },
         ],
       },
@@ -137,6 +158,20 @@ export const useDevsColums = () => {
             size: 100,
           },
           {
+            id: "clientName",
+            accessorKey: "clientName", //hey a simple column for once
+            header: "Client Name",
+            enableEditing: false,
+            size: 200,
+          },
+          {
+            id: "companyName",
+            accessorKey: "companyName", //hey a simple column for once
+            header: "Company Name",
+            enableEditing: false,
+            size: 200,
+          },
+          {
             accessorKey: "projectName", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             filterVariant: "autocomplete",
@@ -186,13 +221,7 @@ export const useDevsColums = () => {
               </Box>
             ),
           },
-          // {
-          //   accessorKey: "jobTitle", //hey a simple column for once
-          //   header: "Job Title",
-          //   enableEditing: false,
 
-          //   size: 200,
-          // },
           {
             accessorFn: (row) => new Date(row.startDate), //convert to Date for sorting and filtering
             id: "startDate",
