@@ -1,4 +1,5 @@
 import { CountryType } from "../components/settings/CountrySelector";
+import { IDev } from "./devs";
 import { IRoleData } from "./roles";
 export interface IClient {
   id?: string;
@@ -7,6 +8,9 @@ export interface IClient {
   email: string;
   industry: string[];
   numOfEmployees: string;
+  developersLength: number;
+  rolesOpen: number;
+  countrylabel: string;
   companyName: string;
   phoneNumber: string;
   projectTitle: string;
