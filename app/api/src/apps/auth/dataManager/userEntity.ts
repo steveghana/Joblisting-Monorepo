@@ -94,6 +94,7 @@ class User {
   ): Promise<User[]> {
     dependencies = injectDependencies(dependencies, ['db']);
     const userDatas = await getUsers(emails, transaction, dependencies);
+    // console.log(userDatas, 'user')
     return userDatas.map((userData) => {
       const user = new User(userData.email, dependencies);
       user.data = userData;
