@@ -33,7 +33,7 @@ export async function createApplication(
 }
 export async function deleteApplicant(
   id: string,
-  transaction: EntityManager = null,
+  transaction: EntityManager,
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
