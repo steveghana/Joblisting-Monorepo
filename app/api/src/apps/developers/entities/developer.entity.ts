@@ -16,6 +16,7 @@ import {
 } from 'typeorm';
 import uuid from '../../../util/uuid';
 import { Client } from '../../../apps/clients/entities/client.entity';
+import { Job } from '../../../apps/roles/entities/jobs.entity';
 @Entity('developer')
 export class Developer extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
@@ -27,6 +28,10 @@ export class Developer extends AssociableModel {
   @ManyToOne((type) => Client, (client) => client.roles)
   @JoinColumn({ name: 'client_id' })
   client: Client;
+  @OneToOne((type) => Job, (developer) => developer.developer, {
+    cascade: true,
+  })
+  job: Job;
   @Column()
   firstName: string;
   @Column()
