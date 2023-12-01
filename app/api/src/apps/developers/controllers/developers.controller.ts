@@ -52,12 +52,28 @@ export class DevelopersController {
   }
 
   @Get(':id')
+  @Delete(':id')
+  @ApiTags('get dev')
+  @ApiOperation({
+    description: 'get a dev',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async findOne(@Param('id') id: string, @Res() res: Response) {
     const result = await this.developersService.findOne(id);
     return res.json(result);
   }
 
   @Patch(':id')
+  @Delete(':id')
+  @ApiTags('update dev')
+  @ApiOperation({
+    description: 'update a client from the db',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async update(
     @Param('id') id: string,
     @Body() updateDeveloperDto: Partial<IDev>,
@@ -72,6 +88,14 @@ export class DevelopersController {
   }
 
   @Delete(':id')
+  @Delete(':id')
+  @ApiTags('dlt dev')
+  @ApiOperation({
+    description: 'delete a client from the db',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async remove(@Param('id') id: string, @Res() res: Response) {
     const result = await this.developersService.remove(id);
     return res.json(result);
