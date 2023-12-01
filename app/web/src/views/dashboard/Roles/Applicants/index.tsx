@@ -84,15 +84,10 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     onCreatingRowSave: (item) =>
       handleCreate(item, createApplicant, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: ({ values, table, row }) =>
-      handleSave(values, { table, row }, updateUser, setValidationErrors),
-    // renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
-    //   <CreatRow
-    //     internalEditComponents={internalEditComponents}
-    //     row={row}
-    //     table={table}
-    //   />
-    // ),
+    onEditingRowSave: ({ values, table, row }) => {
+      handleSave(values, { table, row }, updateUser, setValidationErrors);
+      refetch();
+    },
 
     renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
