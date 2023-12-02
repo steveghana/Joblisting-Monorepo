@@ -69,7 +69,7 @@ export function getClientById(
     .getRepository(dependencies.db.models.client)
     .findOne({
       where: { id },
-      relations: ['roles'],
+      relations: ['roles', 'developers'],
     });
 }
 export async function deleteClient(
