@@ -22,8 +22,9 @@ import {
   methodologyOptions,
 } from "../../../../../lib/data/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
-import { ArrowBack, BackHand } from "@mui/icons-material";
+import { ArrowBack, BackHand, Send } from "@mui/icons-material";
 import { communicationOptions } from "../../../../../lib/data/formFieldData";
+import { ClientFormDataState } from "../../../../../types/client";
 
 // Validation schema for Project Details
 const projectDetailsValidationSchema = Yup.object().shape({
@@ -31,6 +32,7 @@ const projectDetailsValidationSchema = Yup.object().shape({
     "Give us some information about the project"
   ),
   // designPreferences: Yup.string().required("Design Preferences are required"),
+  title: Yup.string().required("Enter project name or title"),
   experience: Yup.string().required("Experience level is required"),
   devsNeeded: Yup.string().required("Enter the number of developers needed"),
   methodology: Yup.string().required("Methodology is required"),
@@ -38,8 +40,27 @@ const projectDetailsValidationSchema = Yup.object().shape({
     "Select a communication preference"
   ),
 });
+// type IprojectDetails = {
+//   atClientPage?: boolean;
+//   onNext?: (data: any, step?: any) => void;
+//   handleBack?: () => void;
+//   handleExternalSubmit?: (values: ClientFormDataState["Project Details"]) => void;
+// };
+type ProjectDetailsWithClient = {
+  atClientPage: boolean;
+  handleExternalSubmit: (
+    values: ClientFormDataState["Project Details"]
+  ) => void;
+};
 
-const ProjectDetails = ({ onNext, handleBack }) => {
+type ProjectDetailsWithNavigation = {
+  handleBack: () => void;
+  onNext: (data: any, step?: any) => void;
+};
+
+type IProjectDetails = ProjectDetailsWithClient | ProjectDetailsWithNavigation;
+
+const ProjectDetails = (props: IProjectDetails) => {
   const { formDataState, dispatch } = useFormData();
 
   return (
@@ -47,9 +68,15 @@ const ProjectDetails = ({ onNext, handleBack }) => {
       initialValues={formDataState["Project Details"]}
       validationSchema={projectDetailsValidationSchema}
       onSubmit={(values) => {
-        dispatch({ type: "updateProjectInfo", payload: values });
-
-        onNext(values);
+        if ("atClientPage" in props) {
+          // TypeScript now knows that props has 'atClientPage' and 'handleExternalSubmit'
+          if (props.atClientPage) {
+            return;
+          }
+        } else {
+          dispatch({ type: "updateProjectInfo", payload: values });
+          props.onNext(values);
+        }
       }}
     >
       {({ isSubmitting, values, setFieldValue, handleChange }) => (
@@ -59,6 +86,22 @@ const ProjectDetails = ({ onNext, handleBack }) => {
               Step 2: Project Details
             </Typography>
             <Stack spacing={2}>
+              <FormControl fullWidth>
+                <Field
+                  name="title"
+                  as={TextField}
+                  label="Project Name / Title"
+                  variant="outlined"
+                  fullWidth
+                />
+                <ErrorMessage name="title" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
               <FormControl fullWidth>
                 <InputLabel id="methodology-label">Dev Methodology</InputLabel>
                 <Field
@@ -171,25 +214,38 @@ const ProjectDetails = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-
-              <Box display={"flex"} gap={1}>
+              {"atClientPage" in props && props.atClientPage ? (
                 <CustomButton
-                  text="Back"
+                  text="Save"
+                  size="small"
                   fullWidth
-                  startIcon={<ArrowBack />}
+                  onClick={() => {
+                    props.atClientPage && props.handleExternalSubmit(values);
+                  }}
+                  endIcon={<Send />}
                   disabled={isSubmitting}
-                  type="button"
-                  variant="outlined"
-                  onClick={handleBack}
-                />
-                <CustomButton
-                  text="Next"
-                  fullWidth
-                  disabled={isSubmitting}
-                  variant="contained"
                   type="submit"
                 />
-              </Box>
+              ) : (
+                <Box display={"flex"} gap={1}>
+                  <CustomButton
+                    text="Back"
+                    fullWidth
+                    startIcon={<ArrowBack />}
+                    disabled={isSubmitting}
+                    type="button"
+                    variant="outlined"
+                    onClick={"onNext" in props && props.handleBack}
+                  />
+                  <CustomButton
+                    text="Next"
+                    fullWidth
+                    disabled={isSubmitting}
+                    variant="contained"
+                    type="submit"
+                  />
+                </Box>
+              )}
             </Stack>
           </Box>
         </Form>
