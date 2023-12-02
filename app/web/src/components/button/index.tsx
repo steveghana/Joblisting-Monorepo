@@ -13,17 +13,17 @@ function CustomButton(props: IButtonProps) {
       loadingPosition="end"
       variant={props.variant || "contained"}
       sx={{
-        mt: 3,
-        mb: 2,
+        my: 2,
         boxShadow:
-          "rgba(77, 172, 255, 0.55) 0px 13px 27px -5px, rgba(77, 172, 255, 0.5) 0px 8px 16px -8px;",
-        borderRadius: "40px",
+          "rgba(77, 172, 255, 0.45) 0px 13px 27px -5px, rgba(77, 172, 255, 0.4) 0px 8px 16px -8px;",
+        borderRadius: "10px",
+        color: "white",
         minWidth: "100px",
         // background: "red",
         // background: props.variant === "contained" && themePalette.primary.main,
       }}
     >
-      <Typography textTransform={"none"} variant="button">
+      <Typography fontSize={".7rem"} variant="button">
         {props.text}
       </Typography>
     </LoadingButton>
