@@ -1,14 +1,12 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useClientColums } from "../../../../hooks/useColumns";
 import { useCreateClient } from "../../../../hooks/useClientQuery";
 import {
   // IColumnTypeString,
   handleCreate,
   handleSave,
-  openDeleteConfirmModal,
 } from "../../../../utils/ClientTableCrud";
 import TableActions from "../../../../components/Table/TableActions";
-import TopToolbar from "../../../../components/Table/topToolBar";
 import CreatRow from "../../../../components/Table/CreatRow";
 
 //MRT Imports
@@ -17,13 +15,10 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 //Material UI Imports
-import { Button } from "@mui/material";
-import { clientData } from "../../../../lib/data/clientData";
 import { IClient } from "../../../../types/client";
 import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumnOpt";
 import {
-  useGetClientsQuery,
   useUpdateClientMutation,
   useDeletClientMutation,
 } from "../../../../store/services/ClientServce";
@@ -46,19 +41,9 @@ const ClientTableData = ({
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
   console.log(data, "from the client");
-  const [
-    updateUser,
-    {
-      isError: isUpdateingError,
-      isLoading: isUpdatingUser,
-      error: updateError,
-    },
-  ] = useUpdateClientMutation();
+  const [updateUser, { isLoading: isUpdatingUser }] = useUpdateClientMutation();
   // console.log(roleIds);
-  const [
-    deleteuser,
-    { isError: isDeletingError, isLoading: isDeletingUser, error: deleteError },
-  ] = useDeletClientMutation();
+  const [deleteuser, { isLoading: isDeletingUser }] = useDeletClientMutation();
 
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
