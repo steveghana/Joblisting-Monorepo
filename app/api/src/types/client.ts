@@ -1,3 +1,5 @@
+import { IDev } from './developer';
+
 export interface IClient {
   id?: string;
   avatar?: string;
@@ -7,6 +9,7 @@ export interface IClient {
   numOfEmployees: string;
   companyName: string;
   phoneNumber: string;
+  developers?: IDev[];
   projectTitle: string;
   startDate: Date;
   companyLogo: string;
