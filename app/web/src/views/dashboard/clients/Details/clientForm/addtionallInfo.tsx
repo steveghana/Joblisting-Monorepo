@@ -1,4 +1,4 @@
-// AdditionalData.js
+// RoleInfo.js
 
 import React from "react";
 import * as Yup from "yup";
@@ -22,11 +22,12 @@ import {
   MenuItem,
   Autocomplete,
   Chip,
+  Divider,
 } from "@mui/material";
 import SubCard from "../../../../../components/SubCard";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import CustomButton from "../../../../../components/button";
-import { ArrowBack, BackHand } from "@mui/icons-material";
+import { ArrowBack, BackHand, Send } from "@mui/icons-material";
 import { techRoles } from "../../../../../lib/data/jobs";
 import { availableSkills } from "../../../Roles/ApplicationForm/skills";
 import {
@@ -34,6 +35,7 @@ import {
   EmploymentType,
   whenToStart,
 } from "../../../../../lib/data/formFieldData";
+import { ClientFormDataState } from "../../../../../types/client";
 
 const additionalDataValidationSchema = Yup.object().shape({
   // dataContent: Yup.string().required("Additional Data is required"),
@@ -51,8 +53,18 @@ const additionalDataValidationSchema = Yup.object().shape({
     .of(Yup.string().required("Add and fill at least one task"))
     .min(1, "Add and fill at least one task"),
 });
+type RoleInfoWithClient = {
+  atClientPage: boolean;
+  handleExternalSubmit: (values: ClientFormDataState["Role Info"]) => void;
+};
 
-const AdditionalData = ({ onNext, handleBack }) => {
+type RoleInfoWithNavigation = {
+  handleBack: () => void;
+  onNext: (data: any, step?: any) => void;
+};
+
+type IRoleInfo = RoleInfoWithClient | RoleInfoWithNavigation;
+const RoleInfo = (props: IRoleInfo) => {
   const { formDataState, dispatch } = useFormData();
 
   return (
@@ -60,8 +72,15 @@ const AdditionalData = ({ onNext, handleBack }) => {
       initialValues={formDataState["Role Info"]}
       validationSchema={additionalDataValidationSchema}
       onSubmit={(values) => {
-        dispatch({ type: "updateRoleInfo", payload: values });
-        onNext(values);
+        if ("atClientPage" in props) {
+          // TypeScript now knows that props has 'atClientPage' and 'handleExternalSubmit'
+          if (props.atClientPage) {
+            return;
+          }
+        } else {
+          dispatch({ type: "updateRoleInfo", payload: values });
+          props.onNext(values);
+        }
       }}
     >
       {({ isSubmitting, handleChange, values, setFieldValue }) => (
@@ -69,9 +88,44 @@ const AdditionalData = ({ onNext, handleBack }) => {
           <Box>
             <Typography variant="h6">Step 3: Role Info</Typography>
             <Stack mt={2} spacing={2}>
-              {/* ... (Previous form fields) */}
+              <FormControl fullWidth>
+                <Field
+                  name="roleName"
+                  as={TextField}
+                  label="Enter the role title"
+                  placeholder={"eg. Senior Fullstack Engineer"}
+                  variant="outlined"
+                  fullWidth
+                />
+                <ErrorMessage name="title" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
 
-              {/* Tasks Section */}
+              <FormControl fullWidth>
+                <InputLabel id="role-label">
+                  Select role Are You Hiring For
+                </InputLabel>
+                <Field name="roleType" as={Select} variant="outlined" fullWidth>
+                  {Object.keys(techRoles).map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Field>
+                <ErrorMessage name="roleType" component="div">
+                  {(msg) => (
+                    <FormHelperText error variant="filled">
+                      {msg}
+                    </FormHelperText>
+                  )}
+                </ErrorMessage>
+              </FormControl>
+              <Divider />
 
               <Typography variant="subtitle1">Tasks</Typography>
               <FormControl fullWidth>
@@ -133,43 +187,7 @@ const AdditionalData = ({ onNext, handleBack }) => {
                 </ErrorMessage>
               </FormControl>
               {/* <TextField plac/> */}
-              <FormControl fullWidth>
-                <Field
-                  name="roleName"
-                  as={TextField}
-                  label="Enter the role title"
-                  placeholder={"eg. Senior Fullstack Engineer"}
-                  variant="outlined"
-                  fullWidth
-                />
-                <ErrorMessage name="title" component="div">
-                  {(msg) => (
-                    <FormHelperText error variant="filled">
-                      {msg}
-                    </FormHelperText>
-                  )}
-                </ErrorMessage>
-              </FormControl>
-
-              <FormControl fullWidth>
-                <InputLabel id="role-label">
-                  Select role Are You Hiring For
-                </InputLabel>
-                <Field name="roleType" as={Select} variant="outlined" fullWidth>
-                  {Object.keys(techRoles).map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Field>
-                <ErrorMessage name="roleType" component="div">
-                  {(msg) => (
-                    <FormHelperText error variant="filled">
-                      {msg}
-                    </FormHelperText>
-                  )}
-                </ErrorMessage>
-              </FormControl>
+              <Divider />
 
               <FormControl fullWidth>
                 <Autocomplete
@@ -301,24 +319,38 @@ const AdditionalData = ({ onNext, handleBack }) => {
                   )}
                 </ErrorMessage>
               </FormControl>
-              <Box display={"flex"} gap={1}>
+              {"atClientPage" in props && props.atClientPage ? (
                 <CustomButton
-                  text="Back"
+                  text="Save"
+                  size="small"
                   fullWidth
-                  startIcon={<ArrowBack />}
+                  onClick={() => {
+                    props.atClientPage && props.handleExternalSubmit(values);
+                  }}
+                  endIcon={<Send />}
                   disabled={isSubmitting}
-                  type="button"
-                  variant="outlined"
-                  onClick={handleBack}
-                />
-                <CustomButton
-                  text="Next"
-                  fullWidth
-                  disabled={isSubmitting}
-                  variant="contained"
                   type="submit"
                 />
-              </Box>
+              ) : (
+                <Box display={"flex"} gap={1}>
+                  <CustomButton
+                    text="Back"
+                    fullWidth
+                    startIcon={<ArrowBack />}
+                    disabled={isSubmitting}
+                    type="button"
+                    variant="outlined"
+                    onClick={"onNext" in props && props.handleBack}
+                  />
+                  <CustomButton
+                    text="Next"
+                    fullWidth
+                    disabled={isSubmitting}
+                    variant="contained"
+                    type="submit"
+                  />
+                </Box>
+              )}
             </Stack>
           </Box>
         </Form>
@@ -327,4 +359,4 @@ const AdditionalData = ({ onNext, handleBack }) => {
   );
 };
 
-export default AdditionalData;
+export default RoleInfo;
