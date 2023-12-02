@@ -30,6 +30,7 @@ import ClientDetailsOverview from "./overview";
 import { useNavigate, useParams } from "react-router";
 import { useGetClientQuery } from "../../../../store/services/ClientServce";
 import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
+import ClientEmployees from "./clientEmployees";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -84,13 +85,14 @@ const ClientDetails = () => {
             gap={1.5}
             p={1}
           >
-            <Avatar sx={{ width: 56, height: 56 }} />
-            <Typography>Croxino Technologies</Typography>
-            <Typography textAlign={"center"} variant="caption">
-              A leading technology company specializing in innovative solutions.
-              Our mission is to transform industries through cutting-edge
-              technology.
-            </Typography>
+            <Avatar
+              sx={{ width: 56, height: 56 }}
+              src={data.companyLogo || data.avatar}
+            />
+            <Typography>{data.companyName}</Typography>
+            {/* <Typography textAlign={"center"} variant="caption">
+             {data.aboutTheCompany}
+            </Typography> */}
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <Facebook />
               <Pinterest />
@@ -109,21 +111,28 @@ const ClientDetails = () => {
                 <VerifiedUser color="disabled" />
                 <Box>
                   <Typography variant="caption">Contact name</Typography>
-                  <Typography>Marcus Lane</Typography>
+                  <Typography>{data.name}</Typography>
+                </Box>
+              </Grid>
+              <Grid display={"flex"} gap={1}>
+                <VerifiedUser color="disabled" />
+                <Box>
+                  <Typography variant="caption">Company name</Typography>
+                  <Typography>{data.companyName}</Typography>
                 </Box>
               </Grid>
               <Grid display={"flex"} gap={1}>
                 <Email color="disabled" />
                 <Box>
                   <Typography variant="caption">Email Address</Typography>
-                  <Typography>Steve@gmail.com</Typography>
+                  <Typography>{data.email}</Typography>
                 </Box>
               </Grid>
               <Grid display={"flex"} gap={1}>
                 <Phone color="disabled" />
                 <Box>
                   <Typography variant="caption">Phone No.</Typography>
-                  <Typography>233554544455</Typography>
+                  <Typography>{data.phoneNumber}</Typography>
                 </Box>
               </Grid>
               <Box display={"flex"} gap={1}>
@@ -138,12 +147,19 @@ const ClientDetails = () => {
               <Grid display={"flex"} gap={1}>
                 <LocalActivity color="disabled" />
                 <Box>
-                  <Typography variant="caption">Address</Typography>
-                  <Typography>D stree, Hudson Bay lane , Florida</Typography>
+                  <Typography variant="caption">Country</Typography>
+                  <Typography>{data.country.label}</Typography>
                 </Box>
               </Grid>
             </Box>
-            {/* <Box></Box> */}
+            <Box p={2}>
+              <Typography variant="h6" component="h2" gutterBottom>
+                About the Company
+              </Typography>
+              <Typography variant="subtitle2">
+                {data.aboutTheCompany}
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </SubCard>
@@ -175,11 +191,13 @@ const ClientDetails = () => {
           </TabsWrapper>
         </Grid>
         <Grid item xs={12}>
-          {currentTab === "projects" && <ClientDetailsOverview data={data} />}
-          {currentTab === "devs" && (
+          {currentTab === "projects" && (
+            <ClientDetailsOverview data={data.roles} />
+          )}
+          {currentTab === "tasks" && (
             <div>Column for displaying deves with roles</div>
           )}
-          {currentTab === "tasks" && <div>Column for displaying the task</div>}
+          {currentTab === "devs" && <ClientEmployees devs={data.developers} />}
         </Grid>
       </>
     </Grid>
