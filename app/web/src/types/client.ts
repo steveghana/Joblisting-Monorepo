@@ -9,6 +9,7 @@ export interface IClient {
   industry: string[];
   numOfEmployees: string;
   developersLength: number;
+  developers?: IDev[];
   rolesOpen: number;
   countrylabel: string;
   companyName: string;
