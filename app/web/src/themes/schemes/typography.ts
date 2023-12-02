@@ -45,7 +45,7 @@ export const themeTypography = {
   subtitle2: {
     fontSize: "0.75rem",
     fontWeight: 400,
-    color: theme.darkTextSecondary,
+    // color: theme.darkTextSecondary,
   },
   caption: {
     fontSize: "0.75rem",
