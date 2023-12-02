@@ -84,7 +84,7 @@ const SubCard: React.FC<ISubCard> = forwardRef(
         {/* card content */}
         {content && (
           <Grid
-            sx={{ p: { lg: 1.4, sm: 1, xs: 0.2 }, ...contentSX }}
+            sx={{ p: { lg: 1.4, sm: 1, xs: 0.5 }, ...contentSX }}
             className={contentClass || ""}
           >
             {children}
