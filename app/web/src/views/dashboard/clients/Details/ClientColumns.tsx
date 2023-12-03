@@ -24,6 +24,7 @@ import {
 } from "../../../../store/services/ClientServce";
 import AlertDialog from "../../../../components/Dialog";
 import { toast } from "react-toastify";
+import { useMediaQuery, useTheme } from "@mui/material";
 interface IClientTableData {
   data: IClient[];
   isLoading: boolean;
@@ -41,10 +42,11 @@ const ClientTableData = ({
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
   console.log(data, "from the client");
+  const theme = useTheme();
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateClientMutation();
   // console.log(roleIds);
   const [deleteuser, { isLoading: isDeletingUser }] = useDeletClientMutation();
-
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -61,7 +63,7 @@ const ClientTableData = ({
 
   const columns = useClientColums();
 
-  const defaultMRTOptions = getDefaultMRTOptions<IClient>();
+  const defaultMRTOptions = getDefaultMRTOptions<IClient>(matchUpMd);
 
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
