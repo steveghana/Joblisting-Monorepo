@@ -57,6 +57,7 @@ class Roles {
     dependencies: Dependencies = null,
   ): Promise<any> {
     dependencies = injectDependencies(dependencies, ['db']);
+
     return await updateRole(roleId, role, transaction, dependencies);
   }
   static async getById(id: string, dependencies: Dependencies = null) {
