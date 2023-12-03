@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import _api_url from "../../api/_api_url";
 import { ApplicantsSubmission, IRoleData } from "../../types/roles";
+import { ClientFormDataState } from "../../types/client";
 
 export const ROLE_API_KEY = "RoleApi";
 
@@ -8,11 +9,11 @@ export const roleApi = createApi({
   reducerPath: ROLE_API_KEY,
   baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }), // Replace with your actual API URL
   endpoints: (builder) => ({
-    updateRole: builder.mutation<IRoleData, { id: string; data: IRoleData }>({
-      query: ({ data, id }) => ({
+    updateRole: builder.mutation<IRoleData, Partial<IRoleData>>({
+      query: ({ id, ...rest }) => ({
         url: `roles/${id}`, // Replace with the appropriate API endpoint
-        method: "UPDATE",
-        body: data,
+        method: "PATCH",
+        body: rest,
       }),
     }),
     deletRole: builder.mutation<IRoleData, { id: string }>({
@@ -22,7 +23,10 @@ export const roleApi = createApi({
       }),
     }),
 
-    addRole: builder.mutation<IRoleData, IRoleData>({
+    addRole: builder.mutation<
+      IRoleData,
+      ClientFormDataState["Project Details"]
+    >({
       query: (role) => ({
         url: "roles", // Replace with the appropriate API endpoint
         method: "POST",
