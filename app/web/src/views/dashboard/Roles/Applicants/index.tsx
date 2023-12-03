@@ -24,10 +24,13 @@ import {
 import { useApplicantsColumns } from "../../../../hooks/useApplicantsColumn";
 import AlertDialog from "../../../../components/Dialog";
 import NoData from "../../../../components/NoData";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
 import { toast } from "react-toastify";
 const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
+  const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -60,7 +63,8 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
   const [deleteuser, { isError: isDeletingError, isLoading: isDeletingUser }] =
     useDeleteApplicantMutation();
 
-  const defaultMRTOptions = getDefaultMRTOptions<ApplicantsSubmission>();
+  const defaultMRTOptions =
+    getDefaultMRTOptions<ApplicantsSubmission>(matchUpMd);
 
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
