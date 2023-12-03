@@ -78,7 +78,6 @@ export class ClientsService {
   findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Client.getById(id);
-      console.log(data.data, 'from client');
       if (!data.data) {
         return null;
       }
