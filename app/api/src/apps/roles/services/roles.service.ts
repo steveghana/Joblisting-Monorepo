@@ -81,17 +81,17 @@ export class RolesService {
 
   update(
     id: string,
-    updateClientDto: Partial<CreateRoleDto>,
+    updateClientDto: Partial<IRole>,
     dependencies: Dependencies = null,
   ) {
     return useTransaction(async (transaction) => {
       // const { , ...rest } = updateClientDto;
+      console.log(updateClientDto);
       const data = await Roles.update(
         id,
         {
-          selectedSkills: updateClientDto['Role Info'].selectedSkills,
-          ...updateClientDto['Project Details'],
-          ...updateClientDto['Role Info'],
+          // selectedSkills: updateClientDto['Role Info']?.selectedSkills,
+          ...updateClientDto,
         },
         transaction,
       );
@@ -108,6 +108,7 @@ export class RolesService {
   remove(id: string, dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const deleted = await Roles.destroy(id, transaction);
+      console.log(id, deleted);
       if (!deleted) {
         throw new HttpException(
           'Something went wrong, couldnt delete role',
