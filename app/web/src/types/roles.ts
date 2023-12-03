@@ -30,6 +30,8 @@ export interface IRoleData {
   whenToStart: string;
   dataContent: string;
   createdAt: string;
+  communicationPreferences?: string;
+
   // description: string;
   numOfEmployees: string;
 
