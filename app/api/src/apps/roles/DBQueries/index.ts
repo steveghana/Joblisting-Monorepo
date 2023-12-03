@@ -9,6 +9,8 @@ import uuid from '../../../util/uuid';
 import { IRole } from '../../../types/role';
 import { ensureTransaction } from '../../../Config/transaction';
 import { JobInfo } from '../dto/create-role.dto';
+import { HttpExceptionFilter } from '@/middleware/err.Middleware';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export async function createRoles(
   // roleId: number,
@@ -58,6 +60,32 @@ export async function deleteRole(
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
+  const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+  const applicantionRep = transaction.getRepository(
+    dependencies.db.models.application,
+  );
+  const interviewRepo = transaction.getRepository(
+    dependencies.db.models.interviews,
+  );
+  const hoursRepo = transaction.getRepository(
+    dependencies.db.models.clockedHours,
+  );
+  const { affected: hoursDeleted } = await hoursRepo.delete({
+    role: { id },
+  });
+
+  const { affected: interviewDeleted } = await interviewRepo.delete({
+    role: { id },
+  });
+
+  const { affected: applicationDeleted } = await applicantionRep.delete({
+    role: { id },
+  });
+
+  const { affected: devDeleted } = await devRepo.delete({ roles: { id } });
+
+  const { affected: jobDeleted } = await jobRepo.delete({ role: { id } });
 
   const { affected } = await transaction
     .getRepository(dependencies.db.models.role)
