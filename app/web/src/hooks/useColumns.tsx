@@ -6,6 +6,8 @@ import { AccountCircle, Send } from "@mui/icons-material";
 import { IClient } from "../types/client";
 import { validateEmail, validateRequired } from "../utils/tablevalidate";
 import { IRoleData } from "../types/roles";
+import { communicationOptions, whenToStart } from "../lib/data/formFieldData";
+import { experienceLevel } from "../lib/data/data";
 export const useClientColums = () => {
   return useMemo<MRT_ColumnDef<IClient>[]>(
     () => [
@@ -256,7 +258,7 @@ export const useClientRolesColumn = () => {
         columns: [
           {
             accessorFn: (row) => `${row.title}`, //accessorFn used to join multiple data into a single cell
-            id: "name", //id is still required when using accessorFn instead of accessorKey
+            id: "title", //id is still required when using accessorFn instead of accessorKey
             header: "Title",
             enableEditing: true,
 
@@ -266,6 +268,8 @@ export const useClientRolesColumn = () => {
             accessorKey: "communicationPreferences", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             enableEditing: true,
+            editVariant: "select",
+            editSelectOptions: communicationOptions.map((item) => item.label),
 
             filterVariant: "autocomplete",
             header: "Comm. Type",
@@ -275,6 +279,7 @@ export const useClientRolesColumn = () => {
             id: "methodology",
             accessorKey: "methodology", //hey a simple column for once
             header: "Methodology",
+
             enableEditing: true,
             size: 50,
           },
@@ -282,6 +287,9 @@ export const useClientRolesColumn = () => {
           //   id: "whentostart",
           //   accessorKey: "whenToStart", //hey a simple column for once
           //   header: "When To Start",
+          //   editVariant: "select",
+          //   editSelectOptions: whenToStart.map((item) => item.label),
+
           //   enableEditing: true,
           //   size: 200,
           // },
@@ -290,6 +298,8 @@ export const useClientRolesColumn = () => {
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             enableEditing: true,
+            editVariant: "select",
+            editSelectOptions: experienceLevel.map((level) => level.label),
 
             header: "Exp Required",
             size: 50,
@@ -306,7 +316,8 @@ export const useClientRolesColumn = () => {
             filterFn: "between",
             header: "Vacancy Status",
             enableEditing: true,
-
+            editVariant: "select",
+            editSelectOptions: ["Open", "Closed"],
             size: 50,
             //custom conditional format and styling
             Cell: ({ cell }) => (
@@ -315,8 +326,8 @@ export const useClientRolesColumn = () => {
                 sx={(theme) => ({
                   backgroundColor:
                     cell.getValue<string>() === "Closed"
-                      ? theme.palette.info.dark
-                      : theme.palette.success.dark,
+                      ? theme.palette.action.disabled
+                      : theme.palette.success.light,
 
                   borderRadius: "0.25rem",
                   color: "#fff",
