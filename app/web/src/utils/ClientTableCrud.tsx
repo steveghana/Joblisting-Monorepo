@@ -84,7 +84,6 @@ export const handleSave = async (
   update,
   setValidationErrors
 ) => {
-  console.log(values, row, "this is the valies");
   if (Object.keys(values)[0] === "salary") {
     const { salary } = values;
     const regex = /^\d+$/;
@@ -97,6 +96,7 @@ export const handleSave = async (
   }
   try {
     setValidationErrors({});
+    console.log(values, row.id, "this is the valies");
     const response = await update({ ...values, id: row.id }).unwrap();
     console.log(response, "from respons");
     if (!response) return;
