@@ -7,7 +7,13 @@ import { FormDataProvider } from "../../../../utils/Contexts/clientFormContext";
 import ClientDetailsPage from "./demo/clientdetails";
 import { IRoleData } from "../../../../types/roles";
 
-const ClientDetailsOverview = ({ data }: { data: IRoleData[] }) => {
+const ClientDetailsOverview = ({
+  data,
+  onActionComplete,
+}: {
+  data: IRoleData[];
+  onActionComplete: () => void;
+}) => {
   const [open, setOpen] = React.useState(false);
   console.log(data);
   const handleClickOpen = () => {
@@ -26,7 +32,10 @@ const ClientDetailsOverview = ({ data }: { data: IRoleData[] }) => {
         <Grid item xs={12} sm={12}>
           <Paper elevation={2}>
             <FormDataProvider>
-              <ClientDetailsPage data={data} />
+              <ClientDetailsPage
+                data={data}
+                onActionComplete={onActionComplete}
+              />
             </FormDataProvider>
           </Paper>
         </Grid>
