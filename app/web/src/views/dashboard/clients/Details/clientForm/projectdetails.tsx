@@ -68,13 +68,14 @@ const ProjectDetails = (props: IProjectDetails) => {
       initialValues={formDataState["Project Details"]}
       validationSchema={projectDetailsValidationSchema}
       onSubmit={(values) => {
+        dispatch({ type: "updateProjectInfo", payload: values });
         if ("atClientPage" in props) {
           // TypeScript now knows that props has 'atClientPage' and 'handleExternalSubmit'
           if (props.atClientPage) {
-            return;
+            props.handleExternalSubmit(values);
+            // return 'true';
           }
         } else {
-          dispatch({ type: "updateProjectInfo", payload: values });
           props.onNext(values);
         }
       }}
@@ -219,9 +220,6 @@ const ProjectDetails = (props: IProjectDetails) => {
                   text="Save"
                   size="small"
                   fullWidth
-                  onClick={() => {
-                    props.atClientPage && props.handleExternalSubmit(values);
-                  }}
                   endIcon={<Send />}
                   disabled={isSubmitting}
                   type="submit"
