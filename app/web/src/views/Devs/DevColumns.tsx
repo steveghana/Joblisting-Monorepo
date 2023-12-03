@@ -14,7 +14,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Button } from "@mui/material";
+import { Button, useMediaQuery, useTheme } from "@mui/material";
 // import { data } from "../../lib/data/data";
 import { IDev } from "../../types/devs";
 import { useNavigate } from "react-router";
@@ -40,6 +40,9 @@ const DevTableData = ({
   isError,
   refetch,
 }: IDevTableData) => {
+  const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -65,7 +68,7 @@ const DevTableData = ({
   const handleClose = () => {
     setOpen(false);
   };
-  const defaultMRTOptions = getDefaultMRTOptions<IDev>();
+  const defaultMRTOptions = getDefaultMRTOptions<IDev>(matchUpMd);
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
     columns,
