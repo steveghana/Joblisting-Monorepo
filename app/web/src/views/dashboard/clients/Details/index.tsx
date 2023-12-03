@@ -46,7 +46,7 @@ const ClientDetails = () => {
 
   const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
   const [currentTab, setCurrentTab] = React.useState<Tabstring>("projects");
-  const { data, isError, isLoading, isFetching } = useGetClientQuery({
+  const { data, isError, isLoading, isFetching, refetch } = useGetClientQuery({
     id,
   });
   const tabs = [
@@ -135,15 +135,6 @@ const ClientDetails = () => {
                   <Typography>{data.phoneNumber}</Typography>
                 </Box>
               </Grid>
-              <Box display={"flex"} gap={1}>
-                <Title color="disabled" />
-                <Box>
-                  <Typography variant="caption">Title</Typography>
-                  <Typography>Ceo</Typography>
-                </Box>
-              </Box>
-            </Box>
-            <Box>
               <Grid display={"flex"} gap={1}>
                 <LocalActivity color="disabled" />
                 <Box>
@@ -152,6 +143,7 @@ const ClientDetails = () => {
                 </Box>
               </Grid>
             </Box>
+
             <Box p={2}>
               <Typography variant="h6" component="h2" gutterBottom>
                 About the Company
@@ -192,7 +184,10 @@ const ClientDetails = () => {
         </Grid>
         <Grid item xs={12}>
           {currentTab === "projects" && (
-            <ClientDetailsOverview data={data.roles} />
+            <ClientDetailsOverview
+              data={data.roles}
+              onActionComplete={() => refetch()}
+            />
           )}
           {currentTab === "tasks" && (
             <div>Column for displaying deves with roles</div>
