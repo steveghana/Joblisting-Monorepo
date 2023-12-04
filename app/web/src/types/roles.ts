@@ -54,6 +54,7 @@ export interface ApplicantsSubmission {
   id?: string;
   name: string;
   email: string;
+  avatar?: string;
   phoneNumber: string;
   status?: IStatusApplication;
   coverLetter: string;
