@@ -22,6 +22,13 @@ export const devApi = createApi({
         method: "DELETE",
       }),
     }),
+    bulkdeletDev: builder.mutation<IDev, { id: string[] }>({
+      query: ({ id }) => ({
+        url: `developers`, // Replace with the appropriate API endpoint
+        method: "DELETE",
+        body: id,
+      }),
+    }),
 
     addDev: builder.mutation<IDev, IDev>({
       query: (dev) => ({
@@ -62,6 +69,6 @@ export const {
   useAddDevMutation,
   useDeletDevMutation,
   useGetDevQuery,
-
+  useBulkdeletDevMutation,
   useGetDevsQuery,
 } = devApi;
