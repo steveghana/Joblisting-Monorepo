@@ -8,14 +8,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Close, LockOutlined, ThumbDown, ThumbUp } from "@mui/icons-material";
 import { Grid, IconButton, Typography } from "@mui/material";
 import CustomButton from "../button";
-type IAlert = {
+import { MRT_Row } from "material-react-table";
+type IAlert<T> = {
   open: boolean;
   handleClose: () => void;
-  // row:any;
   deleteFn: () => void;
 };
-export default function AlertDialog({ handleClose, open, deleteFn }: IAlert) {
+export default function AlertDialog<T>({
+  handleClose,
+  open,
+  deleteFn,
+}: IAlert<T>) {
   const proceed = () => {
+    console.log("deltelfan start");
     deleteFn();
     handleClose();
   };
