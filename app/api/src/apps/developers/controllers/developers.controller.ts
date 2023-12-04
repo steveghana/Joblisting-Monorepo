@@ -88,7 +88,6 @@ export class DevelopersController {
   }
 
   @Delete(':id')
-  @Delete(':id')
   @ApiTags('dlt dev')
   @ApiOperation({
     description: 'delete a client from the db',
@@ -99,5 +98,17 @@ export class DevelopersController {
   async remove(@Param('id') id: string, @Res() res: Response) {
     const result = await this.developersService.remove(id);
     return res.json(result);
+  }
+  @Delete()
+  @ApiTags('dlt devs')
+  @ApiOperation({
+    description: 'delete a client from the db',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async bulkremove(@Body() devIds: string[], @Res() res: Response) {
+    const result = await this.developersService.bulkremove(devIds);
+    return res.json(result[0]);
   }
 }
