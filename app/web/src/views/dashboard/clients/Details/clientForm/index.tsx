@@ -59,7 +59,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
-    height: 3,
+    height: 2,
     border: 0,
     backgroundColor:
       theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
@@ -74,8 +74,8 @@ const ColorlibStepIconRoot = styled("div")<{
     theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
   zIndex: 1,
   color: "#fff",
-  width: 50,
-  height: 50,
+  width: 40,
+  height: 40,
   display: "flex",
   borderRadius: "50%",
   justifyContent: "center",
