@@ -89,6 +89,23 @@ export async function deleteDev(
   });
   return affected;
 }
+export async function bulkdeleteDevs(
+  id: string[],
+  transaction: EntityManager,
+  dependencies: Dependencies = null,
+) {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+  const deleted = await Promise.all(
+    id.map(async (item) => {
+      return devRepo.delete({
+        id: item,
+      });
+    }),
+  );
+  const { affected } = deleted[0];
+  return affected;
+}
 
 export default {
   enrollDev,
