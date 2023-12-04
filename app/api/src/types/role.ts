@@ -15,7 +15,6 @@ export interface IRole {
   experience: string;
   communicationPreferences: string;
   jobs?: JobInfo[];
-  vacancy_status: 'Open' | 'Closed'; // Open, Closed
   interviews?: any[];
 
   application?: IApplication[];
