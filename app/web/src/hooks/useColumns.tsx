@@ -152,6 +152,16 @@ export const useDevsColums = () => {
               </Box>
             ),
           },
+          // {
+          //   header: "Status",
+          //   accessorFn: (originalRow) =>
+          //     originalRow.isActive ? "true" : "false", //must be strings
+          //   id: "isActive",
+          //   filterVariant: "checkbox",
+          //   Cell: ({ cell }) =>
+          //     cell.getValue() === "true" ? "Active" : "Inactive",
+          //   size: 170,
+          // },
           {
             accessorKey: "email", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
@@ -190,15 +200,25 @@ export const useDevsColums = () => {
         id: "id",
         header: "Job Info",
         columns: [
+          // {
+          //   accessorKey: "salary",
+          //   // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
+          //   filterFn: "between",
+          //   header: "Salary",
+          //   enableEditing: true,
+
+          //   size: 100,
+          //   //custom conditional format and styling
+          //   Cell: ({ cell }) => (
+          //
+          //   ),
+          // },
           {
             accessorKey: "salary",
-            // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
-            filterFn: "between",
+            size: 100,
+
             header: "Salary",
             enableEditing: true,
-
-            size: 100,
-            //custom conditional format and styling
             Cell: ({ cell }) => (
               <Box
                 component="span"
@@ -224,6 +244,23 @@ export const useDevsColums = () => {
                 })}
               </Box>
             ),
+            // cell.getValue<number>().toLocaleString("en-US", {
+            //   style: "currency",
+            //   currency: "USD",
+            // }),
+            filterVariant: "range-slider",
+            filterFn: "betweenInclusive", // default (or between)
+            muiFilterSliderProps: {
+              marks: true,
+              max: 200_000, //custom max (as opposed to faceted max)
+              min: 30_000, //custom min (as opposed to faceted min)
+              step: 10_000,
+              valueLabelFormat: (value) =>
+                value.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }),
+            },
           },
 
           {
