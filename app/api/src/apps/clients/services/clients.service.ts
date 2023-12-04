@@ -38,19 +38,22 @@ export class ClientsService {
       const { 'Role Info': roleinfo, 'Project Details': projectDetails } =
         createClientDto;
 
-      await Roles.createRoles(
+      const { data } = await Roles.createRoles(
         {
           client,
           clientId: client.id,
           title: client.projectTitle,
-          vacancy_status:
-            roleinfo.whenToStart !== "I'll decide later" ? 'Open' : 'Closed',
           ...projectDetails,
         },
-        { ...roleinfo, country: client.country.label },
         transaction,
         dependencies,
       );
+      await Roles.createJobs(data.id, {
+        ...roleinfo,
+        country: client.country.label,
+        vacancy_status:
+          roleinfo.whenToStart !== 'I will decide later' ? 'Open' : 'Closed',
+      });
 
       return client;
     });
@@ -65,8 +68,8 @@ export class ClientsService {
       return data.map(({ developers, roles, country, ...rest }) => {
         return {
           developersLength: developers.length,
-          rolesOpen: roles.filter((role) => role.vacancy_status === 'Open')
-            .length,
+          // rolesOpen: roles.filter((role) => role.vacancy_status === 'Open')
+          //   .length,
           roles: roles,
           countrylabel: country.label,
           ...rest,
