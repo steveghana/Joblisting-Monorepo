@@ -26,7 +26,7 @@ import { Response } from 'express';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  @Post()
+  @Post(':id')
   @ApiTags('create a role')
   @ApiOperation({
     description: 'creating a role associated with a specific client',
@@ -34,8 +34,12 @@ export class RolesController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async create(@Body() createRoleDto: CreateRoleDto, @Res() res: Response) {
-    const result = await this.rolesService.create(createRoleDto);
+  async create(
+    @Body() createRoleDto: CreateRoleDto['Project Details'],
+    @Param('id') id: string,
+    @Res() res: Response,
+  ) {
+    const result = await this.rolesService.create(id, createRoleDto);
     return res.json(result);
   }
 
