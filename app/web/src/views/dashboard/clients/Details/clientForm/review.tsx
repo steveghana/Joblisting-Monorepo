@@ -53,7 +53,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
       const response = await createClient({
         ...formDataState,
       }).unwrap();
-      console.log(data, response, "data from client");
+      console.log(isError, response, "data from client");
       if (response && !isError) {
         navigate("/dashboard/jobs/roles");
         toast.success("Client Added Succcessfully", {
