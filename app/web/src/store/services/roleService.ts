@@ -22,6 +22,13 @@ export const roleApi = createApi({
         method: "DELETE",
       }),
     }),
+    bulkDeletRole: builder.mutation<IRoleData, { id: string[] }>({
+      query: ({ id }) => ({
+        url: `roles`, // Replace with the appropriate API endpoint
+        method: "DELETE",
+        body: id,
+      }),
+    }),
 
     addRole: builder.mutation<
       IRoleData,
@@ -74,6 +81,7 @@ export const roleApi = createApi({
 
 export const {
   useUpdateRoleMutation,
+  useBulkDeletRoleMutation,
   useAddRoleMutation,
   useDeletRoleMutation,
   useGetRoleQuery,
