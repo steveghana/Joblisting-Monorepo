@@ -83,9 +83,11 @@ const ProjectDetails = (props: IProjectDetails) => {
       {({ isSubmitting, values, setFieldValue, handleChange }) => (
         <Form>
           <Box>
-            <Typography my={2} variant="h6">
-              Step 2: Project Details
-            </Typography>
+            {!("atClientPage" in props) && (
+              <Typography my={2} variant="h6">
+                Step 2: Project Details
+              </Typography>
+            )}
             <Stack spacing={2}>
               <FormControl fullWidth>
                 <Field
