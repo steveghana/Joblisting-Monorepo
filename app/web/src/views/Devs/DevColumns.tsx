@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 import { getDefaultMRTOptions } from "../../components/Table/DefaultColumnOpt";
 import {
   useAddDevMutation,
+  useBulkdeletDevMutation,
   useDeletDevMutation,
   useUpdateDevMutation,
 } from "../../store/services/DevsService";
@@ -48,6 +49,12 @@ const DevTableData = ({
   >({});
 
   const [open, setOpen] = React.useState(false);
+  const [actionIndex, setActionIndex] = React.useState<IDev>();
+
+  const handleDialogOpen = (actionData: any) => {
+    setOpen(true);
+    setActionIndex({ ...actionData });
+  };
 
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [
@@ -58,12 +65,16 @@ const DevTableData = ({
     deleteuser,
     { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError },
   ] = useDeletDevMutation();
+  const [
+    bulkdeleteuser,
+    {
+      isError: isBulkDeletingError,
+      isLoading: isBulkDeletingDev,
+      error: bulkdeleteError,
+    },
+  ] = useBulkdeletDevMutation();
   const navigate = useNavigate();
   const columns = useDevsColums();
-
-  const handleDialogOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -110,6 +121,7 @@ const DevTableData = ({
         updateUser,
         setValidationErrors
       ),
+
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CreatRow
         internalEditComponents={internalEditComponents}
@@ -121,13 +133,11 @@ const DevTableData = ({
     // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
       <>
-        <AlertDialog
-          deleteFn={async () => {
-            console.log(row.id);
+        <TableActions
+          actionFn={async () => {
             const response = await deleteuser({
               id: row.original.id,
             }).unwrap();
-            console.log(response, "frerekj");
             if (response) {
               refetch();
               toast.success("Action Successful", {
@@ -136,12 +146,10 @@ const DevTableData = ({
             }
           }}
           handleClose={handleClose}
-          open={open}
-        />
-        <TableActions
+          openDialog={open}
           row={row}
           table={table}
-          onConfirmDelete={handleDialogOpen}
+          onConfirmDelete={(original) => handleDialogOpen(original)}
         />
       </>
     ),
@@ -171,11 +179,28 @@ const DevTableData = ({
         Create New User
       </Button>
     ),
-    renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
+    renderTopToolbar: ({ table }) => (
+      <TopToolbar
+        table={table}
+        handleClose={handleClose}
+        openDialog={open}
+        onConfirmDelete={(original) => handleDialogOpen(original)}
+        takeBulkAction={async (id) => {
+          const response = await bulkdeleteuser({ id }).unwrap();
+          if (response && !isBulkDeletingError) {
+            refetch();
+            toast.success("Action Successful", {
+              position: "bottom-center",
+            });
+          }
+        }}
+      />
+    ),
     state: {
       isLoading: isLoading,
-      isSaving: isCreatingDev || isUpdatingDev || isDeletingDev,
-      showAlertBanner: isError,
+      isSaving:
+        isCreatingDev || isUpdatingDev || isDeletingDev || isBulkDeletingDev,
+      showAlertBanner: isError || isBulkDeletingError,
       showProgressBars: isFetching,
     },
   });
