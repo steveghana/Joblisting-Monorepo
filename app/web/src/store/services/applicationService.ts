@@ -52,6 +52,28 @@ export const applicantApi = createApi({
         return message;
       },
     }),
+    bulkDeleteApplicant: builder.mutation<
+      ApplicantsSubmission,
+      { id: string[] }
+    >({
+      query: ({ id }) => ({
+        url: `applications`, // Replace with the appropriate API endpoint
+        method: "DELETE",
+        body: id,
+      }),
+      transformResponse: (response: ApplicantsSubmission, meta) => {
+        console.log(response, "response from query");
+        return response;
+      },
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return message;
+      },
+    }),
     updateApplicant: builder.mutation<
       ApplicantsSubmission,
       { id: string; status: IStatusApplication }
@@ -118,6 +140,7 @@ export const {
   useAddApplicantsMutation,
   useDeleteApplicantMutation,
   useUpdateApplicantMutation,
+  useBulkDeleteApplicantMutation,
   useGetApplicantQuery,
   useGetApplicantsQuery,
 } = applicantApi;
