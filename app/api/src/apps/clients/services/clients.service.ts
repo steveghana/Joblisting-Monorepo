@@ -44,16 +44,21 @@ export class ClientsService {
           clientId: client.id,
           title: client.projectTitle,
           ...projectDetails,
+          vacancy_status:
+            roleinfo.whenToStart !== 'I will decide later' ? 'Open' : 'Closed',
         },
         transaction,
         dependencies,
       );
-      await Roles.createJobs(data.id, {
-        ...roleinfo,
-        country: client.country.label,
-        vacancy_status:
-          roleinfo.whenToStart !== 'I will decide later' ? 'Open' : 'Closed',
-      });
+      await Roles.createJobs(
+        data.id,
+        {
+          ...roleinfo,
+          country: client.country.label,
+        },
+        transaction,
+        dependencies,
+      );
 
       return client;
     });
