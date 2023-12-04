@@ -45,6 +45,14 @@ class Application {
     dependencies = injectDependencies(dependencies, ['db']);
     return await deleteApplicant(roleId, transaction, dependencies);
   }
+  // static async bulkdestroy(
+  //   appliacantsId: string[],
+  //   transaction: EntityManager = null,
+  //   dependencies: Dependencies = null,
+  // ) {
+  //   dependencies = injectDependencies(dependencies, ['db']);
+  //   return await bulkdeleteApplicant(appliacantsId, transaction, dependencies);
+  // }
   static async getById(
     id: string,
     dependencies: Dependencies = null,
