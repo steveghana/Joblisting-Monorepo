@@ -39,8 +39,10 @@ export class ApplicationsController {
     @Body() application: CreateApplicationDto,
     @Res() res: Response,
   ) {
+    const { roleId, status } = application;
     for (let i = 0; i < data.length; i++) {
-      const result = await this.applicationsService.create(application);
+      application.roleId;
+      await this.applicationsService.create({ roleId, status, ...data[i] });
     }
     // console.log(application, 'app data');
     // data
@@ -95,6 +97,11 @@ export class ApplicationsController {
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {
     const result = await this.applicationsService.remove(id);
+    return res.json(result);
+  }
+  @Delete()
+  async bulkRemove(@Body() ids: string[], @Res() res: Response) {
+    const result = await this.applicationsService.bulkremove(ids);
     return res.json(result);
   }
 }
