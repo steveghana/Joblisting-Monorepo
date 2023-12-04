@@ -22,6 +22,7 @@ import { Response } from 'express';
 import { ApplicationsService } from '../services/applications.service';
 import { CreateApplicationDto } from '../dto/create-application.dto';
 import { IStatusApplication } from '@/types/application';
+import { data } from '../../../mockdata';
 
 @Controller('applications')
 export class ApplicationsController {
@@ -38,9 +39,12 @@ export class ApplicationsController {
     @Body() application: CreateApplicationDto,
     @Res() res: Response,
   ) {
-    console.log(application, 'app data');
-    const result = await this.applicationsService.create(application);
-    return res.json(result);
+    for (let i = 0; i < data.length; i++) {
+      const result = await this.applicationsService.create(application);
+    }
+    // console.log(application, 'app data');
+    // data
+    return res.json('result');
   }
   //
   @Get(':id')
