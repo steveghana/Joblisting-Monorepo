@@ -21,10 +21,8 @@ export async function createApplication(
   const applicationRepo = transaction.getRepository(
     dependencies.db.models.application,
   );
-  console.log(applicationData, 'i application');
   let newApplication = await applicationRepo.create({
     role,
-    status: 'PendingShortlist',
     ...applicationData,
   });
   let data = await applicationRepo.save(newApplication);
@@ -37,7 +35,6 @@ export async function deleteApplicant(
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
-  console.log(id, 'frm tidffijdfdf');
   const rolesRepo = transaction.getRepository(
     dependencies.db.models.application,
   );
@@ -46,6 +43,25 @@ export async function deleteApplicant(
   });
   return affected;
 }
+// export async function bulkdeleteApplicant(
+//   id: string[],
+//   transaction: EntityManager,
+//   dependencies: Dependencies = null,
+// ) {
+//   dependencies = injectDependencies(dependencies, ['db']);
+//   const rolesRepo = transaction.getRepository(
+//     dependencies.db.models.application,
+//   );
+//   const deleted = await Promise.all(
+//     id.map(async (item) => {
+//       return rolesRepo.delete({
+//         id: item,
+//       });
+//     }),
+//   );
+//   const { affected } = deleted[0];
+//   return affected;
+// }
 export function getApplicationById(
   id: string,
   transaction: EntityManager = null,
