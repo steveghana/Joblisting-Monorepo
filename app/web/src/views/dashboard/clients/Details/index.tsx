@@ -30,7 +30,7 @@ import ClientDetailsOverview from "./overview";
 import { useNavigate, useParams } from "react-router";
 import { useGetClientQuery } from "../../../../store/services/ClientServce";
 import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
-import ClientEmployees from "./clientEmployees";
+import ClientEmployees from "./ClientEmployees";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
