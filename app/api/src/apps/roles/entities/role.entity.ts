@@ -54,9 +54,6 @@ export class Role extends AssociableModel {
 
   // Store skills as JSON
 
-  @Column()
-  vacancy_status: 'Open' | 'Closed'; // Open, Closed
-
   @OneToMany((type) => Interview, (interview) => interview.role, {
     cascade: true,
     onDelete: 'CASCADE',
