@@ -17,6 +17,7 @@ import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumn
 import { ApplicantsSubmission } from "../../../../types/roles";
 import {
   useAddApplicantsMutation,
+  useBulkDeleteApplicantMutation,
   useDeleteApplicantMutation,
   useGetApplicantsQuery,
   useUpdateApplicantMutation,
@@ -36,10 +37,20 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
   >({});
   const [open, setOpen] = React.useState(false);
 
-  const handleDialogOpen = () => {
-    setOpen(true);
-  };
+  const [actionIndex, setActionIndex] = React.useState<ApplicantsSubmission>();
 
+  const handleDialogOpen = (actionData?: any) => {
+    setOpen(true);
+    setActionIndex({ ...actionData });
+  };
+  const [
+    bulkdeleteuser,
+    {
+      isError: isBulkDeletingError,
+      isLoading: isBulkDeletingApplicant,
+      error: bulkdeleteError,
+    },
+  ] = useBulkDeleteApplicantMutation();
   const handleClose = () => {
     setOpen(false);
   };
@@ -90,40 +101,70 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateUser, setValidationErrors);
-      refetch();
+      // console.log(row.original);
+      // refetch();
     },
 
     renderDetailPanel: ({ row }) => <TableDetail row={row} />,
-    renderRowActions: ({ row, table }) => (
-      <>
-        <AlertDialog
-          deleteFn={async () => {
-            const response = await deleteuser({ id: row.original.id });
-            if (response) {
-              refetch();
-              toast.success("Action Successful", {
-                position: "bottom-center",
-              });
-            }
-          }}
-          handleClose={handleClose}
-          open={open}
-        />
-        <TableActions
-          row={row}
-          table={table}
-          onConfirmDelete={handleDialogOpen}
-        />
-      </>
+    renderRowActions: ({ row, table }) => {
+      /* I had to extract the row.original from the tab 
+      actions comp as passing row directly to alert dialog 
+      wasnt working because of event propagation issues*/
+      return (
+        <>
+          {/* <AlertDialog
+          /> */}
+          <TableActions
+            actionFn={async () => {
+              const response = await deleteuser({ id: actionIndex.id });
+              if (response) {
+                refetch();
+                toast.success("Action Successful", {
+                  position: "bottom-center",
+                });
+              }
+            }}
+            handleClose={handleClose}
+            openDialog={open}
+            row={row}
+            table={table}
+            onConfirmDelete={(original) => handleDialogOpen(original)}
+          />
+        </>
+      );
+    },
+    renderTopToolbar: ({ table }) => (
+      <TopToolbar
+        handleClose={handleClose}
+        openDialog={open}
+        table={table}
+        onConfirmDelete={handleDialogOpen}
+        takeBulkAction={async (id) => {
+          const response = await bulkdeleteuser({ id }).unwrap();
+          if (response) {
+            refetch();
+            toast.success("Action Successful", {
+              position: "bottom-center",
+            });
+          }
+        }}
+      />
     ),
-    renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
     state: {
       isLoading:
-        isAddingApplicant || isUpdatingUser || isDeletingUser || isLoading,
+        isAddingApplicant ||
+        isUpdatingUser ||
+        isDeletingUser ||
+        isLoading ||
+        isBulkDeletingApplicant,
       isSaving:
         isAddingApplicant || isUpdatingUser || isDeletingUser || isLoading,
       showAlertBanner:
-        isCreatingError || isUpdateingError || isDeletingError || isError,
+        isCreatingError ||
+        isUpdateingError ||
+        isDeletingError ||
+        isError ||
+        isBulkDeletingError,
       showProgressBars:
         isAddingApplicant || isUpdatingUser || isDeletingUser || isLoading,
     },
