@@ -103,7 +103,7 @@ export interface JobInfo {
   jobType: string;
   salary: string;
   roleCategory: string;
-  vacancy_status: 'Open' | 'Closed'; // Open, Closed
+  // vacancy_status: 'Open' | 'Closed'; // Open, Closed
 
   postedDate: Date;
   roleName: string;
