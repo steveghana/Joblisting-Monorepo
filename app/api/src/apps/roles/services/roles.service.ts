@@ -1,4 +1,4 @@
-import { CreateRoleDto } from '../dto/create-role.dto';
+import { CreateRoleDto, RoleInfoDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
@@ -12,25 +12,39 @@ import { IRole } from '@/types/role';
 @Injectable()
 export class RolesService {
   public async create(
-    createRoleDto: CreateRoleDto,
+    clientId: string,
+    createRoleDto: CreateRoleDto['Project Details'],
     dependencies: Dependencies = null,
   ) {
-    const { clientId } = createRoleDto;
     return useTransaction(async (transaction) => {
       let clientDetails = await Client.getById(clientId);
-      console.log(clientDetails, 'from client');
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
           ...createRoleDto['Project Details'],
+        },
+        transaction,
+        dependencies,
+      );
+      return data;
+    });
+  }
+  public async createJob(
+    roleId: string,
+    createRoleDto: RoleInfoDto[],
+    dependencies: Dependencies = null,
+  ) {
+    return useTransaction(async (transaction) => {
+      let roldDetails = await Roles.getById(roleId);
+      const { data } = await Roles.createJobs(
+        roleId,
+        {
+          ...createRoleDto['Role Info'],
+          country: roldDetails.client.country.label,
           vacancy_status:
             createRoleDto['Role Info'].whenToStart !== 'I will decide later'
               ? 'Open'
               : 'Closed',
-        },
-        {
-          ...createRoleDto['Role Info'],
-          country: clientDetails.data.country.label,
         },
         transaction,
         dependencies,
