@@ -7,6 +7,7 @@ import {
   getDevById,
   deleteDev,
   updateDev,
+  bulkdeleteDevs,
 } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IDev } from '@/types/developer';
@@ -60,6 +61,14 @@ class Developers {
   ): Promise<number> {
     dependencies = injectDependencies(dependencies, ['db']);
     return await deleteDev(devId, transaction, dependencies);
+  }
+  static async bulkdestroy(
+    devId: string[],
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<number> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await bulkdeleteDevs(devId, transaction, dependencies);
   }
   get id(): string {
     return this.data.id;
