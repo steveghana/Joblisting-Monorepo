@@ -23,7 +23,6 @@ export class ApplicationsService {
   ) {
     const { roleId, years_of_experience, ...rest } = createApplicationDto;
     return useTransaction(async (transaction) => {
-      console.log(createApplicationDto.email);
       const existinguser = await User.getByEmails(
         [createApplicationDto.email],
         transaction,
@@ -52,7 +51,7 @@ export class ApplicationsService {
       }
       return await Application.createApplication(
         role,
-        { ...rest, years_of_experience },
+        { ...rest, years_of_experience, status: 'PendingShortlist' },
         transaction,
         dependencies,
       );
@@ -139,6 +138,22 @@ export class ApplicationsService {
           HttpStatus.BAD_REQUEST,
         );
       }
+    });
+  }
+  bulkremove(applicantIds: string[]) {
+    return useTransaction(async (transaction) => {
+      return await Promise.all(
+        applicantIds.map(async (id) => {
+          const deleted = await Application.destroy(id, transaction);
+          if (!deleted) {
+            throw new HttpException(
+              'Something went wrong, couldnt delete applicant',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          return deleted[0];
+        }),
+      );
     });
   }
 }
