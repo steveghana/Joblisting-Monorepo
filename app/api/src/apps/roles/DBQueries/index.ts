@@ -13,31 +13,39 @@ import { HttpExceptionFilter } from '@/middleware/err.Middleware';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export async function createRoles(
-  // roleId: number,
   applicationData: IRole,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) /* : Promise<ICredentialToken> */ {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const role = transaction.getRepository(dependencies.db.models.role);
+  const { jobs, ...rest } = applicationData;
+  let newApplication = await role.create({
+    ...rest,
+  });
+  let data = await role.save(newApplication);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return data;
+}
+export async function createJobs(
+  roleId: string,
   job: JobInfo,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  console.log(applicationData, 'role daa');
   const role = transaction.getRepository(dependencies.db.models.role);
   const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
-  const { jobs, ...rest } = applicationData;
-  let newApplication = await role.create({
-    ...rest,
-  });
+  const roleForJob = await role.findOne({ where: { id: roleId } });
 
-  let data = await role.save(newApplication);
   const createJob = await jobRepo.create({
-    role: data,
+    role: roleForJob,
     ...job,
-
     postedDate: new Date(),
   });
-  await jobRepo.save(createJob);
+  const data = await jobRepo.save(createJob);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return data;
+  return roleForJob;
 }
 export function getRoleById(
   id: string,
