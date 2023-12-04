@@ -32,6 +32,8 @@ export class Job extends AssociableModel {
   employmentType: string;
   @Column()
   country: string;
+  @Column()
+  vacancy_status: 'Open' | 'Closed'; // Open, Closed
 
   @Column('simple-json')
   selectedSkills: string[];
