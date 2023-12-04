@@ -214,4 +214,39 @@ export class DevelopersService {
       return deleted;
     });
   }
+  bulkremove(ids: string[]) {
+    return useTransaction(async (transaction) => {
+      return await Promise.all(
+        ids.map(async (id) => {
+          const {
+            user: { id: userId, email },
+          } = await Developers.getById(id);
+          if (!userId || !email) {
+            throw new HttpException(
+              'The user you are trying to delete doesnt exist',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          const deleted = await Developers.destroy(id, transaction);
+          if (!deleted) {
+            throw new HttpException(
+              'Something went wrong, couldnt delete developer',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          const userDeleted = await User.destroy(
+            { email, id: userId },
+            transaction,
+          );
+          if (!userDeleted) {
+            throw new HttpException(
+              'Couldnt delete user, please try again later',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+          return deleted;
+        }),
+      );
+    });
+  }
 }
