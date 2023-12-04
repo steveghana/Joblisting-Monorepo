@@ -41,7 +41,7 @@ export const useApplicantsColumns = ({
                   gap: "1rem",
                 }}
               >
-                <Avatar /* src={row.original.avatar} */ />
+                <Avatar src={row.original.avatar} />
 
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
                 <span>{renderedCellValue || ""}</span>
@@ -63,7 +63,7 @@ export const useApplicantsColumns = ({
             // filterVariant: "autocomplete",
             filterVariant: "range", //if not using filter modes feature, use this instead of filterFn
 
-            header: "Years of Experience",
+            header: "Experience",
             size: 30,
           },
           {
