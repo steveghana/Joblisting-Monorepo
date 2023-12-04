@@ -86,7 +86,9 @@ const RoleInfo = (props: IRoleInfo) => {
       {({ isSubmitting, handleChange, values, setFieldValue }) => (
         <Form>
           <Box>
-            <Typography variant="h6">Step 3: Role Info</Typography>
+            {!("atClientPage" in props) && (
+              <Typography variant="h6">Step 3: Role Info</Typography>
+            )}
             <Stack mt={2} spacing={2}>
               <FormControl fullWidth>
                 <Field
