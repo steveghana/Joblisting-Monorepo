@@ -7,6 +7,7 @@ import {
   getRoleById,
   deleteRole,
   updateRole,
+  createJobs,
 } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IClient } from '@/types/client';
@@ -25,7 +26,6 @@ class Roles {
   static async createRoles(
     // roleId: number,
     application: IRole,
-    jobinfo: JobInfo,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
   ) {
@@ -34,6 +34,21 @@ class Roles {
     newApplication.data = await createRoles(
       // roleId,
       application,
+      transaction,
+      dependencies,
+    );
+    return newApplication;
+  }
+  static async createJobs(
+    roleId: string,
+    jobinfo: JobInfo,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    const newApplication = new Roles(dependencies);
+    newApplication.data = await createJobs(
+      roleId,
       jobinfo,
       transaction,
       dependencies,
@@ -92,9 +107,9 @@ class Roles {
   get Jobs(): JobInfo[] {
     return this.data.jobs;
   }
-  get roleStatus(): string {
-    return this.data.vacancy_status;
-  }
+  // get roleStatus(): string {
+  //   return this.data.vacancy_status;
+  // }
   get createdAt(): Date {
     return this.data.createdAt;
   }
