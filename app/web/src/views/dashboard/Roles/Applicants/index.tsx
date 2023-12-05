@@ -28,6 +28,12 @@ import NoData from "../../../../components/NoData";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
 import { toast } from "react-toastify";
+export const appliacantState = [
+  "PendingShortlist",
+  "Shortlisted",
+  "Rejected",
+  // "Accepted",
+];
 const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -93,7 +99,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateUser, setValidationErrors);
       // console.log(row.original);
-      // refetch();
+      refetch();
     },
 
     renderDetailPanel: ({ row }) => <TableDetail row={row} />,
