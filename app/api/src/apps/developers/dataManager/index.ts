@@ -36,7 +36,7 @@ class Developers {
     applicantion: Partial<IDev>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<any> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
     return await updateDev(
       applicantId,
