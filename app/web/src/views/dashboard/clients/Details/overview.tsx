@@ -4,7 +4,7 @@ import { Protect } from "../../../../components/auth/requireAuth";
 import NoData from "../../../../components/NoData";
 import { IClient } from "../../../../types/client";
 import { FormDataProvider } from "../../../../utils/Contexts/clientFormContext";
-import ClientDetailsPage from "./demo/clientdetails";
+import ClientDetailsPage from "./clientDetails/clientdetails";
 import { IRoleData } from "../../../../types/roles";
 
 const ClientDetailsOverview = ({
