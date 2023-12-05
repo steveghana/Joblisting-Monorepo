@@ -19,7 +19,7 @@ export interface IDev {
   phone_number: string;
   salary: number;
   address: string;
-
+  workStatus: 'Active' | 'Not Active';
   role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
   // application: IApplication;
   // In House, Pending Interview, External
