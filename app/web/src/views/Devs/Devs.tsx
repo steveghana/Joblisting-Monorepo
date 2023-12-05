@@ -1,9 +1,12 @@
+import React from "react";
 import FullscreenProgress from "../../components/FullscreenProgress/FullscreenProgress";
 import NoData from "../../components/NoData";
+import { useDevsColums } from "../../hooks/useAllDevsColumn";
 import { useGetDevsQuery } from "../../store/services/DevsService";
 import DevTableData from "./DevColumns";
 
 const Developers = () => {
+  const columns = useDevsColums();
   const {
     data: devs,
     isLoading,
@@ -11,16 +14,20 @@ const Developers = () => {
     isError,
     refetch,
   } = useGetDevsQuery();
-  console.log(devs, "develoeprs");
+
+  const devsData =
+    devs.filter(({ rolestatus }) => rolestatus !== "Pending") || [];
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
-  if (!devs.length) {
+  if (!devsData.length) {
     return <NoData />;
   }
+
   return (
     <DevTableData
-      devs={devs}
+      columns={columns}
+      devs={devsData}
       refetch={() => refetch()}
       isLoading={isLoading}
       isError={isError}
