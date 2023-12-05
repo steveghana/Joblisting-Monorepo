@@ -95,7 +95,7 @@ export class ApplicationsService {
         role: { id: roleId },
         years_of_experience,
       } = applicant;
-      if (status === 'Accepted') {
+      if (status === 'Shortlisted') {
         const enrollDev = await this.developersService.create({
           address,
           email,
@@ -106,7 +106,7 @@ export class ApplicationsService {
           skills: selectedSkills,
           roleId,
           years_of_experience,
-          role_status: 'Accepted',
+          role_status: 'Pending', // If the dev is short listed, they can then transition to pending
         });
         if (!enrollDev) {
           throw new HttpException(
