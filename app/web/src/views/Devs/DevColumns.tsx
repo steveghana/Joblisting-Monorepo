@@ -1,16 +1,15 @@
 import React from "react";
-import { useDevsColums } from "../../hooks/useColumns";
 
 import {
   // IColumnTypeString,
   handleCreate,
   handleSave,
-  openDeleteConfirmModal,
 } from "../../utils/ClientTableCrud";
 import TableActions from "../../components/Table/TableActions";
 import TopToolbar from "../../components/Table/topToolBar";
 import CreatRow from "../../components/Table/CreatRow";
 import {
+  MRT_ColumnDef,
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
@@ -25,36 +24,34 @@ import {
   useDeletDevMutation,
   useUpdateDevMutation,
 } from "../../store/services/DevsService";
-import AlertDialog from "../../components/Dialog";
 import { toast } from "react-toastify";
 type IDevTableData = {
   devs: IDev[];
   isLoading: boolean;
   isFetching: boolean;
+  tableType?: "Shortlist";
   isError: boolean;
   refetch: () => void;
+  handleOpenInterviewForm?: (id: string) => void;
+  columns: MRT_ColumnDef<IDev>[];
+  // omitTypes: string;
 };
 const DevTableData = ({
   devs,
   isLoading,
   isFetching,
+  tableType,
+  handleOpenInterviewForm,
   isError,
+  columns,
   refetch,
 }: IDevTableData) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
-
+  console.log(devs, "this is the devs data");
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
-
-  const [open, setOpen] = React.useState(false);
-  const [actionIndex, setActionIndex] = React.useState<IDev>();
-
-  const handleDialogOpen = (actionData: any) => {
-    setOpen(true);
-    setActionIndex({ ...actionData });
-  };
 
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [
@@ -74,17 +71,14 @@ const DevTableData = ({
     },
   ] = useBulkdeletDevMutation();
   const navigate = useNavigate();
-  const columns = useDevsColums();
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   const defaultMRTOptions = getDefaultMRTOptions<IDev>(matchUpMd);
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
     columns,
     // data,
     data: devs, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    editDisplayMode: "row",
 
     getRowId: (row) => row.id,
     muiToolbarAlertBannerProps: isError
@@ -134,6 +128,8 @@ const DevTableData = ({
     renderRowActions: ({ row, table }) => (
       <>
         <TableActions
+          tableType={tableType}
+          handleOpenInterviewForm={() => handleOpenInterviewForm(row.id)}
           actionFn={async () => {
             const response = await deleteuser({
               id: row.original.id,
