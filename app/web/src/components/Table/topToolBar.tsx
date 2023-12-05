@@ -13,48 +13,44 @@ import AlertDialog from "../Dialog";
 interface TopToolbarProps {
   table: any;
   takeBulkAction: (ids: string[]) => void; // Change 'any' to the type of your table data
-  onConfirmDelete: (original?: any) => void;
   isDetails?: boolean;
-  handleClose: () => void;
-  openDialog: boolean;
   handleOpenJobForm?: (id: string) => void;
 }
 
 const TopToolbar: React.FC<TopToolbarProps> = ({
   table,
   takeBulkAction,
-  handleClose,
-  onConfirmDelete,
-  openDialog,
   handleOpenJobForm,
 }) => {
-  const handleDeactivate = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const [actionIndex, setActionIndex] = React.useState<any>({});
+
+  const handleDialogOpen = (actionData?: any) => {
+    setOpen(true);
+    setActionIndex({ ...actionData });
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const _handleTriggerBulkAction = () => {
     // console.log(table.getSelectedRowModel().flatRows);
     const ids = table.getSelectedRowModel().flatRows.map((row: any) => row.id);
     takeBulkAction(ids);
     table.resetRowSelection(true);
-
-    // console.log(table.setRowSelection());
   };
 
-  const handleActivate = () => {
-    table.getSelectedRowModel().flatRows.map((row: any) => {
-      alert("activating " + row.getValue("name"));
-    });
-  };
-
-  const handleContact = () => {
-    table.getSelectedRowModel().flatRows.map((row: any) => {
-      alert("contact " + row.getValue("name"));
-    });
-  };
-
+  // console.log(
+  //   table.getIsSomeRowsSelected(),
+  //   table.getIsSomePageRowsSelected(),
+  //   table.getIsAllPageRowsSelected()
+  // );
   return (
     <>
       <AlertDialog
-        deleteFn={handleDeactivate}
+        deleteFn={_handleTriggerBulkAction}
         handleClose={handleClose}
-        open={openDialog}
+        open={open}
       />
       <Box
         sx={(theme) => ({
@@ -67,7 +63,9 @@ const TopToolbar: React.FC<TopToolbarProps> = ({
       >
         <Box>
           <Box sx={{ display: "flex", gap: "0.5rem" }}>
-            {table.getIsSomeRowsSelected() && (
+            {(table.getIsSomeRowsSelected() ||
+              table.getIsSomePageRowsSelected() ||
+              table.getIsAllPageRowsSelected()) && (
               <Box display={"flex"} gap={1} alignItems={"center"}>
                 <Typography variant="overline" fontWeight={700}>
                   Bulk delete
@@ -77,7 +75,7 @@ const TopToolbar: React.FC<TopToolbarProps> = ({
                     color="error"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onConfirmDelete();
+                      handleDialogOpen();
                     }}
                   >
                     <Delete fontSize="medium" />
