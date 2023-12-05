@@ -89,6 +89,7 @@ export class ClientsService {
       if (!data.data) {
         return null;
       }
+      console.log(data.data.roles);
       return data.data;
     });
   }
