@@ -22,7 +22,7 @@ const ClientDetailsOverview = ({
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log(data);
   if (!data) {
     return <NoData />;
   }
