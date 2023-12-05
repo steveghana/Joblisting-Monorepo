@@ -16,7 +16,7 @@ import Breadcrumbs from "../../components/extended/Breadcrumbs";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Customization from "../Customization";
-import navigation from "../../components/menu-items";
+import navigation from "../../routes/menu-items";
 import { drawerWidth } from "../../store/constant";
 import { SET_MENU } from "../../store/actions";
 
