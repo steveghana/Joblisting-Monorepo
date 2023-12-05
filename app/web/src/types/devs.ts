@@ -8,6 +8,9 @@ export type IDev = {
   jobTitle: string;
   salary: number;
   startDate: string;
+  experience?: number;
   projectName: string;
   avatar: string;
+  workStatus: "Active" | "Not Active";
+  rolestatus: "InHouse" | "Pending" | "External" | "Accepted";
 };
