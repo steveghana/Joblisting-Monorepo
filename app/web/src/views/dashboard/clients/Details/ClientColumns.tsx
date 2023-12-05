@@ -103,8 +103,10 @@ const ClientTableData = ({
     ),
     renderRowActions: ({ row, table }) => (
       <>
-        <AlertDialog
-          deleteFn={async () => {
+        <TableActions
+          row={row}
+          table={table}
+          actionFn={async () => {
             console.log(row.original);
             const roleIds = row.original?.roles.map((role) => role.id);
             console.log(roleIds);
@@ -119,13 +121,6 @@ const ClientTableData = ({
               });
             }
           }}
-          handleClose={handleClose}
-          open={open}
-        />
-        <TableActions
-          row={row}
-          table={table}
-          onConfirmDelete={handleDialogOpen}
         />
       </>
     ),
