@@ -145,11 +145,8 @@ const DevTableData = ({
               });
             }
           }}
-          handleClose={handleClose}
-          openDialog={open}
           row={row}
           table={table}
-          onConfirmDelete={(original) => handleDialogOpen(original)}
         />
       </>
     ),
@@ -182,9 +179,6 @@ const DevTableData = ({
     renderTopToolbar: ({ table }) => (
       <TopToolbar
         table={table}
-        handleClose={handleClose}
-        openDialog={open}
-        onConfirmDelete={(original) => handleDialogOpen(original)}
         takeBulkAction={async (id) => {
           const response = await bulkdeleteuser({ id }).unwrap();
           if (response && !isBulkDeletingError) {
