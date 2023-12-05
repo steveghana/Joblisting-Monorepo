@@ -21,12 +21,12 @@ export class DevelopersService {
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
-    console.log(createDeveloperDto, 'data');
     const {
       address,
       email,
       firstName,
       salary,
+      role_status,
       lastName,
       phone_number,
       skills,
@@ -40,7 +40,6 @@ export class DevelopersService {
         HttpStatus.BAD_REQUEST,
       );
     }
-
     const dummyTemporalPassword = await generateAlphanumeric(7);
 
     const passwordHash = await cryptoUtil.hash(
@@ -93,18 +92,23 @@ export class DevelopersService {
           lastName,
           phone_number,
           user,
-          role_status: 'Accepted',
-          workStatus: 'Active',
+          role_status,
+          workStatus: role.client.id ? 'Active' : 'Not Active',
           skills,
           years_of_experience,
         },
         transaction,
       );
-
-      void dependencies.email.sendStyled({
-        to: [email],
-        subject: 'Your Role Application has been Accepted',
-        html: `<h1>Congratulations!</h1>
+      if (
+        createDeveloperDto.role_status === 'Accepted' ||
+        createDeveloperDto.role_status === 'InHouse' ||
+        createDeveloperDto.role_status === 'External'
+      ) {
+        // Remember to change the credentials to Url encoded link
+        void dependencies.email.sendStyled({
+          to: [email],
+          subject: 'Your Role Application has been Accepted',
+          html: `<h1>Congratulations!</h1>
       <p>We are pleased to inform you that your application for the [Role Name] role has been accepted.</p>
       <h2>Role Details:</h2>
       <ul>
@@ -115,8 +119,9 @@ export class DevelopersService {
       <h2>Limited Access:</h2>
       <p>You can now access a restricted part of our system related to the applied role. Please follow the instructions below:</p>
       <ol>
-        <li>Access the [Your Platform Name] portal.</li>
+        <li>Access the Savannah Tech portal.</li>
         <li>Use the following temporary credentials:
+        
           <ul>
             <li><strong>email:</strong> ${email}</li>
             <li><strong>Password:</strong>${dummyTemporalPassword}</li>
@@ -128,7 +133,8 @@ export class DevelopersService {
       <p>If you have any questions or need assistance, please contact our support team at [Support Email or Phone Number].</p>
       <p>Thank you for choosing [Your Company Name]!</p>
       <p>Best regards,<br>Savannah Tech.io</p>`,
-      });
+        });
+      }
       return user;
     });
   }
@@ -148,7 +154,8 @@ export class DevelopersService {
         email: item.user.email,
         jobTitle: item.roles.title,
         workStatus: item.workStatus,
-        // jobType: item.job.jobType,
+        rolestatus: item.role_status,
+        experience: +item.years_of_experience,
         salary: item.salary,
         startDate: item.createdAt.toLocaleDateString(),
         projectName: item.client.projectTitle,
@@ -175,6 +182,43 @@ export class DevelopersService {
     return useTransaction(async (transaction) => {
       console.log(updateDevDto, 'dev tos');
       const data = await Developers.update(id, updateDevDto, transaction);
+      const dev = await Developers.getById(id, dependencies);
+      if (
+        updateDevDto.role_status === 'Accepted' ||
+        updateDevDto.role_status === 'InHouse' ||
+        updateDevDto.role_status === 'External'
+      ) {
+        // Remember to change the credentials to Url encoded link
+
+        void dependencies.email.sendStyled({
+          to: [dev.user.email],
+          subject: 'Your Role Application has been Accepted',
+          html: `<h1>Congratulations!</h1>
+      <p>We are pleased to inform you that your application for the [Role Name] role has been accepted.</p>
+      <h2>Role Details:</h2>
+      <ul>
+        <li><strong>Role:</strong>${dev.roles.title}</li>
+        <li><strong>Description:</strong>${dev.roles.aboutTheProject}</li>
+        <li><strong>Start Date:</strong>${dev.roles.createdAt}</li>
+      </ul>
+      <h2>Limited Access:</h2>
+      <p>You can now access a restricted part of our system related to the applied role. Please follow the instructions below:</p>
+      <ol>
+        <li>Access the Savannah Tech portal.</li>
+        <li>Use the following temporary credentials:
+          <ul>
+            <li><strong>email:</strong> ${dev.user.email}</li>
+            <li><strong>Password:</strong>${dev.user.password}</li>
+          </ul>
+        </li>
+      </ol>
+      <h2>Next Steps:</h2>
+      <p>Once you log in, you'll be prompted to complete your registration by providing additional information and setting up a permanent username and password.</p>
+      <p>If you have any questions or need assistance, please contact our support team at [Support Email or Phone Number].</p>
+      <p>Thank you for choosing [Your Company Name]!</p>
+      <p>Best regards,<br>Savannah Tech.io</p>`,
+        });
+      }
       if (!data) {
         throw new HttpException(
           'Something went wrong, couldnt update client',
