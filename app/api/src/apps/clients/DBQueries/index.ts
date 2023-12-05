@@ -57,21 +57,43 @@ export function findElseCreateClient(
   );
 }
 
-export function getClientById(
+// export function getClientById(
+//   id: string,
+//   transaction: EntityManager = null,
+//   dependencies: Dependencies = null,
+// ) /* : Promise<ICredentialToken> */ {
+//   dependencies = injectDependencies(dependencies, ['db']);
+//   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+//   return myDataSource.manager
+//     .getRepository(dependencies.db.models.client)
+//     .findOne({
+//       where: { id },
+//       relations: ['roles', 'developers'],
+//     });
+// }
+// Update with the correct path
+
+export async function getClientById(
   id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
-  return myDataSource.manager
-    .getRepository(dependencies.db.models.client)
-    .findOne({
-      where: { id },
-      relations: ['roles', 'developers'],
-    });
+  const clientRepository = transaction
+    ? transaction.getRepository(dependencies.db.models.client)
+    : myDataSource.manager.getRepository(dependencies.db.models.client);
+
+  return clientRepository
+    .createQueryBuilder('client')
+    .where('client.id = :id', { id })
+    .leftJoinAndSelect('client.roles', 'roles')
+    .leftJoinAndSelect('roles.jobs', 'job')
+    .leftJoinAndSelect('client.developers', 'developers')
+    .getOne();
 }
+
 export async function deleteClient(
   id: string,
   roleIds: string[],
