@@ -8,14 +8,19 @@ interface IActions<T> {
   row: MRT_Row<T>;
   table: MRT_TableInstance<T>;
   isDetails?: boolean;
+  tableType?: "Shortlist";
+
   actionFn: (items: any) => void;
   handleOpenJobForm?: (id: string) => void;
+  handleOpenInterviewForm?: (id: string) => void;
 }
 function TableActions<T>({
   row,
   table,
   actionFn,
   handleOpenJobForm,
+  handleOpenInterviewForm,
+  tableType,
   isDetails,
 }: IActions<T>) {
   const [open, setOpen] = React.useState(false);
@@ -38,6 +43,22 @@ function TableActions<T>({
       />
 
       <Box sx={{ display: "flex", gap: ".2rem" }}>
+        {tableType === "Shortlist" && (
+          <Tooltip title="Schedule Interview">
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenInterviewForm(row.id);
+              }}
+            >
+              <CustomButton
+                sx={{ my: 2 }}
+                variant="contained"
+                text="Interview"
+              />
+            </IconButton>
+          </Tooltip>
+        )}
         {isDetails && (
           <Tooltip title="add new job">
             <IconButton
