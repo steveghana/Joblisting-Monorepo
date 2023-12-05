@@ -88,7 +88,7 @@ export const useApplicantsColumns = ({
         columns: [
           {
             accessorKey: "status",
-            filterVariant: "autocomplete",
+            filterVariant: "select",
             editVariant: "select",
             editSelectOptions: appliacantState,
             muiEditTextFieldProps: {
