@@ -1,4 +1,5 @@
 import { IDev } from './developer';
+import { IRole } from './role';
 
 export interface IClient {
   id?: string;
@@ -10,6 +11,7 @@ export interface IClient {
   companyName: string;
   phoneNumber: string;
   developers?: IDev[];
+  roles?: IRole[];
   projectTitle: string;
   startDate: Date;
   companyLogo: string;
