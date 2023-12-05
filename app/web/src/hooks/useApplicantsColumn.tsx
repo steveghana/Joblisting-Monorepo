@@ -9,7 +9,7 @@ export const appliacantState = [
   "PendingShortlist",
   "Shortlisted",
   "Rejected",
-  "Accepted",
+  // "Accepted",
 ];
 type IApplicationProps = {
   setValidationErrors: React.Dispatch<
