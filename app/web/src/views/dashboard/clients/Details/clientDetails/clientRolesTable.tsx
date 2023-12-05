@@ -1,46 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   MaterialReactTable,
-  // createRow,
-  type MRT_ColumnDef,
-  type MRT_Row,
-  type MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useClientRolesColumn } from "../../../../../hooks/useColumns";
-import CustomButton from "../../../../../components/button";
 import TableActions from "../../../../../components/Table/TableActions";
-import AlertDialog from "../../../../../components/Dialog";
 import { IRoleData } from "../../../../../types/roles";
-import { getDefaultMRTOptions } from "../../../../../components/Table/DefaultColumnOpt";
-import { handleCreate, handleSave } from "../../../../../utils/ClientTableCrud";
+import { handleSave } from "../../../../../utils/ClientTableCrud";
 import {
   useBulkDeletRoleMutation,
   useDeletRoleMutation,
   useUpdateRoleMutation,
 } from "../../../../../store/services/roleService";
 import { toast } from "react-toastify";
-import TableDetail from "../../../../../components/Table/Detail";
 import { IClient } from "../../../../../types/client";
 import TopToolbar from "../../../../../components/Table/topToolBar";
 import JobDetails from "./jobDetails";
+import { useClientRolesColumn } from "../../../../../hooks/useClientRolesColumn";
 
 const ClientRoleTable = ({
   data,
@@ -56,14 +31,8 @@ const ClientRoleTable = ({
     Record<string, string | undefined>
   >({});
   const [updateRole, { isLoading, isError }] = useUpdateRoleMutation();
-  const [
-    deleteRole,
-    {
-      isLoading: isDeleteLoading,
-      isError: isDeleteError,
-      isSuccess: isDeleteSuccess,
-    },
-  ] = useDeletRoleMutation();
+  const [deleteRole, { isLoading: isDeleteLoading, isError: isDeleteError }] =
+    useDeletRoleMutation();
   const [
     bulkdeleteuser,
     {
@@ -111,9 +80,6 @@ const ClientRoleTable = ({
       />
     ),
     renderRowActions: ({ row, table }) => (
-      /* I had to extract the row.original from the tab 
-      actions comp as passing row directly to alert dialog 
-      wasnt working or not getting the row data, but rather the last item in the array*/
       <TableActions
         actionFn={async () => {
           const response = await deleteRole({ id: actionIndex.id });
