@@ -35,14 +35,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
-  const [open, setOpen] = React.useState(false);
 
-  const [actionIndex, setActionIndex] = React.useState<ApplicantsSubmission>();
-
-  const handleDialogOpen = (actionData?: any) => {
-    setOpen(true);
-    setActionIndex({ ...actionData });
-  };
   const [
     bulkdeleteuser,
     {
@@ -51,9 +44,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
       error: bulkdeleteError,
     },
   ] = useBulkDeleteApplicantMutation();
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   const columns = useApplicantsColumns({
     validationErrors,
     setValidationErrors,
@@ -115,8 +106,9 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
           {/* <AlertDialog
           /> */}
           <TableActions
-            actionFn={async () => {
-              const response = await deleteuser({ id: actionIndex.id });
+            actionFn={async (items) => {
+              // table.get
+              const response = await deleteuser({ id: items });
               if (response) {
                 refetch();
                 toast.success("Action Successful", {
@@ -124,23 +116,19 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
                 });
               }
             }}
-            handleClose={handleClose}
-            openDialog={open}
             row={row}
             table={table}
-            onConfirmDelete={(original) => handleDialogOpen(original)}
           />
         </>
       );
     },
     renderTopToolbar: ({ table }) => (
       <TopToolbar
-        handleClose={handleClose}
-        openDialog={open}
         table={table}
-        onConfirmDelete={handleDialogOpen}
         takeBulkAction={async (id) => {
-          const response = await bulkdeleteuser({ id }).unwrap();
+          const response = await bulkdeleteuser({
+            id,
+          }).unwrap();
           if (response) {
             refetch();
             toast.success("Action Successful", {
