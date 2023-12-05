@@ -1,23 +1,56 @@
-// material-ui
-import { Typography } from "@mui/material";
-import React from "react";
-import MainCard from "../../components/MainCard";
-// project imports
-// import MainCard from 'ui-component/cards/MainCard';
+import React, { useState } from "react";
+import FullscreenProgress from "../../components/FullscreenProgress/FullscreenProgress";
+import NoData from "../../components/NoData";
+import { useDevsShortlistedColums } from "../../hooks/useShortlistedDevsColumns";
+import { useGetDevsQuery } from "../../store/services/DevsService";
+import DevTableData from "../Devs/DevColumns";
+import InterviewPage from "./interview";
 
-// ==============================|| SAMPLE PAGE ||============================== //
+const Shortlisted = () => {
+  const columns = useDevsShortlistedColums();
+  const {
+    data: devs,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  } = useGetDevsQuery();
+  const [openRoleForm, setOpenRoleForm] = React.useState(false);
+  const [applicantId, setApplicantID] = useState<string>();
+  const handleOpenInterviewForm = (id: string) => {
+    console.log(id);
+    setOpenRoleForm(true);
+  };
+  const handleCloseJobForm = () => {
+    setOpenRoleForm(false);
+  };
+  // console.log(devs);
+  const devsShortlistedData =
+    (devs?.length &&
+      devs.filter(({ rolestatus }) => rolestatus === "Pending")) ||
+    [];
 
-const SamplePage = () => (
-  <MainCard title="Sample Card">
-    <Typography variant="body2">
-      Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos
-      incident ut laborers et doolie magna alissa. Ut enif ad minim venice, quin
-      nostrum exercitation illampu laborings nisi ut liquid ex ea commons
-      construal. Duos aube grue dolor in reprehended in voltage veil esse colum
-      doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non
-      president, sunk in culpa qui officiate descent molls anim id est labours.
-    </Typography>
-  </MainCard>
-);
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
+  if (!devsShortlistedData.length) {
+    return <NoData />;
+  }
+  return (
+    <>
+      <InterviewPage onClose={handleCloseJobForm} open={openRoleForm} />
 
-export default SamplePage;
+      <DevTableData
+        handleOpenInterviewForm={(id) => handleOpenInterviewForm(id)}
+        tableType="Shortlist"
+        columns={columns}
+        devs={devsShortlistedData}
+        refetch={() => refetch()}
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+      />
+    </>
+  );
+};
+export default Shortlisted;
