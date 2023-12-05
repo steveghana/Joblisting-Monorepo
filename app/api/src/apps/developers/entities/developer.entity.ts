@@ -46,6 +46,8 @@ export class Developer extends AssociableModel {
   years_of_experience: string;
   @Column()
   address: string;
+  @Column()
+  workStatus: 'Active' | 'Not Active';
   @Column({ default: 'External' })
   role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
   @ManyToOne((type) => Role, (role) => role.developers)
