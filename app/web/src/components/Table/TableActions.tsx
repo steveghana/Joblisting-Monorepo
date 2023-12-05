@@ -3,32 +3,38 @@ import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete, Edit, People } from "@mui/icons-material";
 import CustomButton from "../button";
 import AlertDialog from "../Dialog";
+import React from "react";
 interface IActions<T> {
   row: MRT_Row<T>;
   table: MRT_TableInstance<T>;
-  onConfirmDelete: (original: any) => void;
   isDetails?: boolean;
-  handleClose: () => void;
-  openDialog: boolean;
-  actionFn: () => void;
+  actionFn: (items: any) => void;
   handleOpenJobForm?: (id: string) => void;
 }
 function TableActions<T>({
   row,
   table,
-  openDialog,
-  onConfirmDelete,
-  handleClose,
   actionFn,
   handleOpenJobForm,
   isDetails,
 }: IActions<T>) {
+  const [open, setOpen] = React.useState(false);
+
+  const [actionIndex, setActionIndex] = React.useState<any>({});
+
+  const handleDialogOpen = (actionData?: any) => {
+    setOpen(true);
+    setActionIndex({ ...actionData });
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
       <AlertDialog
-        deleteFn={actionFn}
+        deleteFn={() => actionFn(actionIndex.id)}
         handleClose={handleClose}
-        open={openDialog}
+        open={open}
       />
 
       <Box sx={{ display: "flex", gap: ".2rem" }}>
@@ -62,7 +68,7 @@ function TableActions<T>({
               color="error"
               onClick={(e) => {
                 e.stopPropagation();
-                onConfirmDelete(row.original);
+                handleDialogOpen(row.original);
               }}
             >
               <Delete />
