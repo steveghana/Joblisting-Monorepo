@@ -27,7 +27,7 @@ const Interviews = Loadable(lazy(() => import("../views/Devs/Interviews")));
 const Hub = Loadable(lazy(() => import("../views/Devs/devHub")));
 
 // sample page routing
-const SamplePage = Loadable(lazy(() => import("../views/HR")));
+const ShortListedDevs = Loadable(lazy(() => import("../views/HR")));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -141,8 +141,8 @@ const MainRoutes = {
     },
 
     {
-      path: "sample-page",
-      element: <SamplePage />,
+      path: "devs/shortlisted",
+      element: <ShortListedDevs />,
     },
     {
       path: "job-submttion/:id",
