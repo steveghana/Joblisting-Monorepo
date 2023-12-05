@@ -20,7 +20,7 @@ export default function AlertDialog<T>({
   deleteFn,
 }: IAlert<T>) {
   const proceed = () => {
-    console.log("deltelfan start");
+    // console.log("deltelfan start");
     deleteFn();
     handleClose();
   };
