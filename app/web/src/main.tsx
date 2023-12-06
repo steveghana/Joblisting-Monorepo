@@ -9,10 +9,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import FullscreenProgress from "./components/FullscreenProgress/FullscreenProgress";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    {/* <PersistGate loading={<FullscreenProgress />} persistor={persistor}> */}
     <BrowserRouter>
-      <App />
+      <PersistGate /* s */ persistor={persistor}>
+        <App />
+      </PersistGate>
     </BrowserRouter>
-    {/* </PersistGate> */}
   </Provider>
 );
