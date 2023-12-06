@@ -9,6 +9,7 @@ import {
   FLUSH,
   PAUSE,
   PERSIST,
+  persistReducer,
   persistStore,
   PURGE,
   REGISTER,
@@ -18,12 +19,17 @@ import { RESET_STATE_ACTION_TYPE } from "./actions";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { unauthenticatedMiddleware } from "./middleware/unauthenticatedMiddleware";
 import { rtkQueryErrorLogger } from "./middleware/err";
+
 import {
   APPLICATION_API_KEY,
   applicantApi,
 } from "./services/applicationService";
+import storage from "redux-persist/lib/storage";
+import devReducer from "./slices/devslice";
+import dataReducer from "./slices/demoslice";
 
 const reducers = {
+  devs: devReducer,
   [USER_API_KEY]: userApi.reducer,
   [CLIENT_API_KEY]: clientApi.reducer,
   [DEV_API_KEY]: devApi.reducer,
@@ -34,17 +40,15 @@ const reducers = {
 
 const combinedReducer = combineReducers<typeof reducers>(reducers);
 
-// Create a custom rootReducer that resets state on a specific action type
-export const reducer: Reducer<RootState> = (state, action) => {
-  if (action.type === RESET_STATE_ACTION_TYPE) {
-    state = {} as RootState; // Just reset state to an empty object
-  }
-
-  return combinedReducer(state, action);
+const persistConfig = {
+  key: "root",
+  storage,
 };
 
+const persistedReducer = persistReducer(persistConfig, combinedReducer);
+
 const store = configureStore({
-  reducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -59,14 +63,14 @@ const store = configureStore({
       devApi.middleware,
       applicantApi.middleware,
     ]),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
-// Create a Redux Persist store to persist the state in the lifeCycle of the app
 export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof combinedReducer>; // Type for the root state
-export const useTypedDispatch = () => useDispatch<AppDispatch>(); // Type inference for dispatch
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector; // Type inference for useSelector
+export type RootState = ReturnType<typeof combinedReducer>;
+export const useTypedDispatch = () => useDispatch<AppDispatch>();
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default store;
