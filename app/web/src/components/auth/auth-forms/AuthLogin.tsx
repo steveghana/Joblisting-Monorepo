@@ -36,10 +36,11 @@ import AnimateButton from "../../extended/AnimateButton";
 import useScriptRef from "../../../hooks/useScriptRef";
 import { themeTypography } from "../../../themes/schemes/typography";
 import CustomButton from "../../button";
-import { GitHub, Google, LinkedIn } from "@mui/icons-material";
+import { GitHub, LinkedIn } from "@mui/icons-material";
+import Google from "../../../assets/images/icons/google.svg";
 import { useLoginUserMutation } from "../../../store/services/userAuthService";
 import { useNavigate } from "react-router";
-const Social = {
+export const Social = {
   Github: {
     color: "#131418",
     icon: GitHub,
@@ -51,14 +52,13 @@ const Social = {
 
   Google: {
     color: "red",
-    icon: () => (
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"
-        width={20}
-        height={20}
-      />
-    ),
+    icon: () => <img src={Google} width={20} height={20} />,
   },
+};
+export let handleSocial = {
+  Google: () => {},
+  Github: () => {},
+  Linkedin: () => {},
 };
 // import Google from 'assets/images/icons/social-google.svg';
 
@@ -101,11 +101,7 @@ const FirebaseLogin = ({ ...others }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  let handleSocial = {
-    Google: () => {},
-    Github: () => {},
-    Linkedin: () => {},
-  };
+
   return (
     <>
       <Formik
