@@ -5,6 +5,7 @@ import { useDevsShortlistedColums } from "../../hooks/useShortlistedDevsColumns"
 import { useGetDevsQuery } from "../../store/services/DevsService";
 import DevTableData from "../Devs/DevColumns";
 import InterviewPage from "./interview";
+import { useNavigate } from "react-router";
 
 const Shortlisted = () => {
   const columns = useDevsShortlistedColums();
@@ -24,6 +25,7 @@ const Shortlisted = () => {
   const handleCloseJobForm = () => {
     setOpenRoleForm(false);
   };
+  const navigate = useNavigate();
   // console.log(devs);
   const devsShortlistedData =
     (devs?.length &&
@@ -41,7 +43,7 @@ const Shortlisted = () => {
       <InterviewPage onClose={handleCloseJobForm} open={openRoleForm} />
 
       <DevTableData
-        handleOpenInterviewForm={(id) => handleOpenInterviewForm(id)}
+        handleOpenInterviewForm={(id) => navigate(`/hr/interviews/${id}`)}
         tableType="Shortlist"
         columns={columns}
         devs={devsShortlistedData}
