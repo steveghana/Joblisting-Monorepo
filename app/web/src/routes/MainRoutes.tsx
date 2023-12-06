@@ -12,6 +12,7 @@ import AddClient from "../views/dashboard/clients/Details/clientForm";
 import Status404 from "../views/status/Status404";
 import { FormDataProvider } from "../utils/Contexts/clientFormContext";
 import Developers from "../views/Devs/Devs";
+import InterviewScheduler from "../views/HR/interviewSteps/InterviewScheduler";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -120,7 +121,6 @@ const MainRoutes = {
         },
       ],
     },
-
     {
       path: "devs",
       children: [
@@ -139,10 +139,13 @@ const MainRoutes = {
         },
       ],
     },
-
     {
       path: "devs/shortlisted",
       element: <ShortListedDevs />,
+    },
+    {
+      path: "/hr/interviews/:id",
+      element: <InterviewScheduler />,
     },
     {
       path: "job-submttion/:id",
