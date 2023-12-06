@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FullscreenProgress from "../../components/FullscreenProgress/FullscreenProgress";
 import NoData from "../../components/NoData";
 import { useDevsColums } from "../../hooks/useAllDevsColumn";
-import { useGetDevsQuery } from "../../store/services/DevsService";
 import DevTableData from "./DevColumns";
+import { useGetDevsQuery } from "../../store/services/DevsService";
 
 const Developers = () => {
   const columns = useDevsColums();
+
   const {
     data: devs,
+    isError,
     isLoading,
     isFetching,
-    isError,
     refetch,
   } = useGetDevsQuery();
-
   const devsData =
-    devs.filter(({ rolestatus }) => rolestatus !== "Pending") || [];
+    (devs?.length &&
+      devs?.filter(({ rolestatus }) => rolestatus !== "Pending")) ||
+    [];
+
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
-  if (!devsData.length) {
+
+  if (!devsData.length || isError) {
     return <NoData />;
   }
 
@@ -28,6 +32,7 @@ const Developers = () => {
     <DevTableData
       columns={columns}
       devs={devsData}
+      // You can still use refetch if needed
       refetch={() => refetch()}
       isLoading={isLoading}
       isError={isError}
@@ -35,4 +40,5 @@ const Developers = () => {
     />
   );
 };
+
 export default Developers;
