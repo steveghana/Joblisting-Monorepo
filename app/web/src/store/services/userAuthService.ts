@@ -57,7 +57,15 @@ export const userApi = createApi({
       },
       // providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
-
+    // getAccessToken: builder.query<AuthResponse, string>({
+    //   query: (code) => {
+    //     return {
+    //       url: "github/access_token",
+    //       method: "POST",
+    //       body: { code },
+    //     };
+    //   },
+    // }),
     registerUser: builder.mutation<IResponseRg, IRegister>({
       query: (user) => ({
         url: "user/register", // Replace with the appropriate API endpoint
