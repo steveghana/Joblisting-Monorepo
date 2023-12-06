@@ -3,6 +3,8 @@ import React from "react";
 // import { Session } from 'next-auth';
 import { IProfession, UserRoleSelection } from "../../types/roles";
 import { useNavigate } from "react-router";
+import { useTypedDispatch } from "../../store";
+import { userApi } from "../../store/services/userAuthService";
 interface ProtectedRouteProps {
   children: React.ReactNode;
   allowedRoles?: UserRoleSelection;
@@ -22,13 +24,23 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const role = localStorage.getItem("role");
   const currentPageName = window.location.pathname.split("/").pop() || "";
   const router = useNavigate();
+  //  const dispatch = useTypedDispatch();
+  //  const accessTokenQueryResult = userApi.endpoints.getAccessToken.useQuery(
+  //    code!,
+  //    {
+  //      skip: !code,
+  //    }
+  //  );
+  //  const { data } = accessTokenQueryResult;
+  //  const accessToken = data?.access_token;
   React.useEffect(() => {
     const userRole = role as IProfession;
     if (!session) {
       // Redirect to the login page or handle authentication as needed
       router("/auth/login");
     }
-    console.log(allowedRoles, role);
+    // dispatch(authSlice.actions.updateAccessToken(accessToken));
+
     if (
       userRole &&
       !allowedRoles.includes(userRole)
@@ -47,8 +59,9 @@ export const Protect =
     Component: React.ComponentType<P>,
     allowedRoles: UserRoleSelection
   ) =>
-  (props: P) => (
-    <ProtectedRoute allowedRoles={allowedRoles}>
-      <Component {...props} />
-    </ProtectedRoute>
-  );
+  (props: P) =>
+    (
+      <ProtectedRoute allowedRoles={allowedRoles}>
+        <Component {...props} />
+      </ProtectedRoute>
+    );
