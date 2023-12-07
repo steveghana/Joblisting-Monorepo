@@ -32,7 +32,6 @@ const InterviewScheduler: React.FC = () => {
     setSelectedApplicant({ candidate: false, interviewer: false });
     setSelectedInterviewDate(null);
   };
-  console.log(currentStep);
 
   return (
     <div>
