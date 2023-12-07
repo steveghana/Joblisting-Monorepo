@@ -12,7 +12,7 @@ import {
 import ProjectDetails from "../clientForm/projectdetails";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
-import { useAddRoleMutation } from "../../../../../store/services/roleService";
+import { useAddRoleMutation } from "../../../../../store/services/role.service";
 import { ClientFormDataState } from "../../../../../types/client";
 import { toast } from "react-toastify";
 
