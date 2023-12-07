@@ -48,12 +48,10 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
   const [createClient, { data, isLoading, isError, isSuccess, error }] =
     useAddClientMutation();
   const handleSubmit = async (values) => {
-    console.log("Final Form Data:", formDataState);
     try {
       const response = await createClient({
         ...formDataState,
       }).unwrap();
-      console.log(isError, response, "data from client");
       if (response && !isError) {
         navigate("/dashboard/jobs/roles");
         toast.success("Client Added Succcessfully", {
@@ -64,7 +62,6 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
       console.log(error, "from eerror");
     }
   };
-  console.log(formDataState, "this is the form");
   return (
     <Formik
       validationSchema={reviewSchema}
