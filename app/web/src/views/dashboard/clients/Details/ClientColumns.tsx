@@ -21,7 +21,7 @@ import { getDefaultMRTOptions } from "../../../../components/Table/DefaultColumn
 import {
   useUpdateClientMutation,
   useDeletClientMutation,
-} from "../../../../store/services/ClientServce";
+} from "../../../../store/services/client.service";
 import AlertDialog from "../../../../components/Dialog";
 import { toast } from "react-toastify";
 import { useMediaQuery, useTheme } from "@mui/material";
