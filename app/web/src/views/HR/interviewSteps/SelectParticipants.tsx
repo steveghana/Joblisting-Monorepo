@@ -56,7 +56,6 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
     __state?.length && __state.filter((item) => item.rolestatus === "Pending");
   // const dispatch = useTypedDispatch();
   console.log(__applicant, "this is the state");
-  console.log(id);
   const __validationSchema = Yup.object({
     interviewType: Yup.string().required("Interview type is required"),
     interviewDate: Yup.date().required("Interview date is required"),
@@ -95,7 +94,7 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
                   name="candidate"
                   as={Select}
                   variant="outlined"
-                  disabled={__applicant.id}
+                  disabled={__applicant.id.length > 0}
                   fullWidth
                   // value={values.candidate}
                 >
