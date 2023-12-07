@@ -52,7 +52,6 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (
 
   const handleFilterChange = (newFilters: Record<string, any>) => {
     // We are grabbing the first item in the keys since it can only be one
-    console.log(newFilters, "this filters");
     let filterkey = Object.keys(newFilters)[1];
     // Applying filtering logic here based on newFilters
     const filteredJobs =
