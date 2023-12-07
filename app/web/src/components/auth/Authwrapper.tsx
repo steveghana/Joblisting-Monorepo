@@ -2,13 +2,13 @@ import { Box, Grid, Paper, Typography, CssBaseline } from "@mui/material";
 export default function AuthWrapper2(props) {
   return (
     <>
+      <CssBaseline />
       <Grid
         container
         component="main"
-        sx={{ height: "100vh", overflow: "hidden" }}
+        sx={{ height: "100vh", overflow: "hidden", display: "flex" }}
       >
-        <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} sx={{ display: { xs: "none" } }}>
+        <Grid item md={6} lg={6} sx={{ display: { md: "flex", xs: "none" } }}>
           <Typography
             justifyContent={"center"}
             alignItems={"center"}
@@ -18,7 +18,16 @@ export default function AuthWrapper2(props) {
             What to display Here
           </Typography>{" "}
         </Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={6}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
