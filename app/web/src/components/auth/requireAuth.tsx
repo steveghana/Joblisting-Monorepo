@@ -4,7 +4,7 @@ import React from "react";
 import { IProfession, UserRoleSelection } from "../../types/roles";
 import { useNavigate } from "react-router";
 import { useTypedDispatch } from "../../store";
-import { userApi } from "../../store/services/userAuthService";
+import { userApi } from "../../store/services/userAuth.service";
 interface ProtectedRouteProps {
   children: React.ReactNode;
   allowedRoles?: UserRoleSelection;
