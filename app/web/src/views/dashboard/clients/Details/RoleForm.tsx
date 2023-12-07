@@ -49,7 +49,6 @@ const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose }) => {
     experienceLevel: "",
     whenToStart: "", // Example additional field
   };
-  console.log(open, "from popeonen");
   const handleSubmit = (values: any) => {
     // Handle form submission logic here
     console.log("Submitted values:", values);
