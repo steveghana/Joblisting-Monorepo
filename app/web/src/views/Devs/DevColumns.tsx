@@ -23,7 +23,7 @@ import {
   useBulkdeletDevMutation,
   useDeletDevMutation,
   useUpdateDevMutation,
-} from "../../store/services/DevsService";
+} from "../../store/services/dev.service";
 import { toast } from "react-toastify";
 type IDevTableData = {
   devs: IDev[];
