@@ -24,7 +24,7 @@ import { themePalette } from "../../../themes/schemes/palette";
 import CustomDrawer from "../../../components/Drawer";
 import Dot from "../../../components/Dot";
 import RoleTabs from "./roleTabs";
-import { useGetRolesQuery } from "../../../store/services/roleService";
+import { useGetRolesQuery } from "../../../store/services/role.service";
 import { IRoleData } from "../../../types/roles";
 import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
 import NoData from "../../../components/NoData";
