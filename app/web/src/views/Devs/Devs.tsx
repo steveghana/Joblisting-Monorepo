@@ -3,7 +3,7 @@ import FullscreenProgress from "../../components/FullscreenProgress/FullscreenPr
 import NoData from "../../components/NoData";
 import { useDevsColums } from "../../hooks/useAllDevsColumn";
 import DevTableData from "./DevColumns";
-import { useGetDevsQuery } from "../../store/services/DevsService";
+import { useGetDevsQuery } from "../../store/services/dev.service";
 
 const Developers = () => {
   const columns = useDevsColums();
