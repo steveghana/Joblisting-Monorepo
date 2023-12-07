@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FullscreenProgress from "../../components/FullscreenProgress/FullscreenProgress";
 import NoData from "../../components/NoData";
 import { useDevsShortlistedColums } from "../../hooks/useShortlistedDevsColumns";
-import { useGetDevsQuery } from "../../store/services/DevsService";
+import { useGetDevsQuery } from "../../store/services/dev.service";
 import DevTableData from "../Devs/DevColumns";
 import InterviewPage from "./interview";
 import { useNavigate } from "react-router";
