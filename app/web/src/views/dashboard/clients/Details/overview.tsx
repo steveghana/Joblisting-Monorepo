@@ -15,14 +15,12 @@ const ClientDetailsOverview = ({
   onActionComplete: () => void;
 }) => {
   const [open, setOpen] = React.useState(false);
-  console.log(data);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(data);
   if (!data) {
     return <NoData />;
   }
