@@ -48,7 +48,6 @@ const DevTableData = ({
 }: IDevTableData) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
-  console.log(devs, "this is the devs data");
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
@@ -103,7 +102,6 @@ const DevTableData = ({
       },
     }),
 
-    // onRowSelectionChange: () => console.log("selected"),
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) =>
       handleCreate(item, createUser, setValidationErrors),
