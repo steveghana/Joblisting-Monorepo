@@ -54,10 +54,10 @@ export class Developer extends AssociableModel {
   @JoinColumn({ name: 'developer_id' })
   roles: Role;
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
-  interviewsAsInterviewer: Interview[];
+  interviewer: Interview[];
 
-  @OneToMany((type) => Interview, (interview) => interview.interviewee)
-  interviewsAsInterviewee: Interview[];
+  @OneToMany((type) => Interview, (interview) => interview.candidate)
+  candidate: Interview[];
 
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
   clockHours: ClockHours[];
