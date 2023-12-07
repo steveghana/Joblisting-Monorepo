@@ -18,7 +18,7 @@ import { Grid } from "@mui/material";
 import { availableSkills } from "./skills";
 import { useNavigate, useParams } from "react-router";
 import { ApplicantsSubmission } from "../../../../types/roles";
-import { useAddApplicantsMutation } from "../../../../store/services/applicationService";
+import { useAddApplicantsMutation } from "../../../../store/services/application.service";
 import { toast } from "react-toastify";
 const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
