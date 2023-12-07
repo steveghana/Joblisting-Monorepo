@@ -55,7 +55,6 @@ const ClientDetailsPage: React.FC<{
   const handleCloseJobDetails = () => {
     setSelectedJob(null);
   };
-  console.log(data);
   return (
     <Grid item xs={12} sm={12}>
       <Paper elevation={2}>
