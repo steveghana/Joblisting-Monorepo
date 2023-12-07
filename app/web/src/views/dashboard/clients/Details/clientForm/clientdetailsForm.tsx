@@ -44,7 +44,6 @@ const projectInfoValidationSchema = Yup.object().shape({
 
 const ProjectInfo = ({ onNext }) => {
   const { formDataState, dispatch } = useFormData();
-  console.log(formDataState["Client Info"]);
   return (
     <Formik
       initialValues={formDataState["Client Info"]}
