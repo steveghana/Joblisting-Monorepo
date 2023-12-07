@@ -23,7 +23,6 @@ const Clients = () => {
   const navigate = useNavigate();
   const { data, isLoading, isFetching, isError, refetch } =
     useGetClientsQuery();
-  console.log("clients:", data);
 
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
