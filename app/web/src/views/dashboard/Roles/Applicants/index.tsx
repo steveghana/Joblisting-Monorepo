@@ -21,7 +21,7 @@ import {
   useDeleteApplicantMutation,
   useGetApplicantsQuery,
   useUpdateApplicantMutation,
-} from "../../../../store/services/applicationService";
+} from "../../../../store/services/application.service";
 import { useApplicantsColumns } from "../../../../hooks/useApplicantsColumn";
 import AlertDialog from "../../../../components/Dialog";
 import NoData from "../../../../components/NoData";
