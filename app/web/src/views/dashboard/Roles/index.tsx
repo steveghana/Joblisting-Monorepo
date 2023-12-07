@@ -89,7 +89,6 @@ const RoleCard = (props: IRoleCard) => {
 
   const now = new Date();
   const date = new Date(createdAt);
-  console.log(props.role);
   return (
     <>
       {jobs?.map((job, i) => (
