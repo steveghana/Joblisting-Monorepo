@@ -28,7 +28,7 @@ import {
 import { themePalette } from "../../../../themes/schemes/palette";
 import ClientDetailsOverview from "./overview";
 import { useNavigate, useParams } from "react-router";
-import { useGetClientQuery } from "../../../../store/services/ClientServce";
+import { useGetClientQuery } from "../../../../store/services/client.service";
 import FullscreenProgress from "../../../../components/FullscreenProgress/FullscreenProgress";
 import ClientEmployees from "./ClientEmployees";
 const TabsWrapper = styled(Tabs)(
