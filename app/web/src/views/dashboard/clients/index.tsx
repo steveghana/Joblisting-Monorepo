@@ -15,7 +15,7 @@ import CustomButton from "../../../components/button";
 import { useNavigate } from "react-router";
 import { Protect } from "../../../components/auth/requireAuth";
 import ClientTable from "./Details/clientColumns";
-import { useGetClientsQuery } from "../../../store/services/ClientServce";
+import { useGetClientsQuery } from "../../../store/services/client.service";
 import NoData from "../../../components/NoData";
 import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
 
