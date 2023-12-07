@@ -10,7 +10,7 @@ import {
   useBulkDeletRoleMutation,
   useDeletRoleMutation,
   useUpdateRoleMutation,
-} from "../../../../../store/services/roleService";
+} from "../../../../../store/services/role.service";
 import { toast } from "react-toastify";
 import { IClient } from "../../../../../types/client";
 import TopToolbar from "../../../../../components/Table/topToolBar";
