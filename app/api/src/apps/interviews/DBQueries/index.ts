@@ -7,10 +7,13 @@ import { DeepPartial, EntityManager } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { Iinterviews } from '@/types/interviews';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export async function scheduleInterview(
-  roleId: string,
-  applicationData: Iinterviews,
+  interviewData: Omit<Iinterviews, 'interviewer' | 'interviewee' | 'role'> & {
+    candidateId: string;
+    interviewerId: string;
+  },
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
@@ -18,18 +21,35 @@ export async function scheduleInterview(
   const interviewRepo = transaction.getRepository(
     dependencies.db.models.interviews,
   );
-  const role = transaction.getRepository(dependencies.db.models.role);
+
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+
+  const candidate = await devRepo.findOne({
+    where: { id: interviewData.candidateId },
+  });
+  const interviewer = await devRepo.findOne({
+    where: { id: interviewData.interviewerId },
+  });
+  if (!candidate || !interviewer) {
+    throw new HttpException(
+      'Couldnt Schedule interview, check if Candidate or Developer Exists',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
   // const exstingrole = await role.findOne({
   //   where: {
   //     id: roleId,
   //   },
   //   relations: ['client'],
   // });
-  let newApplication = await interviewRepo.create({
+  let newInterview = await interviewRepo.create({
     // ...exstingrole,
-    ...applicationData,
+    interviewer,
+    candidate,
+    scheduled_date: interviewData.scheduled_date,
+    status: interviewData.status,
   });
-  let data = await interviewRepo.save(newApplication);
+  let data = await interviewRepo.save(newInterview);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
