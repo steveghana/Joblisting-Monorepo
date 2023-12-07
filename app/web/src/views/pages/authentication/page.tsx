@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 // import { signIn, signOut, useSession } from 'next-auth/react';
 // import { Link } from 'react-router-dom';;
-import { UserAuthForm } from "../../../components/auth/registeration";
-import LoginPage from "../../../components/management/profile/details";
+// import { UserAuthForm } from "../../../components/auth/registeration";
+import LoginPage from "../../../components/auth/login";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -16,6 +16,7 @@ import {
   Stack,
 } from "@mui/material";
 import { ThemeOptions } from "@mui/material/styles";
+import FirebaseRegister from "../../../components/auth/auth-forms/AuthRegister";
 // const defaultTheme = createTheme();
 
 export default function Auth() {
@@ -50,7 +51,7 @@ export default function Auth() {
               <LoginPage setRegisterPage={setRegisterPage} />
             ) : (
               <div>
-                <UserAuthForm setRegisterPage={setRegisterPage} />
+                <FirebaseRegister setRegisterPage={setRegisterPage} />
                 <Stack direction="row" gap={2} justifyContent={"center"}>
                   <Typography variant="body2">Or login</Typography>
                   <Typography
