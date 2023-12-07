@@ -8,9 +8,8 @@ import { useTransaction } from '../../../util/transaction';
 export class InterviewsService {
   create(createInterviewDto: CreateInterviewDto) {
     // createInterviewDto.
-    const { roleId, ...rest } = createInterviewDto;
     return useTransaction(async (transaction) => {
-      return Interviews.createInterviews(roleId, rest);
+      return Interviews.createInterviews(createInterviewDto, transaction);
     });
   }
 
