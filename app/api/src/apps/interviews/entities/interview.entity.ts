@@ -22,19 +22,13 @@ export class Interview extends AssociableModel {
   @JoinColumn({ name: 'role_id' })
   role: Role;
 
-  @ManyToOne(
-    (type) => Developer,
-    (developer) => developer.interviewsAsInterviewer,
-  )
+  @ManyToOne((type) => Developer, (developer) => developer.interviewer)
   @JoinColumn({ name: 'interviewer_id' })
   interviewer: Developer;
 
-  @ManyToOne(
-    (type) => Developer,
-    (developer) => developer.interviewsAsInterviewee,
-  )
+  @ManyToOne((type) => Developer, (developer) => developer.candidate)
   @JoinColumn({ name: 'interviewee_id' })
-  interviewee: Developer;
+  candidate: Developer;
 
   @Column()
   scheduled_date: Date;
