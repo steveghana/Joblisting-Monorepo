@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { USER_API_KEY, userApi } from "./services/userAuthService";
+import { USER_API_KEY, userApi } from "./services/userAuth.service";
 import customizationReducer from "./customizationReducer";
 import { Reducer } from "redux";
-import { CLIENT_API_KEY, clientApi } from "./services/ClientServce";
-import { DEV_API_KEY, devApi } from "./services/DevsService";
-import { ROLE_API_KEY, roleApi } from "./services/roleService";
+import { CLIENT_API_KEY, clientApi } from "./services/client.service";
+import { DEV_API_KEY, devApi } from "./services/dev.service";
+import { ROLE_API_KEY, roleApi } from "./services/role.service";
 import {
   FLUSH,
   PAUSE,
@@ -23,15 +23,16 @@ import { rtkQueryErrorLogger } from "./middleware/err";
 import {
   APPLICATION_API_KEY,
   applicantApi,
-} from "./services/applicationService";
+} from "./services/application.service";
 import storage from "redux-persist/lib/storage";
-import devReducer from "./slices/devslice";
-import dataReducer from "./slices/demoslice";
+import devReducer from "./slices/dev.slice";
+import { INTERVEW_API_KEY, interviewApi } from "./services/interview.service";
 
 const reducers = {
   devs: devReducer,
   [USER_API_KEY]: userApi.reducer,
   [CLIENT_API_KEY]: clientApi.reducer,
+  [INTERVEW_API_KEY]: interviewApi.reducer,
   [DEV_API_KEY]: devApi.reducer,
   [ROLE_API_KEY]: roleApi.reducer,
   [APPLICATION_API_KEY]: applicantApi.reducer,
@@ -59,6 +60,7 @@ const store = configureStore({
       rtkQueryErrorLogger,
       userApi.middleware,
       clientApi.middleware,
+      interviewApi.middleware,
       roleApi.middleware,
       devApi.middleware,
       applicantApi.middleware,
