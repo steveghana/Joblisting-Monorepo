@@ -25,7 +25,7 @@ import { ReviewLabelObj } from "../../../../../lib/data/data";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { themePalette } from "../../../../../themes/schemes/palette";
 import CustomButton from "../../../../../components/button";
-import { useAddClientMutation } from "../../../../../store/services/ClientServce";
+import { useAddClientMutation } from "../../../../../store/services/client.service";
 import { useNavigate } from "react-router";
 import { techRoles } from "../../../../../lib/data/jobs";
 import { toast } from "react-toastify";
