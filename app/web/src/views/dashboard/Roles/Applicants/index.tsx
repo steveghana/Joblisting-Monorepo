@@ -98,7 +98,6 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateUser, setValidationErrors);
-      // console.log(row.original);
       refetch();
     },
 
