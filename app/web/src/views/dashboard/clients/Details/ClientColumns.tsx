@@ -41,10 +41,8 @@ const ClientTableData = ({
 }: IClientTableData) => {
   const { mutateAsync: createUser, isPending: isCreatingUser } =
     useCreateClient();
-  console.log(data, "from the client");
   const theme = useTheme();
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateClientMutation();
-  // console.log(roleIds);
   const [deleteuser, { isLoading: isDeletingUser }] = useDeletClientMutation();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [validationErrors, setValidationErrors] = React.useState<
@@ -107,9 +105,7 @@ const ClientTableData = ({
           row={row}
           table={table}
           actionFn={async () => {
-            console.log(row.original);
             const roleIds = row.original?.roles.map((role) => role.id);
-            console.log(roleIds);
             const response = await deleteuser({
               id: row.original.id,
               roleIds,
