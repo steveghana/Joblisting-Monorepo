@@ -52,7 +52,6 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
     );
     onChange({ ...filters, [event.target.name]: event.target.checked });
   };
-  console.log(checkboxes, "this is the check");
 
   const handleToggleAll = () => {
     setCheckboxes((prevCheckboxes) =>
