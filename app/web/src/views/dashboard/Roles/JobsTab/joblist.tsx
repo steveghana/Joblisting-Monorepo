@@ -29,7 +29,6 @@ interface JobsListProps {
 }
 
 const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
-  console.log(jobs, "this is the jobs");
   const now = new Date();
   return (
     <Grid container lg={7} md={8} sm={12} mt={2}>
