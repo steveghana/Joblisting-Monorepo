@@ -19,14 +19,12 @@ const Shortlisted = () => {
   const [openRoleForm, setOpenRoleForm] = React.useState(false);
   const [applicantId, setApplicantID] = useState<string>();
   const handleOpenInterviewForm = (id: string) => {
-    console.log(id);
     setOpenRoleForm(true);
   };
   const handleCloseJobForm = () => {
     setOpenRoleForm(false);
   };
   const navigate = useNavigate();
-  // console.log(devs);
   const devsShortlistedData =
     (devs?.length &&
       devs.filter(({ rolestatus }) => rolestatus === "Pending")) ||
