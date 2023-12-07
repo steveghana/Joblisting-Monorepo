@@ -17,6 +17,7 @@ export class InterviewsController {
 
   @Post()
   create(@Body() createInterviewDto: CreateInterviewDto) {
+    console.log(createInterviewDto);
     return this.interviewsService.create(createInterviewDto);
   }
 
