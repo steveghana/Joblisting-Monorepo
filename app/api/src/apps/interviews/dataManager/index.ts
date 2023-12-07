@@ -16,22 +16,21 @@ class Interviews {
   }
 
   static async createInterviews(
-    roleId: string,
-    // developerId: number,
-
-    application: Iinterviews,
+    interviewData: Omit<Iinterviews, 'interviewer' | 'interviewee' | 'role'> & {
+      candidateId: string;
+      interviewerId: string;
+    },
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<Interviews> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Interviews(dependencies);
     newApplication.data = await scheduleInterview(
-      roleId,
-      application,
+      interviewData,
       transaction,
       dependencies,
     );
-    return newApplication;
+    return newApplication.data;
   }
 
   static async getById(
@@ -51,8 +50,8 @@ class Interviews {
   get status(): string {
     return this.data.status;
   }
-  get interviewee(): IDev {
-    return this.data.interviewee;
+  get candidate(): IDev {
+    return this.data.candidate;
   }
   get interviewer(): IDev {
     return this.data.interviewer;
