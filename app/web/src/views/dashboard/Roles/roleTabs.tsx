@@ -16,10 +16,10 @@ import { Close } from "@mui/icons-material";
 import { themePalette } from "../../../themes/schemes/palette";
 import JobsPage from "./JobsTab";
 import ApplicantTable from "./Applicants";
-import { useGetRoleQuery } from "../../../store/services/roleService";
+import { useGetRoleQuery } from "../../../store/services/role.service";
 import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
 import NoData from "../../../components/NoData";
-import { useGetClientQuery } from "../../../store/services/ClientServce";
+import { useGetClientQuery } from "../../../store/services/client.service";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
