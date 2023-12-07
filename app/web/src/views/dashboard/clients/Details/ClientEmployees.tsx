@@ -15,7 +15,6 @@ type IClientEmployees = {
   devs: IDev[];
 };
 function ClientEmployees({ devs }: IClientEmployees) {
-  console.log(devs, "from devs");
   if (!devs.length) {
     return <NoData />;
   }
