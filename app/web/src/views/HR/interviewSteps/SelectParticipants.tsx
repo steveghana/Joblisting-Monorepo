@@ -30,9 +30,13 @@ import {
   Social,
   handleSocial,
 } from "../../../components/auth/auth-forms/AuthLogin";
-import { fetchDevs } from "../../../store/slices/devslice";
+import { fetchDevs } from "../../../store/slices/dev.slice";
 import { useParams } from "react-router";
 import RenderGroup from "./Autocomplete";
+import { useAddInterviewMutation } from "../../../store/services/interview.service";
+import { toast } from "react-toastify";
+import CustomButton from "../../../components/button";
+import { Schedule } from "@mui/icons-material";
 
 interface SelectParticipantsProps {
   onNext: (values: FormValues) => void;
@@ -40,7 +44,7 @@ interface SelectParticipantsProps {
 
 interface FormValues {
   candidate: string;
-  interviewer: string;
+  interviewer: any;
   meetingLink: string;
   interviewType: string;
   interviewDate: Date | null;
@@ -49,31 +53,53 @@ interface FormValues {
 const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
   const { id } = useParams();
   const __state = useTypedSelector((state) => state.devs.devs);
+  const [addInterview, { isError, isLoading }] = useAddInterviewMutation();
+
   const __applicant =
     id &&
     __state.find((item) => item.id === id && item.rolestatus === "Pending");
   const __allApplicants =
     __state?.length && __state.filter((item) => item.rolestatus === "Pending");
   // const dispatch = useTypedDispatch();
-  console.log(__applicant, "this is the state");
   const __validationSchema = Yup.object({
     interviewType: Yup.string().required("Interview type is required"),
     interviewDate: Yup.date().required("Interview date is required"),
   });
-
-  // React.useEffect(() => {
-  //   dispatch(fetchDevs());
-  // }, []);
-
   const _initialValues: FormValues = {
-    candidate: `${__applicant.firstName} ${__applicant.lastName}`,
+    candidate: `${__applicant?.firstName || ""} ${__applicant?.lastName || ""}`,
     meetingLink: "",
     interviewer: "",
     interviewType: "",
     interviewDate: null,
   };
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
+  const handleSubmit = async (values: FormValues) => {
+    const {
+      candidate,
+      interviewDate,
+      interviewType,
+      interviewer,
+      meetingLink,
+    } = values;
+    const trimedCandidate = candidate.trim().toLowerCase();
+
+    const candidateInfo = __state.find(
+      (candidate) =>
+        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
+        trimedCandidate
+    );
+    try {
+      const response = await addInterview({
+        candidateId: candidateInfo.id,
+        interviewerId: interviewer.id,
+        scheduled_date: interviewDate,
+        status: "Scheduled",
+      }).unwrap();
+    } catch (error) {
+      toast.error("Could not Schedule interview", {
+        position: "bottom-center",
+      });
+    }
+    console.log(candidateInfo, values);
     // onNext(values);
   };
 
@@ -88,43 +114,79 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
           <Stack spacing={2}>
             <Box>
               <Typography variant="h5">Select Applicant</Typography>
-              <FormControl fullWidth>
-                {/* <InputLabel id="role-label">Select the __applicant</InputLabel> */}
-                <Field
-                  name="candidate"
-                  as={Select}
-                  variant="outlined"
-                  disabled={__applicant.id.length > 0}
-                  fullWidth
-                  // value={values.candidate}
-                >
-                  <MenuItem
-                    value={`${__applicant.firstName} ${__applicant.lastName}`}
+              {__applicant && (
+                <FormControl fullWidth>
+                  {/* <InputLabel id="role-label">Select the __applicant</InputLabel> */}
+                  <Field
+                    name="candidate"
+                    as={Select}
+                    variant="outlined"
+                    disabled={!!__applicant}
+                    fullWidth
+                    // value={values.candidate}
                   >
-                    <Box
-                      display={"flex"}
-                      // justifyContent={"space-between"}
-                      alignItems={"center"}
-                      gap={1}
+                    <MenuItem
+                      value={`${__applicant.firstName} ${__applicant.lastName}`}
                     >
-                      <Avatar
-                        sx={{ width: 30, height: 30 }}
-                        src={__applicant.avatar || null}
-                      />{" "}
-                      <Typography>{`${__applicant.firstName} ${__applicant.lastName}`}</Typography>
-                      {/* <Typography>{`${state.email}`}</Typography>
+                      <Box
+                        display={"flex"}
+                        // justifyContent={"space-between"}
+                        alignItems={"center"}
+                        gap={1}
+                      >
+                        <Avatar
+                          sx={{ width: 30, height: 30 }}
+                          src={__applicant.avatar || null}
+                        />{" "}
+                        <Typography>{`${__applicant.firstName} ${__applicant.lastName}`}</Typography>
+                        {/* <Typography>{`${state.email}`}</Typography>
                     <Typography>{`${state.experience}`}</Typography> */}
-                    </Box>
-                  </MenuItem>
-                </Field>
-                <ErrorMessage name="candidate" component="div">
-                  {(msg) => (
-                    <FormHelperText error variant="filled">
-                      {msg}
-                    </FormHelperText>
-                  )}
-                </ErrorMessage>
-              </FormControl>
+                      </Box>
+                    </MenuItem>
+                  </Field>
+                  <ErrorMessage name="candidate" component="div">
+                    {(msg) => (
+                      <FormHelperText error variant="filled">
+                        {msg}
+                      </FormHelperText>
+                    )}
+                  </ErrorMessage>
+                </FormControl>
+              )}
+              {__allApplicants.length && !__applicant && (
+                <FormControl fullWidth>
+                  <InputLabel id="role-label">Select the applicant</InputLabel>
+                  <Field
+                    name="candidate"
+                    as={Select}
+                    variant="outlined"
+                    fullWidth
+                    value={values.candidate}
+                  >
+                    {__allApplicants.map((applicant) => (
+                      <MenuItem
+                        key={applicant.id}
+                        value={`${applicant?.firstName} ${applicant?.lastName}`}
+                      >
+                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                          <Avatar
+                            sx={{ width: 30, height: 30 }}
+                            src={applicant.avatar || null}
+                          />{" "}
+                          <Typography>{`${applicant.firstName} ${applicant.lastName}`}</Typography>
+                        </Box>
+                      </MenuItem>
+                    ))}
+                  </Field>
+                  <ErrorMessage name="candidate" component="div">
+                    {(msg) => (
+                      <FormHelperText error variant="filled">
+                        {msg}
+                      </FormHelperText>
+                    )}
+                  </ErrorMessage>
+                </FormControl>
+              )}
             </Box>
 
             <Typography variant="h5">Choose Interviewer</Typography>
@@ -215,8 +277,8 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
             </Box>
             <Divider />
 
+            <Typography variant="h5">Select Interview Date</Typography>
             <Box>
-              <Typography variant="h5">Select Interview Date</Typography>
               <Field name="interviewDate">
                 {({ field }: FieldProps<Date | null>) => (
                   <DatePicker
@@ -238,9 +300,13 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
               </ErrorMessage>
             </Box>
             <Box>
-              <Button type="submit" variant="contained" color="primary">
-                Next
-              </Button>
+              <CustomButton
+                fullWidth
+                type="submit"
+                disabled={isLoading}
+                text="Schedule"
+                endIcon={<Schedule />}
+              />
             </Box>
           </Stack>
         </Form>
