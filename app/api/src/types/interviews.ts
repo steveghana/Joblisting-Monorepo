@@ -6,9 +6,9 @@ export interface Iinterviews {
 
   role: IRole;
 
-  interviewer: IDev;
+  interviewer?: IDev;
 
-  interviewee: IDev;
+  candidate?: IDev;
 
   scheduled_date: Date;
   createdAt?: Date;
