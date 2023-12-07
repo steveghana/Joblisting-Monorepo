@@ -38,7 +38,7 @@ import { themeTypography } from "../../../themes/schemes/typography";
 import CustomButton from "../../button";
 import { GitHub, LinkedIn } from "@mui/icons-material";
 import Google from "../../../assets/images/icons/google.svg";
-import { useLoginUserMutation } from "../../../store/services/userAuthService";
+import { useLoginUserMutation } from "../../../store/services/userAuth.service";
 import { useNavigate } from "react-router";
 export const Social = {
   Github: {
