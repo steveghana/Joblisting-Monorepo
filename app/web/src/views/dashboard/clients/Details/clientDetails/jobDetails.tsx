@@ -91,9 +91,6 @@ function JobDetails({ jobs }: { jobs: IJobs[] }) {
                 <ListItem>
                   <ListItemText primary={`When To Start: ${job.whenToStart}`} />
                 </ListItem>
-                {/* <ListItem>
-              <ListItemText primary={`Posted Date: ${job.postedDate}`} />
-            </ListItem> */}
               </List>
               <Divider />
               <Typography variant="h6" component="h2" gutterBottom>
