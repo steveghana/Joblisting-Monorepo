@@ -30,7 +30,7 @@ type IDevTableData = {
   devs: IDev[];
   isLoading: boolean;
   isFetching: boolean;
-  tableType?: "Shortlist";
+  tableType?: string;
   isError: boolean;
   refetch: () => void;
   handleOpenInterviewForm?: (id: string) => void;
@@ -61,7 +61,7 @@ const DevTableData = ({
     { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError },
   ] = useUpdateDevMutation();
   const [
-    deleteuser,
+    deleteDev,
     { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError },
   ] = useDeletDevMutation();
   const [
@@ -96,6 +96,9 @@ const DevTableData = ({
 
     muiTableBodyCellProps: ({ row }) => ({
       onClick: (event) => {
+        if (tableType) {
+          return;
+        }
         event.stopPropagation();
         console.info(row.id);
         navigate(`/management/profile/details/${row.id}`);
@@ -111,7 +114,7 @@ const DevTableData = ({
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) =>
       handleSave(
-        { salary: values.salary || 0 },
+        { salary: values.salary || 0, role_status: values.rolestatus },
         { table, row },
         updateUser,
         setValidationErrors
@@ -129,17 +132,27 @@ const DevTableData = ({
     renderRowActions: ({ row, table }) => (
       <>
         <TableActions
-          cancelInterview={() =>
-            deletinterview({ id: row.original.interviewId })
-          }
+          cancelInterview={async () => {
+            const deleted = await deletinterview({
+              id: row.original.interviewId,
+            }).unwrap();
+            if (deleted) {
+              refetch();
+              toast.warn("Interview Canceled", {
+                position: "bottom-center",
+              });
+            }
+          }}
           tableType={
             row.original.rolestatus === "Interviewing"
               ? "Interviewing"
-              : "Shortlist"
+              : row.original.rolestatus === "Pending"
+              ? "Shortlist"
+              : "Accepted"
           }
           handleOpenInterviewForm={() => handleOpenInterviewForm(row.id)}
           actionFn={async () => {
-            const response = await deleteuser({
+            const response = await deleteDev({
               id: row.original.id,
             }).unwrap();
             if (response) {
