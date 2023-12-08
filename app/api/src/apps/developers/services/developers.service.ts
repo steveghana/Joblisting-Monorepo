@@ -13,7 +13,8 @@ import Roles from '../../../apps/roles/dataManager';
 import cryptoUtil from '../../../util/crypto';
 import { getAllDevs } from '../DBQueries';
 import User from '../../auth/dataManager/userEntity';
-import { IDev } from '@/types/developer';
+import { IDev } from '../../../types/developer';
+import { DeveloperAcceptedEmailDraft } from '../../../util/email/emailtexts';
 @Injectable()
 export class DevelopersService {
   public async create(
@@ -145,11 +146,10 @@ export class DevelopersService {
       if (!data.length) {
         return [];
       }
-      console.log(data[0].candidate, 'this isth cnaditione');
       return data.map((item) => ({
         id: item.id,
         firstName: item.user.firstName,
-        // interviewId: item.candidate.id,
+        interviewId: item.candidate?.id,
         lastName: item.user.lastName,
         clientName: item.client.name,
         companyName: item.client.companyName,
@@ -185,41 +185,9 @@ export class DevelopersService {
       console.log(updateDevDto, 'dev tos');
       const data = await Developers.update(id, updateDevDto, transaction);
       const dev = await Developers.getById(id, dependencies);
-      if (
-        updateDevDto.role_status === 'Accepted' ||
-        updateDevDto.role_status === 'InHouse' ||
-        updateDevDto.role_status === 'External'
-      ) {
-        // Remember to change the credentials to Url encoded link
-
-        void dependencies.email.sendStyled({
-          to: [dev.user.email],
-          subject: 'Your Role Application has been Accepted',
-          html: `<h1>Congratulations!</h1>
-      <p>We are pleased to inform you that your application for the [Role Name] role has been accepted.</p>
-      <h2>Role Details:</h2>
-      <ul>
-        <li><strong>Role:</strong>${dev.roles.title}</li>
-        <li><strong>Description:</strong>${dev.roles.aboutTheProject}</li>
-        <li><strong>Start Date:</strong>${dev.roles.createdAt}</li>
-      </ul>
-      <h2>Limited Access:</h2>
-      <p>You can now access a restricted part of our system related to the applied role. Please follow the instructions below:</p>
-      <ol>
-        <li>Access the Savannah Tech portal.</li>
-        <li>Use the following temporary credentials:
-          <ul>
-            <li><strong>email:</strong> ${dev.user.email}</li>
-            <li><strong>Password:</strong>${dev.user.password}</li>
-          </ul>
-        </li>
-      </ol>
-      <h2>Next Steps:</h2>
-      <p>Once you log in, you'll be prompted to complete your registration by providing additional information and setting up a permanent username and password.</p>
-      <p>If you have any questions or need assistance, please contact our support team at [Support Email or Phone Number].</p>
-      <p>Thank you for choosing [Your Company Name]!</p>
-      <p>Best regards,<br>Savannah Tech.io</p>`,
-        });
+      if (updateDevDto.role_status === 'Accepted') {
+        const sent = await DeveloperAcceptedEmailDraft(dev, dependencies);
+        console.log(sent);
       }
       if (!data) {
         throw new HttpException(
