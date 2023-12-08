@@ -1,22 +1,6 @@
 // ClientDetailsPage.tsx
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Typography,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  Paper,
-  Grid,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Divider,
-} from "@mui/material";
+import { Box, Typography, Paper, Grid } from "@mui/material";
 import NewRoleForm from "./Newrole";
 import NewJobForm from "./newjobform"; // Import the NewJobForm component
 import CustomButton from "../../../../../components/button";
@@ -46,15 +30,7 @@ const ClientDetailsPage: React.FC<{
   const handleCloseJobForm = () => {
     setOpenJobForm(false);
   };
-  const [selectedJob, setSelectedJob] = useState(null);
 
-  const handleOpenJobDetails = (job) => {
-    setSelectedJob(job);
-  };
-
-  const handleCloseJobDetails = () => {
-    setSelectedJob(null);
-  };
   return (
     <Grid item xs={12} sm={12}>
       <Paper elevation={2}>
