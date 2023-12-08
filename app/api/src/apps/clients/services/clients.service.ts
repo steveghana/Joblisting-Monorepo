@@ -89,8 +89,24 @@ export class ClientsService {
       if (!data.data) {
         return null;
       }
-      console.log(data.data.roles);
-      return data.data;
+      const { developers, ...rest } = data.data;
+      const devInfo = developers.map((dev) => ({
+        id: dev.id,
+        salary: dev.salary,
+        avatar: dev.user.avatar,
+        firstName: dev.firstName,
+        lastName: dev.lastName,
+        address: dev.address,
+        phoneNumber: dev.phone_number,
+        role: dev.user.role,
+        startedAt: dev.user.createdAt,
+        email: dev.user.email,
+        hours: dev.clockHours,
+      }));
+      return {
+        developers: devInfo,
+        ...rest,
+      };
     });
   }
 
