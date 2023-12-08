@@ -1,9 +1,6 @@
 import { MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
-import { IDev } from "../types/devs";
-import { Avatar, Box, Typography } from "@mui/material";
-import { AccountCircle, Send } from "@mui/icons-material";
-import { IClient } from "../types/client";
+import { Avatar, Box } from "@mui/material";
 import { ApplicantsSubmission } from "../types/roles";
 export const appliacantState = [
   "PendingShortlist",
@@ -19,7 +16,6 @@ type IApplicationProps = {
 };
 export const useApplicantsColumns = ({
   validationErrors,
-  setValidationErrors,
 }: IApplicationProps) => {
   return useMemo<MRT_ColumnDef<ApplicantsSubmission>[]>(
     () => [
