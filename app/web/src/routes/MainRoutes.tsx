@@ -13,6 +13,7 @@ import Status404 from "../views/status/Status404";
 import { FormDataProvider } from "../utils/Contexts/clientFormContext";
 import Developers from "../views/Devs/Devs";
 import InterviewScheduler from "../views/HR/interviewSteps/InterviewScheduler";
+import StatusComingSoon from "../views/status/ComingSoon";
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -135,7 +136,8 @@ const MainRoutes = {
         },
         {
           path: "hub",
-          element: <Hub />,
+          // element: <Hub />,
+          element: <StatusComingSoon />,
         },
       ],
     },
