@@ -24,13 +24,6 @@ export const useDevsColums = () => {
                   gap: "1rem",
                 }}
               >
-                {/* <img
-                  alt="avatar"
-                  height={30}
-                  src={row.original.avatar}
-                  loading="lazy"
-                  style={{ borderRadius: "50%" }}
-                /> */}
                 <Avatar src={row.original.avatar} />
 
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
@@ -40,10 +33,9 @@ export const useDevsColums = () => {
           },
           {
             header: "Status",
-            accessorFn: (originalRow) =>
-              originalRow.workStatus ? "true" : "false", //must be strings
+            accessorFn: (originalRow) => originalRow.workStatus, //must be strings
             id: "isActive",
-            filterVariant: "checkbox",
+            filterVariant: "select",
             Cell: ({ cell }) => <Box>{cell.getValue<string>()}</Box>,
             size: 100,
           },
@@ -133,23 +125,23 @@ export const useDevsColums = () => {
             //   style: "currency",
             //   currency: "USD",
             // }),
-            filterVariant: "range-slider",
-            filterFn: "betweenInclusive", // default (or between)
-            muiFilterSliderProps: {
-              marks: true,
-              max: 200_000, //custom max (as opposed to faceted max)
-              min: 30_000, //custom min (as opposed to faceted min)
-              step: 10_000,
-              valueLabelFormat: (value) =>
-                value.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }),
-            },
+            // filterVariant: "range-slider",
+            filterFn: "between", // default (or between)
+            // muiFilterSliderProps: {
+            //   marks: true,
+            //   max: 100_000, //custom max (as opposed to faceted max)
+            //   min: 30_000, //custom min (as opposed to faceted min)
+            //   step: 10_000,
+            //   valueLabelFormat: (value) =>
+            //     value.toLocaleString("en-US", {
+            //       style: "currency",
+            //       currency: "USD",
+            //     }),
+            // },
           },
 
           {
-            accessorFn: (row) => new Date(row.startDate), //convert to Date for sorting and filtering
+            accessorFn: (row) => new Date(row.startedAt),
             id: "startDate",
             header: "Start Date",
             enableEditing: false,
