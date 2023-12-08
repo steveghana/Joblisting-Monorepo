@@ -17,6 +17,7 @@ import {
 import uuid from '../../../util/uuid';
 import { Client } from '../../../apps/clients/entities/client.entity';
 import { Job } from '../../../apps/roles/entities/jobs.entity';
+import { IRoleStatus } from '../../../types/developer';
 @Entity('developer')
 export class Developer extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
@@ -49,7 +50,7 @@ export class Developer extends AssociableModel {
   @Column()
   workStatus: 'Active' | 'Not Active';
   @Column({ default: 'External' })
-  role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
+  role_status: IRoleStatus;
   @ManyToOne((type) => Role, (role) => role.developers)
   @JoinColumn({ name: 'developer_id' })
   roles: Role;
@@ -57,7 +58,7 @@ export class Developer extends AssociableModel {
   interviewer: Interview[];
 
   @OneToMany((type) => Interview, (interview) => interview.candidate)
-  candidate: Interview[];
+  candidate: Interview;
 
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
   clockHours: ClockHours[];
