@@ -1,9 +1,18 @@
 export type IUser = {
   id?: string;
-  email?: string;
+  email: string;
   password?: string;
-  // lockReason?: 'needs review';
-  fullName?: string;
+  role: IProfession;
+  avatar?: string;
+  firstName: string;
+  lastName: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   address?: string;
 };
-export type IProfession = 'Ceo' | 'Marketing' | 'Recruitment' | 'Developer';
+export type IProfession =
+  | 'Ceo'
+  | 'Marketing'
+  | 'Recruitment'
+  | 'Developer'
+  | 'CTO';
