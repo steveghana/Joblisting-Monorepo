@@ -66,6 +66,21 @@ export function getInterviewById(
     .getRepository(dependencies.db.models.interviews)
     .findOne({
       where: { id },
+      relations: ['interviewer', 'candidate'],
+    });
+}
+
+export function getAllInterviews(
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) /* : Promise<ICredentialToken> */ {
+  dependencies = injectDependencies(dependencies, ['db']);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+  return myDataSource.manager
+    .getRepository(dependencies.db.models.interviews)
+    .find({
+      relations: ['interviewer', 'candidate'],
     });
 }
 export async function cancelInterview(
@@ -84,5 +99,6 @@ export async function cancelInterview(
 
 export default {
   scheduleInterview,
+  getAllInterviews,
   getInterviewById,
 };
