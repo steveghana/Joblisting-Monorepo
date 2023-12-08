@@ -11,15 +11,15 @@ import {
   findElseCreateUser,
   deletUser,
 } from '../DBQueries/user';
-import { IUser } from '../models/user';
 import cryptoUtil from '../../../util/crypto';
 import { UserEntity } from '../models/user.entity';
 import { EntityManager } from 'typeorm';
+import { IUser } from '../../../types/user';
 // This creates a new type that has all the properties of UserEntity but makes them optional
 type PartialUserEntity = Partial<UserEntity>;
 
 // This creates a new type that has only the properties of UserEntity that you want
-type IUserEntity = Pick<PartialUserEntity, keyof IUser>;
+type IUserEntity = Pick<PartialUserEntity, keyof Omit<IUser, 'address'>>;
 class User {
   private _email: string = null;
   private data: IUserEntity = null;
