@@ -57,7 +57,7 @@ export class Developer extends AssociableModel {
   @OneToMany((type) => Interview, (interview) => interview.interviewer)
   interviewer: Interview[];
 
-  @OneToMany((type) => Interview, (interview) => interview.candidate)
+  @OneToOne((type) => Interview, (interview) => interview.candidate)
   candidate: Interview;
 
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
