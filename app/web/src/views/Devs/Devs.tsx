@@ -17,7 +17,7 @@ const Developers = () => {
   } = useGetDevsQuery();
   const devsData =
     (devs?.length &&
-      devs?.filter(({ rolestatus }) => rolestatus !== "Pending")) ||
+      devs?.filter(({ rolestatus }) => rolestatus === "Accepted")) ||
     [];
 
   if (isLoading || isFetching) {
@@ -27,7 +27,7 @@ const Developers = () => {
   if (!devsData.length || isError) {
     return <NoData />;
   }
-
+  console.log(devsData);
   return (
     <DevTableData
       columns={columns}
