@@ -8,7 +8,7 @@ interface IActions<T> {
   row: MRT_Row<T>;
   table: MRT_TableInstance<T>;
   isDetails?: boolean;
-  tableType?: "Shortlist" | "Interviewing";
+  tableType?: "Shortlist" | "Interviewing" | "Accepted";
 
   actionFn: (items: any) => void;
   handleOpenJobForm?: (id: string) => void;
@@ -66,7 +66,7 @@ function TableActions<T>({
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
-                handleOpenInterviewForm(row.id);
+                cancelInterview();
               }}
             >
               <CustomButton sx={{ my: 2 }} variant="contained" text="cancel" />
@@ -88,7 +88,6 @@ function TableActions<T>({
         <Box display={"flex"} justifyContent={"space-between"}>
           <Tooltip title="Edit">
             <IconButton
-              // sx={{ minWidth: "50px" }}
               onClick={(e) => {
                 e.stopPropagation();
                 table.setEditingRow(row);
@@ -99,7 +98,6 @@ function TableActions<T>({
           </Tooltip>
           <Tooltip title="Delete">
             <IconButton
-              // sx={{ minWidth: "50px" }}
               color="error"
               onClick={(e) => {
                 e.stopPropagation();
