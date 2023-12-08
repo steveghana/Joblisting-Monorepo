@@ -6,7 +6,12 @@ import { IRole } from './role';
 import { IUser } from './user';
 import { Interview } from '@/apps/interviews/entities/interview.entity';
 import { IClient } from './client';
-
+export type IRoleStatus =
+  | 'InHouse'
+  | 'Pending'
+  | 'Accepted'
+  | 'External'
+  | 'Interviewing';
 export interface IDev {
   id?: string;
 
@@ -20,16 +25,16 @@ export interface IDev {
   salary: number;
   address: string;
   workStatus: 'Active' | 'Not Active';
-  role_status: 'InHouse' | 'Pending' | 'Accepted' | 'External';
+  role_status: IRoleStatus;
   // application: IApplication;
   // In House, Pending Interview, External
   years_of_experience: string;
   client: IClient;
   roles: IRole;
   // Define the associations with Interviews, ClockHours, and Applications
-  interviewsAsInterviewer?: Partial<Interview>[];
+  interviewer?: Partial<Interview>[];
 
-  interviewsAsInterviewee?: Partial<Interview>[];
+  candidate?: Partial<Interview>;
 
   clockHours?: Partial<ClockHours>[];
 }
