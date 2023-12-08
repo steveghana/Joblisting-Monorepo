@@ -70,7 +70,6 @@ const MainLayout = () => {
   const leftDrawerOpened = useSelector(
     (state: any) => state.customization?.opened
   );
-  console.log(leftDrawerOpened, "opening");
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
@@ -104,13 +103,13 @@ const MainLayout = () => {
       />
 
       <Main theme={theme} open={leftDrawerOpened}>
-        <Breadcrumbs
+        {/* <Breadcrumbs
           separator={IconChevronRight}
           navigation={navigation}
           icon
           title
           rightAlign
-        />
+        /> */}
         <Outlet />
       </Main>
       <Customization />
