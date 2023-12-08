@@ -8,16 +8,18 @@ interface IActions<T> {
   row: MRT_Row<T>;
   table: MRT_TableInstance<T>;
   isDetails?: boolean;
-  tableType?: "Shortlist";
+  tableType?: "Shortlist" | "Interviewing";
 
   actionFn: (items: any) => void;
   handleOpenJobForm?: (id: string) => void;
+  cancelInterview?: () => void;
   handleOpenInterviewForm?: (id: string) => void;
 }
 function TableActions<T>({
   row,
   table,
   actionFn,
+  cancelInterview,
   handleOpenJobForm,
   handleOpenInterviewForm,
   tableType,
@@ -56,6 +58,18 @@ function TableActions<T>({
                 variant="contained"
                 text="Interview"
               />
+            </IconButton>
+          </Tooltip>
+        )}
+        {tableType === "Interviewing" && (
+          <Tooltip title="Cancel Interview">
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenInterviewForm(row.id);
+              }}
+            >
+              <CustomButton sx={{ my: 2 }} variant="contained" text="cancel" />
             </IconButton>
           </Tooltip>
         )}
