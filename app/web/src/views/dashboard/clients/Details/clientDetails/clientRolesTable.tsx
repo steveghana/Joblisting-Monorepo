@@ -35,24 +35,12 @@ const ClientRoleTable = ({
     useDeletRoleMutation();
   const [
     bulkdeleteuser,
-    {
-      isError: isBulkDeletingError,
-      isLoading: isBulkDeleting,
-      error: bulkdeleteError,
-    },
+    { isError: isBulkDeletingError, isLoading: isBulkDeleting },
   ] = useBulkDeletRoleMutation();
   const columns = useClientRolesColumn();
   const [open, setOpen] = React.useState(false);
   const [actionIndex, setActionIndex] = React.useState<IClient>();
 
-  const handleDialogOpen = (actionData: any) => {
-    setOpen(true);
-    setActionIndex({ ...actionData });
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   // const jobs = data.map((item) => item.jobs);
   const table = useMaterialReactTable({
     columns,
@@ -65,7 +53,7 @@ const ClientRoleTable = ({
 
     getRowId: (row) => row.id,
     onCreatingRowCancel: () => setValidationErrors({}),
-    onCreatingRowSave: (item) => {},
+    onCreatingRowSave: () => {},
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateRole, setValidationErrors);
@@ -73,8 +61,9 @@ const ClientRoleTable = ({
     },
     renderTopToolbar: ({ table }) => (
       <TopToolbar
+        refresh={() => {}}
         table={table}
-        takeBulkAction={async (id) => {
+        takeBulkAction={async () => {
           // const response = await bulkdeleteuser({ id }).unwrap();
         }}
       />
