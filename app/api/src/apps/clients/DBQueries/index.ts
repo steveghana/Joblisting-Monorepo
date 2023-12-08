@@ -91,7 +91,9 @@ export async function getClientById(
     .leftJoinAndSelect('client.roles', 'roles')
     .leftJoinAndSelect('roles.jobs', 'job')
     .leftJoinAndSelect('client.developers', 'developers')
-    .getOne();
+    .leftJoinAndSelect('developers.user', 'user')
+    .leftJoinAndSelect('developers.clockHours', 'clockHours')
+    .getOne() as unknown as IClient;
 }
 
 export async function deleteClient(
