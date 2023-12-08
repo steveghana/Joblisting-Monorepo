@@ -54,7 +54,7 @@ export async function scheduleInterview(
   return data;
 }
 
-export function getApplicationById(
+export function getInterviewById(
   id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -68,8 +68,21 @@ export function getApplicationById(
       where: { id },
     });
 }
+export async function cancelInterview(
+  interviewId: string,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) /* : Promise<ICredentialToken> */ {
+  dependencies = injectDependencies(dependencies, ['db']);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+  const { affected } = await myDataSource.manager
+    .getRepository(dependencies.db.models.interviews)
+    .delete({ id: interviewId });
+  return affected;
+}
 
 export default {
   scheduleInterview,
-  getApplicationById,
+  getInterviewById,
 };
