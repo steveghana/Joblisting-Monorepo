@@ -1,9 +1,5 @@
 // hooks.ts
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
-// import { data } from "./data";
-// import { validateUser } from "./validation";
-// import { IClient } from "../types/devs";
-import { data } from "../lib/data/data";
 import { IClient } from "../types/client";
 import { clientData } from "../lib/data/clientData";
 
