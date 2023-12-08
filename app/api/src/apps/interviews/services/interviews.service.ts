@@ -5,6 +5,7 @@ import { UpdateInterviewDto } from '../dto/update-interview.dto';
 import Interviews from '../dataManager';
 import { useTransaction } from '../../../util/transaction';
 import Developers from '../../../apps/developers/dataManager';
+import { getAllInterviews } from '../DBQueries';
 
 @Injectable()
 export class InterviewsService {
@@ -27,7 +28,13 @@ export class InterviewsService {
   }
 
   findAll() {
-    return `This action returns all interviews`;
+    return useTransaction(async (transaction) => {
+      const interviews = await getAllInterviews(transaction);
+      if (!interviews.length) {
+        return [];
+      }
+      return interviews;
+    });
   }
 
   findOne(id: string) {
@@ -40,17 +47,22 @@ export class InterviewsService {
 
   cancel(interviewId: string) {
     return useTransaction(async (transaction) => {
-      const {
-        candidate: { id },
-      } = await Interviews.getById(interviewId);
-      const updateDev = await Developers.update(
-        id,
+      const data = await Interviews.getById(interviewId);
+      console.log(data.candidate, interviewId, 'this is the inerveir');
+      const { affected } = await Developers.update(
+        data.candidate.id,
         { role_status: 'Pending' },
         transaction,
       );
+      if (!affected) {
+        throw new HttpException(
+          'Couldnt cancel interview, please try again later',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       const canceldInterview = await Interviews.cancleInterview(
-        id,
+        data.id,
         transaction,
       );
       if (!canceldInterview) {
