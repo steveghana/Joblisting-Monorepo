@@ -25,6 +25,7 @@ import {
   useUpdateDevMutation,
 } from "../../store/services/dev.service";
 import { toast } from "react-toastify";
+import { useDeletInterviewMutation } from "../../store/services/interview.service";
 type IDevTableData = {
   devs: IDev[];
   isLoading: boolean;
@@ -53,6 +54,8 @@ const DevTableData = ({
   >({});
 
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
+  const [deletinterview, { isLoading: isDeleting }] =
+    useDeletInterviewMutation();
   const [
     updateUser,
     { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError },
@@ -126,7 +129,14 @@ const DevTableData = ({
     renderRowActions: ({ row, table }) => (
       <>
         <TableActions
-          tableType={tableType}
+          cancelInterview={() =>
+            deletinterview({ id: row.original.interviewId })
+          }
+          tableType={
+            row.original.rolestatus === "Interviewing"
+              ? "Interviewing"
+              : "Shortlist"
+          }
           handleOpenInterviewForm={() => handleOpenInterviewForm(row.id)}
           actionFn={async () => {
             const response = await deleteuser({
@@ -172,6 +182,7 @@ const DevTableData = ({
     ),
     renderTopToolbar: ({ table }) => (
       <TopToolbar
+        refresh={() => refetch()}
         table={table}
         takeBulkAction={async (id) => {
           const response = await bulkdeleteuser({ id }).unwrap();
@@ -187,7 +198,11 @@ const DevTableData = ({
     state: {
       isLoading: isLoading,
       isSaving:
-        isCreatingDev || isUpdatingDev || isDeletingDev || isBulkDeletingDev,
+        isCreatingDev ||
+        isUpdatingDev ||
+        isDeletingDev ||
+        isBulkDeletingDev ||
+        isDeleting,
       showAlertBanner: isError || isBulkDeletingError,
       showProgressBars: isFetching,
     },
