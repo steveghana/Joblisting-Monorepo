@@ -2,7 +2,7 @@ import { MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
 import { IDev } from "../types/devs";
 import { Avatar, Box } from "@mui/material";
-export const appliacantState = ["Pending", "Accepted"];
+export const appliacantState = ["Pending", "Accepted", "Interviewing"];
 export const useDevsShortlistedColums = () => {
   return useMemo<MRT_ColumnDef<IDev>[]>(
     () => [
@@ -37,6 +37,7 @@ export const useDevsShortlistedColums = () => {
             filterVariant: "select",
             editVariant: "select",
             editSelectOptions: appliacantState,
+            enableEditing: false,
 
             // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
             // filterFn: "between",
@@ -50,6 +51,8 @@ export const useDevsShortlistedColums = () => {
                   backgroundColor:
                     cell.getValue<string>() === "Pending"
                       ? theme.palette.info.dark
+                      : cell.getValue<string>() === "Interviewing"
+                      ? theme.palette.info.light
                       : theme.palette.success.dark,
 
                   borderRadius: "0.25rem",
