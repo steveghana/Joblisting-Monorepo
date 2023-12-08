@@ -29,8 +29,6 @@ import {
 } from '@nestjs/swagger';
 import { LoginUser, GoogleLoginUserDto } from './user.dto';
 import { AuthService } from '../services/user.service';
-import { IUser } from '../models/user';
-
 import { AuthMiddleware } from '../../../middleware/authenticated.middleware';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { AuthGuard } from '@nestjs/passport';
