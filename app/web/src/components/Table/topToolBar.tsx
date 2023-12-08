@@ -7,11 +7,12 @@ import {
   MaterialReactTable,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-import { Delete } from "@mui/icons-material";
+import { Delete, Refresh } from "@mui/icons-material";
 import AlertDialog from "../Dialog";
 
 interface TopToolbarProps {
   table: any;
+  refresh: () => void;
   takeBulkAction: (ids: string[]) => void; // Change 'any' to the type of your table data
   isDetails?: boolean;
   handleOpenJobForm?: (id: string) => void;
@@ -19,6 +20,7 @@ interface TopToolbarProps {
 
 const TopToolbar: React.FC<TopToolbarProps> = ({
   table,
+  refresh,
   takeBulkAction,
   handleOpenJobForm,
 }) => {
@@ -84,6 +86,11 @@ const TopToolbar: React.FC<TopToolbarProps> = ({
               </Box>
             )}
           </Box>
+          <Tooltip title="Refresh">
+            <IconButton onClick={(e) => refresh()}>
+              <Refresh />
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
           <MRT_GlobalFilterTextField table={table} />
