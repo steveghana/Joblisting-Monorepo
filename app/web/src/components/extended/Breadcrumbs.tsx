@@ -220,7 +220,15 @@ const Breadcrumbs = ({
       );
     }
   }
-
+  console.log(
+    title
+    // mainContent,
+    // itemContent,
+    // // breadcrumbContent,
+    // itemTitle,
+    // CollapseIcon,
+    // ItemIcon
+  );
   return breadcrumbContent;
 };
 
