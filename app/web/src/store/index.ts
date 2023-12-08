@@ -44,6 +44,14 @@ const combinedReducer = combineReducers<typeof reducers>(reducers);
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: [
+    DEV_API_KEY,
+    ROLE_API_KEY,
+    APPLICATION_API_KEY,
+    INTERVEW_API_KEY,
+    CLIENT_API_KEY,
+    USER_API_KEY,
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, combinedReducer);
