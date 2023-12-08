@@ -2,7 +2,11 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import { scheduleInterview, getApplicationById } from '../DBQueries/index';
+import {
+  scheduleInterview,
+  getInterviewById,
+  cancelInterview,
+} from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { Iinterviews } from '@/types/interviews';
 import { IDev } from '@/types/developer';
@@ -33,14 +37,24 @@ class Interviews {
     return newApplication.data;
   }
 
-  static async getById(
-    id: string,
-    dependencies: Dependencies = null,
-  ): Promise<Interviews> {
+  static async getById(id: string, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Interviews(dependencies);
-    newApplication.data = await getApplicationById(id, null, dependencies);
-    return newApplication;
+    newApplication.data = await getInterviewById(id, null, dependencies);
+    return newApplication.data;
+  }
+  static async cancleInterview(
+    interviewId: string,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    const canceld = await cancelInterview(
+      interviewId,
+      transaction,
+      dependencies,
+    );
+    return canceld;
   }
 
   get id(): string {
