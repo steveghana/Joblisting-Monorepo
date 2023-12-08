@@ -3,7 +3,7 @@ import {
   injectDependencies,
 } from '../../../util/dependencyInjector';
 import uuidUtil from '../../../util/uuid';
-import { DeepPartial, EntityManager } from 'typeorm';
+import { DeepPartial, EntityManager, In } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { IDev } from '@/types/developer';
@@ -39,7 +39,9 @@ export const getAllDevs = async (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return await transaction
     .getRepository(dependencies.db.models.developer)
-    .find({ relations: ['roles', 'client', 'user', 'job'] });
+    .find({
+      relations: ['roles', 'client', 'user', 'job', 'interviewer', 'candidate'],
+    });
 };
 export async function getDevById(
   id: string,
@@ -53,7 +55,7 @@ export async function getDevById(
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
-      relations: ['clockHours', 'roles', 'user'],
+      relations: ['clockHours', 'roles', 'user', 'interviewer', 'candidate'],
     });
   return dev as unknown as IDev;
 }
@@ -97,11 +99,9 @@ export async function bulkdeleteDevs(
   dependencies = injectDependencies(dependencies, ['db']);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const deleted = await Promise.all(
-    id.map(async (item) => {
-      return devRepo.delete({
-        id: item,
-      });
-    }),
+    devRepo.delete({
+      id: In([id]),
+    }) as any,
   );
   const { affected } = deleted[0];
   return affected;
