@@ -3,7 +3,7 @@ import {
   injectDependencies,
 } from '../../../util/dependencyInjector';
 import uuidUtil from '../../../util/uuid';
-import { DeepPartial, EntityManager } from 'typeorm';
+import { DeepPartial, EntityManager, In } from 'typeorm';
 import { Application } from '../entities/application.entity';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
@@ -35,12 +35,29 @@ export async function deleteApplicant(
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
-  const rolesRepo = transaction.getRepository(
+  const applicantRepo = transaction.getRepository(
     dependencies.db.models.application,
   );
-  const { affected } = await rolesRepo.delete({
+  const { affected } = await applicantRepo.delete({
     id,
   });
+  return affected;
+}
+export async function bulkdeleteApplicant(
+  id: string[],
+  transaction: EntityManager,
+  dependencies: Dependencies = null,
+): Promise<number> {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const applicantRepo = transaction.getRepository(
+    dependencies.db.models.application,
+  );
+  const deleted = await Promise.all(
+    applicantRepo.delete({
+      id: In([id]),
+    }) as any,
+  );
+  const { affected } = deleted[0];
   return affected;
 }
 // export async function bulkdeleteApplicant(
@@ -49,12 +66,12 @@ export async function deleteApplicant(
 //   dependencies: Dependencies = null,
 // ) {
 //   dependencies = injectDependencies(dependencies, ['db']);
-//   const rolesRepo = transaction.getRepository(
+//   const applicantRepo = transaction.getRepository(
 //     dependencies.db.models.application,
 //   );
 //   const deleted = await Promise.all(
 //     id.map(async (item) => {
-//       return rolesRepo.delete({
+//       return applicantRepo.delete({
 //         id: item,
 //       });
 //     }),
