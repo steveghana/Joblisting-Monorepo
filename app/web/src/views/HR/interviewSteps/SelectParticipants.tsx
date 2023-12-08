@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Field, Form, FieldProps, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -24,19 +24,20 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { addDays } from "date-fns";
-import { useTypedDispatch, useTypedSelector } from "../../../store";
+import { persistor, useTypedDispatch, useTypedSelector } from "../../../store";
 import AnimateButton from "../../../components/extended/AnimateButton";
 import {
   Social,
   handleSocial,
 } from "../../../components/auth/auth-forms/AuthLogin";
 import { fetchDevs } from "../../../store/slices/dev.slice";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import RenderGroup from "./Autocomplete";
 import { useAddInterviewMutation } from "../../../store/services/interview.service";
 import { toast } from "react-toastify";
 import CustomButton from "../../../components/button";
 import { Schedule } from "@mui/icons-material";
+import { devApi } from "../../../store/services/dev.service";
 
 interface SelectParticipantsProps {
   onNext: (values: FormValues) => void;
@@ -52,15 +53,16 @@ interface FormValues {
 
 const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
   const { id } = useParams();
+  const state = useTypedSelector((state) => state);
   const __state = useTypedSelector((state) => state.devs.devs);
+  const dispatch = useTypedDispatch();
   const [addInterview, { isError, isLoading }] = useAddInterviewMutation();
-
+  const navigate = useNavigate();
   const __applicant =
     id &&
     __state.find((item) => item.id === id && item.rolestatus === "Pending");
   const __allApplicants =
     __state?.length && __state.filter((item) => item.rolestatus === "Pending");
-  // const dispatch = useTypedDispatch();
   const __validationSchema = Yup.object({
     interviewType: Yup.string().required("Interview type is required"),
     interviewDate: Yup.date().required("Interview date is required"),
@@ -72,6 +74,10 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
     interviewType: "",
     interviewDate: null,
   };
+  console.log(state);
+  useEffect(() => {
+    dispatch(fetchDevs());
+  }, []);
   const handleSubmit = async (values: FormValues) => {
     const {
       candidate,
@@ -94,6 +100,16 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
         scheduled_date: interviewDate,
         status: "Scheduled",
       }).unwrap();
+      await devApi.util.invalidateTags(["devs"]);
+      console.log(response, "this is the response");
+      if (response && !isError) {
+        dispatch(fetchDevs()); // update the persisted data
+        await persistor.flush();
+        navigate("/devs/interviews");
+      }
+      toast.success("interview Scheduled Succesfully", {
+        position: "bottom-center",
+      });
     } catch (error) {
       toast.error("Could not Schedule interview", {
         position: "bottom-center",
