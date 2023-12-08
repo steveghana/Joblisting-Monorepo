@@ -52,7 +52,6 @@ export class DevelopersController {
   }
 
   @Get(':id')
-  @Delete(':id')
   @ApiTags('get dev')
   @ApiOperation({
     description: 'get a dev',
@@ -66,7 +65,6 @@ export class DevelopersController {
   }
 
   @Patch(':id')
-  @Delete(':id')
   @ApiTags('update dev')
   @ApiOperation({
     description: 'update a client from the db',
