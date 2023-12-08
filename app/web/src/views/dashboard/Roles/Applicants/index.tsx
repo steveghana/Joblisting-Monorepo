@@ -98,7 +98,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateUser, setValidationErrors);
-      refetch();
+      // refetch();
     },
 
     renderDetailPanel: ({ row }) => <TableDetail row={row} />,
@@ -115,7 +115,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
               // table.get
               const response = await deleteuser({ id: items });
               if (response) {
-                refetch();
+                // refetch();
                 toast.success("Action Successful", {
                   position: "bottom-center",
                 });
@@ -129,6 +129,7 @@ const ApplicantTable: React.FC<{ roleid: string }> = ({ roleid }) => {
     },
     renderTopToolbar: ({ table }) => (
       <TopToolbar
+        refresh={() => refetch()}
         table={table}
         takeBulkAction={async (id) => {
           const response = await bulkdeleteuser({
