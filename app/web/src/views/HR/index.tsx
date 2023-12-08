@@ -8,7 +8,6 @@ import InterviewPage from "./interview";
 import { useNavigate } from "react-router";
 
 const Shortlisted = () => {
-  const columns = useDevsShortlistedColums();
   const {
     data: devs,
     isLoading,
@@ -24,12 +23,17 @@ const Shortlisted = () => {
   const handleCloseJobForm = () => {
     setOpenRoleForm(false);
   };
+  // const hasInterview = devs.
+  const columns = useDevsShortlistedColums();
   const navigate = useNavigate();
   const devsShortlistedData =
     (devs?.length &&
-      devs.filter(({ rolestatus }) => rolestatus === "Pending")) ||
+      devs.filter(
+        ({ rolestatus }) =>
+          rolestatus === "Pending" || rolestatus === "Interviewing"
+      )) ||
     [];
-
+  console.log(devs);
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
