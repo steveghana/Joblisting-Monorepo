@@ -28,7 +28,7 @@ export class InterviewsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.interviewsService.findOne(+id);
+    return this.interviewsService.findOne(id);
   }
 
   @Patch(':id')
@@ -36,11 +36,11 @@ export class InterviewsController {
     @Param('id') id: string,
     @Body() updateInterviewDto: UpdateInterviewDto,
   ) {
-    return this.interviewsService.update(+id, updateInterviewDto);
+    return this.interviewsService.update(id, updateInterviewDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.interviewsService.remove(+id);
+    return this.interviewsService.cancel(id);
   }
 }
