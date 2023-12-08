@@ -89,11 +89,11 @@ class Developers {
   get roleStatus(): string {
     return this.data.role_status;
   }
-  get interviewee(): any {
-    return this.data.interviewsAsInterviewee;
+  get candidate(): any {
+    return this.data.candidate;
   }
   get interviewer(): any {
-    return this.data.interviewsAsInterviewer;
+    return this.data.interviewer;
   }
   get role(): Record<any, any> {
     return this.data.roles;
