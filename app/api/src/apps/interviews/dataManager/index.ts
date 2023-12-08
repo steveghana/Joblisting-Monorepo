@@ -4,6 +4,7 @@ import {
 } from '../../../util/dependencyInjector';
 import {
   scheduleInterview,
+  getAllInterviews,
   getInterviewById,
   cancelInterview,
 } from '../DBQueries/index';
@@ -43,6 +44,7 @@ class Interviews {
     newApplication.data = await getInterviewById(id, null, dependencies);
     return newApplication.data;
   }
+
   static async cancleInterview(
     interviewId: string,
     transaction: EntityManager = null,
