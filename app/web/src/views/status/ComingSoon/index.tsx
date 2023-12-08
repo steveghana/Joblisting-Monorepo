@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 // import { Helmet } from "react-helmet-async";
 // import Logo from "../../../components/LogoSign";
-
+import ComingSoon from "../../../assets/status/coming-soon.svg";
 import { styled } from "@mui/material/styles";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -116,15 +116,10 @@ function StatusComingSoon() {
                 fontWeight="normal"
                 sx={{ mb: 4 }}
               >
-                We're working on implementing the last features before our
-                launch!
+                We're working on implementing this feature!
               </Typography>
             </Container>
-            <img
-              alt="Coming Soon"
-              height={200}
-              src="/static/images/status/coming-soon.svg"
-            />
+            <img alt="Coming Soon" height={200} src={ComingSoon} />
           </Box>
 
           <Box display="flex" justifyContent="center">
