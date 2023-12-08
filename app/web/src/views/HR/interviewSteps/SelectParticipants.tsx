@@ -62,7 +62,7 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
     id &&
     __state.find((item) => item.id === id && item.rolestatus === "Pending");
   const __allApplicants =
-    __state?.length && __state.filter((item) => item.rolestatus === "Pending");
+    __state?.length && __state.filter((item) => item.rolestatus === "Accepted");
   const __validationSchema = Yup.object({
     interviewType: Yup.string().required("Interview type is required"),
     interviewDate: Yup.date().required("Interview date is required"),
