@@ -1,19 +1,10 @@
 // NewRoleForm.tsx
 import React from "react";
-import { Formik, Form, Field } from "formik";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-} from "@mui/material";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import ProjectDetails from "../clientForm/projectdetails";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { useFormData } from "../../../../../utils/Contexts/clientFormContext";
 import { useAddRoleMutation } from "../../../../../store/services/role.service";
-import { ClientFormDataState } from "../../../../../types/client";
 import { toast } from "react-toastify";
 
 interface NewRoleFormProps {
@@ -31,7 +22,7 @@ const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose }) => {
     communicationPreferences: "",
   };
   const { formDataState } = useFormData();
-  const [createRole, { isError, isLoading }] = useAddRoleMutation();
+  const [createRole, { isLoading }] = useAddRoleMutation();
 
   const handleSubmit = async () =>
     // values: ClientFormDataState["Project Details"]
