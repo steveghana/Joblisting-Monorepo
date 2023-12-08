@@ -39,10 +39,7 @@ class Client {
     (newclient._isNewlyCreated as unknown) = isNewlyCreated;
     return [clientData, newclient];
   }
-  static async getById(
-    id: string,
-    dependencies: Dependencies = null,
-  ): Promise<Client> {
+  static async getById(id: string, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newclient = new Client(dependencies);
     newclient.data = await getClientById(id, null, dependencies);
