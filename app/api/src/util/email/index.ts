@@ -58,15 +58,16 @@ async function send(
     html: options.html,
     attachments: options.attachments,
   };
-
+  console.log(process.env.NODE_ENV, 'the environment');
   if (process.env.NODE_ENV !== 'production') {
     logger.log('email', 'If it were production, would have sent E-mail', [
       sendMailOptions,
     ]);
     return Promise.resolve({});
   }
-
+  console.log('start sending');
   const info = await context.transporter.sendMail(sendMailOptions);
+  console.log(info, 'information wtere iss sent');
   return {
     messageId: info.messageId,
     envelope: info.envelope,
