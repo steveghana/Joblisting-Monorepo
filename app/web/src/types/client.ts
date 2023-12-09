@@ -59,7 +59,7 @@ export interface ClientFormDataState {
     selectedSkills: string[];
     description: string;
     durationForEmployment: string;
-    whenToStart: string;
+    whenToStart: Date;
     salary: string;
     roleCategory: string;
     tasks: string[]; // Array of tasks
