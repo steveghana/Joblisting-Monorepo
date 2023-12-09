@@ -37,6 +37,7 @@ const Roles = () => {
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
+
   return (
     <MainCard title={"Roles"}>
       <Grid container>
