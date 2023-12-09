@@ -58,6 +58,7 @@ const ClientRoleTable = ({
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateRole, setValidationErrors);
+      onActionComplete();
       //   refetch();
     },
     renderTopToolbar: ({ table }) => (
