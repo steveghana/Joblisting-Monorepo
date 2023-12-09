@@ -9,11 +9,13 @@ import ClientRoleTable from "./clientRolesTable";
 import NoData from "../../../../../components/NoData";
 
 const ClientDetailsPage: React.FC<{
-  data: IRoleData[];
+  data: { role: IRoleData[]; clientId: string };
+
   onActionComplete: () => void;
 }> = ({ data, onActionComplete }) => {
   const [openRoleForm, setOpenRoleForm] = useState(false);
   const [openJobForm, setOpenJobForm] = useState(false);
+  const [roleId, setRoleId] = useState("");
 
   const handleOpenRoleForm = () => {
     setOpenRoleForm(true);
@@ -23,14 +25,14 @@ const ClientDetailsPage: React.FC<{
     setOpenRoleForm(false);
   };
 
-  const handleOpenJobForm = () => {
+  const handleOpenJobForm = (id) => {
+    setRoleId(id);
     setOpenJobForm(true);
   };
 
   const handleCloseJobForm = () => {
     setOpenJobForm(false);
   };
-
   return (
     <Grid item xs={12} sm={12}>
       <Paper elevation={2}>
@@ -43,14 +45,26 @@ const ClientDetailsPage: React.FC<{
             Add new Role / Project
             "
           />
-          <NewRoleForm onClose={handleCloseRoleForm} open={openRoleForm} />
-
-          <NewJobForm onClose={handleCloseJobForm} open={openJobForm} />
-
+          <NewRoleForm
+            onClose={() => {
+              handleCloseRoleForm();
+              onActionComplete();
+            }}
+            clientId={data.clientId}
+            open={openRoleForm}
+          />
+          <NewJobForm
+            onClose={() => {
+              handleCloseJobForm();
+              onActionComplete();
+            }}
+            roleId={roleId}
+            open={openJobForm}
+          />
           <Typography variant="h5" component="h2" gutterBottom>
             Roles Available
           </Typography>
-          {!data?.length ? (
+          {!data?.role?.length ? (
             <NoData />
           ) : (
             <ClientRoleTable
