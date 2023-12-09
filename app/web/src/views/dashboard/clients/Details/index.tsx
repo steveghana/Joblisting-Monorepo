@@ -185,7 +185,7 @@ const ClientDetails = () => {
         <Grid item xs={12}>
           {currentTab === "projects" && (
             <ClientDetailsOverview
-              data={data.roles}
+              data={{ clientId: data.id, role: data.roles }}
               onActionComplete={() => refetch()}
             />
           )}
