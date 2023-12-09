@@ -9,10 +9,15 @@ import { toast } from "react-toastify";
 
 interface NewRoleFormProps {
   open: boolean;
+  clientId: string;
   onClose: () => void;
 }
 
-const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose }) => {
+const NewRoleForm: React.FC<NewRoleFormProps> = ({
+  open,
+  onClose,
+  clientId,
+}) => {
   const initialValues = {
     title: "",
     devsNeeded: "",
@@ -24,26 +29,22 @@ const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose }) => {
   const { formDataState } = useFormData();
   const [createRole, { isLoading }] = useAddRoleMutation();
 
-  const handleSubmit = async () =>
-    // values: ClientFormDataState["Project Details"]
-    {
-      // Implement logic to create a new role here
-      console.log(formDataState);
-      let values = formDataState["Project Details"];
-      try {
-        const response = await createRole({ ...values }).unwrap();
-        if (!isLoading && response) {
-          onClose();
-        }
-      } catch (error) {
-        toast.error("Error submitting data", {
+  const handleSubmit = async (values) => {
+    try {
+      const response = await createRole({ ...values, clientId }).unwrap();
+      if (!isLoading && response) {
+        toast.success("Role Added Successfully", {
           position: "bottom-center",
         });
-        return error;
+        onClose();
       }
-      // Reset the form after submission
-      // resetForm();
-    };
+    } catch (error) {
+      toast.error("Error submitting data", {
+        position: "bottom-center",
+      });
+      return error;
+    }
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -59,7 +60,7 @@ const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose }) => {
         <DialogContent>
           <ProjectDetails
             atClientPage={true}
-            handleExternalSubmit={(values) => handleSubmit()}
+            handleExternalSubmit={(values) => handleSubmit(values)}
           />
         </DialogContent>
       </PerfectScrollbar>
