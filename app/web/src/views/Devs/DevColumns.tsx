@@ -4,7 +4,7 @@ import {
   // IColumnTypeString,
   handleCreate,
   handleSave,
-} from "../../utils/ClientTableCrud";
+} from "../../utils/clientTableCrud";
 import TableActions from "../../components/Table/TableActions";
 import TopToolbar from "../../components/Table/topToolBar";
 import CreatRow from "../../components/Table/CreatRow";
