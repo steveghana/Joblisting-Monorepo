@@ -14,7 +14,7 @@ export type IDev = {
   email: string;
   jobTitle: string;
   salary: number;
-  startedAt: Date;
+  startDate: Date;
   experience?: number;
   projectName: string;
   avatar: string;
