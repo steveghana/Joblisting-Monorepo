@@ -6,23 +6,31 @@ import Loadable from "../components/Loadable";
 import Home from "../views/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
-import JobSubmissionContainer from "../views/dashboard/Roles/ApplicationForm/JobSubmission";
-import ClientDetails from "../views/dashboard/clients/Details";
-import AddClient from "../views/dashboard/clients/Details/clientForm";
-import Status404 from "../views/status/Status404";
 import { FormDataProvider } from "../utils/Contexts/clientFormContext";
-import Developers from "../views/Devs/Devs";
-import InterviewScheduler from "../views/HR/interviewSteps/InterviewScheduler";
-import StatusComingSoon from "../views/status/ComingSoon";
-
 // dashboard routing
+const InterviewScheduler = Loadable(
+  lazy(() => import("../views/HR/interviewSteps/InterviewScheduler"))
+);
+const JobSubmissionContainer = Loadable(
+  lazy(() => import("../views/dashboard/Roles/ApplicationForm/JobSubmission"))
+);
+const Developers = Loadable(lazy(() => import("../views/Devs/Devs")));
+const AddClient = Loadable(
+  lazy(() => import("../views/dashboard/clients/Details/clientForm"))
+);
+const ClientDetails = Loadable(
+  lazy(() => import("../views/dashboard/clients/Details"))
+);
+const StatusComingSoon = Loadable(
+  lazy(() => import("../views/status/ComingSoon"))
+);
+const Status404 = Loadable(lazy(() => import("../views/status/Status404")));
 const DashboardDefault = Loadable(
   lazy(() => import("../views/dashboard/Default"))
 );
 const UserProfile = Loadable(lazy(() => import("../views/users/profile")));
 const UserSettings = Loadable(lazy(() => import("../views/users/settings")));
 // utilities routing
-const AllDevs = Loadable(lazy(() => import("../views/Devs")));
 const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
 const Roles = Loadable(lazy(() => import("../views/dashboard/Roles")));
 const Interviews = Loadable(
