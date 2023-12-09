@@ -11,7 +11,7 @@ const ClientDetailsOverview = ({
   data,
   onActionComplete,
 }: {
-  data: IRoleData[];
+  data: { role: IRoleData[]; clientId: string };
   onActionComplete: () => void;
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -21,6 +21,7 @@ const ClientDetailsOverview = ({
   const handleClose = () => {
     setOpen(false);
   };
+  console.log(data, "from voervi");
   if (!data) {
     return <NoData />;
   }
