@@ -25,7 +25,9 @@ const UserSettings = Loadable(lazy(() => import("../views/users/settings")));
 const AllDevs = Loadable(lazy(() => import("../views/Devs")));
 const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
 const Roles = Loadable(lazy(() => import("../views/dashboard/Roles")));
-const Interviews = Loadable(lazy(() => import("../views/Devs/Interviews")));
+const Interviews = Loadable(
+  lazy(() => import("../views/Devs/Interview/Interviews"))
+);
 const Hub = Loadable(lazy(() => import("../views/Devs/devHub")));
 
 // sample page routing
