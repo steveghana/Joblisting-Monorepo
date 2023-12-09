@@ -38,12 +38,19 @@ import { toast } from "react-toastify";
 import CustomButton from "../../../components/button";
 import { Schedule } from "@mui/icons-material";
 import { devApi } from "../../../store/services/dev.service";
-
+import { IDev } from "../../../types/devs";
+import { Iinterviews } from "../../../types/interviews";
 interface SelectParticipantsProps {
-  onNext: (values: FormValues) => void;
+  interviewers: IDev[];
+  editableInterviewInfo: Iinterviews | null;
+  isEditing?: boolean;
+  _applicants: IDev[];
+  handleSubmit?: (values: InterviewFormValue) => void;
+  handleEdit?: (values: InterviewFormValue) => void;
 }
 
-interface FormValues {
+// Define the structure of the form values
+export interface InterviewFormValue {
   candidate: string;
   interviewer: any;
   meetingLink: string;
@@ -51,135 +58,89 @@ interface FormValues {
   interviewDate: Date | null;
 }
 
-const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
+const SelectParticipants: React.FC<SelectParticipantsProps> = ({
+  interviewers,
+  _applicants,
+  isEditing,
+  editableInterviewInfo,
+  handleEdit,
+  handleSubmit,
+}) => {
+  // Get the id parameter from the route
   const { id } = useParams();
-  const state = useTypedSelector((state) => state);
-  const __state = useTypedSelector((state) => state.devs.devs);
-  const dispatch = useTypedDispatch();
-  const [addInterview, { isError, isLoading }] = useAddInterviewMutation();
-  const navigate = useNavigate();
-  const __applicant =
-    id &&
-    __state.find((item) => item.id === id && item.rolestatus === "Pending");
-  const __allApplicants =
-    __state?.length && __state.filter((item) => item.rolestatus === "Accepted");
-  const __validationSchema = Yup.object({
+
+  // Define the validation schema for the form
+  const validationSchema = Yup.object({
     interviewType: Yup.string().required("Interview type is required"),
     interviewDate: Yup.date().required("Interview date is required"),
   });
-  const _initialValues: FormValues = {
-    candidate: `${__applicant?.firstName || ""} ${__applicant?.lastName || ""}`,
-    meetingLink: "",
-    interviewer: "",
-    interviewType: "",
-    interviewDate: null,
+  console.log(interviewers, "infofdfj");
+  // Define the initial values for the form
+  const initialValues: InterviewFormValue = {
+    //We assume that as id param has been found, applicant has already been filtered by id in the
+    //parent component making it an array of a single item and thus sorted to appear first, so thereofore applicant[0]
+    candidate: `${((id || isEditing) && _applicants[0]?.firstName) || ""} ${
+      id || (isEditing && _applicants[0]?.lastName) || ""
+    }`,
+    meetingLink:
+      (isEditing &&
+        editableInterviewInfo &&
+        editableInterviewInfo?.meetingLink) ||
+      "",
+    //If if its edit, show the interviewer from the interviews data
+    interviewer: `${(isEditing && interviewers[0]?.firstName) || ""} ${
+      (isEditing && interviewers[0]?.lastName) || ""
+    }`,
+    interviewType:
+      (isEditing &&
+        editableInterviewInfo &&
+        editableInterviewInfo?.interviewType) ||
+      "",
+    interviewDate:
+      (isEditing &&
+        editableInterviewInfo &&
+        editableInterviewInfo?.interviewDate) ||
+      null,
   };
-  console.log(state);
-  useEffect(() => {
-    dispatch(fetchDevs());
-  }, []);
-  const handleSubmit = async (values: FormValues) => {
-    const {
-      candidate,
-      interviewDate,
-      interviewType,
-      interviewer,
-      meetingLink,
-    } = values;
-    const trimedCandidate = candidate.trim().toLowerCase();
 
-    const candidateInfo = __state.find(
-      (candidate) =>
-        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
-        trimedCandidate
-    );
-    try {
-      const response = await addInterview({
-        candidateId: candidateInfo.id,
-        interviewerId: interviewer.id,
-        scheduled_date: interviewDate,
-        status: "Scheduled",
-      }).unwrap();
-      await devApi.util.invalidateTags(["devs"]);
-      console.log(response, "this is the response");
-      if (response && !isError) {
-        dispatch(fetchDevs()); // update the persisted data
-        await persistor.flush();
-        navigate("/devs/interviews");
-      }
-      toast.success("interview Scheduled Succesfully", {
-        position: "bottom-center",
-      });
-    } catch (error) {
-      toast.error("Could not Schedule interview", {
-        position: "bottom-center",
-      });
+  const handleSubmitForm = (values: InterviewFormValue) => {
+    if (isEditing && handleEdit) {
+      // Call the handleEdit function if in edit mode
+      handleEdit(values);
+    } else if (handleSubmit) {
+      // Call the handleSubmit function if not in edit mode
+      handleSubmit(values);
     }
-    console.log(candidateInfo, values);
-    // onNext(values);
   };
-
   return (
     <Formik
-      initialValues={_initialValues}
-      // validationSchema={__validationSchema}
-      onSubmit={handleSubmit}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmitForm}
     >
-      {({ isSubmitting, handleChange, values, setFieldValue }) => (
+      {({
+        isSubmitting,
+        handleChange,
+        values,
+        setFieldValue,
+        isValidating,
+      }) => (
         <Form>
           <Stack spacing={2}>
+            <Typography variant="h5">Select Applicant</Typography>
             <Box>
-              <Typography variant="h5">Select Applicant</Typography>
-              {__applicant && (
-                <FormControl fullWidth>
-                  {/* <InputLabel id="role-label">Select the __applicant</InputLabel> */}
-                  <Field
-                    name="candidate"
-                    as={Select}
-                    variant="outlined"
-                    disabled={!!__applicant}
-                    fullWidth
-                    // value={values.candidate}
-                  >
-                    <MenuItem
-                      value={`${__applicant.firstName} ${__applicant.lastName}`}
-                    >
-                      <Box
-                        display={"flex"}
-                        // justifyContent={"space-between"}
-                        alignItems={"center"}
-                        gap={1}
-                      >
-                        <Avatar
-                          sx={{ width: 30, height: 30 }}
-                          src={__applicant.avatar || null}
-                        />{" "}
-                        <Typography>{`${__applicant.firstName} ${__applicant.lastName}`}</Typography>
-                        {/* <Typography>{`${state.email}`}</Typography>
-                    <Typography>{`${state.experience}`}</Typography> */}
-                      </Box>
-                    </MenuItem>
-                  </Field>
-                  <ErrorMessage name="candidate" component="div">
-                    {(msg) => (
-                      <FormHelperText error variant="filled">
-                        {msg}
-                      </FormHelperText>
-                    )}
-                  </ErrorMessage>
-                </FormControl>
-              )}
-              {__allApplicants.length && !__applicant && (
+              {_applicants?.length && (
                 <FormControl fullWidth>
                   <InputLabel id="role-label">Select the applicant</InputLabel>
                   <Field
                     name="candidate"
                     as={Select}
+                    disabled={!!id}
                     variant="outlined"
                     fullWidth
                     value={values.candidate}
                   >
-                    {__allApplicants.map((applicant) => (
+                    {_applicants.map((applicant) => (
                       <MenuItem
                         key={applicant.id}
                         value={`${applicant?.firstName} ${applicant?.lastName}`}
@@ -211,7 +172,8 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
                 <RenderGroup
                   label="Select Interviewer"
                   name="interviewer"
-                  data={__allApplicants}
+                  data={interviewers}
+                  value={values.interviewer}
                 />
                 <ErrorMessage name="interviewer" component="div">
                   {(msg) => (
@@ -315,15 +277,17 @@ const SelectParticipants: React.FC<SelectParticipantsProps> = ({ onNext }) => {
                 )}
               </ErrorMessage>
             </Box>
-            <Box>
-              <CustomButton
-                fullWidth
-                type="submit"
-                disabled={isLoading}
-                text="Schedule"
-                endIcon={<Schedule />}
-              />
-            </Box>
+            {!isEditing && (
+              <Box>
+                <CustomButton
+                  fullWidth
+                  type="submit"
+                  disabled={isSubmitting || isValidating}
+                  text={"Schedule"}
+                  endIcon={<Schedule />}
+                />
+              </Box>
+            )}
           </Stack>
         </Form>
       )}
