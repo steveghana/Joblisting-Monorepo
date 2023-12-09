@@ -3,7 +3,7 @@ import {
   // IColumnTypeString,
   handleCreate,
   handleSave,
-} from "../../../../utils/ClientTableCrud";
+} from "../../../../utils/clientTableCrud";
 import TableDetail from "../../../../components/Table/Detail";
 import TableActions from "../../../../components/Table/TableActions";
 import TopToolbar from "../../../../components/Table/topToolBar";
