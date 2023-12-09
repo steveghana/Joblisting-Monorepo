@@ -77,19 +77,6 @@ export const useDevsColums = () => {
         id: "id",
         header: "Job Info",
         columns: [
-          // {
-          //   accessorKey: "salary",
-          //   // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
-          //   filterFn: "between",
-          //   header: "Salary",
-          //   enableEditing: true,
-
-          //   size: 100,
-          //   //custom conditional format and styling
-          //   Cell: ({ cell }) => (
-          //
-          //   ),
-          // },
           {
             accessorKey: "salary",
             size: 100,
@@ -121,31 +108,12 @@ export const useDevsColums = () => {
                 })}
               </Box>
             ),
-            // cell.getValue<number>().toLocaleString("en-US", {
-            //   style: "currency",
-            //   currency: "USD",
-            // }),
-            // filterVariant: "range-slider",
             filterFn: "between", // default (or between)
-            // muiFilterSliderProps: {
-            //   marks: true,
-            //   max: 100_000, //custom max (as opposed to faceted max)
-            //   min: 30_000, //custom min (as opposed to faceted min)
-            //   step: 10_000,
-            //   valueLabelFormat: (value) =>
-            //     value.toLocaleString("en-US", {
-            //       style: "currency",
-            //       currency: "USD",
-            //     }),
-            // },
           },
-
           {
-            accessorFn: (row) => new Date(row.startedAt),
+            accessorFn: (row) => new Date(row.startedAt), //convert to Date for sorting and filtering
             id: "startDate",
             header: "Start Date",
-            enableEditing: false,
-
             filterVariant: "date",
             filterFn: "lessThan",
             sortingFn: "datetime",
