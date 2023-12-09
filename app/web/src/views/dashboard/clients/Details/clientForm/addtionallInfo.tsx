@@ -2,7 +2,14 @@
 
 import React from "react";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FieldArray,
+  FieldProps,
+} from "formik";
 import {
   Box,
   Typography,
@@ -36,6 +43,8 @@ import {
   whenToStart,
 } from "../../../../../lib/data/formFieldData";
 import { ClientFormDataState } from "../../../../../types/client";
+import { DatePicker } from "@mui/x-date-pickers";
+import { addDays } from "date-fns";
 
 const additionalDataValidationSchema = Yup.object().shape({
   // dataContent: Yup.string().required("Additional Data is required"),
@@ -45,7 +54,7 @@ const additionalDataValidationSchema = Yup.object().shape({
   selectedSkills: Yup.array().required("Skills are required"),
 
   roleName: Yup.string().required("Add the role title"),
-  whenToStart: Yup.string().required("Select when the project starts"),
+  whenToStart: Yup.date().required("Select when the project starts"),
   roleType: Yup.string().required("Please select the role you are hiring for!"),
 
   employmentType: Yup.string().required("Employment type is required"),
@@ -75,6 +84,7 @@ const RoleInfo = (props: IRoleInfo) => {
         if ("atClientPage" in props) {
           // TypeScript now knows that props has 'atClientPage' and 'handleExternalSubmit'
           if (props.atClientPage) {
+            props.handleExternalSubmit(values);
             return;
           }
         } else {
@@ -254,21 +264,19 @@ const RoleInfo = (props: IRoleInfo) => {
                 <FormLabel component="legend">
                   When do you need the developer to start?
                 </FormLabel>
-                {whenToStart.map((startDay) => (
-                  <RadioGroup
-                    aria-label="items"
-                    name="whenToStart"
-                    value={values.whenToStart}
-                    onChange={handleChange}
-                    row
-                  >
-                    <FormControlLabel
-                      value={startDay.label}
-                      control={<Radio />}
-                      label={startDay.label}
-                    />
-                  </RadioGroup>
-                ))}
+                <Box mt={1}>
+                  <Field name="whenToStart">
+                    {({ field }: FieldProps<Date | null>) => (
+                      <DatePicker
+                        value={field.value}
+                        onChange={(date) => setFieldValue("whenToStart", date)}
+                        minDate={new Date()}
+                        maxDate={addDays(new Date(), 30)} // Limit to the next 30 days
+                        format="MM/dd/yyyy"
+                      />
+                    )}
+                  </Field>
+                </Box>
                 <ErrorMessage name="whenToStart" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
@@ -326,9 +334,6 @@ const RoleInfo = (props: IRoleInfo) => {
                   text="Save"
                   size="small"
                   fullWidth
-                  onClick={() => {
-                    props.atClientPage && props.handleExternalSubmit(values);
-                  }}
                   endIcon={<Send />}
                   disabled={isSubmitting}
                   type="submit"
