@@ -35,7 +35,7 @@ const initialState: ClientFormDataState = {
     description: "",
     roleName: "", // for oter to see
     selectedSkills: [],
-    whenToStart: "",
+    whenToStart: new Date(),
     roleCategory: "Engineering",
     salary: "",
     jobType: "Remote",
