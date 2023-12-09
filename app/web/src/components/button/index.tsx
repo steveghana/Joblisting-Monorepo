@@ -17,7 +17,7 @@ function CustomButton(props: IButtonProps) {
         boxShadow:
           "rgba(77, 172, 255, 0.45) 0px 13px 27px -5px, rgba(77, 172, 255, 0.4) 0px 8px 16px -8px;",
         borderRadius: "10px",
-        color: "white",
+        // color: "white",
         minWidth: "50px",
         // background: "red",
         // background: props.variant === "contained" && themePalette.primary.main,
