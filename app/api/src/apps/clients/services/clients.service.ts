@@ -44,8 +44,7 @@ export class ClientsService {
           clientId: client.id,
           title: client.projectTitle,
           ...projectDetails,
-          vacancy_status:
-            roleinfo.whenToStart !== 'I will decide later' ? 'Open' : 'Closed',
+          vacancy_status: 'Open',
         },
         transaction,
         dependencies,
