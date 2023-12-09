@@ -111,7 +111,7 @@ export const useDevsColums = () => {
             filterFn: "between", // default (or between)
           },
           {
-            accessorFn: (row) => new Date(row.startedAt), //convert to Date for sorting and filtering
+            accessorFn: (row) => new Date(row.startDate), //convert to Date for sorting and filtering
             id: "startDate",
             header: "Start Date",
             filterVariant: "date",
