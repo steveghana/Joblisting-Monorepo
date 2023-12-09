@@ -26,8 +26,8 @@ export class Job extends AssociableModel {
   description: string;
   @Column({ default: 'Remote' })
   roleType: string;
-  @Column()
-  whenToStart: string;
+  @Column({ default: new Date() })
+  whenToStart: Date;
   @Column()
   employmentType: string;
   @Column()
