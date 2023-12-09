@@ -1,4 +1,4 @@
-import { CreateRoleDto, RoleInfoDto } from '../dto/create-role.dto';
+import { CreateRoleDto, JobInfo, RoleInfoDto } from '../dto/create-role.dto';
 import { UpdateRoleDto } from '../dto/update-role.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
@@ -7,7 +7,7 @@ import Client from '../../clients/dataManager';
 import { useTransaction } from '../../../util/transaction';
 import { Dependencies } from '../../../util/dependencyInjector';
 import { getAllRoles } from '../DBQueries';
-import { IRole } from '@/types/role';
+import { IRole } from '../../../types/role';
 
 @Injectable()
 export class RolesService {
@@ -21,7 +21,8 @@ export class RolesService {
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
-          ...createRoleDto['Project Details'],
+          ...createRoleDto,
+          vacancy_status: 'Open',
         },
         transaction,
         dependencies,
@@ -31,20 +32,17 @@ export class RolesService {
   }
   public async createJob(
     roleId: string,
-    createRoleDto: RoleInfoDto[],
+    createRoleDto: Omit<JobInfo, 'vacancy_status'>,
     dependencies: Dependencies = null,
   ) {
+    console.log(roleId, createRoleDto, 'this is the job info');
     return useTransaction(async (transaction) => {
       let roldDetails = await Roles.getById(roleId);
       const { data } = await Roles.createJobs(
-        roleId,
+        roldDetails.id,
         {
-          ...createRoleDto['Role Info'],
+          ...createRoleDto,
           country: roldDetails.client.country.label,
-          vacancy_status:
-            createRoleDto['Role Info'].whenToStart !== 'I will decide later'
-              ? 'Open'
-              : 'Closed',
         },
         transaction,
         dependencies,
