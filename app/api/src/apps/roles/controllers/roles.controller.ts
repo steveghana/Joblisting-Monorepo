@@ -39,7 +39,24 @@ export class RolesController {
     @Param('id') id: string,
     @Res() res: Response,
   ) {
+    console.log(createRoleDto, 'this is the body');
     const result = await this.rolesService.create(id, createRoleDto);
+    return res.json(result);
+  }
+  @Post('/job/:id')
+  @ApiTags('create a role')
+  @ApiOperation({
+    description: 'creating a role associated with a specific client',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async createJob(
+    @Body() createRoleDto: CreateRoleDto['Role Info'],
+    @Param('id') id: string,
+    @Res() res: Response,
+  ) {
+    const result = await this.rolesService.createJob(id, createRoleDto);
     return res.json(result);
   }
 
