@@ -55,7 +55,7 @@ function Status500() {
       {/* <Helmet>
         <title>Status - 500</title>
       </Helmet> */}
-      <MainContent height={"100vh"}>
+      <MainContent height={"100vh"} sx={{ background: "white" }}>
         <Grid
           container
           sx={{ height: "100%" }}
