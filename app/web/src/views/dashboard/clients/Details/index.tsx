@@ -46,9 +46,12 @@ const ClientDetails = () => {
 
   const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
   const [currentTab, setCurrentTab] = React.useState<Tabstring>("projects");
-  const { data, isError, isLoading, isFetching, refetch } = useGetClientQuery({
-    id,
-  });
+  const { data, isError, isLoading, isFetching, refetch } = useGetClientQuery(
+    {
+      id,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
   const tabs = [
     { value: "projects", label: "Project" },
     { value: "tasks", label: "Tasks" },
