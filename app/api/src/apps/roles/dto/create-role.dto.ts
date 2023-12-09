@@ -11,6 +11,7 @@ import {
   ValidateNested,
   IsOptional,
   IsNumber,
+  IsDate,
 } from 'class-validator';
 import { IRole } from '@/types/role';
 import { Type } from 'class-transformer';
@@ -58,8 +59,8 @@ export class RoleInfoDto {
   selectedSkills: string[];
   // Assuming whenToStart is a string
   @IsNotEmpty()
-  @IsString()
-  whenToStart: string;
+  @IsDate()
+  whenToStart: Date;
   @IsOptional()
   @IsString()
   salary: string;
@@ -96,7 +97,7 @@ export interface JobInfo {
   id?: string;
   role?: IRole;
   roleType: string;
-  whenToStart: string;
+  whenToStart: Date;
   employmentType: string;
   selectedSkills: string[];
   country: string;
