@@ -29,6 +29,7 @@ import { useAddClientMutation } from "../../../../../store/services/client.servi
 import { useNavigate } from "react-router";
 import { techRoles } from "../../../../../lib/data/jobs";
 import { toast } from "react-toastify";
+import { format } from "date-fns";
 
 type FormData = {
   [key: string]: string | string[] | boolean;
@@ -121,6 +122,8 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
                                   ? value.label
                                   : value?.length > 70
                                   ? value.slice(0, 70) + "...."
+                                  : key === "whenToStart"
+                                  ? format(new Date(value), "yyyy-MM-dd")
                                   : value}
                               </Typography>
                             </Grid>
