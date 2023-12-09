@@ -22,7 +22,8 @@ const ClientRoleTable = ({
   handleOpenJobForm,
   onActionComplete,
 }: {
-  data: IRoleData[];
+  data: { role: IRoleData[]; clientId: string };
+
   onActionComplete: () => void;
 
   handleOpenJobForm: (id: string) => void;
@@ -44,7 +45,7 @@ const ClientRoleTable = ({
   // const jobs = data.map((item) => item.jobs);
   const table = useMaterialReactTable({
     columns,
-    data,
+    data: data.role,
     createDisplayMode: "row", // ('modal', and 'custom' are also available)
     editDisplayMode: "modal", // ('modal', 'row', 'table', and 'custom' are also available)
     enableEditing: true,
