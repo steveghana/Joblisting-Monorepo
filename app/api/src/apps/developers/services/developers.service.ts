@@ -159,7 +159,7 @@ export class DevelopersService {
         rolestatus: item.role_status,
         experience: +item.years_of_experience,
         salary: item.salary,
-        startDate: item.createdAt.toLocaleDateString(),
+        startDate: item.createdAt,
         projectName: item.client.projectTitle,
         avatar: item.user.avatar,
       }));
