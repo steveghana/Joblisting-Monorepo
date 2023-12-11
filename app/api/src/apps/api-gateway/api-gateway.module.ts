@@ -14,8 +14,8 @@ import dbConfiguration from '../../Config/db.config';
 
 import { AuthenticationTtlMiddleware } from '../../middleware/authenticationTtl.middleware';
 import { HttpExceptionFilter } from '../../middleware/err.Middleware';
-import { CorsMiddleware } from '@/middleware/cors.middleware';
-import { AuthMiddleware } from '@/middleware/authenticated.middleware';
+import { CorsMiddleware } from '../../middleware/cors.middleware';
+import { AuthMiddleware } from '../../middleware/authenticated.middleware';
 @Module({
   imports: [
     CacheModule.register({
@@ -51,24 +51,24 @@ import { AuthMiddleware } from '@/middleware/authenticated.middleware';
   controllers: [],
   providers: [
     // AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: AuthenticationTtlMiddleware,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: AuthenticationTtlMiddleware,
+    // },
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
   ],
 })
-// export class AppModule {}
-export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CorsMiddleware)
-      .forRoutes('*')
-      //AuthTTL
-      //OptionalAuth
-      .apply(AuthMiddleware);
-  }
-}
+export class AppModule {}
+// export class AppModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(CorsMiddleware)
+//       .forRoutes('*')
+//       //AuthTTL
+//       //OptionalAuth
+//       .apply(AuthMiddleware);
+//   }
+// }
