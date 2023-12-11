@@ -7,8 +7,11 @@ import { useAddInterviewMutation } from "../../../store/services/interview.servi
 import Demo from "../Events/demo";
 import { InterviewFormValue } from "../../../types/interviews";
 
+export const STATUS_PENDING = "Pending";
+export const STATUS_ACCEPTED = "Accepted";
+export const STATUS_SCHEDULED = "Scheduled";
+
 const InterviewScheduler: React.FC = () => {
-  const [interviewType, setInterviewType] = useState<string>("");
   const [selectedApplicant, setSelectedApplicant] = useState({
     candidate: false,
     interviewer: false,
@@ -21,21 +24,22 @@ const InterviewScheduler: React.FC = () => {
   useEffect(() => {
     dispatch(fetchDevs());
   }, []);
+
   const state = useTypedSelector((state) => state.devs.devs);
   const editableApplicant =
     id &&
-    state.filter((item) => item.id === id && item.rolestatus === "Pending");
-  const applicants = state.filter((item) => item.rolestatus === "Pending");
+    state.filter(
+      (item) => item.id === id && item.rolestatus === STATUS_PENDING
+    );
+  const applicants = state.filter((item) => item.rolestatus === STATUS_PENDING);
   const interviewers =
-    state?.length && state.filter((item) => item.rolestatus === "Accepted");
-  const [selectedInterviewDate, setSelectedInterviewDate] =
-    useState<Date | null>(null);
+    state?.length &&
+    state.filter((item) => item.rolestatus === STATUS_ACCEPTED);
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-
   // const session = useSession();
   // const supabase = useSupabaseClient();
   // const { isLoading } = useSessionContext();
@@ -59,28 +63,26 @@ const InterviewScheduler: React.FC = () => {
   const handleSignOut = async () => {
     // await supabase.auth.signOut();
   };
-
   const createCalendarEvent = async () => {
     console.log("Creating calendar event");
-    {
-      const event = {
-        summary: eventName,
-        description: eventDescription,
-        start: {
-          dateTime: start.toISOString(),
-          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        },
-        end: {
-          dateTime: end.toISOString(),
-          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        },
-        attendees: [
-          { email: "john@example.com" },
-          { email: "jane@example.com" },
-          { email: "your-email@example.com" }, // You can include or exclude yourself
-        ],
-      };
-    }
+    const event = {
+      summary: eventName,
+      description: eventDescription,
+      start: {
+        dateTime: start.toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      end: {
+        dateTime: end.toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      attendees: [
+        { email: "john@example.com" },
+        { email: "jane@example.com" },
+        { email: "your-email@example.com" }, // You can include or exclude yourself
+      ],
+    };
+
     try {
       const response = await fetch(
         "https://www.googleapis.com/calendar/v3/calendars/primary/events",
@@ -100,6 +102,7 @@ const InterviewScheduler: React.FC = () => {
       toast.error("Failed to create the event. Please try again.");
     }
   };
+
   const handleSubmit = async (values: InterviewFormValue) => {
     const { candidate, guests, ...rest } = values;
 
@@ -124,19 +127,22 @@ const InterviewScheduler: React.FC = () => {
       )
     );
     console.log(guestsInfo, candidateInfo, mappedGuests);
+
     try {
       const response = await addInterview({
         candidateId: candidateInfo.id,
         guests: guestsInfo.map((item) => item.id),
-        interviewType,
+        interviewType: rest.eventType,
         ...rest,
-        status: "Scheduled",
+        status: STATUS_SCHEDULED,
       }).unwrap();
+
       if (response && !isError) {
         dispatch(fetchDevs()); // update the persisted data
         navigate("/devs/interviews");
       }
-      toast.success("interview Scheduled Succesfully", {
+
+      toast.success("Interview Scheduled Successfully", {
         position: "bottom-center",
       });
     } catch (error) {
@@ -144,11 +150,13 @@ const InterviewScheduler: React.FC = () => {
         position: "bottom-center",
       });
     }
+
     console.log(values);
-    // onNext(values);
   };
 
-  const handleEdit = (values: InterviewFormValue) => {};
+  const handleEdit = (values: InterviewFormValue) => {
+    // Handle edit logic
+  };
 
   return (
     <div>
@@ -156,7 +164,7 @@ const InterviewScheduler: React.FC = () => {
         isEditing={false}
         editableInterviewInfo={null}
         _applicants={editableApplicant || applicants}
-        interviewers={interviewers}
+        guests={interviewers}
         handleSubmit={(values) => handleSubmit(values)}
         handleEdit={(values) => handleEdit(values)}
       />
