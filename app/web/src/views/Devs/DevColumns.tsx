@@ -54,7 +54,7 @@ const DevTableData = ({
   >({});
 
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
-  const [deletinterview, { isLoading: isDeleting }] =
+  const [cancelInterview, { isLoading: isDeleting }] =
     useDeletInterviewMutation();
   const [
     updateUser,
@@ -127,14 +127,13 @@ const DevTableData = ({
         table={table}
       />
     ),
-
     // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => (
       <>
         <TableActions
           cancelInterview={async () => {
-            const deleted = await deletinterview({
-              id: row.original.interviewId,
+            const deleted = await cancelInterview({
+              id: row.original.id,
             }).unwrap();
             if (deleted) {
               refetch();
