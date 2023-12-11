@@ -26,18 +26,20 @@ export const fetchDevs = createAsyncThunk(
   async (_, { dispatch }) => {
     try {
       // Dispatch an action before starting the API call
-      dispatch(startFetching());
+      // dispatch(startFetching());
 
       const url = `${_api_url.getApiUrl()}/developers`;
       const { data } = await axios.get(url);
 
       // Dispatch an action after a successful API call
-      dispatch(fetchingSuccess(data));
+      // dispatch(fetchingSuccess(data));
+      console.log(data, "from fetch devs");
 
       return data;
     } catch (error) {
+      console.log(error, "this is the error");
       // Dispatch an action after an unsuccessful API call
-      dispatch(fetchingError(error));
+      // dispatch(fetchingError(error));
       throw error;
     }
   }
@@ -52,10 +54,14 @@ const devSlice = createSlice({
     startFetching: (state) => {
       state.isloading = true;
       state.isFetching = true;
+      state.isError = false;
+      state.error = {};
     },
     fetchingSuccess: (state, action) => {
       state.isloading = false;
       state.isFetching = false;
+      state.isError = false;
+      state.error = {};
       state.devs = action.payload;
     },
     fetchingError: (state, action) => {
