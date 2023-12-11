@@ -17,17 +17,23 @@ import CustomButton from "../../../components/button";
 import { Iinterviews, InterviewFormValue } from "../../../types/interviews";
 import { IDev } from "../../../types/devs";
 import { useNavigate, useParams } from "react-router";
-import { useGetInterviewQuery } from "../../../store/services/interview.service";
-import { useTypedSelector } from "../../../store";
+import {
+  useGetInterviewQuery,
+  useUpdateInterviewMutation,
+} from "../../../store/services/interview.service";
+import { useTypedDispatch, useTypedSelector } from "../../../store";
 import { toast } from "react-toastify";
 import Demo from "../../HR/Events/demo";
 import NoData from "../../../components/NoData";
 import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
 import MainCard from "../../../components/MainCard";
+import { STATUS_SCHEDULED } from "../../HR/interviewSteps/InterviewScheduler";
+import { fetchDevs } from "../../../store/slices/dev.slice";
 
 const InterviewEdit = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useTypedDispatch();
   const { id } = useParams();
   const {
     data: interviewEditData,
@@ -36,6 +42,9 @@ const InterviewEdit = () => {
     isLoading,
     refetch,
   } = useGetInterviewQuery({ id });
+  const [updateInterview, { isError: isUpdateError }] =
+    useUpdateInterviewMutation();
+  const state = useTypedSelector((state) => state.devs.devs);
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
@@ -49,17 +58,11 @@ const InterviewEdit = () => {
   if (!interviewEditData || !devsAndApplicants) {
     return <NoData />;
   }
-  const __applicant = devsAndApplicants.filter(
-    (applicant) =>
-      applicant.id !== interviewEditData?.candidate.id &&
-      applicant.rolestatus === "Pending"
-  );
-  const interviewers = devsAndApplicants.filter(
-    (interviewer) =>
-      interviewer.id !== interviewEditData?.interviewer.id &&
-      interviewer?.rolestatus === "Accepted"
-  );
 
+  const applicant = interviewEditData.candidate;
+  const guests = devsAndApplicants.filter(
+    (dev) => dev.rolestatus === "Accepted"
+  );
   console.log(interviewEditData.candidate, "data");
   // const session = useSession();
   // const supabase = useSupabaseClient();
@@ -125,14 +128,56 @@ const InterviewEdit = () => {
       toast.error("Failed to create the event. Please try again.");
     }
   };
-  console.log(__applicant, "this is the applicant");
-  const handleEdit = (value: InterviewFormValue) => {};
+  const handleEdit = async (value: InterviewFormValue) => {
+    const { candidate, guests, ...rest } = value;
+
+    const trimedCandidate = candidate.trim().toLowerCase();
+
+    const candidateInfo = state.find(
+      (candidate) =>
+        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
+        trimedCandidate
+    );
+    const escapedPattern = "\\s";
+    const regex = new RegExp(escapedPattern, "g");
+    const mappedGuests = guests.map((guest) =>
+      guest.trim().replace(regex, "").toLowerCase()
+    );
+    const guestsInfo = state.filter((guest) =>
+      mappedGuests.includes(
+        `${guest.firstName}${guest.lastName}`
+          .trim()
+          .replace(regex, "")
+          .toLowerCase()
+      )
+    );
+    try {
+      const response = await updateInterview({
+        id,
+        data: {
+          candidateId: candidateInfo.id,
+          status: STATUS_SCHEDULED,
+          guests: guestsInfo.map((item) => item.id),
+          interviewType: rest.eventType,
+          ...rest,
+        },
+      }).unwrap();
+      console.log(response, "this is the response");
+      if (response && !isUpdateError) {
+        dispatch(fetchDevs()); // update the persisted data
+        navigate("/devs/interviews");
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error("Cannot edit interview, pleas try again later");
+    }
+  };
   return (
     <MainCard title={"Edit Interview"}>
       <Demo
         handleSubmit={(values) => console.log(values)}
-        _applicants={[interviewEditData?.candidate, ...__applicant]}
-        interviewers={[interviewEditData?.interviewer, ...interviewers]}
+        _applicants={[interviewEditData?.candidate]}
+        guests={guests}
         handleEdit={(values) => handleEdit(values)}
         isEditing={true}
         editableInterviewInfo={interviewEditData}
