@@ -10,6 +10,8 @@ import {
   OneToMany,
   JoinColumn,
   OneToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 // Interview Entity
 import uuid from '../../../util/uuid';
@@ -22,17 +24,30 @@ export class Interview extends AssociableModel {
   @JoinColumn({ name: 'role_id' })
   role: Role;
 
-  @ManyToOne((type) => Developer, (developer) => developer.interviewer)
-  @JoinColumn({ name: 'interviewer_id' })
-  interviewer: Developer;
+  @ManyToMany((type) => Developer, (developer) => developer.interviews)
+  @JoinTable()
+  guests: Developer[];
 
   @ManyToOne((type) => Developer, (developer) => developer.candidate)
-  @JoinColumn({ name: 'interviewee_id' })
+  @JoinColumn({ name: 'candidate_id' })
   candidate: Developer;
 
   @Column()
-  scheduled_date: Date;
-
+  eventType: string;
+  @Column()
+  eventOption: string;
+  @Column()
+  description: string;
+  @Column()
+  eventLInk: string;
+  @Column()
+  starttime: string;
+  @Column()
+  endtime: string;
+  @Column()
+  startDate: Date;
+  @Column()
+  endDate: Date;
   @Column()
   status: 'Scheduled' | 'Completed' | 'Canceled'; // Scheduled, Completed, Canceled
 }
