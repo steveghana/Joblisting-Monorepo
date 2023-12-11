@@ -10,20 +10,30 @@ export interface Iinterviews {
   interviewType: string;
   candidate: IDev;
   candidateId: string;
-  interviewerId: string;
-  meetingLink: string;
-
-  interviewDate?: Date | null;
-  scheduled_date: Date;
+  eventType: string;
+  eventOption: string;
+  description: string;
+  eventLInk: string;
+  starttime: string;
+  endtime: string;
+  startDate: Date;
+  endDate: Date;
+  guests: string[];
   createdAt?: Date;
   updatedAt?: Date;
 
   status: "Scheduled" | "Completed" | "Canceled"; //
 }
 export interface InterviewFormValue {
+  // candidate: "",
+  eventType: string;
+  eventOption: string;
+  description: string;
+  eventLInk: string;
+  starttime: string;
+  endtime: string;
+  startDate: Date;
+  endDate: Date;
   candidate: string;
-  interviewer: any;
-  meetingLink: string;
-  interviewType: string;
-  interviewDate: Date | null;
+  guests: string[];
 }
