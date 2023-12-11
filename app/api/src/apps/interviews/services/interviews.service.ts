@@ -11,6 +11,7 @@ import { getAllInterviews } from '../DBQueries';
 export class InterviewsService {
   create(createInterviewDto: CreateInterviewDto) {
     // createInterviewDto.
+    console.log(createInterviewDto, 'interview');
     return useTransaction(async (transaction) => {
       const interviewResponse = await Interviews.createInterviews(
         createInterviewDto,
