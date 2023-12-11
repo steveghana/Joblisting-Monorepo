@@ -92,8 +92,8 @@ class Developers {
   get candidate(): any {
     return this.data.candidate;
   }
-  get interviewer(): any {
-    return this.data.interviewer;
+  get guest(): any {
+    return this.data.guest;
   }
   get role(): Record<any, any> {
     return this.data.roles;
