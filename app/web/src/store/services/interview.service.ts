@@ -36,7 +36,7 @@ export const interviewApi = createApi({
 
   endpoints: (builder) => ({
     updateInterview: builder.mutation<
-      Iinterviews,
+      number,
       { id: string; data: Omit<InterviewAdd, "candidate" | "interviewer"> }
     >({
       query: ({ data, id }) => ({
@@ -46,7 +46,7 @@ export const interviewApi = createApi({
       }),
       invalidatesTags: ["interviews"],
     }),
-    deletInterview: builder.mutation<Iinterviews, { id: string }>({
+    deletInterview: builder.mutation<number, { id: string }>({
       query: ({ id }) => ({
         url: `interviews/${id}`,
         method: "DELETE",
