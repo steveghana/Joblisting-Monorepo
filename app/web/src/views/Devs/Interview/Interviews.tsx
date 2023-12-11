@@ -158,20 +158,21 @@ const Interviews = () => {
                             />{" "}
                             {item.candidate.firstName} {item.candidate.lastName}
                           </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            display={"flex"}
-                            alignItems={"center"}
-                            gap={1}
-                          >
-                            Interviewer:{" "}
-                            <Avatar
-                              sx={{ width: 23, height: 23 }}
-                              src={item.interviewer.avatar}
-                            />{" "}
-                            {item.interviewer.firstName}{" "}
-                            {item.interviewer.lastName}
-                          </Typography>
+                          {item.guests.map((guest) => (
+                            <Typography
+                              variant="subtitle1"
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={1}
+                            >
+                              Interviewer:{" "}
+                              <Avatar
+                                sx={{ width: 23, height: 23 }}
+                                src={guest.avatar}
+                              />{" "}
+                              {guest.firstName} {guest.lastName}
+                            </Typography>
+                          ))}
                           <Typography variant="subtitle1">
                             {/* Date: {item.scheduled_date.getDate()} */}
                           </Typography>
