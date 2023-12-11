@@ -146,10 +146,12 @@ export class DevelopersService {
       if (!data.length) {
         return [];
       }
+      // console.log(data)
       return data.map((item) => ({
         id: item.id,
         firstName: item.user.firstName,
-        interviewId: item.candidate?.id,
+        candidate: item.interview,
+        guest: item.interviewsAsGuest,
         lastName: item.user.lastName,
         clientName: item.client.name,
         companyName: item.client.companyName,
