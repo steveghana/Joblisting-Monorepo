@@ -182,7 +182,6 @@ export class DevelopersService {
     dependencies: Dependencies = null,
   ) {
     return useTransaction(async (transaction) => {
-      console.log(updateDevDto, 'dev tos');
       const data = await Developers.update(id, updateDevDto, transaction);
       const dev = await Developers.getById(id, dependencies);
       if (updateDevDto.role_status === 'Accepted') {
