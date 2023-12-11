@@ -24,7 +24,6 @@ import { IRoleStatus } from '../../../types/developer';
 export class Developer extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
   id: string = uuid.makeUuid();
-
   @ManyToOne((type) => User, (user) => user.developer)
   @JoinColumn({ name: 'user_id' })
   user: User;
@@ -54,13 +53,14 @@ export class Developer extends AssociableModel {
   @Column({ default: 'External' })
   role_status: IRoleStatus;
   @ManyToOne((type) => Role, (role) => role.developers)
-  @JoinColumn({ name: 'developer_id' })
+  @JoinColumn({ name: 'role_id' })
   roles: Role;
-  @OneToMany((type) => Interview, (interview) => interview.guests)
-  interviews: Interview[];
-
   @OneToOne((type) => Interview, (interview) => interview.candidate)
-  candidate: Interview;
+  interview: Interview;
+
+  @ManyToMany((type) => Interview, (interview) => interview.guests)
+  @JoinTable()
+  interviewsAsGuest: Interview[];
 
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
   clockHours: ClockHours[];
