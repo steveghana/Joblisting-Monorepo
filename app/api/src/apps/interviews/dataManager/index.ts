@@ -21,9 +21,9 @@ class Interviews {
   }
 
   static async createInterviews(
-    interviewData: Omit<Iinterviews, 'interviewer' | 'interviewee' | 'role'> & {
+    interviewData: Omit<Iinterviews, 'guest' | 'interviewee' | 'role'> & {
       candidateId: string;
-      interviewerId: string;
+      guests: string[];
     },
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
@@ -69,11 +69,20 @@ class Interviews {
   get candidate(): IDev {
     return this.data.candidate;
   }
-  get interviewer(): IDev {
-    return this.data.interviewer;
+  get guests(): IDev[] {
+    return this.data.guest;
   }
-  get date(): Date {
-    return this.data.scheduled_date;
+  get startDate(): Date {
+    return this.data.startDate;
+  }
+  get endDate(): Date {
+    return this.data.endDate;
+  }
+  get startTime(): string {
+    return this.data.starttime;
+  }
+  get endTime(): string {
+    return this.data.endtime;
   }
 
   get role(): Record<any, any> {
