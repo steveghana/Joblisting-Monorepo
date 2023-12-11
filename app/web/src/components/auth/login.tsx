@@ -90,6 +90,21 @@ function LoginPage({
       });
     // .finally(() => setIsLoading(false));
   }
+  // const handleGoogleSignIn = async () => {
+  //   const { error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       scopes: "https://www.googleapis.com/auth/calendar",
+  //     },
+  //   });
+  //   if (error) {
+  //     console.error(
+  //       "Error logging in to Google provider with Supabase:",
+  //       error
+  //     );
+  //     toast.error("Failed to sign in with Google.");
+  //   }
+  // };
   //  const handleSubmit = React.useCallback(async () => {
   //    if (
   //      ![
