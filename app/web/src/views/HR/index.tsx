@@ -9,10 +9,17 @@ import { persistor, useTypedDispatch, useTypedSelector } from "../../store";
 import { fetchDevs } from "../../store/slices/dev.slice";
 
 const Shortlisted = () => {
-  const { devs, error, isError, isFetching, isloading } = useTypedSelector(
-    (state) => state.devs
-  );
-
+  // const { devs, error, isError, isFetching, isloading } = useTypedSelector(
+  //   (state) => state.devs
+  // );
+  const {
+    data: devs,
+    error,
+    isError,
+    isFetching,
+    isLoading,
+    refetch,
+  } = useGetDevsQuery();
   // State is used as Cache from devs api cannot be invalidated from the interview page
   const [openRoleForm, setOpenRoleForm] = React.useState(false);
   const handleCloseJobForm = () => {
@@ -34,7 +41,7 @@ const Shortlisted = () => {
     dispatch(fetchDevs());
     Promise.resolve(persistor.flush());
   }, [dispatch]);
-  if (isloading || isFetching) {
+  if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
   if (!devsShortlistedData.length) {
@@ -47,9 +54,9 @@ const Shortlisted = () => {
       columns={columns}
       devs={devsShortlistedData}
       refetch={
-        () => dispatch(fetchDevs()) // update the persisted state
+        () => refetch() // update the persisted state
       }
-      isLoading={isloading}
+      isLoading={isLoading}
       isError={isError}
       isFetching={isFetching}
     />
