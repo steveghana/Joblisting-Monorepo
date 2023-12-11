@@ -59,7 +59,7 @@ export class RoleInfoDto {
   selectedSkills: string[];
   // Assuming whenToStart is a string
   @IsNotEmpty()
-  @IsDate()
+  // @IsDate()
   whenToStart: Date;
   @IsOptional()
   @IsString()
