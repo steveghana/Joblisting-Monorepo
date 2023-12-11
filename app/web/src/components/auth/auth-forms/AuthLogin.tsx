@@ -38,6 +38,7 @@ import { themeTypography } from "../../../themes/schemes/typography";
 import CustomButton from "../../button";
 import { GitHub, LinkedIn } from "@mui/icons-material";
 import Google from "../../../assets/images/icons/google.svg";
+import Zoom from "../../../assets/images/icons/Zoom App.svg";
 import { useLoginUserMutation } from "../../../store/services/userAuth.service";
 import { useNavigate } from "react-router";
 export const Social = {
@@ -53,6 +54,10 @@ export const Social = {
   Google: {
     color: "red",
     icon: () => <img src={Google} width={20} height={20} />,
+  },
+  Zoom: {
+    color: "blue",
+    icon: () => <img src={Zoom} width={20} height={20} />,
   },
 };
 export let handleSocial = {
