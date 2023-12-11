@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IProfession } from "../../types/roles";
 import axios from "axios";
 import _api_url from "../../api/_api_url";
-import { Iinterviews } from "../../types/interviews";
+import { Iinterviews, InterviewAdd } from "../../types/interviews";
 
 interface IUser {
   email: string;
@@ -37,7 +37,7 @@ export const interviewApi = createApi({
   endpoints: (builder) => ({
     updateInterview: builder.mutation<
       Iinterviews,
-      { id: string; data: Iinterviews }
+      { id: string; data: Omit<InterviewAdd, "candidate" | "interviewer"> }
     >({
       query: ({ data, id }) => ({
         url: `interviews/${id}`,
@@ -56,7 +56,7 @@ export const interviewApi = createApi({
 
     addInterview: builder.mutation<
       Iinterviews,
-      Omit<Iinterviews, "candidate" | "interviewer">
+      Omit<InterviewAdd, "candidate" | "interviewer">
     >({
       query: (Interview) => ({
         url: "interviews",
