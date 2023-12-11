@@ -38,7 +38,11 @@ export class InterviewsService {
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} interview`;
+    return useTransaction(async (transaction) => {
+      const interview = await Interviews.getById(id);
+      console.log(interview);
+      return interview;
+    });
   }
 
   update(id: string, updateInterviewDto: UpdateInterviewDto) {
