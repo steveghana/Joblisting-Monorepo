@@ -13,6 +13,8 @@ import {
   OneToMany,
   JoinColumn,
   OneToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import uuid from '../../../util/uuid';
 import { Client } from '../../../apps/clients/entities/client.entity';
@@ -54,8 +56,8 @@ export class Developer extends AssociableModel {
   @ManyToOne((type) => Role, (role) => role.developers)
   @JoinColumn({ name: 'developer_id' })
   roles: Role;
-  @OneToMany((type) => Interview, (interview) => interview.interviewer)
-  interviewer: Interview[];
+  @OneToMany((type) => Interview, (interview) => interview.guests)
+  interviews: Interview[];
 
   @OneToOne((type) => Interview, (interview) => interview.candidate)
   candidate: Interview;
