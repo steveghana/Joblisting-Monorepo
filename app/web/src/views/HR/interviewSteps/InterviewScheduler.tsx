@@ -23,7 +23,7 @@ const InterviewScheduler: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchDevs());
-  }, []);
+  }, [dispatch]);
 
   const state = useTypedSelector((state) => state.devs.devs);
   const editableApplicant =
@@ -157,7 +157,7 @@ const InterviewScheduler: React.FC = () => {
   const handleEdit = (values: InterviewFormValue) => {
     // Handle edit logic
   };
-
+  console.log(editableApplicant, applicants, interviewers);
   return (
     <div>
       <Demo
