@@ -37,6 +37,8 @@ import { ClockIcon } from "@mui/x-date-pickers";
 import { toast } from "react-toastify";
 import InterviewEdit from "./interviewEdit";
 import { useTypedSelector } from "../../../store";
+import EventDashboard from "../../HR/Events/dashboard";
+import { useNavigate } from "react-router";
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -57,6 +59,7 @@ const Interviews = () => {
   const [deletinterview, { isLoading: isDeleting }] =
     useDeletInterviewMutation();
   const allDevsAndApplicants = useTypedSelector((state) => state.devs.devs);
+  const navigate = useNavigate();
 
   // Date: {
   //   format(new Date(interviewDetails.interviewDate), "yyyy-MM-dd");
@@ -100,6 +103,30 @@ const Interviews = () => {
               Interview Details
             </Typography>
           </Grid>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              gap: 1,
+              px: 1,
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <CustomButton
+              text="+ New Event"
+              onClick={() => navigate("/hr/interviews/create")}
+              sx={{ marginLeft: "auto" }}
+            />
+            <div>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/126/126472.png"
+                alt=""
+                style={{ width: "25px" }}
+              />
+            </div>
+          </Box>
+          {/* <EventDashboard /> */}
           {data.map((item) => (
             <SubCard key={item.id}>
               <Grid container spacing={3}>
@@ -225,7 +252,12 @@ const Interviews = () => {
                     </Tooltip>
                     <Tooltip title="Edit Interveiw">
                       <IconButton>
-                        <Typography color={"blue"} onClick={handleEdit}>
+                        <Typography
+                          color={"blue"}
+                          onClick={() =>
+                            navigate(`/devs/interviews/Edit/${item.id}`)
+                          }
+                        >
                           Edit
                         </Typography>
                       </IconButton>
@@ -235,12 +267,6 @@ const Interviews = () => {
               </Grid>
 
               {/* Edit Dialog */}
-              <InterviewEdit
-                interviewEditData={item}
-                devsAndApplicants={allDevsAndApplicants}
-                editDialogOpen={editDialogOpen}
-                handleEditClose={handleEditClose}
-              />
             </SubCard>
           ))}
         </Grid>
