@@ -15,7 +15,7 @@ import {
 } from 'class-validator';
 import { IRole } from '@/types/role';
 import { IUser } from '@/types/user';
-type IinterviewAs = 'interviewee' | 'interviewer';
+type IinterviewAs = 'interviewee' | 'guest';
 // type INewUser = Pick<IDev, 'address' | ''>
 export class CreateDeveloperDto {
   @IsNotEmpty({
