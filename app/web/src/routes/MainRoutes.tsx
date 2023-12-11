@@ -7,6 +7,7 @@ import Home from "../views/Landing/page";
 import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 import { FormDataProvider } from "../utils/Contexts/clientFormContext";
+import InterviewEdit from "../views/Devs/Interview/interviewEdit";
 // dashboard routing
 const InterviewScheduler = Loadable(
   lazy(() => import("../views/HR/interviewSteps/InterviewScheduler"))
@@ -145,6 +146,10 @@ const MainRoutes = {
           element: <Interviews />,
         },
         {
+          path: "interviews/Edit/:id",
+          element: <InterviewEdit />,
+        },
+        {
           path: "hub",
           // element: <Hub />,
           element: <StatusComingSoon />,
@@ -158,6 +163,12 @@ const MainRoutes = {
     {
       path: "/hr/interviews/:id",
       element: <InterviewScheduler />,
+      // element: <Scheduler />,
+    },
+    {
+      path: "/hr/interviews/create",
+      element: <InterviewScheduler />,
+      // element: <Scheduler />,
     },
     {
       path: "job-submttion/:id",
