@@ -40,7 +40,7 @@ export const getAllDevs = async (
   return await transaction
     .getRepository(dependencies.db.models.developer)
     .find({
-      relations: ['roles', 'client', 'user', 'job'],
+      relations: ['roles', 'client', 'user', 'interviews', 'job'],
     });
 };
 export async function getDevById(
@@ -55,7 +55,7 @@ export async function getDevById(
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
-      relations: ['clockHours', 'roles', 'user', 'interviews', 'candidate'],
+      relations: ['clockHours', 'roles', 'user', 'interviews'],
     });
   return dev as unknown as IDev;
 }
