@@ -6,11 +6,17 @@ export interface Iinterviews {
 
   role: IRole;
 
-  interviewer?: IDev;
-
+  guest?: IDev[];
+  eventType: string;
+  eventOption: string;
+  description: string;
+  eventLInk: string;
+  starttime: string;
+  endtime: string;
+  startDate: Date;
+  endDate: Date;
   candidate?: IDev;
 
-  scheduled_date: Date;
   createdAt?: Date;
   updatedAt?: Date;
 
