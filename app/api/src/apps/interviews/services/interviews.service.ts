@@ -11,7 +11,6 @@ import { getAllInterviews } from '../DBQueries';
 export class InterviewsService {
   create(createInterviewDto: CreateInterviewDto) {
     // createInterviewDto.
-    console.log(createInterviewDto, 'interview');
     return useTransaction(async (transaction) => {
       const interviewResponse = await Interviews.createInterviews(
         createInterviewDto,
@@ -47,13 +46,23 @@ export class InterviewsService {
   }
 
   update(id: string, updateInterviewDto: UpdateInterviewDto) {
-    return `This action updates a #${id} interview`;
+    return useTransaction(async (transaction) => {
+      const updated = await Interviews.updateInterviews(
+        id,
+        updateInterviewDto,
+        transaction,
+      );
+      if (!updated) {
+        return null;
+      }
+      return updated;
+    });
   }
 
   cancel(interviewId: string) {
     return useTransaction(async (transaction) => {
       const data = await Interviews.getById(interviewId);
-      console.log(data.candidate, interviewId, 'this is the inerveir');
+      console.log(data, interviewId, 'this is the inerveir');
       const { affected } = await Developers.update(
         data.candidate.id,
         { role_status: 'Pending' },
