@@ -8,7 +8,6 @@ import Demo from "../Events/demo";
 import { InterviewFormValue } from "../../../types/interviews";
 
 const InterviewScheduler: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState<number>(1);
   const [interviewType, setInterviewType] = useState<string>("");
   const [selectedApplicant, setSelectedApplicant] = useState({
     candidate: false,
@@ -17,24 +16,21 @@ const InterviewScheduler: React.FC = () => {
   const { id } = useParams();
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
-  // const [addInterview, { isError, isLoading }] = useAddInterviewMutation();
+  const [addInterview, { isError, isLoading }] = useAddInterviewMutation();
 
   useEffect(() => {
     dispatch(fetchDevs());
   }, []);
-  const __state = useTypedSelector((state) => state.devs.devs);
+  const state = useTypedSelector((state) => state.devs.devs);
   const editableApplicant =
     id &&
-    __state.filter((item) => item.id === id && item.rolestatus === "Pending");
-  const applicants = __state.filter((item) => item.rolestatus === "Pending");
+    state.filter((item) => item.id === id && item.rolestatus === "Pending");
+  const applicants = state.filter((item) => item.rolestatus === "Pending");
   const interviewers =
-    __state?.length && __state.filter((item) => item.rolestatus === "Accepted");
+    state?.length && state.filter((item) => item.rolestatus === "Accepted");
   const [selectedInterviewDate, setSelectedInterviewDate] =
     useState<Date | null>(null);
 
-  const handleNextStep = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
-  };
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
   const [eventName, setEventName] = useState("");
@@ -105,63 +101,57 @@ const InterviewScheduler: React.FC = () => {
     }
   };
   const handleSubmit = async (values: InterviewFormValue) => {
-    // const {
-    //   candidate,
-    //   interviewDate,
-    //   interviewType,
-    //   interviewer,
-    //   meetingLink,
-    // } = values;
-    // const trimedCandidate = candidate.trim().toLowerCase();
+    const { candidate, guests, ...rest } = values;
 
-    // const candidateInfo = __state.find(
-    //   (candidate) =>
-    //     `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
-    //     trimedCandidate
-    // );
-    // try {
-    //   const response = await addInterview({
-    //     candidateId: candidateInfo.id,
-    //     interviewerId: interviewer.id,
-    //     interviewType,
-    //     meetingLink,
-    //     scheduled_date: interviewDate,
-    //     status: "Scheduled",
-    //   }).unwrap();
-    //   if (response && !isError) {
-    //     dispatch(fetchDevs()); // update the persisted data
-    //     navigate("/devs/interviews");
-    //   }
-    //   toast.success("interview Scheduled Succesfully", {
-    //     position: "bottom-center",
-    //   });
-    // } catch (error) {
-    //   toast.error("Could not Schedule interview", {
-    //     position: "bottom-center",
-    //   });
-    // }
+    const trimedCandidate = candidate.trim().toLowerCase();
+
+    const candidateInfo = state.find(
+      (candidate) =>
+        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
+        trimedCandidate
+    );
+    const escapedPattern = "\\s";
+    const regex = new RegExp(escapedPattern, "g");
+    const mappedGuests = guests.map((guest) =>
+      guest.trim().replace(regex, "").toLowerCase()
+    );
+    const guestsInfo = state.filter((guest) =>
+      mappedGuests.includes(
+        `${guest.firstName}${guest.lastName}`
+          .trim()
+          .replace(regex, "")
+          .toLowerCase()
+      )
+    );
+    console.log(guestsInfo, candidateInfo, mappedGuests);
+    try {
+      const response = await addInterview({
+        candidateId: candidateInfo.id,
+        guests: guestsInfo.map((item) => item.id),
+        interviewType,
+        ...rest,
+        status: "Scheduled",
+      }).unwrap();
+      if (response && !isError) {
+        dispatch(fetchDevs()); // update the persisted data
+        navigate("/devs/interviews");
+      }
+      toast.success("interview Scheduled Succesfully", {
+        position: "bottom-center",
+      });
+    } catch (error) {
+      toast.error("Could not Schedule interview", {
+        position: "bottom-center",
+      });
+    }
     console.log(values);
     // onNext(values);
   };
-  const handleApplicantSelected = (applicant: {
-    candidate: boolean;
-    interviewer: boolean;
-  }) => {
-    setSelectedApplicant(applicant);
-    handleNextStep();
-  };
+
   const handleEdit = (values: InterviewFormValue) => {};
-  const handleClose = () => {
-    // Reset state when the dialog is closed
-    setCurrentStep(1);
-    setInterviewType("");
-    setSelectedApplicant({ candidate: false, interviewer: false });
-    setSelectedInterviewDate(null);
-  };
 
   return (
     <div>
-      {/* <InterviewScheduled onClose={handleClose} />; */}
       <Demo
         isEditing={false}
         editableInterviewInfo={null}
