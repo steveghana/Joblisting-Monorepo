@@ -40,7 +40,7 @@ export const getAllDevs = async (
   return await transaction
     .getRepository(dependencies.db.models.developer)
     .find({
-      relations: ['roles', 'client', 'user', 'job', 'interviewer', 'candidate'],
+      relations: ['roles', 'client', 'user', 'job'],
     });
 };
 export async function getDevById(
@@ -50,12 +50,12 @@ export async function getDevById(
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
+  console.log(id, 'dev id');
   const dev = await myDataSource.manager
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
-      relations: ['clockHours', 'roles', 'user', 'interviewer', 'candidate'],
+      relations: ['clockHours', 'roles', 'user', 'interviews', 'candidate'],
     });
   return dev as unknown as IDev;
 }
