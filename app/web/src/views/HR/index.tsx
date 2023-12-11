@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullscreenProgress from "../../components/FullscreenProgress/FullscreenProgress";
 import NoData from "../../components/NoData";
 import { useDevsShortlistedColums } from "../../hooks/useShortlistedDevsColumns";
 import { useGetDevsQuery } from "../../store/services/dev.service";
 import DevTableData from "../Devs/DevColumns";
 import { useNavigate } from "react-router";
-import { useTypedDispatch, useTypedSelector } from "../../store";
+import { persistor, useTypedDispatch, useTypedSelector } from "../../store";
 import { fetchDevs } from "../../store/slices/dev.slice";
 
 const Shortlisted = () => {
   const { devs, error, isError, isFetching, isloading } = useTypedSelector(
     (state) => state.devs
   );
+
   // State is used as Cache from devs api cannot be invalidated from the interview page
   const [openRoleForm, setOpenRoleForm] = React.useState(false);
-
   const handleCloseJobForm = () => {
     setOpenRoleForm(false);
   };
+  console.log(devs, isError, error, isFetching);
   // const hasInterview = devs.
   const columns = useDevsShortlistedColums();
   const navigate = useNavigate();
@@ -29,6 +30,10 @@ const Shortlisted = () => {
           rolestatus === "Pending" || rolestatus === "Interviewing"
       )) ||
     [];
+  useEffect(() => {
+    dispatch(fetchDevs());
+    Promise.resolve(persistor.flush());
+  }, [dispatch]);
   if (isloading || isFetching) {
     return <FullscreenProgress />;
   }
