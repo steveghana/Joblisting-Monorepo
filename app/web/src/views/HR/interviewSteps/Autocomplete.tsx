@@ -73,7 +73,9 @@ export default function RenderGroup({ label, data, ...props }: IGroup) {
   return (
     <>
       <Autocomplete
-        options={options.map((option) => option.firstName)}
+        options={options.map(
+          (option) => `${option?.firstName} ${option?.lastName}`
+        )}
         onChange={handleOnChange}
         // value={value}
         defaultValue={value}
