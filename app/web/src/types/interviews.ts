@@ -6,11 +6,10 @@ export interface Iinterviews {
 
   // role: IRoleData;
 
-  interviewer: IDev;
-  interviewType: string;
+  guests: IDev[];
+  eventType: string;
   candidate: IDev;
   candidateId: string;
-  eventType: string;
   eventOption: string;
   description: string;
   eventLInk: string;
@@ -18,12 +17,15 @@ export interface Iinterviews {
   endtime: string;
   startDate: Date;
   endDate: Date;
-  guests: string[];
   createdAt?: Date;
   updatedAt?: Date;
 
   status: "Scheduled" | "Completed" | "Canceled"; //
 }
+export type InterviewAdd = Omit<Iinterviews, "guests"> & {
+  guests: string[];
+  interviewType: string;
+};
 export interface InterviewFormValue {
   // candidate: "",
   eventType: string;
