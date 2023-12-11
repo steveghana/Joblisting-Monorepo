@@ -1,8 +1,10 @@
 import { Typography } from "@mui/material";
 import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton";
+import React from "react";
 
 interface IButtonProps extends LoadingButtonProps {
   text: string; // Add your custom text property
+  children?: React.ReactNode;
 }
 
 function CustomButton(props: IButtonProps) {
@@ -10,7 +12,7 @@ function CustomButton(props: IButtonProps) {
     <LoadingButton
       {...props} // Spread all properties from IButtonProps
       // fullWidth
-      loadingPosition="end"
+      // loadingPosition="end"
       variant={props.variant || "contained"}
       sx={{
         my: 2,
@@ -26,6 +28,7 @@ function CustomButton(props: IButtonProps) {
       <Typography fontSize={".7rem"} variant="button">
         {props.text}
       </Typography>
+      {props.children}
     </LoadingButton>
   );
 }
