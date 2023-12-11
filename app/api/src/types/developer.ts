@@ -32,7 +32,7 @@ export interface IDev {
   client: IClient;
   roles: IRole;
   // Define the associations with Interviews, ClockHours, and Applications
-  interviewer?: Partial<Interview>[];
+  guest?: Partial<Interview>[];
 
   candidate?: Partial<Interview>;
 
