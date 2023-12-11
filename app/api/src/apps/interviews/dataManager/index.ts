@@ -5,6 +5,7 @@ import {
 import {
   scheduleInterview,
   getAllInterviews,
+  updateInterview,
   getInterviewById,
   cancelInterview,
 } from '../DBQueries/index';
@@ -36,6 +37,21 @@ class Interviews {
       dependencies,
     );
     return newApplication.data;
+  }
+  static async updateInterviews(
+    id: string,
+    interviewData: Partial<
+      Omit<Iinterviews, 'guest' | 'interviewee' | 'role'> & {
+        candidateId: string;
+        guests: string[];
+      }
+    >,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    const newApplication = new Interviews(dependencies);
+    return await updateInterview(id, interviewData, transaction, dependencies);
   }
 
   static async getById(id: string, dependencies: Dependencies = null) {
