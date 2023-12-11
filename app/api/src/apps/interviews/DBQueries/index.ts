@@ -3,54 +3,52 @@ import {
   injectDependencies,
 } from '../../../util/dependencyInjector';
 import uuidUtil from '../../../util/uuid';
-import { DeepPartial, EntityManager } from 'typeorm';
+import { DeepPartial, EntityManager, In } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { Iinterviews } from '@/types/interviews';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+// Import your actual interviews module
+
 export async function scheduleInterview(
-  interviewData: Omit<Iinterviews, 'interviewer' | 'interviewee' | 'role'> & {
+  interviewData: Omit<Iinterviews, 'guest' | 'interviewee' | 'role'> & {
     candidateId: string;
-    interviewerId: string;
+    guests: string[];
   },
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
-) /* : Promise<ICredentialToken> */ {
+) {
   dependencies = injectDependencies(dependencies, ['db']);
   const interviewRepo = transaction.getRepository(
     dependencies.db.models.interviews,
   );
-
+  const { guests: guestIds, candidateId, ...rest } = interviewData;
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
 
   const candidate = await devRepo.findOne({
-    where: { id: interviewData.candidateId },
+    where: { id: candidateId },
   });
-  const interviewer = await devRepo.findOne({
-    where: { id: interviewData.interviewerId },
+  const guests = await devRepo.find({
+    where: { id: In(guestIds) },
   });
-  if (!candidate || !interviewer) {
+
+  if (!candidate || guests.length !== interviewData.guests.length) {
     throw new HttpException(
-      'Couldnt Schedule interview, check if Candidate or Developer Exists',
+      'Could not schedule interview. Check if Candidate or Developer(s) exist.',
       HttpStatus.BAD_REQUEST,
     );
   }
-  // const exstingrole = await role.findOne({
-  //   where: {
-  //     id: roleId,
-  //   },
-  //   relations: ['client'],
-  // });
-  let newInterview = await interviewRepo.create({
-    // ...exstingrole,
-    interviewer,
+
+  const newInterview = interviewRepo.create({
     candidate,
-    scheduled_date: interviewData.scheduled_date,
-    status: interviewData.status,
+    guests, // Assuming that the "guest" relationship is now an array
+    ...rest,
+    // ... other properties
   });
+
   let data = await interviewRepo.save(newInterview);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
   return data;
 }
 
@@ -66,7 +64,7 @@ export function getInterviewById(
     .getRepository(dependencies.db.models.interviews)
     .findOne({
       where: { id },
-      relations: ['interviewer', 'candidate'],
+      relations: ['guests', 'candidate'],
     });
 }
 
@@ -80,7 +78,7 @@ export function getAllInterviews(
   return myDataSource.manager
     .getRepository(dependencies.db.models.interviews)
     .find({
-      relations: ['interviewer', 'candidate'],
+      relations: ['guests', 'candidate'],
     });
 }
 export async function cancelInterview(
