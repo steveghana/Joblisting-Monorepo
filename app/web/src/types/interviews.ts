@@ -20,3 +20,10 @@ export interface Iinterviews {
 
   status: "Scheduled" | "Completed" | "Canceled"; //
 }
+export interface InterviewFormValue {
+  candidate: string;
+  interviewer: any;
+  meetingLink: string;
+  interviewType: string;
+  interviewDate: Date | null;
+}
