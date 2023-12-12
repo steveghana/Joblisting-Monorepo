@@ -23,11 +23,10 @@ export class Interview extends AssociableModel {
   @ManyToOne((type) => Role, (role) => role.interviews)
   @JoinColumn({ name: 'role_id' })
   role: Role;
-  @OneToOne((type) => Developer, (developer) => developer.interview)
-  @JoinColumn({ name: 'candidate_id' })
+  @ManyToOne(() => Developer, (developer) => developer.candidateInterview)
   candidate: Developer;
 
-  @ManyToMany((type) => Developer, (developer) => developer.interviewsAsGuest)
+  @ManyToMany(() => Developer, (developer) => developer.guestInterviews)
   @JoinTable()
   guests: Developer[];
   @Column()
