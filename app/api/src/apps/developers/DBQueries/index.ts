@@ -37,11 +37,18 @@ export const getAllDevs = async (
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return await transaction
+  const developersWithInterviews = await transaction
     .getRepository(dependencies.db.models.developer)
-    .find({
-      relations: ['roles', 'client', 'user', 'interviews', 'job'],
-    });
+    .createQueryBuilder('developer')
+    .leftJoinAndSelect('developer.guestInterviews', 'interviewAsGuest')
+    .leftJoinAndSelect('developer.candidateInterview', 'candidate')
+    .leftJoinAndSelect('developer.roles', 'roles')
+    .leftJoinAndSelect('developer.client', 'client')
+    .leftJoinAndSelect('developer.user', 'user')
+    .leftJoinAndSelect('developer.job', 'job')
+    .getMany();
+
+  return developersWithInterviews;
 };
 export async function getDevById(
   id: string,
@@ -55,7 +62,7 @@ export async function getDevById(
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
-      relations: ['clockHours', 'roles', 'user', 'interviews'],
+      relations: ['clockHours', 'roles', 'user'],
     });
   return dev as unknown as IDev;
 }
