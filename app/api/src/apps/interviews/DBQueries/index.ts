@@ -8,9 +8,9 @@ import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
 import { Iinterviews } from '@/types/interviews';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { Interview } from '../entities/interview.entity';
 
 // Import your actual interviews module
-
 export async function scheduleInterview(
   interviewData: Partial<
     Omit<Iinterviews, 'guest' | 'interviewee' | 'role'> & {
@@ -27,34 +27,32 @@ export async function scheduleInterview(
   );
   const { guests: guestIds, candidateId, ...rest } = interviewData;
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
-
-  console.log('Candidate ID:', candidateId);
-  console.log('Guest IDs:', guestIds);
-
   const candidate = await devRepo.findOne({
     where: { id: candidateId },
-  });
-  const guests = await devRepo.find({
-    where: { id: In(guestIds) },
+    relations: ['candidateInterview'],
   });
 
-  console.log('Candidate:', candidate);
-  console.log('Guests:', guests);
-
-  if (!candidate || guests.length !== interviewData.guests.length) {
+  if (candidate.candidateInterview) {
     throw new HttpException(
-      'Could not schedule interview. Check if Candidate or Developer(s) exist.',
+      'Candidate already has an interview scheduled.',
       HttpStatus.BAD_REQUEST,
     );
   }
 
-  const newInterview = interviewRepo.create({
-    candidate,
-    guests, // Assuming that the "guest" relationship is now an array
-    ...rest,
-    // ... other properties
-  });
+  const guests = await devRepo.find({ where: { id: In([...guestIds]) } });
 
+  if (!guests) {
+    throw new HttpException(
+      'Could not schedule interview. Check if all Developers exist.',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+
+  const newInterview = await interviewRepo.create({
+    candidate,
+    guests: [...guests],
+    ...rest,
+  });
   let data = await interviewRepo.save(newInterview);
 
   return data;
@@ -103,9 +101,9 @@ export async function updateInterview(
   }
 
   // Update interview properties
-  existingInterview.candidate = candidate;
-  existingInterview.guests = guests; // Update the many-to-many relationship
-  Object.assign(existingInterview, rest);
+  // existingInterview.candidate = candidate;
+  // existingInterview.guests = guests; // Update the many-to-many relationship
+  // Object.assign(existingInterview, rest);
 
   // Save the updated interview
   await interviewRepo.save(existingInterview);
