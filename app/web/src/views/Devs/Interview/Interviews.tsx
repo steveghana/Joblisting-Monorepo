@@ -68,17 +68,24 @@ const Interviews = () => {
 
   // Assuming the data structure returned by the API has interview details
   //  const interviewDetails = data?.interviewDetails || {};
-  const handleDelete = () => {
-    // const deleted = await deletinterview({
-    //              id: row.original.interviewId,
-    //            }).unwrap();
-    //            if (deleted) {
-    //              refetch();
-    //              toast.warn("Interview Canceled", {
-    //                position: "bottom-center",
-    //              });
-    //            }
-    //          }}
+  const handleDelete = async (id: string) => {
+    try {
+      const deleted = await deletinterview({
+        id,
+      }).unwrap();
+      console.log(deleted, "response");
+      if (deleted) {
+        toast.warn("Interview Canceled", {
+          position: "bottom-center",
+        });
+        refetch();
+        navigate(`/devs/interviews`);
+      }
+    } catch (error) {
+      toast.error("Couldnt cancel interview", {
+        position: "bottom-center",
+      });
+    }
   };
   const handleEdit = () => {
     setEditDialogOpen(true);
@@ -246,7 +253,10 @@ const Interviews = () => {
                     </Box>
                     <Tooltip sx={{ mx: "auto" }} title="Cancel Interview">
                       <IconButton>
-                        <Typography color={"blue"} /*  onClick={handleEdit} */>
+                        <Typography
+                          color={"blue"}
+                          onClick={() => handleDelete(item.id)}
+                        >
                           Cancel
                         </Typography>
                       </IconButton>
