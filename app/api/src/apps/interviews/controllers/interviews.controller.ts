@@ -74,7 +74,6 @@ export class InterviewsController {
     @Body() updateInterviewDto: UpdateInterviewDto,
   ) {
     const result = await this.interviewsService.update(id, updateInterviewDto);
-    console.log(result, 'this is the resutl');
     return result;
   }
 
@@ -87,8 +86,7 @@ export class InterviewsController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async remove(@Param('id') id: string) {
-    console.log(id, 'this is the delete id');
     const result = await this.interviewsService.cancel(id);
-    return false;
+    return result;
   }
 }
