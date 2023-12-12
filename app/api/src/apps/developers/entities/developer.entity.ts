@@ -55,13 +55,11 @@ export class Developer extends AssociableModel {
   @ManyToOne((type) => Role, (role) => role.developers)
   @JoinColumn({ name: 'role_id' })
   roles: Role;
-  @OneToOne((type) => Interview, (interview) => interview.candidate)
-  interview: Interview;
+  @ManyToOne(() => Interview, (interview) => interview.candidate)
+  candidateInterview: Interview;
 
-  @ManyToMany((type) => Interview, (interview) => interview.guests)
-  @JoinTable()
-  interviewsAsGuest: Interview[];
-
+  @ManyToMany(() => Interview, (interview) => interview.guests)
+  guestInterviews: Interview[];
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
   clockHours: ClockHours[];
 
