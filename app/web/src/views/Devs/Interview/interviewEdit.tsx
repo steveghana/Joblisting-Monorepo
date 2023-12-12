@@ -60,9 +60,9 @@ const InterviewEdit = () => {
   }
 
   // const applicant = interviewEditData.candidate;
-  // const guests = devsAndApplicants.filter(
-  //   (dev) => dev.rolestatus === "Accepted"
-  // );
+  const guests = devsAndApplicants.filter(
+    (dev) => dev.rolestatus === "Accepted"
+  );
   // const session = useSession();
   // const supabase = useSupabaseClient();
   // const { isLoading } = useSessionContext();
@@ -127,65 +127,65 @@ const InterviewEdit = () => {
       toast.error("Failed to create the event. Please try again.");
     }
   };
-  // const handleEdit = async (value: InterviewFormValue) => {
-  //   const { candidate, guests, ...rest } = value;
+  const handleEdit = async (value: InterviewFormValue) => {
+    const { candidate, guests, ...rest } = value;
 
-  //   const trimedCandidate = candidate.trim().toLowerCase();
+    const trimedCandidate = candidate.trim().toLowerCase();
 
-  //   const candidateInfo = state.find(
-  //     (candidate) =>
-  //       `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
-  //       trimedCandidate
-  //   );
-  //   const escapedPattern = "\\s";
-  //   const regex = new RegExp(escapedPattern, "g");
-  //   const mappedGuests = guests.map((guest) =>
-  //     guest.trim().replace(regex, "").toLowerCase()
-  //   );
-  //   const guestsInfo = state.filter((guest) =>
-  //     mappedGuests.includes(
-  //       `${guest.firstName}${guest.lastName}`
-  //         .trim()
-  //         .replace(regex, "")
-  //         .toLowerCase()
-  //     )
-  //   );
-  //   try {
-  //     const response = await updateInterview({
-  //       id,
-  //       data: {
-  //         candidateId: candidateInfo.id,
-  //         status: STATUS_SCHEDULED,
-  //         guests: guestsInfo.map((item) => item.id),
-  //         interviewType: rest.eventType,
-  //         ...rest,
-  //       },
-  //     }).unwrap();
-  //     console.log(response, "this is the response");
-  //     if (response && !isUpdateError) {
-  //       dispatch(fetchDevs()); // update the persisted data
-  //       navigate("/devs/interviews");
-  //     }
-  //     toast.success("Event updated", {
-  //       position: "bottom-center",
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     toast.error("Cannot edit interview, pleas try again later", {
-  //       position: "bottom-center",
-  //     });
-  //   }
-  // };
+    const candidateInfo = state.find(
+      (candidate) =>
+        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
+        trimedCandidate
+    );
+    const escapedPattern = "\\s";
+    const regex = new RegExp(escapedPattern, "g");
+    const mappedGuests = guests.map((guest) =>
+      guest.trim().replace(regex, "").toLowerCase()
+    );
+    const guestsInfo = state.filter((guest) =>
+      mappedGuests.includes(
+        `${guest.firstName}${guest.lastName}`
+          .trim()
+          .replace(regex, "")
+          .toLowerCase()
+      )
+    );
+    try {
+      const response = await updateInterview({
+        id,
+        data: {
+          candidateId: candidateInfo.id,
+          status: STATUS_SCHEDULED,
+          guests: guestsInfo.map((item) => item.id),
+          interviewType: rest.eventType,
+          ...rest,
+        },
+      }).unwrap();
+      console.log(response, "this is the response");
+      if (response && !isUpdateError) {
+        dispatch(fetchDevs()); // update the persisted data
+        navigate("/devs/interviews");
+      }
+      toast.success("Event updated", {
+        position: "bottom-center",
+      });
+    } catch (error) {
+      console.log(error.message);
+      toast.error("Cannot edit interview, pleas try again later", {
+        position: "bottom-center",
+      });
+    }
+  };
   return (
     <MainCard title={"Edit Interview"}>
-      {/* <Demo
+      <Demo
         handleSubmit={(values) => console.log(values)}
         _applicants={[interviewEditData?.candidate]}
         guests={guests}
         handleEdit={(values) => handleEdit(values)}
         isEditing={true}
         editableInterviewInfo={interviewEditData}
-      /> */}
+      />
       {/* Your form or input fields for editing */}
     </MainCard>
   );
