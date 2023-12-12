@@ -51,6 +51,9 @@ export const interviewApi = createApi({
         url: `interviews/${id}`,
         method: "DELETE",
       }),
+      transformResponse: (response: number, meta) => {
+        return response;
+      },
       invalidatesTags: ["interviews"],
     }),
 
