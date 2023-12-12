@@ -93,7 +93,7 @@ export async function updateInterview(
   // Load the existing interview
   const existingInterview = await interviewRepo.findOne({
     where: { id },
-    // relations: ['guests'],
+    relations: ['guests', 'candidate'],
   });
 
   if (!existingInterview) {
@@ -103,16 +103,17 @@ export async function updateInterview(
     );
   }
 
-  const newInterview = await interviewRepo.create({
-    candidate,
-    guests: [...guests],
-    ...rest,
-  });
+  // Update the properties manually
+  existingInterview.guests = guests;
+  existingInterview.candidate = candidate;
+  for (const prop in rest) {
+    existingInterview[prop] = rest[prop];
+  }
 
   // Save the updated interview
-  await interviewRepo.save(newInterview);
+  const updatedInterview = await interviewRepo.save(existingInterview);
 
-  return 1; // Assuming 1 record was affected
+  return updatedInterview;
 }
 
 export function getInterviewById(
