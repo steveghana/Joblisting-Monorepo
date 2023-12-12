@@ -93,20 +93,24 @@ export async function updateInterview(
   // Load the existing interview
   const existingInterview = await interviewRepo.findOne({
     where: { id },
-    relations: ['guests'],
+    // relations: ['guests'],
   });
 
   if (!existingInterview) {
-    throw new HttpException('Interview not found', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'No scheduled interview found',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
-  // Update interview properties
-  // existingInterview.candidate = candidate;
-  // existingInterview.guests = guests; // Update the many-to-many relationship
-  // Object.assign(existingInterview, rest);
+  const newInterview = await interviewRepo.create({
+    candidate,
+    guests: [...guests],
+    ...rest,
+  });
 
   // Save the updated interview
-  await interviewRepo.save(existingInterview);
+  await interviewRepo.save(newInterview);
 
   return 1; // Assuming 1 record was affected
 }
