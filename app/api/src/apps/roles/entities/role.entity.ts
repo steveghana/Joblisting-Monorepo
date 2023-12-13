@@ -15,6 +15,7 @@ import {
 import { Job } from './jobs.entity';
 import uuid from '../../../util/uuid';
 import { ClockHours } from '../../../apps/clocked-hours/entities/clocked-hour.entity';
+import { ShortUrlEntity } from '../../../apps/Shorturl/model/shortUrl.entity';
 // Role Entity
 @Entity('roles')
 export class Role extends AssociableModel {
@@ -28,6 +29,9 @@ export class Role extends AssociableModel {
     onDelete: 'CASCADE',
   })
   jobs: Job[];
+  // @OneToOne(() => ShortUrlEntity, (link) => link.role, { cascade: true })
+  // @JoinColumn({ name: 'link_id' })
+  // link: ShortUrlEntity;
 
   @OneToMany((type) => Developer, (developer) => developer.roles, {
     onDelete: 'CASCADE',
