@@ -97,6 +97,7 @@ export interface JobInfo {
   id?: string;
   role?: IRole;
   roleType: string;
+  joblink?: string;
   whenToStart: Date;
   employmentType: string;
   selectedSkills: string[];
