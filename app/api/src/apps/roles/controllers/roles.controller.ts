@@ -59,6 +59,18 @@ export class RolesController {
     const result = await this.rolesService.createJob(id, createRoleDto);
     return res.json(result);
   }
+  @Delete('/job/:id')
+  @ApiTags('create a role')
+  @ApiOperation({
+    description: 'creating a role associated with a specific client',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async deleteJob(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.rolesService.deleteJob(id);
+    return res.json(result);
+  }
 
   @Get()
   @ApiTags('Get roles')
