@@ -9,16 +9,13 @@ import {
 } from "@mui/material";
 // routing
 import Routes from "./routes";
-import Error404 from "./assets/404-bg.jpg";
 // defaultTheme
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // project imports
 import NavigationScroll from "./layout/NavigationScroll";
 import { PureLightTheme } from "./themes/schemes/PureLightTheme";
-// import { themeCreator } from "./themes/base";
 // ==============================|| APP ||============================== //
-import Status404 from "./views/status/Status404";
 import Status500 from "./views/status/Status500";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LocalizationProvider } from "@mui/x-date-pickers";
