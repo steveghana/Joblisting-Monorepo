@@ -59,14 +59,18 @@ export class ClientsService {
         transaction,
         dependencies,
       );
+      const link = await createRoleLink(
+        client.id,
+        data,
+        transaction,
+        dependencies,
+      );
       if (!jobs.id) {
         throw new HttpException(
           'Couldnt generate link for this role',
           HttpStatus.BAD_REQUEST,
         );
       }
-      const link = await createRoleLink(client.id, jobs.id, data.id);
-      await Roles.updateJobs(jobs.id, { joblink: link || '' }, transaction);
       return client;
     });
   }
@@ -111,7 +115,7 @@ export class ClientsService {
         hours: dev.clockHours,
       }));
       return {
-        developers: devInfo,
+        developers: devInfo || [],
         ...rest,
       };
     });
