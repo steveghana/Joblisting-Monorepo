@@ -5,7 +5,7 @@ import {
 } from "material-react-table";
 import TableActions from "../../../../../components/Table/TableActions";
 import { IRoleData } from "../../../../../types/roles";
-import { handleSave } from "../../../../../utils/ClientTableCrud";
+import { handleSave } from "../../../../../utils/clientTableCrud";
 import {
   useBulkDeletRoleMutation,
   useDeletRoleMutation,
@@ -50,7 +50,9 @@ const ClientRoleTable = ({
     editDisplayMode: "modal", // ('modal', 'row', 'table', and 'custom' are also available)
     enableEditing: true,
     enableRowActions: true,
-    renderDetailPanel: ({ row }) => <JobDetails jobs={row.original.jobs} />,
+    renderDetailPanel: ({ row }) => (
+      <JobDetails jobs={row.original.jobs} actionComplete={onActionComplete} />
+    ),
 
     getRowId: (row) => row.id,
     onCreatingRowCancel: () => setValidationErrors({}),
