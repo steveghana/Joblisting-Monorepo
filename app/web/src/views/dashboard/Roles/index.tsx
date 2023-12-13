@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import MainCard from "../../../components/MainCard";
 import {
   Avatar,
@@ -16,6 +16,7 @@ import {
   AllInclusive,
   BlockOutlined,
   CheckCircle,
+  CopyAll,
   MessageRounded,
   MoreHoriz,
   People,
@@ -31,6 +32,7 @@ import NoData from "../../../components/NoData";
 import { ClockIcon } from "@mui/x-date-pickers";
 import { formatTimeDifference } from "../../../utils/timeFormatter";
 import { EmploymentType } from "../../../lib/data/formFieldData";
+import { useCopyToClipboard } from "../../../hooks/useCopyToClipboard";
 
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
@@ -62,17 +64,36 @@ const RoleCard = (props: IRoleCard) => {
   const [openDrawer, setOpenDrawer] = React.useState({
     bottom: false,
   });
+  const textRef = useRef(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
   const {
     aboutTheProject,
     durationForEmployment,
     experience,
     title,
+    link,
     vacancy_status,
     client,
     createdAt,
     jobs,
   } = props?.role;
-
+  let roleLink = `${window.location.origin}/s/${link}`;
+  console.log(roleLink, "this i sthe link");
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    if (textRef.current) {
+      navigator.clipboard
+        .writeText(roleLink)
+        .then(() => {
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 2000);
+        })
+        .catch((err) => {
+          console.error("Unable to copy text:", err);
+        });
+    }
+  };
   // Create a relative time formatter in your locale
   // with default values explicitly passed in.
 
@@ -91,7 +112,6 @@ const RoleCard = (props: IRoleCard) => {
               setOpenDrawer={setOpenDrawer}
               openDrawer={openDrawer}
               roleId={props.role.id}
-              clientId={props.role.client.id}
             />
           }
           setOpenDrawer={setOpenDrawer}
@@ -275,6 +295,38 @@ const RoleCard = (props: IRoleCard) => {
                           </Typography>
                         </Button>
                       </Grid>
+
+                      <Grid
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        sx={{
+                          backgroundColor: "gray",
+                          maxWidth: "80%",
+                          color: "white",
+                          // padding: "10px",
+                          px: 2,
+                          borderRadius: "7px",
+                        }}
+                      >
+                        <Typography
+                          variant="caption"
+                          color={"white"}
+                          ref={textRef}
+                        >
+                          {roleLink}
+                        </Typography>
+                      </Grid>
+
+                      <Typography
+                        onClick={handleCopy}
+                        variant="caption"
+                        sx={{ display: "flex", alignItems: "center" }}
+                        color="primary"
+                      >
+                        {copySuccess ? "Copied!" : "Copy url"}
+                        <CopyAll />
+                      </Typography>
                     </Box>
                   </Box>
                 </Grid>
