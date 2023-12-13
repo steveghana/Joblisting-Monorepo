@@ -36,20 +36,55 @@ export const getAllDevs = async (
   dependencies: Dependencies = null,
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+  // Fetch developers with roles, client, user, job, and guest interviews
   const developersWithInterviews = await transaction
     .getRepository(dependencies.db.models.developer)
     .createQueryBuilder('developer')
-    .leftJoinAndSelect('developer.guestInterviews', 'interviewAsGuest')
-    .leftJoinAndSelect('developer.candidateInterview', 'candidate')
     .leftJoinAndSelect('developer.roles', 'roles')
     .leftJoinAndSelect('developer.client', 'client')
     .leftJoinAndSelect('developer.user', 'user')
     .leftJoinAndSelect('developer.job', 'job')
+    .leftJoinAndSelect('developer.guestInterviews', 'interviewAsGuest')
+    // .leftJoinAndSelect('developer.candidateInterview', 'candidate')// eager loading not working
     .getMany();
 
-  return developersWithInterviews;
+  // Fetch interviews with candidate and guests separately and update them based on the
+  // developer ID candidate relation is not loading
+  const interviews = await transaction
+    .getRepository(dependencies.db.models.interviews)
+    .find({
+      where: {
+        candidate: { id: In(developersWithInterviews.map((item) => item.id)) },
+      },
+      relations: ['candidate', 'guests'],
+    });
+
+  // Map interviews to developers based on developer ID
+  const interviewsMap = interviews.reduce((acc, interview) => {
+    const developerId = interview.candidate.id;
+    if (!acc[developerId]) {
+      acc[developerId] = [];
+    }
+    acc[developerId].push(interview);
+    return acc;
+  }, {});
+  // Merge interviews into developersWithInterviews array
+  const developersWithMergedInterviews = developersWithInterviews.map(
+    (developer) => {
+      const developerId = developer.id;
+      const developerInterviews = interviewsMap[developerId] || [];
+      // Ensure 'candidate' is an item, not an array
+      const [candidateInterview] = developerInterviews.filter(
+        (interview) => interview.candidate.id === developerId,
+      );
+      return { ...developer, interview: candidateInterview || null };
+    },
+  );
+
+  return developersWithMergedInterviews;
 };
+
 export async function getDevById(
   id: string,
   transaction: EntityManager = null,
@@ -62,7 +97,13 @@ export async function getDevById(
     .getRepository(dependencies.db.models.developer)
     .findOne({
       where: { id },
-      relations: ['clockHours', 'roles', 'user'],
+      relations: [
+        'clockHours',
+        'roles',
+        'user',
+        'candidateInterview',
+        'guestInterviews',
+      ],
     });
   return dev as unknown as IDev;
 }
