@@ -4,7 +4,7 @@ import { useTypedDispatch, useTypedSelector } from "../../../store";
 import { fetchDevs } from "../../../store/slices/dev.slice";
 import { toast } from "react-toastify";
 import { useAddInterviewMutation } from "../../../store/services/interview.service";
-import Demo from "../Events/demo";
+import Demo from "../Events/EventForm";
 import { InterviewFormValue } from "../../../types/interviews";
 
 export const STATUS_PENDING = "Pending";
@@ -105,7 +105,6 @@ const InterviewScheduler: React.FC = () => {
 
   const handleSubmit = async (values: InterviewFormValue) => {
     const { candidate, guests, ...rest } = values;
-
     const trimedCandidate = candidate.trim().toLowerCase();
 
     const candidateInfo = state.find(
@@ -126,7 +125,12 @@ const InterviewScheduler: React.FC = () => {
           .toLowerCase()
       )
     );
-    console.log(guestsInfo, candidateInfo, mappedGuests);
+    console.log(
+      mappedGuests,
+      guestsInfo,
+      candidateInfo,
+      "these are the valiues"
+    );
 
     try {
       const response = await addInterview({
@@ -140,11 +144,10 @@ const InterviewScheduler: React.FC = () => {
       if (response && !isError) {
         dispatch(fetchDevs()); // update the persisted data
         navigate("/devs/interviews");
+        toast.success("Interview Scheduled Successfully", {
+          position: "bottom-center",
+        });
       }
-
-      toast.success("Interview Scheduled Successfully", {
-        position: "bottom-center",
-      });
     } catch (error) {
       toast.error("Could not Schedule interview", {
         position: "bottom-center",
@@ -154,9 +157,6 @@ const InterviewScheduler: React.FC = () => {
     console.log(values);
   };
 
-  const handleEdit = (values: InterviewFormValue) => {
-    // Handle edit logic
-  };
   console.log(editableApplicant, applicants, interviewers);
   return (
     <div>
@@ -166,7 +166,7 @@ const InterviewScheduler: React.FC = () => {
         _applicants={editableApplicant || applicants}
         guests={interviewers}
         handleSubmit={(values) => handleSubmit(values)}
-        handleEdit={(values) => handleEdit(values)}
+        handleEdit={(values) => {}}
       />
     </div>
   );
