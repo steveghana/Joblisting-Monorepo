@@ -1,3 +1,4 @@
+import { Iinterviews } from "./interviews";
 import { IRoleData } from "./roles";
 import { IUser, Iuser } from "./user";
 
@@ -6,7 +7,7 @@ export type IDev = {
   firstName: string;
   clientName: string;
   user?: Iuser;
-  interviewId?: string;
+  interview?: Iinterviews;
   companyName: string;
   role?: string;
   lastName: string;
