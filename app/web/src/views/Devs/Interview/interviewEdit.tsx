@@ -23,7 +23,7 @@ import {
 } from "../../../store/services/interview.service";
 import { useTypedDispatch, useTypedSelector } from "../../../store";
 import { toast } from "react-toastify";
-import Demo from "../../HR/Events/demo";
+import Demo from "../../HR/Events/EventForm";
 import NoData from "../../../components/NoData";
 import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
 import MainCard from "../../../components/MainCard";
