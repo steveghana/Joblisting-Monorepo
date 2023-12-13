@@ -31,6 +31,7 @@ export class InterviewsController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   public async create(@Body() createInterviewDto: CreateInterviewDto) {
+    console.log(createInterviewDto);
     const result = await this.interviewsService.create(createInterviewDto);
     return result;
   }
