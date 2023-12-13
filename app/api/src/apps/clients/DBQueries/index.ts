@@ -11,17 +11,29 @@ import { IClient } from '../../../types/client';
 import { ensureTransaction } from '../../../Config/transaction';
 import { ClientFormDataDto } from '../dto/create-client.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
-
-export const getAllClients = (
+export const getAllClients = async (
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
-  return transaction
-    .getRepository(dependencies.db.models.client)
-    .find({ relations: ['roles', 'developers'] });
+  const clientRepository = transaction
+    ? transaction.getRepository(dependencies.db.models.client)
+    : myDataSource.manager.getRepository(dependencies.db.models.client);
+
+  const allClientData = await clientRepository.find({
+    relations: ['roles', 'developers'],
+  });
+
+  const formattedClientData = allClientData.map(({ roles, ...rest }) => ({
+    roles: roles.map(({ link, ...others }) => ({
+      link: link?.shortComponent,
+      ...others,
+    })),
+    ...rest,
+  }));
+
+  return formattedClientData;
 };
 
 export function findElseCreateClient(
@@ -57,43 +69,39 @@ export function findElseCreateClient(
   );
 }
 
-// export function getClientById(
-//   id: string,
-//   transaction: EntityManager = null,
-//   dependencies: Dependencies = null,
-// ) /* : Promise<ICredentialToken> */ {
-//   dependencies = injectDependencies(dependencies, ['db']);
-//   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
-//   return myDataSource.manager
-//     .getRepository(dependencies.db.models.client)
-//     .findOne({
-//       where: { id },
-//       relations: ['roles', 'developers'],
-//     });
-// }
-// Update with the correct path
-
 export async function getClientById(
   id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
-) /* : Promise<ICredentialToken> */ {
+) {
   dependencies = injectDependencies(dependencies, ['db']);
 
   const clientRepository = transaction
     ? transaction.getRepository(dependencies.db.models.client)
     : myDataSource.manager.getRepository(dependencies.db.models.client);
 
-  return clientRepository
+  const clientData = await clientRepository
     .createQueryBuilder('client')
     .where('client.id = :id', { id })
     .leftJoinAndSelect('client.roles', 'roles')
     .leftJoinAndSelect('roles.jobs', 'job')
+    .leftJoinAndSelect('roles.link', 'link')
     .leftJoinAndSelect('client.developers', 'developers')
     .leftJoinAndSelect('developers.user', 'user')
     .leftJoinAndSelect('developers.clockHours', 'clockHours')
-    .getOne() as unknown as IClient;
+    .getOne();
+
+  if (!clientData) {
+    return null;
+  }
+
+  const { roles, ...rest } = clientData;
+  const formattedRoles = roles.map(({ link, ...others }) => ({
+    link: link?.shortComponent,
+    ...others,
+  }));
+
+  return { ...rest, roles: formattedRoles } as unknown as IClient;
 }
 
 export async function deleteClient(
@@ -116,6 +124,7 @@ export async function deleteClient(
   const clock_hours = transaction.getRepository(
     dependencies.db.models.clockedHours,
   );
+  const url = transaction.getRepository(dependencies.db.models.roleShortUrl);
 
   // Check if there are roleIds provided, throw an exception if not
   if (!roleIds.length) {
@@ -162,6 +171,11 @@ export async function deleteClient(
       await job.delete({ role: { id: roleid } });
     }),
   );
+  // await Promise.all(
+  //   roleIds.map(async (roleid) => {
+  //     await url.delete({ role: { id: roleid } });
+  //   }),
+  // );
 
   // Delete roles themselves
   await Promise.all(
