@@ -106,6 +106,7 @@ const ClientTableData = ({
           table={table}
           actionFn={async () => {
             const roleIds = row.original?.roles.map((role) => role.id);
+            console.log(row.original);
             const response = await deleteuser({
               id: row.original.id,
               roleIds,
