@@ -8,6 +8,7 @@ import {
   deleteRole,
   updateRole,
   createJobs,
+  updatejobs,
 } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IClient } from '@/types/client';
@@ -42,6 +43,7 @@ class Roles {
   static async createJobs(
     roleId: string,
     jobinfo: JobInfo,
+
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
   ) {
@@ -53,7 +55,17 @@ class Roles {
       transaction,
       dependencies,
     );
-    return newApplication;
+    return newApplication.data;
+  }
+  static async updateJobs(
+    jobId: string,
+    jobinfo: Partial<JobInfo>,
+
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await updatejobs(jobId, jobinfo, transaction, dependencies);
   }
   static async destroy(
     roleId: string,
