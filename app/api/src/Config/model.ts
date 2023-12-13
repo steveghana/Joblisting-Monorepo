@@ -10,7 +10,7 @@ import { Developer as developer } from '../apps/developers/entities/developer.en
 import { ClockHours as clockedHours } from '../apps/clocked-hours/entities/clocked-hour.entity';
 import { Client as client } from '../apps/clients/entities/client.entity';
 import { Job as jobs } from '../apps/roles/entities/jobs.entity';
-import { ShortUrlEntity as roleShortUrl } from '../apps/Shorturl/src/model/shortUrl.entity';
+import { ShortUrlEntity as roleShortUrl } from '../apps/Shorturl/model/shortUrl.entity';
 
 type RepositoryType<T extends ObjectLiteral> = Repository<T>;
 export type Repositories = {
