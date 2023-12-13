@@ -62,7 +62,6 @@ export class InterviewsService {
   cancel(interviewId: string) {
     return useTransaction(async (transaction) => {
       const data = await Interviews.getById(interviewId);
-      console.log(data, interviewId, 'this is the inerveir');
       const { affected } = await Developers.update(
         data.candidate.id,
         { role_status: 'Pending' },
