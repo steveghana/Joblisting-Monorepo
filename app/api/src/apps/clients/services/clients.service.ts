@@ -10,7 +10,8 @@ import { IClientFormData } from '../../../types/client';
 import { useTransaction } from '../../../Config/transaction';
 import Roles from '../../../apps/roles/dataManager';
 import { getAllClients } from '../DBQueries';
-
+import ShortUrl from '../../../apps/Shorturl/dataManager/shortUrl';
+import { createRoleLink } from '../../../apps/Shorturl/service/util';
 @Injectable()
 export class ClientsService {
   create(
@@ -49,7 +50,7 @@ export class ClientsService {
         transaction,
         dependencies,
       );
-      await Roles.createJobs(
+      const jobs = await Roles.createJobs(
         data.id,
         {
           ...roleinfo,
@@ -58,7 +59,14 @@ export class ClientsService {
         transaction,
         dependencies,
       );
-
+      if (!jobs.id) {
+        throw new HttpException(
+          'Couldnt generate link for this role',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const link = await createRoleLink(client.id, jobs.id, data.id);
+      await Roles.updateJobs(jobs.id, { joblink: link || '' }, transaction);
       return client;
     });
   }
