@@ -50,18 +50,6 @@ const Roles = () => {
             ))}
           </Grid>
         )}
-        {/* <Typography variant="h4" fontWeight={700} textAlign={"center"} m={2}>
-          Featured Jobs
-        </Typography>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 2, md: 4, lg: 16 }}
-        >
-          {Array.from({ length: 4 }).map((_, index) => (
-            <RoleCard feature={true} key={index} />
-          ))}
-        </Grid> */}
       </Grid>
     </MainCard>
   );
@@ -90,6 +78,9 @@ const RoleCard = (props: IRoleCard) => {
 
   const now = new Date();
   const date = new Date(createdAt);
+  if (!jobs.length) {
+    return <NoData />;
+  }
   return (
     <>
       {jobs?.map((job, i) => (
