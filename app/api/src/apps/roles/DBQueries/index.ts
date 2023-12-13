@@ -24,6 +24,7 @@ export async function createRoles(
   let newApplication = await role.create({
     ...rest,
   });
+
   let data = await role.save(newApplication);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
@@ -63,7 +64,6 @@ export async function updatejobs(
     },
   );
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  console.log(affected, 'fthidjfdjfdj');
   return affected;
 }
 export async function deleteJob(
@@ -87,7 +87,7 @@ export async function deleteJob(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return affected;
 }
-export function getRoleById(
+export async function getRoleById(
   id: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -95,12 +95,21 @@ export function getRoleById(
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
-  return myDataSource.manager
+  const roleinfo = await myDataSource.manager
     .getRepository(dependencies.db.models.role)
     .findOne({
       where: { id },
-      relations: ['client', 'application', 'interviews', 'developers', 'jobs'],
+      relations: [
+        'client',
+        'application',
+        'interviews',
+        'developers',
+        'jobs',
+        'link',
+      ],
     });
+  const { link, ...rest } = roleinfo;
+  return { link: link?.shortComponent, ...rest };
 }
 export async function deleteRole(
   id: string,
@@ -110,6 +119,7 @@ export async function deleteRole(
   dependencies = injectDependencies(dependencies, ['db']);
   const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
+  const short = transaction.getRepository(dependencies.db.models.roleShortUrl);
   const applicantionRep = transaction.getRepository(
     dependencies.db.models.application,
   );
@@ -127,6 +137,9 @@ export async function deleteRole(
   const { affected: interviewDeleted } = await interviewRepo.delete({
     role: { id },
   });
+  // await short.delete({
+  //   role: { id },
+  // });
 
   const { affected: applicationDeleted } = await applicantionRep.delete({
     role: { id },
@@ -135,7 +148,6 @@ export async function deleteRole(
   const { affected: devDeleted } = await devRepo.delete({ roles: { id } });
 
   const { affected: jobDeleted } = await jobRepo.delete({ role: { id } });
-  const { affected: linkDestroyed } = await destroyLink(job.joblink);
 
   const { affected } = await transaction
     .getRepository(dependencies.db.models.role)
@@ -145,16 +157,21 @@ export async function deleteRole(
   return affected;
   // delete all  tables
 }
-export const getAllRoles = (
+export const getAllRoles = async (
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 
-  return transaction
+  const allRoles = await transaction
     .getRepository(dependencies.db.models.role)
-    .find({ relations: ['client', 'jobs'] });
+    .find({ relations: ['client', 'jobs', 'link'] });
+  const newclientData = allRoles.map(({ link, ...rest }) => ({
+    link: link?.shortComponent,
+    ...rest,
+  }));
+  return newclientData;
 };
 export async function updateRole(
   id: string,
