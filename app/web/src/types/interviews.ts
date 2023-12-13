@@ -13,8 +13,8 @@ export interface Iinterviews {
   eventOption: string;
   description: string;
   eventLInk: string;
-  starttime: string;
-  endtime: string;
+  starttime: Date;
+  endtime: Date;
   startDate: Date;
   endDate: Date;
   createdAt?: Date;
@@ -32,8 +32,8 @@ export interface InterviewFormValue {
   eventOption: string;
   description: string;
   eventLInk: string;
-  starttime: string;
-  endtime: string;
+  starttime: Date;
+  endtime: Date;
   startDate: Date;
   endDate: Date;
   candidate: string;
