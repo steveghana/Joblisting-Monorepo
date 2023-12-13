@@ -6,8 +6,10 @@ import Roles from '../dataManager';
 import Client from '../../clients/dataManager';
 import { useTransaction } from '../../../util/transaction';
 import { Dependencies } from '../../../util/dependencyInjector';
-import { getAllRoles } from '../DBQueries';
+import { deleteJob, getAllRoles } from '../DBQueries';
 import { IRole } from '../../../types/role';
+import { createRoleLink } from '../../../apps/Shorturl/service/util';
+import ShortUrl from '@/apps/Shorturl/dataManager/shortUrl';
 
 @Injectable()
 export class RolesService {
@@ -38,7 +40,7 @@ export class RolesService {
     console.log(roleId, createRoleDto, 'this is the job info');
     return useTransaction(async (transaction) => {
       let roldDetails = await Roles.getById(roleId);
-      const { data } = await Roles.createJobs(
+      const data = await Roles.createJobs(
         roldDetails.id,
         {
           ...createRoleDto,
@@ -47,6 +49,23 @@ export class RolesService {
         transaction,
         dependencies,
       );
+      const link = await createRoleLink(
+        roldDetails.client.id,
+        data.id,
+        roldDetails.id,
+      );
+      console.log(link, 'this i sth role link');
+      const updatejobs = await Roles.updateJobs(
+        data.id,
+        { joblink: link || '' },
+        transaction,
+      );
+      if (!updatejobs || !link) {
+        throw new HttpException(
+          'Couldnt create a link for this project',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       return data;
     });
   }
@@ -127,6 +146,18 @@ export class RolesService {
           HttpStatus.BAD_REQUEST,
         );
       }
+    });
+  }
+  deleteJob(id: string, dependencies: Dependencies = null) {
+    return useTransaction(async (transaction) => {
+      const deleted = await deleteJob(id, transaction);
+      if (!deleted) {
+        throw new HttpException(
+          'Something went wrong, couldnt delete role',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return deleted;
     });
   }
 }
