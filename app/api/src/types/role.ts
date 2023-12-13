@@ -9,6 +9,7 @@ export interface IRole {
   client?: IClient;
   clientId?: string;
   devsNeeded: string;
+  // link?:string
   aboutTheProject: string;
   title: string;
   methodology: string;
