@@ -75,10 +75,18 @@ const ClientRoleTable = ({
     renderRowActions: ({ row, table }) => (
       <TableActions
         actionFn={async () => {
-          const response = await deleteRole({ id: actionIndex.id });
-          if (response) {
-            onActionComplete();
-            toast.success("Action Successful", {
+          console.log(row.original, "action");
+          try {
+            const response = await deleteRole({ id: row.original.id }).unwrap();
+
+            if (response) {
+              onActionComplete();
+              toast.success("Action Successful", {
+                position: "bottom-center",
+              });
+            }
+          } catch (error) {
+            toast.error("Couldnt delete role", {
               position: "bottom-center",
             });
           }
