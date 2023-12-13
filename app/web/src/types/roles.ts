@@ -18,6 +18,7 @@ export interface IRoleData {
 
   // developer: any;
   aboutTheProject: string;
+  link?: string;
   aboutCompany?: string;
   title: string;
   durationForEmployment: string;
