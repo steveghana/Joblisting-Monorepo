@@ -28,16 +28,16 @@ const TabsWrapper = styled(Tabs)(
 `
 );
 type IRoleTabs = {
-  setOpenDrawer: (
+  setOpenDrawer?: (
     value: React.SetStateAction<{
       bottom: boolean;
     }>
   ) => void;
-  openDrawer: {
+  openDrawer?: {
     bottom: boolean;
   };
   roleId: string;
-  clientId: string;
+  isExternal?: boolean;
 };
 const RoleTabs = (props: IRoleTabs) => {
   const theme = useTheme();
