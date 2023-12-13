@@ -11,6 +11,7 @@ import { ensureTransaction } from '../../../Config/transaction';
 import { JobInfo } from '../dto/create-role.dto';
 import { HttpExceptionFilter } from '@/middleware/err.Middleware';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { destroyLink } from '../../../apps/Shorturl/DBQueries/shortUrl';
 
 export async function createRoles(
   applicationData: IRole,
@@ -47,6 +48,45 @@ export async function createJobs(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return roleForJob;
 }
+export async function updatejobs(
+  id: string,
+  job: Partial<JobInfo>,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) /* : Promise<ICredentialToken> */ {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
+  const { affected } = await jobRepo.update(
+    { id },
+    {
+      ...job,
+    },
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  console.log(affected, 'fthidjfdjfdj');
+  return affected;
+}
+export async function deleteJob(
+  id: string,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) /* : Promise<ICredentialToken> */ {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const role = transaction.getRepository(dependencies.db.models.role);
+  const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
+
+  const existingJob = await jobRepo.findOne({
+    where: { id },
+  });
+  if (!existingJob) {
+    throw new HttpException('Job doesnt exist', HttpStatus.BAD_REQUEST);
+  }
+  const { affected: linkDestroyed } = await destroyLink(existingJob.joblink);
+  const { affected } = await jobRepo.delete({ id });
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return affected;
+}
 export function getRoleById(
   id: string,
   transaction: EntityManager = null,
@@ -79,6 +119,7 @@ export async function deleteRole(
   const hoursRepo = transaction.getRepository(
     dependencies.db.models.clockedHours,
   );
+  const job = await jobRepo.findOne({ where: { role: { id } } });
   const { affected: hoursDeleted } = await hoursRepo.delete({
     role: { id },
   });
@@ -94,6 +135,7 @@ export async function deleteRole(
   const { affected: devDeleted } = await devRepo.delete({ roles: { id } });
 
   const { affected: jobDeleted } = await jobRepo.delete({ role: { id } });
+  const { affected: linkDestroyed } = await destroyLink(job.joblink);
 
   const { affected } = await transaction
     .getRepository(dependencies.db.models.role)
