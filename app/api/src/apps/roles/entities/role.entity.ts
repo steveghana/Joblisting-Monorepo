@@ -29,9 +29,9 @@ export class Role extends AssociableModel {
     onDelete: 'CASCADE',
   })
   jobs: Job[];
-  // @OneToOne(() => ShortUrlEntity, (link) => link.role, { cascade: true })
-  // @JoinColumn({ name: 'link_id' })
-  // link: ShortUrlEntity;
+  @OneToOne(() => ShortUrlEntity, (link) => link.role, { cascade: true })
+  @JoinColumn({ name: 'link_id' })
+  link: ShortUrlEntity;
 
   @OneToMany((type) => Developer, (developer) => developer.roles, {
     onDelete: 'CASCADE',
