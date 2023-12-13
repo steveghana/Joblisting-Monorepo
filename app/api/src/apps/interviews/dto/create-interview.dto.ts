@@ -14,24 +14,24 @@ export class CreateInterviewDto {
   })
   candidateId: string;
   @IsNotEmpty({
-    message: 'guest Id is required',
+    message: 'guest Ids is required',
   })
   guests: string[];
 
   @IsNotEmpty({
-    message: 'guest Id is required',
+    message: 'event type is required',
   })
   eventType: string;
   @IsNotEmpty({
-    message: 'guest Id is required',
+    message: 'event option is required',
   })
   eventOption: string;
   @IsNotEmpty({
-    message: 'desicrpit Id is required',
+    message: 'description is required',
   })
   description: string;
   @IsNotEmpty({
-    message: 'even link Id is required',
+    message: 'even link  is required',
   })
   eventLInk: string;
   @IsNotEmpty({
