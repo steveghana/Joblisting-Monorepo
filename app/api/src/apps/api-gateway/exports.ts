@@ -6,6 +6,7 @@ import { ClockedHoursModule } from '../clocked-hours/clocked-hours.module';
 import { DevelopersModule } from '../developers/tests/developers.module';
 import { InterviewsModule } from '../interviews/interviews.module';
 import { RolesModule } from '../roles/roles.module';
+import { ShortModule } from '../Shorturl/short.module';
 // import s from '../../apps/clients/controllers/clients.controller.spec'
 /* ==== All Entities are located in Config/model.js */
 export const Modules = [
@@ -16,4 +17,5 @@ export const Modules = [
   InterviewsModule,
   ApplicationsModule,
   RolesModule,
+  ShortModule,
 ];
