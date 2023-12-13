@@ -2,9 +2,11 @@ import React from "react";
 import { IJobs } from "../../../../../types";
 import {
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemText,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -15,6 +17,9 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Delete } from "@mui/icons-material";
+import { useDeleteJobMutation } from "../../../../../store/services/role.service";
+import { toast } from "react-toastify";
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -50,9 +55,26 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
-function JobDetails({ jobs }: { jobs: IJobs[] }) {
+function JobDetails({
+  jobs,
+  actionComplete,
+}: {
+  jobs: IJobs[];
+  actionComplete: () => void;
+}) {
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
-
+  const [deletJob, { isError }] = useDeleteJobMutation();
+  const handleJobDelete = async (id) => {
+    try {
+      const response = await deletJob({ id }).unwrap();
+      if (response && !isError) {
+        actionComplete();
+        toast.success("Job deleted", { position: "bottom-center" });
+      }
+    } catch (error) {
+      toast.error("Couldnt delete job", { position: "bottom-center" });
+    }
+  };
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
@@ -69,10 +91,19 @@ function JobDetails({ jobs }: { jobs: IJobs[] }) {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              sx={{ display: "flex", alignItems: "center" }}
             >
-              <Typography variant="h5" component="h3" gutterBottom>
+              <Typography variant="h5" component="legend">
                 {job.roleName}
               </Typography>
+              <Tooltip title="Delete Job">
+                <IconButton
+                  sx={{ mx: "auto" }}
+                  onClick={() => handleJobDelete(job.id)}
+                >
+                  <Delete color="error" />
+                </IconButton>
+              </Tooltip>
             </AccordionSummary>
             <AccordionDetails>
               <List>
