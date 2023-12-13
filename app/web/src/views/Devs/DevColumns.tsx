@@ -52,7 +52,7 @@ const DevTableData = ({
   const [validationErrors, setValidationErrors] = React.useState<
     Record<string, string | undefined>
   >({});
-
+  console.log(devs, "this dfdfkldjfkdj");
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [cancelInterview, { isLoading: isDeleting }] =
     useDeletInterviewMutation();
@@ -132,8 +132,9 @@ const DevTableData = ({
       <>
         <TableActions
           cancelInterview={async () => {
+            console.log(row.original);
             const deleted = await cancelInterview({
-              id: row.original.id,
+              id: row.original.interview.id,
             }).unwrap();
             if (deleted) {
               refetch();
