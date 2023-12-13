@@ -55,7 +55,9 @@ export class Developer extends AssociableModel {
   @ManyToOne((type) => Role, (role) => role.developers)
   @JoinColumn({ name: 'role_id' })
   roles: Role;
-  @ManyToOne(() => Interview, (interview) => interview.candidate)
+  @ManyToOne(() => Interview, (interview) => interview.candidate, {
+    eager: true,
+  })
   candidateInterview: Interview;
 
   @ManyToMany(() => Interview, (interview) => interview.guests)
