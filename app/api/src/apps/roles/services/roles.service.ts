@@ -10,6 +10,7 @@ import { deleteJob, getAllRoles } from '../DBQueries';
 import { IRole } from '../../../types/role';
 import { createRoleLink } from '../../../apps/Shorturl/service/util';
 import ShortUrl from '@/apps/Shorturl/dataManager/shortUrl';
+import { data } from '@/mockdata';
 
 @Injectable()
 export class RolesService {
@@ -18,7 +19,7 @@ export class RolesService {
     createRoleDto: CreateRoleDto['Project Details'],
     dependencies: Dependencies = null,
   ) {
-    return useTransaction(async (transaction) => {
+    const roleData = await useTransaction(async (transaction) => {
       let clientDetails = await Client.getById(clientId);
       const { data } = await Roles.createRoles(
         {
@@ -29,8 +30,17 @@ export class RolesService {
         transaction,
         dependencies,
       );
-      return data;
+      const link = await createRoleLink(
+        clientId,
+        data,
+        transaction,
+        dependencies,
+      );
+      return { data };
     });
+
+    // Roles.update(roleData.id, {})
+    return { ...roleData };
   }
   public async createJob(
     roleId: string,
@@ -40,6 +50,7 @@ export class RolesService {
     console.log(roleId, createRoleDto, 'this is the job info');
     return useTransaction(async (transaction) => {
       let roldDetails = await Roles.getById(roleId);
+
       const data = await Roles.createJobs(
         roldDetails.id,
         {
@@ -49,23 +60,13 @@ export class RolesService {
         transaction,
         dependencies,
       );
-      const link = await createRoleLink(
-        roldDetails.client.id,
-        data.id,
-        roldDetails.id,
-      );
-      console.log(link, 'this i sth role link');
-      const updatejobs = await Roles.updateJobs(
-        data.id,
-        { joblink: link || '' },
-        transaction,
-      );
-      if (!updatejobs || !link) {
-        throw new HttpException(
-          'Couldnt create a link for this project',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+
+      // if (!updatejobs || !link) {
+      //   throw new HttpException(
+      //     'Couldnt create a link for this project',
+      //     HttpStatus.BAD_REQUEST,
+      //   );
+      // }
       return data;
     });
   }
