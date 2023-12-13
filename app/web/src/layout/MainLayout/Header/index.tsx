@@ -18,6 +18,9 @@ import { themePalette } from "../../../themes/schemes/palette";
 
 const Header = ({ handleLeftDrawerToggle }) => {
   const theme = useTheme();
+  //get the access token and depending on whether there is a token, then you can show
+
+  const token = false;
 
   return (
     <>
@@ -37,26 +40,28 @@ const Header = ({ handleLeftDrawerToggle }) => {
         >
           <LogoSection />
         </Box>
-        <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
-          <Avatar
-            variant="rounded"
-            sx={{
-              ...componentThemeoption.commonAvatar,
-              ...componentThemeoption.mediumAvatar,
-              transition: "all .2s ease-in-out",
-              background: themePalette.secondary.light,
-              color: themePalette.primary.main,
-              "&:hover": {
-                background: themePalette.primary.main,
-                color: themePalette.secondary.light,
-              },
-            }}
-            onClick={handleLeftDrawerToggle}
-            color="inherit"
-          >
-            <IconMenu2 stroke={1.5} size="1.3rem" />
-          </Avatar>
-        </ButtonBase>
+        {token && (
+          <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
+            <Avatar
+              variant="rounded"
+              sx={{
+                ...componentThemeoption.commonAvatar,
+                ...componentThemeoption.mediumAvatar,
+                transition: "all .2s ease-in-out",
+                background: themePalette.secondary.light,
+                color: themePalette.primary.main,
+                "&:hover": {
+                  background: themePalette.primary.main,
+                  color: themePalette.secondary.light,
+                },
+              }}
+              onClick={handleLeftDrawerToggle}
+              color="inherit"
+            >
+              <IconMenu2 stroke={1.5} size="1.3rem" />
+            </Avatar>
+          </ButtonBase>
+        )}
       </Box>
 
       {/* header search */}
@@ -65,8 +70,12 @@ const Header = ({ handleLeftDrawerToggle }) => {
       <Box sx={{ flexGrow: 1 }} />
 
       {/* notification & profile */}
-      <NotificationSection />
-      <ProfileSection />
+      {token && (
+        <>
+          <NotificationSection />
+          <ProfileSection />
+        </>
+      )}
     </>
   );
 };
