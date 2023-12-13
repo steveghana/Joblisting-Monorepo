@@ -52,6 +52,7 @@ const ClientDetails = () => {
     },
     { refetchOnMountOrArgChange: true }
   );
+  console.log(data, "clkent");
   const tabs = [
     { value: "projects", label: "Project" },
     { value: "tasks", label: "Tasks" },
@@ -93,9 +94,7 @@ const ClientDetails = () => {
               src={data.companyLogo || data.avatar}
             />
             <Typography>{data.companyName}</Typography>
-            {/* <Typography textAlign={"center"} variant="caption">
-             {data.aboutTheCompany}
-            </Typography> */}
+
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <Facebook />
               <Pinterest />
