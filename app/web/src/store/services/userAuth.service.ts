@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IProfession, IRoleData } from "../../types/roles";
 import axios from "axios";
 import _api_url from "../../api/_api_url";
+import { TokenResponse } from "@react-oauth/google";
 
 interface IUser {
   email: string;
@@ -36,15 +37,6 @@ export const userApi = createApi({
         method: "POST",
         body: user,
       }),
-      transformResponse: (response: IResponseLg, meta, arg) => {
-        // Dispatch data to Redux store upon successful query
-        // const dispatch = useTypedDispatch();
-        // dispatch();
-
-        return response;
-      },
-
-      // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any, meta, arg) => {
         const {
           data: {
@@ -55,6 +47,24 @@ export const userApi = createApi({
       },
       // providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
+    loginUserWithGoogle: builder.mutation<IResponseLg, { accessToken: string }>(
+      {
+        query: ({ accessToken }) => ({
+          url: "user/login/google",
+          method: "POST",
+          body: { accessToken },
+        }),
+        transformErrorResponse: (response: any, meta, arg) => {
+          const {
+            data: {
+              error: { message },
+            },
+          } = response;
+          return Array.isArray(message) ? message.join(",") : message;
+        },
+        // providesTags: (result, error, id) => [{ type: "Post", id }],
+      }
+    ),
     // getAccessToken: builder.query<AuthResponse, string>({
     //   query: (code) => {
     //     return {
@@ -110,6 +120,7 @@ export const userApi = createApi({
 
 export const {
   useLoginUserMutation,
+  useLoginUserWithGoogleMutation,
   useRegisterUserMutation,
   useGetUserQuery,
 } = userApi;
