@@ -13,9 +13,9 @@ import { MENU_OPEN } from "../../../store/actions";
 const LogoSection = () => {
   const defaultId = useSelector((state: any) => state.customization?.defaultId);
   console.log(defaultId, "from log");
-  const lockSider = true;
+  const lockSidebar = false;
   const dispatch = useDispatch();
-  if (lockSider) {
+  if (lockSidebar) {
     return (
       <ButtonBase disableRipple>
         <img
