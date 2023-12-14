@@ -18,9 +18,9 @@ import { themePalette } from "../../../themes/schemes/palette";
 
 const Header = ({ handleLeftDrawerToggle }) => {
   const theme = useTheme();
-  //get the access lockSider and depending on whether there is a token, then you can show
+  //get the access lockSidebar and depending on whether there is a token, then you can show
 
-  const lockSider = true;
+  const lockSidebar = false;
 
   return (
     <>
@@ -34,10 +34,16 @@ const Header = ({ handleLeftDrawerToggle }) => {
           },
         }}
       >
-        <Box component="span" sx={{ display: { md: "block" }, flexGrow: 1 }}>
+        <Box
+          component="span"
+          sx={{
+            display: { xs: !lockSidebar && "none", md: "block" },
+            flexGrow: 1,
+          }}
+        >
           <LogoSection />
         </Box>
-        {!lockSider && (
+        {!lockSidebar && (
           <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
             <Avatar
               variant="rounded"
@@ -67,7 +73,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       <Box sx={{ flexGrow: 1 }} />
 
       {/* notification & profile */}
-      {!lockSider && (
+      {!lockSidebar && (
         <>
           <NotificationSection />
           <ProfileSection />
