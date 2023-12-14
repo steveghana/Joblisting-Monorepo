@@ -9,7 +9,7 @@ export const initialState = {
   defaultId: "default",
   fontFamily: "San serif",
   borderRadius: 12,
-  opened: true,
+  opened: false,
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
