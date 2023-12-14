@@ -16,6 +16,7 @@ import { AuthenticationTtlMiddleware } from '../../middleware/authenticationTtl.
 import { HttpExceptionFilter } from '../../middleware/err.Middleware';
 import { CorsMiddleware } from '../../middleware/cors.middleware';
 import { AuthMiddleware } from '../../middleware/authenticated.middleware';
+import { GoogleAuthMiddleware } from '../../middleware/google.middleware';
 @Module({
   imports: [
     CacheModule.register({
@@ -61,14 +62,15 @@ import { AuthMiddleware } from '../../middleware/authenticated.middleware';
     },
   ],
 })
-export class AppModule {}
-// export class AppModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(CorsMiddleware)
-//       .forRoutes('*')
-//       //AuthTTL
-//       //OptionalAuth
-//       .apply(AuthMiddleware);
-//   }
-// }
+// export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CorsMiddleware)
+      .forRoutes('*')
+      //AuthTTL
+      //OptionalAuth
+      .apply(GoogleAuthMiddleware)
+      .forRoutes('/user/login/google');
+  }
+}
