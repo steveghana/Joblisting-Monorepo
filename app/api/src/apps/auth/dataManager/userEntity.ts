@@ -87,19 +87,26 @@ class User {
     return [userData, newUser];
   }
 
-  static async getByEmails(
-    emails: string[],
+  static async getByEmail(
+    emails: string,
+    dependencies: Dependencies = null,
+  ): Promise<User> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    const userDatas = await getUser(emails, dependencies);
+    console.log(userDatas, 'user');
+    const user = new User(userDatas.email, dependencies);
+    user.data = userDatas;
+    return user;
+  }
+  static async update(
+    user: Partial<IUser>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<User[]> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
-    const userDatas = await getUsers(emails, transaction, dependencies);
+    const userUpdated = await updateUser(user, transaction, dependencies);
     // console.log(userDatas, 'user')
-    return userDatas.map((userData) => {
-      const user = new User(userData.email, dependencies);
-      user.data = userData;
-      return user;
-    });
+    return userUpdated;
   }
 
   static async bulkCreate(
