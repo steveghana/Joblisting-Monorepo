@@ -18,8 +18,6 @@ import JobsPage from "./JobsTab";
 import ApplicantTable from "./Applicants";
 import { useGetRoleQuery } from "../../../store/services/role.service";
 import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
-import NoData from "../../../components/NoData";
-import { useGetClientQuery } from "../../../store/services/client.service";
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -57,7 +55,7 @@ const RoleTabs = (props: IRoleTabs) => {
 
   const isLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
   const [currentTab, setCurrentTab] = React.useState<string>("overview");
-  const tabs = [
+  const roleTabs = [
     { value: "overview", label: "Overview" },
     { value: "jobs", label: "Jobs" },
     { value: "applicants", label: "Applicants" },
@@ -67,6 +65,9 @@ const RoleTabs = (props: IRoleTabs) => {
     event.stopPropagation();
     setCurrentTab(value);
   };
+  const tabs = props.isExternal
+    ? roleTabs.filter((tab) => tab.value !== "applicants")
+    : roleTabs;
   if (isLoading || isFetching) {
     return <FullscreenProgress />;
   }
@@ -89,27 +90,29 @@ const RoleTabs = (props: IRoleTabs) => {
               // spacing={3}
             >
               <ButtonBase>
-                <Close
-                  fontSize="medium"
-                  onClick={() =>
-                    props.setOpenDrawer({
-                      ...props.openDrawer,
-                      ["bottom"]: false,
-                    })
-                  }
-                  sx={{
-                    background: themePalette.grey[100],
-                    p: 0.3,
-                    borderRadius: "50%",
-                    position: "fixed",
-                    right: "0",
-                    translate: {
-                      lg: "-3rem -2vh",
-                      sm: "-3rem -1vh",
-                      xs: "-3rem -6vh",
-                    },
-                  }}
-                />
+                {!props.isExternal && (
+                  <Close
+                    fontSize="medium"
+                    onClick={() =>
+                      props.setOpenDrawer({
+                        ...props.openDrawer,
+                        ["bottom"]: false,
+                      })
+                    }
+                    sx={{
+                      background: themePalette.grey[100],
+                      p: 0.3,
+                      borderRadius: "50%",
+                      position: "fixed",
+                      right: "0",
+                      translate: {
+                        lg: "-3rem -2vh",
+                        sm: "-3rem -1vh",
+                        xs: "-3rem -6vh",
+                      },
+                    }}
+                  />
+                )}
               </ButtonBase>
               <Box
                 sx={{ width: "100%" }}
@@ -183,6 +186,7 @@ const RoleTabs = (props: IRoleTabs) => {
           </Container>
         </SubCard>
       </Grid>
+
       {currentTab === "applicants" && (
         <Box my={1}>
           <ApplicantTable roleid={role.id} />
