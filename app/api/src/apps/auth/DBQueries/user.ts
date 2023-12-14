@@ -66,7 +66,6 @@ export function findElseCreateUser(
 
 export async function getUser(
   email: string,
-
   dependencies: Dependencies = null,
 ): Promise<UserEntity> {
   dependencies = injectDependencies(dependencies, ['db']);
@@ -117,7 +116,7 @@ export async function updateUser(
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const userRepo = transaction.getRepository(dependencies.db.models.user);
-  const done = await userRepo.update(
+  const { affected: done } = await userRepo.update(
     { email: user?.email.trim().toLowerCase() },
     {
       ...user,
