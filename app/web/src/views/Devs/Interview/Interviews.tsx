@@ -96,14 +96,15 @@ const Interviews = () => {
 
   console.log(data, "interviews");
   return (
-    <MainCard title="Interview Devs">
-      <Grid container>
+    // <MainCard title="Event Schedular">
+    <Grid container>
+      <Grid item xs={12}>
         <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Typography variant="h4" align="center" gutterBottom>
-              Interview Details
-            </Typography>
-          </Grid>
+          <Typography variant="h4" align="center" gutterBottom>
+            Interview Details
+          </Typography>
+        </Grid>
+        {!!data.length && (
           <Box
             sx={{
               display: "flex",
@@ -127,169 +128,172 @@ const Interviews = () => {
               />
             </div>
           </Box>
-          {!data?.length ? (
+        )}
+        <></>
+        {!data?.length ? (
+          <Box sx={{ backgroun: "red", height: "70vh" }}>
             <NoData />
-          ) : (
-            <Box>
+          </Box>
+        ) : (
+          <Box>
+            <SubCard>
               {data.map((item) => (
-                <SubCard key={item.id}>
-                  <Grid container spacing={3}>
-                    {/* Header */}
+                <Grid container spacing={3} key={item.id}>
+                  {/* Header */}
 
-                    {/* Interview Information */}
-                    <Grid item xs={12}>
-                      <Paper
-                        elevation={3}
-                        sx={{
-                          padding: "20px",
-                          display: "flex",
-                          alignItems: "start",
-                        }}
-                      >
-                        <Box width={"100%"}>
-                          <Grid container spacing={2}>
-                            <Grid item xs={6} mb={2}>
+                  {/* Interview Information */}
+                  <Grid item xs={12}>
+                    <Paper
+                      elevation={3}
+                      sx={{
+                        padding: "20px",
+                        display: "flex",
+                        alignItems: "start",
+                      }}
+                    >
+                      <Box width={"100%"}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6} mb={2}>
+                            <Typography
+                              variant="subtitle1"
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={1}
+                            >
+                              Candidate:{" "}
+                              <Avatar
+                                sx={{ width: 23, height: 23 }}
+                                src={item.candidate.avatar}
+                              />{" "}
+                              {item.candidate.firstName}{" "}
+                              {item.candidate.lastName}
+                            </Typography>
+                            {item.guests.map((guest) => (
                               <Typography
                                 variant="subtitle1"
                                 display={"flex"}
                                 alignItems={"center"}
                                 gap={1}
                               >
-                                Candidate:{" "}
+                                Interviewer:{" "}
                                 <Avatar
                                   sx={{ width: 23, height: 23 }}
-                                  src={item.candidate.avatar}
+                                  src={guest.avatar}
                                 />{" "}
-                                {item.candidate.firstName}{" "}
-                                {item.candidate.lastName}
+                                {guest.firstName} {guest.lastName}
                               </Typography>
-                              {item.guests.map((guest) => (
-                                <Typography
-                                  variant="subtitle1"
-                                  display={"flex"}
-                                  alignItems={"center"}
-                                  gap={1}
-                                >
-                                  Interviewer:{" "}
-                                  <Avatar
-                                    sx={{ width: 23, height: 23 }}
-                                    src={guest.avatar}
-                                  />{" "}
-                                  {guest.firstName} {guest.lastName}
-                                </Typography>
-                              ))}
-                              <Typography variant="subtitle1">
-                                {/* Date: {item.scheduled_date.getDate()} */}
-                              </Typography>
-                              <Typography
-                                variant="subtitle1"
-                                display={"flex"}
-                                alignItems={"center"}
-                                gap={1}
-                              >
-                                Time:{" "}
-                                <ClockIcon color="disabled" fontSize="small" />{" "}
-                                {interviewDetails.interviewTime}
-                              </Typography>
-                              <Typography
-                                variant="subtitle1"
-                                display={"flex"}
-                                alignItems={"center"}
-                                gap={1}
-                              >
-                                Location: {interviewDetails.location}
-                              </Typography>
-                            </Grid>
-                            {/* Additional interview details can be added here */}
+                            ))}
+                            <Typography variant="subtitle1">
+                              {/* Date: {item.scheduled_date.getDate()} */}
+                            </Typography>
+                            <Typography
+                              variant="subtitle1"
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={1}
+                            >
+                              Time:{" "}
+                              <ClockIcon color="disabled" fontSize="small" />{" "}
+                              {interviewDetails.interviewTime}
+                            </Typography>
+                            <Typography
+                              variant="subtitle1"
+                              display={"flex"}
+                              alignItems={"center"}
+                              gap={1}
+                            >
+                              Location: {interviewDetails.location}
+                            </Typography>
                           </Grid>
-                          <Divider />
-                          <Accordion>
-                            <AccordionSummary
-                              expandIcon={<ExpandMore />}
-                              aria-controls="panel1a-content"
-                              id="panel1a-header"
-                            >
-                              <Typography
-                                variant="subtitle1"
-                                component={"animate"}
-                              >
-                                Comments
-                              </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                              {comments.map((comment, index) => (
-                                <Grid>
-                                  <Box
-                                    key={index}
-                                    style={{ marginBottom: "10px" }}
-                                  >
-                                    <Typography variant="subtitle1">
-                                      <strong>{comment.author}:</strong>{" "}
-                                      {comment.text}
-                                    </Typography>
-                                  </Box>
-                                </Grid>
-                              ))}
-                              <form>
-                                <TextField
-                                  label="Your Name"
-                                  variant="outlined"
-                                  fullWidth
-                                  style={{ marginBottom: "10px" }}
-                                />
-                                <TextField
-                                  label="Add a Comment"
-                                  variant="outlined"
-                                  fullWidth
-                                  multiline
-                                  rows={3}
-                                  style={{ marginBottom: "10px" }}
-                                />
-                                <CustomButton
-                                  variant="contained"
-                                  color="primary"
-                                  type="submit"
-                                  text="Add Comment"
-                                />
-                              </form>
-                            </AccordionDetails>
-                          </Accordion>
-                        </Box>
-                        <Tooltip sx={{ mx: "auto" }} title="Cancel Interview">
-                          <IconButton>
+                          {/* Additional interview details can be added here */}
+                        </Grid>
+                        <Divider />
+                        <Accordion>
+                          <AccordionSummary
+                            expandIcon={<ExpandMore />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                          >
                             <Typography
-                              color={"blue"}
-                              onClick={() => handleDelete(item.id)}
+                              variant="subtitle1"
+                              component={"animate"}
                             >
-                              Cancel
+                              Comments
                             </Typography>
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Edit Interveiw">
-                          <IconButton>
-                            <Typography
-                              color={"blue"}
-                              onClick={() =>
-                                navigate(`/devs/interviews/Edit/${item.id}`)
-                              }
-                            >
-                              Edit
-                            </Typography>
-                          </IconButton>
-                        </Tooltip>
-                      </Paper>
-                    </Grid>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {comments.map((comment, index) => (
+                              <Grid>
+                                <Box
+                                  key={index}
+                                  style={{ marginBottom: "10px" }}
+                                >
+                                  <Typography variant="subtitle1">
+                                    <strong>{comment.author}:</strong>{" "}
+                                    {comment.text}
+                                  </Typography>
+                                </Box>
+                              </Grid>
+                            ))}
+                            <form>
+                              <TextField
+                                label="Your Name"
+                                variant="outlined"
+                                fullWidth
+                                style={{ marginBottom: "10px" }}
+                              />
+                              <TextField
+                                label="Add a Comment"
+                                variant="outlined"
+                                fullWidth
+                                multiline
+                                rows={3}
+                                style={{ marginBottom: "10px" }}
+                              />
+                              <CustomButton
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                text="Add Comment"
+                              />
+                            </form>
+                          </AccordionDetails>
+                        </Accordion>
+                      </Box>
+                      <Tooltip sx={{ mx: "auto" }} title="Cancel Interview">
+                        <IconButton>
+                          <Typography
+                            color={"blue"}
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            Cancel
+                          </Typography>
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit Interveiw">
+                        <IconButton>
+                          <Typography
+                            color={"blue"}
+                            onClick={() =>
+                              navigate(`/devs/interviews/Edit/${item.id}`)
+                            }
+                          >
+                            Edit
+                          </Typography>
+                        </IconButton>
+                      </Tooltip>
+                    </Paper>
                   </Grid>
-
-                  {/* Edit Dialog */}
-                </SubCard>
+                </Grid>
               ))}
-            </Box>
-          )}
-          {/* <EventDashboard /> */}
-        </Grid>
+            </SubCard>
+          </Box>
+        )}
+
+        {/* <EventDashboard /> */}
       </Grid>
-    </MainCard>
+    </Grid>
+    // </MainCard>
   );
 };
 
