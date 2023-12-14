@@ -25,7 +25,7 @@ const JobSubmissionContainer: React.FC = () => {
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const [formData, setFormData] = useState({});
   const { id } = useParams();
-  const lockSider = true;
+  const lockSidebar = false;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const [addApplicant, { isLoading }] = useAddApplicantsMutation();
@@ -46,7 +46,7 @@ const JobSubmissionContainer: React.FC = () => {
         resume: selectedFile,
       }).unwrap();
       if (response) {
-        if (lockSider) {
+        if (lockSidebar) {
           navigate(-1);
         } else {
           navigate("/dashboard/jobs/roles");
