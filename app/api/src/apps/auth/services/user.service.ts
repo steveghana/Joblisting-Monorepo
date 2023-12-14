@@ -6,6 +6,7 @@ import {
   Inject,
   // CACHE_MANAGER,
   Next,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { useTransaction } from '../../../Config/transaction';
 import cryptoUtil from '../../../util/crypto';
@@ -27,81 +28,84 @@ import { IProfession } from '../../../types/user';
 export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(private jwtService: JwtService) {}
-  async googleLogin(user: GoogleLoginUserDto) {
-    //   if (!user) {
-    //     throw new UnauthorizedException('No user from google');
-    //   }
-    //   const {
-    //     firstName,
-    //     lastName,
-    //     email,
-    //     email_verified,
-    //     expires_in,
-    //     picture,
-    //     providerAccountId,
-    //     accessToken,
-    //     refreshToken,
-    //     id_token,
-    //   } = user;
-    //   const userData = await this.prisma.users.findFirst({
-    //     where: { email },
-    //     include: { accounts: true },
-    //   });
-    //   if (!userData) {
-    //     const newUserData = await this.prisma.users.create({
-    //       data: {
-    //         name: `${firstName} ${lastName}`,
-    //         email: email,
-    //         emailVerified: email_verified ? new Date().toISOString() : null,
-    //         image: picture,
-    //         accounts: {
-    //           create: {
-    //             type: 'oauth',
-    //             provider: 'google',
-    //             providerAccountId: providerAccountId,
-    //             access_token: accessToken,
-    //             refresh_token: refreshToken,
-    //             id_token: id_token,
-    //             expires_at: expires_in,
-    //           },
-    //         },
-    //       },
-    //     });
-    //     const access_token = await this.signJwt(
-    //       newUserData.id,
-    //       id_token,
-    //       accessToken,
-    //       expires_in,
-    //     );
-    //     return { access_token };
-    //   }
+  async googleLogin(user: Record<any, any>, dependencies: Dependencies = null) {
+    dependencies = injectDependencies(dependencies, ['db', 'config']);
+    const newuser = new User(user.email, dependencies);
+
+    if (!user) {
+      throw new UnauthorizedException('No user from google');
+    }
+    const primaryimageUrl = user.photos.find(
+      (item) => item.metadata.primary === true,
+    ).url;
+    const authToken = await useTransaction(async (transaction) => {
+      const userexist = await User.getByEmail(user.email, dependencies);
+      console.log(userexist, 'estien users');
+      if (!userexist) {
+        throw new HttpException(
+          'User doesnt exists, try signing in',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      await User.update(
+        {
+          email: userexist.email,
+          avatar: primaryimageUrl,
+        },
+        transaction,
+      );
+      const a = await AuthToken.createForUser(
+        user.email,
+        null,
+        transaction,
+        dependencies,
+      );
+      return a;
+    }, dependencies);
+    const payload = { email: user.email, role: user.role };
+
+    return {
+      ...payload,
+      authTokenId: authToken.id,
+    };
+
+    // if (!userData) {
+
     //   const access_token = await this.signJwt(
-    //     userData.id,
+    //     newUserData.id,
     //     id_token,
     //     accessToken,
     //     expires_in,
     //   );
     //   return { access_token };
     // }
-    // signJwt(
-    //   userId: string,
-    //   id_token: string,
-    //   access_token: string,
-    //   expires_at: number,
-    //   expiresIn = '1d',
-    // ): Promise<string> {
-    //   const payload = {
-    //     sub: userId,
-    //     id_token,
-    //     access_token,
-    //     expires_at,
-    //   };
-    //   return this.jwtService.signAsync(payload, {
-    //     expiresIn,
-    //     secret: this.configService.get('APP_JWT_SECRET'),
-    //   });
-    return null;
+    // const access_token = await this.signJwt(
+    //   userData.id,
+    //   id_token,
+    //   accessToken,
+    //   expires_in,
+    // );
+    // return { access_token };
   }
+  //   signJwt(
+  //     userId: string,
+  //     id_token: string,
+  //     access_token: string,
+  //     expires_at: number,
+  //     expiresIn = '1d',
+  //   ): Promise<string> {
+  //     const payload = {
+  //       sub: userId,
+  //       id_token,
+  //       access_token,
+  //       expires_at,
+  //     };
+  //     return this.jwtService.signAsync(payload, {
+  //       expiresIn,
+  //       secret: this.configService.get('APP_JWT_SECRET'),
+  //     });
+  //   return null;
+  // }
   public async register(
     email: string,
     password: string,
@@ -133,7 +137,7 @@ export class AuthService {
         console.log('throwing new exceptions ...........');
 
         throw new HttpException(
-          'user already exists, try signing up',
+          'User already exists, try signing up',
           HttpStatus.BAD_REQUEST,
         );
       }
