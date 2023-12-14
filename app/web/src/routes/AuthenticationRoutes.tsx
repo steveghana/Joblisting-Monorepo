@@ -3,6 +3,7 @@ import React from "react";
 import MinimalLayout from "../layout/MinimalLayout";
 // project imports
 import Loadable from "../components/Loadable";
+import AuthCallBack from "../components/auth/login";
 // import MinimalLayout from 'layout/MinimalLayout';
 
 // login option 3 routing
@@ -22,6 +23,10 @@ const AuthenticationRoutes = {
     {
       path: "/auth/login",
       element: <AuthLogin3 />,
+    },
+    {
+      path: "/auth/login/callback",
+      element: <AuthCallBack />,
     },
     {
       path: "/auth/register",
