@@ -23,11 +23,11 @@ export class ApplicationsService {
   ) {
     const { roleId, years_of_experience, ...rest } = createApplicationDto;
     return useTransaction(async (transaction) => {
-      const existinguser = await User.getByEmails(
-        [createApplicationDto.email],
-        transaction,
+      const existinguser = await User.getByEmail(
+        createApplicationDto.email,
+        dependencies,
       );
-      if (existinguser.length) {
+      if (existinguser) {
         throw new HttpException(
           'A user with the same email already exist',
           HttpStatus.BAD_REQUEST,
