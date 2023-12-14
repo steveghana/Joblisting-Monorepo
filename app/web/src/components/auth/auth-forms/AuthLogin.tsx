@@ -39,8 +39,17 @@ import CustomButton from "../../button";
 import { GitHub, LinkedIn } from "@mui/icons-material";
 import Google from "../../../assets/images/icons/google.svg";
 import Zoom from "../../../assets/images/icons/Zoom App.svg";
-import { useLoginUserMutation } from "../../../store/services/userAuth.service";
+import {
+  useLoginUserMutation,
+  useLoginUserWithGoogleMutation,
+} from "../../../store/services/userAuth.service";
 import { useNavigate } from "react-router";
+import {
+  GoogleLogin,
+  TokenResponse,
+  useGoogleLogin,
+} from "@react-oauth/google";
+import { toast } from "react-toastify";
 export const Social = {
   Github: {
     color: "#131418",
@@ -61,7 +70,6 @@ export const Social = {
   },
 };
 export let handleSocial = {
-  Google: () => {},
   Github: () => {},
   Linkedin: () => {},
 };
@@ -77,10 +85,11 @@ const FirebaseLogin = ({ ...others }) => {
   const router = useNavigate();
 
   const [checked, setChecked] = useState(true);
-  const [loginUser, { isLoading, isError, error }] = useLoginUserMutation({});
-  const googleHandler = async () => {
-    console.error("Login");
-  };
+  const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
+  const [
+    loginWithGoogle,
+    { isLoading: isWithGoogleLoading, isError: isWithGoogleErr },
+  ] = useLoginUserWithGoogleMutation();
   async function login(values) {
     // const s = await api.user.login(values.email, values.password, false);
     const data = await loginUser({
@@ -102,6 +111,37 @@ const FirebaseLogin = ({ ...others }) => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const onGoogleSucess = async (
+    /*  codeResponse: Omit<
+      TokenResponse,
+      "error" | "error_description" | "error_uri"
+    > */
+    codeResponse
+  ) => {
+    try {
+      const response = await loginWithGoogle({
+        accessToken: codeResponse.access_token,
+      }).unwrap();
+      console.log(response, "tis is the response");
+
+      if (response) {
+        const { authTokenId, role } = response;
+        if (!authTokenId) return;
+        localStorage.setItem("auth_token", authTokenId);
+        localStorage.setItem("role", role);
+        router("/dashboard/default");
+      }
+    } catch (error) {
+      toast.error("Couldnt login user, please try again later", {
+        position: "bottom-center",
+      });
+    }
+    // console.log(codeResponse);
+  };
+  const loginAuth = useGoogleLogin({
+    onSuccess: (codeResponse) => onGoogleSucess(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -231,6 +271,7 @@ const FirebaseLogin = ({ ...others }) => {
                 <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
               </Box>
             </Grid>
+
             <Grid
               display={"flex"}
               justifyContent="center"
@@ -238,28 +279,42 @@ const FirebaseLogin = ({ ...others }) => {
               item
               xs={12}
             >
-              {Object.entries(handleSocial)?.map(([key, handler]) => {
-                if (
-                  typeof handler !== "function" ||
-                  !Social[key] ||
-                  !Social[key].icon
-                )
-                  return null;
-                return (
-                  <AnimateButton>
-                    <Button
-                      key={key}
-                      aria-label={`${key} login button`}
-                      onClick={handler}
-                      disabled={isLoading}
-                    >
-                      {React.createElement(Social[key].icon, {
-                        htmlColor: Social[key].color,
-                      })}
-                    </Button>
-                  </AnimateButton>
-                );
-              })}
+              <AnimateButton>
+                <Button
+                  aria-label={`login button`}
+                  disabled={isWithGoogleLoading}
+                  onClick={() => loginAuth()}
+                  // disabled={renderProps.disabled}
+                >
+                  {React.createElement(Social["Google"].icon, {
+                    htmlColor: Social["Google"].color,
+                  })}
+                </Button>
+              </AnimateButton>
+              <>
+                {Object.entries(handleSocial)?.map(([key, handler]) => {
+                  if (
+                    typeof handler !== "function" ||
+                    !Social[key] ||
+                    !Social[key].icon
+                  )
+                    return null;
+                  return (
+                    <AnimateButton>
+                      <Button
+                        key={key}
+                        aria-label={`${key} login button`}
+                        onClick={handler}
+                        disabled={isLoading}
+                      >
+                        {React.createElement(Social[key].icon, {
+                          htmlColor: Social[key].color,
+                        })}
+                      </Button>
+                    </AnimateButton>
+                  );
+                })}
+              </>
               {/* <AnimateButton>
             <Button
               disableElevation
