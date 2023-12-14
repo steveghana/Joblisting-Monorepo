@@ -70,9 +70,13 @@ const MainLayout = () => {
   const leftDrawerOpened = useSelector(
     (state: any) => state.customization?.opened
   );
+  const lockSider = true;
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
+    dispatch({
+      type: SET_MENU,
+      opened: lockSider ? !lockSider : !leftDrawerOpened,
+    });
   };
 
   return (
