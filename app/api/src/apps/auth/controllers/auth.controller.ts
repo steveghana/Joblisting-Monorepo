@@ -34,6 +34,7 @@ import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { AuthGuard } from '@nestjs/passport';
 import { HttpUser } from '../decorator/http-user.decorator';
 import { Response } from 'express';
+import { client } from '../../../util/validation';
 
 @Controller('/user')
 export class AuthController {
@@ -133,9 +134,15 @@ export class AuthController {
     );
     return res.status(200).send(result);
   }
-  // @UseGuards(AuthGuard('google'))
-  @Get('/')
-  googleAuthRedirect(@HttpUser() user: GoogleLoginUserDto, @Request() req) {
-    return true;
+  @Post('/login/google')
+  @UseFilters(new HttpExceptionFilter())
+  async googleAuthRedirect(
+    @Body() user: Record<any, any>,
+    @Request() req,
+    @Res() res,
+  ) {
+    const { user: userinfo } = user;
+    const result = await this.authService.googleLogin(userinfo);
+    return res.status(200).send(result);
   }
 }
