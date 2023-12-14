@@ -8,8 +8,9 @@ import BaseLayout from "../components/layouts/BaseLayout";
 import { Navigate } from "react-router";
 import { FormDataProvider } from "../utils/Contexts/clientFormContext";
 import InterviewEdit from "../views/Devs/Interview/interviewEdit";
-import DynamicRoles from "../views/dashboard/Roles/dynamicRoles";
-import ShortUrlPage from "../views/dashboard/Roles/dynamicRoles";
+import DynamicRoles from "../views/dashboard/Roles/shortRoleUrlResolver";
+import ShortUrlPage from "../views/dashboard/Roles/shortRoleUrlResolver";
+import ExternalRoles from "../views/dashboard/Roles/externalRoles";
 // dashboard routing
 const InterviewScheduler = Loadable(
   lazy(() => import("../views/HR/interviewSteps/InterviewScheduler"))
@@ -83,7 +84,7 @@ const MainRoutes = {
     },
     {
       path: "/c/:clientId",
-      element: <div>This is the new role page</div>,
+      element: <ExternalRoles />,
     },
     {
       path: "/dashboard",
