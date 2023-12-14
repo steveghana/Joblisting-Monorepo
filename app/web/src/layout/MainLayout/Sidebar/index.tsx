@@ -18,7 +18,7 @@ import { drawerWidth } from "../../../store/constant";
 
 const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
   const theme = useTheme();
-  const lockSider = true;
+  const lockSidebar = false;
 
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -64,7 +64,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
       component="nav"
       sx={{
         flexShrink: { md: 0 },
-        width: matchUpMd && !lockSider ? drawerWidth : "auto",
+        width: matchUpMd && !lockSidebar ? drawerWidth : "auto",
       }}
       aria-label="mailbox folders"
     >
@@ -72,7 +72,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
         container={container}
         variant={matchUpMd ? "persistent" : "temporary"}
         anchor="left"
-        open={lockSider ? !lockSider : drawerOpen}
+        open={lockSidebar ? !lockSidebar : drawerOpen}
         onClose={drawerToggle}
         sx={{
           "& .MuiDrawer-paper": {
