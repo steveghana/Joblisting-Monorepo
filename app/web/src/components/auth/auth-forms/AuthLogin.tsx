@@ -83,6 +83,7 @@ const FirebaseLogin = ({ ...others }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const customization = useSelector((state: any) => state.customization);
   const router = useNavigate();
+  const [googleloading, setgoogleloading] = useState(true);
 
   const [checked, setChecked] = useState(true);
   const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
@@ -112,11 +113,10 @@ const FirebaseLogin = ({ ...others }) => {
     setShowPassword(!showPassword);
   };
   const onGoogleSucess = async (
-    /*  codeResponse: Omit<
+    codeResponse: Omit<
       TokenResponse,
       "error" | "error_description" | "error_uri"
-    > */
-    codeResponse
+    >
   ) => {
     try {
       const response = await loginWithGoogle({
@@ -315,31 +315,6 @@ const FirebaseLogin = ({ ...others }) => {
                   );
                 })}
               </>
-              {/* <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: "grey.700",
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100],
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <Google
-                  // src={Google}
-                  // alt="google"
-                  width={16}
-                  height={16}
-                  style={{ marginRight: matchDownSM ? 8 : 16 }}
-                />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton> */}
             </Grid>
             <Stack
               direction="row"
@@ -377,11 +352,12 @@ const FirebaseLogin = ({ ...others }) => {
               </Box>
             )}
 
-            <Box sx={{ mt: 0 }}>
+            <Box sx={{ mt: -2 }}>
               <AnimateButton>
                 <CustomButton
+                  sx={{ m: 0 }}
                   disableElevation
-                  disabled={isSubmitting || isLoading}
+                  disabled={isSubmitting || isLoading || isWithGoogleLoading}
                   fullWidth
                   size="large"
                   text="Sign in"
