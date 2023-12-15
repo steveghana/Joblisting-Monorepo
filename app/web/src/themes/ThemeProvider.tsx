@@ -8,13 +8,13 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { ThemeOptions } from "@mui/material/styles";
 
 const ThemeProviderWrapper: React.FC<{ children: JSX.Element }> = (props) => {
-  const curThemeName = localStorage.getItem("appTheme") || "PureLightTheme";
+  const curThemeName = sessionStorage.getItem("appTheme") || "PureLightTheme";
 
   // themes(customization)
   const [themeName, _setThemeName] = useState(curThemeName);
   const theme = themeCreator(themeName);
   const setThemeName = (themeName: string): void => {
-    localStorage.setItem("appTheme", themeName);
+    sessionStorage.setItem("appTheme", themeName);
     _setThemeName(themeName);
   };
 
