@@ -5,6 +5,7 @@ import { IProfession, UserRoleSelection } from "../../types/roles";
 import { useNavigate } from "react-router";
 import { useTypedDispatch } from "../../store";
 import { userApi } from "../../store/services/userAuth.service";
+import { toast } from "react-toastify";
 interface ProtectedRouteProps {
   children: React.ReactNode;
   allowedRoles?: UserRoleSelection;
@@ -20,8 +21,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   //TODO: change to cookie
   // Check if the user is not authenticated
-  const session = localStorage.getItem("auth_token");
-  const role = localStorage.getItem("role");
+  const session = sessionStorage.getItem("auth_token");
+  const role = sessionStorage.getItem("role");
   const currentPageName = window.location.pathname.split("/").pop() || "";
   const router = useNavigate();
   //  const dispatch = useTypedDispatch();
@@ -38,6 +39,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     if (!session) {
       // Redirect to the login page or handle authentication as needed
       router("/auth/login");
+      toast.warn("No session was found, try loggin in", {
+        position: "bottom-center",
+      });
     }
     // dispatch(authSlice.actions.updateAccessToken(accessToken));
 
