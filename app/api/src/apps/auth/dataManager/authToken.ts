@@ -49,10 +49,7 @@ class AuthToken {
     return authToken;
   }
 
-  static async getWithUser(
-    id: string,
-    dependencies: Dependencies = null,
-  ): Promise<AuthToken> {
+  static async getWithUser(id: string, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const data = await getAuthTokenWithUser(id, dependencies);
     if (!data) {
@@ -62,7 +59,7 @@ class AuthToken {
     const authToken = new AuthToken(data.id, dependencies);
     authToken.data = data;
     authToken.data.user = data.user;
-    return authToken;
+    return authToken.data;
   }
 
   static async expireOfCredentialToken(
