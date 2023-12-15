@@ -12,11 +12,11 @@ interface IRegister {
   user: {
     firstName: string;
     lastName: string;
-    role: IProfession;
+    role?: IProfession;
     phoneNumber: string;
   } & IUser;
 }
-const authToken = sessionStorage.getItem("authToken");
+const authToken = localStorage.getItem("auth_token");
 type IResponseRg = { role: string; token: string };
 type IResponseLg = { role: string; authTokenId: string };
 
@@ -65,6 +65,25 @@ export const userApi = createApi({
         // providesTags: (result, error, id) => [{ type: "Post", id }],
       }
     ),
+    registerUserWithGoogle: builder.mutation<
+      IResponseRg,
+      { accessToken: string }
+    >({
+      query: ({ accessToken }) => ({
+        url: "user/register/google",
+        method: "POST",
+        body: { accessToken },
+      }),
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
+      // providesTags: (result, error, id) => [{ type: "Post", id }],
+    }),
     // getAccessToken: builder.query<AuthResponse, string>({
     //   query: (code) => {
     //     return {
@@ -80,13 +99,25 @@ export const userApi = createApi({
         method: "POST",
         body: user,
       }),
-      transformResponse: (response: IResponseRg, meta, arg) => {
-        // Dispatch data to Redux store upon successful query
-        // const dispatch = useTypedDispatch();
-        // dispatch();
-
-        return response;
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
       },
+    }),
+    updateUser: builder.mutation<number, { role: IProfession }>({
+      query: (user) => ({
+        url: "user/update",
+        method: "PATCH",
+        body: { ...user },
+        headers: {
+          Authorization: authToken ? authToken : "", //axios in version 0.21.1 put null objects as 'null' string.
+        },
+      }),
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any, meta, arg) => {
         const {
@@ -102,10 +133,20 @@ export const userApi = createApi({
         url: `user/${id}`,
         method: "GET",
       }),
-      transformResponse: (response: IUser, meta, arg) => {
-        return response;
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
       },
-      // Pick out errors and prevent nested properties in a hook or selector
+    }),
+    getRoles: builder.query<IProfession[], void>({
+      query: () => ({
+        url: `user`,
+        method: "GET",
+      }),
       transformErrorResponse: (response: any, meta, arg) => {
         const {
           data: {
@@ -121,6 +162,9 @@ export const userApi = createApi({
 export const {
   useLoginUserMutation,
   useLoginUserWithGoogleMutation,
+  useGetRolesQuery,
+  useRegisterUserWithGoogleMutation,
   useRegisterUserMutation,
+  useUpdateUserMutation,
   useGetUserQuery,
 } = userApi;
