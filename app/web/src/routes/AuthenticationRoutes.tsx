@@ -4,6 +4,7 @@ import MinimalLayout from "../layout/MinimalLayout";
 // project imports
 import Loadable from "../components/Loadable";
 import AuthCallBack from "../components/auth/login";
+import RoleAuth from "../components/auth/roleAuthForm";
 // import MinimalLayout from 'layout/MinimalLayout';
 
 // login option 3 routing
@@ -20,6 +21,10 @@ const AuthenticationRoutes = {
   path: "/",
   element: <MinimalLayout />,
   children: [
+    {
+      path: "/role/select",
+      element: <RoleAuth />,
+    },
     {
       path: "/auth/login",
       element: <AuthLogin3 />,
