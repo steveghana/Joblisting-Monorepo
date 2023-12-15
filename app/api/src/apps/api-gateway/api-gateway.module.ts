@@ -71,6 +71,23 @@ export class AppModule {
       //AuthTTL
       //OptionalAuth
       .apply(GoogleAuthMiddleware)
-      .forRoutes('/user/login/google');
+      .forRoutes(
+        {
+          path: '/user/login/google',
+          method: RequestMethod.POST,
+        },
+        {
+          path: '/user/register/google',
+          method: RequestMethod.POST,
+        },
+      )
+      .apply(AuthMiddleware)
+      .forRoutes(
+        //advertisement
+        {
+          path: '/user/update',
+          method: RequestMethod.PATCH,
+        },
+      );
   }
 }
