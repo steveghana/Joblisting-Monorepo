@@ -36,7 +36,13 @@ import { AuthGuard } from '@nestjs/passport';
 import { HttpUser } from '../decorator/http-user.decorator';
 import { Response } from 'express';
 import { client } from '../../../util/validation';
-
+import { IProfession } from '../../../types/user';
+interface IUser {
+  role?: IProfession | null;
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
 @Controller('/user')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -81,10 +87,11 @@ export class AuthController {
   // @UsePipes(ValidationPipe)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async login(@Body() req: any, @Res() res) {
+  async login(@Body() req: IUser, @Res() res) {
     const result = await this.authService.login(
       req.email,
       req.password,
+      req.role,
       req.rememberMe,
     );
 
