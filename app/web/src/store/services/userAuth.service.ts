@@ -5,6 +5,7 @@ import _api_url from "../../api/_api_url";
 import { TokenResponse } from "@react-oauth/google";
 
 interface IUser {
+  role?: IProfession;
   email: string;
   password: string;
 }
@@ -16,8 +17,11 @@ interface IRegister {
     phoneNumber: string;
   } & IUser;
 }
-const authToken = localStorage.getItem("auth_token");
-type IResponseRg = { role: string; token: string };
+type IResponseRg = {
+  token: string;
+  email: string;
+  password: string;
+};
 type IResponseLg = { role: string; authTokenId: string };
 
 export const USER_API_KEY = "userApi";
@@ -26,8 +30,12 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
-    headers: {
-      Authorization: authToken ? authToken : "",
+    prepareHeaders: (headers, { getState }) => {
+      const authToken = sessionStorage.getItem("auth_token");
+      if (authToken) {
+        headers.set("Authorization", authToken);
+      }
+      return headers;
     },
   }),
   endpoints: (builder) => ({
@@ -47,24 +55,25 @@ export const userApi = createApi({
       },
       // providesTags: (result, error, id) => [{ type: "Post", id }],
     }),
-    loginUserWithGoogle: builder.mutation<IResponseLg, { accessToken: string }>(
-      {
-        query: ({ accessToken }) => ({
-          url: "user/login/google",
-          method: "POST",
-          body: { accessToken },
-        }),
-        transformErrorResponse: (response: any, meta, arg) => {
-          const {
-            data: {
-              error: { message },
-            },
-          } = response;
-          return Array.isArray(message) ? message.join(",") : message;
-        },
-        // providesTags: (result, error, id) => [{ type: "Post", id }],
-      }
-    ),
+    loginUserWithGoogle: builder.mutation<
+      IResponseLg,
+      { accessToken: string; role?: IProfession }
+    >({
+      query: ({ accessToken }) => ({
+        url: "user/login/google",
+        method: "POST",
+        body: { accessToken },
+      }),
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(",") : message;
+      },
+      // providesTags: (result, error, id) => [{ type: "Post", id }],
+    }),
     registerUserWithGoogle: builder.mutation<
       IResponseRg,
       { accessToken: string }
@@ -114,9 +123,6 @@ export const userApi = createApi({
         url: "user/update",
         method: "PATCH",
         body: { ...user },
-        headers: {
-          Authorization: authToken ? authToken : "", //axios in version 0.21.1 put null objects as 'null' string.
-        },
       }),
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any, meta, arg) => {
