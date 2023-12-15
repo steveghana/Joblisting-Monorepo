@@ -23,8 +23,10 @@ import { UserEntity } from '../models/user.entity';
 import { GoogleLoginUserDto } from '../controllers/user.dto';
 import { IProfession, IUser } from '../../../types/user';
 import { generateAlphanumeric } from '../../../util/transaction';
+import uuid from '../../../util/uuid';
 // import { Cache } from 'cache-manager';
 interface IOAuthUser {
+  accessToken: string;
   email: string;
   names: Record<string, any>[];
   photos: Record<string, any>[];
@@ -34,7 +36,6 @@ export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(private jwtService: JwtService) {}
   async googleLogin(user: IOAuthUser, dependencies: Dependencies = null) {
-    console.log('long with google', user);
     dependencies = injectDependencies(dependencies, ['db', 'config']);
 
     if (!user) {
@@ -45,6 +46,7 @@ export class AuthService {
     ).url;
     const [authToken, userinfo] = await useTransaction(async (transaction) => {
       const userexist = await User.getByEmail(user.email, dependencies);
+      console.log(user, 'estien users');
       if (!userexist) {
         throw new HttpException(
           'User doesnt exists, try signing in',
@@ -129,7 +131,7 @@ export class AuthService {
       const [user, UserMethods] = await User.findElseCreate(
         {
           email,
-          role,
+          role: role || 'Developer',
           firstName,
           lastName,
         },
@@ -154,9 +156,7 @@ export class AuthService {
       );
       const payload = {
         email: user.email,
-        role: user.role,
-        firstName,
-        lastName,
+        password: password,
       };
       return {
         ...payload,
@@ -196,7 +196,7 @@ export class AuthService {
       const [user, UserMethods] = await User.findElseCreate(
         {
           email,
-          role: 'Marketing',
+          role: 'Developer',
           firstName: names[0],
           lastName: names[1],
           avatar: primaryimageUrl,
@@ -212,21 +212,19 @@ export class AuthService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const a = await AuthToken.createForUser(
-        user.email,
-        null,
+      await UserMethods.update(
+        {
+          password: passwordHash,
+        },
         transaction,
-        dependencies,
       );
       const payload = {
         email: user.email,
-        role: user.role,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        password: password,
       };
       return {
         ...payload,
-        token: a.id,
+        token: this.jwtService.sign(payload),
       };
     });
   }
@@ -234,6 +232,7 @@ export class AuthService {
   public async login(
     email: string,
     password: string,
+    role: IProfession | null,
     rememberMe = false,
     dependencies: Dependencies = null,
   ) {
@@ -245,6 +244,7 @@ export class AuthService {
       '',
       dependencies.config.authentication.passwordHashIterations,
     );
+    console.log(password, 'this is the password');
     const passwordMatches = await (exists
       ? user.passwordMatches(password)
       : cryptoUtil.compare('', fakePassword));
@@ -255,6 +255,7 @@ export class AuthService {
     if (exists && passwordIsEmpty) {
       throw new HttpException('passwordless user', HttpStatus.BAD_REQUEST);
     }
+    console.log(passwordMatches, 'matches');
 
     if (!exists || (exists && !passwordMatches)) {
       throw new HttpException(
@@ -278,11 +279,20 @@ export class AuthService {
           transaction,
           dependencies,
         );
+        if (role) {
+          await User.update(
+            {
+              email,
+              role,
+            },
+            transaction,
+          );
+        }
         return [a, c];
       },
       dependencies,
     );
-    const payload = { email: user.email, role: user.role };
+    const payload = { email: user.email, role: role || user.role };
 
     return {
       ...payload,
