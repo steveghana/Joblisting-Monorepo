@@ -8,7 +8,7 @@ import menuItem from "../../../../routes/menu-items";
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
-  const userRole = localStorage.getItem("role");
+  const userRole = sessionStorage.getItem("role");
   const filteredSidebarData = menuItem.items.filter((item) =>
     item.roles.includes(userRole)
   );
