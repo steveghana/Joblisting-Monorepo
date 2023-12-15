@@ -82,6 +82,22 @@ export async function getUser(
     return user;
   }, dependencies);
 }
+export async function getUserRoles(
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) {
+  dependencies = injectDependencies(dependencies, ['db']);
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return useTransaction(async (transaction) => {
+    const userRepo = transaction.getRepository(dependencies.db.models.user);
+    // console.log(email, 'from user db queries');
+    let user = await userRepo.find({});
+    return user
+      .filter((item) => item.role === 'Ceo' || item.role === 'Recruitment')
+      .map((item) => item.role);
+  }, dependencies);
+}
 
 export function getUsers(
   emails: string[],
@@ -112,7 +128,23 @@ export async function updateUser(
   user: Partial<IUser>,
   transaction: EntityManager,
   dependencies: Dependencies = null,
-): Promise<any> {
+): Promise<number> {
+  dependencies = injectDependencies(dependencies, ['db']);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const userRepo = transaction.getRepository(dependencies.db.models.user);
+  const { affected: done } = await userRepo.update(
+    { email: user.email.trim().toLowerCase() },
+    {
+      ...user,
+    },
+  );
+  return done;
+}
+export async function update(
+  user: Partial<IUser>,
+  transaction: EntityManager,
+  dependencies: Dependencies = null,
+): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const userRepo = transaction.getRepository(dependencies.db.models.user);
