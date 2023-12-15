@@ -146,6 +146,7 @@ class User {
 
   async passwordMatches(password: string): Promise<boolean> {
     await this.getDataIfNeeded();
+    console.log(password, this.password, 'dfdfd;fdk');
     return cryptoUtil.compare(password, this.data.password);
   }
   async update(
