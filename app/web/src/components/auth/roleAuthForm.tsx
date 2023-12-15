@@ -4,92 +4,97 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import {
   Box,
-  Button,
-  Checkbox,
   FormControl,
   FormHelperText,
   Grid,
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { IProfession } from "../../types/roles";
+import { ArrowForward } from "@mui/icons-material";
 import CustomButton from "../button";
-import { ArrowForward, ArrowForwardIos } from "@mui/icons-material";
-import {
-  useGetRolesQuery,
-  useUpdateUserMutation,
-} from "../../store/services/userAuth.service";
 import { useNavigate } from "react-router";
 import FullscreenProgress from "../FullscreenProgress/FullscreenProgress";
 import AuthFooter from "../AuthFooter";
 import LogoSection from "../../layout/MainLayout/LogoSection";
-// interface RoleProps {
-//   setisNew: () => void;
-//   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
-//   role: IProfession;
-// }
+import { useLoginUserMutation } from "../../store/services/userAuth.service";
+import { IProfession } from "../../types/roles";
+import { toast } from "react-toastify";
+
 function RoleAuth() {
   const [error, setError] = useState(false);
-  const [role, setRole] = React.useState<IProfession>();
+  const [role, setRole] = useState<IProfession>();
   const navigate = useNavigate();
-  const [helperText, setHelperText] = React.useState("");
-  const handleRadioChange = (event: any) => {
-    setRole(event.target.value);
-  };
-  const [updateUser, { isError, isLoading }] = useUpdateUserMutation();
+  const [helperText, setHelperText] = useState("");
+  const [loginUser, { isLoading: isWithGoogleLoading }] =
+    useLoginUserMutation();
+
   const roles = ["Ceo", "Recruitment"];
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRole(event.target.value as IProfession);
+  };
+
   const onMoveToRegister = async () => {
     if (!role) {
       setError(true);
       setHelperText("Please select an option.");
       return;
     }
-    try {
-      // let token = localStorage.getItem("auth_token");
 
-      const updating = await updateUser({
+    try {
+      const { email, password }: { email: string; password: string } =
+        JSON.parse(sessionStorage.getItem("tempUserinfo")) || {};
+
+      const login = await loginUser({
         role,
+        email,
+        password,
+        rememberMe: true,
       }).unwrap();
-      if (updating && !isError) {
-        localStorage.setItem("role", role);
-        navigate("/dashboard/default");
-      }
+
+      if (!login) return;
+
+      const { authTokenId, role: userRole } = login;
+      if (!authTokenId) return;
+
+      sessionStorage.setItem("auth_token", authTokenId);
+      sessionStorage.setItem("role", userRole);
+      //clear tempUserinfo
+      sessionStorage.removeItem("tempUserinfo");
+      navigate("/dashboard/default");
+      toast.success(`Welcome aboard`, { position: "top-center" });
     } catch (error) {
-      console.log("Eror message:", error);
+      console.error("Error during login:", error);
     }
   };
-  if (isLoading) {
+
+  if (isWithGoogleLoading) {
     return <FullscreenProgress />;
   }
+
   return (
     <Grid
-      sx={{ height: "100dvh" }}
-      display={"flex"}
-      justifyContent={"center"}
-      flexDirection={"column"}
+      sx={{ height: "100vh" }}
+      display="flex"
+      justifyContent="center"
+      flexDirection="column"
       gap={2}
-      alignItems={"center"}
+      alignItems="center"
     >
       <Grid>
         <LogoSection />
       </Grid>
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        gap={1}
-        alignItems={"center"}
-      >
-        <Typography fontFamily={"Didact Gothic"} fontWeight={400} variant="h1">
-          {" "}
-          Lets sign you up
+      <Box display="flex" flexDirection="column" gap={1} alignItems="center">
+        <Typography fontFamily="Didact Gothic" fontWeight={400} variant="h1">
+          Let's sign you up
         </Typography>
         <Typography
-          fontFamily={"Lato"}
+          fontFamily="Lato"
           fontWeight={400}
           variant="caption"
-          color={"GrayText"}
+          color="GrayText"
         >
-          Create a free account now and lets get started
+          Create a free account now and let's get started
         </Typography>
         <div>Select an Account Type</div>
       </Box>
@@ -100,30 +105,30 @@ function RoleAuth() {
         variant="standard"
       >
         <RadioGroup>
-          {roles.map((r, i) => (
+          {roles.map((roleName) => (
             <FormControlLabel
-              key={r}
+              key={roleName}
               control={<Radio />}
-              label={r}
+              label={roleName}
               sx={{
                 my: 1,
                 ml: 1.5,
                 borderRadius: "5px",
                 border: role === "Ceo" ? "1px solid blue" : "1px solid gray",
               }}
-              value={r}
-              checked={role === r}
+              value={roleName}
+              checked={role === roleName}
               onChange={handleRadioChange}
             />
           ))}
           <FormHelperText>{helperText}</FormHelperText>
         </RadioGroup>
         <CustomButton
-          text="continue"
-          disabled={isLoading}
+          text="Continue"
+          disabled={isWithGoogleLoading}
           endIcon={<ArrowForward />}
           loadingPosition="end"
-          loading={isLoading}
+          loading={isWithGoogleLoading}
           onClick={onMoveToRegister}
         />
       </FormControl>
