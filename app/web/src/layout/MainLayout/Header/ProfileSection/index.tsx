@@ -60,7 +60,7 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef<HTMLDivElement>(null);
   const handleLogout = async () => {
-    localStorage.clear();
+    sessionStorage.clear();
     navigate("auth/login");
     console.log("Logout");
   };
