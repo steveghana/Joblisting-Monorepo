@@ -27,30 +27,23 @@ export class AuthMiddleware implements NestMiddleware {
     try {
       console.log('Authenticate middleware entered', process.env.NODE_ENV);
       const authTokenId = req.headers.authorization;
-      console.log(authTokenId);
       if (!authTokenId) {
-        res.status(403).send('Authorization header required');
-        // throw new HttpException(
-        //   'Authorization header required',
-        //   HttpStatus.FORBIDDEN,
-        // );
-        return;
+        throw new HttpException(
+          'Authorization header required',
+          HttpStatus.FORBIDDEN,
+        );
       }
       const authToken = await AuthToken.getWithUser(
         authTokenId,
         this.dependencies,
       );
       if (!authToken) {
-        res.status(403).send('not found');
-        // throw new HttpException('Not found', HttpStatus.FORBIDDEN);
-        return;
+        throw new HttpException('Not found', HttpStatus.FORBIDDEN);
       }
-      if (authToken.isInactive()) {
-        // throw new HttpException('inactive', HttpStatus.FORBIDDEN);
-        res.status(403).send('inactive');
-
-        return;
-      }
+      // if (authToken.isInactive()) {
+      //   throw new HttpException('inactive', HttpStatus.FORBIDDEN);
+      //   // res.status(403).send('inactive');
+      // }
       req.requestingAuthToken = authToken;
       req.requestingUser = authToken.user;
       next();
