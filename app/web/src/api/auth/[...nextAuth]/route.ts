@@ -1,7 +1,7 @@
 // import { signJwt } from "@/lib/jwt";
 // import { SupabaseAdapter } from '@auth/supabase-adapter';
 // import { Adapter } from 'next-auth/adapters';
-import NextAuth from 'next-auth';
+import NextAuth from "next-auth";
 // import GoogleProvider from 'next-auth/providers/google';
 // import { signJwt } from 'src/lib/jwt';
 type UserWithRole = {
@@ -26,7 +26,7 @@ const handler = NextAuth({
     // })
   ],
   session: {
-    strategy: 'jwt'
+    strategy: "jwt",
   },
   // adapter: SupabaseAdapter({
   //   url: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -34,7 +34,7 @@ const handler = NextAuth({
   // }) as Adapter,
   callbacks: {
     async jwt({ token, account }) {
-      const local_authtoken = localStorage.getItem('auth_token');
+      const local_authtoken = sessionStorage.getItem("auth_token");
       if (local_authtoken) {
         token.auth_token = local_authtoken;
       }
@@ -46,16 +46,16 @@ const handler = NextAuth({
         //   expires_at: account.expires_at
         // });
       }
-      console.log(token, ' from setup');
+      console.log(token, " from setup");
       return token;
     },
     async session({ session, token }) {
-      const role = localStorage.getItem('role');
+      const role = sessionStorage.getItem("role");
       // session.auth_token = token.auth_token as string;
       session.user = { ...session.user, role } as UserWithRole;
       return session;
-    }
-  }
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
