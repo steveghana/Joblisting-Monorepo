@@ -16,6 +16,7 @@ import {
   Next,
   UseGuards,
   Request,
+  Patch,
 } from '@nestjs/common';
 // import validationUtil from '../../../util/validation';
 import {
@@ -136,7 +137,7 @@ export class AuthController {
   }
   @Post('/login/google')
   @UseFilters(new HttpExceptionFilter())
-  async googleAuthRedirect(
+  async googleAuthLogin(
     @Body() user: Record<any, any>,
     @Request() req,
     @Res() res,
@@ -144,5 +145,29 @@ export class AuthController {
     const { user: userinfo } = user;
     const result = await this.authService.googleLogin(userinfo);
     return res.status(200).send(result);
+  }
+  @Post('/register/google')
+  @UseFilters(new HttpExceptionFilter())
+  async googleAuthRegister(
+    @Body() user: Record<any, any>,
+    @Request() req,
+    @Res() res,
+  ) {
+    const { user: userinfo } = user;
+    const result = await this.authService.googleRegister(userinfo);
+    return res.status(200).send(result);
+  }
+  @Get('')
+  @UseFilters(new HttpExceptionFilter())
+  async getRoles(@Request() req, @Res() res) {
+    const result = await this.authService.getUsersRoles();
+    return res.status(200).send(result);
+  }
+  @Patch('/update')
+  @UseFilters(new HttpExceptionFilter())
+  async update(@Req() req, @Res() res: Response, @Next() next) {
+    const result = await this.authService.update(req.requestingUser, req.role);
+    console.log(result, 'tis is theresu');
+    return res.json(result);
   }
 }
