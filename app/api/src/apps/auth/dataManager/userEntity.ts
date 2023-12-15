@@ -6,6 +6,7 @@ import {
   findOrCreateUser,
   getUser,
   updateUser,
+  getUserRoles,
   getUsers,
   createUsers,
   findElseCreateUser,
@@ -15,6 +16,7 @@ import cryptoUtil from '../../../util/crypto';
 import { UserEntity } from '../models/user.entity';
 import { EntityManager } from 'typeorm';
 import { IUser } from '../../../types/user';
+import { HttpException, HttpStatus } from '@nestjs/common';
 // This creates a new type that has all the properties of UserEntity but makes them optional
 type PartialUserEntity = Partial<UserEntity>;
 
@@ -87,16 +89,18 @@ class User {
     return [userData, newUser];
   }
 
-  static async getByEmail(
-    emails: string,
-    dependencies: Dependencies = null,
-  ): Promise<User> {
+  static async getByEmail(emails: string, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const userDatas = await getUser(emails, dependencies);
-    console.log(userDatas, 'user');
+    if (!userDatas) {
+      throw new HttpException(
+        'User doesnt exists, try signing in',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const user = new User(userDatas.email, dependencies);
     user.data = userDatas;
-    return user;
+    return user.data;
   }
   static async update(
     user: Partial<IUser>,
@@ -105,6 +109,15 @@ class User {
   ) {
     dependencies = injectDependencies(dependencies, ['db']);
     const userUpdated = await updateUser(user, transaction, dependencies);
+    // console.log(userDatas, 'user')
+    return userUpdated;
+  }
+  static async getUserRoles(
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    const userUpdated = await getUserRoles(transaction, dependencies);
     // console.log(userDatas, 'user')
     return userUpdated;
   }
