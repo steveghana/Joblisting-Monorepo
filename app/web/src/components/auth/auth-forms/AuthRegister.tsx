@@ -105,30 +105,37 @@ const FirebaseRegister = ({ ...others }) => {
       password,
       email,
       lastName,
-      role: uerRole,
+      role: userRole,
       phoneNumber,
     } = values;
+
     try {
       const data = await registerUser({
-        user: {
-          firstName,
-          password,
-          email,
-          phoneNumber,
-          lastName,
-        },
+        user: { firstName, password, email, phoneNumber, lastName },
       }).unwrap();
-      console.log(data);
+
       if (!data) return;
-      const { token, role } = data;
-      if (!token) return;
-      localStorage.setItem("auth_token", token);
-      if (scriptedRef.current) {
-        setStatus({ success: true });
-        setSubmitting(false);
+
+      const { token } = data;
+
+      if (token) {
+        // Use secure HTTP-only cookie for token storage
+        sessionStorage.setItem(
+          "tempUserinfo",
+          JSON.stringify({
+            email,
+            password,
+          })
+        );
+        router("/role/select");
+
+        if (scriptedRef.current) {
+          setStatus({ success: true });
+          setSubmitting(false);
+        }
+
+        return true;
       }
-      router("/role/select");
-      return true;
     } catch (error) {
       setStatus({ success: false });
       setErrors({ submit: error.data });
@@ -136,10 +143,7 @@ const FirebaseRegister = ({ ...others }) => {
     }
   }
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  const onGoogleSucess = async (
+  const onGoogleSuccess = async (
     codeResponse: Omit<
       TokenResponse,
       "error" | "error_description" | "error_uri"
@@ -149,26 +153,31 @@ const FirebaseRegister = ({ ...others }) => {
       const response = await registerWithGoogle({
         accessToken: codeResponse.access_token,
       }).unwrap();
-      console.log(response, "tis is the response");
 
       if (response.token) {
-        const { token } = response;
-        localStorage.setItem("auth_token", token);
-        // localStorage.setItem("role", role);
+        const { email, password } = response;
+        //This is a temporal user info login re login, tempUserinfo will be cleared upon login
+        sessionStorage.setItem(
+          "tempUserinfo",
+          JSON.stringify({
+            email,
+            password,
+          })
+        );
         router("/role/select");
       }
     } catch (error) {
-      toast.error("Couldnt register with google, please try again later", {
+      toast.error("Couldn't register with Google, please try again later", {
         position: "bottom-center",
       });
     }
-    // console.log(codeResponse);
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
   const loginAuth = useGoogleLogin({
-    onSuccess: (codeResponse) => onGoogleSucess(codeResponse),
+    onSuccess: (codeResponse) => onGoogleSuccess(codeResponse),
     onError: (error) => console.log("Login Failed:", error),
   });
   const changePassword = (value) => {
@@ -192,22 +201,23 @@ const FirebaseRegister = ({ ...others }) => {
 
   return (
     <>
-      {!regAvailable && (
-        <Grid
-          sx={{
-            background: "rgba(23, 22, 22, 0.19)",
-            position: "absolute",
-            zIndex: "3",
-            inset: "0 0 0 0",
-            // height: "100dvh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TransparentScreeProgress />
-        </Grid>
-      )}
+      {!regAvailable ||
+        (isWithGoogleLoading && (
+          <Grid
+            sx={{
+              background: "rgba(23, 22, 22, 0.19)",
+              position: "absolute",
+              zIndex: "3",
+              inset: "0 0 0 0",
+              // height: "100dvh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TransparentScreeProgress />
+          </Grid>
+        ))}
       <Formik
         initialValues={{
           email: "",
@@ -341,7 +351,6 @@ const FirebaseRegister = ({ ...others }) => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                       size="large"
