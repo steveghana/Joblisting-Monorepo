@@ -30,11 +30,11 @@ export default function AuthWrapper2(props) {
         >
           <Box
             sx={{
-              my: 8,
               mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {props.children}
