@@ -21,16 +21,21 @@ import {
 
 import { UserEntity } from '../models/user.entity';
 import { GoogleLoginUserDto } from '../controllers/user.dto';
-import { IProfession } from '../../../types/user';
+import { IProfession, IUser } from '../../../types/user';
+import { generateAlphanumeric } from '../../../util/transaction';
 // import { Cache } from 'cache-manager';
-
+interface IOAuthUser {
+  email: string;
+  names: Record<string, any>[];
+  photos: Record<string, any>[];
+}
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(private jwtService: JwtService) {}
-  async googleLogin(user: Record<any, any>, dependencies: Dependencies = null) {
+  async googleLogin(user: IOAuthUser, dependencies: Dependencies = null) {
+    console.log('long with google', user);
     dependencies = injectDependencies(dependencies, ['db', 'config']);
-    const newuser = new User(user.email, dependencies);
 
     if (!user) {
       throw new UnauthorizedException('No user from google');
@@ -38,9 +43,8 @@ export class AuthService {
     const primaryimageUrl = user.photos.find(
       (item) => item.metadata.primary === true,
     ).url;
-    const authToken = await useTransaction(async (transaction) => {
+    const [authToken, userinfo] = await useTransaction(async (transaction) => {
       const userexist = await User.getByEmail(user.email, dependencies);
-      console.log(userexist, 'estien users');
       if (!userexist) {
         throw new HttpException(
           'User doesnt exists, try signing in',
@@ -60,9 +64,9 @@ export class AuthService {
         transaction,
         dependencies,
       );
-      return a;
+      return [a, userexist];
     }, dependencies);
-    const payload = { email: user.email, role: user.role };
+    const payload = { email: user.email, role: userinfo.role };
 
     return {
       ...payload,
@@ -157,6 +161,72 @@ export class AuthService {
       return {
         ...payload,
         token: this.jwtService.sign(payload),
+      };
+    });
+  }
+  public async googleRegister(
+    user: IOAuthUser,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
+    if (!user) {
+      throw new UnauthorizedException('No user from google');
+    }
+    const primaryimageUrl = user.photos.find(
+      (item) => item.metadata.primary === true,
+    ).url;
+    const userNames: string = user.names.find(
+      (item) => item.metadata.primary === true,
+    ).displayName;
+
+    const { email } = user;
+    if (!userNames || userNames === '') {
+      throw new HttpException(
+        'Google user cannot be authenticated',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const names = userNames.split(' ');
+    const password = await generateAlphanumeric(10);
+    const passwordHash = await cryptoUtil.hash(
+      password,
+      dependencies.config!.authentication!.passwordHashIterations,
+    );
+    return useTransaction(async (transaction) => {
+      const [user, UserMethods] = await User.findElseCreate(
+        {
+          email,
+          role: 'Marketing',
+          firstName: names[0],
+          lastName: names[1],
+          avatar: primaryimageUrl,
+        },
+        passwordHash,
+        transaction,
+        dependencies,
+      );
+      if (!(await UserMethods.isNewlyCreated)) {
+        console.log('throwing new exceptions ...........');
+        throw new HttpException(
+          'User already exists, try signing up',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const a = await AuthToken.createForUser(
+        user.email,
+        null,
+        transaction,
+        dependencies,
+      );
+      const payload = {
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      };
+      return {
+        ...payload,
+        token: a.id,
       };
     });
   }
@@ -274,6 +344,7 @@ export class AuthService {
       credentialTokenUuid: newCredentialTokenUuid,
     };
   }
+
   async logout(
     authTokenId: string,
     credentialTokenUuid: string,
@@ -287,5 +358,29 @@ export class AuthService {
       CredentialToken.deactivateByUuid(credentialTokenUuid, dependencies),
     ]);
     // return new LogoutSuccess();
+  }
+  async update(
+    user: Partial<IUser>,
+    role: IProfession,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await useTransaction(async (transaction) => {
+      const userupdated = await User.update(
+        { role, email: user.email },
+        transaction,
+        dependencies,
+      );
+      return userupdated;
+    }, dependencies);
+    // const authToken = new AuthToken(authTokenId, dependencies);
+  }
+  async getUsersRoles(dependencies: Dependencies = null) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await useTransaction(async (transaction) => {
+      const userupdated = await User.getUserRoles(transaction, dependencies);
+      return userupdated;
+    }, dependencies);
+    // const authToken = new AuthToken(authTokenId, dependencies);
   }
 }
