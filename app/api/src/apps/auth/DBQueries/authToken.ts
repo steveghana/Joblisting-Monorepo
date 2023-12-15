@@ -76,7 +76,7 @@ export async function createAuthToken(
 export async function getAuthTokenWithUser(
   authTokenId: string,
   dependencies: Dependencies = null,
-): Promise<IAuthToken & { user: IUser }> {
+) {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return useTransaction(async (transaction) => {
@@ -90,7 +90,7 @@ export async function getAuthTokenWithUser(
       },
       relations: ['user'],
     });
-    return data && ((await data) as unknown as IAuthToken & { user: IUser });
+    return data;
   }, dependencies);
 }
 
