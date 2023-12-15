@@ -6,7 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
+  Button,
   Checkbox,
+  CircularProgress,
+  Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -40,8 +43,18 @@ import { themeTypography } from "../../../themes/schemes/typography";
 import CustomButton from "../../button";
 import RoleAuth from "../roleAuthForm";
 import { IProfession } from "../../../types/roles";
-import { useRegisterUserMutation } from "../../../store/services/userAuth.service";
+import {
+  useGetRolesQuery,
+  useRegisterUserMutation,
+  useRegisterUserWithGoogleMutation,
+} from "../../../store/services/userAuth.service";
 import { Send } from "@mui/icons-material";
+import { Social, handleSocial } from "./AuthLogin";
+import { useGoogleLogin, TokenResponse } from "@react-oauth/google";
+import { toast } from "react-toastify";
+import FullscreenProgress, {
+  TransparentScreeProgress,
+} from "../../FullscreenProgress/FullscreenProgress";
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -49,16 +62,42 @@ const FirebaseRegister = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
+  const {
+    data,
+    isLoading,
+    isError: isRolesError,
+    error: rolesError,
+  } = useGetRolesQuery();
+  // const data = ["Ceo", "Recruitment"];
   // const customization = useSelector((state: any) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
-  const [isNew, setisNew] = React.useState(true);
-  const [role, setRole] = React.useState<IProfession>();
-
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
+  const [regAvailable, setRegAvailable] = useState<boolean>(false);
   const [registerUser, { isError, error }] = useRegisterUserMutation();
+  const [
+    registerWithGoogle,
+    { isLoading: isWithGoogleLoading, isError: isWithGoogleErr },
+  ] = useRegisterUserWithGoogleMutation();
   const router = useNavigate();
+  const checkRegistration = () => {
+    if (
+      !!data?.length &&
+      data.includes("Ceo") &&
+      data.includes("Recruitment")
+    ) {
+      toast.warn("Registration is not available at the moment", {
+        position: "bottom-center",
+      });
+      router("/auth/login");
+      return false;
+      // Both "Ceo" and "Recruitment" are present in the data array then rg is open
+    }
+    // Either "Ceo" or "Recruitment" (or both) are not present in the data array then not open :TODO: change later
+    return true;
+  };
+
   async function register(values, setters, scriptedRef) {
     const { setStatus, setErrors, setSubmitting } = setters;
     const {
@@ -77,7 +116,6 @@ const FirebaseRegister = ({ ...others }) => {
           email,
           phoneNumber,
           lastName,
-          role: uerRole,
         },
       }).unwrap();
       console.log(data);
@@ -85,12 +123,11 @@ const FirebaseRegister = ({ ...others }) => {
       const { token, role } = data;
       if (!token) return;
       localStorage.setItem("auth_token", token);
-      localStorage.setItem("role", role);
       if (scriptedRef.current) {
         setStatus({ success: true });
         setSubmitting(false);
       }
-      router("/dashboard/default");
+      router("/role/select");
       return true;
     } catch (error) {
       setStatus({ success: false });
@@ -98,38 +135,79 @@ const FirebaseRegister = ({ ...others }) => {
       setSubmitting(false);
     }
   }
-  const googleHandler = async () => {
-    console.error("Register");
-  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const onGoogleSucess = async (
+    codeResponse: Omit<
+      TokenResponse,
+      "error" | "error_description" | "error_uri"
+    >
+  ) => {
+    try {
+      const response = await registerWithGoogle({
+        accessToken: codeResponse.access_token,
+      }).unwrap();
+      console.log(response, "tis is the response");
 
+      if (response.token) {
+        const { token } = response;
+        localStorage.setItem("auth_token", token);
+        // localStorage.setItem("role", role);
+        router("/role/select");
+      }
+    } catch (error) {
+      toast.error("Couldnt register with google, please try again later", {
+        position: "bottom-center",
+      });
+    }
+    // console.log(codeResponse);
+  };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const loginAuth = useGoogleLogin({
+    onSuccess: (codeResponse) => onGoogleSucess(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
   const changePassword = (value) => {
     const temp = strengthIndicator(value);
     setStrength(temp);
     setLevel(strengthColor(temp));
   };
-
   useEffect(() => {
     changePassword("123456");
   }, []);
-  if (isNew) {
-    return (
-      <RoleAuth
-        setSelectedValue={setRole}
-        selectedValue={role}
-        setisNew={() => setisNew(false)}
-      />
-    );
-  }
+  useEffect(() => {
+    console.log(data, "in usefect");
+    if (!isLoading) {
+      setTimeout(() => {
+        const checked = checkRegistration();
+        console.log(checked);
+        setRegAvailable(checked);
+      }, 3000);
+    }
+  }, [isLoading]);
+
   return (
     <>
+      {!regAvailable && (
+        <Grid
+          sx={{
+            background: "rgba(23, 22, 22, 0.19)",
+            position: "absolute",
+            zIndex: "3",
+            inset: "0 0 0 0",
+            // height: "100dvh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TransparentScreeProgress />
+        </Grid>
+      )}
       <Formik
         initialValues={{
           email: "",
@@ -193,7 +271,7 @@ const FirebaseRegister = ({ ...others }) => {
                   sx={{ ...themeTypography.customInput }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   value={values.phoneNumber}
@@ -303,7 +381,77 @@ const FirebaseRegister = ({ ...others }) => {
                 </Box>
               </FormControl>
             )}
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
 
+                <Button
+                  variant="outlined"
+                  sx={{
+                    cursor: "unset",
+                    borderColor: `${theme.palette.grey[100]} !important`,
+                    color: `${theme.palette.grey[900]}!important`,
+                    fontWeight: 500,
+                  }}
+                  disableRipple
+                  disabled
+                >
+                  OR
+                </Button>
+
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+              </Box>
+            </Grid>
+
+            <Grid
+              display={"flex"}
+              justifyContent="center"
+              alignItems={"center"}
+              item
+              xs={12}
+            >
+              <AnimateButton>
+                <Button
+                  aria-label={`login button`}
+                  disabled={isWithGoogleLoading}
+                  onClick={() => loginAuth()}
+                  // disabled={renderProps.disabled}
+                >
+                  {React.createElement(Social["Google"].icon, {
+                    htmlColor: Social["Google"].color,
+                  })}
+                </Button>
+              </AnimateButton>
+              <>
+                {Object.entries(handleSocial)?.map(([key, handler]) => {
+                  if (
+                    typeof handler !== "function" ||
+                    !Social[key] ||
+                    !Social[key].icon
+                  )
+                    return null;
+                  return (
+                    <AnimateButton>
+                      <Button
+                        key={key}
+                        aria-label={`${key} login button`}
+                        onClick={handler}
+                        disabled={isWithGoogleLoading}
+                      >
+                        {React.createElement(Social[key].icon, {
+                          htmlColor: Social[key].color,
+                        })}
+                      </Button>
+                    </AnimateButton>
+                  );
+                })}
+              </>
+            </Grid>
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
                 <FormControlLabel
@@ -351,7 +499,7 @@ const FirebaseRegister = ({ ...others }) => {
               <AnimateButton>
                 <CustomButton
                   disableElevation
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isWithGoogleLoading}
                   fullWidth
                   size="large"
                   variant="contained"
