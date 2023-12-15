@@ -101,10 +101,12 @@ const FirebaseLogin = ({ ...others }) => {
     if (!data) return;
     const { authTokenId, role } = data;
     if (!authTokenId) return;
-    localStorage.setItem("auth_token", authTokenId);
-    localStorage.setItem("role", role);
+    sessionStorage.setItem("auth_token", authTokenId);
+    sessionStorage.setItem("role", role);
 
     router("/dashboard/default");
+    toast.success(`Welcome back`, { position: "top-center" });
+
     return true;
   }
 
@@ -127,9 +129,10 @@ const FirebaseLogin = ({ ...others }) => {
       if (response) {
         const { authTokenId, role } = response;
         if (!authTokenId) return;
-        localStorage.setItem("auth_token", authTokenId);
-        localStorage.setItem("role", role);
+        sessionStorage.setItem("auth_token", authTokenId);
+        sessionStorage.setItem("role", role);
         router("/dashboard/default");
+        toast.success(`Welcome back`, { position: "top-center" });
       }
     } catch (error) {
       toast.error("Couldnt login user, please try again later", {
