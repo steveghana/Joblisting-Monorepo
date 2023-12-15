@@ -87,7 +87,7 @@ const loginWithCredentialToken = (
 };
 
 const logoutUser = (): Promise<void> => {
-  const credentialToken = localStorage.getItem("credentialToken");
+  const credentialToken = sessionStorage.getItem("credentialToken");
   return apiCall("post", "user/logout", { credentialToken }).then(() => {});
 };
 
