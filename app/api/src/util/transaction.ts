@@ -34,7 +34,7 @@ export function ensureTransaction<T>(
 export function generateAlphanumeric(length: number): string {
   const options =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  return Array.from(' '.repeat(length))
+  return Array.from({ length })
     .map(() => options[Math.floor(Math.random() * options.length)])
     .join('');
 }
