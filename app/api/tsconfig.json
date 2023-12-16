@@ -10,6 +10,7 @@
     "target": "es2017",
     "sourceMap": true,
     "allowJs": true,
+    "moduleResolution": "node",
     "strictPropertyInitialization": false,
     "outDir": "./dist",
     "rootDir": "./",
