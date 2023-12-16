@@ -27,6 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
     try {
       console.log('Authenticate middleware entered', process.env.NODE_ENV);
       const authTokenId = req.headers.authorization;
+      console.log(authTokenId, './////...........', (req as Request).url);
       if (!authTokenId) {
         throw new HttpException(
           'Authorization header required',
