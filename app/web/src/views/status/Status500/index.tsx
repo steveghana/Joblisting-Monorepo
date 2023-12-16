@@ -1,18 +1,13 @@
-import { useState } from "react";
-import {
-  Box,
-  Typography,
-  Hidden,
-  Container,
-  Button,
-  Grid,
-} from "@mui/material";
+import { useState } from 'react';
+import { Box, Typography, Hidden, Container, Button, Grid } from '@mui/material';
 // import { Helmet } from "react-helmet-async";
-import RefreshTwoToneIcon from "@mui/icons-material/RefreshTwoTone";
-import LoadingButton from "@mui/lab/LoadingButton";
-import status404 from "../../../assets/status/500.svg";
+import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
+import LoadingButton from '@mui/lab/LoadingButton';
+import status404 from '../../../assets/status/500.svg';
 
-import { styled } from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
+import CustomButton from '../../../components/button';
+import AuthFooter from '../../../components/AuthFooter';
 
 const GridWrapper = styled(Grid)(
   ({ theme }) => `
@@ -31,23 +26,14 @@ const MainContent = styled(Box)(
     justify-content: center;
 `
 );
-
-const TypographyPrimary = styled(Typography)(
-  ({ theme }) => `
-      color: ${theme.colors?.alpha?.white[100]};
-`
-);
-
-const TypographySecondary = styled(Typography)(
-  ({ theme }) => `
-      color: ${theme.colors?.alpha?.white[70]};
-`
-);
+const StatusImage = styled('img')({
+  height: 260,
+});
 
 function Status500() {
   const [pending, setPending] = useState(false);
   function handleClick() {
-    setPending(true);
+    window.location.reload();
   }
 
   return (
@@ -55,73 +41,32 @@ function Status500() {
       {/* <Helmet>
         <title>Status - 500</title>
       </Helmet> */}
-      <MainContent height={"100vh"} sx={{ background: "white" }}>
-        <Grid
-          container
-          sx={{ height: "100%" }}
-          alignItems="stretch"
-          spacing={0}
-        >
-          <Grid
-            xs={12}
-            md={6}
-            alignItems="center"
-            display="flex"
-            justifyContent="center"
-            item
-          >
-            <Container maxWidth="sm">
-              <Box textAlign="center">
-                <img alt="500" height={260} src={status404} />
-                <Typography variant="h2" sx={{ my: 2 }}>
-                  There was an error, please try again later
-                </Typography>
-                <Typography
-                  variant="h4"
-                  color="text.secondary"
-                  fontWeight="normal"
-                  sx={{ mb: 4 }}
-                >
-                  The server encountered an internal error and was not able to
-                  complete your request
-                </Typography>
-                <LoadingButton
-                  onClick={handleClick}
-                  loading={pending}
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<RefreshTwoToneIcon />}
-                >
-                  Refresh view
-                </LoadingButton>
-                <Button href="/overview" variant="contained" sx={{ ml: 1 }}>
-                  Go back
-                </Button>
+      <MainContent>
+        <Grid container sx={{ background: 'white', alignSelf: 'center' }} height="100dvh" alignItems="stretch" spacing={0}>
+          <Grid xs={12} md={12} alignItems="center" display="flex" justifyContent="center" mt={'auto'} item>
+            <Container maxWidth="lg">
+              <Box textAlign="center" display="flex" alignItems="center">
+                <StatusImage alt="500" src={status404} />
+                <Box ml={2}>
+                  <Typography color="text.secondary" variant="h2">
+                    There was an error, please try again later
+                  </Typography>
+                  <Typography variant="h4" color="text.secondary" fontWeight="normal">
+                    The server encountered an internal error and was not able to complete your request
+                  </Typography>
+                  <Box display={'flex'} justifyContent={'center'} gap={1}>
+                    <CustomButton text="Refresh view" onClick={handleClick} loading={pending} color="primary" endIcon={<RefreshTwoToneIcon />} />
+                    <CustomButton text="Go back" href="/auth/login" variant="outlined" sx={{ ml: 1 }} />
+                  </Box>
+                </Box>
               </Box>
             </Container>
           </Grid>
-          <Hidden mdDown>
-            <GridWrapper
-              xs={12}
-              md={6}
-              alignItems="center"
-              display="flex"
-              justifyContent="center"
-              item
-            >
+          <Hidden>
+            <GridWrapper xs={12} md={12} sx={{}} alignItems="center" display="flex" justifyContent="center" item>
               <Container maxWidth="sm">
-                <Box textAlign="center">
-                  <TypographyPrimary variant="h1" sx={{ my: 2 }}>
-                    Savannah Tech
-                  </TypographyPrimary>
-                  <TypographySecondary
-                    variant="h4"
-                    fontWeight="normal"
-                    sx={{ mb: 4 }}
-                  ></TypographySecondary>
-                  <Button href="/overview" size="large" variant="contained">
-                    Overview
-                  </Button>
+                <Box display={'flex'} justifyContent={'center'} color={'black'} textAlign="center">
+                  <AuthFooter />
                 </Box>
               </Container>
             </GridWrapper>
@@ -133,3 +78,4 @@ function Status500() {
 }
 
 export default Status500;
+
