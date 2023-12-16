@@ -1,49 +1,36 @@
-import PropTypes from "prop-types";
-import React from "react";
-// material-ui
-import { styled, useTheme } from "@mui/material/styles";
-import {
-  Avatar,
-  Box,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-
-// project imports
-import MainCard from "../../../components/MainCard";
-import TotalIncomeCard from "../../../components/Skeleton/TotalIncomeCard";
-import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
-
-// assets
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
-import { themePalette } from "../../../themes/schemes/palette";
+import PropTypes from 'prop-types';
+import { styled, useTheme } from '@mui/material/styles';
+import { Avatar, Box, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import MainCard from '../../../components/MainCard';
+import TotalIncomeCard from '../../../components/Skeleton/TotalIncomeCard';
+import { componentThemeoption } from '../../../themes/schemes/PureLightTheme';
+import { themePalette } from '../../../themes/schemes/palette';
+import { ArrowUpward, EventAvailableOutlined } from '@mui/icons-material';
+import EarningIcon from '../../../assets/images/icons/earning.svg';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: themePalette.primary.dark,
   color: themePalette.primary.light,
-  overflow: "hidden",
-  position: "relative",
-  "&:after": {
+  overflow: 'hidden',
+  position: 'relative',
+  '&:after': {
     content: '""',
-    position: "absolute",
+    position: 'absolute',
     width: 210,
     height: 210,
     background: `linear-gradient(210.04deg, ${themePalette.primary[200]} -50.94%, rgba(144, 202, 249, 0) 83.49%)`,
-    borderRadius: "50%",
+    borderRadius: '50%',
     top: -30,
     right: -180,
   },
-  "&:before": {
+  '&:before': {
     content: '""',
-    position: "absolute",
+    position: 'absolute',
     width: 210,
     height: 210,
     background: `linear-gradient(140.9deg, ${themePalette.primary[200]} -14.02%, rgba(144, 202, 249, 0) 77.58%)`,
-    borderRadius: "50%",
+    borderRadius: '50%',
     top: -160,
     right: -130,
   },
@@ -70,10 +57,10 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                       ...componentThemeoption.commonAvatar,
                       ...componentThemeoption.largeAvatar,
                       backgroundColor: themePalette.primary[800],
-                      color: "#fff",
+                      color: '#fff',
                     }}
                   >
-                    <TableChartOutlinedIcon fontSize="inherit" />
+                    <EventAvailableOutlined fontSize="inherit" />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
@@ -83,16 +70,27 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                     mb: 0.45,
                   }}
                   primary={
-                    <Typography variant="h4" sx={{ color: "#fff" }}>
-                      $203k
-                    </Typography>
+                    <Grid display={'flex'} gap={1}>
+                      <Typography variant="h4" sx={{ color: '#fff' }}>
+                        10
+                      </Typography>
+                      <ListItemAvatar>
+                        <Avatar
+                          sx={{
+                            cursor: 'pointer',
+                            ...componentThemeoption.smallAvatar,
+                            backgroundColor: themePalette.secondary[200],
+                            color: themePalette.secondary.dark,
+                          }}
+                        >
+                          <ArrowUpward fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
+                        </Avatar>
+                      </ListItemAvatar>
+                    </Grid>
                   }
                   secondary={
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ color: "primary.light", mt: 0.25 }}
-                    >
-                      Total Income
+                    <Typography variant="subtitle2" sx={{ color: 'primary.dark', mt: 0.25 }}>
+                      New Roles This Month
                     </Typography>
                   }
                 />
@@ -110,3 +108,4 @@ TotalIncomeDarkCard.propTypes = {
 };
 
 export default TotalIncomeDarkCard;
+
