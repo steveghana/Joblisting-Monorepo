@@ -88,6 +88,10 @@ export class AppModule {
           path: '/user/update',
           method: RequestMethod.PATCH,
         },
+        {
+          path: '/user/whoami',
+          method: RequestMethod.GET,
+        },
       );
   }
 }
