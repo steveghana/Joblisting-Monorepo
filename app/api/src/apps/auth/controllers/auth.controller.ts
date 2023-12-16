@@ -36,13 +36,13 @@ import { AuthGuard } from '@nestjs/passport';
 import { HttpUser } from '../decorator/http-user.decorator';
 import { Response } from 'express';
 import { client } from '../../../util/validation';
-import { IProfession } from '../../../types/user';
-interface IUser {
-  role?: IProfession | null;
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
+import { IProfession, IUser } from '../../../types/user';
+// interface IUser {
+//   role?: IProfession | null;
+//   email: string;
+//   password: string;
+//   rememberMe: boolean;
+// }
 @Controller('/user')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -87,7 +87,7 @@ export class AuthController {
   // @UsePipes(ValidationPipe)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async login(@Body() req: IUser, @Res() res) {
+  async login(@Body() req: IUser & { rememberMe: boolean }, @Res() res) {
     const result = await this.authService.login(
       req.email,
       req.password,
@@ -97,28 +97,16 @@ export class AuthController {
 
     return res.json(result);
   }
-
   @Post('/login/credentialToken')
   @ApiTags('login')
   @UseFilters(new HttpExceptionFilter())
   @ApiOperation({
     description: 'loggin new business',
   })
-  // @UsePipes(ValidationPipe)
   @HttpCode(HttpStatus.OK)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async loginWithCredentials(@Body() req: any, @Res() res) {
-    // if (
-    //   !validationUtil.exists(req.credentialTokenUuid) ||
-    //   !validationUtil.isUuid(req.credentialTokenUuid)
-    // ) {
-    //   return new HttpException(
-    //     'validationUtil/credentialTokenUuid',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
-
     const result = await this.authService.loginWithCredentialToken(
       req.credentialTokenUuid,
     );
@@ -176,5 +164,21 @@ export class AuthController {
     const result = await this.authService.update(req.requestingUser, req.role);
     console.log(result, 'tis is theresu');
     return res.json(result);
+  }
+  @Get('/whoami')
+  @UseFilters(new HttpExceptionFilter())
+  async whoami(@Req() req: Request, @Res() res: Response, @Next() next) {
+    const user: Omit<IUser, 'password'> = await (req as any).requestingUser;
+    console.log(user, 'tis is the user');
+    if (!user) {
+      throw new HttpException('User doesnt exist', HttpStatus.BAD_REQUEST);
+    }
+    return res.json({
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+      avatar: user.avatar,
+    });
   }
 }
