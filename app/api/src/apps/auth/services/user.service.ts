@@ -69,49 +69,12 @@ export class AuthService {
       return [a, userexist];
     }, dependencies);
     const payload = { email: user.email, role: userinfo.role };
-
+    this.logger.debug(`Login successful for user: ${user.email}`);
     return {
       ...payload,
       authTokenId: authToken.id,
     };
-
-    // if (!userData) {
-
-    //   const access_token = await this.signJwt(
-    //     newUserData.id,
-    //     id_token,
-    //     accessToken,
-    //     expires_in,
-    //   );
-    //   return { access_token };
-    // }
-    // const access_token = await this.signJwt(
-    //   userData.id,
-    //   id_token,
-    //   accessToken,
-    //   expires_in,
-    // );
-    // return { access_token };
   }
-  //   signJwt(
-  //     userId: string,
-  //     id_token: string,
-  //     access_token: string,
-  //     expires_at: number,
-  //     expiresIn = '1d',
-  //   ): Promise<string> {
-  //     const payload = {
-  //       sub: userId,
-  //       id_token,
-  //       access_token,
-  //       expires_at,
-  //     };
-  //     return this.jwtService.signAsync(payload, {
-  //       expiresIn,
-  //       secret: this.configService.get('APP_JWT_SECRET'),
-  //     });
-  //   return null;
-  // }
   public async register(
     email: string,
     password: string,
@@ -126,7 +89,6 @@ export class AuthService {
       dependencies.config!.authentication!.passwordHashIterations,
     );
 
-    // throw new HttpException('exists', HttpStatus.BAD_REQUEST);
     return useTransaction(async (transaction) => {
       const [user, UserMethods] = await User.findElseCreate(
         {
@@ -158,6 +120,7 @@ export class AuthService {
         email: user.email,
         password: password,
       };
+      this.logger.debug(`Registeration successful for user: ${email}`);
       return {
         ...payload,
         token: this.jwtService.sign(payload),
@@ -301,7 +264,6 @@ export class AuthService {
       credentialTokenUuid: credentialToken && credentialToken.uuid,
     };
   }
-
   async loginWithCredentialToken(
     credentialTokenUuid: string,
     dependencies: Dependencies = null,
