@@ -1,55 +1,57 @@
-import PropTypes from "prop-types";
-import React, { useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 // material-ui
-import { styled, useTheme } from "@mui/material/styles";
-import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
+import { styled, useTheme } from '@mui/material/styles';
+import { Avatar, Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import Chart from 'react-apexcharts';
 
 // project imports
-import MainCard from "../../../components/MainCard";
-import SkeletonEarningCard from "../../../components/Skeleton/EarningCard";
-import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
-
+import MainCard from '../../../components/MainCard';
+import SkeletonEarningCard from '../../../components/Skeleton/EarningCard';
+import { componentThemeoption } from '../../../themes/schemes/PureLightTheme';
+import ChartDataYear from './chart-data/total-order-year-line-chart';
+import ChartDataMonth from './chart-data/total-order-month-line-chart';
 //@ts-ignore
-import EarningIcon from "../../../assets/images/icons/earning.svg";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import GetAppTwoToneIcon from "@mui/icons-material/GetAppOutlined";
-import FileCopyTwoToneIcon from "@mui/icons-material/FileCopyOutlined";
-import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfOutlined";
-import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
-import { themePalette } from "../../../themes/schemes/palette";
+import EarningIcon from '../../../assets/images/icons/earning.svg';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
+import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
+import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
+import { themePalette } from '../../../themes/schemes/palette';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: themePalette.secondary.dark,
-  color: "#fff",
-  overflow: "hidden",
-  position: "relative",
-  "&:after": {
+  color: '#fff',
+  overflow: 'hidden',
+  position: 'relative',
+  '&:after': {
     content: '""',
-    position: "absolute",
+    position: 'absolute',
     width: 210,
     height: 210,
     background: themePalette.secondary[800],
-    borderRadius: "50%",
+    borderRadius: '50%',
     top: -85,
     right: -95,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       top: -105,
       right: -140,
     },
   },
-  "&:before": {
+  '&:before': {
     content: '""',
-    position: "absolute",
+    position: 'absolute',
     width: 210,
     height: 210,
     background: themePalette.secondary[800],
-    borderRadius: "50%",
+    borderRadius: '50%',
     top: -125,
     right: -15,
     opacity: 0.5,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       top: -155,
       right: -70,
     },
@@ -62,11 +64,14 @@ const EarningCard = ({ isLoading }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [timeValue, setTimeValue] = useState(false);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-
+  const handleChangeTime = (event, newValue) => {
+    setTimeValue(newValue);
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -110,6 +115,7 @@ const EarningCard = ({ isLoading }) => {
                     >
                       <MoreHorizIcon fontSize="inherit" />
                     </Avatar>
+
                     <Menu
                       id="menu-earning-card"
                       anchorEl={anchorEl}
@@ -118,12 +124,12 @@ const EarningCard = ({ isLoading }) => {
                       onClose={handleClose}
                       variant="selectedMenu"
                       anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
+                        vertical: 'bottom',
+                        horizontal: 'right',
                       }}
                       transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
+                        vertical: 'top',
+                        horizontal: 'right',
                       }}
                     >
                       <MenuItem onClick={handleClose}>
@@ -140,6 +146,14 @@ const EarningCard = ({ isLoading }) => {
                       </MenuItem>
                     </Menu>
                   </Grid>
+                  <Grid item sx={{ zIndex: 2 }}>
+                    <Button disableElevation variant={timeValue ? 'contained' : 'text'} size="small" sx={{ color: 'inherit' }} onClick={e => handleChangeTime(e, true)}>
+                      Active
+                    </Button>
+                    <Button disableElevation variant={!timeValue ? 'contained' : 'text'} size="small" sx={{ color: 'inherit' }} onClick={e => handleChangeTime(e, false)}>
+                      All
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid item>
@@ -147,29 +161,26 @@ const EarningCard = ({ isLoading }) => {
                   <Grid item>
                     <Typography
                       sx={{
-                        fontSize: "2.125rem",
+                        fontSize: '2.125rem',
                         fontWeight: 500,
                         mr: 1,
                         mt: 1.75,
                         mb: 0.75,
                       }}
                     >
-                      1228 hrs
+                      {timeValue ? 57 : 120}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Avatar
                       sx={{
-                        cursor: "pointer",
+                        cursor: 'pointer',
                         ...componentThemeoption.smallAvatar,
                         backgroundColor: themePalette.secondary[200],
                         color: themePalette.secondary.dark,
                       }}
                     >
-                      <ArrowUpwardIcon
-                        fontSize="inherit"
-                        sx={{ transform: "rotate3d(1, 1, 1, 45deg)" }}
-                      />
+                      <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
                     </Avatar>
                   </Grid>
                 </Grid>
@@ -177,12 +188,12 @@ const EarningCard = ({ isLoading }) => {
               <Grid item sx={{ mb: 1.25 }}>
                 <Typography
                   sx={{
-                    fontSize: "1rem",
+                    fontSize: '1rem',
                     fontWeight: 500,
                     color: themePalette.secondary[200],
                   }}
                 >
-                  Total Hours
+                  {timeValue ? 'Total Active Developers' : 'Total Developers'}
                 </Typography>
               </Grid>
             </Grid>
@@ -198,3 +209,4 @@ EarningCard.propTypes = {
 };
 
 export default EarningCard;
+
