@@ -92,15 +92,12 @@ class User {
   static async getByEmail(emails: string, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db']);
     const userDatas = await getUser(emails, dependencies);
-    if (!userDatas) {
-      throw new HttpException(
-        'User doesnt exists, try signing in',
-        HttpStatus.BAD_REQUEST,
-      );
+    if (userDatas?.email) {
+      const user = new User(userDatas.email, dependencies);
+      user.data = userDatas;
+      return user.data;
     }
-    const user = new User(userDatas.email, dependencies);
-    user.data = userDatas;
-    return user.data;
+    return userDatas;
   }
   static async update(
     user: Partial<IUser>,
