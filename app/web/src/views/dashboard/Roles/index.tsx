@@ -1,38 +1,21 @@
-import React, { useRef, useState } from "react";
-import MainCard from "../../../components/MainCard";
-import {
-  Avatar,
-  Button,
-  ButtonBase,
-  ClickAwayListener,
-  Divider,
-  Drawer,
-  Grid,
-  Typography,
-} from "@mui/material";
-import SubCard from "../../../components/SubCard";
-import { Box } from "@mui/system";
-import {
-  AllInclusive,
-  BlockOutlined,
-  CheckCircle,
-  CopyAll,
-  MessageRounded,
-  MoreHoriz,
-  People,
-} from "@mui/icons-material";
-import { themePalette } from "../../../themes/schemes/palette";
-import CustomDrawer from "../../../components/Drawer";
-import Dot from "../../../components/Dot";
-import RoleTabs from "./roleTabs";
-import { useGetRolesQuery } from "../../../store/services/role.service";
-import { IRoleData } from "../../../types/roles";
-import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
-import NoData from "../../../components/NoData";
-import { ClockIcon } from "@mui/x-date-pickers";
-import { formatTimeDifference } from "../../../utils/timeFormatter";
-import { EmploymentType } from "../../../lib/data/formFieldData";
-import { useCopyToClipboard } from "../../../hooks/useCopyToClipboard";
+import React, { useRef, useState } from 'react';
+import MainCard from '../../../components/MainCard';
+import { Avatar, Button, ButtonBase, ClickAwayListener, Divider, Drawer, Grid, Typography } from '@mui/material';
+import SubCard from '../../../components/SubCard';
+import { Box } from '@mui/system';
+import { AllInclusive, BlockOutlined, CheckCircle, CopyAll, MessageRounded, MoreHoriz, People } from '@mui/icons-material';
+import { themePalette } from '../../../themes/schemes/palette';
+import CustomDrawer from '../../../components/Drawer';
+import Dot from '../../../components/Dot';
+import RoleTabs from './roleTabs';
+import { useGetRolesQuery } from '../../../store/services/role.service';
+import { IRoleData } from '../../../types/roles';
+import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
+import NoData from '../../../components/NoData';
+import { ClockIcon } from '@mui/x-date-pickers';
+import { formatTimeDifference } from '../../../utils/timeFormatter';
+import { EmploymentType } from '../../../lib/data/formFieldData';
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard';
 
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
@@ -41,7 +24,7 @@ const Roles = () => {
   }
 
   return (
-    <MainCard title={"Roles"}>
+    <MainCard title={'Roles'}>
       <Grid container>
         {!data?.length ? (
           <NoData />
@@ -67,20 +50,10 @@ const RoleCard = (props: IRoleCard) => {
   const textRef = useRef(null);
   const [copySuccess, setCopySuccess] = useState(false);
 
-  const {
-    aboutTheProject,
-    durationForEmployment,
-    experience,
-    title,
-    link,
-    vacancy_status,
-    client,
-    createdAt,
-    jobs,
-  } = props?.role;
+  const { aboutTheProject, durationForEmployment, experience, title, link, vacancy_status, client, createdAt, jobs } = props?.role;
   let roleLink = `${window.location.origin}/s/${link}`;
-  console.log(roleLink, "this i sthe link");
-  const handleCopy = (e) => {
+  console.log(roleLink, 'this i sthe link');
+  const handleCopy = e => {
     e.stopPropagation();
     if (textRef.current) {
       navigator.clipboard
@@ -89,8 +62,8 @@ const RoleCard = (props: IRoleCard) => {
           setCopySuccess(true);
           setTimeout(() => setCopySuccess(false), 2000);
         })
-        .catch((err) => {
-          console.error("Unable to copy text:", err);
+        .catch(err => {
+          console.error('Unable to copy text:', err);
         });
     }
   };
@@ -107,44 +80,17 @@ const RoleCard = (props: IRoleCard) => {
       {jobs?.map((job, i) => (
         <CustomDrawer
           key={i}
-          component={
-            <RoleTabs
-              setOpenDrawer={setOpenDrawer}
-              openDrawer={openDrawer}
-              roleId={props.role.id}
-            />
-          }
+          component={<RoleTabs setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} roleId={props.role.id} />}
           setOpenDrawer={setOpenDrawer}
           openDrawer={openDrawer}
         >
-          <Grid
-            sx={{ cursor: "pointer" }}
-            onClick={() => setOpenDrawer({ ...openDrawer, ["bottom"]: true })}
-            item
-            xs={2}
-            sm={4}
-            md={4}
-          >
-            <SubCard sx={{ cursor: "pointer" }}>
+          <Grid sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer({ ...openDrawer, ['bottom']: true })} item xs={2} sm={4} md={4}>
+            <SubCard sx={{ cursor: 'pointer' }}>
               <Grid container direction="column" spacing={0}>
-                <Grid
-                  className="avatar"
-                  display={"flex"}
-                  alignItems={"flex-start"}
-                  gap={0.8}
-                  item
-                >
-                  <Avatar
-                    alt="user"
-                    variant="rounded"
-                    src={client.companyLogo}
-                  />
-                  <Box mr={"auto"}>
-                    <Typography
-                      fontWeight={500}
-                      variant={props.feature ? "h5" : "h4"}
-                      mr={"auto"}
-                    >
+                <Grid className="avatar" display={'flex'} alignItems={'flex-start'} gap={0.8} item>
+                  <Avatar alt="user" variant="rounded" src={client.companyLogo} />
+                  <Box mr={'auto'}>
+                    <Typography fontWeight={500} variant={props.feature ? 'h5' : 'h4'} mr={'auto'}>
                       {client.companyName}
                     </Typography>
                     <Typography variant="caption" fontWeight={700}>
@@ -152,16 +98,10 @@ const RoleCard = (props: IRoleCard) => {
                     </Typography>
                     {/* {!props.feature && ( */}
                     <Box>
-                      <Typography variant="caption" color={"black"}>
+                      <Typography variant="caption" color={'black'}>
                         {client.aboutTheCompany}
                       </Typography>
-                      <Box
-                        sx={{ color: themePalette.primary.light }}
-                        display={"flex"}
-                        gap={".3rem"}
-                        my={1}
-                        alignItems={"center"}
-                      >
+                      <Box sx={{ color: themePalette.primary.light }} display={'flex'} gap={'.3rem'} my={1} alignItems={'center'}>
                         <People sx={{ color: themePalette.primary.dark }} />
                         <Typography variant="caption" fontWeight={700}>
                           {client.numOfEmployees}
@@ -175,17 +115,17 @@ const RoleCard = (props: IRoleCard) => {
                   </Box>
                   {!props.feature && (
                     <ButtonBase>
-                      <MoreHoriz fontSize={"small"} />
+                      <MoreHoriz fontSize={'small'} />
                     </ButtonBase>
                   )}
                 </Grid>
                 <Grid mb={1} className="mail links" item>
-                  {vacancy_status === "Open" && (
+                  {vacancy_status === 'Open' && (
                     <Button
                       sx={{
-                        background: "rgba(27, 227, 44, 0.1)",
-                        border: "1px solid rgba(27, 227, 44, 0.5)",
-                        borderRadius: "50px",
+                        background: 'rgba(27, 227, 44, 0.1)',
+                        border: '1px solid rgba(27, 227, 44, 0.5)',
+                        borderRadius: '50px',
                       }}
                       disabled={true}
                       startIcon={<CheckCircle color="success" />}
@@ -194,72 +134,49 @@ const RoleCard = (props: IRoleCard) => {
                     </Button>
                   )}
                   {/* <Divider sx={{ margin: "1rem 0" }} /> */}
-                  <Box
-                    my={2}
-                    alignItems={"center"}
-                    gap={".8rem"}
-                    borderRadius={2}
-                    p={1}
-                    border={"2px solid rgba(0, 0, 0, 0.1)"}
-                    display={"flex"}
-                    flexWrap={"wrap"}
-                  >
+                  <Box my={2} alignItems={'center'} gap={'.8rem'} borderRadius={2} p={1} border={'2px solid rgba(0, 0, 0, 0.1)'} display={'flex'} flexWrap={'wrap'}>
                     <Typography fontWeight={700} variant="body2">
                       {experience.toUpperCase()} - {job.roleName}
                     </Typography>
-                    <Box display={"flex"} alignItems={"center"} gap={0.4}>
+                    <Box display={'flex'} alignItems={'center'} gap={0.4}>
                       <Dot />
-                      <Typography
-                        fontWeight={400}
-                        variant="subtitle1"
-                        mr={"auto"}
-                      >
-                        {client.country.label}{" "}
+                      <Typography fontWeight={400} variant="subtitle1" mr={'auto'}>
+                        {client.country.label}{' '}
                       </Typography>
                       <Dot />
                       <Typography>{job.jobType}</Typography>
                       <Dot />
-                      <Typography fontWeight={700}>
-                        {
-                          EmploymentType.filter(
-                            (item) => item.label === job.employmentType
-                          )[0]?.value
-                        }
-                      </Typography>
+                      <Typography fontWeight={700}>{EmploymentType.filter(item => item.label === job.employmentType)[0]?.value}</Typography>
                     </Box>
                     <Box
                       sx={{
-                        ml: { md: 0, lg: "auto" },
-                        flexDirection: { sm: "column", md: "row" },
-                        justifyContent: { sm: "flex-end", md: "flex-start" },
+                        ml: { md: 0, lg: 'auto' },
+                        flexDirection: { sm: 'column', md: 'row' },
+                        justifyContent: { sm: 'flex-end', md: 'flex-start' },
                       }}
-                      display={"flex"}
-                      justifyContent={"flex-start"}
-                      flexWrap={"wrap"}
-                      alignItems={"center"}
-                      flexDirection={props.feature ? "column" : "row"}
+                      display={'flex'}
+                      justifyContent={'flex-start'}
+                      flexWrap={'wrap'}
+                      alignItems={'center'}
+                      flexDirection={props.feature ? 'column' : 'row'}
                       gap={1}
                     >
                       <Box
-                        display={"flex"}
-                        flexDirection={"column"}
+                        display={'flex'}
+                        flexDirection={'column'}
                         sx={{
-                          justifyContent: { md: "flex-start", lg: "flex-end" },
-                          alignItems: { md: "flex-start", lg: "flex-end" },
+                          justifyContent: { md: 'flex-start', lg: 'flex-end' },
+                          alignItems: { md: 'flex-start', lg: 'flex-end' },
                         }}
                       >
-                        <Typography
-                          variant="caption"
-                          fontWeight={700}
-                          color={"green"}
-                        >
+                        <Typography variant="caption" fontWeight={700} color={'green'}>
                           Recruiter recently active
                         </Typography>
                         <Typography>
                           <ClockIcon
                             sx={{
                               color: themePalette.primary.main,
-                              fontSize: ".7rem",
+                              fontSize: '.7rem',
                               mr: 0.2,
                             }}
                           />
@@ -267,15 +184,15 @@ const RoleCard = (props: IRoleCard) => {
                         </Typography>
                       </Box>
                       <Grid
-                        display={"flex"}
+                        display={'flex'}
                         sx={{
                           width: {
-                            md: "100%",
-                            lg: props.feature ? "100%" : "auto",
+                            md: '100%',
+                            lg: props.feature ? '100%' : 'auto',
                           },
                         }}
                         //
-                        justifyContent={"center"}
+                        justifyContent={'center'}
                         gap={0.5}
                       >
                         <Button
@@ -283,51 +200,39 @@ const RoleCard = (props: IRoleCard) => {
                           // color=""
                           fullWidth
                           sx={{
-                            background: "black",
-                            color: "white",
-                            maxHeight: "30px",
-                            width: "100%",
+                            background: 'black',
+                            color: 'white',
+                            maxHeight: '30px',
+                            width: '100%',
                           }}
                           variant="contained"
                         >
-                          <Typography sx={{ wordBreak: "keep-all" }}>
-                            Learn More
-                          </Typography>
+                          <Typography sx={{ wordBreak: 'keep-all' }}>Learn More</Typography>
                         </Button>
                       </Grid>
-
-                      <Grid
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        sx={{
-                          backgroundColor: "gray",
-                          maxWidth: "80%",
-                          color: "white",
-                          // padding: "10px",
-                          px: 2,
-                          borderRadius: "7px",
-                        }}
-                      >
-                        <Typography
-                          variant="caption"
-                          color={"white"}
-                          ref={textRef}
-                        >
-                          {roleLink}
-                        </Typography>
-                      </Grid>
-
-                      <Typography
-                        onClick={handleCopy}
-                        variant="caption"
-                        sx={{ display: "flex", alignItems: "center" }}
-                        color="primary"
-                      >
-                        {copySuccess ? "Copied!" : "Copy url"}
-                        <CopyAll />
-                      </Typography>
                     </Box>
+                    <Grid
+                      onClick={e => {
+                        e.stopPropagation();
+                      }}
+                      sx={{
+                        backgroundColor: 'black',
+                        maxWidth: '80%',
+                        color: 'white',
+                        // padding: "10px",
+                        px: 2,
+                        borderRadius: '7px',
+                      }}
+                    >
+                      <Typography variant="caption" color={'white'} ref={textRef}>
+                        {roleLink}
+                      </Typography>
+                    </Grid>
+
+                    <Typography onClick={handleCopy} variant="caption" sx={{ display: 'flex', alignItems: 'center' }} color="primary">
+                      {copySuccess ? 'Copied!' : 'Copy url'}
+                      <CopyAll />
+                    </Typography>
                   </Box>
                 </Grid>
               </Grid>
