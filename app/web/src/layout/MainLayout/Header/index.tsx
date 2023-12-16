@@ -1,26 +1,35 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 // material-ui
-import { useTheme } from "@mui/material/styles";
-import { Avatar, Box, ButtonBase } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import { Avatar, Box, ButtonBase } from '@mui/material';
 
 // project imports
-import LogoSection from "../LogoSection";
-import SearchSection from "./SearchSection";
-import ProfileSection from "./ProfileSection";
-import NotificationSection from "./NotificationSection";
+import LogoSection from '../LogoSection';
+import SearchSection from './SearchSection';
+import ProfileSection from './ProfileSection';
+import NotificationSection from './NotificationSection';
 
 // assets
-import { IconMenu2 } from "@tabler/icons";
-import { componentThemeoption } from "../../../themes/schemes/PureLightTheme";
-import { themePalette } from "../../../themes/schemes/palette";
+import { IconMenu2 } from '@tabler/icons';
+import { componentThemeoption } from '../../../themes/schemes/PureLightTheme';
+import { themePalette } from '../../../themes/schemes/palette';
+import { useTypedSelector } from '../../../store';
+import { useWhoamiQuery } from '../../../store/services/userAuth.service';
+import { useNavigate } from 'react-router';
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
   const theme = useTheme();
-  //get the access lockSidebar and depending on whether there is a token, then you can show
-
-  const lockSidebar = false;
+  const navigate = useNavigate();
+  // const state = useTypedSelector(state => state);
+  const hasToken = sessionStorage.getItem('auth_token');
+  if (!hasToken) return;
+  const { data, error, isError, isLoading } = useWhoamiQuery();
+  console.log(data, 'woamdfdk');
+  if (hasToken && !data && !isLoading) {
+    navigate('/auth/login');
+  }
 
   return (
     <>
@@ -28,32 +37,32 @@ const Header = ({ handleLeftDrawerToggle }) => {
       <Box
         sx={{
           width: 228,
-          display: "flex",
-          [theme.breakpoints.down("md")]: {
-            width: "auto",
+          display: 'flex',
+          [theme.breakpoints.down('md')]: {
+            width: 'auto',
           },
         }}
       >
         <Box
           component="span"
           sx={{
-            display: { xs: !lockSidebar && "none", md: "block" },
+            display: { xs: hasToken && 'none', md: 'block' },
             flexGrow: 1,
           }}
         >
           <LogoSection />
         </Box>
-        {!lockSidebar && (
-          <ButtonBase sx={{ borderRadius: "12px", overflow: "hidden" }}>
+        {hasToken && (
+          <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
             <Avatar
               variant="rounded"
               sx={{
                 ...componentThemeoption.commonAvatar,
                 ...componentThemeoption.mediumAvatar,
-                transition: "all .2s ease-in-out",
+                transition: 'all .2s ease-in-out',
                 background: themePalette.secondary.light,
                 color: themePalette.primary.main,
-                "&:hover": {
+                '&:hover': {
                   background: themePalette.primary.main,
                   color: themePalette.secondary.light,
                 },
@@ -73,10 +82,11 @@ const Header = ({ handleLeftDrawerToggle }) => {
       <Box sx={{ flexGrow: 1 }} />
 
       {/* notification & profile */}
-      {!lockSidebar && (
+      {hasToken && (
         <>
           <NotificationSection />
-          <ProfileSection />
+
+          <ProfileSection userData={data} />
         </>
       )}
     </>
@@ -88,3 +98,4 @@ Header.propTypes = {
 };
 
 export default Header;
+
