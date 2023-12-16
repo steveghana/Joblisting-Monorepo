@@ -1,64 +1,58 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 // material-ui
-import { useTheme } from "@mui/material/styles";
-import { Card, Grid, Typography } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import { Card, Grid, Typography } from '@mui/material';
 
 // third-party
-import ApexCharts from "apexcharts";
-import Chart from "react-apexcharts";
+import ApexCharts from 'apexcharts';
+import Chart from 'react-apexcharts';
 
 // project imports
-import chartData from "./chart-data/bajaj-area-chart";
-import { themePalette } from "../../../themes/schemes/palette";
+import chartData from './chart-data/bajaj-area-chart';
+import { themePalette } from '../../../themes/schemes/palette';
 
-// ===========================|| DASHBOARD DEFAULT - BAJAJ AREA CHART CARD ||=========================== //
+// ===========================|| DASHBOARD DEFAULT - INTERVIEW TREND AREA CHART CARD ||=========================== //
 
-const BajajAreaChartCard = () => {
+const InterviewTrendAreaChartCard = () => {
   const theme = useTheme();
   const customization = useSelector((state: any) => state.customization);
   const { navType } = customization;
 
-  const orangeDark = themePalette.secondary[800];
+  const orangeDark = themePalette.primary[800];
 
   useEffect(() => {
     const newSupportChart = {
       ...chartData.options,
       colors: [orangeDark],
       tooltip: {
-        theme: "light",
+        theme: 'light',
       },
     };
-    ApexCharts.exec(`support-chart`, "updateOptions", newSupportChart);
+    ApexCharts.exec(`support-chart`, 'updateOptions', newSupportChart);
   }, [navType, orangeDark]);
 
   return (
-    <Card sx={{ bgcolor: "secondary.light" }}>
-      <Grid container sx={{ p: 2, pb: 0, color: "#fff" }}>
+    <Card sx={{ bgcolor: 'secondary.main' }}>
+      <Grid container sx={{ p: 2, pb: 0, color: '#fff' }}>
         <Grid item xs={12}>
           <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
-              <Typography
-                variant="subtitle1"
-                sx={{ color: themePalette.secondary.dark }}
-              >
-                Bajaj Finery
+              <Typography variant="subtitle1" sx={{ color: themePalette.warning.main }}>
+                Total Interviews
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h4" sx={{ color: themePalette.grey[800] }}>
-                $1839.00
+              <Typography variant="h4" sx={{ color: themePalette.primary.light }}>
+                120
               </Typography>
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: themePalette.grey[800] }}
-          >
-            10% Profit
+          <Typography variant="subtitle2" sx={{ color: themePalette.primary.light }}>
+            Trend Over Time
           </Typography>
         </Grid>
       </Grid>
@@ -67,4 +61,5 @@ const BajajAreaChartCard = () => {
   );
 };
 
-export default BajajAreaChartCard;
+export default InterviewTrendAreaChartCard;
+
