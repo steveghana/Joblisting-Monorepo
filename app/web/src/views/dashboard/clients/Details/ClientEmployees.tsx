@@ -1,10 +1,6 @@
-import { IDev } from "../../../../types/devs";
-import NoData from "../../../../components/NoData";
-import {
-  AssignmentLate,
-  AssignmentLateTwoTone,
-  DeleteTwoTone,
-} from "@mui/icons-material";
+import { IDev } from '../../../../types/devs';
+import NoData from '../../../../components/NoData';
+import { AssignmentLate, AssignmentLateTwoTone, DeleteTwoTone } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -25,11 +21,11 @@ import {
   CardHeader,
   Divider,
   Avatar,
-} from "@mui/material";
-import { useState, MouseEvent, ChangeEvent } from "react";
+} from '@mui/material';
+import { useState, MouseEvent, ChangeEvent } from 'react';
 
-import { format, subHours, subWeeks, subDays } from "date-fns";
-import { logs } from "../../../../components/settings/SecurityTab";
+import { format, subHours, subWeeks, subDays } from 'date-fns';
+import { logs } from '../../../../components/settings/SecurityTab';
 type IClientEmployees = {
   devs: IDev[];
 };
@@ -39,16 +35,11 @@ function ClientEmployees({ devs }: IClientEmployees) {
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (
-    event: MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
+  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
   console.log(devs);
-  const handleChangeRowsPerPage = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -59,12 +50,7 @@ function ClientEmployees({ devs }: IClientEmployees) {
     <Grid item xs={12}>
       <Paper elevation={3}>
         <Card>
-          <CardHeader
-            subheaderTypographyProps={{}}
-            titleTypographyProps={{}}
-            title="Team Members"
-            subheader="Team memeber for this client"
-          />
+          <CardHeader subheaderTypographyProps={{}} titleTypographyProps={{}} title="Team Members" subheader="Team memeber for this client" />
 
           <Box p={2}>
             <List>
@@ -82,7 +68,7 @@ function ClientEmployees({ devs }: IClientEmployees) {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {devs.map((dev) => (
+                    {devs.map(dev => (
                       <TableRow key={dev.id} hover>
                         <TableCell>
                           <Avatar src={dev.avatar} />
@@ -98,13 +84,14 @@ function ClientEmployees({ devs }: IClientEmployees) {
                             new Date(dev.startDate),
                             "dd MMMM, yyyy - h:mm:ss a"
                           )} */}
-                          {dev.startedAt}
+                          {/* {dev.startDate.getTime()} */}
+                          {new Date().toLocaleDateString()}
                         </TableCell>
                         <TableCell align="right">
                           <Tooltip placement="top" title="Unassign" arrow>
                             <IconButton
                               sx={{
-                                "&:hover": {
+                                '&:hover': {
                                   background: theme.colors?.error.lighter,
                                 },
                                 color: theme.palette.error.main,
@@ -123,14 +110,7 @@ function ClientEmployees({ devs }: IClientEmployees) {
                 </Table>
               </TableContainer>
               <Box p={2}>
-                <TablePagination
-                  component="div"
-                  count={100}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <TablePagination component="div" count={100} page={page} onPageChange={handleChangePage} rowsPerPage={rowsPerPage} onRowsPerPageChange={handleChangeRowsPerPage} />
               </Box>
               {/* <DevTableData /> */}
               {/* {devs?.length &&
