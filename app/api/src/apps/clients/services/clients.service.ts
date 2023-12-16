@@ -101,19 +101,23 @@ export class ClientsService {
         return null;
       }
       const { developers, ...rest } = data.data;
-      const devInfo = developers.map((dev) => ({
-        id: dev.id,
-        salary: dev.salary,
-        avatar: dev.user.avatar,
-        firstName: dev.firstName,
-        lastName: dev.lastName,
-        address: dev.address,
-        phoneNumber: dev.phone_number,
-        role: dev.user.role,
-        startedAt: dev.user.createdAt,
-        email: dev.user.email,
-        hours: dev.clockHours,
-      }));
+      const devInfo = developers
+        .filter((dev) => dev.role_status === 'Accepted')
+        .map((dev) => ({
+          id: dev.id,
+          salary: dev.salary,
+          avatar: dev.user.avatar,
+          firstName: dev.firstName,
+          lastName: dev.lastName,
+          address: dev.address,
+          status: dev.workStatus,
+          rolestatus: dev.role_status,
+          phoneNumber: dev.phone_number,
+          role: dev.user.role,
+          startedAt: dev.user.createdAt,
+          email: dev.user.email,
+          hours: dev.clockHours,
+        }));
       return {
         developers: devInfo || [],
         ...rest,
