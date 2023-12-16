@@ -1,91 +1,73 @@
-// import assert from 'assert';
-// import * as sinon from 'sinon';
-// import { AuthService } from '../src/services/user.service';
-// import User from '../src/services/userEntity';
-// import QueueGroup from '../../business/src/services/Root/Entity/queueGroup';
-// import QueueGroupUserPermission from '../../business/src/services/Permissions/Entity/queueGroupUserPermission';
-// import queueEntityGateway from '../../queue/src/services/DBGateway/queue';
-// import entityGatewayTransaction from '../../util/transaction';
-// import { DataSource } from 'typeorm';
-// import config from '../../../apps/Config/config';
-// describe('userInteractor', () => {
-//   let connection;
+import { Test, TestingModule } from '@nestjs/testing';
 
-//   beforeEach(async () => {
-//     connection = await new DataSource({
-//       type: 'postgres',
-//       host: 'localhost',
-//       port: config.databasePort,
-//       username: 'postgres',
-//       password: 'password',
-//       database: 'postgres',
-//       entities: [User, QueueGroup, QueueGroupUserPermission],
-//       synchronize: true,
-//       logging: false,
-//     });
-//   });
+import {
+  setupTestApp,
+  closeTestDatabase,
+  setupTestDatabase,
+} from '../../../apps/api-gateway/test/test.setup';
+import * as supertest from 'supertest';
+import { INestApplication } from '@nestjs/common';
+import { DataSourceOptions } from 'typeorm';
+import Entities from '../../../Config/model';
+import { TestAuthModule } from './auth.module';
 
-//   afterEach(async () => {
-//     await connection.close();
-//   });
-//   describe('register()', () => {
-//     const userInteractor = new AuthService();
-//     beforeEach(() => {
-//       sinon.stub(entityGatewayTransaction, 'useTransaction').callsArg(0);
-//       sinon
-//         .stub(User, 'findElseCreate')
-//         .resolves({ isNewlyCreated: true } as any);
-//       sinon.stub(QueueGroupUserPermission, 'create');
-//     });
+describe('AuthController (e2e)', () => {
+  let app: INestApplication;
 
-//     afterEach(() => {
-//       sinon.restore();
-//     });
+  beforeAll(async () => {
+    const testDatabaseOptions: DataSourceOptions = {
+      type: 'sqlite',
+      database: ':memory:',
+      entities: [...Entities],
+      synchronize: true,
+      logging: false,
+    };
 
-//     it('Creates queue if queueGroup is restaurant', async () => {
-//       const queueGroupId = '42';
-//       sinon.stub(QueueGroup, 'create').resolves({ id: queueGroupId } as any);
-//       const createQueueStub = sinon.stub(queueEntityGateway, 'createQueue');
+    app = await setupTestApp(testDatabaseOptions, [
+      TestAuthModule.forTesting(),
+    ]);
 
-//       await userInteractor.register(
-//         '',
-//         '',
-//         '',
-//         { type: 'Restaurant & Cafe' } as any,
-//         {
-//           db: { sequelize: { transaction: () => {} } } as any,
-//           config: { authentication: { passwordHashIterations: 1 } as any },
-//         },
-//       );
+    await setupTestDatabase(testDatabaseOptions);
+  }, 10000);
 
-//       assert.ok(createQueueStub.called);
-//       assert.strictEqual(createQueueStub.args[0][0].queueGroupId, queueGroupId);
-//     });
+  afterAll(async () => {
+    await app.close();
 
-//     it('Creates queue if queueGroup is Bar', async () => {
-//       const queueGroupId = '42';
-//       sinon.stub(QueueGroup, 'create').resolves({ id: queueGroupId } as any);
-//       const createQueueStub = sinon.stub(queueEntityGateway, 'createQueue');
+    const testDatabaseOptions: DataSourceOptions = {
+      type: 'sqlite',
+      database: ':memory:',
+      entities: [...Entities],
+      synchronize: true,
+      logging: false,
+    };
+    await closeTestDatabase(testDatabaseOptions);
+  });
 
-//       await userInteractor.register('', '', '', { type: 'Bar' } as any, {
-//         db: { sequelize: { transaction: () => {} } } as any,
-//         config: { authentication: { passwordHashIterations: 1 } as any },
-//       });
+  describe('POST /auth/login', () => {
+    it('should return a JWT token when valid credentials are provided', () => {
+      return supertest(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'test@example.com',
+          password: 'password123',
+        })
+        .expect(200)
+        .then((response) => {
+          // Add assertions based on your application logic and expectations
+          expect(response.body).toHaveProperty('token');
+        });
+    });
 
-//       assert.ok(createQueueStub.called);
-//       assert.strictEqual(createQueueStub.args[0][0].queueGroupId, queueGroupId);
-//     });
+    it('should return an error when invalid credentials are provided', () => {
+      return supertest(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: 'invalid@example.com',
+          password: 'invalidpassword',
+        })
+        .expect(401);
+    });
+  });
 
-//     it("Doesn't create queue if queueGroup isn't restaurant", async () => {
-//       sinon.stub(QueueGroup, 'create').resolves({ id: '42' } as any);
-//       const createQueueStub = sinon.stub(queueEntityGateway, 'createQueue');
-
-//       await userInteractor.register('', '', '', { type: 'Banks' } as any, {
-//         db: { sequelize: { transaction: () => {} } } as any,
-//         config: { authentication: { passwordHashIterations: 1 } as any },
-//       });
-
-//       assert.ok(createQueueStub.notCalled);
-//     });
-//   });
-// });
+  // Add more test cases for other AuthController endpoints (e.g., register, logout)
+});
