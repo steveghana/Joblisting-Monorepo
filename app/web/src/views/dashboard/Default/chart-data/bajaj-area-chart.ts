@@ -1,49 +1,43 @@
-// ===========================|| DASHBOARD - BAJAJ AREA CHART ||=========================== //
-
-import ReactApexChart from "react-apexcharts";
-export enum ChartCurve {
-  smooth = "smooth",
-  // straight = "straight",
-}
 const chartData = {
-  chart: {
-    type: "line",
-  },
-  height: 95,
-  options: {
-    chart: {
-      id: "support-chart",
-      sparkline: {
-        enabled: true,
-      },
+    type: 'area',
+    height: 95,
+    options: {
+        chart: {
+            id: 'interviews-chart',
+            sparkline: {
+                enabled: true,
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            curve: 'smooth',
+            width: 1,
+        },
+        tooltip: {
+            fixed: {
+                enabled: false,
+            },
+            x: {
+                show: false,
+            },
+            y: {
+                title: 'Number of Interviews',
+            },
+            marker: {
+                show: false,
+            },
+        },
     },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      // curve: ChartCurve,
-      width: 1,
-    },
-    tooltip: {
-      fixed: {
-        enabled: false,
-      },
-      x: {
-        show: false,
-      },
-      // y: {
-      //   title: 'Ticket '
-      // },
-      marker: {
-        show: false,
-      },
-    },
-  },
-  series: [
-    {
-      data: [0, 15, 10, 50, 30, 40, 25],
-    },
-  ],
+    // categories: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+    series: [
+        {
+            name: 'Number of Interviews',
+            data: [0, 5, 3, 8, 2, 4, 6], // Sample data for the number of interviews
+        },
+    ],
 };
 
 export default chartData;
+
