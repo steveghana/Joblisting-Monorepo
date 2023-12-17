@@ -8,7 +8,7 @@ const config = {
   restApiPort: 5000,
   databasePort: 5432,
 
-  BusinessURL: 'http://localhost:5173',
+  ClientUrl: 'http://localhost:5173',
   roleUrl: '',
   logSql: true,
   roleUrlComponaentLength: 22,

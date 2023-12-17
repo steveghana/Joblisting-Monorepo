@@ -46,5 +46,3 @@ export class Application extends AssociableModel {
   @Column()
   status: IStatusApplication; // Submitted, Shortlisted, Rejected IStatusApplication
 }
-
-// You can create a Notifications entity similarly if needed

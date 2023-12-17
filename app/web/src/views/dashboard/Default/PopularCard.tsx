@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, CardActions, CardContent, Divider, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 // project imports
-import BajajAreaChartCard from './BajajAreaChartCard';
+import BajajAreaChartCard from './interviewChart';
 import MainCard from '../../../components/MainCard';
 import SkeletonPopularCard from '../../../components/Skeleton/PopularCard';
 import { gridSpacing } from '../../../store/constant';

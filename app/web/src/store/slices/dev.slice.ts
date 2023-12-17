@@ -4,77 +4,76 @@ import axios from 'axios';
 import _api_url from '../../api/_api_url';
 import { IDev } from '../../types/devs';
 
-// Define an initial state for your slice
 type initialStatetype = {
-    devs: IDev[];
-    isloading: boolean;
-    isFetching: boolean;
-    isError: boolean;
-    error: any;
+  devs: IDev[];
+  isloading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  error: any;
 };
 const initialState: initialStatetype = {
-    devs: [],
-    isloading: false,
-    isFetching: false,
-    isError: false,
-    error: null,
+  devs: [],
+  isloading: false,
+  isFetching: false,
+  isError: false,
+  error: null,
 };
 
 export const fetchDevs = createAsyncThunk('devs/fetchDevs', async (_, { dispatch }) => {
-    try {
-        const url = `${_api_url.getApiUrl()}/developers`;
-        const { data } = await axios.get(url);
-        console.log(data, 'from fetch devs');
+  try {
+    const url = `${_api_url.getApiUrl()}/developers`;
+    const { data } = await axios.get(url);
+    console.log(data, 'from fetch devs');
 
-        return data;
-    } catch (error) {
-        console.log(error, 'this is the error');
-        throw error;
-    }
+    return data;
+  } catch (error) {
+    console.log(error, 'this is the error');
+    throw error;
+  }
 });
 
 const devSlice = createSlice({
-    name: 'devs',
-    initialState,
-    reducers: {
-        startFetching: state => {
-            state.isloading = true;
-            state.isFetching = true;
-            state.isError = false;
-            state.error = {};
-        },
-        fetchingSuccess: (state, action) => {
-            state.isloading = false;
-            state.isFetching = false;
-            state.isError = false;
-            state.error = {};
-            state.devs = action.payload;
-        },
-        fetchingError: (state, action) => {
-            state.isloading = false;
-            state.isFetching = false;
-            state.isError = true;
-            state.error = action.payload;
-        },
+  name: 'devs',
+  initialState,
+  reducers: {
+    startFetching: state => {
+      state.isloading = true;
+      state.isFetching = true;
+      state.isError = false;
+      state.error = {};
     },
-    extraReducers: builder => {
-        // Handle the async thunk lifecycle
-        builder.addCase(fetchDevs.pending, state => {
-            state.isloading = true;
-            state.isFetching = true;
-        });
-        builder.addCase(fetchDevs.fulfilled, (state, action) => {
-            state.isloading = false;
-            state.isFetching = false;
-            state.devs = action.payload;
-        });
-        builder.addCase(fetchDevs.rejected, (state, action) => {
-            state.isloading = false;
-            state.isFetching = false;
-            state.isError = true;
-            state.error = action.error.message;
-        });
+    fetchingSuccess: (state, action) => {
+      state.isloading = false;
+      state.isFetching = false;
+      state.isError = false;
+      state.error = {};
+      state.devs = action.payload;
     },
+    fetchingError: (state, action) => {
+      state.isloading = false;
+      state.isFetching = false;
+      state.isError = true;
+      state.error = action.payload;
+    },
+  },
+  extraReducers: builder => {
+    // Handling the async thunk lifecycle
+    builder.addCase(fetchDevs.pending, state => {
+      state.isloading = true;
+      state.isFetching = true;
+    });
+    builder.addCase(fetchDevs.fulfilled, (state, action) => {
+      state.isloading = false;
+      state.isFetching = false;
+      state.devs = action.payload;
+    });
+    builder.addCase(fetchDevs.rejected, (state, action) => {
+      state.isloading = false;
+      state.isFetching = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+  },
 });
 
 export const { startFetching, fetchingSuccess, fetchingError } = devSlice.actions;
