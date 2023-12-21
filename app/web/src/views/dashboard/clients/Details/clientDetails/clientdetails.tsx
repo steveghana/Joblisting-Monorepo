@@ -1,77 +1,71 @@
 // ClientDetailsPage.tsx
-import React, { useState } from "react";
-import { Box, Typography, Paper, Grid } from "@mui/material";
-import NewRoleForm from "./Newrole";
-import NewJobForm from "./newjobform"; // Import the NewJobForm component
-import CustomButton from "../../../../../components/button";
-import { IRoleData } from "../../../../../types/roles";
-import ClientRoleTable from "./clientRolesTable";
-import NoData from "../../../../../components/NoData";
+import React, { useState } from 'react';
+import { Box, Typography, Paper, Grid } from '@mui/material';
+import NewRoleForm from '../../Forms/newroleForm';
+import NewJobForm from '../../Forms/newjobform';
+import CustomButton from '../../../../../components/button';
+import { IRoleData } from '../../../../../types/roles';
+import ClientRoleTable from '../../Tables/clientRolesTable';
+import NoData from '../../../../../components/NoData';
 
 const ClientDetailsPage: React.FC<{
   data: { role: IRoleData[]; clientId: string };
 
   onActionComplete: () => void;
 }> = ({ data, onActionComplete }) => {
-  const [openRoleForm, setOpenRoleForm] = useState(false);
-  const [openJobForm, setOpenJobForm] = useState(false);
-  const [roleId, setRoleId] = useState("");
+  const [roleFormOpen, setRoleFormOpen] = useState(false);
+  const [jobFormOpen, setJobFormOpen] = useState(false);
+  const [selectedRoleId, setSelectedRoleId] = useState('');
 
   const handleOpenRoleForm = () => {
-    setOpenRoleForm(true);
+    setRoleFormOpen(true);
   };
 
   const handleCloseRoleForm = () => {
-    setOpenRoleForm(false);
+    setRoleFormOpen(false);
   };
 
-  const handleOpenJobForm = (id) => {
-    setRoleId(id);
-    setOpenJobForm(true);
+  const handleOpenJobForm = (roleId: string) => {
+    setSelectedRoleId(roleId);
+    setJobFormOpen(true);
   };
 
   const handleCloseJobForm = () => {
-    setOpenJobForm(false);
+    setJobFormOpen(false);
   };
+
   return (
     <Grid item xs={12} sm={12}>
       <Paper elevation={2}>
         <Box p={2}>
-          <CustomButton
-            sx={{ my: 1 }}
-            onClick={handleOpenRoleForm}
-            variant="contained"
-            text="
-            Add new Role / Project
-            "
-          />
+          <CustomButton sx={{ my: 1 }} onClick={handleOpenRoleForm} variant="contained" text="Add new Role / Project" />
+
           <NewRoleForm
             onClose={() => {
               handleCloseRoleForm();
               onActionComplete();
             }}
             clientId={data.clientId}
-            open={openRoleForm}
+            open={roleFormOpen}
           />
+
           <NewJobForm
             onClose={() => {
               handleCloseJobForm();
               onActionComplete();
             }}
-            roleId={roleId}
-            open={openJobForm}
+            roleId={selectedRoleId}
+            open={jobFormOpen}
           />
+
           <Typography variant="h5" component="h2" gutterBottom>
             Roles Available
           </Typography>
+
           {!data?.role?.length ? (
             <NoData />
           ) : (
-            <ClientRoleTable
-              data={data}
-              handleOpenJobForm={handleOpenJobForm}
-              onActionComplete={onActionComplete}
-            />
+            <ClientRoleTable data={data} handleOpenJobForm={handleOpenJobForm} onActionComplete={onActionComplete} />
           )}
         </Box>
       </Paper>
