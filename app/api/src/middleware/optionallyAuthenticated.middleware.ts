@@ -26,10 +26,10 @@ export class OptionalAuthMiddleware implements NestMiddleware {
       injectDependencies(this.dependencies, ['db']),
     );
 
-    if (!authToken || authToken.isInactive()) {
-      next();
-      return;
-    }
+    // if (!authToken || authToken.isInactive()) {
+    //   next();
+    //   return;
+    // }
     req.requestingAuthToken = authToken;
     req.requestingUser = authToken.user;
 
