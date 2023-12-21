@@ -1,117 +1,107 @@
-import { lazy } from "react";
-import MainLayout from "../layout/MainLayout";
+import { lazy } from 'react';
+import MainLayout from '../layout/MainLayout';
 // project imports
 // import MainLayout from 'layout/MainLayout';
-import Loadable from "../components/Loadable";
-import Home from "../views/Landing/page";
-import BaseLayout from "../components/layouts/BaseLayout";
-import { Navigate } from "react-router";
-import { FormDataProvider } from "../utils/Contexts/clientFormContext";
-import InterviewEdit from "../views/Devs/Interview/interviewEdit";
-import DynamicRoles from "../views/dashboard/Roles/shortRoleUrlResolver";
-import ShortUrlPage from "../views/dashboard/Roles/shortRoleUrlResolver";
-import ExternalRoles from "../views/dashboard/Roles/externalRoles";
+import Loadable from '../components/Loadable';
+import Home from '../views/Landing/page';
+import BaseLayout from '../components/layouts/BaseLayout';
+import { Navigate } from 'react-router';
+import { FormDataProvider } from '../contexts/clientFormContext';
+import InterviewEdit from '../views/Devs/Interview/interviewEdit';
+import DynamicRoles from '../views/dashboard/Roles/ExternalRoleUrlResolver';
+import ShortUrlPage from '../views/dashboard/Roles/ExternalRoleUrlResolver';
+import ExternalRoles from '../views/dashboard/Roles/ExternalRoleUrlResolver/externalRoles';
+import RoleTabs from '@/views/dashboard/Roles/RoleTabs/roleTabs';
+import JobInfo from '@/views/dashboard/Roles/RoleTabs';
 // dashboard routing
-const InterviewScheduler = Loadable(
-  lazy(() => import("../views/HR/interviewSteps/InterviewScheduler"))
-);
+const InterviewScheduler = Loadable(lazy(() => import('../views/HR/interviewSteps/InterviewScheduler')));
 const JobSubmissionContainer = Loadable(
-  lazy(() => import("../views/dashboard/Roles/ApplicationForm/JobSubmission"))
+  lazy(() => import('../views/dashboard/Applicants/ApplicationForm/JobSubmission')),
 );
-const Developers = Loadable(lazy(() => import("../views/Devs/Devs")));
-const AddClient = Loadable(
-  lazy(() => import("../views/dashboard/clients/Details/clientForm"))
-);
-const ClientDetails = Loadable(
-  lazy(() => import("../views/dashboard/clients/Details"))
-);
-const StatusComingSoon = Loadable(
-  lazy(() => import("../views/status/ComingSoon"))
-);
-const Status404 = Loadable(lazy(() => import("../views/status/Status404")));
-const DashboardDefault = Loadable(
-  lazy(() => import("../views/dashboard/Default"))
-);
-const UserProfile = Loadable(lazy(() => import("../views/users/profile")));
-const UserSettings = Loadable(lazy(() => import("../views/users/settings")));
+const Developers = Loadable(lazy(() => import('../views/Devs')));
+const AddClient = Loadable(lazy(() => import('../views/dashboard/clients/Forms/clientForm')));
+const ClientDetails = Loadable(lazy(() => import('../views/dashboard/clients/Details')));
+const StatusComingSoon = Loadable(lazy(() => import('../views/status/ComingSoon')));
+const Status404 = Loadable(lazy(() => import('../views/status/Status404')));
+const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
+const UserProfile = Loadable(lazy(() => import('../views/users/profile')));
+const UserSettings = Loadable(lazy(() => import('../views/users/settings')));
 // utilities routing
-const Clients = Loadable(lazy(() => import("../views/dashboard/clients")));
-const Roles = Loadable(lazy(() => import("../views/dashboard/Roles")));
-const Interviews = Loadable(
-  lazy(() => import("../views/Devs/Interview/Interviews"))
-);
-const Hub = Loadable(lazy(() => import("../views/Devs/devHub")));
+const Clients = Loadable(lazy(() => import('../views/dashboard/clients')));
+const Roles = Loadable(lazy(() => import('../views/dashboard/Roles')));
+const Interviews = Loadable(lazy(() => import('../views/Devs/Interview/Interviews')));
+const Hub = Loadable(lazy(() => import('../views/Devs/Hub/devHub')));
 
 // sample page routing
-const ShortListedDevs = Loadable(lazy(() => import("../views/HR")));
+const ShortListedDevs = Loadable(lazy(() => import('../views/HR')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 export const ExternalRoutes = {
-  path: "/",
+  path: '/',
   element: <BaseLayout />,
   children: [
     {
-      path: "/",
+      path: '/',
       element: <Home />,
     },
   ],
 };
 export const homeRoutes = {
-  path: "/",
+  path: '/',
   element: <BaseLayout />,
   children: [
     {
-      path: "/",
+      path: '/',
       element: <Home />,
     },
     {
-      path: "/access-denied",
+      path: '/access-denied',
       element: <Status404 />,
     },
     {
-      path: "*",
+      path: '*',
       element: <Status404 />,
     },
   ],
 };
 const MainRoutes = {
-  path: "/",
+  path: '/',
   element: <MainLayout />,
   children: [
     {
-      path: "/s/:shortComponent",
+      path: '/s/:shortComponent',
       element: <ShortUrlPage />,
     },
     {
-      path: "/c/:clientId",
+      path: '/c/:clientId',
       element: <ExternalRoles />,
     },
     {
-      path: "/dashboard",
+      path: '/dashboard',
       element: <DashboardDefault />,
     },
 
     {
-      path: "dashboard",
+      path: 'dashboard',
       children: [
         {
-          path: "",
+          path: '',
           element: <Navigate to="default" replace />,
         },
         {
-          path: "default",
+          path: 'default',
           element: <DashboardDefault />,
         },
         {
-          path: "customers/clients",
+          path: 'customers/clients',
           element: <Clients />,
         },
         {
-          path: "customers/clients/:id",
+          path: 'customers/clients/:id',
           element: <ClientDetails />,
         },
         {
-          path: "customers/clients/add",
+          path: 'customers/clients/add',
           element: (
             <FormDataProvider>
               <AddClient />,
@@ -119,34 +109,38 @@ const MainRoutes = {
           ),
         },
         {
-          path: "jobs/roles",
+          path: 'roles/jobs',
           element: <Roles />,
+        },
+        {
+          path: 'roles/jobs/:roleid',
+          element: <JobInfo />,
         },
       ],
     },
 
     {
-      path: "management",
+      path: 'management',
       // element: <SidebarLayout />,
       children: [
         {
-          path: "",
+          path: '',
           element: <Navigate to="transactions" replace />,
         },
 
         {
-          path: "profile",
+          path: 'profile',
           children: [
             {
-              path: "",
+              path: '',
               element: <Navigate to="details/:id" replace />,
             },
             {
-              path: "details/:id",
+              path: 'details/:id',
               element: <UserProfile />,
             },
             {
-              path: "settings/:id",
+              path: 'settings/:id',
               element: <UserSettings />,
             },
           ],
@@ -154,44 +148,44 @@ const MainRoutes = {
       ],
     },
     {
-      path: "devs",
+      path: 'devs',
       children: [
         {
-          path: "all",
+          path: 'all',
           element: <Developers />,
         },
 
         {
-          path: "interviews",
+          path: 'interviews',
           element: <Interviews />,
         },
         {
-          path: "interviews/Edit/:id",
+          path: 'interviews/Edit/:id',
           element: <InterviewEdit />,
         },
         {
-          path: "hub",
+          path: 'hub',
           // element: <Hub />,
           element: <StatusComingSoon />,
         },
       ],
     },
     {
-      path: "devs/shortlisted",
+      path: 'devs/shortlisted',
       element: <ShortListedDevs />,
     },
     {
-      path: "/hr/interviews/:id",
+      path: '/hr/interviews/:id',
       element: <InterviewScheduler />,
       // element: <Scheduler />,
     },
     {
-      path: "/hr/interviews/create",
+      path: '/hr/interviews/create',
       element: <InterviewScheduler />,
       // element: <Scheduler />,
     },
     {
-      path: "job-submttion/:id",
+      path: 'job-submttion/:id',
       element: <JobSubmissionContainer />,
     },
   ],
