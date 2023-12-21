@@ -33,7 +33,7 @@ export class ApplicationsService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      let existingApplicant = await Application.getByEmail(
+      const existingApplicant = await Application.getByEmail(
         createApplicationDto.email,
       );
       if (existingApplicant) {
