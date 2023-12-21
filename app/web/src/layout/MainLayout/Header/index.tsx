@@ -11,7 +11,7 @@ import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
 
 // assets
-import { IconMenu2 } from '@tabler/icons';
+import { IconMenu2 } from '@tabler/icons-react';
 import { componentThemeoption } from '../../../themes/schemes/PureLightTheme';
 import { themePalette } from '../../../themes/schemes/palette';
 import { useTypedSelector } from '../../../store';
@@ -98,4 +98,3 @@ Header.propTypes = {
 };
 
 export default Header;
-
