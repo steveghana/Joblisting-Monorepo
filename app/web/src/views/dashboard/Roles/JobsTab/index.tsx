@@ -4,14 +4,14 @@ import JobsList from './joblist';
 import JobFilters from './jobFilters';
 import { Avatar, Container, Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 // import { roleData } from "./roledata";
-import RoleSummary from '../roleSummary';
+import RoleSummary from '../components/roleSummary';
 import { IClient } from '../../../../types/client';
 import { IJobs } from '../../../../types';
 import NoData from '../../../../components/NoData';
 import SubCard from '../../../../components/SubCard';
 // import RoleSummary from "./roleSummary";
 
-const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = props => {
+const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (props) => {
   const [jobs, setJobs] = useState<IJobs[]>(props.job);
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
@@ -23,16 +23,16 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = pr
     // Applying filtering logic here based on newFilters
     const filteredJobs =
       newFilters[filterkey] === true
-        ? props.job.filter(job => {
+        ? props.job.filter((job) => {
             return job.roleCategory === filterkey;
           })
         : props.job;
     setJobs(filteredJobs);
   };
-  const categoryByfilter = props.job?.map(item => {
+  const categoryByfilter = props.job?.map((item) => {
     //We want to categorise the array by their respective categories
     return {
-      [item.roleCategory]: props.job.filter(t => t.roleCategory === item.roleCategory),
+      [item.roleCategory]: props.job.filter((t) => t.roleCategory === item.roleCategory),
     };
   });
   return (
@@ -60,7 +60,14 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = pr
                   {props.client.aboutTheCompany}
                 </Typography>
               </Grid>
-              <Box my={2} display={'flex'} justifyContent={'space-between'} flexWrap={'wrap'} alignItems={'flex-start'} sx={{ width: '100%' }}>
+              <Box
+                my={2}
+                display={'flex'}
+                justifyContent={'space-between'}
+                flexWrap={'wrap'}
+                alignItems={'flex-start'}
+                sx={{ width: '100%' }}
+              >
                 <JobFilters filters={categoryByfilter} onChange={handleFilterChange} />
                 <JobsList jobs={jobs} location={props.client.country} roleId={props.roleId} />
                 {matchUpMd && <RoleSummary client={props.client} />}
