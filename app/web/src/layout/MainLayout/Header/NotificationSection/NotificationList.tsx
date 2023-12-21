@@ -1,6 +1,6 @@
 // material-ui
-import React from "react";
-import { useTheme, styled } from "@mui/material/styles";
+import React from 'react';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   Avatar,
   Button,
@@ -16,27 +16,22 @@ import {
   ListItemText,
   Stack,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 // assets
-import {
-  IconBrandTelegram,
-  IconBuildingStore,
-  IconMailbox,
-  IconPhoto,
-} from "@tabler/icons";
+import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@tabler/icons-react';
 
-import User1 from "../../../../assets/images/users/user-round.svg";
-import { themePalette } from "../../../../themes/schemes/palette";
+import User1 from '../../../../assets/images/users/user-round.svg';
+import { themePalette } from '../../../../themes/schemes/palette';
 
 // styles
-const ListItemWrapper = styled("div")(({ theme }) => ({
-  cursor: "pointer",
+const ListItemWrapper = styled('div')(({ theme }) => ({
+  cursor: 'pointer',
   padding: 16,
-  "&:hover": {
+  '&:hover': {
     background: themePalette.primary.light,
   },
-  "& .MuiListItem-root": {
+  '& .MuiListItem-root': {
     padding: 0,
   },
 }));
@@ -48,13 +43,13 @@ const NotificationList = () => {
 
   const chipSX = {
     height: 24,
-    padding: "0 6px",
+    padding: '0 6px',
   };
   const chipErrorSX = {
     ...chipSX,
     color: themePalette.primary.light,
     backgroundColor: themePalette.secondary.light,
-    marginRight: "5px",
+    marginRight: '5px',
   };
 
   const chipWarningSX = {
@@ -73,20 +68,20 @@ const NotificationList = () => {
   return (
     <List
       sx={{
-        width: "100%",
+        width: '100%',
         maxWidth: 330,
         py: 0,
-        borderRadius: "10px",
-        [theme.breakpoints.down("md")]: {
+        borderRadius: '10px',
+        [theme.breakpoints.down('md')]: {
           maxWidth: 300,
         },
-        "& .MuiListItemSecondaryAction-root": {
+        '& .MuiListItemSecondaryAction-root': {
           top: 22,
         },
-        "& .MuiDivider-root": {
+        '& .MuiDivider-root': {
           my: 0,
         },
-        "& .list-container": {
+        '& .list-container': {
           pl: 7,
         },
       }}
@@ -109,9 +104,7 @@ const NotificationList = () => {
         </ListItem>
         <Grid container direction="column" className="list-container">
           <Grid item xs={12} sx={{ pb: 2 }}>
-            <Typography variant="subtitle2">
-              It is a long established fact that a reader will be distracted
-            </Typography>
+            <Typography variant="subtitle2">It is a long established fact that a reader will be distracted</Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
@@ -133,20 +126,14 @@ const NotificationList = () => {
               sx={{
                 color: themePalette.success.dark,
                 backgroundColor: themePalette.success.light,
-                border: "none",
+                border: 'none',
                 borderColor: themePalette.success.main,
               }}
             >
               <IconBuildingStore stroke={1.5} size="1.3rem" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText
-            primary={
-              <Typography variant="subtitle1">
-                Store Verification Done
-              </Typography>
-            }
-          />
+          <ListItemText primary={<Typography variant="subtitle1">Store Verification Done</Typography>} />
           <ListItemSecondaryAction>
             <Grid container justifyContent="flex-end">
               <Grid item xs={12}>
@@ -159,9 +146,7 @@ const NotificationList = () => {
         </ListItem>
         <Grid container direction="column" className="list-container">
           <Grid item xs={12} sx={{ pb: 2 }}>
-            <Typography variant="subtitle2">
-              We have successfully received your request.
-            </Typography>
+            <Typography variant="subtitle2">We have successfully received your request.</Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
@@ -180,18 +165,14 @@ const NotificationList = () => {
               sx={{
                 color: themePalette.primary.dark,
                 backgroundColor: themePalette.primary.light,
-                border: "none",
+                border: 'none',
                 borderColor: themePalette.primary.main,
               }}
             >
               <IconMailbox />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText
-            primary={
-              <Typography variant="subtitle1">Check Your Mail.</Typography>
-            }
-          />
+          <ListItemText primary={<Typography variant="subtitle1">Check Your Mail.</Typography>} />
           <ListItemSecondaryAction>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -205,18 +186,13 @@ const NotificationList = () => {
         <Grid container direction="column" className="list-container">
           <Grid item xs={12} sx={{ pb: 2 }}>
             <Typography variant="subtitle2">
-              All done! Now check your inbox as you&apos;re in for a sweet
-              treat!
+              All done! Now check your inbox as you&apos;re in for a sweet treat!
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
               <Grid item>
-                <Button
-                  variant="contained"
-                  disableElevation
-                  endIcon={<IconBrandTelegram />}
-                >
+                <Button variant="contained" disableElevation endIcon={<IconBrandTelegram />}>
                   Mail
                 </Button>
               </Grid>
@@ -227,12 +203,8 @@ const NotificationList = () => {
       <Divider />
       <ListItemWrapper>
         <ListItem alignItems="center">
-          <ListItemAvatar>
-            {/* <Avatar alt="John Doe" src={User1} /> */}
-          </ListItemAvatar>
-          <ListItemText
-            primary={<Typography variant="subtitle1">John Doe</Typography>}
-          />
+          <ListItemAvatar>{/* <Avatar alt="John Doe" src={User1} /> */}</ListItemAvatar>
+          <ListItemText primary={<Typography variant="subtitle1">John Doe</Typography>} />
           <ListItemSecondaryAction>
             <Grid container justifyContent="flex-end">
               <Grid item xs={12}>
@@ -282,9 +254,7 @@ const NotificationList = () => {
           <ListItemAvatar>
             <Avatar alt="John Doe" src={User1} />
           </ListItemAvatar>
-          <ListItemText
-            primary={<Typography variant="subtitle1">John Doe</Typography>}
-          />
+          <ListItemText primary={<Typography variant="subtitle1">John Doe</Typography>} />
           <ListItemSecondaryAction>
             <Grid container justifyContent="flex-end">
               <Grid item xs={12}>
@@ -297,9 +267,7 @@ const NotificationList = () => {
         </ListItem>
         <Grid container direction="column" className="list-container">
           <Grid item xs={12} sx={{ pb: 2 }}>
-            <Typography variant="subtitle2">
-              It is a long established fact that a reader will be distracted
-            </Typography>
+            <Typography variant="subtitle2">It is a long established fact that a reader will be distracted</Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
