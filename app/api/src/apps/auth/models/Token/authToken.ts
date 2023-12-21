@@ -2,7 +2,7 @@ import { IUser } from '../../../../types/user';
 
 export type IAuthToken = {
   id: string;
-  isActive: boolean;
+  // isActive: boolean;
   lastUsed: Date;
   createdAt?: Date;
   userEmail?: string;
