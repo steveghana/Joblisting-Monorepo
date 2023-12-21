@@ -6,6 +6,19 @@
     "dev": "turbo run dev",
     "batch:commit": "commit_files.bat"
   },
+   "author": {
+    "name": "Steve B.O Williams",
+    "email": "boatengstephen707@gmail.com",
+    "url": "https://github.com/steveghana"
+  },
+"repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/your-new-app.git"
+  },
+   "bugs": {
+    "url": "https://github.com/your-username/your-new-app/issues"
+  },
+  "homepage": "https://github.com/your-username/your-new-app#readme",
   "workspaces": [
     "app/*"
   ],
@@ -14,7 +27,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "description": ""
 }
