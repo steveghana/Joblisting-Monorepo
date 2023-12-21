@@ -1,21 +1,23 @@
-import { MRT_Row, MRT_TableInstance } from "material-react-table";
-import { Box, IconButton, Tooltip } from "@mui/material";
-import { Delete, Edit, People } from "@mui/icons-material";
-import CustomButton from "../button";
-import AlertDialog from "../Dialog";
-import React from "react";
-interface IActions<T> {
+import { MRT_Row, MRT_TableInstance } from 'material-react-table';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { Delete, Edit, People } from '@mui/icons-material';
+import CustomButton from '../button';
+import AlertDialog from '../Dialog';
+import React from 'react';
+
+interface IActionsProps<T> {
   row: MRT_Row<T>;
   table: MRT_TableInstance<T>;
   isDetails?: boolean;
-  tableType?: "Shortlist" | "Interviewing" | "Accepted";
+  tableType?: 'Shortlist' | 'Interviewing' | 'Accepted';
 
   actionFn: (items: any) => void;
   handleOpenJobForm?: (id: string) => void;
   cancelInterview?: () => void;
   handleOpenInterviewForm?: (id: string) => void;
 }
-function TableActions<T>({
+
+const TableActions = <T,>({
   row,
   table,
   actionFn,
@@ -24,7 +26,7 @@ function TableActions<T>({
   handleOpenInterviewForm,
   tableType,
   isDetails,
-}: IActions<T>) {
+}: IActionsProps<T>) => {
   const [open, setOpen] = React.useState(false);
 
   const [actionIndex, setActionIndex] = React.useState<any>({});
@@ -33,19 +35,17 @@ function TableActions<T>({
     setOpen(true);
     setActionIndex({ ...actionData });
   };
+
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
-      <AlertDialog
-        deleteFn={() => actionFn(actionIndex.id)}
-        handleClose={handleClose}
-        open={open}
-      />
+      <AlertDialog deleteFn={() => actionFn(actionIndex.id)} handleClose={handleClose} open={open} />
 
-      <Box sx={{ display: "flex", gap: ".2rem" }}>
-        {tableType === "Shortlist" && (
+      <Box sx={{ display: 'flex', gap: '.2rem' }}>
+        {tableType === 'Shortlist' && (
           <Tooltip title="Schedule Interview">
             <IconButton
               onClick={(e) => {
@@ -53,15 +53,12 @@ function TableActions<T>({
                 handleOpenInterviewForm(row.id);
               }}
             >
-              <CustomButton
-                sx={{ my: 2 }}
-                variant="contained"
-                text="Interview"
-              />
+              <CustomButton sx={{ my: 2 }} variant="contained" text="Interview" />
             </IconButton>
           </Tooltip>
         )}
-        {tableType === "Interviewing" && (
+
+        {tableType === 'Interviewing' && (
           <Tooltip title="Cancel Interview">
             <IconButton
               onClick={(e) => {
@@ -73,6 +70,7 @@ function TableActions<T>({
             </IconButton>
           </Tooltip>
         )}
+
         {isDetails && (
           <Tooltip title="add new job">
             <IconButton
@@ -85,7 +83,8 @@ function TableActions<T>({
             </IconButton>
           </Tooltip>
         )}
-        <Box display={"flex"} justifyContent={"space-between"}>
+
+        <Box display={'flex'} justifyContent={'space-between'}>
           <Tooltip title="Edit">
             <IconButton
               onClick={(e) => {
@@ -96,6 +95,7 @@ function TableActions<T>({
               <Edit />
             </IconButton>
           </Tooltip>
+
           <Tooltip title="Delete">
             <IconButton
               color="error"
@@ -111,6 +111,6 @@ function TableActions<T>({
       </Box>
     </>
   );
-}
+};
 
 export default TableActions;
