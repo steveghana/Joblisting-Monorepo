@@ -1,4 +1,4 @@
-import PerfectScrollbar from "react-perfect-scrollbar";
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Dialog,
   DialogActions,
@@ -8,27 +8,24 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@mui/material";
-import React, { useState } from "react";
-import CustomButton from "../../../components/button";
+} from '@mui/material';
+import React, { useState } from 'react';
+import CustomButton from '../../../components/button';
 // import SelectParticipants, {
 //   InterviewFormValue,
 // } from "../../HR/interviewSteps/SelectParticipants";
-import { Iinterviews, InterviewFormValue } from "../../../types/interviews";
-import { IDev } from "../../../types/devs";
-import { useNavigate, useParams } from "react-router";
-import {
-  useGetInterviewQuery,
-  useUpdateInterviewMutation,
-} from "../../../store/services/interview.service";
-import { useTypedDispatch, useTypedSelector } from "../../../store";
-import { toast } from "react-toastify";
-import Demo from "../../HR/Events/EventForm";
-import NoData from "../../../components/NoData";
-import FullscreenProgress from "../../../components/FullscreenProgress/FullscreenProgress";
-import MainCard from "../../../components/MainCard";
-import { STATUS_SCHEDULED } from "../../HR/interviewSteps/InterviewScheduler";
-import { fetchDevs } from "../../../store/slices/dev.slice";
+import { Iinterviews, InterviewFormValue } from '../../../types/interviews';
+import { IDev } from '../../../types/devs';
+import { useNavigate, useParams } from 'react-router';
+import { useGetInterviewQuery, useUpdateInterviewMutation } from '../../../store/services/interview.service';
+import { useTypedDispatch, useTypedSelector } from '../../../store';
+import { toast } from 'react-toastify';
+import Demo from '../../HR/Events/EventForm';
+import NoData from '../../../components/NoData';
+import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
+import MainCard from '../../../components/MainCard';
+import { STATUS_SCHEDULED } from '../../HR/interviewSteps/InterviewScheduler';
+import { fetchDevs } from '../../../store/slices/dev.slice';
 
 const InterviewEdit = () => {
   const theme = useTheme();
@@ -41,16 +38,15 @@ const InterviewEdit = () => {
     isError,
     isLoading,
     refetch,
-  } = useGetInterviewQuery({ id });
-  const [updateInterview, { isError: isUpdateError }] =
-    useUpdateInterviewMutation();
+  } = useGetInterviewQuery({ id: id as string });
+  const [updateInterview, { isError: isUpdateError }] = useUpdateInterviewMutation();
   const state = useTypedSelector((state) => state.devs.devs);
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
-  const [eventName, setEventName] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const [eventName, setEventName] = useState('');
+  const [eventDescription, setEventDescription] = useState('');
+  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const devsAndApplicants = useTypedSelector((state) => state.devs.devs);
   if (isFetching || isLoading) {
     return <FullscreenProgress />;
@@ -60,9 +56,7 @@ const InterviewEdit = () => {
   }
 
   // const applicant = interviewEditData.candidate;
-  const guests = devsAndApplicants.filter(
-    (dev) => dev.rolestatus === "Accepted"
-  );
+  const guests = devsAndApplicants.filter((dev) => dev.rolestatus === 'Accepted');
   // const session = useSession();
   // const supabase = useSupabaseClient();
   // const { isLoading } = useSessionContext();
@@ -88,7 +82,7 @@ const InterviewEdit = () => {
   };
 
   const createCalendarEvent = async () => {
-    console.log("Creating calendar event");
+    console.log('Creating calendar event');
     {
       const event = {
         summary: eventName,
@@ -102,29 +96,26 @@ const InterviewEdit = () => {
           timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         },
         attendees: [
-          { email: "john@example.com" },
-          { email: "jane@example.com" },
-          { email: "your-email@example.com" }, // You can include or exclude yourself
+          { email: 'john@example.com' },
+          { email: 'jane@example.com' },
+          { email: 'your-email@example.com' }, // You can include or exclude yourself
         ],
       };
     }
     try {
-      const response = await fetch(
-        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-        {
-          method: "POST",
-          headers: {
-            // Authorization: "Bearer " + session.provider_token,
-          },
-          body: JSON.stringify(event),
-        }
-      );
+      const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+        method: 'POST',
+        headers: {
+          // Authorization: "Bearer " + session.provider_token,
+        },
+        body: JSON.stringify(event),
+      });
       const data = await response.json();
       console.log(data);
-      toast.success("Event created, check your Google Calendar!");
+      toast.success('Event created, check your Google Calendar!');
     } catch (error) {
-      console.error("Error creating calendar event:", error);
-      toast.error("Failed to create the event. Please try again.");
+      console.error('Error creating calendar event:', error);
+      toast.error('Failed to create the event. Please try again.');
     }
   };
   const handleEdit = async (value: InterviewFormValue) => {
@@ -133,51 +124,41 @@ const InterviewEdit = () => {
     const trimedCandidate = candidate.trim().toLowerCase();
 
     const candidateInfo = state.find(
-      (candidate) =>
-        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
-        trimedCandidate
+      (candidate) => `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() === trimedCandidate,
     );
-    const escapedPattern = "\\s";
-    const regex = new RegExp(escapedPattern, "g");
-    const mappedGuests = guests.map((guest) =>
-      guest.trim().replace(regex, "").toLowerCase()
-    );
+    const escapedPattern = '\\s';
+    const regex = new RegExp(escapedPattern, 'g');
+    const mappedGuests = guests.map((guest) => guest.trim().replace(regex, '').toLowerCase());
     const guestsInfo = state.filter((guest) =>
-      mappedGuests.includes(
-        `${guest.firstName}${guest.lastName}`
-          .trim()
-          .replace(regex, "")
-          .toLowerCase()
-      )
+      mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
     );
     try {
       const response = await updateInterview({
-        id,
+        id: id as string,
         data: {
-          candidateId: candidateInfo.id,
+          candidateId: candidateInfo!.id as string,
           status: STATUS_SCHEDULED,
-          guests: guestsInfo.map((item) => item.id),
+          guests: guestsInfo.map((item) => item.id) as string[],
           interviewType: rest.eventType,
           ...rest,
         },
       }).unwrap();
-      console.log(response, "this is the response");
+      console.log(response, 'this is the response');
       if (response && !isUpdateError) {
         dispatch(fetchDevs()); // update the persisted data
-        navigate("/devs/interviews");
+        navigate('/devs/interviews');
       }
-      toast.success("Event updated", {
-        position: "bottom-center",
+      toast.success('Event updated', {
+        position: 'bottom-center',
       });
     } catch (error) {
-      console.log(error.message);
-      toast.error("Cannot edit interview, pleas try again later", {
-        position: "bottom-center",
+      toast.error('Cannot edit interview, pleas try again later', {
+        position: 'bottom-center',
       });
     }
   };
   return (
-    <MainCard title={"Edit Interview"}>
+    <MainCard title={'Edit Interview'}>
       <Demo
         handleSubmit={(values) => console.log(values)}
         _applicants={[interviewEditData?.candidate]}
@@ -186,7 +167,6 @@ const InterviewEdit = () => {
         isEditing={true}
         editableInterviewInfo={interviewEditData}
       />
-      {/* Your form or input fields for editing */}
     </MainCard>
   );
 };
