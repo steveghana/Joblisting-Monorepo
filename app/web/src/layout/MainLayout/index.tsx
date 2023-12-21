@@ -9,15 +9,18 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 import Breadcrumbs from '../../components/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import navigation from '../../routes/menu-items';
+
 import { drawerWidth } from '../../store/constant';
 import { SET_MENU } from '../../store/actions';
 
 // assets
 import { componentThemeoption } from '../../themes/schemes/PureLightTheme';
 import { Protect } from '../../components/auth/requireAuth';
+import { IconChevronRight } from '@tabler/icons-react';
 
 // styles
-const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => ({
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   ...componentThemeoption.mainContent,
   borderBottomLeftRadius: 0,
   borderBottomRightRadius: 0,
@@ -31,7 +34,7 @@ const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(({ t
       : {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
-        }
+        },
   ),
   [theme.breakpoints.up('md')]: {
     marginLeft: open ? 0 : -(drawerWidth - 20),
@@ -87,16 +90,13 @@ const MainLayout = () => {
       </AppBar>
 
       {/* drawer */}
-      <Sidebar drawerOpen={!hasToken ? false : !matchDownMd ? leftDrawerOpened : !leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+      <Sidebar
+        drawerOpen={!hasToken ? false : !matchDownMd ? leftDrawerOpened : !leftDrawerOpened}
+        drawerToggle={handleLeftDrawerToggle}
+      />
 
       <Main theme={theme} open={leftDrawerOpened}>
-        {/* <Breadcrumbs
-          separator={IconChevronRight}
-          navigation={navigation}
-          icon
-          title
-          rightAlign
-        /> */}
+        <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
         <Outlet />
       </Main>
     </Box>
@@ -105,4 +105,3 @@ const MainLayout = () => {
 // export default Protect(MainLayout, ['Ceo', 'Developer', 'Marketing', 'Recruitment']);
 
 export default MainLayout;
-
