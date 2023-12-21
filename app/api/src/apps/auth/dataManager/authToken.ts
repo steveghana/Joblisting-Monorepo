@@ -86,15 +86,15 @@ class AuthToken {
   // lastused(): any {
   //   return this.data;
   // }
-  isInactive(): boolean {
-    return (
-      !this.data.isActive ||
-      Date.now() - new Date(this.data.lastUsed).getTime() >
-        this.dependencies.config.authentication.authTokenIdleTTL ||
-      Date.now() - new Date(this.data.createdAt).getTime() >
-        this.dependencies.config.authentication.authTokenAbsoluteTTL
-    );
-  }
+  // isInactive(): boolean {
+  //   return (
+  //     !this.data.isActive ||
+  //     Date.now() - new Date(this.data.lastUsed).getTime() >
+  //       this.dependencies.config.authentication.authTokenIdleTTL ||
+  //     Date.now() - new Date(this.data.createdAt).getTime() >
+  //       this.dependencies.config.authentication.authTokenAbsoluteTTL
+  //   );
+  // }
 
   async updateLastUsed(): Promise<void> {
     await updateAuthTokenLastUsedIfActive(
