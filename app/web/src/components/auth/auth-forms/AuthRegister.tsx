@@ -5,27 +5,27 @@ import { Link, useNavigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
-    Box,
-    Button,
-    Checkbox,
-    CircularProgress,
-    Divider,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    TextField,
-    Typography,
-    useMediaQuery,
+  Box,
+  Button,
+  Checkbox,
+  CircularProgress,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography,
+  useMediaQuery,
 } from '@mui/material';
 
 // third party
 import * as Yup from 'yup';
-import { ErrorMessage, Formik } from 'formik';
+import { ErrorMessage, Formik, FormikHelpers } from 'formik';
 
 // project imports
 import useScriptRef from '../../../hooks/useScriptRef';
@@ -39,414 +39,440 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { themeTypography } from '../../../themes/schemes/typography';
 import CustomButton from '../../button';
 import {
-    useGetRolesQuery,
-    useRegisterUserMutation,
-    useRegisterUserWithGoogleMutation,
+  useGetRolesQuery,
+  useRegisterUserMutation,
+  useRegisterUserWithGoogleMutation,
 } from '../../../store/services/userAuth.service';
 import { Send } from '@mui/icons-material';
-import { Social, handleSocial } from './authLogin';
+import { handleSocial } from './authLogin';
 import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 import { TransparentScreeProgress } from '../../FullscreenProgress/FullscreenProgress';
+import { Social } from './authicons';
 
 // ===========================|| AUTH - REGISTER ||=========================== //
 
 const AuthRegister = ({ ...others }) => {
-    const theme = useTheme();
-    const scriptedRef = useScriptRef();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const { data, isLoading, isError: isRolesError, error: rolesError } = useGetRolesQuery();
-    const [showPassword, setShowPassword] = useState(false);
-    const [checked, setChecked] = useState(true);
-    const [strength, setStrength] = useState(0);
-    const [level, setLevel] = useState<{ label: string; color: any }>();
-    const [regAvailable, setRegAvailable] = useState<boolean>(false);
-    const [registerUser, { isError, error }] = useRegisterUserMutation();
-    const [registerWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] =
-        useRegisterUserWithGoogleMutation();
-    const router = useNavigate();
-    const checkRegistration = () => {
-        if (!!data?.length && data.includes('Ceo') && data.includes('Recruitment')) {
-            toast.warn('Registration is not available at the moment', {
-                position: 'bottom-center',
-            });
-            router('/auth/login');
-            return false;
-            // Both "Ceo" and "Recruitment" are present in the data array then rg is open
-        }
-        // Either "Ceo" or "Recruitment" (or both) are not present in the data array then not open :TODO: change later
-        return true;
-    };
-
-    async function register(values, setters, scriptedRef) {
-        const { setStatus, setErrors, setSubmitting } = setters;
-        const { firstName, password, email, lastName, role: userRole, phoneNumber } = values;
-
-        try {
-            const data = await registerUser({
-                user: { firstName, password, email, phoneNumber, lastName },
-            }).unwrap();
-
-            if (!data) return;
-
-            const { token } = data;
-
-            if (token) {
-                sessionStorage.setItem(
-                    'tempUserinfo',
-                    JSON.stringify({
-                        email,
-                        password,
-                    })
-                );
-                router('/role/select');
-                if (scriptedRef.current) {
-                    setStatus({ success: true });
-                    setSubmitting(false);
-                }
-
-                return true;
-            }
-        } catch (error) {
-            setStatus({ success: false });
-            setErrors({ submit: error.data });
-            setSubmitting(false);
-        }
+  const theme = useTheme();
+  const scriptedRef = useScriptRef();
+  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const { data, isLoading, isError: isRolesError, error: rolesError } = useGetRolesQuery();
+  const [showPassword, setShowPassword] = useState(false);
+  const [checked, setChecked] = useState(true);
+  const [strength, setStrength] = useState(0);
+  const [level, setLevel] = useState<{ label: string; color: any }>();
+  const [regAvailable, setRegAvailable] = useState<boolean>(false);
+  const [registerUser, { isError, error }] = useRegisterUserMutation();
+  const [registerWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] =
+    useRegisterUserWithGoogleMutation();
+  const router = useNavigate();
+  const checkRegistration = () => {
+    if (!!data?.length && data.includes('Ceo') && data.includes('Recruitment')) {
+      toast.warn('Registration is not available at the moment', {
+        position: 'bottom-center',
+      });
+      router('/auth/login');
+      return false;
+      // Both "Ceo" and "Recruitment" are present in the data array then rg is open
     }
+    // Either "Ceo" or "Recruitment" (or both) are not present in the data array then not open :TODO: change later
+    return true;
+  };
 
-    const onGoogleSuccess = async (codeResponse: Omit<TokenResponse, 'error' | 'error_description' | 'error_uri'>) => {
-        try {
-            const response = await registerWithGoogle({
-                accessToken: codeResponse.access_token,
-            }).unwrap();
+  /**
+   * Registers a new user
+   *
+   * @param values - Object containing user details
+   * @param setters - Formik helpers for managing form state
+   * @param scriptedRef - Ref for determining if function was called from test
+   *
+   * @returns Promise resolving to boolean indicating if register succeeded
+   */
+  interface RegisterFormValues {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    role: string;
+    submit: null;
+  }
 
-            if (response.token) {
-                const { email, password } = response;
-                //This is a temporal user info login credential, tempUserinfo will be cleared upon login
-                sessionStorage.setItem(
-                    'tempUserinfo',
-                    JSON.stringify({
-                        email,
-                        password,
-                    })
-                );
-                router('/role/select');
-            }
-        } catch (error) {
-            toast.error("Couldn't register with Google, please try again later", {
-                position: 'bottom-center',
-            });
+  async function register(
+    values: RegisterFormValues,
+    setters: FormikHelpers<RegisterFormValues>,
+    scriptedRef: React.MutableRefObject<boolean>,
+  ) {
+    const { setStatus, setErrors, setSubmitting } = setters;
+
+    const { firstName, password, email, lastName, role: userRole, phoneNumber } = values;
+
+    try {
+      const data = await registerUser({
+        user: {
+          firstName,
+          password,
+          email,
+          phoneNumber,
+          lastName,
+        },
+      }).unwrap();
+
+      if (!data) return;
+
+      const { token } = data;
+
+      if (token) {
+        sessionStorage.setItem(
+          'tempUserinfo',
+          JSON.stringify({
+            email,
+            password,
+          }),
+        );
+
+        router('/role/select');
+
+        if (scriptedRef.current) {
+          setStatus({ success: true });
+          setSubmitting(false);
         }
-    };
 
-    const loginAuth = useGoogleLogin({
-        onSuccess: codeResponse => onGoogleSuccess(codeResponse),
-        onError: error => console.log('Login Failed:', error),
-    });
-    const changePassword = value => {
-        const temp = strengthIndicator(value);
-        setStrength(temp);
-        setLevel(strengthColor(temp));
-    };
-    useEffect(() => {
-        changePassword('123456');
-    }, []);
-    useEffect(() => {
-        console.log(data, 'in usefect');
-        if (!isLoading) {
-            setTimeout(() => {
-                const checked = checkRegistration();
-                console.log(checked);
-                setRegAvailable(checked);
-            }, 3000);
-        }
-    }, [isLoading]);
+        return true;
+      }
+    } catch (error: any) {
+      setStatus({ success: false });
+      setErrors({ submit: error.data });
+      setSubmitting(false);
+    }
+  }
 
-    return (
-        <>
-            {!regAvailable ||
-                (isWithGoogleLoading && (
-                    <Grid
-                        sx={{
-                            background: 'rgba(23, 22, 22, 0.19)',
-                            position: 'absolute',
-                            zIndex: '3',
-                            inset: '0 0 0 0',
-                            // height: "100dvh",
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <TransparentScreeProgress />
-                    </Grid>
-                ))}
-            <Formik
-                initialValues={{
-                    email: '',
-                    password: '',
-                    firstName: '',
-                    lastName: '',
-                    phoneNumber: '',
-                    role: 'Ceo' || 'Marketing' || 'Recruitment' || 'Developer',
-                    submit: null,
-                }}
-                validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required'),
+  const onGoogleSuccess = async (codeResponse: Omit<TokenResponse, 'error' | 'error_description' | 'error_uri'>) => {
+    try {
+      const response = await registerWithGoogle({
+        accessToken: codeResponse.access_token,
+      }).unwrap();
 
-                    phoneNumber: Yup.string()
-                        .matches(/^\+?[0-9]{8,15}$/, 'Please enter a valid phone number')
-                        .required('Please enter your phone number'),
-                })}
-                onSubmit={async (values, setters) => {
-                    console.log(values, 'from submitting');
-                    await register(values, setters, scriptedRef);
-                }}
+      if (response.token) {
+        const { email, password } = response;
+        //This is a temporal user info login credential, tempUserinfo will be cleared upon login
+        sessionStorage.setItem(
+          'tempUserinfo',
+          JSON.stringify({
+            email,
+            password,
+          }),
+        );
+        router('/role/select');
+      }
+    } catch (error) {
+      toast.error("Couldn't register with Google, please try again later", {
+        position: 'bottom-center',
+      });
+    }
+  };
+
+  const loginAuth = useGoogleLogin({
+    onSuccess: (codeResponse) => onGoogleSuccess(codeResponse),
+    onError: (error) => console.log('Login Failed:', error),
+  });
+  const changePassword = (value: string) => {
+    const temp = strengthIndicator(value);
+    setStrength(temp);
+    setLevel(strengthColor(temp));
+  };
+  useEffect(() => {
+    changePassword('123456');
+  }, []);
+  useEffect(() => {
+    console.log(data, 'in usefect');
+    if (!isLoading) {
+      setTimeout(() => {
+        const checked = checkRegistration();
+        console.log(checked);
+        setRegAvailable(checked);
+      }, 3000);
+    }
+  }, [isLoading]);
+
+  return (
+    <>
+      {!regAvailable ||
+        (isWithGoogleLoading && (
+          <Grid
+            sx={{
+              background: 'rgba(23, 22, 22, 0.19)',
+              position: 'absolute',
+              zIndex: '3',
+              inset: '0 0 0 0',
+              // height: "100dvh",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <TransparentScreeProgress />
+          </Grid>
+        ))}
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+          firstName: '',
+          lastName: '',
+          phoneNumber: '',
+          role: 'Ceo' || 'Marketing' || 'Recruitment' || 'Developer',
+          submit: null,
+        }}
+        validationSchema={Yup.object().shape({
+          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          password: Yup.string().max(255).required('Password is required'),
+
+          phoneNumber: Yup.string()
+            .matches(/^\+?[0-9]{8,15}$/, 'Please enter a valid phone number')
+            .required('Please enter your phone number'),
+        })}
+        onSubmit={async (values, setters) => {
+          console.log(values, 'from submitting');
+          await register(values, setters, scriptedRef);
+        }}
+      >
+        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+          <form noValidate onSubmit={handleSubmit} {...others}>
+            <Grid container spacing={matchDownSM ? 0 : 2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="First Name"
+                  margin="normal"
+                  value={values.firstName}
+                  name="firstName"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="text"
+                  sx={{ ...themeTypography.customInput }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  value={values.lastName}
+                  label="Last Name"
+                  margin="normal"
+                  name="lastName"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="text"
+                  sx={{ ...themeTypography.customInput }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  fullWidth
+                  value={values.phoneNumber}
+                  label="Phone"
+                  margin="normal"
+                  name="phoneNumber"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="tel"
+                  sx={{ ...themeTypography.customInput }}
+                />
+                <FormHelperText error id="standard-weight-helper-text-password-register">
+                  {errors.phoneNumber}
+                </FormHelperText>
+              </Grid>
+            </Grid>
+            <FormControl
+              fullWidth
+              error={Boolean(touched.email && errors.email)}
+              sx={{ ...themeTypography.customInput }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-                    <form noValidate onSubmit={handleSubmit} {...others}>
-                        <Grid container spacing={matchDownSM ? 0 : 2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="First Name"
-                                    margin="normal"
-                                    value={values.firstName}
-                                    name="firstName"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    type="text"
-                                    sx={{ ...themeTypography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    value={values.lastName}
-                                    label="Last Name"
-                                    margin="normal"
-                                    name="lastName"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    type="text"
-                                    sx={{ ...themeTypography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    fullWidth
-                                    value={values.phoneNumber}
-                                    label="Phone"
-                                    margin="normal"
-                                    name="phoneNumber"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    type="tel"
-                                    sx={{ ...themeTypography.customInput }}
-                                />
-                                <FormHelperText error id="standard-weight-helper-text-password-register">
-                                    {errors.phoneNumber}
-                                </FormHelperText>
-                            </Grid>
-                        </Grid>
-                        <FormControl
-                            fullWidth
-                            error={Boolean(touched.email && errors.email)}
-                            sx={{ ...themeTypography.customInput }}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-email-register">
-                                Email Address / Username
-                            </InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-email-register"
-                                type="email"
-                                value={values.email}
-                                name="email"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                inputProps={{}}
-                            />
-                            {touched.email && errors.email && (
-                                <FormHelperText error id="standard-weight-helper-text--register">
-                                    {errors.email}
-                                </FormHelperText>
-                            )}
-                        </FormControl>
+              <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-email-register"
+                type="email"
+                value={values.email}
+                name="email"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                inputProps={{}}
+              />
+              {touched.email && errors.email && (
+                <FormHelperText error id="standard-weight-helper-text--register">
+                  {errors.email}
+                </FormHelperText>
+              )}
+            </FormControl>
 
-                        <FormControl
-                            fullWidth
-                            error={Boolean(touched.password && errors.password)}
-                            sx={{ ...themeTypography.customInput }}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password-register"
-                                type={showPassword ? 'text' : 'password'}
-                                value={values.password}
-                                name="password"
-                                label="Password"
-                                onBlur={handleBlur}
-                                onChange={e => {
-                                    handleChange(e);
-                                    changePassword(e.target.value);
-                                }}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onMouseDown={event => event.preventDefault()}
-                                            edge="end"
-                                            size="large"
-                                        >
-                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                inputProps={{}}
-                            />
-                            {touched.password && errors.password && (
-                                <FormHelperText error id="standard-weight-helper-text-password-register">
-                                    {errors.password}
-                                </FormHelperText>
-                            )}
-                        </FormControl>
+            <FormControl
+              fullWidth
+              error={Boolean(touched.password && errors.password)}
+              sx={{ ...themeTypography.customInput }}
+            >
+              <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password-register"
+                type={showPassword ? 'text' : 'password'}
+                value={values.password}
+                name="password"
+                label="Password"
+                onBlur={handleBlur}
+                onChange={(e) => {
+                  handleChange(e);
+                  changePassword(e.target.value);
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onMouseDown={(event) => event.preventDefault()}
+                      edge="end"
+                      size="large"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                inputProps={{}}
+              />
+              {touched.password && errors.password && (
+                <FormHelperText error id="standard-weight-helper-text-password-register">
+                  {errors.password}
+                </FormHelperText>
+              )}
+            </FormControl>
 
-                        {strength !== 0 && (
-                            <FormControl fullWidth>
-                                <Box sx={{ mb: 2 }}>
-                                    <Grid container spacing={2} alignItems="center">
-                                        <Grid item>
-                                            <Box
-                                                style={{ backgroundColor: level?.color }}
-                                                sx={{ width: 85, height: 8, borderRadius: '7px' }}
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography variant="subtitle1" fontSize="0.75rem">
-                                                {level?.label}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                            </FormControl>
-                        )}
-                        <Grid item xs={12}>
-                            <Box
-                                sx={{
-                                    alignItems: 'center',
-                                    display: 'flex',
-                                }}
-                            >
-                                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+            {strength !== 0 && (
+              <FormControl fullWidth>
+                <Box sx={{ mb: 2 }}>
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                      <Box
+                        style={{ backgroundColor: level?.color }}
+                        sx={{ width: 85, height: 8, borderRadius: '7px' }}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle1" fontSize="0.75rem">
+                        {level?.label}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </FormControl>
+            )}
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex',
+                }}
+              >
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
 
-                                <Button
-                                    variant="outlined"
-                                    sx={{
-                                        cursor: 'unset',
-                                        borderColor: `${theme.palette.grey[100]} !important`,
-                                        color: `${theme.palette.grey[900]}!important`,
-                                        fontWeight: 500,
-                                    }}
-                                    disableRipple
-                                    disabled
-                                >
-                                    OR
-                                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    cursor: 'unset',
+                    borderColor: `${theme.palette.grey[100]} !important`,
+                    color: `${theme.palette.grey[900]}!important`,
+                    fontWeight: 500,
+                  }}
+                  disableRipple
+                  disabled
+                >
+                  OR
+                </Button>
 
-                                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-                            </Box>
-                        </Grid>
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+              </Box>
+            </Grid>
 
-                        <Grid display={'flex'} justifyContent="center" alignItems={'center'} item xs={12}>
-                            <AnimateButton>
-                                <Button
-                                    aria-label={`login button`}
-                                    disabled={isWithGoogleLoading}
-                                    onClick={() => loginAuth()}
-                                    // disabled={renderProps.disabled}
-                                >
-                                    {React.createElement(Social['Google'].icon, {
-                                        htmlColor: Social['Google'].color,
-                                    })}
-                                </Button>
-                            </AnimateButton>
-                            <>
-                                {Object.entries(handleSocial)?.map(([key, handler], i) => {
-                                    if (typeof handler !== 'function' || !Social[key] || !Social[key].icon) return null;
-                                    return (
-                                        <AnimateButton key={i}>
-                                            <Button
-                                                key={key}
-                                                aria-label={`${key} login button`}
-                                                onClick={handler}
-                                                disabled={isWithGoogleLoading}
-                                            >
-                                                {React.createElement(Social[key].icon, {
-                                                    htmlColor: Social[key].color,
-                                                })}
-                                            </Button>
-                                        </AnimateButton>
-                                    );
-                                })}
-                            </>
-                        </Grid>
-                        <Grid container alignItems="center" justifyContent="space-between">
-                            <Grid item>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={checked}
-                                            onChange={event => setChecked(event.target.checked)}
-                                            name="checked"
-                                            color="primary"
-                                        />
-                                    }
-                                    label={
-                                        <Typography variant="subtitle1">
-                                            Agree with &nbsp;
-                                            <Typography variant="subtitle1" component={Link} to="#">
-                                                Terms & Condition.
-                                            </Typography>
-                                        </Typography>
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
-                        {isError && (
-                            <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-                                <FormHelperText error>{error as string}</FormHelperText>
-                            </Box>
-                        )}
-                        {errors.submit && (
-                            <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
-                                <FormHelperText error>{errors.submit as string}</FormHelperText>
-                            </Box>
-                        )}
+            <Grid display={'flex'} justifyContent="center" alignItems={'center'} item xs={12}>
+              <AnimateButton>
+                <Button
+                  aria-label={`login button`}
+                  disabled={isWithGoogleLoading}
+                  onClick={() => loginAuth()}
+                  // disabled={renderProps.disabled}
+                >
+                  {React.createElement(Social['Google'].icon)}
+                </Button>
+              </AnimateButton>
+              <>
+                {Object.entries(handleSocial)?.map(([key, handler], i) => {
+                  if (typeof handler !== 'function' || !Social[key] || !Social[key].icon) return null;
+                  return (
+                    <AnimateButton key={i}>
+                      <Button
+                        key={key}
+                        aria-label={`${key} login button`}
+                        onClick={handler}
+                        disabled={isWithGoogleLoading}
+                      >
+                        {React.createElement(Social[key].icon)}
+                      </Button>
+                    </AnimateButton>
+                  );
+                })}
+              </>
+            </Grid>
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked}
+                      onChange={(event) => setChecked(event.target.checked)}
+                      name="checked"
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <Typography variant="subtitle1">
+                      Agree with &nbsp;
+                      <Typography variant="subtitle1" component={Link} to="#">
+                        Terms & Condition.
+                      </Typography>
+                    </Typography>
+                  }
+                />
+              </Grid>
+            </Grid>
+            {isError && (
+              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
+                <FormHelperText error>{error as string}</FormHelperText>
+              </Box>
+            )}
+            {errors.submit && (
+              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
+                <FormHelperText error>{errors.submit as string}</FormHelperText>
+              </Box>
+            )}
 
-                        <Box sx={{ mt: 2 }}>
-                            <AnimateButton>
-                                <CustomButton
-                                    disableElevation
-                                    disabled={isSubmitting || isWithGoogleLoading}
-                                    fullWidth
-                                    size="large"
-                                    variant="contained"
-                                    text="Sign up"
-                                    type="submit"
-                                    loadingPosition="end"
-                                    endIcon={<Send />}
+            <Box sx={{ mt: 2 }}>
+              <AnimateButton>
+                <CustomButton
+                  disableElevation
+                  disabled={isSubmitting || isWithGoogleLoading}
+                  fullWidth
+                  size="large"
+                  variant="contained"
+                  text="Sign up"
+                  type="submit"
+                  loadingPosition="end"
+                  endIcon={<Send />}
 
-                                    // color="secondary"
-                                />
-                            </AnimateButton>
-                        </Box>
-                    </form>
-                )}
-            </Formik>
-        </>
-    );
+                  // color="secondary"
+                />
+              </AnimateButton>
+            </Box>
+          </form>
+        )}
+      </Formik>
+    </>
+  );
 };
 
 export default AuthRegister;
-
