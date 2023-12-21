@@ -8,7 +8,6 @@ import {
 } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
-import validateUtil from '../../../util/validation';
 // tslint:disable-next-line:max-classes-per-file
 
 export class User {
