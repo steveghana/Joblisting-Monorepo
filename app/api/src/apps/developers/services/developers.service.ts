@@ -15,6 +15,7 @@ import { getAllDevs } from '../DBQueries';
 import User from '../../auth/dataManager/userEntity';
 import { IDev } from '../../../types/developer';
 import { DeveloperAcceptedEmailDraft } from '../../../util/email/emailtexts';
+import Interviews from '@/apps/interviews/dataManager';
 @Injectable()
 export class DevelopersService {
   public async create(
@@ -43,10 +44,7 @@ export class DevelopersService {
     }
     const dummyTemporalPassword = await generateAlphanumeric(7);
 
-    const passwordHash = await cryptoUtil.hash(
-      dummyTemporalPassword,
-      dependencies?.config?.authentication?.passwordHashIterations || 10, // Default iterations
-    );
+    const passwordHash = await this.hashPassword(dummyTemporalPassword);
 
     if (!passwordHash) {
       throw new HttpException(
@@ -105,39 +103,26 @@ export class DevelopersService {
         createDeveloperDto.role_status === 'InHouse' ||
         createDeveloperDto.role_status === 'External'
       ) {
-        // Remember to change the credentials to Url encoded link
-        void dependencies.email.sendStyled({
-          to: [email],
-          subject: 'Your Role Application has been Accepted',
-          html: `<h1>Congratulations!</h1>
-      <p>We are pleased to inform you that your application for the [Role Name] role has been accepted.</p>
-      <h2>Role Details:</h2>
-      <ul>
-        <li><strong>Role:</strong>${role.title}</li>
-        <li><strong>Description:</strong>${role.aboutTheProject}</li>
-        <li><strong>Start Date:</strong>${role.createdAt}</li>
-      </ul>
-      <h2>Limited Access:</h2>
-      <p>You can now access a restricted part of our system related to the applied role. Please follow the instructions below:</p>
-      <ol>
-        <li>Access the Savannah Tech portal.</li>
-        <li>Use the following temporary credentials:
-        
-          <ul>
-            <li><strong>email:</strong> ${email}</li>
-            <li><strong>Password:</strong>${dummyTemporalPassword}</li>
-          </ul>
-        </li>
-      </ol>
-      <h2>Next Steps:</h2>
-      <p>Once you log in, you'll be prompted to complete your registration by providing additional information and setting up a permanent username and password.</p>
-      <p>If you have any questions or need assistance, please contact our support team at [Support Email or Phone Number].</p>
-      <p>Thank you for choosing [Your Company Name]!</p>
-      <p>Best regards,<br>Savannah Tech.io</p>`,
-        });
+        await DeveloperAcceptedEmailDraft(devEnrolled, dependencies);
       }
       return user;
     });
+  }
+
+  /**
+   * Hashes the provided password using the cryptoUtil library.
+   *
+   * @param {string} password - The plaintext password to hash
+   * @param {Dependencies} [dependencies] - Optional dependency injection object
+   * @returns {Promise<string>} The hashed password
+   */
+  private async hashPassword(password, dependencies: Dependencies = null) {
+    // Hash password logic
+    const passwordHash = await cryptoUtil.hash(
+      password,
+      dependencies?.config?.authentication?.passwordHashIterations || 10, // Default iterations
+    );
+    return passwordHash;
   }
 
   findAll(dependencies: Dependencies = null) {
@@ -185,7 +170,16 @@ export class DevelopersService {
   ) {
     return useTransaction(async (transaction) => {
       const data = await Developers.update(id, updateDevDto, transaction);
+
       const dev = await Developers.getById(id, dependencies);
+      if (dev?.candidate?.id) {
+        const interviewCancel = await Interviews.cancleInterview(
+          dev.candidate.id,
+        );
+        if (!interviewCancel) {
+          return;
+        }
+      }
       if (updateDevDto.role_status === 'Accepted') {
         const sent = await DeveloperAcceptedEmailDraft(dev, dependencies);
         console.log(sent);
