@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 
 // project imports
-import EarningCard from './devsCard';
-import PopularCard from './PopularCard';
-import TotalOrderLineChartCard from './hoursCard';
-import TotalIncomeDarkCard from './monthRolesCard';
-import TotalIncomeLightCard from './scheduedInterviewsCard';
-import TotalGrowthBarChart from './rolesChart';
+import EarningCard from './Analytics/devsCard';
+import PopularCard from './Analytics/PopularCard';
+import TotalOrderLineChartCard from './Analytics/hoursCard';
+import TotalIncomeDarkCard from './Analytics/monthRolesCard';
+import TotalIncomeLightCard from './Analytics/scheduedInterviewsCard';
+import TotalGrowthBarChart from './Analytics/rolesChart';
 import { gridSpacing } from '../../../store/constant';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
@@ -65,4 +65,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
