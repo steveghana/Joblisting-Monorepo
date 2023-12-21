@@ -1,38 +1,42 @@
-import PageHeader from "../../components/Transactions/PageHeader";
-import PageTitleWrapper from "../../components/PageTitleWrapper";
-import { Grid, Container, Button } from "@mui/material";
-// import Footer from "../../../../../components/Footer";
+import React, { useEffect } from 'react';
+import FullscreenProgress from '../../components/FullscreenProgress/FullscreenProgress';
+import NoData from '../../components/NoData';
+import { useDevsColums } from '../../hooks/useAllDevsColumn';
+import DevTableData from './Tables/DevColumns';
+import { useGetDevsQuery } from '../../store/services/dev.service';
+import MainCard from '../../components/MainCard';
+import { Grid } from '@mui/material';
 
-import RecentOrders from "../../components/Transactions/RecentOrders";
-import { Protect } from "../../components/auth/requireAuth";
-import MainCard from "../../components/MainCard";
-import DevTableData from "./DevColumns";
+const Developers = () => {
+  const columns = useDevsColums();
 
-function ApplicationsTransactions() {
+  const { data: devs, isError, isLoading, isFetching, refetch } = useGetDevsQuery();
+  const devsData = (devs?.length && devs?.filter(({ rolestatus }) => rolestatus === 'Accepted')) || [];
+
+  if (isLoading || isFetching) {
+    return <FullscreenProgress />;
+  }
+
+  if (!devsData.length || isError) {
+    return (
+      <Grid height={'100%'} sx={{ background: 'white' }}>
+        <NoData />
+      </Grid>
+    );
+  }
   return (
-    <>
-      {/* <Helmet>
-        <title>Transactions - Applications</title>
-      </Helmet> */}
-      <MainCard>
-        <Container maxWidth="lg">
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="stretch"
-            spacing={3}
-          >
-            <Grid item xs={12}>
-              {/* <DevTableData /> */}
-              {/* <RecentOrders /> */}
-            </Grid>
-          </Grid>
-        </Container>
-        {/* <Footer /> */}
-      </MainCard>
-    </>
+    <MainCard>
+      <DevTableData
+        columns={columns}
+        devs={devsData}
+        // You can still use refetch if needed
+        refetch={() => refetch()}
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+      />
+    </MainCard>
   );
-}
-// export default Protect(ApplicationsTransactions, ["Ceo"]);
-export default ApplicationsTransactions;
+};
+
+export default Developers;
