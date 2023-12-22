@@ -7,6 +7,7 @@ import DevTableData from '../Devs/Tables/DevColumns';
 import { useNavigate } from 'react-router';
 import { persistor, useTypedDispatch, useTypedSelector } from '../../store';
 import { fetchDevs } from '../../store/slices/dev.slice';
+import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
 
 const Shortlisted = () => {
   // const { devs, error, isError, isFetching, isloading } = useTypedSelector(
@@ -30,7 +31,7 @@ const Shortlisted = () => {
     Promise.resolve(persistor.flush());
   }, [dispatch]);
   if (isLoading || isFetching) {
-    return <FullscreenProgress />;
+    return <TableSkeletonLoader />;
   }
   if (!devsShortlistedData.length) {
     return <NoData />;
