@@ -75,6 +75,16 @@ export class AuthService {
       authTokenId: authToken.id,
     };
   }
+  /**
+   * Registers a new user.
+   * @param {string} email - The email of the user.
+   * @param {string} password - The password of the user.
+   * @param {string} firstName - The first name of the user.
+   * @param {string} lastName - The last name of the user.
+   * @param {IProfession} role - The role of the user.
+   * @param {Dependencies} dependencies - The dependencies of the service.
+   * @returns {Promise<object>} The user and the authentication token.
+   */
   public async register(
     email: string,
     password: string,
@@ -82,7 +92,7 @@ export class AuthService {
     lastName: string,
     role: IProfession,
     dependencies: Dependencies = null,
-  ) {
+  ): Promise<object> {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
     const passwordHash = await cryptoUtil.hash(
       password,
@@ -101,9 +111,8 @@ export class AuthService {
         transaction,
         dependencies,
       );
-      if (!(await UserMethods.isNewlyCreated)) {
-        console.log('throwing new exceptions ...........');
 
+      if (!(await UserMethods.isNewlyCreated)) {
         throw new HttpException(
           'User already exists, try signing up',
           HttpStatus.BAD_REQUEST,
@@ -116,11 +125,14 @@ export class AuthService {
         },
         transaction,
       );
+
       const payload = {
         email: user.email,
         password: password,
       };
+
       this.logger.debug(`Registeration successful for user: ${email}`);
+
       return {
         ...payload,
         token: this.jwtService.sign(payload),
@@ -207,7 +219,6 @@ export class AuthService {
       '',
       dependencies.config.authentication.passwordHashIterations,
     );
-    console.log(password, 'this is the password');
     const passwordMatches = await (exists
       ? user.passwordMatches(password)
       : cryptoUtil.compare('', fakePassword));
@@ -352,6 +363,20 @@ export class AuthService {
     return await useTransaction(async (transaction) => {
       const userupdated = await User.getUserRoles(transaction, dependencies);
       return userupdated;
+    }, dependencies);
+    // const authToken = new AuthToken(authTokenId, dependencies);
+  }
+  /**
+   * Fetches a user by their id.
+   * @param {string} id - The id of the user.
+   * @param {Dependencies} dependencies - The dependencies of the service.
+   * @returns {Promise<UserEntity>} The user.
+   */
+  async getUserById(id: string, dependencies: Dependencies = null) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await useTransaction(async (transaction) => {
+      const user = await User.getById(id, dependencies);
+      return user;
     }, dependencies);
     // const authToken = new AuthToken(authTokenId, dependencies);
   }

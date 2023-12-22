@@ -7,6 +7,7 @@ import {
   getUser,
   updateUser,
   getUserRoles,
+  getUserById,
   getUsers,
   createUsers,
   findElseCreateUser,
@@ -98,6 +99,10 @@ class User {
       return user.data;
     }
     return userDatas;
+  }
+  static getById(id: string, dependencies: Dependencies = null) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return getUserById(id, dependencies);
   }
   static async update(
     user: Partial<IUser>,

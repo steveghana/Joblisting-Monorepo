@@ -10,8 +10,11 @@ import {
 import Roles from '../../../apps/roles/dataManager';
 import { getAllApplicants } from '../DBQueries';
 import { DevelopersService } from '../../../apps/developers/services/developers.service';
-import { IStatusApplication } from '@/types/application';
+// import { IStatusApplication } from '@/types/application';
 import User from '../../../apps/auth/dataManager/userEntity';
+import { IStatusApplication } from '@/types/application';
+// import { IStatusApplication } from '@/types/application';
+// import { IStatusApplication } from '@/types/application';
 
 @Injectable()
 export class ApplicationsService {

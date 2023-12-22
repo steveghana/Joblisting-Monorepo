@@ -57,7 +57,7 @@ export function findElseCreateUser(
       }
       console.log(existingUser);
       const newUser = userRepo.create({ ...user });
-      let data = (await userRepo.save(newUser)) as UserEntity;
+      const data = (await userRepo.save(newUser)) as UserEntity;
       return [data, true];
     },
     dependencies,
@@ -74,9 +74,25 @@ export async function getUser(
   return useTransaction(async (transaction) => {
     const userRepo = transaction.getRepository(dependencies.db.models.user);
     // console.log(email, 'from user db queries');
-    let user = (await userRepo.findOne({
+    const user = (await userRepo.findOne({
       where: {
         email: email.toLowerCase(),
+      },
+    })) as unknown as UserEntity;
+    return user;
+  }, dependencies);
+}
+export async function getUserById(
+  id: string,
+  dependencies: Dependencies = null,
+): Promise<UserEntity> {
+  dependencies = injectDependencies(dependencies, ['db']);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return useTransaction(async (transaction) => {
+    const userRepo = transaction.getRepository(dependencies.db.models.user);
+    const user = (await userRepo.findOne({
+      where: {
+        id: id,
       },
     })) as unknown as UserEntity;
     return user;
@@ -92,7 +108,7 @@ export async function getUserRoles(
   return useTransaction(async (transaction) => {
     const userRepo = transaction.getRepository(dependencies.db.models.user);
     // console.log(email, 'from user db queries');
-    let user = await userRepo.find({});
+    const user = await userRepo.find({});
     return user
       .filter((item) => item.role === 'Ceo' || item.role === 'Recruitment')
       .map((item) => item.role);

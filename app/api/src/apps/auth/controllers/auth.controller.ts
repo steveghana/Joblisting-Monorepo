@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -9,34 +8,24 @@ import {
   Post,
   Req,
   Res,
-  NestMiddleware,
-  UsePipes,
   UseFilters,
-  ValidationPipe,
   Next,
-  UseGuards,
   Request,
   Patch,
+  Param,
 } from '@nestjs/common';
 // import validationUtil from '../../../util/validation';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse,
-  ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { LoginUser, GoogleLoginUserDto } from './user.dto';
 import { AuthService } from '../services/user.service';
-import { AuthMiddleware } from '../../../middleware/authenticated.middleware';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
-import { AuthGuard } from '@nestjs/passport';
-import { HttpUser } from '../decorator/http-user.decorator';
 import { Response } from 'express';
-import { client } from '../../../util/validation';
-import { IProfession, IUser } from '../../../types/user';
+import { IUser } from '../../../types/user';
 // interface IUser {
 //   role?: IProfession | null;
 //   email: string;
@@ -160,7 +149,7 @@ export class AuthController {
   }
   @Patch('/update')
   @UseFilters(new HttpExceptionFilter())
-  async update(@Req() req, @Res() res: Response, @Next() next) {
+  async update(@Req() req, @Res() res: Response) {
     const result = await this.authService.update(req.requestingUser, req.role);
     console.log(result, 'tis is theresu');
     return res.json(result);
@@ -174,6 +163,23 @@ export class AuthController {
       throw new HttpException('User doesnt exist', HttpStatus.BAD_REQUEST);
     }
     return res.json({
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+      avatar: user.avatar,
+    });
+  }
+  @Get(':id')
+  @UseFilters(new HttpExceptionFilter())
+  async getUser(@Param('id') id: string, @Res() res: Response, @Next() next) {
+    const user: IUser = await this.authService.getUserById(id);
+    if (!user) {
+      throw new HttpException('User doesnt exist', HttpStatus.BAD_REQUEST);
+    }
+    return res.json({
+      id: user.id,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
