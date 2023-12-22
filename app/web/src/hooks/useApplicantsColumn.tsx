@@ -2,6 +2,7 @@ import { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
 import { Avatar, Box } from '@mui/material';
 import { ApplicantsSubmission } from '../types/roles';
+import { getRandomColor } from '@/utils/generateRandomColors';
 export const appliacantState = [
   'PendingShortlist',
   'Shortlisted',
@@ -85,7 +86,7 @@ export const useApplicantsColumns = () => {
             header: 'Name',
             enableEditing: false,
             size: 250,
-            Cell: ({ renderedCellValue, row }) => (
+            Cell: ({ renderedCellValue, row: { original } }) => (
               <Box
                 sx={{
                   display: 'flex',
@@ -93,10 +94,17 @@ export const useApplicantsColumns = () => {
                   gap: '1rem',
                 }}
               >
-                <Avatar src={row.original.avatar} />
+                {/* <Avatar sx={{}} /> */}
+                <Avatar
+                  sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
+                  src={original.avatar}
+                >
+                  {' '}
+                  {!original.avatar && `${original.name[0]}`}
+                </Avatar>
 
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
-                <span>{renderedCellValue || ''}</span>
+                <span>{renderedCellValue}</span>
               </Box>
             ),
           },
