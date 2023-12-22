@@ -15,7 +15,9 @@ import { getAllDevs } from '../DBQueries';
 import User from '../../auth/dataManager/userEntity';
 import { IDev } from '../../../types/developer';
 import { DeveloperAcceptedEmailDraft } from '../../../util/email/emailtexts';
-import Interviews from '@/apps/interviews/dataManager';
+import Interviews from '../../../apps/interviews/dataManager';
+// import Interviews from '@/apps/interviews/dataManager';
+// import Interviews from '@/apps/interviews/dataManager';
 @Injectable()
 export class DevelopersService {
   public async create(
