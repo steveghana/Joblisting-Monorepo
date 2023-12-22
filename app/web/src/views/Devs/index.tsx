@@ -6,6 +6,7 @@ import DevTableData from './Tables/DevColumns';
 import { useGetDevsQuery } from '../../store/services/dev.service';
 import MainCard from '../../components/MainCard';
 import { Grid } from '@mui/material';
+import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
 
 const Developers = () => {
   const columns = useDevsColums();
@@ -14,7 +15,7 @@ const Developers = () => {
   const devsData = (devs?.length && devs?.filter(({ rolestatus }) => rolestatus === 'Accepted')) || [];
 
   if (isLoading || isFetching) {
-    return <FullscreenProgress />;
+    return <TableSkeletonLoader />;
   }
 
   if (!devsData.length || isError) {
