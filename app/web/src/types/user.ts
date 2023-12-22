@@ -1,6 +1,9 @@
+import { IProfession } from './roles';
+
 export interface IUser {
+  id: string;
   token: string;
-  role: string;
+  role: IProfession;
   savedCards: number;
   firstName: string;
   lastName: string;
@@ -12,4 +15,4 @@ export interface IUser {
   email: string;
   followers: string;
 }
-export type Iuser = { user: Omit<IUser, "token" | "role"> };
+export type Iuser = { user: Omit<IUser, 'token' | 'role'> };
