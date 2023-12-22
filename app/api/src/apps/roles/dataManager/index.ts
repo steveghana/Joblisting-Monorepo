@@ -40,13 +40,21 @@ class Roles {
     );
     return newApplication;
   }
+  /**
+   * Creates a new job for the specified role
+   * @param {string} roleId - The ID of the role to which the job is to be added
+   * @param {JobInfo} jobinfo - The details of the job to be created
+   * @param {EntityManager} [transaction] - An optional transaction to use for the operation
+   * @param {Dependencies} [dependencies] - An optional set of dependencies to use for the operation
+   * @returns {Promise<IRole>} The updated role with the new job added
+   */
   static async createJobs(
     roleId: string,
     jobinfo: JobInfo,
 
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ) {
+  ): Promise<IRole> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Roles(dependencies);
     newApplication.data = await createJobs(
