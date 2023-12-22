@@ -232,7 +232,7 @@ const AuthLogin = () => {
                 })}
               </>
             </Grid>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+            <Stack mt={1} direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -254,7 +254,7 @@ const AuthLogin = () => {
               </Box>
             )}
 
-            <Box sx={{ mt: -2 }}>
+            <Box sx={{ mt: 2 }}>
               <AnimateButton>
                 <CustomButton
                   sx={{ m: 0 }}
