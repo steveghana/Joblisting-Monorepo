@@ -253,7 +253,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
                             borderRadius: `${customization.borderRadius}px`,
                           }}
                           selected={selectedIndex === 0}
-                          onClick={(event) => handleListItemClick(event, 0, `management/profile/settings/${1}`)}
+                          onClick={(event) => handleListItemClick(event, 0, `management/profile/settings/${user.id}`)}
                         >
                           <ListItemIcon>
                             {<IconSettings stroke={1.5} size="1.5rem" color={themePalette.primary.main} />}
@@ -266,7 +266,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
                           }}
                           // href="management/profile/details"
                           selected={selectedIndex === 1}
-                          onClick={(event) => handleListItemClick(event, 1, 'management/profile/details')}
+                          onClick={(event) => handleListItemClick(event, 1, `management/profile/details/${user.id}`)}
                         >
                           <ListItemIcon>{<IconUser stroke={1.5} size="1.3rem" />}</ListItemIcon>
                           <ListItemText
