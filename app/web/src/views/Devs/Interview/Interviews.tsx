@@ -33,6 +33,7 @@ import { toast } from 'react-toastify';
 import { useTypedSelector } from '../../../store';
 import { useNavigate } from 'react-router';
 import AnimateButton from '../../../components/extended/AnimateButton';
+import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -49,9 +50,9 @@ const comments = [
   { author: 'Bob', text: 'Candidate performed well.' },
 ];
 const Interviews = () => {
-  const { data, isError, isLoading, refetch } = useGetInterviewsQuery();
+  const { data, isError, isLoading, isFetching, refetch } = useGetInterviewsQuery();
   const [deletinterview, { isLoading: isDeleting }] = useDeletInterviewMutation();
-  const allDevsAndApplicants = useTypedSelector(state => state.devs.devs);
+  const allDevsAndApplicants = useTypedSelector((state) => state.devs.devs);
   const navigate = useNavigate();
   // Date: {
   //   format(new Date(interviewDetails.interviewDate), "yyyy-MM-dd");
@@ -87,7 +88,7 @@ const Interviews = () => {
     setEditDialogOpen(false);
   };
   if (isLoading) {
-    <FullscreenProgress />;
+    <EventSchedulerSkeletonLoader />;
   }
 
   console.log(data, 'interviews');
@@ -114,7 +115,9 @@ const Interviews = () => {
               <CustomButton
                 text="+ New Event"
                 onClick={() => {
-                  !allDevsAndApplicants.length ? toast.warn('add devs before scheduling an event') : navigate('/hr/interviews/create');
+                  !allDevsAndApplicants.length
+                    ? toast.warn('add devs before scheduling an event')
+                    : navigate('/hr/interviews/create');
                 }}
                 sx={{ marginLeft: 'auto' }}
               />
@@ -132,7 +135,7 @@ const Interviews = () => {
           ) : (
             <Box>
               <SubCard>
-                {data.map(item => (
+                {data.map((item) => (
                   <Grid container spacing={3} key={item.id}>
                     {/* Header */}
 
@@ -150,11 +153,13 @@ const Interviews = () => {
                           <Grid container spacing={2}>
                             <Grid item xs={6} mb={2}>
                               <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
-                                Candidate: <Avatar sx={{ width: 23, height: 23 }} src={item.candidate.avatar} /> {item.candidate.firstName} {item.candidate.lastName}
+                                Candidate: <Avatar sx={{ width: 23, height: 23 }} src={item.candidate.avatar} />{' '}
+                                {item.candidate.firstName} {item.candidate.lastName}
                               </Typography>
-                              {item.guests.map(guest => (
+                              {item.guests.map((guest) => (
                                 <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
-                                  Interviewer: <Avatar sx={{ width: 23, height: 23 }} src={guest.avatar} /> {guest.firstName} {guest.lastName}
+                                  Interviewer: <Avatar sx={{ width: 23, height: 23 }} src={guest.avatar} />{' '}
+                                  {guest.firstName} {guest.lastName}
                                 </Typography>
                               ))}
                               <Typography variant="subtitle1">{/* Date: {item.scheduled_date.getDate()} */}</Typography>
@@ -169,7 +174,11 @@ const Interviews = () => {
                           </Grid>
                           <Divider />
                           <Accordion>
-                            <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+                            <AccordionSummary
+                              expandIcon={<ExpandMore />}
+                              aria-controls="panel1a-content"
+                              id="panel1a-header"
+                            >
                               <Typography variant="subtitle1" component={'animate'}>
                                 Comments
                               </Typography>
@@ -185,8 +194,20 @@ const Interviews = () => {
                                 </Grid>
                               ))}
                               <form>
-                                <TextField label="Your Name" variant="outlined" fullWidth style={{ marginBottom: '10px' }} />
-                                <TextField label="Add a Comment" variant="outlined" fullWidth multiline rows={3} style={{ marginBottom: '10px' }} />
+                                <TextField
+                                  label="Your Name"
+                                  variant="outlined"
+                                  fullWidth
+                                  style={{ marginBottom: '10px' }}
+                                />
+                                <TextField
+                                  label="Add a Comment"
+                                  variant="outlined"
+                                  fullWidth
+                                  multiline
+                                  rows={3}
+                                  style={{ marginBottom: '10px' }}
+                                />
                                 <CustomButton variant="contained" color="primary" type="submit" text="Add Comment" />
                               </form>
                             </AccordionDetails>
@@ -222,4 +243,3 @@ const Interviews = () => {
 };
 
 export default Interviews;
-
