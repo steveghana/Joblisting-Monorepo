@@ -10,6 +10,7 @@ import ClientTable from './Tables/clientTable';
 import { useGetClientsQuery } from '../../../store/services/client.service';
 import NoData from '../../../components/NoData';
 import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
+import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
 /**
  * Clients component displays a list of clients from the API.
  * It fetches the clients data and handles loading/error states.
@@ -26,7 +27,7 @@ const Clients = () => {
 
   const renderContent = () => {
     if (isLoading || isFetching) {
-      return <FullscreenProgress />;
+      return <TableSkeletonLoader />;
     }
 
     if (data?.length) {
