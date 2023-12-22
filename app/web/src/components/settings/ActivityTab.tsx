@@ -18,6 +18,7 @@ import { userDetailsFields } from './userdata';
 import { useState } from 'react';
 import Text from '../Text';
 import Label from '../Label';
+import { IUser } from '@/types/user';
 const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => ({
   ...componentThemeoption.commonAvatar,
   ...componentThemeoption.mediumAvatar,
@@ -28,7 +29,7 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
   //   color: themePalette.secondary.light,
   // },
 }));
-function ActivityTab({ insettings }: { insettings?: boolean }) {
+function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }) {
   const [isdev, setisdev] = useState(true);
   const devSkills = [
     'React.js',
@@ -53,10 +54,10 @@ function ActivityTab({ insettings }: { insettings?: boolean }) {
                   <Avatar alt="user" />
                   <Grid mr={'auto'}>
                     <MuiTypography variant="h5" fontWeight={700}>
-                      JWT User
+                      {user.firstName} {user.lastName}
                     </MuiTypography>
                     <MuiTypography variant="caption" gutterBottom>
-                      Ui/Ux designer
+                      {user.role}
                     </MuiTypography>
                   </Grid>
                   <Chip color="primary" label="Pro" />
@@ -71,19 +72,18 @@ function ActivityTab({ insettings }: { insettings?: boolean }) {
                   <MuiTypography fontWeight={700} variant="body2" component={'legend'} mr={'auto'}>
                     Email
                   </MuiTypography>
-                  <MuiTypography variant="caption">demo@svtech.com</MuiTypography>
+                  <MuiTypography variant="caption">{user.email}</MuiTypography>
                 </Box>
                 <Divider sx={{ margin: '1rem 0' }} />
-                <Box alignItems={'center'} gap={'.4rem'} display={'flex'}>
+                {/* <Box alignItems={'center'} gap={'.4rem'} display={'flex'}>
                   <ButtonBase sx={{ borderRadius: '12px' }}>
                     <Phone />
-                    {/* <IconMail stroke={1.5} size="1.3rem" /> */}
                   </ButtonBase>
                   <MuiTypography fontWeight={700} variant="body2" component={'legend'} mr={'auto'}>
                     Phone
                   </MuiTypography>
-                  <MuiTypography variant="caption">+233 554566677</MuiTypography>
-                </Box>
+                  <MuiTypography variant="caption">{user.}</MuiTypography>
+                </Box> */}
                 <Divider sx={{ margin: '1rem 0' }} />
 
                 <Box alignItems={'center'} gap={'.4rem'} display={'flex'}>
@@ -94,7 +94,7 @@ function ActivityTab({ insettings }: { insettings?: boolean }) {
                   <MuiTypography fontWeight={700} variant="body2" component={'legend'} mr={'auto'}>
                     Location
                   </MuiTypography>
-                  <MuiTypography variant="caption">Melbourne</MuiTypography>
+                  <MuiTypography variant="caption">unknown</MuiTypography>
                 </Box>
                 <Divider sx={{ margin: '1rem 0' }} />
                 {insettings && (
@@ -173,7 +173,7 @@ function ActivityTab({ insettings }: { insettings?: boolean }) {
                               </Grid>
                               <Grid item xs={12} sm={8} md={9}>
                                 <Text color="black">
-                                  <b>example@demo.com</b>
+                                  <b>{user.email}</b>
                                 </Text>
                                 <Box pl={1} component="span">
                                   <Label color="success">Primary</Label>
@@ -216,7 +216,7 @@ function ActivityTab({ insettings }: { insettings?: boolean }) {
                     Personal Details
                   </MuiTypography>
                   <Divider sx={{ margin: '1rem 0' }} />
-                  {Object.keys(userDetailsFields).map((field) => (
+                  {/* {Object.keys(userDetailsFields).map((field) => (
                     <Grid display={'flex'} my={1.5}>
                       <MuiTypography variant="body2" component={'legend'} sx={{ minWidth: '40%' }} fontWeight={700}>
                         {field}
@@ -231,7 +231,7 @@ function ActivityTab({ insettings }: { insettings?: boolean }) {
                         <MuiTypography textAlign={'left'}>{userDetailsFields[field]}</MuiTypography>
                       </Box>
                     </Grid>
-                  ))}
+                  ))} */}
                 </Grid>
               </Grid>
             </SubCard>
