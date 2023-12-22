@@ -1,30 +1,23 @@
-import PropTypes from "prop-types";
-import {
-  Box,
-  Typography,
-  Card,
-  Tooltip,
-  Avatar,
-  CardMedia,
-  Button,
-  IconButton,
-  styled,
-} from "@mui/material";
+import PropTypes from 'prop-types';
+import { Box, Typography, Card, Tooltip, Avatar, CardMedia, Button, IconButton, styled } from '@mui/material';
 
-import CssBaseline from "@mui/joy/CssBaseline";
-import ArrowBackTwoToneIcon from "@mui/icons-material/ArrowBackTwoTone";
-import ArrowForwardTwoToneIcon from "@mui/icons-material/ArrowForwardTwoTone";
-import UploadTwoToneIcon from "@mui/icons-material/UploadTwoTone";
-import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone";
-import MyProfile from "../settings/MyProfile";
-import { Iuser } from "../../types/user";
-import { useNavigate } from "react-router";
-import ActivityTab from "../settings/ActivityTab";
-import SubCard from "../SubCard";
-import { Mail } from "@mui/icons-material";
+import CssBaseline from '@mui/joy/CssBaseline';
+import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
+import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
+import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
+import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
+import MyProfile from '../settings/MyProfile';
+import Bg from '../../assets/images/Logo-Small-19.png';
+import { IUser } from '../../types/user';
+import { useNavigate } from 'react-router';
+import ActivityTab from '../settings/ActivityTab';
+import SubCard from '../SubCard';
+import { Mail } from '@mui/icons-material';
+import { themePalette } from '@/themes/schemes/palette';
+import { getRandomColor } from '@/utils/generateRandomColors';
 
-const Input = styled("input")({
-  display: "none",
+const Input = styled('input')({
+  display: 'none',
 });
 
 const AvatarWrapper = styled(Card)(
@@ -40,7 +33,7 @@ const AvatarWrapper = styled(Card)(
       width: ${theme.spacing(16)};
       height: ${theme.spacing(16)};
     }
-`
+`,
 );
 
 const ButtonUploadWrapper = styled(Box)(
@@ -64,7 +57,7 @@ const ButtonUploadWrapper = styled(Box)(
         background: ${theme.colors.primary.dark};
       }
     }
-`
+`,
 );
 
 const CardCover = styled(Card)(
@@ -74,7 +67,7 @@ const CardCover = styled(Card)(
     .MuiCardMedia-root {
       height: ${theme.spacing(26)};
     }
-`
+`,
 );
 
 const CardCoverAction = styled(Box)(
@@ -82,9 +75,9 @@ const CardCoverAction = styled(Box)(
     position: absolute;
     right: ${theme.spacing(2)};
     bottom: ${theme.spacing(2)};
-`
+`,
 );
-const ProfileCover = ({ user }: Iuser) => {
+const ProfileCover = ({ user }: { user: IUser }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -107,12 +100,7 @@ const ProfileCover = ({ user }: Iuser) => {
       </Box> */}
       <SubCard>
         <Box display="flex" mb={3}>
-          <Tooltip
-            arrow
-            placement="top"
-            onClick={() => navigate(-1)}
-            title="Go back"
-          >
+          <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
             <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
               <ArrowBackTwoToneIcon />
             </IconButton>
@@ -126,17 +114,29 @@ const ProfileCover = ({ user }: Iuser) => {
         </Box>
         <CardCover>
           {/* To Do use the sv tech bg */}
-          <CardMedia image={user.coverImg} />
+          <CardMedia
+            sx={{
+              background: themePalette.primary.light,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+            }}
+            image={Bg}
+          />
         </CardCover>
         <AvatarWrapper>
-          <Avatar variant="rounded" alt={user.firstName} src={user.avatar} />
+          {/* <Avatar variant="rounded" alt={user.firstName} src={user.avatar} /> */}
+          <Avatar
+            variant="rounded"
+            sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
+            src={user.avatar}
+          >
+            {' '}
+            {!user.avatar && `${user.firstName[0]}${user.lastName[0]}`}
+          </Avatar>
+
           <ButtonUploadWrapper>
-            <Input
-              accept="image/*"
-              id="icon-button-file"
-              name="icon-button-file"
-              type="file"
-            />
+            <Input accept="image/*" id="icon-button-file" name="icon-button-file" type="file" />
             <label htmlFor="icon-button-file">
               <IconButton component="span" color="primary">
                 <UploadTwoToneIcon />
@@ -148,15 +148,11 @@ const ProfileCover = ({ user }: Iuser) => {
           <Typography gutterBottom variant="h4">
             {user.firstName}
           </Typography>
-          <Typography variant="subtitle2">{user.description}</Typography>
+          {/* <Typography variant="subtitle2">{user.description}</Typography>
           <Typography sx={{ py: 2 }} variant="subtitle2" color="text.primary">
             {user.jobtitle} | {user.location}
-          </Typography>
-          <Box
-            display={{ xs: "block", md: "flex" }}
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          </Typography> */}
+          <Box display={{ xs: 'block', md: 'flex' }} alignItems="center" justifyContent="space-between">
             <Box>
               <Button size="small" sx={{ mx: 1 }} variant="outlined">
                 View website
@@ -165,21 +161,18 @@ const ProfileCover = ({ user }: Iuser) => {
                 <MoreHorizTwoToneIcon />
               </IconButton>
             </Box>
-            <Button
-              sx={{ mt: { xs: 2, md: 0 } }}
-              size="small"
-              variant="text"
-              endIcon={<ArrowForwardTwoToneIcon />}
-            >
-              See all clients connections
-            </Button>
+            {user.role !== 'Ceo' && user.role !== 'Recruitment' && (
+              <Button sx={{ mt: { xs: 2, md: 0 } }} size="small" variant="text" endIcon={<ArrowForwardTwoToneIcon />}>
+                See all clients connections
+              </Button>
+            )}
           </Box>
           <Box>
             <Button sx={{ m: 1 }} variant="contained" endIcon={<Mail />}>
               Send Email
             </Button>
           </Box>
-          <ActivityTab />
+          <ActivityTab user={user} />
         </Box>
       </SubCard>
     </>
