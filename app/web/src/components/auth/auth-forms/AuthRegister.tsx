@@ -239,7 +239,7 @@ const AuthRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <Grid container spacing={matchDownSM ? 0 : 2}>
+            <Grid container spacing={matchDownSM ? 0 : 1}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -345,8 +345,8 @@ const AuthRegister = ({ ...others }) => {
 
             {strength !== 0 && (
               <FormControl fullWidth>
-                <Box sx={{ mb: 2 }}>
-                  <Grid container spacing={2} alignItems="center">
+                <Box sx={{ mb: 1 }}>
+                  <Grid container spacing={1} alignItems="center">
                     <Grid item>
                       <Box
                         style={{ backgroundColor: level?.color }}
@@ -441,17 +441,17 @@ const AuthRegister = ({ ...others }) => {
               </Grid>
             </Grid>
             {isError && (
-              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
+              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 1 }}>
                 <FormHelperText error>{error as string}</FormHelperText>
               </Box>
             )}
             {errors.submit && (
-              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
+              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
                 <FormHelperText error>{errors.submit as string}</FormHelperText>
               </Box>
             )}
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 0 }}>
               <AnimateButton>
                 <CustomButton
                   disableElevation
