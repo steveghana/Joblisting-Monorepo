@@ -1,19 +1,14 @@
-import PropTypes from "prop-types";
-import React, { forwardRef } from "react";
+import PropTypes from 'prop-types';
+import React, { forwardRef } from 'react';
+import { motion } from 'framer-motion';
 
 // material-ui
-import { useTheme } from "@mui/material/styles";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Typography,
-} from "@mui/material";
-import { themePalette } from "../themes/schemes/palette";
+import { useTheme } from '@mui/material/styles';
+import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
+import { themePalette } from '../themes/schemes/palette';
 // constant
 const headerSX = {
-  "& .MuiCardHeader-action": { mr: 0 },
+  '& .MuiCardHeader-action': { mr: 0 },
 };
 
 // ==============================|| CUSTOM MAIN CARD ||============================== //
@@ -41,7 +36,7 @@ const MainCard: React.FC<IAny> = forwardRef(
       boxShadow,
       children,
       content = true,
-      contentClass = "",
+      contentClass = '',
       contentSX = {},
       darkTitle,
       secondary,
@@ -50,52 +45,53 @@ const MainCard: React.FC<IAny> = forwardRef(
       title,
       ...others
     }: any,
-    ref
+    ref,
   ) => {
     const theme = useTheme();
 
     return (
-      <Card
-        ref={ref}
-        {...others}
-        sx={{
-          border: border ? "1px solid" : "none",
-          borderColor: themePalette.primary[200] + 25,
-          ":hover": {
-            boxShadow: boxShadow
-              ? shadow || "0 2px 14px 0 rgb(32 40 45 / 8%)"
-              : "inherit",
-          },
-          ...sx,
-        }}
+      <motion.div
+        key={window.location.pathname}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
       >
-        {/* card header and action */}
-        {title && (
-          <CardHeader
-            sx={headerSX}
-            title={
-              darkTitle ? <Typography variant="h3">{title}</Typography> : title
-            }
-            action={secondary}
-          />
-        )}
+        <Card
+          ref={ref}
+          {...others}
+          sx={{
+            border: border ? '1px solid' : 'none',
+            borderColor: themePalette.primary[200] + 25,
+            ':hover': {
+              boxShadow: boxShadow ? shadow || '0 2px 14px 0 rgb(32 40 45 / 8%)' : 'inherit',
+            },
+            ...sx,
+          }}
+        >
+          {/* card header and action */}
+          {title && (
+            <CardHeader
+              sx={headerSX}
+              title={darkTitle ? <Typography variant="h3">{title}</Typography> : title}
+              action={secondary}
+            />
+          )}
 
-        {/* content & header divider */}
-        {title && <Divider />}
+          {/* content & header divider */}
+          {title && <Divider />}
 
-        {/* card content */}
-        {content && (
-          <CardContent
-            sx={{ ...contentSX, py: 2, px: 1 }}
-            className={contentClass}
-          >
-            {children}
-          </CardContent>
-        )}
-        {!content && children}
-      </Card>
+          {/* card content */}
+          {content && (
+            <CardContent sx={{ ...contentSX, py: 2, px: 1 }} className={contentClass}>
+              {children}
+            </CardContent>
+          )}
+          {!content && children}
+        </Card>
+      </motion.div>
     );
-  }
+  },
 );
 
 // MainCard.propTypes = {};
