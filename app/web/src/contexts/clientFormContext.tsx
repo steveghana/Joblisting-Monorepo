@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
 import { ClientFormDataAction, ClientFormDataContextProps, ClientFormDataState } from '../types/client';
 
-const FormDataContext = createContext<ClientFormDataContextProps | null>(null);
 
 const initialState: ClientFormDataState = {
   ['Client Info']: {
@@ -54,6 +53,7 @@ const formDataReducer = (state: ClientFormDataState, action: ClientFormDataActio
       return state;
   }
 };
+const FormDataContext = createContext<ClientFormDataContextProps | null>(null);
 
 interface FormDataProviderProps {
   children: ReactNode;
