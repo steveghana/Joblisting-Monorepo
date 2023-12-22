@@ -18,6 +18,7 @@ import { SET_MENU } from '../../store/actions';
 import { componentThemeoption } from '../../themes/schemes/PureLightTheme';
 import { Protect } from '../../components/auth/requireAuth';
 import { IconChevronRight } from '@tabler/icons-react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -94,10 +95,11 @@ const MainLayout = () => {
         drawerOpen={!hasToken ? false : !matchDownMd ? leftDrawerOpened : !leftDrawerOpened}
         drawerToggle={handleLeftDrawerToggle}
       />
-
       <Main theme={theme} open={leftDrawerOpened}>
-        <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-        <Outlet />
+        <AnimatePresence mode="popLayout">
+          {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign /> */}
+          <Outlet />
+        </AnimatePresence>
       </Main>
     </Box>
   );
