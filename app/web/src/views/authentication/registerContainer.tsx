@@ -21,12 +21,12 @@ const Register = () => {
       <>
         <Grid /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */>
           <AuthCardWrapper>
-            <Grid display="flex" alignItems="center" justifyContent="center" mb={2}>
+            <Grid display="flex" alignItems="center" justifyContent="center" mb={1}>
               <Link to="#">
                 <LogoSection />
               </Link>
             </Grid>
-            <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid container spacing={1} alignItems="center" justifyContent="center">
               <Grid>
                 <Grid
                   container
