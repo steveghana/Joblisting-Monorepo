@@ -10,17 +10,23 @@ import { deleteJob, getAllRoles } from '../DBQueries';
 import { IRole } from '../../../types/role';
 import { createRoleLink } from '../../../apps/Shorturl/service/util';
 import ShortUrl from '@/apps/Shorturl/dataManager/shortUrl';
-import { data } from '@/mockdata';
 
 @Injectable()
 export class RolesService {
+  /**
+   * Creates a new role
+   * @param {string} clientId - The id of the client
+   * @param {CreateRoleDto['Project Details']} createRoleDto - The details of the role to be created
+   * @param {Dependencies} dependencies - The dependencies to be injected
+   * @returns {Promise<RoleInfoDto>} The created role
+   */
   public async create(
     clientId: string,
     createRoleDto: CreateRoleDto['Project Details'],
     dependencies: Dependencies = null,
   ) {
     const roleData = await useTransaction(async (transaction) => {
-      let clientDetails = await Client.getById(clientId);
+      const clientDetails = await Client.getById(clientId);
       const { data } = await Roles.createRoles(
         {
           client: clientDetails.data,
@@ -42,6 +48,13 @@ export class RolesService {
     // Roles.update(roleData.id, {})
     return { ...roleData };
   }
+  /**
+   * Creates a new job posting for a role
+   * @param {string} roleId - The id of the role
+   * @param {Omit<JobInfo, 'vacancy_status'>} createRoleDto - The details of the job to be created
+   * @param {Dependencies} dependencies - The dependencies to be injected
+   * @returns {Promise<JobInfo>} The created job posting
+   */
   public async createJob(
     roleId: string,
     createRoleDto: Omit<JobInfo, 'vacancy_status'>,
@@ -49,7 +62,7 @@ export class RolesService {
   ) {
     console.log(roleId, createRoleDto, 'this is the job info');
     return useTransaction(async (transaction) => {
-      let roldDetails = await Roles.getById(roleId);
+      const roldDetails = await Roles.getById(roleId);
 
       const data = await Roles.createJobs(
         roldDetails.id,
@@ -111,11 +124,18 @@ export class RolesService {
     });
   }
 
+  /**
+   * Updates an existing role
+   * @param {string} id - The id of the role to be updated
+   * @param {Partial<IRole>} updateClientDto - The details of the role to be updated
+   * @param {Dependencies} dependencies - The dependencies to be injected
+   * @returns {Promise<IRole>} The updated role
+   */
   update(
     id: string,
     updateClientDto: Partial<IRole>,
     dependencies: Dependencies = null,
-  ) {
+  ): Promise<IRole> {
     return useTransaction(async (transaction) => {
       // const { , ...rest } = updateClientDto;
       console.log(updateClientDto);
