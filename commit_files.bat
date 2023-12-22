@@ -1,15 +1,11 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-REM Prompt the user for a commit message
-set /p commitMessage=Enter the commit message: 
-
-for /f "tokens=*" %%i in ('git ls-files') do (
-    set "file=%%i"
-    set "filename=!file:%cd%\=!"
+for /f "tokens=*" %%i in ('git status --porcelain --ignored ^| findstr "^??"') do (
+    set /p commitMessage=Enter the commit message for "%%i": 
 
     git add "%%i"
-    git commit -m "!commitMessage!"
+    git commit -m "!commitMessage!" "%%i"
 )
 
 git push
