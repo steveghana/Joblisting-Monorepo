@@ -9,6 +9,7 @@ import ClientEmployees from '../Tables/clientEmployeesTable';
 import { IRoleData } from '@/types/roles';
 import { IDev } from '@/types/devs';
 import ClientTopCard from './clientDetails/clientTopCard';
+import { IClient } from '@/types/client';
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -74,7 +75,9 @@ const ClientDetails = () => {
             />
           )}
           {currentTab === 'tasks' && <div>Column for displaying deves with roles</div>}
-          {currentTab === 'devs' && <ClientEmployees devs={data!.developers as IDev[]} />}
+          {currentTab === 'devs' && (
+            <ClientEmployees devs={data!.developers as IDev[]} roles={data?.roles as IRoleData[]} />
+          )}
         </Grid>
       </>
     </Grid>
