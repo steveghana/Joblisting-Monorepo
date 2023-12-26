@@ -3,8 +3,8 @@ import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
 import React from 'react';
 
 interface IButtonProps extends LoadingButtonProps {
-  text: string; // Add your custom text property
-  children?: React.ReactNode;
+  text?: string; // Add your custom text property
+  children?: React.ReactNode | string;
 }
 
 /**
@@ -22,7 +22,7 @@ function CustomButton(props: IButtonProps) {
       sx={{
         my: 1,
         boxShadow: 'rgba(79, 172, 255, 0.45) 0px 13px 27px -5px, rgba(79, 172, 255, 0.4) 0px 8px 16px -8px;',
-        borderRadius: '20px',
+        borderRadius: '10px',
         // color: "white",
         minWidth: '50px',
       }}
