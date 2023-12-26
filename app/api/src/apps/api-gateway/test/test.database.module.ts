@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { createTestDataSource } from './test.setup';
-import { dbConnetion } from 'db/data-source';
+import { dbConnetion } from '../../../../db/data-source';
 dotenv.config(); // load environment variables from .env file
 
 export class TestDBInitiator {
