@@ -1,7 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from '../dto/create-application.dto';
 import Application from '../dataManager';
-
+import { m } from '@nestjs/platform-express';
+import { Storage } from '@google-cloud/storage';
+import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
 import { useTransaction } from '../../../util/transaction';
 import {
   Dependencies,
@@ -19,12 +22,13 @@ import { IStatusApplication } from '@/types/application';
 @Injectable()
 export class ApplicationsService {
   constructor(private readonly developersService: DevelopersService) {}
-
+  private readonly storage = new Storage();
+  private readonly bucketName = 'savannahTech.io-api-asssets';
   create(
     createApplicationDto: CreateApplicationDto,
     dependencies: Dependencies = null,
   ) {
-    const { roleId, years_of_experience, ...rest } = createApplicationDto;
+    const { roleId, years_of_experience, file, ...rest } = createApplicationDto;
     return useTransaction(async (transaction) => {
       const existinguser = await User.getByEmail(
         createApplicationDto.email,
@@ -45,29 +49,74 @@ export class ApplicationsService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const role = await Roles.getById(roleId);
-      if (!role) {
+      if (!(await Roles.getById(roleId))) {
         throw new HttpException(
           'Something went wrong, the role you were applying for could not be found',
           HttpStatus.BAD_REQUEST,
         );
       }
+      const { link, fileId, fileType } = await this.uploadFile(file);
       return await Application.createApplication(
-        role,
-        { ...rest, years_of_experience, status: 'PendingShortlist' },
+        await Roles.getById(roleId),
+        {
+          ...rest,
+          years_of_experience,
+          resume: { link, fileId, fileType },
+          status: 'PendingShortlist',
+        },
         transaction,
         dependencies,
       );
     });
   }
 
+  async uploadFile(file: Express.Multer.File) {
+    const fileId = uuidv4();
+    const fileName = `${fileId}-${file.originalname}`;
+    const fileType = file.mimetype;
+
+    // Check file type (PDF or Word)
+    const isPDF = fileType.includes('pdf');
+    const isWord = fileType.includes('word');
+
+    if (!isPDF && !isWord) {
+      throw new HttpException(
+        'Invalid file type. Only PDF and Word files are allowed.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    try {
+      // Upload file to Google Cloud Storage
+      await this.storage.bucket(this.bucketName).upload(file.path, {
+        destination: fileName,
+        gzip: true,
+      });
+
+      // Delete the temporary file
+      await fs.promises.unlink(file.path);
+
+      // Store the file link or metadata in your database
+      const fileLink = `https://storage.googleapis.com/${this.bucketName}/${fileName}`;
+
+      // Implement your database logic to store the link or metadata
+      // ...
+
+      return { link: fileLink, fileId, fileType };
+    } catch (error) {
+      throw new HttpException(
+        `Failed to upload file: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   findAll(roleId: string, dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
-      const data = await getAllApplicants(roleId, transaction, dependencies);
-      if (!data.length) {
+      if (!(await getAllApplicants(roleId, transaction, dependencies)).length) {
         return [];
       }
-      return data;
+      return await getAllApplicants(roleId, transaction, dependencies);
     });
   }
 
@@ -99,36 +148,35 @@ export class ApplicationsService {
         years_of_experience,
       } = applicant;
       if (status === 'Shortlisted') {
-        const enrollDev = await this.developersService.create({
-          address,
-          email,
-          salary: 0, //initial value of 0
-          firstName: name.split(' ')[0],
-          lastName: name.split(' ')[1] || '',
-          phone_number,
-          skills: selectedSkills,
-          roleId,
-          years_of_experience,
-          role_status: 'Pending', // If the dev is short listed, they can then transition to pending
-        });
-        if (!enrollDev) {
+        if (
+          !(await this.developersService.create({
+            address,
+            email,
+            salary: 0, //initial value of 0
+            firstName: name.split(' ')[0],
+            lastName: name.split(' ')[1] || '',
+            phone_number,
+            skills: selectedSkills,
+            roleId,
+            years_of_experience,
+            role_status: 'Pending', // If the dev is short listed, they can then transition to pending
+          }))
+        ) {
           throw new HttpException(
             'Something went wrong, couldnt update developer info',
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
         }
-        const deletedApplicant = await Application.destroy(id, transaction);
-        return deletedApplicant;
+        return await Application.destroy(id, transaction);
       }
-      const data = await Application.update(id, { status }, transaction);
-      if (!data) {
+      if (!(await Application.update(id, { status }, transaction))) {
         throw new HttpException(
           'Something went wrong, couldnt update role',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
 
-      return data;
+      return await Application.update(id, { status }, transaction);
     });
   }
 
