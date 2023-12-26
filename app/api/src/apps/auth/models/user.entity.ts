@@ -40,12 +40,33 @@ export class UserEntity extends AssociableModel {
   password: string;
   @Column({ nullable: true })
   avatar: string;
-
+  @Column({ nullable: true })
+  bio: string;
+  @Column({ nullable: true })
+  website: string;
+  @Column({ nullable: true })
+  location: string;
+  @Column({ nullable: true })
+  github: string;
+  @Column({ nullable: true })
+  linkedin: string;
   @Column({
     /* type: 'enum', enum: Role, default: Role.USER */
   })
   role: IProfession;
-
+  @Column('simple-json', { nullable: true })
+  emailAddresses: any[];
+  @Column({ default: false })
+  isActive: boolean;
+  @Column({ default: false })
+  googleVerified: boolean;
+  @Column({ default: false })
+  linkedinVerified: boolean;
+  @Column({ default: false })
+  githubVerified: boolean;
+  @Column({ default: false })
+  isSuperAdmin: boolean;
+  // clients: Client[];
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
