@@ -1,111 +1,122 @@
-import * as React from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
-import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
-import Divider from "@mui/joy/Divider";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import FormHelperText from "@mui/joy/FormHelperText";
-import Input from "@mui/joy/Input";
-import IconButton from "@mui/joy/IconButton";
-import Textarea from "@mui/joy/Textarea";
-import Stack from "@mui/joy/Stack";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import Typography from "@mui/joy/Typography";
-import Tabs from "@mui/joy/Tabs";
-import TabList from "@mui/joy/TabList";
-import Tab, { tabClasses } from "@mui/joy/Tab";
-import Breadcrumbs from "@mui/joy/Breadcrumbs";
-import Link from "@mui/joy/Link";
-import Card from "@mui/joy/Card";
-import CardActions from "@mui/joy/CardActions";
-import CardOverflow from "@mui/joy/CardOverflow";
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
 
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
-import DropZone from "./DropZone";
-import FileUpload from "./FileUpload";
-import CountrySelector from "./CountrySelector";
-import EditorToolbar, { LargeTextField } from "./EditorToolbar";
+import DropZone from './DropZone';
+import CountrySelector from './CountrySelector';
+import { LargeTextField } from './EditorToolbar';
 
-import { Iuser } from "../../types/user";
-import { useMediaQuery, useTheme } from "@mui/material";
-import { themeTypography } from "../../themes/schemes/typography";
-import { Formik } from "formik";
-import { Accessibility } from "@mui/icons-material";
-import Avatar from "../extended/Avatar";
-export default function MyProfile(...others) {
+import { IUser } from '../../types/user';
+import { Avatar, MenuItem, OutlinedInput, styled, useMediaQuery, useTheme } from '@mui/material';
+import { Formik } from 'formik';
+import { Accessibility, InsertDriveFileRounded, UploadTwoTone, VideocamRounded } from '@mui/icons-material';
+import { themePalette } from '@/themes/schemes/palette';
+import { getRandomColor } from '@/utils/generateRandomColors';
+import CustomButton from '../button';
+import FileUpload from './FileUpload';
+import SubCard from '../SubCard';
+const UploadInput = styled('input')({
+  display: 'none',
+});
+const AvatarWrapper = styled(Card)(
+  ({ theme }) => `
+
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    margin-top: -${theme.spacing(9)};
+    margin-left: ${theme.spacing(2)};
+
+    .MuiAvatar-root {
+      width: ${theme.spacing(16)};
+      height: ${theme.spacing(16)};
+    }
+`,
+);
+const ButtonUploadWrapper = styled(Box)(
+  ({ theme }) => `
+    position: absolute;
+    width: ${theme.spacing(4)};
+    height: ${theme.spacing(4)};
+    bottom: -${theme.spacing(1)};
+    right: -${theme.spacing(1)};
+
+    .MuiIconButton-root {
+      border-radius: 100%;
+      background: ${theme.colors.primary.main};
+      color: ${theme.palette.primary.contrastText};
+      box-shadow: ${theme.colors.shadows.primary};
+      width: ${theme.spacing(4)};
+      height: ${theme.spacing(4)};
+      padding: 0;
+  
+      &:hover {
+        background: ${theme.colors.primary.dark};
+      }
+    }
+`,
+);
+export default function MyProfile({ user }: { user: IUser }) {
   const theme = useTheme();
   const experience = [3, 4, 5, 6, 7];
-
-  const md = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log(user);
+  const md = useMediaQuery(theme.breakpoints.down('sm'));
   // const tab = useMediaQuery(theme.breakpoints.only("md"));
-
   return (
     <Box
       sx={{
         flex: 1,
-        width: "100%",
+        width: '100%',
       }}
     >
       <Stack
         spacing={4}
         sx={{
-          display: "flex",
+          display: 'flex',
           // maxWidth: "800px",
-          mx: "auto",
+          mx: 'auto',
         }}
       >
         <Formik
           initialValues={{
-            email: "",
-            url: "",
-            bio: "",
-            phone: "",
-            location: "",
-            firstName: "",
-            experience: "",
-            lastName: "",
+            email: user.email || '',
+            url: '',
+            bio: '',
+            phone: '',
+            location: '',
+            role: user.role || '',
+            firstName: user.firstName || '',
+            experience: '',
+            lastName: user.lastName || '',
             submit: null,
           }}
           onSubmit={async (values, setters) => {
-            console.log(values, "from submitting");
+            console.log(values, 'from submitting');
             // await register(values, setters, scriptedRef);
           }}
         >
-          {({
-            errors,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            touched,
-            values,
-          }) => (
-            <form noValidate onSubmit={handleSubmit} {...others}>
-              <Card>
+          {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+            <form noValidate onSubmit={handleSubmit}>
+              <SubCard>
                 <Box sx={{ mb: 1 }}>
-                  <Typography level="title-md">Personal info</Typography>
-                  <Typography level="body-sm">
-                    Customize how your profile information will apper to the
-                    networks.
-                  </Typography>
+                  <Typography>Personal info</Typography>
+                  <Typography variant="caption">Customize how your profile information will apper</Typography>
                 </Box>
                 <Divider />
 
-                <Stack
-                  direction={md ? "column" : "row"}
-                  spacing={2.5}
-                  sx={{ my: 1 }}
-                >
-                  <Stack direction={md ? "row" : "column"} spacing={1}>
+                <Stack direction={md ? 'column' : 'row'} spacing={2.5} sx={{ my: 1 }}>
+                  <Stack direction={md ? 'row' : 'column'} justifyContent={md ? 'center' : 'unset'} spacing={1}>
                     {/* <Avatar size="xl">
                       <img
                         src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
@@ -114,39 +125,51 @@ export default function MyProfile(...others) {
                         alt=""
                       />
                     </Avatar> */}
-                    <AspectRatio
-                      ratio="1"
-                      maxHeight={md ? 260 : 200}
+                    <AvatarWrapper>
+                      {/* <Avatar variant="rounded" alt={user.firstName} src={user.avatar} /> */}
+                      <Avatar
+                        variant="rounded"
+                        sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
+                        src={user.avatar}
+                      >
+                        {' '}
+                        {!user.avatar ? (
+                          `${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`
+                        ) : (
+                          <img
+                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                            srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                            loading="lazy"
+                            alt=""
+                          />
+                        )}
+                      </Avatar>
+
+                      <ButtonUploadWrapper>
+                        <UploadInput accept="image/*" id="icon-button-file" name="icon-button-file" type="file" />
+                        <label htmlFor="icon-button-file">
+                          <IconButton component="span" color="primary">
+                            <UploadTwoTone />
+                          </IconButton>
+                        </label>
+                      </ButtonUploadWrapper>
+                    </AvatarWrapper>
+
+                    {/* <IconButton
+                      // aria-label="upload new picture"
+                      // size="sm"
                       sx={{
-                        flex: 1,
-                        minWidth: md ? 58 : 120,
-                        borderRadius: "100%",
-                      }}
-                    >
-                      <img
-                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                        loading="lazy"
-                        alt=""
-                      />
-                    </AspectRatio>
-                    <IconButton
-                      aria-label="upload new picture"
-                      size="sm"
-                      variant="outlined"
-                      color="neutral"
-                      sx={{
-                        bgcolor: "background.body",
-                        position: "absolute",
+                        bgcolor: 'background.body',
+                        position: 'absolute',
                         zIndex: 2,
-                        borderRadius: "50%",
+                        borderRadius: '50%',
                         left: 90,
                         top: 175,
-                        boxShadow: "sm",
+                        boxShadow: 'sm',
                       }}
                     >
                       <EditRoundedIcon />
-                    </IconButton>
+                    </IconButton> */}
                   </Stack>
                   <Stack spacing={2} sx={{ flexGrow: 1 }}>
                     <Stack spacing={1}>
@@ -158,7 +181,7 @@ export default function MyProfile(...others) {
                           gap: 2,
                         }}
                       >
-                        <Input
+                        <OutlinedInput
                           placeholder="First Name"
                           value={values.firstName}
                           name="firstName"
@@ -167,10 +190,8 @@ export default function MyProfile(...others) {
                           type="text"
                           defaultValue=""
                         />
-                        <FormLabel htmlFor="outlined-adornment-email-register">
-                          LastName
-                        </FormLabel>
-                        <Input
+                        <FormLabel htmlFor="outlined-adornment-email-register">LastName</FormLabel>
+                        <OutlinedInput
                           placeholder="Last Name"
                           value={values.lastName}
                           name="lastName"
@@ -181,10 +202,8 @@ export default function MyProfile(...others) {
                         />
                       </FormControl>
                       <FormControl>
-                        <FormLabel htmlFor="outlined-adornment-email-register">
-                          Github / LinkedIn
-                        </FormLabel>
-                        <Input
+                        <FormLabel htmlFor="outlined-adornment-email-register">Github / LinkedIn</FormLabel>
+                        <OutlinedInput
                           type="url"
                           value={values.url}
                           placeholder="URL"
@@ -197,42 +216,34 @@ export default function MyProfile(...others) {
                     <Stack direction="column" spacing={2}>
                       <FormControl>
                         <FormLabel>Role</FormLabel>
-                        <Input size="sm" defaultValue="UI Developer" />
+                        <OutlinedInput value={values.role} name="role" onChange={handleChange} />
                       </FormControl>
                       <FormControl
                         // error={Boolean(touched.email && errors.email)}
                         sx={{ flexGrow: 1 }}
                       >
                         <FormLabel>Email</FormLabel>
-                        <Input
+                        <OutlinedInput
                           placeholder="email"
-                          value={values.lastName}
+                          value={values.email}
                           name="lastName"
                           onBlur={handleBlur}
                           onChange={handleChange}
                           type="email"
                           defaultValue="siriwatk@test.com"
                           // sx={{ ...themeTypography.customInput, flexGrow: 1 }}
-                          size="sm"
-                          startDecorator={<EmailRoundedIcon />}
+                          size="small"
+                          startAdornment={<EmailRoundedIcon />}
                         />
-                        {touched.email && errors.email && (
-                          <FormHelperText>{errors.email}</FormHelperText>
-                        )}
+                        {touched.email && errors.email && <FormHelperText>{errors.email}</FormHelperText>}
                       </FormControl>
 
                       <FormLabel>Years of experience</FormLabel>
-                      <Select
-                        size="sm"
-                        startDecorator={<Accessibility />}
-                        defaultValue="1"
-                      >
+                      <Select size="small" startAdornment={<Accessibility />} defaultValue="1">
                         {experience.map((item) => (
-                          <Option key={item} value={`${item}`}>
-                            <Typography textColor="text.tertiary" ml={0.5}>
-                              {item}
-                            </Typography>
-                          </Option>
+                          <MenuItem key={item} value={`${item}`}>
+                            <Typography ml={0.5}>{item}</Typography>
+                          </MenuItem>
                         ))}
                       </Select>
                     </Stack>
@@ -240,92 +251,83 @@ export default function MyProfile(...others) {
                       <CountrySelector />
                     </div>
                     <div>
-                      <FormControl sx={{ display: { sm: "contents" } }}>
+                      <FormControl sx={{ display: { sm: 'contents' } }}>
                         <FormLabel>Timezone</FormLabel>
                         <Select
-                          size="sm"
-                          startDecorator={<AccessTimeFilledRoundedIcon />}
-                          // defaultValue="1"
+                          size="small"
+                          fullWidth
+                          placeholder="Timezone"
+                          // startDecorator={<AccessTimeFilledRoundedIcon />}
+                          startAdornment={<AccessTimeFilledRoundedIcon />}
+                          defaultValue="1"
                         >
-                          <Option value={"1"}>
-                            Indochina Time (Bangkok){" "}
-                            <Typography textColor="text.tertiary" ml={0.5}>
-                              — GMT+07:00
-                            </Typography>
-                          </Option>
-                          <Option value="2">
-                            Indochina Time (Ho Chi Minh City){" "}
-                            <Typography textColor="text.tertiary" ml={0.5}>
-                              — GMT+07:00
-                            </Typography>
-                          </Option>
+                          <MenuItem value={'1'}>
+                            Indochina Time (Bangkok) <Typography ml={0.5}>— GMT+07:00</Typography>
+                          </MenuItem>
+                          <MenuItem value="2">
+                            Indochina Time (Ho Chi Minh City) <Typography ml={0.5}>— GMT+07:00</Typography>
+                          </MenuItem>
                         </Select>
                       </FormControl>
                     </div>
                   </Stack>
                 </Stack>
-              </Card>
-              <Card sx={{ my: 1 }}>
+              </SubCard>
+              <Box display={'flex'} justifyContent={'center'} gap={1}>
+                <CustomButton size="small" variant="outlined">
+                  Cancel
+                </CustomButton>
+                <CustomButton
+                  // size="sm"
+                  size="small"
+                  sx={{ background: themePalette.primary.main, borderRadius: '10px' }}
+                >
+                  Save
+                </CustomButton>
+              </Box>
+              <SubCard sx={{ my: 1 }}>
                 <Box sx={{ mb: 1 }}>
-                  <Typography level="title-md">Bio</Typography>
-                  <Typography level="body-sm">
-                    Write a short introduction to be displayed on your profile
-                  </Typography>
+                  <Typography>Bio</Typography>
+                  <Typography variant="caption">Write a short introduction to be displayed on your profile</Typography>
                 </Box>
                 <Divider />
                 <Stack spacing={2} sx={{ my: 1 }}>
                   <LargeTextField />
                 </Stack>
-                <CardOverflow
-                  sx={{ borderTop: "1px solid", borderColor: "divider" }}
-                >
-                  <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-                    <Button size="sm" variant="outlined" color="neutral">
-                      Cancel
-                    </Button>
-                    <Button size="sm" variant="solid">
-                      Save
-                    </Button>
-                  </CardActions>
-                </CardOverflow>
-              </Card>
-              <Card>
                 <Box sx={{ mb: 1 }}>
-                  <Typography level="title-md">Portfolio projects</Typography>
-                  <Typography level="body-sm">
-                    Share a few snippets of your work.
-                  </Typography>
+                  <Typography>Portfolio projects</Typography>
+                  <Typography variant="caption">Share a few snippets of your work.</Typography>
                 </Box>
 
                 <Divider />
                 <Stack spacing={2} sx={{ my: 1 }}>
                   <DropZone />
-                  <FileUpload
-                    icon={<InsertDriveFileRoundedIcon />}
+                  {/* <FileUpload
+                    icon={<InsertDriveFileRounded />}
                     fileName="Tech design requirements.pdf"
                     fileSize="200 kB"
                     progress={100}
                   />
                   <FileUpload
-                    icon={<VideocamRoundedIcon />}
+                    icon={<VideocamRounded />}
                     fileName="Dashboard prototype recording.mp4"
                     fileSize="16 MB"
                     progress={40}
-                  />
+                  /> */}
                 </Stack>
-                <CardOverflow
-                  sx={{ borderTop: "1px solid", borderColor: "divider" }}
+              </SubCard>
+              <Box display={'flex'} justifyContent={'center'} gap={1}>
+                <CustomButton size="small" variant="outlined">
+                  Cancel
+                </CustomButton>
+                <CustomButton
+                  // size="sm"
+                  size="small"
+                  sx={{ background: themePalette.primary.main, borderRadius: '10px' }}
                 >
-                  <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-                    <Button size="sm" variant="outlined" color="neutral">
-                      Cancel
-                    </Button>
-                    <Button size="sm" variant="solid">
-                      Save
-                    </Button>
-                  </CardActions>
-                </CardOverflow>
-              </Card>
+                  Save
+                </CustomButton>
+              </Box>
             </form>
           )}
         </Formik>
