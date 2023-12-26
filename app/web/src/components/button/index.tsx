@@ -17,7 +17,8 @@ function CustomButton(props: IButtonProps) {
     <LoadingButton
       {...props}
       // fullWidth
-      loadingPosition="end"
+      // endIcon={<Loading/>}
+      // loadingPosition="end"
       variant={props.variant || 'contained'}
       sx={{
         my: 1,

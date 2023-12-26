@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from '../dto/create-application.dto';
 import Application from '../dataManager';
-import { m } from '@nestjs/platform-express';
+// import { m } from '@nestjs/platform-express';
 import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
@@ -22,7 +22,10 @@ import { IStatusApplication } from '@/types/application';
 @Injectable()
 export class ApplicationsService {
   constructor(private readonly developersService: DevelopersService) {}
-  private readonly storage = new Storage();
+  private readonly storage = new Storage({
+    keyFilename: 'path/to/keyfile.json', // Path to the downloaded JSON key file
+    projectId: 'your-project-id', // Replace with your Google Cloud project ID
+  });
   private readonly bucketName = 'savannahTech.io-api-asssets';
   create(
     createApplicationDto: CreateApplicationDto,

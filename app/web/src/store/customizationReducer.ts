@@ -2,19 +2,19 @@
 // import config from "config";
 
 // action - state management
-import * as actionTypes from "./actions";
+import * as actionTypes from './actions';
 
 export const initialState = {
   isOpen: [], // for active default menu
-  defaultId: "default",
-  fontFamily: "San serif",
+  defaultId: 'default',
+  fontFamily: 'San serif',
   borderRadius: 12,
   opened: false,
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
-const customizationReducer = (state = initialState, action) => {
+const customizationReducer = (state = initialState, action: any) => {
   let id;
   switch (action.type) {
     case actionTypes.MENU_OPEN:

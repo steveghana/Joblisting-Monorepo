@@ -1,11 +1,11 @@
-import { MRT_Row, MRT_TableInstance } from 'material-react-table';
+import { MRT_Row, MRT_RowData, MRT_TableInstance } from 'material-react-table';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { Delete, Edit, People } from '@mui/icons-material';
 import CustomButton from '../button';
 import AlertDialog from '../Dialog';
 import React from 'react';
 
-interface IActionsProps<T> {
+interface IActionsProps<T extends MRT_RowData> {
   row: MRT_Row<T>;
   table: MRT_TableInstance<T>;
   isDetails?: boolean;
@@ -17,7 +17,7 @@ interface IActionsProps<T> {
   handleOpenInterviewForm?: (id: string) => void;
 }
 
-const TableActions = <T,>({
+const TableActions = <T extends MRT_RowData>({
   row,
   table,
   actionFn,
@@ -50,7 +50,7 @@ const TableActions = <T,>({
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
-                handleOpenInterviewForm(row.id);
+                handleOpenInterviewForm && handleOpenInterviewForm(row.id);
               }}
             >
               <CustomButton sx={{ my: 2 }} variant="contained" text="Interview" />
@@ -63,7 +63,7 @@ const TableActions = <T,>({
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
-                cancelInterview();
+                cancelInterview && cancelInterview();
               }}
             >
               <CustomButton sx={{ my: 2 }} variant="contained" text="cancel" />
@@ -76,7 +76,7 @@ const TableActions = <T,>({
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
-                handleOpenJobForm(row.id);
+                handleOpenJobForm && handleOpenJobForm(row.id);
               }}
             >
               <CustomButton sx={{ my: 2 }} variant="contained" text="Add Job" />

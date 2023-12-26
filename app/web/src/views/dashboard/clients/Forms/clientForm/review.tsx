@@ -45,7 +45,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
   const { formDataState } = useFormData();
   const navigate = useNavigate();
   const [createClient, { data, isLoading, isError, isSuccess, error }] = useAddClientMutation();
-  const handleSubmit = async (values) => {
+  const handleSubmit = async () => {
     try {
       const response = await createClient({
         ...formDataState,
@@ -61,11 +61,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
     }
   };
   return (
-    <Formik
-      validationSchema={reviewSchema}
-      initialValues={{ agreedToTerms: false }}
-      onSubmit={(values) => handleSubmit(values)}
-    >
+    <Formik validationSchema={reviewSchema} initialValues={{ agreedToTerms: false }} onSubmit={() => handleSubmit()}>
       {({ isSubmitting }) => (
         <Form>
           <SubCard>
@@ -89,28 +85,33 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
                         }}
                       >
                         <Grid>
-                          {Object.entries(formDataState[item] as Record<string, string | [string] | any>).map(
-                            ([key, value], index) => (
-                              <Grid my={index !== 0 && 4} item xs={12} key={key}>
-                                <FormLabel component="legend">
-                                  <Typography fontWeight={'bold'}>{ReviewLabelObj[key]}*</Typography>
-                                </FormLabel>
-                                <Typography mt={1}>
-                                  {Array.isArray(value) && key === 'selectedSkills'
-                                    ? value?.map((value, index) => <Chip label={value} key={index} />)
-                                    : Array.isArray(value) && key === 'tasks'
-                                    ? value?.map((value, i) => <Typography key={i}>{value}</Typography>)
-                                    : value?.label
-                                    ? value.label
-                                    : value?.length > 70
-                                    ? value.slice(0, 70) + '....'
-                                    : key === 'whenToStart'
-                                    ? format(new Date(value), 'yyyy-MM-dd')
-                                    : value}
+                          {Object.entries(
+                            formDataState[item as keyof typeof formDataState] as Record<
+                              string,
+                              string | [string] | any
+                            >,
+                          ).map(([key, value], index) => (
+                            <Grid my={index !== 0 ? 4 : 0} item xs={12} key={key}>
+                              <FormLabel component="legend">
+                                <Typography fontWeight={'bold'}>
+                                  {ReviewLabelObj[key as keyof typeof ReviewLabelObj]}*
                                 </Typography>
-                              </Grid>
-                            ),
-                          )}
+                              </FormLabel>
+                              <Typography mt={1}>
+                                {Array.isArray(value) && key === 'selectedSkills'
+                                  ? value?.map((value, index) => <Chip label={value} key={index} />)
+                                  : Array.isArray(value) && key === 'tasks'
+                                  ? value?.map((value, i) => <Typography key={i}>{value}</Typography>)
+                                  : value?.label
+                                  ? value.label
+                                  : value?.length > 70
+                                  ? value.slice(0, 70) + '....'
+                                  : key === 'whenToStart'
+                                  ? format(new Date(value), 'yyyy-MM-dd')
+                                  : value}
+                              </Typography>
+                            </Grid>
+                          ))}
                         </Grid>
                         {/* <Divider /> */}
                         <ButtonBase

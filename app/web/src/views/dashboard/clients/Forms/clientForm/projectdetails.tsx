@@ -53,7 +53,7 @@ type IProjectDetails = ProjectDetailsWithClient | ProjectDetailsWithNavigation;
 
 const ProjectDetails = (props: IProjectDetails) => {
   const { formDataState, dispatch } = useFormData();
-
+  let s = 'onNext' in props ? props.handleBack : null;
   return (
     <Formik
       initialValues={formDataState['Project Details']}
@@ -198,7 +198,7 @@ const ProjectDetails = (props: IProjectDetails) => {
                     disabled={isSubmitting}
                     type="button"
                     variant="outlined"
-                    onClick={'onNext' in props && props.handleBack}
+                    onClick={() => ('onNext' in props ? props.handleBack() : {})}
                   />
                   <CustomButton text="Next" fullWidth disabled={isSubmitting} variant="contained" type="submit" />
                 </Box>

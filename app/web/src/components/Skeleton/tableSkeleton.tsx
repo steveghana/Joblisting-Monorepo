@@ -5,7 +5,7 @@ import { Skeleton, Table, TableBody, TableCell, TableContainer, TableRow, Paper 
 
 const TableSkeletonLoader = () => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer data-testid="table-skeleton-loader" component={Paper}>
       <Table>
         <TableBody>
           {/* Table Header Skeleton */}

@@ -86,12 +86,12 @@ function ColorlibStepIcon(props: StepIconProps) {
 }
 const AddClientForm = () => {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<Record<any, any>>({});
   const { formDataState } = useFormData();
-
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  const handleNext = (data, step) => {
+  const handleNext = (data: any, step: any) => {
     setFormData((prevData) => ({
       ...prevData,
       [step]: { ...data },
@@ -99,7 +99,7 @@ const AddClientForm = () => {
     setStep((prevStep) => prevStep + 1);
   };
   const handleSkipTonext = () => {
-    setStep((prevStep) => prevStep + 1);
+    setStep(3);
   };
   const handleBack = () => {
     const previousStep = step - 1;
@@ -115,8 +115,10 @@ const AddClientForm = () => {
 
     setStep((prevStep) => prevStep - 1);
   };
-  const handleEdit = (targetStep) => {
+  const handleEdit = (targetStep: React.SetStateAction<number>) => {
     // When the "Edit" button is clicked, go back to the relevant step
+    setIsEditing(true);
+
     setStep(targetStep);
   };
 
@@ -158,9 +160,9 @@ const AddClientForm = () => {
                 </FormHelperText>
               )}
             </> */}
-            {step < 3 && (
+            {isEditing && (
               <Box display={'flex'} gap={1} sx={{ justifyContent: 'center' }}>
-                <CustomButton text=" Skip to Next Step" type="button" variant="contained" onClick={handleSkipTonext} />
+                <CustomButton text=" Skip to Review" type="button" variant="contained" onClick={handleSkipTonext} />
               </Box>
             )}
           </SubCard>

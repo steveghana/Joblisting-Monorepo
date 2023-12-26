@@ -302,7 +302,7 @@ const RoleInfo = (props: IRoleInfo) => {
                     disabled={isSubmitting}
                     type="button"
                     variant="outlined"
-                    onClick={'onNext' in props && props.handleBack}
+                    onClick={() => 'onNext' in props && props.handleBack()}
                   />
                   <CustomButton text="Next" fullWidth disabled={isSubmitting} variant="contained" type="submit" />
                 </Box>

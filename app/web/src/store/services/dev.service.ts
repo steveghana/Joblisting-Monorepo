@@ -8,7 +8,10 @@ const authToken = sessionStorage.getItem('authToken');
 
 export const devApi = createApi({
   reducerPath: DEV_API_KEY,
-  baseQuery: fetchBaseQuery({ baseUrl: _api_url.getApiUrl() }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: _api_url.getApiUrl(),
+    fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
+  }),
   tagTypes: ['devs'],
   endpoints: (builder) => ({
     updateDev: builder.mutation<IDev, { id: string; data: Partial<IDev> }>({

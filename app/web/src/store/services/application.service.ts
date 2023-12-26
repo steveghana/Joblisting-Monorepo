@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import _api_url from '../../api/_api_url';
 import { ApplicantsSubmission, IStatusApplication } from '../../types/roles';
 import { APPLICATION_API_KEY } from '../constant';
+import axios from 'axios';
 
 const authToken = sessionStorage.getItem('authToken');
 
@@ -16,6 +17,7 @@ export const applicantApi = createApi({
     headers: {
       Authorization: authToken ? authToken : '',
     },
+    fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
   tagTypes: ['applicants'],
 

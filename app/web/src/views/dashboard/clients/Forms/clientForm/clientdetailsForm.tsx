@@ -37,7 +37,7 @@ const projectInfoValidationSchema = Yup.object().shape({
   numOfEmployees: Yup.string().required('Select number of employees'),
 });
 
-const ProjectInfo = ({ onNext }) => {
+const ProjectInfo = ({ onNext }: { onNext: (data: any, step?: any) => void }) => {
   const { formDataState, dispatch } = useFormData();
   return (
     <Formik
