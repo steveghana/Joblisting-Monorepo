@@ -10,6 +10,8 @@ import {
   UseFilters,
   HttpException,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -23,6 +25,7 @@ import { ApplicationsService } from '../services/applications.service';
 import { CreateApplicationDto } from '../dto/create-application.dto';
 import { IStatusApplication } from '@/types/application';
 import { data } from '../../../mockdata';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('applications')
 export class ApplicationsController {
@@ -33,17 +36,19 @@ export class ApplicationsController {
     description: 'creating an applicant associated with a specific role',
   })
   @UseFilters(new HttpExceptionFilter())
+  @UseInterceptors(FileInterceptor('file'))
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async create(
+    @UploadedFile() file: Express.Multer.File,
     @Body() application: CreateApplicationDto,
     @Res() res: Response,
   ) {
-    const { roleId, status } = application;
-    for (let i = 0; i < data.length; i++) {
-      application.roleId;
-      await this.applicationsService.create({ roleId, status, ...data[i] });
-    }
+    const { roleId, status, ...rest } = application;
+    // for (let i = 0; i < data.length; i++) {
+    application.roleId;
+    await this.applicationsService.create({ roleId, status, file, ...rest });
+    // }
     // console.log(application, 'app data');
     // data
     return res.json('result');
