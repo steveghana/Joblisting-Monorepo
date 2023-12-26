@@ -236,7 +236,7 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
               </Grid>
             </SubCard>
           </Grid>
-          {isdev && (
+          {user.role !== 'Recruitment' && user.role !== 'Ceo' && (
             <Grid item xs={12} sm={12}>
               <SubCard title="skills">
                 <Grid container direction="column" spacing={1}>
