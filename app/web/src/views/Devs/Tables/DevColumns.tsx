@@ -128,9 +128,11 @@ const DevTableData = ({
           }
           handleOpenInterviewForm={() => handleOpenInterviewForm(row.id)}
           actionFn={async () => {
+            const asGuest = row.original.interview?.guests.filter((item) => item!.id === row!.original!.id);
+            const asCandidate = row.original.interview?.candidate.id === row.original!.id;
             console.log(row.original, row.id, 'from fn');
-            if (row.original.interview?.guests.filter((item) => item!.id === row!.id)!.length) {
-              toast.error('Cannot delete this developer as he is already interviewed', {
+            if (asGuest!.length || asCandidate) {
+              toast.info('Cannot delete this developer as he is already interviewing', {
                 position: 'bottom-center',
               });
               return;
