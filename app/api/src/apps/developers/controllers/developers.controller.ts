@@ -109,4 +109,20 @@ export class DevelopersController {
     const result = await this.developersService.bulkremove(devIds);
     return res.json(result[0]);
   }
+  @Patch('unassign/:id')
+  @ApiTags('dlt devs')
+  @ApiOperation({
+    description: 'delete a client from the db',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async unassignRole(
+    @Body() roleid: string,
+    @Param('id') id: string,
+    @Res() res: Response,
+  ) {
+    const result = await this.developersService.unassignToRole(id, roleid);
+    return res.json(result[0]);
+  }
 }
