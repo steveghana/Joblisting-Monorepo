@@ -3,9 +3,6 @@ import {
   HttpStatus,
   Injectable,
   Logger,
-  Inject,
-  // CACHE_MANAGER,
-  Next,
   UnauthorizedException,
 } from '@nestjs/common';
 import { useTransaction } from '../../../Config/transaction';
@@ -19,35 +16,24 @@ import {
   injectDependencies,
 } from '../../../util/dependencyInjector';
 
-import { UserEntity } from '../models/user.entity';
-import { GoogleLoginUserDto } from '../controllers/user.dto';
 import { IProfession, IUser } from '../../../types/user';
 import { generateAlphanumeric } from '../../../util/transaction';
-import uuid from '../../../util/uuid';
 // import { Cache } from 'cache-manager';
-interface IOAuthUser {
-  accessToken: string;
-  email: string;
-  names: Record<string, any>[];
-  photos: Record<string, any>[];
-}
+
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(private jwtService: JwtService) {}
-  async googleLogin(user: IOAuthUser, dependencies: Dependencies = null) {
+  async googleLogin(user: IUser, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db', 'config']);
 
-    if (!user) {
+    if (!user || !!user.googleVerified) {
       throw new UnauthorizedException('No user from google');
     }
-    const primaryimageUrl = user.photos.find(
-      (item) => item.metadata.primary === true,
-    ).url;
+
     const [authToken, userinfo] = await useTransaction(async (transaction) => {
-      const userexist = await User.getByEmail(user.email, dependencies);
       console.log(user, 'estien users');
-      if (!userexist) {
+      if (!(await User.getByEmail(user.email, dependencies))) {
         throw new HttpException(
           'User doesnt exists, try signing in',
           HttpStatus.BAD_REQUEST,
@@ -55,26 +41,28 @@ export class AuthService {
       }
       await User.update(
         {
-          email: userexist.email,
-          avatar: primaryimageUrl,
+          email: (await User.getByEmail(user.email, dependencies)).email,
         },
         transaction,
       );
-      const a = await AuthToken.createForUser(
-        user.email,
-        null,
-        transaction,
-        dependencies,
-      );
-      return [a, userexist];
+      return [
+        await AuthToken.createForUser(
+          //this returns the token
+          user.email,
+          null,
+          transaction,
+          dependencies,
+        ),
+        await User.getByEmail(user.email, dependencies), // this returns a user data
+      ];
     }, dependencies);
-    const payload = { email: user.email, role: userinfo.role };
     this.logger.debug(`Login successful for user: ${user.email}`);
     return {
-      ...payload,
+      ...{ email: user.email, role: userinfo.role },
       authTokenId: authToken.id,
     };
   }
+
   /**
    * Registers a new user.
    * @param {string} email - The email of the user.
@@ -92,11 +80,11 @@ export class AuthService {
     lastName: string,
     role: IProfession,
     dependencies: Dependencies = null,
-  ): Promise<object> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
     const passwordHash = await cryptoUtil.hash(
       password,
-      dependencies.config!.authentication!.passwordHashIterations,
+      dependencies.config?.authentication?.passwordHashIterations,
     );
 
     return useTransaction(async (transaction) => {
@@ -139,10 +127,7 @@ export class AuthService {
       };
     });
   }
-  public async googleRegister(
-    user: IOAuthUser,
-    dependencies: Dependencies = null,
-  ) {
+  public async googleRegister(user: IUser, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db', 'config', 'email']);
     if (!user) {
       throw new UnauthorizedException('No user from google');
@@ -154,8 +139,8 @@ export class AuthService {
       (item) => item.metadata.primary === true,
     ).displayName;
 
-    const { email } = user;
-    if (!userNames || userNames === '') {
+    const { email, googleVerified, emailAddresses } = user;
+    if (!userNames || userNames === '' || !!googleVerified) {
       throw new HttpException(
         'Google user cannot be authenticated',
         HttpStatus.BAD_REQUEST,
@@ -165,7 +150,7 @@ export class AuthService {
     const password = await generateAlphanumeric(10);
     const passwordHash = await cryptoUtil.hash(
       password,
-      dependencies.config!.authentication!.passwordHashIterations,
+      dependencies.config?.authentication?.passwordHashIterations,
     );
     return useTransaction(async (transaction) => {
       const [user, UserMethods] = await User.findElseCreate(
@@ -174,6 +159,9 @@ export class AuthService {
           role: 'Developer',
           firstName: names[0],
           lastName: names[1],
+          googleVerified,
+          emailAddresses,
+
           avatar: primaryimageUrl,
         },
         passwordHash,
