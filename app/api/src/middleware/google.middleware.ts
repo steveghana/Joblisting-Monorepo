@@ -5,10 +5,25 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
+import { google } from 'googleapis';
 import fetch from 'node-fetch';
-
+interface IOAuthUser {
+  accessToken: string;
+  email: string;
+  names: Record<string, any>[];
+  photos: Record<string, any>[];
+  emailAddresses: any[];
+  googleVerified: boolean;
+}
 @Injectable()
 export class GoogleAuthMiddleware implements NestMiddleware {
+  // Define the necessary scopes for your application
+  private static readonly SCOPES = [
+    'https://www.googleapis.com/auth/contacts.readonly',
+    'https://www.googleapis.com/auth/user.phoneNumbers.read',
+    'https://www.googleapis.com/auth/user.addresses.read',
+  ];
+
   async use(req: Request, res: Response, next: NextFunction) {
     const accessToken = req.body.accessToken;
     console.log('Google middleware entered.....................');
@@ -22,17 +37,25 @@ export class GoogleAuthMiddleware implements NestMiddleware {
         `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`,
       );
       const data = await response.json();
-
+      console.log(data, 'estien data');
       if (data.error) {
         throw new HttpException(data.error_description, HttpStatus.BAD_REQUEST);
       }
 
-      const additionalInfo = await this.fetchAdditionalUserInfo(accessToken);
-      req.body.user = {
+      // Fetch additional user info from the People API
+      const additionalInfo = await this.fetchAdditionalUserInfo(
         accessToken,
-        ...data,
-        ...additionalInfo,
-      };
+        GoogleAuthMiddleware.SCOPES, // Pass the scopes when calling the method
+      );
+      console.log(additionalInfo, 'estien information');
+
+      req.body.user = {
+        googleVerified: data.verified_email,
+        email: data.email,
+        names: additionalInfo.names,
+        photos: additionalInfo.photos,
+        emailAddresses: additionalInfo.emailAddresses,
+      } as IOAuthUser;
       next();
     } catch (error) {
       console.error('Error during token verification:', error);
@@ -40,29 +63,28 @@ export class GoogleAuthMiddleware implements NestMiddleware {
     }
   }
 
-  private async fetchAdditionalUserInfo(accessToken: string) {
-    const url =
-      'https://people.googleapis.com/v1/people/me?personFields=names,photos,phoneNumbers,nicknames,locations,addresses';
+  private async fetchAdditionalUserInfo(
+    accessToken: string,
+    scopes: string[], // Receive the scopes as a parameter
+  ) {
+    const auth = new google.auth.OAuth2();
+    auth.setCredentials({ access_token: accessToken });
+    auth.setCredentials({ access_token: accessToken, scope: scopes.join(' ') }); // Set the scopes for the OAuth2 client
+
+    const people = google.people({ version: 'v1', auth });
 
     try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const response = await people.people.get({
+        resourceName: 'people/me',
+        personFields:
+          'names,photos,phoneNumbers,nicknames,locations,addresses,emailAddresses',
       });
 
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch Google profile: ${response.statusText}`,
-        );
-      }
-
-      const data = await response.json();
-      console.log('userdata:', data);
-      return data;
+      console.log('userdata:', response.data);
+      return response.data;
     } catch (error) {
-      console.error('Error fetching Google profile:', error.message);
-      throw error;
+      console.error('Error during fetching additional user info:', error);
+      return {};
     }
   }
 }
