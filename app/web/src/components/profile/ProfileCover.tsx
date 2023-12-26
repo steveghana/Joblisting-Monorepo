@@ -132,7 +132,7 @@ const ProfileCover = ({ user }: { user: IUser }) => {
             src={user.avatar}
           >
             {' '}
-            {!user.avatar && `${user.firstName[0]}${user.lastName[0]}`}
+            {!user.avatar && `${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`}
           </Avatar>
 
           <ButtonUploadWrapper>
@@ -146,31 +146,34 @@ const ProfileCover = ({ user }: { user: IUser }) => {
         </AvatarWrapper>
         <Box py={2} pl={2} mb={3}>
           <Typography gutterBottom variant="h4">
-            {user.firstName}
+            {`${user.firstName} ${user.lastName}`}
           </Typography>
-          {/* <Typography variant="subtitle2">{user.description}</Typography>
+          <Typography variant="subtitle2">{user.description}</Typography>
           <Typography sx={{ py: 2 }} variant="subtitle2" color="text.primary">
-            {user.jobtitle} | {user.location}
-          </Typography> */}
+            {user.role}
+          </Typography>
           <Box display={{ xs: 'block', md: 'flex' }} alignItems="center" justifyContent="space-between">
-            <Box>
-              <Button size="small" sx={{ mx: 1 }} variant="outlined">
-                View website
-              </Button>
-              <IconButton color="primary" sx={{ p: 0.5 }}>
-                <MoreHorizTwoToneIcon />
-              </IconButton>
-            </Box>
             {user.role !== 'Ceo' && user.role !== 'Recruitment' && (
-              <Button sx={{ mt: { xs: 2, md: 0 } }} size="small" variant="text" endIcon={<ArrowForwardTwoToneIcon />}>
-                See all clients connections
-              </Button>
+              <>
+                <Box>
+                  <Button size="small" sx={{ mx: 1 }} variant="outlined">
+                    View portfolio website
+                  </Button>
+                  <IconButton color="primary" sx={{ p: 0.5 }}>
+                    <MoreHorizTwoToneIcon />
+                  </IconButton>
+                </Box>
+                <Button sx={{ mt: { xs: 2, md: 0 } }} size="small" variant="text" endIcon={<ArrowForwardTwoToneIcon />}>
+                  {/* navigate to the clientdetails page */}
+                  See all clients connections
+                </Button>
+                <Box>
+                  <Button sx={{ m: 1 }} variant="contained" endIcon={<Mail />}>
+                    Send Email
+                  </Button>
+                </Box>
+              </>
             )}
-          </Box>
-          <Box>
-            <Button sx={{ m: 1 }} variant="contained" endIcon={<Mail />}>
-              Send Email
-            </Button>
           </Box>
           <ActivityTab user={user} />
         </Box>
