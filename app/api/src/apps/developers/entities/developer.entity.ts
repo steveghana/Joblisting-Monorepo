@@ -46,6 +46,7 @@ export class Developer extends AssociableModel {
   salary: number;
   @Column()
   years_of_experience: string;
+
   @Column()
   address: string;
   @Column()
