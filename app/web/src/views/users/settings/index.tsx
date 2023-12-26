@@ -1,26 +1,45 @@
-import { useState, ChangeEvent } from "react";
-import { Container, Tabs, Tab, Grid } from "@mui/material";
-import Footer from "../../../components/Footer";
-import { styled } from "@mui/material/styles";
-import ActivityTab from "../../../components/settings/ActivityTab";
-import EditProfileTab from "../../../components/settings/EditProfileTab";
-import NotificationsTab from "../../../components/settings/NotificationsTab";
-import SecurityTab from "../../../components/settings/SecurityTab";
-import MainCard from "../../../components/MainCard";
+import { useState, ChangeEvent } from 'react';
+import { Container, Tabs, Tab, Grid } from '@mui/material';
+import Footer from '../../../components/Footer';
+import { styled } from '@mui/material/styles';
+import ActivityTab from '../../../components/settings/ActivityTab';
+import EditProfileTab from '../../../components/settings/EditProfileTab';
+import NotificationsTab from '../../../components/settings/NotificationsTab';
+import SecurityTab from '../../../components/settings/SecurityTab';
+import MainCard from '../../../components/MainCard';
+import { useNavigate, useParams } from 'react-router';
+import { useGetUserQuery } from '@/store/services/userAuth.service';
+import Loader from '@/components/Loader';
+import NoData from '@/components/NoData';
+import { toast } from 'react-toastify';
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
       overflow-x: auto !important;
     }
-`
+`,
 );
 function ManagementUserSettings() {
-  const [currentTab, setCurrentTab] = useState<string>("profile");
+  const [currentTab, setCurrentTab] = useState<string>('profile');
+  const { id } = useParams();
+  const navigate = useNavigate();
+  if (!id || id === undefined) {
+    navigate(-1);
+    toast.error('Invalid user', { position: 'top-right' });
+  }
+  const { data, isError, isLoading, isFetching } = useGetUserQuery({ id: id as string });
+  if (isLoading || isFetching) {
+    return <Loader />;
+  }
+  if (!data || isError) {
+    toast.error('Error user wasnt found');
+    return <NoData />;
+  }
   const tabs = [
-    { value: "profile", label: "Profile" },
-    { value: "edit_profile", label: "Edit Profile" },
-    { value: "notifications", label: "Notifications" },
-    { value: "security", label: "Passwords/Security" },
+    { value: 'profile', label: 'Profile' },
+    { value: 'edit_profile', label: 'Edit Profile' },
+    { value: 'notifications', label: 'Notifications' },
+    { value: 'security', label: 'Passwords/Security' },
   ];
   const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
@@ -32,12 +51,7 @@ function ManagementUserSettings() {
       </Helmet> */}
       <MainCard>
         <Container maxWidth="lg">
-          <Grid
-          // container
-          // direction="row"
-          // justifyContent="center"
-          // alignItems="stretch"
-          >
+          <Grid>
             <Grid item xs={12}>
               <TabsWrapper
                 onChange={handleTabsChange}
@@ -53,10 +67,10 @@ function ManagementUserSettings() {
               </TabsWrapper>
             </Grid>
             <Grid item xs={12}>
-              {currentTab === "profile" && <ActivityTab insettings={true} />}
-              {currentTab === "edit_profile" && <EditProfileTab />}
-              {currentTab === "notifications" && <NotificationsTab />}
-              {currentTab === "security" && <SecurityTab />}
+              {currentTab === 'profile' && <ActivityTab user={data} insettings={true} />}
+              {currentTab === 'edit_profile' && <EditProfileTab user={data} insettings={true} />}
+              {currentTab === 'notifications' && <NotificationsTab user={data} insettings={true} />}
+              {currentTab === 'security' && <SecurityTab user={data} insettings={true} />}
             </Grid>
           </Grid>
         </Container>
