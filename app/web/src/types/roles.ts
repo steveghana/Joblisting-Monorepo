@@ -47,12 +47,13 @@ export interface ApplicantsSubmission {
   id?: string;
   name: string;
   email: string;
+  roleApplyiingFor: string;
   avatar?: string;
   phoneNumber: string;
   status?: IStatusApplication;
   coverLetter: string;
   address: string;
-  resume: Record<string, any>;
+  file: Record<string, any>;
   selectedSkills: string[];
   years_of_experience: string;
 }

@@ -1,6 +1,5 @@
 import { IDev } from './developer';
 import { IRole } from './role';
-export interface ApplicantsSubmission {}
 export interface IApplication {
   id?: string;
   name: string;
@@ -12,6 +11,7 @@ export interface IApplication {
   background_questions?: Record<string, string>; // Store background questions as JSON
   status: IStatusApplication; //
   address: string;
+  roleApplyiingFor: string;
   role?: IRole;
   coverLetter: string;
 }

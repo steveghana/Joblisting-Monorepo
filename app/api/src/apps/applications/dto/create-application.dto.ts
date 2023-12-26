@@ -20,6 +20,7 @@ export class CreateApplicationDto {
   })
   @IsString()
   roleId: string;
+  roleApplyiingFor: string;
 
   // developer: Partial<IDev>;
   @IsNotEmpty({

@@ -26,6 +26,8 @@ import { getRandomColor } from '@/utils/generateRandomColors';
 import CustomButton from '../button';
 import FileUpload from './FileUpload';
 import SubCard from '../SubCard';
+import { useUpdateUserMutation } from '@/store/services/userAuth.service';
+import { toast } from 'react-toastify';
 const UploadInput = styled('input')({
   display: 'none',
 });
@@ -70,6 +72,7 @@ const ButtonUploadWrapper = styled(Box)(
 export default function MyProfile({ user }: { user: IUser }) {
   const theme = useTheme();
   const experience = [3, 4, 5, 6, 7];
+  const [updateUser, { isLoading, isError }] = useUpdateUserMutation();
   console.log(user);
   const md = useMediaQuery(theme.breakpoints.down('sm'));
   // const tab = useMediaQuery(theme.breakpoints.only("md"));
@@ -103,7 +106,18 @@ export default function MyProfile({ user }: { user: IUser }) {
           }}
           onSubmit={async (values, setters) => {
             console.log(values, 'from submitting');
-            // await register(values, setters, scriptedRef);
+            try {
+              const response = await updateUser({ ...values });
+              if (response && !isError) {
+                toast.success('User info updated successfully', {
+                  position: 'bottom-center',
+                });
+              }
+            } catch (error: any) {
+              toast.error('Failed to update user information, please try again later', {
+                position: 'bottom-center',
+              });
+            }
           }}
         >
           {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -111,7 +125,7 @@ export default function MyProfile({ user }: { user: IUser }) {
               <SubCard>
                 <Box sx={{ mb: 1 }}>
                   <Typography>Personal info</Typography>
-                  <Typography variant="caption">Customize how your profile information will apper</Typography>
+                  <Typography variant="caption">Customize how your profile information will appear</Typography>
                 </Box>
                 <Divider />
 
@@ -317,10 +331,18 @@ export default function MyProfile({ user }: { user: IUser }) {
                 </Stack>
               </SubCard>
               <Box display={'flex'} justifyContent={'center'} gap={1}>
-                <CustomButton size="small" variant="outlined">
+                <CustomButton
+                  size="small"
+                  disabled={isLoading || isSubmitting}
+                  loading={isLoading || isSubmitting}
+                  variant="outlined"
+                >
                   Cancel
                 </CustomButton>
                 <CustomButton
+                  type="submit"
+                  disabled={isLoading || isSubmitting}
+                  loading={isLoading || isSubmitting}
                   // size="sm"
                   size="small"
                   sx={{ background: themePalette.primary.main, borderRadius: '10px' }}

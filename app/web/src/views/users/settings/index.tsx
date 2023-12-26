@@ -68,9 +68,9 @@ function ManagementUserSettings() {
             </Grid>
             <Grid item xs={12}>
               {currentTab === 'profile' && <ActivityTab user={data} insettings={true} />}
-              {currentTab === 'edit_profile' && <EditProfileTab user={data} insettings={true} />}
-              {currentTab === 'notifications' && <NotificationsTab user={data} insettings={true} />}
-              {currentTab === 'security' && <SecurityTab user={data} insettings={true} />}
+              {currentTab === 'edit_profile' && <EditProfileTab user={data} />}
+              {currentTab === 'notifications' && <NotificationsTab /* user={data}  */ />}
+              {currentTab === 'security' && <SecurityTab /* user={data} insettings={true} */ />}
             </Grid>
           </Grid>
         </Container>

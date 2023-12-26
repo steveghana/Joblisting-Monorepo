@@ -25,6 +25,8 @@ export class Application extends AssociableModel {
   @JoinColumn({ name: 'role_id' })
   role: Role;
   @Column()
+  roleApplyiingFor: string;
+  @Column()
   name: string;
   @Column()
   email: string;

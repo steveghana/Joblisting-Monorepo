@@ -11,6 +11,9 @@ import {
   Autocomplete,
   Chip,
   FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import CustomButton from '../../../../components/button';
 import FileInput from './FileInput';
@@ -20,6 +23,7 @@ import { useNavigate, useParams } from 'react-router';
 import { ApplicantsSubmission } from '../../../../types/roles';
 import { useAddApplicantsMutation } from '../../../../store/services/application.service';
 import { toast } from 'react-toastify';
+import { techRoles } from '@/lib/data/jobs';
 const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
@@ -43,11 +47,13 @@ const JobSubmissionContainer: React.FC = () => {
 
     try {
       setIsLoading(true);
-
+      const formData = new FormData();
+      //  formData.append('file', values.file);
+      //  formData.append('otherData', values.otherData);
       const response = await addApplicant({
         roleId: id as string,
         ...values,
-        resume: selectedFile as File,
+        file: selectedFile as File,
       }).unwrap();
 
       setIsLoading(false);
@@ -72,9 +78,10 @@ const JobSubmissionContainer: React.FC = () => {
   const initialState: ApplicantsSubmission = {
     name: '',
     email: '',
+    roleApplyiingFor: '',
     phoneNumber: '',
     coverLetter: '',
-    resume: {},
+    file: {},
     selectedSkills: [],
     address: '',
     years_of_experience: '',
@@ -89,7 +96,7 @@ const JobSubmissionContainer: React.FC = () => {
           address: Yup.string().required('address is required'),
           years_of_experience: Yup.string().required('years of experience is required and must be a number'),
           selectedSkills: Yup.array().required('Skills are required'),
-
+          roleApplyiingFor: Yup.string().required('Please select the role you are hiring for!'),
           name: Yup.string().max(255).min(2).required('Please enter a valid name'),
           phoneNumber: Yup.string()
             .matches(/^\+?[0-9]{8,15}$/, 'Please enter a valid phone number')
@@ -119,6 +126,23 @@ const JobSubmissionContainer: React.FC = () => {
                 </ErrorMessage>
               </FormControl>
             ))}
+            <FormControl fullWidth>
+              <InputLabel id="role-label">Select role you are applying For</InputLabel>
+              <Field name="roleApplyiingFor" as={Select} variant="outlined" fullWidth>
+                {Object.keys(techRoles).map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Field>
+              <ErrorMessage name="roleApplyiingFor" component="div">
+                {(msg) => (
+                  <FormHelperText error variant="filled">
+                    {msg}
+                  </FormHelperText>
+                )}
+              </ErrorMessage>
+            </FormControl>
             <FormControl fullWidth margin="normal">
               <Autocomplete
                 multiple
