@@ -16,6 +16,7 @@ import User from '../../auth/dataManager/userEntity';
 import { IDev } from '../../../types/developer';
 import { DeveloperAcceptedEmailDraft } from '../../../util/email/emailtexts';
 import Interviews from '../../../apps/interviews/dataManager';
+import { Role } from '@/apps/roles/entities/role.entity';
 // import Interviews from '@/apps/interviews/dataManager';
 // import Interviews from '@/apps/interviews/dataManager';
 @Injectable()
@@ -225,6 +226,30 @@ export class DevelopersService {
         );
       }
       return deleted;
+    });
+  }
+  unassignToRole(id: string, roleId: string) {
+    return useTransaction(async (transaction) => {
+      const { developers } = await Roles.getById(roleId);
+      const devInRole = developers.filter((developers) => developers.id === id);
+      if (!!devInRole.length) {
+        throw new HttpException(
+          'The developer you are trying to unassign to a role is not available. Please try again later',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const unassigned = await Developers.unassignToRole(
+        id,
+        roleId,
+        transaction,
+      );
+      if (!unassigned) {
+        throw new HttpException(
+          'Something went wrong, couldnt unassign developer to role. Please try again later',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return unassigned;
     });
   }
   bulkremove(ids: string[]) {
