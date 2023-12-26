@@ -8,6 +8,7 @@ import {
   deleteDev,
   updateDev,
   bulkdeleteDevs,
+  unassignToRole,
 } from '../DBQueries/index';
 import { EntityManager } from 'typeorm';
 import { IDev } from '@/types/developer';
@@ -61,6 +62,15 @@ class Developers {
   ): Promise<number> {
     dependencies = injectDependencies(dependencies, ['db']);
     return await deleteDev(devId, transaction, dependencies);
+  }
+  static async unassignToRole(
+    devId: string,
+    roleid: string,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ): Promise<number> {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await unassignToRole(devId, roleid, transaction, dependencies);
   }
   static async bulkdestroy(
     devId: string[],
