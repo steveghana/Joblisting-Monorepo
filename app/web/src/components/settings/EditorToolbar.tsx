@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Box,
   BoxProps,
@@ -10,31 +10,31 @@ import {
   Select,
   TextareaAutosize,
   Typography,
-} from "@mui/material";
-import FormatBoldRoundedIcon from "@mui/icons-material/FormatBoldRounded";
-import FormatItalicRoundedIcon from "@mui/icons-material/FormatItalicRounded";
-import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
-import { useMediaQuery, useTheme } from "@mui/material";
-import { useState } from "react";
+} from '@mui/material';
+import FormatBoldRoundedIcon from '@mui/icons-material/FormatBoldRounded';
+import FormatItalicRoundedIcon from '@mui/icons-material/FormatItalicRounded';
+import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
 // import FormHelperText from "@mui/joy/FormHelperText";
 // import Textarea from "@mui/joy/Textarea";
 
 export default function EditorToolbar({ sx, ...props }: BoxProps) {
   const theme = useTheme();
-  const md = useMediaQuery(theme.breakpoints.down("sm"));
+  const md = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box
       {...props}
       sx={[
         {
-          display: "flex",
+          display: 'flex',
           my: 2,
-          alignItems: "flex-end",
+          alignItems: 'flex-end',
           gap: 0.5,
-          "& > button": { "--Icon-fontSize": "16px" },
+          '& > button': { '--Icon-fontSize': '16px' },
           flexDirection: {
-            lg: "row",
+            lg: 'row',
           },
         },
         ...(Array.isArray(sx) ? sx : [sx]),
@@ -56,7 +56,7 @@ export default function EditorToolbar({ sx, ...props }: BoxProps) {
 }
 
 export function LargeTextField() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const wordLimit = 300;
   const words = text.trim().split(/\s+/).filter(Boolean).length;
 
@@ -69,8 +69,8 @@ export function LargeTextField() {
       <EditorToolbar />
       <TextareaAutosize
         // size="sm"
+        style={{ padding: '.4rem' }}
         minRows={6}
-        // sx={{ mt: 1.5 }}
         value={text}
         placeholder="Enter your description here..."
         onChange={handleChange}
@@ -80,7 +80,7 @@ export function LargeTextField() {
         minRows={4}
         placeholder="Enter your description here..."
       /> */}
-      <Typography variant="caption" fontSize={".7rem"}>
+      <Typography variant="caption" fontSize={'.7rem'}>
         {words} words ({wordLimit - words} words left)
       </Typography>
     </FormControl>
