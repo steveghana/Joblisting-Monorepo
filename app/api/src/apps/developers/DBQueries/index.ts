@@ -2,12 +2,11 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import uuidUtil from '../../../util/uuid';
-import { DeepPartial, EntityManager, In } from 'typeorm';
+import { EntityManager, In } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
-import uuid from '../../../util/uuid';
 import { IDev } from '@/types/developer';
 import { ensureTransaction } from '../../../Config/transaction';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export async function enrollDev(
   devDataset: IDev,
@@ -23,11 +22,11 @@ export async function enrollDev(
     role: 'Developer',
   });
   await userRepo.save(newUser);
-  let dev = await devRepo.create({
+  const dev = await devRepo.create({
     ...rest,
     user: newUser,
   });
-  let devData = await devRepo.save(dev);
+  const devData = await devRepo.save(dev);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return devData as unknown as IDev;
 }
@@ -132,11 +131,44 @@ export async function deleteDev(
   dependencies: Dependencies = null,
 ): Promise<number> {
   dependencies = injectDependencies(dependencies, ['db']);
-  const rolesRepo = transaction.getRepository(dependencies.db.models.developer);
+  const developerRepo = transaction.getRepository(
+    dependencies.db.models.developer,
+  );
 
-  const { affected } = await rolesRepo.delete({
+  const { affected } = await developerRepo.delete({
     id,
   });
+  return affected;
+}
+export async function unassignToRole(
+  id: string,
+  roleId: string,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+): Promise<number> {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const developerRepo = transaction.getRepository(
+    dependencies.db.models.developer,
+  );
+  const rolesRepo = transaction.getRepository(dependencies.db.models.role);
+  const _rolesWithoutCurrentDeveloper = (
+    await rolesRepo.findOne({ where: { id: roleId } })
+  ).developers.filter((d) => d.id !== id);
+  const { affected: roleUpdated } = await rolesRepo.update(
+    { id: roleId },
+    { developers: _rolesWithoutCurrentDeveloper },
+  );
+  if (!roleUpdated) {
+    throw new HttpException(
+      'Couldnt unassign developer, please try again later',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+  const { affected } = await developerRepo.update(
+    { id },
+    { roles: null, workStatus: 'Not Active' },
+  );
+
   return affected;
 }
 export async function bulkdeleteDevs(
