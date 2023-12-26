@@ -1,15 +1,17 @@
-import * as React from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
-import Box from "@mui/joy/Box";
-import Card, { CardProps } from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import IconButton from "@mui/joy/IconButton";
-import LinearProgress from "@mui/joy/LinearProgress";
-import Typography from "@mui/joy/Typography";
+import * as React from 'react';
+// import AspectRatio from "@mui/material/AspectRatio";
+import Box from '@mui/material/Box';
+import Card, { CardProps } from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 
-import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
+import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
+import { AddBoxOutlined } from '@mui/icons-material';
+import { themePalette } from '@/themes/schemes/palette';
 
 export default function FileUpload({
   icon,
@@ -27,40 +29,39 @@ export default function FileUpload({
   return (
     <Card
       variant="outlined"
-      orientation="horizontal"
+      // orientation="horizontal"
       {...props}
       sx={[
         {
           gap: 1.5,
-          alignItems: "flex-start",
+          alignItems: 'flex-start',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      <AspectRatio
-        ratio="1"
-        variant="soft"
-        color="neutral"
+      <Box
+        display={'flex'}
+        justifyContent={'center'}
         sx={{
           minWidth: 32,
-          borderRadius: "50%",
-          "--Icon-fontSize": "16px",
+          borderRadius: '50%',
+          fontSize: '16px',
         }}
       >
-        <div>{icon ?? <InsertDriveFileRoundedIcon />}</div>
-      </AspectRatio>
+        <div>{icon ?? <InsertDriveFileRoundedIcon color="action" />}</div>
+      </Box>
       <CardContent>
         <Typography fontSize="sm">{fileName}</Typography>
-        <Typography level="body-xs">{fileSize}</Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Typography>{fileSize}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <LinearProgress
-            color="neutral"
+            // color="neutral"
             value={progress}
-            determinate
+            variant="determinate"
             sx={[
               {
                 ...(progress >= 100 && {
-                  color: "var(--joy-palette-success-solidBg)",
+                  color: themePalette.success.main,
                 }),
               },
             ]}
@@ -69,27 +70,19 @@ export default function FileUpload({
         </Box>
       </CardContent>
       {progress >= 100 ? (
-        <AspectRatio
-          ratio="1"
-          variant="solid"
-          color="success"
+        <Box
           sx={{
             minWidth: 20,
-            borderRadius: "50%",
-            "--Icon-fontSize": "14px",
+            borderRadius: '50%',
+            fontSize: '14px',
           }}
         >
           <div>
             <CheckRoundedIcon />
           </div>
-        </AspectRatio>
+        </Box>
       ) : (
-        <IconButton
-          variant="plain"
-          color="danger"
-          size="sm"
-          sx={{ mt: -1, mr: -1 }}
-        >
+        <IconButton sx={{ mt: -1, mr: -1 }}>
           <RemoveCircleOutlineRoundedIcon />
         </IconButton>
       )}
