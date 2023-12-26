@@ -12,14 +12,16 @@ import LogoSection from '../../layout/MainLayout/LogoSection';
 import { useLoginUserMutation } from '../../store/services/userAuth.service';
 import { IProfession } from '../../types/roles';
 import { toast } from 'react-toastify';
-
+import { useTypedSelector } from '@/store';
+import { motion } from 'framer-motion';
 function RoleAuth() {
   const [error, setError] = useState(false);
   const [role, setRole] = useState<IProfession>();
   const navigate = useNavigate();
   const [helperText, setHelperText] = useState('');
   const [loginUser, { isLoading: isWithGoogleLoading }] = useLoginUserMutation();
-
+  const state = useTypedSelector((state) => state.userApi);
+  console.log('state', state);
   const roles = ['Ceo', 'Recruitment'];
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +37,7 @@ function RoleAuth() {
 
     try {
       const { email, password }: { email: string; password: string } =
-        JSON.parse(sessionStorage.getItem('tempUserinfo')) || {};
+        JSON.parse(sessionStorage.getItem('tempUserinfo') as string) || {};
 
       const login = await loginUser({
         role,
@@ -65,59 +67,67 @@ function RoleAuth() {
   }
 
   return (
-    <Grid
-      sx={{ height: '100vh' }}
-      display="flex"
-      justifyContent="center"
-      flexDirection="column"
-      gap={2}
-      alignItems="center"
+    <motion.div
+      key={window.location.pathname}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
     >
-      <Grid>
-        <LogoSection />
+      <Grid
+        sx={{ height: '100vh' }}
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        gap={2}
+        alignItems="center"
+      >
+        <Grid>
+          <LogoSection />
+        </Grid>
+        <Box display="flex" flexDirection="column" gap={1} alignItems="center">
+          <Typography fontFamily="Didact Gothic" fontWeight={400} variant="h1">
+            Let's sign you up
+          </Typography>
+          <Typography fontFamily="Lato" fontWeight={400} variant="caption" color="GrayText">
+            Create a free account now and let's get started
+          </Typography>
+          <div>Select an Account Type</div>
+        </Box>
+        <FormControl sx={{ minWidth: '75%' }} margin="dense" error={error} variant="standard">
+          <RadioGroup>
+            {roles.map((roleName) => (
+              <FormControlLabel
+                key={roleName}
+                control={<Radio />}
+                label={roleName}
+                sx={{
+                  my: 1,
+                  ml: 1.5,
+                  borderRadius: '5px',
+                  border: role === 'Ceo' ? '1px solid blue' : '1px solid gray',
+                }}
+                value={roleName}
+                checked={role === roleName}
+                onChange={handleRadioChange}
+              />
+            ))}
+            <FormHelperText>{helperText}</FormHelperText>
+          </RadioGroup>
+          <CustomButton
+            text="Continue"
+            disabled={isWithGoogleLoading}
+            endIcon={<ArrowForward />}
+            loadingPosition="end"
+            loading={isWithGoogleLoading}
+            onClick={onMoveToRegister}
+          />
+        </FormControl>
+        <Grid>
+          <AuthFooter />
+        </Grid>
       </Grid>
-      <Box display="flex" flexDirection="column" gap={1} alignItems="center">
-        <Typography fontFamily="Didact Gothic" fontWeight={400} variant="h1">
-          Let's sign you up
-        </Typography>
-        <Typography fontFamily="Lato" fontWeight={400} variant="caption" color="GrayText">
-          Create a free account now and let's get started
-        </Typography>
-        <div>Select an Account Type</div>
-      </Box>
-      <FormControl sx={{ minWidth: '75%' }} margin="dense" error={error} variant="standard">
-        <RadioGroup>
-          {roles.map((roleName) => (
-            <FormControlLabel
-              key={roleName}
-              control={<Radio />}
-              label={roleName}
-              sx={{
-                my: 1,
-                ml: 1.5,
-                borderRadius: '5px',
-                border: role === 'Ceo' ? '1px solid blue' : '1px solid gray',
-              }}
-              value={roleName}
-              checked={role === roleName}
-              onChange={handleRadioChange}
-            />
-          ))}
-          <FormHelperText>{helperText}</FormHelperText>
-        </RadioGroup>
-        <CustomButton
-          text="Continue"
-          disabled={isWithGoogleLoading}
-          endIcon={<ArrowForward />}
-          loadingPosition="end"
-          loading={isWithGoogleLoading}
-          onClick={onMoveToRegister}
-        />
-      </FormControl>
-      <Grid>
-        <AuthFooter />
-      </Grid>
-    </Grid>
+    </motion.div>
   );
 }
 
