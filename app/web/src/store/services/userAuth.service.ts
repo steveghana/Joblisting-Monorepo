@@ -35,7 +35,7 @@ export const userApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    loginUser: builder.mutation<IResponseLg, Omit<IResponseRg, 'token'> & { rememberMe: boolean }>({
+    loginUser: builder.mutation<IResponseLg, Omit<IResponseRg, 'token'> & { rememberMe: boolean; role?: IProfession }>({
       query: (user) => ({
         url: 'user/login',
         method: 'POST',
