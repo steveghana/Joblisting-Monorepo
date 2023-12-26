@@ -55,7 +55,6 @@ export class Role extends AssociableModel {
   experience: string;
   @Column()
   communicationPreferences: string;
-
   // Store skills as JSON
 
   @Column()
