@@ -1,38 +1,12 @@
-import {
-  Grid,
-  Typography,
-  CardContent,
-  Card,
-  Box,
-  Divider,
-  Button,
-  TextField,
-  FormHelperText,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import { gridSpacing } from "../../store/constant";
-import MuiTypography from "@mui/material/Typography";
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
-import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone";
-import Text from "../Text";
-import Label from "../Label";
-import SubCard from "../SubCard";
-import { Formik } from "formik";
-import { themeTypography } from "../../themes/schemes/typography";
-import AnimateButton from "../extended/AnimateButton";
-import CustomButton from "../button";
-import MainCard from "../MainCard";
-import MyProfile from "./MyProfile";
-import { userdata as user } from "./userdata";
-import { styled } from "@mui/material/styles";
-import { CssVarsProvider } from "@mui/joy/styles";
-import CssBaseline from "@mui/joy/CssBaseline";
-const Input = styled("input")({
-  display: "none",
+import { Grid, Card, Box } from '@mui/material';
+import MyProfile from './MyProfile';
+// import { userdata as user } from './userdata';
+import { styled } from '@mui/material/styles';
+import { CssVarsProvider } from '@mui/joy/styles';
+import CssBaseline from '@mui/joy/CssBaseline';
+import { IUser } from '@/types/user';
+const Input = styled('input')({
+  display: 'none',
 });
 
 const AvatarWrapper = styled(Card)(
@@ -48,7 +22,7 @@ const AvatarWrapper = styled(Card)(
       width: ${theme.spacing(16)};
       height: ${theme.spacing(16)};
     }
-`
+`,
 );
 
 const ButtonUploadWrapper = styled(Box)(
@@ -72,7 +46,7 @@ const ButtonUploadWrapper = styled(Box)(
         background: ${theme.colors?.primary.dark};
       }
     }
-`
+`,
 );
 
 const CardCover = styled(Card)(
@@ -82,7 +56,7 @@ const CardCover = styled(Card)(
     .MuiCardMedia-root {
       height: ${theme.spacing(26)};
     }
-`
+`,
 );
 
 const CardCoverAction = styled(Box)(
@@ -90,48 +64,16 @@ const CardCoverAction = styled(Box)(
     position: absolute;
     right: ${theme.spacing(2)};
     bottom: ${theme.spacing(2)};
-`
+`,
 );
 
-function EditProfileTab({ ...others }) {
+function EditProfileTab({ user }: { user: IUser }) {
   // const []
   return (
     <Grid container spacing={1}>
-      {/* <Grid item xs={12}> */}
-      {/* <Box sx={{ display: "flex", minHeight: "100dvh" }}>
-          <Box
-            component="main"
-            className="MainContent"
-            sx={{
-              pt: {
-                xs: "calc(12px + var(--Header-height))",
-                md: 3,
-              },
-              pb: {
-                xs: 2,
-                sm: 2,
-                md: 3,
-              },
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              minWidth: 0,
-              height: "100dvh",
-              gap: 1,
-              overflow: "auto",
-            }}
-          > */}
-      {/* </Box> */}
-      {/* </Box> */}
       <Grid container py={2}>
-        {/* <Grid item direction="column" spacing={1}> */}
-        <CssVarsProvider disableTransitionOnChange>
-          <CssBaseline />
-          <MyProfile user={user} />
-        </CssVarsProvider>
-        {/* </Grid> */}
+        <MyProfile user={user} />
       </Grid>
-      {/* </Grid> */}
     </Grid>
   );
 }
