@@ -3,7 +3,6 @@ import {
   injectDependencies,
 } from '../../../util/dependencyInjector';
 import {
-  findOrCreateUser,
   getUser,
   updateUser,
   getUserRoles,
@@ -22,7 +21,10 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 type PartialUserEntity = Partial<UserEntity>;
 
 // This creates a new type that has only the properties of UserEntity that you want
-type IUserEntity = Pick<PartialUserEntity, keyof Omit<IUser, 'address'>>;
+type IUserEntity = Pick<
+  PartialUserEntity,
+  keyof Omit<IUser, 'address' | 'names' | 'photos'>
+>;
 class User {
   private _email: string = null;
   private data: IUserEntity = null;
@@ -47,7 +49,7 @@ class User {
     dependencies: Dependencies = null,
   ): Promise<User> {
     dependencies = injectDependencies(dependencies, ['db']);
-    const [userData, isNewlyCreated] = await findOrCreateUser(
+    const [userData, isNewlyCreated] = await findElseCreateUser(
       user.email.trim().toLowerCase(),
       {
         email: user.email.trim().toLowerCase(),
@@ -55,6 +57,8 @@ class User {
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
+        googleVerified: user.googleVerified,
+        emailAddresses: user.emailAddresses,
       },
       transaction,
       dependencies,
@@ -80,6 +84,7 @@ class User {
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
+        avatar: user.avatar,
       },
       transaction,
       dependencies,
