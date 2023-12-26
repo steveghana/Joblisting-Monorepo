@@ -3,37 +3,9 @@ import {
   injectDependencies,
 } from '../../../util/dependencyInjector';
 import { UserEntity } from '../models/user.entity';
-import { DeepPartial, EntityManager, In, ObjectLiteral } from 'typeorm';
+import { EntityManager, In } from 'typeorm';
 import { ensureTransaction, useTransaction } from '../../../Config/transaction';
 import { IUser } from '../../../types/user';
-export async function findOrCreateUser(
-  email: string,
-  defaults: IUser,
-  transaction: EntityManager = null,
-  dependencies: Dependencies = null,
-): Promise<[UserEntity, boolean]> {
-  dependencies = injectDependencies(dependencies, ['db']);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return ensureTransaction(
-    transaction,
-    async (transaction) => {
-      const userRepo = transaction.getRepository(dependencies.db.models.user);
-      const existingUser = (await userRepo.findOne({
-        where: { email: email.toLowerCase() },
-      })) as unknown as UserEntity;
-      if (existingUser) {
-        return [existingUser, false];
-      }
-      const newUser = (await userRepo.create({
-        ...defaults,
-      })) as unknown as UserEntity;
-      await userRepo.save(newUser);
-      return [newUser, true];
-    },
-    dependencies,
-  );
-}
-
 // We are using findElseCreateUser instead of findOrCreateUser , since findOrCreateUser logs values openly
 // Temp solution. Waiting for issue https://github.com/sequelize/sequelize/issues/14266 to be resolved
 export function findElseCreateUser(
@@ -185,7 +157,6 @@ export async function deletUser(
   return done;
 }
 export default {
-  findOrCreateUser,
   findElseCreateUser,
   getUser,
   getUsers,
