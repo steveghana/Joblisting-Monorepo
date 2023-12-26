@@ -1,14 +1,10 @@
-import { IJobs } from ".";
-import { userRole } from "../lib/data/roles";
-import { IClient } from "./client";
+import { IJobs } from '.';
+import { userRole } from '../lib/data/roles';
+import { IClient } from './client';
+import { IDev } from './devs';
 
 // export type IRole = "Ceo" | "developer" | "hr";
-export type IProfession =
-  | "Ceo"
-  | "Marketing"
-  | "Recruitment"
-  | "Developer"
-  | "CTO";
+export type IProfession = 'Ceo' | 'Marketing' | 'Recruitment' | 'Developer' | 'CTO';
 
 export type UserRoleSelection = IProfession[]; // UserRole is defined as in the previous answer
 export interface IRoleData {
@@ -38,19 +34,15 @@ export interface IRoleData {
 
   skills_required: string[]; // Store skills as JSON
 
-  vacancy_status: "Open" | "Closed"; // Open, Closed
+  vacancy_status: 'Open' | 'Closed'; // Open, Closed
 
   interviews?: any[];
-
+  developers?: IDev[];
   application?: ApplicantsSubmission[];
 
   jobs: IJobs[];
 }
-export type IStatusApplication =
-  | "PendingShortlist"
-  | "Shortlisted"
-  | "Rejected"
-  | "Accepted";
+export type IStatusApplication = 'PendingShortlist' | 'Shortlisted' | 'Rejected' | 'Accepted';
 export interface ApplicantsSubmission {
   id?: string;
   name: string;
