@@ -1,9 +1,11 @@
+import { JobInfo } from '@/apps/roles/dto/create-role.dto';
 import { IDev } from './developer';
 import { IRole } from './role';
 export interface IApplication {
   id?: string;
   name: string;
   email: string;
+  job?: JobInfo;
   phoneNumber: string;
   selectedSkills: string[];
   resume?: Record<string, any>;
