@@ -21,11 +21,11 @@ export async function createRoles(
   dependencies = injectDependencies(dependencies, ['db']);
   const role = transaction.getRepository(dependencies.db.models.role);
   const { jobs, ...rest } = applicationData;
-  let newApplication = await role.create({
+  const newApplication = await role.create({
     ...rest,
   });
 
-  let data = await role.save(newApplication);
+  const data = await role.save(newApplication);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
@@ -86,6 +86,22 @@ export async function deleteJob(
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return affected;
+}
+export async function getJobById(
+  id: string,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) /* : Promise<ICredentialToken> */ {
+  dependencies = injectDependencies(dependencies, ['db']);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+  const jobInfo = await myDataSource.manager
+    .getRepository(dependencies.db.models.jobs)
+    .findOne({
+      where: { id },
+      relations: ['applicant'],
+    });
+  return jobInfo;
 }
 export async function getRoleById(
   id: string,
