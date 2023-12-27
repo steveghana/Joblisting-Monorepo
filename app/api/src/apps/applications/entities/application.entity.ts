@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import AssociableModel from '../../../Config/associable';
 import uuid from '../../../util/uuid';
+import { Job } from '../../../apps/roles/entities/jobs.entity';
 
 // Developer Entity
 
@@ -24,6 +25,9 @@ export class Application extends AssociableModel {
   @ManyToOne((type) => Role, (role) => role.application)
   @JoinColumn({ name: 'role_id' })
   role: Role;
+  @ManyToOne((type) => Job, (job) => job.applicant)
+  @JoinColumn({ name: 'job_id' })
+  job: Job;
   @Column()
   roleApplyiingFor: string;
   @Column()
