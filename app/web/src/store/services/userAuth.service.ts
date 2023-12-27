@@ -25,7 +25,7 @@ export const userApi = createApi({
   reducerPath: USER_API_KEY,
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
-    fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
+    // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
 
     prepareHeaders: (headers, { getState }) => {
       const authToken = sessionStorage.getItem('auth_token');
