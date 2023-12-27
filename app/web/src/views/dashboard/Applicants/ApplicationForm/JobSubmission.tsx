@@ -28,7 +28,8 @@ const JobSubmissionContainer: React.FC = () => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const [formData, setFormData] = useState({});
-  const { id } = useParams();
+  const { roleid, jobid } = useParams();
+  console.log(roleid, jobid);
   const lockSidebar = false;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
@@ -50,8 +51,13 @@ const JobSubmissionContainer: React.FC = () => {
       const formData = new FormData();
       //  formData.append('file', values.file);
       //  formData.append('otherData', values.otherData);
+      console.log(values);
+      if (!roleid && !jobid) {
+        return;
+      }
       const response = await addApplicant({
-        roleId: id as string,
+        roleId: roleid as string,
+        jobId: jobid as string,
         ...values,
         file: selectedFile as File,
       }).unwrap();
@@ -64,11 +70,14 @@ const JobSubmissionContainer: React.FC = () => {
         } else {
           navigate('/dashboard/roles/jobs');
         }
-        toast.success('You Applied Successfully', {
+        toast.success('Application Submitted Successfully', {
           position: 'bottom-center',
         });
       }
     } catch (error) {
+      toast.error('Couldnt apply to this role, please try again', {
+        position: 'bottom-center',
+      });
       setIsLoading(false);
       console.log(error, 'from error');
     }
@@ -126,7 +135,7 @@ const JobSubmissionContainer: React.FC = () => {
                 </ErrorMessage>
               </FormControl>
             ))}
-            <FormControl fullWidth>
+            <FormControl fullWidth margin="normal">
               <InputLabel id="role-label">Select role you are applying For</InputLabel>
               <Field name="roleApplyiingFor" as={Select} variant="outlined" fullWidth>
                 {Object.keys(techRoles).map((option) => (
