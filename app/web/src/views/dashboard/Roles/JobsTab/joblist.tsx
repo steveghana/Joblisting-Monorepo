@@ -1,6 +1,17 @@
 // JobsList.tsx
 import React from 'react';
-import { Box, Button, Card, CardContent, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { IJobs } from '../../../../types';
 import { themePalette } from '../../../../themes/schemes/palette';
@@ -24,7 +35,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
       {!jobs?.length ? (
         <NoData />
       ) : (
-        jobs?.map(job => (
+        jobs?.map((job) => (
           <SubCard key={job.id}>
             {/* <CardContent> */}
             <Box display={'flex'} justifyContent={'space-between'}>
@@ -45,8 +56,8 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
             <Box>
               <Typography>{job.description}</Typography>
               <List>
-                {job.tasks.map(t => (
-                  <ListItem sx={{ display: 'flex' }}>
+                {job.tasks.map((t, i) => (
+                  <ListItem sx={{ display: 'flex' }} key={i}>
                     <ListItemIcon>
                       <FiberManualRecord sx={{ fontSize: '.5rem' }} />
                     </ListItemIcon>
@@ -114,7 +125,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
                   </Typography>
                 </Box>
                 <Grid sx={{ width: { xs: '100%' } }}>
-                  <CustomButton size="medium" fullWidth href={`/job-submttion/${roleId}`} text="Apply" />
+                  <CustomButton size="medium" fullWidth href={`/job-submttion/${roleId}/job/${job.id}`} text="Apply" />
                 </Grid>
               </Box>
             </Box>
