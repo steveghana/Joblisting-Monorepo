@@ -21,11 +21,12 @@ export async function createApplication(
   const applicationRepo = transaction.getRepository(
     dependencies.db.models.application,
   );
-  let newApplication = await applicationRepo.create({
+  const newApplication = await applicationRepo.create({
+    job: applicationData.job,
     role,
     ...applicationData,
   });
-  let data = await applicationRepo.save(newApplication);
+  const data = await applicationRepo.save(newApplication);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return data;
 }
@@ -118,7 +119,7 @@ export const getAllApplicants = async (
 
   return await transaction
     .getRepository(dependencies.db.models.application)
-    .find({ where: { role: { id: roleid } }, relations: ['role'] });
+    .find({ where: { role: { id: roleid } }, relations: ['role', 'job'] });
 };
 export async function updateApplication(
   id: string,
