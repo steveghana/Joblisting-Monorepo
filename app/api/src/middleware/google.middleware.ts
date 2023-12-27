@@ -37,17 +37,16 @@ export class GoogleAuthMiddleware implements NestMiddleware {
         `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`,
       );
       const data = await response.json();
-      console.log(data, 'estien data');
       if (data.error) {
         throw new HttpException(data.error_description, HttpStatus.BAD_REQUEST);
       }
+      console.log('Token Verified...');
 
       // Fetch additional user info from the People API
       const additionalInfo = await this.fetchAdditionalUserInfo(
         accessToken,
         GoogleAuthMiddleware.SCOPES, // Pass the scopes when calling the method
       );
-      console.log(additionalInfo, 'estien information');
 
       req.body.user = {
         googleVerified: data.verified_email,
@@ -56,6 +55,7 @@ export class GoogleAuthMiddleware implements NestMiddleware {
         photos: additionalInfo.photos,
         emailAddresses: additionalInfo.emailAddresses,
       } as IOAuthUser;
+      console.log('authcompleted ..................');
       next();
     } catch (error) {
       console.error('Error during token verification:', error);
