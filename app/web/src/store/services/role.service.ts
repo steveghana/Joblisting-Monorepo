@@ -13,7 +13,7 @@ export const roleApi = createApi({
     headers: {
       Authorization: authToken ? authToken : '',
     },
-    fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
+    // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
   tagTypes: [ROLE_API_KEY],
 
