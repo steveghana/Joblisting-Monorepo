@@ -48,6 +48,8 @@ export interface ApplicantsSubmission {
   name: string;
   email: string;
   roleApplyiingFor: string;
+  roleId?: string;
+  jobId?: string;
   avatar?: string;
   phoneNumber: string;
   status?: IStatusApplication;
