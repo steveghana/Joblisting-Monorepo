@@ -126,7 +126,7 @@ const DevTableData = ({
               ? 'Shortlist'
               : 'Accepted'
           }
-          handleOpenInterviewForm={() => handleOpenInterviewForm(row.id)}
+          handleOpenInterviewForm={(id: string) => handleOpenInterviewForm(id)}
           actionFn={async () => {
             const asGuest = row.original.interview?.guests.filter((item) => item!.id === row!.original!.id);
             const asCandidate = row.original.interview?.candidate.id === row.original!.id;
