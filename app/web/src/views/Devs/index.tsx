@@ -19,11 +19,7 @@ const Developers = () => {
   }
 
   if (!devsData.length || isError) {
-    return (
-      <Grid height={'100%'} sx={{ background: 'white' }}>
-        <NoData />
-      </Grid>
-    );
+    return <NoData />;
   }
   return (
     <MainCard>
