@@ -16,22 +16,24 @@ import { DevelopersService } from '../../../apps/developers/services/developers.
 // import { IStatusApplication } from '@/types/application';
 import User from '../../../apps/auth/dataManager/userEntity';
 import { IStatusApplication } from '@/types/application';
+import { getJobById } from '../../../apps/roles/DBQueries';
 // import { IStatusApplication } from '@/types/application';
 // import { IStatusApplication } from '@/types/application';
 
 @Injectable()
 export class ApplicationsService {
   constructor(private readonly developersService: DevelopersService) {}
-  private readonly storage = new Storage({
-    keyFilename: 'path/to/keyfile.json', // Path to the downloaded JSON key file
-    projectId: 'your-project-id', // Replace with your Google Cloud project ID
-  });
-  private readonly bucketName = 'savannahTech.io-api-asssets';
+  // private readonly storage = new Storage({
+  //   keyFilename: 'path/to/keyfile.json', // Path to the downloaded JSON key file
+  //   projectId: 'your-project-id', // Replace with the Google Cloud project ID
+  // });
+  // private readonly bucketName = 'savannahTech.io-api-asssets';
   create(
     createApplicationDto: CreateApplicationDto,
     dependencies: Dependencies = null,
   ) {
-    const { roleId, years_of_experience, file, ...rest } = createApplicationDto;
+    const { roleId, jobId, years_of_experience, file, ...rest } =
+      createApplicationDto;
     return useTransaction(async (transaction) => {
       const existinguser = await User.getByEmail(
         createApplicationDto.email,
@@ -58,13 +60,22 @@ export class ApplicationsService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const { link, fileId, fileType } = await this.uploadFile(file);
+      const existingJob = await getJobById(jobId);
+      if (!existingJob) {
+        throw new HttpException(
+          'Something went wrong, the job you were applying for could not be found',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      // const { link, fileId, fileType } = await this.uploadFile(file);// TODO: Enable google cloud storage api to use this feature
       return await Application.createApplication(
         await Roles.getById(roleId),
         {
           ...rest,
+          job: existingJob,
           years_of_experience,
-          resume: { link, fileId, fileType },
+          // resume: { link, fileId, fileType },
+          resume: file,
           status: 'PendingShortlist',
         },
         transaction,
@@ -73,45 +84,39 @@ export class ApplicationsService {
     });
   }
 
-  async uploadFile(file: Express.Multer.File) {
-    const fileId = uuidv4();
-    const fileName = `${fileId}-${file.originalname}`;
-    const fileType = file.mimetype;
-
-    // Check file type (PDF or Word)
-    const isPDF = fileType.includes('pdf');
-    const isWord = fileType.includes('word');
-
-    if (!isPDF && !isWord) {
-      throw new HttpException(
-        'Invalid file type. Only PDF and Word files are allowed.',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    try {
-      // Upload file to Google Cloud Storage
-      await this.storage.bucket(this.bucketName).upload(file.path, {
-        destination: fileName,
-        gzip: true,
-      });
-
-      // Delete the temporary file
-      await fs.promises.unlink(file.path);
-
-      // Store the file link or metadata in your database
-      const fileLink = `https://storage.googleapis.com/${this.bucketName}/${fileName}`;
-
-      // Implement your database logic to store the link or metadata
-      // ...
-
-      return { link: fileLink, fileId, fileType };
-    } catch (error) {
-      throw new HttpException(
-        `Failed to upload file: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  private async uploadFile(file: Express.Multer.File) {
+    // TODO: Enable google cloud storage api to use this feature
+    //   const fileId = uuidv4();
+    //   const fileName = `${fileId}-${file.originalname}`;
+    //   const fileType = file.mimetype;
+    //   // Check file type (PDF or Word)
+    //   const isPDF = fileType.includes('pdf');
+    //   const isWord = fileType.includes('word');
+    //   if (!isPDF && !isWord) {
+    //     throw new HttpException(
+    //       'Invalid file type. Only PDF and Word files are allowed.',
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    //   }
+    //   try {
+    //     // Upload file to Google Cloud Storage
+    //     await this.storage.bucket(this.bucketName).upload(file.path, {
+    //       destination: fileName,
+    //       gzip: true,
+    //     });
+    //     // Delete the temporary file
+    //     await fs.promises.unlink(file.path);
+    //     // Store the file link or metadata in your database
+    //     const fileLink = `https://storage.googleapis.com/${this.bucketName}/${fileName}`;
+    //     // Implement your database logic to store the link or metadata
+    //     // ...
+    //     return { link: fileLink, fileId, fileType };
+    //   } catch (error) {
+    //     throw new HttpException(
+    //       `Failed to upload file: ${error.message}`,
+    //       HttpStatus.INTERNAL_SERVER_ERROR,
+    //     );
+    //   }
   }
 
   findAll(roleId: string, dependencies: Dependencies = null) {
@@ -119,7 +124,29 @@ export class ApplicationsService {
       if (!(await getAllApplicants(roleId, transaction, dependencies)).length) {
         return [];
       }
-      return await getAllApplicants(roleId, transaction, dependencies);
+      const applicants = await getAllApplicants(
+        roleId,
+        transaction,
+        dependencies,
+      );
+      return applicants.map((app) => {
+        return {
+          id: app.id,
+          roleId: app.role.id,
+          jobId: app.job.id,
+          roleApplyiingFor: app.roleApplyiingFor,
+          name: app.name,
+          email: app.email,
+          phoneNumber: app.phoneNumber,
+          years_of_experience: app.years_of_experience,
+          selectedSkills: app.selectedSkills,
+          address: app.address,
+          background_questions: app.background_questions,
+          resume: app.resume,
+          coverLetter: app.coverLetter,
+          status: app.status,
+        };
+      });
     });
   }
 
