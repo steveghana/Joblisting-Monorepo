@@ -46,9 +46,6 @@ function ManagementUserSettings() {
   };
   return (
     <>
-      {/* <Helmet>
-        <title>User Settings - Applications</title>
-      </Helmet> */}
       <MainCard>
         <Container maxWidth="lg">
           <Grid>
