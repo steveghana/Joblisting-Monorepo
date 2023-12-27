@@ -20,6 +20,15 @@ export class CreateApplicationDto {
   })
   @IsString()
   roleId: string;
+  @IsNotEmpty({
+    message: 'jobid is required',
+  })
+  @IsString()
+  jobId: string;
+  @IsNotEmpty({
+    message: 'roleApplyiingFor is required',
+  })
+  @IsString()
   roleApplyiingFor: string;
 
   // developer: Partial<IDev>;
