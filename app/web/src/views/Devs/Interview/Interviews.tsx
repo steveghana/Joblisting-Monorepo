@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  Drawer,
   Grid,
   IconButton,
   Tooltip,
@@ -34,6 +35,7 @@ import { useTypedSelector } from '../../../store';
 import { useNavigate } from 'react-router';
 import AnimateButton from '../../../components/extended/AnimateButton';
 import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
+import CalenderEvent from '@/components/EmailComposer/calenderevents';
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -43,12 +45,23 @@ const interviewDetails = {
   interviewTime: '10:00 AM',
   location: 'Zoom Meeting',
 };
-
+const event = {
+  title: 'Stephen Williams <> ROSE Framework',
+  date: 'Monday, December 18',
+  time: '4:00 – 4:20pm',
+  zoomId: '82539491456',
+  zoomPasscode: 'f9b5xP',
+  zoomLink: 'https://us05web.zoom.us/j/82539491456?pwd=5xZ4FAze0pFZb1sIPdlZfSXJqQQ9t7.1',
+  host: 'johannes.scharlach@roseframework.io',
+  guests: ['johannes.scharlach@roseframework.io', 'stephen boateng'],
+};
 // Dummy data for comments
 const comments = [
   { author: 'Alice', text: 'Great interview!' },
   { author: 'Bob', text: 'Candidate performed well.' },
 ];
+type Anchor = 'top' | 'left' | 'bottom' | 'right';
+
 const Interviews = () => {
   const { data, isError, isLoading, isFetching, refetch } = useGetInterviewsQuery();
   const [deletinterview, { isLoading: isDeleting }] = useDeletInterviewMutation();
@@ -80,12 +93,18 @@ const Interviews = () => {
       });
     }
   };
-  const handleEdit = () => {
-    setEditDialogOpen(true);
-  };
+  console.log(data, 'this is the inerview data');
+  const [state, setState] = React.useState(false);
 
-  const handleEditClose = () => {
-    setEditDialogOpen(false);
+  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    setState(open);
   };
   if (isLoading) {
     <EventSchedulerSkeletonLoader />;
@@ -116,7 +135,7 @@ const Interviews = () => {
                 text="+ New Event"
                 onClick={() => {
                   !allDevsAndApplicants.length
-                    ? toast.warn('add devs before scheduling an event')
+                    ? toast.warn('add devs before scheduling an event', { position: 'top-center' })
                     : navigate('/hr/interviews/create');
                 }}
                 sx={{ marginLeft: 'auto' }}
@@ -127,11 +146,8 @@ const Interviews = () => {
               </AnimateButton>
             </Box>
           )}
-          <></>
           {!data?.length ? (
-            <Box sx={{ backgroun: 'red', height: '70vh' }}>
-              <NoData />
-            </Box>
+            <NoData />
           ) : (
             <Box>
               <SubCard>
@@ -139,8 +155,21 @@ const Interviews = () => {
                   <Grid container spacing={3} key={item.id}>
                     {/* Header */}
 
-                    {/* Interview Information */}
-                    <Grid item xs={12}>
+                    <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
+                      <CalenderEvent
+                        event={event}
+                        onClose={() => setState(false)}
+                        onDelete={() => {
+                          setState(false);
+                          handleDelete(item.id as string);
+                        }}
+                        onEdit={() => {
+                          setState(false);
+                          navigate(`/devs/interviews/Edit/${item.id}`);
+                        }}
+                      />
+                    </Drawer>
+                    <Grid item xs={12} onClick={(e) => toggleDrawer(true)(e)} sx={{ cursor: 'pointer' }}>
                       <Paper
                         elevation={3}
                         sx={{
@@ -157,7 +186,13 @@ const Interviews = () => {
                                 {item.candidate.firstName} {item.candidate.lastName}
                               </Typography>
                               {item.guests.map((guest) => (
-                                <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
+                                <Typography
+                                  variant="subtitle1"
+                                  display={'flex'}
+                                  key={guest.id}
+                                  alignItems={'center'}
+                                  gap={1}
+                                >
                                   Interviewer: <Avatar sx={{ width: 23, height: 23 }} src={guest.avatar} />{' '}
                                   {guest.firstName} {guest.lastName}
                                 </Typography>
@@ -215,7 +250,7 @@ const Interviews = () => {
                         </Box>
                         <Tooltip sx={{ mx: 'auto' }} title="Cancel Interview">
                           <IconButton>
-                            <Typography color={'blue'} onClick={() => handleDelete(item.id)}>
+                            <Typography color={'blue'} onClick={() => handleDelete(item.id as string)}>
                               Cancel
                             </Typography>
                           </IconButton>
