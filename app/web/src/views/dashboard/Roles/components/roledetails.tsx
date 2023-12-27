@@ -111,7 +111,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                       text="save"
                     />
                     <CustomButton
-                      href={`/job-submttion/${role.id}`}
+                      href={`/job-submttion/${role.id}/job/${job.id}`}
                       // onClick={() => navigate("job-submttion")}
                       fullWidth
                       variant="contained"
