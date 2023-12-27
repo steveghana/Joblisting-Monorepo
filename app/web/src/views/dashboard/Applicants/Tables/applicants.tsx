@@ -5,18 +5,27 @@ import MainCard from '@/components/MainCard';
 import FullscreenProgress, { TransparentScreeProgress } from '@/components/FullscreenProgress/FullscreenProgress';
 import NoData from '@/components/NoData';
 import { useGetApplicantsQuery } from '@/store/services/application.service';
+import { Box } from '@mui/material';
+import { useParams } from 'react-router';
 
 const Applicants = ({ roleid }: { roleid: string }) => {
   const { data: applicants, refetch, isError, isLoading, isFetching } = useGetApplicantsQuery({ roleid });
-  // if (isLoading || isFetching) {
-  //   return <TransparentScreeProgress />;
-  // }
-  if (!applicants?.length) {
-    return <NoData />;
+  const { jobid } = useParams();
+  console.log(applicants);
+  const filteredApplicantsByJob = applicants?.filter((applicant) => applicant.jobId === jobid);
+  if (isLoading || isFetching) {
+    return <TransparentScreeProgress />;
+  }
+  if (!filteredApplicantsByJob?.length || isError) {
+    return (
+      <Box width={'99dvw'}>
+        <NoData />
+      </Box>
+    );
   }
   return (
     <MainCard>
-      <ApplicantTable applicants={applicants as ApplicantsSubmission[]} actionFn={() => refetch()} />
+      <ApplicantTable applicants={filteredApplicantsByJob as ApplicantsSubmission[]} actionFn={() => refetch()} />
     </MainCard>
   );
 };
