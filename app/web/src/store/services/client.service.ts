@@ -25,7 +25,7 @@ export const clientApi = createApi({
     headers: {
       Authorization: authToken ? authToken : '',
     },
-    fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
+    // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
   tagTypes: ['client'],
 
