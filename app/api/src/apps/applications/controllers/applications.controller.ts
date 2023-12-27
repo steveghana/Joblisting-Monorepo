@@ -44,10 +44,16 @@ export class ApplicationsController {
     @Body() application: CreateApplicationDto,
     @Res() res: Response,
   ) {
-    const { roleId, status, ...rest } = application;
+    const { roleId, jobId, status, ...rest } = application;
     // for (let i = 0; i < data.length; i++) {
     application.roleId;
-    await this.applicationsService.create({ roleId, status, file, ...rest });
+    await this.applicationsService.create({
+      roleId,
+      jobId,
+      status,
+      file,
+      ...rest,
+    });
     // }
     // console.log(application, 'app data');
     // data
