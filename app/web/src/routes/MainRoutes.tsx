@@ -31,6 +31,7 @@ const Clients = Loadable(lazy(() => import('../views/dashboard/clients')));
 const Roles = Loadable(lazy(() => import('../views/dashboard/Roles')));
 const Interviews = Loadable(lazy(() => import('../views/Devs/Interview/Interviews')));
 const Hub = Loadable(lazy(() => import('../views/Devs/Hub/devHub')));
+const AuthLogin3 = Loadable(lazy(() => import('../views/authentication/loginContainer')));
 
 // sample page routing
 const ShortListedDevs = Loadable(lazy(() => import('../views/HR')));
@@ -52,7 +53,7 @@ export const homeRoutes = {
   children: [
     {
       path: '/',
-      element: <Home />,
+      element: <Navigate to="/auth/login" replace />,
     },
     {
       path: '/access-denied',
@@ -113,7 +114,7 @@ const MainRoutes = {
           element: <Roles />,
         },
         {
-          path: 'roles/jobs/:roleid',
+          path: 'roles/:roleid/job/:jobid',
           element: <JobInfo />,
         },
       ],
@@ -185,7 +186,7 @@ const MainRoutes = {
       // element: <Scheduler />,
     },
     {
-      path: 'job-submttion/:id',
+      path: 'job-submttion/:roleid/job/:jobid',
       element: <JobSubmissionContainer />,
     },
   ],
