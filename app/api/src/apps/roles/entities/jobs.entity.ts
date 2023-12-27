@@ -10,6 +10,7 @@ import { Role } from './role.entity'; // Import the Role entity
 import AssociableModel from '../../../Config/associable';
 import uuid from '../../../util/uuid';
 import { Developer } from '../../../apps/developers/entities/developer.entity';
+import { Application } from '../../../apps/applications/entities/application.entity';
 
 @Entity('jobs')
 export class Job extends AssociableModel {
@@ -19,6 +20,9 @@ export class Job extends AssociableModel {
   @ManyToOne(() => Role, (role) => role.jobs)
   @JoinColumn({ name: 'role_id' })
   role: Role;
+  @ManyToOne(() => Application, (applicantion) => applicantion.job)
+  @JoinColumn({ name: 'job_id' })
+  applicant: Application;
   @ManyToOne((type) => Developer, (dev) => dev.job)
   @JoinColumn({ name: 'developer_id' })
   developer: Developer;
