@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { persistor, useTypedDispatch, useTypedSelector } from '../../store';
 import { fetchDevs } from '../../store/slices/dev.slice';
 import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
+import { toast } from 'react-toastify';
 
 const Shortlisted = () => {
   // const { devs, error, isError, isFetching, isloading } = useTypedSelector(
@@ -26,6 +27,7 @@ const Shortlisted = () => {
   const dispatch = useTypedDispatch();
   const devsShortlistedData =
     (devs?.length && devs.filter(({ rolestatus }) => rolestatus === 'Pending' || rolestatus === 'Interviewing')) || [];
+  const areGuestsAvailable = devs?.filter(({ rolestatus }) => rolestatus === 'Accepted').length;
   useEffect(() => {
     dispatch(fetchDevs());
     Promise.resolve(persistor.flush());
@@ -38,7 +40,15 @@ const Shortlisted = () => {
   }
   return (
     <DevTableData
-      handleOpenInterviewForm={(id) => navigate(`/hr/interviews/${id}`)}
+      handleOpenInterviewForm={(id) => {
+        if (!areGuestsAvailable) {
+          toast.warn('Please add fulltime devs before scheduling interviews with candidates', {
+            position: 'bottom-center',
+          });
+          return;
+        }
+        navigate(`/hr/interviews/${id}`);
+      }}
       tableType="Shortlist"
       columns={columns}
       devs={devsShortlistedData}
