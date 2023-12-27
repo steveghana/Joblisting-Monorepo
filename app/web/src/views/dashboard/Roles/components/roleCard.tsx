@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router";
-import Roles from "..";
-import { useRef, useState } from "react";
-import { IRoleData } from "@/types/roles";
-import { Avatar, Box, Button, ButtonBase, Grid, Typography } from "@mui/material";
-import NoData from "@/components/NoData";
-import SubCard from "@/components/SubCard";
-import { themePalette } from "@/themes/schemes/palette";
-import { CheckCircle, CopyAll, MoreHoriz, People } from "@mui/icons-material";
-import { EmploymentType } from "@/lib/data/formFieldData";
-import Dot from "@/components/Dot";
-import { ClockIcon } from "@mui/x-date-pickers";
-import { formatTimeDifference } from "@/utils/timeFormatter";
+import { useNavigate } from 'react-router';
+import Roles from '..';
+import { useRef, useState } from 'react';
+import { IRoleData } from '@/types/roles';
+import { Avatar, Box, Button, ButtonBase, Grid, Typography } from '@mui/material';
+import NoData from '@/components/NoData';
+import SubCard from '@/components/SubCard';
+import { themePalette } from '@/themes/schemes/palette';
+import { CheckCircle, CopyAll, MoreHoriz, People } from '@mui/icons-material';
+import { EmploymentType } from '@/lib/data/formFieldData';
+import Dot from '@/components/Dot';
+import { ClockIcon } from '@mui/x-date-pickers';
+import { formatTimeDifference } from '@/utils/timeFormatter';
 
 interface IRoleCard {
   feature?: boolean;
@@ -53,7 +53,7 @@ const RoleCard = (props: IRoleCard) => {
       {jobs?.map((job, i) => (
         <Grid
           sx={{ cursor: 'pointer' }}
-          onClick={() => navigate('/dashboard/roles/jobs/' + props.role.id)}
+          onClick={() => navigate('/dashboard/roles/' + props.role.id + '/job/' + job.id)}
           item
           xs={2}
           sm={4}
@@ -227,7 +227,7 @@ const RoleCard = (props: IRoleCard) => {
                     color="primary"
                   >
                     {copySuccess ? 'Copied!' : 'Copy url'}
-                    <CopyAll sx={{ fontSize: '1rem', ml: 1 }} />    
+                    <CopyAll sx={{ fontSize: '1rem', ml: 1 }} />
                   </Typography>
                 </Box>
               </Grid>
