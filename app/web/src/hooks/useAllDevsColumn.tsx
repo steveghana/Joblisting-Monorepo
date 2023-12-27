@@ -17,7 +17,12 @@ export const useDevsColums = () => {
             enableEditing: false,
 
             size: 200,
-            Cell: ({ renderedCellValue, row: { original } }) => (
+            Cell: ({
+              renderedCellValue,
+              row: {
+                original: { avatar, firstName, lastName },
+              },
+            }) => (
               <Box
                 sx={{
                   display: 'flex',
@@ -26,12 +31,9 @@ export const useDevsColums = () => {
                 }}
               >
                 {/* <Avatar sx={{}} /> */}
-                <Avatar
-                  sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
-                  src={original.avatar}
-                >
+                <Avatar sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }} src={avatar}>
                   {' '}
-                  {!original.avatar && `${original.firstName[0]}${original.lastName[0]}`}
+                  {!avatar && `${firstName[0]?.toUpperCase()}${lastName.length ? lastName[0]?.toUpperCase() : ''}`}
                 </Avatar>
 
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
