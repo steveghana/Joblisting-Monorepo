@@ -55,6 +55,7 @@ const MainCard: React.FC<IAny> = forwardRef(
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        style={{ height: '100%' }}
         transition={{ duration: 0.3 }}
       >
         <Card
@@ -66,7 +67,8 @@ const MainCard: React.FC<IAny> = forwardRef(
             ':hover': {
               boxShadow: boxShadow ? shadow || '0 2px 14px 0 rgb(32 40 45 / 8%)' : 'inherit',
             },
-            ...sx,
+            minHeight: '100%',
+            // ...sx,
           }}
         >
           {/* card header and action */}
@@ -83,7 +85,7 @@ const MainCard: React.FC<IAny> = forwardRef(
 
           {/* card content */}
           {content && (
-            <CardContent sx={{ ...contentSX, py: 2, px: 1 }} className={contentClass}>
+            <CardContent sx={{ ...contentSX, py: 2, px: 1, minHeight: '100%' }} className={contentClass}>
               {children}
             </CardContent>
           )}
