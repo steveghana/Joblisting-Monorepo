@@ -27,12 +27,12 @@ export class AuthService {
   async googleLogin(user: IUser, dependencies: Dependencies = null) {
     dependencies = injectDependencies(dependencies, ['db', 'config']);
 
-    if (!user || !!user.googleVerified) {
+    if (!user || !user.googleVerified) {
       throw new UnauthorizedException('No user from google');
     }
 
     const [authToken, userinfo] = await useTransaction(async (transaction) => {
-      console.log(user, 'estien users');
+      console.log(user.googleVerified, 'user at google login');
       if (!(await User.getByEmail(user.email, dependencies))) {
         throw new HttpException(
           'User doesnt exists, try signing in',
@@ -140,7 +140,7 @@ export class AuthService {
     ).displayName;
 
     const { email, googleVerified, emailAddresses } = user;
-    if (!userNames || userNames === '' || !!googleVerified) {
+    if (!userNames || userNames === '' || !googleVerified) {
       throw new HttpException(
         'Google user cannot be authenticated',
         HttpStatus.BAD_REQUEST,
