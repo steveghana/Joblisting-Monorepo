@@ -10,7 +10,7 @@ export const devApi = createApi({
   reducerPath: DEV_API_KEY,
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
-    fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
+    // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
   tagTypes: ['devs'],
   endpoints: (builder) => ({
