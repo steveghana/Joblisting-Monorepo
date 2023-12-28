@@ -3,12 +3,12 @@ import FullscreenProgress from '../../components/FullscreenProgress/FullscreenPr
 import NoData from '../../components/NoData';
 import { useDevsShortlistedColums } from '../../hooks/useShortlistedDevsColumns';
 import { useGetDevsQuery } from '../../store/services/dev.service';
-import DevTableData from '../Devs/Tables/DevColumns';
 import { useNavigate } from 'react-router';
 import { persistor, useTypedDispatch, useTypedSelector } from '../../store';
 import { fetchDevs } from '../../store/slices/dev.slice';
 import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
 import { toast } from 'react-toastify';
+import DevTableData from '../Devs/Tables/DevColumns';
 
 const Shortlisted = () => {
   // const { devs, error, isError, isFetching, isloading } = useTypedSelector(
