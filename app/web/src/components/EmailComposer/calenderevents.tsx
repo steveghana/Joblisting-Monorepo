@@ -13,6 +13,10 @@ import {
   Stack,
   Badge,
   Button,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  TextField,
 } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -27,6 +31,7 @@ import {
   Edit,
   EditCalendar,
   EditTwoTone,
+  ExpandMore,
   Mail,
   VerifiedUserTwoTone,
 } from '@mui/icons-material';
@@ -34,6 +39,7 @@ import { IconUsers } from '@tabler/icons-react';
 import ComposeEmail from '.';
 import { getRandomColor } from '@/utils/generateRandomColors';
 import AnimateButton from '../extended/AnimateButton';
+import CustomButton from '../button';
 
 interface Event {
   guests: {
@@ -59,7 +65,10 @@ interface EventDrawerProps {
   onEdit: () => void;
   onDelete: () => void;
 }
-
+const comments = [
+  { author: 'Alice', text: 'Great interview!' },
+  { author: 'Bob', text: 'Candidate performed well.' },
+];
 const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDelete }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   console.log(event);
@@ -159,6 +168,36 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
               ))}
             </Box>
           </ListItem>
+          <Accordion defaultExpanded>
+            <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+              <Typography variant="subtitle1" component={'animate'}>
+                Comments
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {comments.map((comment, index) => (
+                <Grid>
+                  <Box key={index} style={{ marginBottom: '10px' }}>
+                    <Typography variant="subtitle1">
+                      <strong>{comment.author}:</strong> {comment.text}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+              <form>
+                <TextField label="Your Name" variant="outlined" fullWidth style={{ marginBottom: '10px' }} />
+                <TextField
+                  label="Add a Comment"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={3}
+                  style={{ marginBottom: '10px' }}
+                />
+                <CustomButton variant="contained" color="primary" type="submit" text="Add Comment" />
+              </form>
+            </AccordionDetails>
+          </Accordion>
           {/* <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <PersonIcon sx={{ color: '#0F9D58' }} />
             <ListItemText primary="Host" secondary={event.host} />
