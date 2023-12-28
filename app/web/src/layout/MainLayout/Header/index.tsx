@@ -16,15 +16,25 @@ import { componentThemeoption } from '../../../themes/schemes/PureLightTheme';
 import { themePalette } from '../../../themes/schemes/palette';
 import { useTypedSelector } from '../../../store';
 import { useWhoamiQuery } from '../../../store/services/userAuth.service';
+import LogoImg from '../../../assets/images/Logo-Small-19.png';
+
 import { useNavigate } from 'react-router';
+import { IUser } from '@/types/user';
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
-const Header = ({ handleLeftDrawerToggle }) => {
+const Header = ({ handleLeftDrawerToggle }: { handleLeftDrawerToggle: () => void }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   // const state = useTypedSelector(state => state);
   const hasToken = sessionStorage.getItem('auth_token');
-  if (!hasToken) return;
+  if (!hasToken) {
+    console.log(hasToken);
+    return (
+      <ButtonBase disableRipple>
+        <img src={LogoImg} style={{ objectFit: 'contain' }} alt="Logo" width={100} height={50} />
+      </ButtonBase>
+    );
+  }
   const { data, error, isError, isLoading } = useWhoamiQuery();
   console.log(data, 'woamdfdk');
   if (hasToken && !data && !isLoading) {
@@ -86,15 +96,11 @@ const Header = ({ handleLeftDrawerToggle }) => {
         <>
           <NotificationSection />
 
-          <ProfileSection userData={data} />
+          <ProfileSection userData={data as IUser} />
         </>
       )}
     </>
   );
-};
-
-Header.propTypes = {
-  handleLeftDrawerToggle: PropTypes.func,
 };
 
 export default Header;
