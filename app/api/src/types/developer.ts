@@ -19,7 +19,7 @@ export interface IDev {
 
   firstName: string;
   lastName: string;
-
+  devProfession?: string;
   skills: string[];
   phone_number: string;
   salary: number;
