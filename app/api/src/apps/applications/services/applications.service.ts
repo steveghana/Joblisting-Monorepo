@@ -173,15 +173,23 @@ export class ApplicationsService {
         email,
         name,
         phoneNumber: phone_number,
+        roleApplyingFor,
         selectedSkills,
         role: { id: roleId },
         years_of_experience,
       } = applicant;
       if (status === 'Shortlisted') {
+        if (!roleId) {
+          throw new HttpException(
+            'The role for this applicant doesnt exist, i recommend you remove the applicant, or they should apply again later.',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
         if (
           !(await this.developersService.create({
             address,
             email,
+            devProfession: roleApplyingFor,
             salary: 0, //initial value of 0
             firstName: name.split(' ')[0],
             lastName: name.split(' ')[1] || '',
