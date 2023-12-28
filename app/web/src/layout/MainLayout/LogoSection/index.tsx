@@ -11,29 +11,22 @@ import { MENU_OPEN } from '../../../store/actions';
 // ==============================|| MAIN LOGO ||============================== //
 
 const LogoSection = () => {
-    const defaultId = useSelector((state: any) => state.customization?.defaultId);
-    console.log(defaultId, 'from log');
-    const hasToken = sessionStorage.getItem('auth_token');
-    const lockSidebar = false;
-    const dispatch = useDispatch();
-    if (!hasToken) {
-        return (
-            <ButtonBase disableRipple>
-                <img src={LogoImg} style={{ objectFit: 'contain' }} alt="Logo" width={100} height={50} />
-            </ButtonBase>
-        );
-    }
-    return (
-        <ButtonBase
-            disableRipple
-            onClick={() => dispatch({ type: MENU_OPEN, id: defaultId })}
-            component={Link}
-            to={config.defaultPath}
-        >
-            <img src={LogoImg} style={{ objectFit: 'contain' }} alt="Logo" width={100} height={50} />
-        </ButtonBase>
-    );
+  const defaultId = useSelector((state: any) => state.customization?.defaultId);
+  console.log(defaultId, 'from log');
+  const hasToken = sessionStorage.getItem('auth_token');
+  const lockSidebar = false;
+  const dispatch = useDispatch();
+
+  return (
+    <ButtonBase
+      disableRipple
+      onClick={() => dispatch({ type: MENU_OPEN, id: defaultId })}
+      component={Link}
+      to={config.defaultPath}
+    >
+      <img src={LogoImg} style={{ objectFit: 'contain' }} alt="Logo" width={100} height={50} />
+    </ButtonBase>
+  );
 };
 
 export default LogoSection;
-
