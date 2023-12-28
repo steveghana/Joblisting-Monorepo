@@ -11,6 +11,8 @@ import {
   Avatar,
   IconButton,
   Stack,
+  Badge,
+  Button,
 } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -30,16 +32,25 @@ import {
 } from '@mui/icons-material';
 import { IconUsers } from '@tabler/icons-react';
 import ComposeEmail from '.';
+import { getRandomColor } from '@/utils/generateRandomColors';
+import AnimateButton from '../extended/AnimateButton';
 
 interface Event {
-  title: string;
-  date: string;
-  time: string;
-  zoomId: string;
-  zoomPasscode: string;
-  zoomLink: string;
-  host: string;
-  guests: string[];
+  guests: {
+    name: string;
+    email: string;
+    avatar: string;
+  }[];
+  eventType: string;
+  eventOption: string;
+  description: string;
+  eventLInk: string;
+  starttime: Date;
+  endtime: Date;
+  startDate: Date;
+  endDate: Date;
+  updatedAt?: Date | undefined;
+  status: 'Scheduled' | 'Completed' | 'Canceled'; //
 }
 
 interface EventDrawerProps {
@@ -51,16 +62,22 @@ interface EventDrawerProps {
 
 const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDelete }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  console.log(event);
+  // const guestEmails = event.guests.map(guest => guest.email)
   return (
     <Grid
       sx={{
         background: 'white',
         height: '100%',
-        maxWidth: { lg: '27dvw', md: '40dvw' },
+        minWidth: { lg: '27dvw', md: '30dvw', xs: '100dvw' },
         position: 'relative',
       }}
     >
-      <ComposeEmail open={dialogOpen} setDialogOpen={() => setDialogOpen(false)} /* event={event} */ />
+      <ComposeEmail
+        reciepients={event.guests}
+        open={dialogOpen}
+        setDialogOpen={() => setDialogOpen(false)} /* event={event} */
+      />
       <Box sx={{ background: 'white', zIndex: 2, width: '100%' }} position={'absolute'}>
         <Card variant="outlined" sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', gap: 1.5 }}>
           <IconButton onClick={onEdit}>
@@ -81,15 +98,23 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
         <Stack>
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <EventIcon sx={{ color: '#4285F4' }} />
-            <ListItemText primary="Event Title" secondary={event.title} />
+            <ListItemText primary="Event Title" secondary={event.eventType} />
+          </ListItem>
+          <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <EventIcon sx={{ color: '#4285F4' }} />
+            <ListItemText primary="Event Description" secondary={event.description} />
           </ListItem>
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <ScheduleIcon sx={{ color: '#34A853' }} />
-            <ListItemText primary="Date" secondary={event.date} />
+            <ListItemText primary="Date" secondary={new Date(event.startDate).toLocaleDateString()} />
           </ListItem>
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <ScheduleIcon sx={{ color: '#34A853' }} />
-            <ListItemText primary="Time" secondary={event.time} />
+            <ListItemText primary="startTime" secondary={new Date(event.starttime).toLocaleTimeString()} />
+          </ListItem>
+          <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <ScheduleIcon sx={{ color: '#34A853' }} />
+            <ListItemText primary="endTime" secondary={new Date(event.endtime).toLocaleTimeString()} />
           </ListItem>
           {/* <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <VideoCallIcon sx={{ color: '#FABC05' }} />
@@ -101,28 +126,43 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
           </ListItem> */}
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <LinkIcon sx={{ color: '#4285F4' }} />
-            <ListItemText primary="Zoom Link" secondary={event.zoomLink} />
+            <ListItemText primary={`${event.eventOption} Link`} />
+            <AnimateButton type="scale">
+              <Button
+                href={'https://meet.google.com/?pli=1'} // Insert actual link
+                target="_blank"
+                // aria-label={`${key} login button`}
+                // onClick={handler}
+                // disabled={isLoading}
+              >
+                {event.eventLInk}
+              </Button>
+            </AnimateButton>
           </ListItem>
           <ListItem>
             <Box>
-              <Box display={'flex'} gap={1.5} alignItems={'center'}>
-                <IconUsers size={'1rem'} color="grey" /> 2 guests{' '}
+              <Box display={'flex'} gap={1.5} alignItems={'center'} width={'100%'} justifyContent={'space-between'}>
+                <IconUsers size={'1rem'} color="grey" /> {event.guests.length} guests{' '}
                 <IconButton onClick={() => setDialogOpen(true)}>
                   <Mail sx={{ ml: 'auto', color: 'gray' }} />
                 </IconButton>
               </Box>
               {event.guests.map((guest, index) => (
                 <Box pl={3} gap={1} display={'flex'} py={1} alignItems={'center'} key={index}>
-                  <Avatar sx={{ bgcolor: '#0F9D58' }}>{guest[0]}</Avatar>
-                  <ListItemText key={index} primary={guest} />
+                  <Badge color="warning" overlap="circular" badgeContent=" " variant="dot">
+                    <Avatar src={guest.avatar && guest.avatar} sx={{ bgcolor: getRandomColor(), color: 'white' }}>
+                      {!guest.avatar && guest.name[0]}
+                    </Avatar>
+                  </Badge>
+                  <ListItemText key={index} primary={guest.name} secondary={guest.email} />
                 </Box>
               ))}
             </Box>
           </ListItem>
-          <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <PersonIcon sx={{ color: '#0F9D58' }} />
             <ListItemText primary="Host" secondary={event.host} />
-          </ListItem>
+          </ListItem> */}
         </Stack>
       </List>
     </Grid>

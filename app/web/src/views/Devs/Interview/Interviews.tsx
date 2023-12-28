@@ -36,6 +36,7 @@ import { useNavigate } from 'react-router';
 import AnimateButton from '../../../components/extended/AnimateButton';
 import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
 import CalenderEvent from '@/components/EmailComposer/calenderevents';
+import { Iinterviews } from '@/types/interviews';
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -49,18 +50,19 @@ const event = {
   title: 'Stephen Williams <> ROSE Framework',
   date: 'Monday, December 18',
   time: '4:00 – 4:20pm',
-  zoomId: '82539491456',
-  zoomPasscode: 'f9b5xP',
+
   zoomLink: 'https://us05web.zoom.us/j/82539491456?pwd=5xZ4FAze0pFZb1sIPdlZfSXJqQQ9t7.1',
   host: 'johannes.scharlach@roseframework.io',
-  guests: ['johannes.scharlach@roseframework.io', 'stephen boateng'],
+  guests: [
+    { name: 'Johaness', email: 'johannes.scharlach@roseframework.io' },
+    { name: 'stephen boateng', email: 'stephenboateng@roseframework.io' },
+  ],
 };
 // Dummy data for comments
 const comments = [
   { author: 'Alice', text: 'Great interview!' },
   { author: 'Bob', text: 'Candidate performed well.' },
 ];
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 const Interviews = () => {
   const { data, isError, isLoading, isFetching, refetch } = useGetInterviewsQuery();
@@ -84,7 +86,8 @@ const Interviews = () => {
         toast.warn('Interview Canceled', {
           position: 'bottom-center',
         });
-        refetch();
+        // refetch();
+        setState(false);
         navigate(`/devs/interviews`);
       }
     } catch (error) {
@@ -109,7 +112,35 @@ const Interviews = () => {
   if (isLoading) {
     <EventSchedulerSkeletonLoader />;
   }
-
+  const ExtractEventFromEvents = ({ event }: { event: Iinterviews }) => {
+    let { candidate, guests, id, candidateId, createdAt, ...rest } = event;
+    const eventDetails = {
+      ...rest,
+      guests: guests
+        .map((guest) => {
+          return { name: `${guest.firstName} ${guest.lastName}`, email: guest.email, avatar: guest.avatar };
+        })
+        .concat({
+          name: `${candidate.firstName} ${candidate.lastName}`,
+          email: candidate.email,
+          avatar: candidate.avatar,
+        }),
+    };
+    return (
+      <CalenderEvent
+        event={eventDetails}
+        onClose={() => setState(false)}
+        onDelete={() => {
+          handleDelete(event.id as string);
+          // setState(false);
+        }}
+        onEdit={() => {
+          setState(false);
+          navigate(`/devs/interviews/Edit/${event.id}`);
+        }}
+      />
+    );
+  };
   console.log(data, 'interviews');
   return (
     <MainCard title="Event Schedular">
@@ -156,18 +187,7 @@ const Interviews = () => {
                     {/* Header */}
 
                     <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
-                      <CalenderEvent
-                        event={event}
-                        onClose={() => setState(false)}
-                        onDelete={() => {
-                          setState(false);
-                          handleDelete(item.id as string);
-                        }}
-                        onEdit={() => {
-                          setState(false);
-                          navigate(`/devs/interviews/Edit/${item.id}`);
-                        }}
-                      />
+                      <ExtractEventFromEvents event={item} />
                     </Drawer>
                     <Grid item xs={12} onClick={(e) => toggleDrawer(true)(e)} sx={{ cursor: 'pointer' }}>
                       <Paper

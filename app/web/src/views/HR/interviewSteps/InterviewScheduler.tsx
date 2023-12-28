@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import { useTypedDispatch, useTypedSelector } from "../../../store";
-import { fetchDevs } from "../../../store/slices/dev.slice";
-import { toast } from "react-toastify";
-import { useAddInterviewMutation } from "../../../store/services/interview.service";
-import Demo from "../Events/EventForm";
-import { InterviewFormValue } from "../../../types/interviews";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { useTypedDispatch, useTypedSelector } from '../../../store';
+import { fetchDevs } from '../../../store/slices/dev.slice';
+import { toast } from 'react-toastify';
+import { useAddInterviewMutation } from '../../../store/services/interview.service';
+import InterviewFormFields from '../Events/EventForm';
+import { InterviewFormValue } from '../../../types/interviews';
 
-export const STATUS_PENDING = "Pending";
-export const STATUS_ACCEPTED = "Accepted";
-export const STATUS_SCHEDULED = "Scheduled";
+export const STATUS_PENDING = 'Pending';
+export const STATUS_ACCEPTED = 'Accepted';
+export const STATUS_SCHEDULED = 'Scheduled';
 
 const InterviewScheduler: React.FC = () => {
   const [selectedApplicant, setSelectedApplicant] = useState({
@@ -26,20 +26,14 @@ const InterviewScheduler: React.FC = () => {
   }, [dispatch]);
 
   const state = useTypedSelector((state) => state.devs.devs);
-  const editableApplicant =
-    id &&
-    state.filter(
-      (item) => item.id === id && item.rolestatus === STATUS_PENDING
-    );
+  const editableApplicant = id && state.filter((item) => item.id === id && item.rolestatus === STATUS_PENDING);
   const applicants = state.filter((item) => item.rolestatus === STATUS_PENDING);
-  const interviewers =
-    state?.length &&
-    state.filter((item) => item.rolestatus === STATUS_ACCEPTED);
+  const interviewers = state?.filter((item) => item.rolestatus === STATUS_ACCEPTED) || [];
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
-  const [eventName, setEventName] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
+  const [eventName, setEventName] = useState('');
+  const [eventDescription, setEventDescription] = useState('');
   // const session = useSession();
   // const supabase = useSupabaseClient();
   // const { isLoading } = useSessionContext();
@@ -64,7 +58,7 @@ const InterviewScheduler: React.FC = () => {
     // await supabase.auth.signOut();
   };
   const createCalendarEvent = async () => {
-    console.log("Creating calendar event");
+    console.log('Creating calendar event');
     const event = {
       summary: eventName,
       description: eventDescription,
@@ -77,29 +71,26 @@ const InterviewScheduler: React.FC = () => {
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
       attendees: [
-        { email: "john@example.com" },
-        { email: "jane@example.com" },
-        { email: "your-email@example.com" }, // You can include or exclude yourself
+        { email: 'john@example.com' },
+        { email: 'jane@example.com' },
+        { email: 'your-email@example.com' }, // You can include or exclude yourself
       ],
     };
 
     try {
-      const response = await fetch(
-        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-        {
-          method: "POST",
-          headers: {
-            // Authorization: "Bearer " + session.provider_token,
-          },
-          body: JSON.stringify(event),
-        }
-      );
+      const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+        method: 'POST',
+        headers: {
+          // Authorization: "Bearer " + session.provider_token,
+        },
+        body: JSON.stringify(event),
+      });
       const data = await response.json();
       console.log(data);
-      toast.success("Event created, check your Google Calendar!");
+      toast.success('Event created, check your Google Calendar!');
     } catch (error) {
-      console.error("Error creating calendar event:", error);
-      toast.error("Failed to create the event. Please try again.");
+      console.error('Error creating calendar event:', error);
+      toast.error('Failed to create the event. Please try again.');
     }
   };
 
@@ -108,34 +99,25 @@ const InterviewScheduler: React.FC = () => {
     const trimedCandidate = candidate.trim().toLowerCase();
 
     const candidateInfo = state.find(
-      (candidate) =>
-        `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() ===
-        trimedCandidate
+      (candidate) => `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() === trimedCandidate,
     );
-    const escapedPattern = "\\s";
-    const regex = new RegExp(escapedPattern, "g");
-    const mappedGuests = guests.map((guest) =>
-      guest.trim().replace(regex, "").toLowerCase()
-    );
+    const escapedPattern = '\\s';
+    const regex = new RegExp(escapedPattern, 'g');
+    const mappedGuests = guests.map((guest) => guest.trim().replace(regex, '').toLowerCase());
     const guestsInfo = state.filter((guest) =>
-      mappedGuests.includes(
-        `${guest.firstName}${guest.lastName}`
-          .trim()
-          .replace(regex, "")
-          .toLowerCase()
-      )
+      mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
     );
-    console.log(
-      mappedGuests,
-      guestsInfo,
-      candidateInfo,
-      "these are the valiues"
-    );
-
+    console.log(candidateInfo);
+    if (!candidateInfo?.id || !guestsInfo.length) {
+      toast.warning('A candidate or a guest(s) is required to schedule an event', {
+        position: 'bottom-center',
+      });
+      return;
+    }
     try {
       const response = await addInterview({
-        candidateId: candidateInfo.id,
-        guests: guestsInfo.map((item) => item.id),
+        candidateId: candidateInfo!.id as string,
+        guests: guestsInfo.map((item) => item.id) as string[],
         interviewType: rest.eventType,
         ...rest,
         status: STATUS_SCHEDULED,
@@ -143,14 +125,14 @@ const InterviewScheduler: React.FC = () => {
 
       if (response && !isError) {
         dispatch(fetchDevs()); // update the persisted data
-        navigate("/devs/interviews");
-        toast.success("Interview Scheduled Successfully", {
-          position: "bottom-center",
+        navigate('/devs/interviews');
+        toast.success('Interview Scheduled Successfully', {
+          position: 'bottom-center',
         });
       }
     } catch (error) {
-      toast.error("Could not Schedule interview", {
-        position: "bottom-center",
+      toast.error('Could not Schedule interview', {
+        position: 'bottom-center',
       });
     }
 
@@ -160,7 +142,7 @@ const InterviewScheduler: React.FC = () => {
   console.log(editableApplicant, applicants, interviewers);
   return (
     <div>
-      <Demo
+      <InterviewFormFields
         isEditing={false}
         editableInterviewInfo={null}
         _applicants={editableApplicant || applicants}

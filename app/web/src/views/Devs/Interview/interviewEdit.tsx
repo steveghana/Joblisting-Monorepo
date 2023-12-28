@@ -20,7 +20,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useGetInterviewQuery, useUpdateInterviewMutation } from '../../../store/services/interview.service';
 import { useTypedDispatch, useTypedSelector } from '../../../store';
 import { toast } from 'react-toastify';
-import Demo from '../../HR/Events/EventForm';
+import InterFormFields from '../../HR/Events/EventForm';
 import NoData from '../../../components/NoData';
 import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
 import MainCard from '../../../components/MainCard';
@@ -132,6 +132,13 @@ const InterviewEdit = () => {
     const guestsInfo = state.filter((guest) =>
       mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
     );
+    console.log(candidateInfo?.id, value);
+    if (!candidateInfo?.id || !guestsInfo.length) {
+      toast.warning('A candidate or a guest(s) is required to schedule an event', {
+        position: 'bottom-center',
+      });
+      return;
+    }
     try {
       const response = await updateInterview({
         id: id as string,
@@ -159,7 +166,7 @@ const InterviewEdit = () => {
   };
   return (
     <MainCard title={'Edit Interview'}>
-      <Demo
+      <InterFormFields
         handleSubmit={(values) => console.log(values)}
         _applicants={[interviewEditData?.candidate]}
         guests={guests}

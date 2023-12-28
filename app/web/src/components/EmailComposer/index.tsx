@@ -35,6 +35,7 @@ interface Recipient {
 export interface SimpleDialogProps {
   open: boolean;
   setDialogOpen: (value: React.SetStateAction<boolean>) => void;
+  reciepients: Recipient[];
 }
 const validationSchema = Yup.object({
   recipients: Yup.array().min(1, 'At least one recipient is required'),
@@ -45,11 +46,6 @@ const validationSchema = Yup.object({
   // Add other validation rules for other fields if needed
 });
 const ComposeEmail = (props: SimpleDialogProps) => {
-  const Allrecipients = [
-    { email: 'john.doe@example.com', name: 'John Doe' },
-    { email: 'jane.smith@example.com', name: 'Jane Smith' },
-    // Add more recipients as needed
-  ];
   const [to, setTo] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -106,7 +102,7 @@ const ComposeEmail = (props: SimpleDialogProps) => {
                     render={({ field, form }) => (
                       <Autocomplete
                         {...field}
-                        options={Allrecipients}
+                        options={props.reciepients}
                         getOptionLabel={(option: Recipient) => option.name}
                         filterOptions={(options, params) => filter(options, params)}
                         isOptionEqualToValue={(option: Recipient, value: Recipient) => option.email === value.email}

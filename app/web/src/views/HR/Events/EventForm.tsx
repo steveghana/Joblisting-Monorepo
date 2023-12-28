@@ -19,6 +19,7 @@ import {
   Box,
   FormHelperText,
   Avatar,
+  Tooltip,
 } from '@mui/material';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import SubCard from '../../../components/SubCard';
@@ -34,18 +35,31 @@ import { startOfDay, addHours, addMinutes } from 'date-fns';
 import { Iinterviews, InterviewFormValue } from '../../../types/interviews';
 import { IDev } from '../../../types/devs';
 import { Social } from '@/components/auth/auth-forms/authicons';
+
 interface IinterviewsFields {
   guests: IDev[];
   _applicants: IDev[];
   isEditing: boolean;
-  editableInterviewInfo: Iinterviews;
+  editableInterviewInfo: Iinterviews | null;
   handleEdit: (values: InterviewFormValue) => void;
   handleSubmit: (values: InterviewFormValue) => void;
 }
+const linkOrPhoneNumberSchema = Yup.string().test('linkOrPhoneNumber', 'Invalid link or phone number', (value) => {
+  // Regular expression for validating a URL
+  const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*([?&].*)?$/;
+
+  // Regular expression for validating a phone number
+  const phoneRegex = /^\+?\d{8,14}$/;
+
+  // Check if the value matches either URL or phone number pattern
+  return urlRegex.test(value as string) || phoneRegex.test(value as string);
+});
 const validationSchema = Yup.object({
   eventType: Yup.string().required('Eventytpe type is required'),
+  candidate: Yup.string().required('Candidate is required'),
+  eventLInk: linkOrPhoneNumberSchema.required('Please enter a valid link or phone number'),
 });
-const Demo = ({
+const InterviewFormFields = ({
   guests,
   _applicants,
   isEditing,
@@ -61,11 +75,7 @@ const Demo = ({
     candidate: `${((id || isEditing) && _applicants[0]?.firstName) || ''} ${
       ((id || isEditing) && _applicants[0]?.lastName) || ''
     }`,
-    guests: [
-      `${((isEditing || id) && guests[0]?.firstName) || 'No'} ${
-        ((isEditing || id) && guests[0]?.lastName) || 'Devs Available'
-      }`,
-    ],
+    guests: [`${((isEditing || id) && guests[0]?.firstName) || 'No'} ${(isEditing || id) && guests[0]?.lastName}`],
 
     // candidate: "",
     eventType: editableInterviewInfo?.eventType || '',
@@ -121,13 +131,14 @@ const Demo = ({
                           as={Select}
                           disabled={!!id}
                           variant="outlined"
+                          required
                           fullWidth
                           value={values.candidate}
                         >
                           {_applicants.map((applicant) => (
                             <MenuItem key={applicant.id} value={`${applicant?.firstName} ${applicant?.lastName}`}>
                               <Box display={'flex'} alignItems={'center'} gap={1}>
-                                <Avatar sx={{ width: 30, height: 30 }} src={applicant.avatar || null} />{' '}
+                                <Avatar sx={{ width: 30, height: 30 }} src={applicant.avatar || ''} />{' '}
                                 <Typography>{`${applicant.firstName} ${applicant.lastName}`}</Typography>
                               </Box>
                             </MenuItem>
@@ -150,7 +161,13 @@ const Demo = ({
                       Choose Interviewer
                     </Typography> */}
                     <FormControl fullWidth>
-                      <RenderGroup label="Select Interviewer" name="guests" data={guests} value={values.guests} />
+                      <RenderGroup
+                        required
+                        label="Select Interviewer"
+                        name="guests"
+                        data={guests}
+                        value={values.guests}
+                      />
                       <ErrorMessage name="guests" component="div">
                         {(msg) => (
                           <FormHelperText error variant="filled">
@@ -190,7 +207,7 @@ const Demo = ({
                           name: 'eventOption',
                           id: 'eventOption',
                         }}
-                        onChange={(e) => {
+                        onChange={(e: { target: { value: any } }) => {
                           handleChange(e);
                           const changedValue = e.target.value;
                           setMeetingType(changedValue);
@@ -239,13 +256,13 @@ const Demo = ({
                       <Field
                         name="eventLInk"
                         as={TextField}
-                        placeholder={'URL'}
+                        placeholder={'URL or Phone'}
                         required
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
                               {(values.eventOption === 'Zoom-call' || values.eventOption === 'Google-meet') && (
-                                <AnimateButton>
+                                <Tooltip title={`Generate ${values.eventOption} link`}>
                                   <Button
                                     href={
                                       values.eventOption === 'Zoom-call'
@@ -259,7 +276,7 @@ const Demo = ({
                                   >
                                     {React.createElement(Social[values.eventOption.split('-')[0]].icon)}
                                   </Button>
-                                </AnimateButton>
+                                </Tooltip>
                               )}
                             </InputAdornment>
                           ),
@@ -291,8 +308,12 @@ const Demo = ({
                             shrink: true,
                           }}
                           variant="outlined"
-                          onChange={(date) => setFieldValue('starttime', date)}
-                          renderInput={(params) => <input {...params} />}
+                          onChange={(date: any) => setFieldValue('starttime', date)}
+                          renderInput={(
+                            params: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLInputElement> &
+                              React.InputHTMLAttributes<HTMLInputElement>,
+                          ) => <input {...params} />}
                         />
                       </DemoItem>
                       <ErrorMessage name="starttime" component="div">
@@ -320,8 +341,12 @@ const Demo = ({
                             shrink: true,
                           }}
                           variant="outlined"
-                          onChange={(date) => setFieldValue('endtime', date)}
-                          renderInput={(params) => <input {...params} />}
+                          onChange={(date: any) => setFieldValue('endtime', date)}
+                          renderInput={(
+                            params: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLInputElement> &
+                              React.InputHTMLAttributes<HTMLInputElement>,
+                          ) => <input {...params} />}
                         />
                       </DemoItem>
                       <ErrorMessage name="endtime" component="div">
@@ -346,8 +371,12 @@ const Demo = ({
                         }}
                         variant="outlined"
                         value={values.startDate}
-                        onChange={(date) => setFieldValue('startDate', date)}
-                        renderInput={(params) => <input {...params} />}
+                        onChange={(date: any) => setFieldValue('startDate', date)}
+                        renderInput={(
+                          params: JSX.IntrinsicAttributes &
+                            React.ClassAttributes<HTMLInputElement> &
+                            React.InputHTMLAttributes<HTMLInputElement>,
+                        ) => <input {...params} />}
                       />
                       <ErrorMessage name="startDate" component="div">
                         {(msg) => (
@@ -371,8 +400,12 @@ const Demo = ({
                         }}
                         variant="outlined"
                         value={values.startDate}
-                        onChange={(date) => setFieldValue('endDate', date)}
-                        renderInput={(params) => <input {...params} />}
+                        onChange={(date: any) => setFieldValue('endDate', date)}
+                        renderInput={(
+                          params: JSX.IntrinsicAttributes &
+                            React.ClassAttributes<HTMLInputElement> &
+                            React.InputHTMLAttributes<HTMLInputElement>,
+                        ) => <input {...params} />}
                       />
                       <ErrorMessage name="endDate" component="div">
                         {(msg) => (
@@ -424,4 +457,4 @@ const Demo = ({
   );
 };
 
-export default Demo;
+export default InterviewFormFields;
