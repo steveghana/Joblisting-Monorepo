@@ -1,11 +1,12 @@
-import { Iinterviews } from "./interviews";
-import { IRoleData } from "./roles";
-import { IUser, Iuser } from "./user";
+import { Iinterviews } from './interviews';
+import { IRoleData, IRoleStatus } from './roles';
+import { IUser, Iuser } from './user';
 
 export type IDev = {
   id?: string;
   firstName: string;
   clientName: string;
+  userId?: string;
   user?: Iuser;
   interview?: Iinterviews;
   companyName: string;
@@ -16,9 +17,23 @@ export type IDev = {
   jobTitle: string;
   salary: number;
   startDate: Date;
+  skills: string[];
   experience?: number;
   projectName: string;
   avatar: string;
-  workStatus: "Active" | "Not Active";
-  rolestatus: "InHouse" | "Pending" | "External" | "Accepted" | "Interviewing";
+  workStatus: 'Active' | 'Not Active';
+  rolestatus: 'InHouse' | 'Pending' | 'External' | 'Accepted' | 'Interviewing';
 };
+export interface IPartialDev {
+  id?: string;
+  email: string;
+  role?: string;
+  firstName: string;
+  lastName: string;
+  skills: string[];
+  phone_number: string;
+  salary: number;
+  address: string;
+  role_status: IRoleStatus;
+  years_of_experience: string;
+}
