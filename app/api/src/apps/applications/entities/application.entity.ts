@@ -29,7 +29,7 @@ export class Application extends AssociableModel {
   @JoinColumn({ name: 'job_id' })
   job: Job;
   @Column()
-  roleApplyiingFor: string;
+  roleApplyingFor: string;
   @Column()
   name: string;
   @Column()
