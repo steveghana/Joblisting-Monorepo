@@ -2,25 +2,26 @@ import React, { useEffect } from 'react';
 import FullscreenProgress from '../../components/FullscreenProgress/FullscreenProgress';
 import NoData from '../../components/NoData';
 import { useDevsColums } from '../../hooks/useAllDevsColumn';
-import DevTableData from './Tables/DevColumns';
 import { useGetDevsQuery } from '../../store/services/dev.service';
 import MainCard from '../../components/MainCard';
 import { Grid } from '@mui/material';
 import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
 import CustomButton from '@/components/button';
 import AddDevs from './Form/addDevs';
+import DevTableData from './Tables/DevColumns';
 
 const Developers = () => {
   const columns = useDevsColums();
   const [open, setOpen] = React.useState(false);
 
   const { data: devs, isError, isLoading, isFetching, refetch } = useGetDevsQuery();
-  const devsData = (devs?.length && devs?.filter(({ rolestatus }) => rolestatus === 'Accepted')) || [];
+  const devsData =
+    (devs?.length && devs?.filter(({ rolestatus }) => rolestatus === 'Accepted' || rolestatus === 'External')) || [];
 
   if (isLoading || isFetching) {
     return <TableSkeletonLoader />;
   }
-
+  console.log(devs);
   return (
     <MainCard>
       <AddDevs open={open} onClose={() => setOpen(false)} />
