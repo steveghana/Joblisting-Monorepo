@@ -49,6 +49,8 @@ export class Developer extends AssociableModel {
 
   @Column()
   address: string;
+  // @Column()
+  // devProfession: string;
   @Column()
   workStatus: 'Active' | 'Not Active';
   @Column({ default: 'External' })
