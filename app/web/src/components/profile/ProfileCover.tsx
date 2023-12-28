@@ -12,9 +12,12 @@ import { IUser } from '../../types/user';
 import { useNavigate } from 'react-router';
 import ActivityTab from '../settings/ActivityTab';
 import SubCard from '../SubCard';
-import { Mail } from '@mui/icons-material';
+import { EditTwoTone, Mail } from '@mui/icons-material';
 import { themePalette } from '@/themes/schemes/palette';
 import { getRandomColor } from '@/utils/generateRandomColors';
+import ComposeEmail from '../EmailComposer';
+import { useState } from 'react';
+import CustomButton from '../button';
 
 const Input = styled('input')({
   display: 'none',
@@ -79,25 +82,10 @@ const CardCoverAction = styled(Box)(
 );
 const ProfileCover = ({ user }: { user: IUser }) => {
   const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  console.log(user, 'this is the user information');
   return (
     <>
-      {/* <Box display="flex">
-        <Tooltip arrow placement="top" title="Go back">
-          <IconButton
-            color="primary"
-            onClick={() => navigate(-1)}
-            sx={{ p: 2, mr: 2 }}
-          >
-            <ArrowBackTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-        <Box>
-          <Typography variant="h3" component="h3" gutterBottom>
-            {user.firstName}
-          </Typography>
-          <Typography variant="subtitle2">{user.jobtitle}</Typography>
-        </Box>
-      </Box> */}
       <SubCard>
         <Box display="flex" mb={3}>
           <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
@@ -156,21 +144,50 @@ const ProfileCover = ({ user }: { user: IUser }) => {
             {user.role !== 'Ceo' && user.role !== 'Recruitment' && (
               <>
                 <Box>
-                  <Button size="small" sx={{ mx: 1 }} variant="outlined">
+                  <Button
+                    size="small"
+                    sx={{ mx: 1 }}
+                    variant="outlined"
+                    href={user.website || ''}
+                    endIcon={<ArrowForwardTwoToneIcon />}
+                  >
+                    {/* {user} */}
                     View portfolio website
                   </Button>
                   <IconButton color="primary" sx={{ p: 0.5 }}>
                     <MoreHorizTwoToneIcon />
                   </IconButton>
                 </Box>
-                <Button sx={{ mt: { xs: 2, md: 0 } }} size="small" variant="text" endIcon={<ArrowForwardTwoToneIcon />}>
-                  {/* navigate to the clientdetails page */}
-                  See all clients connections
-                </Button>
-                <Box>
-                  <Button sx={{ m: 1 }} variant="contained" endIcon={<Mail />}>
-                    Send Email
+                {user.developer.workStatus === 'Active' ? (
+                  <Button
+                    sx={{ mt: { xs: 2, md: 0 } }}
+                    size="small"
+                    variant="text"
+                    endIcon={<ArrowForwardTwoToneIcon />}
+                  >
+                    {/* navigate to the clientdetails page */}
+                    See all clients connections
                   </Button>
+                ) : (
+                  <Button
+                    sx={{ mt: { xs: 2, md: 0 } }}
+                    size="small"
+                    variant="text"
+                    endIcon={<ArrowForwardTwoToneIcon />}
+                  >
+                    {/* navigate to the clientdetails page */}
+                    Assign To Role/Client
+                  </Button>
+                )}
+                <Box>
+                  <ComposeEmail
+                    open={dialogOpen}
+                    setDialogOpen={() => setDialogOpen(false)}
+                    reciepients={[{ email: user.email, name: user.firstName }]}
+                  />
+                  <CustomButton sx={{ m: 1 }} startIcon={<EditTwoTone />} onClick={() => setDialogOpen(true)}>
+                    Send Email
+                  </CustomButton>
                 </Box>
               </>
             )}
