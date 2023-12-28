@@ -87,7 +87,7 @@ const JobSubmissionContainer: React.FC = () => {
   const initialState: ApplicantsSubmission = {
     name: '',
     email: '',
-    roleApplyiingFor: '',
+    roleApplyingFor: '',
     phoneNumber: '',
     coverLetter: '',
     file: {},
@@ -105,7 +105,7 @@ const JobSubmissionContainer: React.FC = () => {
           address: Yup.string().required('address is required'),
           years_of_experience: Yup.string().required('years of experience is required and must be a number'),
           selectedSkills: Yup.array().required('Skills are required'),
-          roleApplyiingFor: Yup.string().required('Please select the role you are hiring for!'),
+          roleApplyingFor: Yup.string().required('Please select the role you are hiring for!'),
           name: Yup.string().max(255).min(2).required('Please enter a valid name'),
           phoneNumber: Yup.string()
             .matches(/^\+?[0-9]{8,15}$/, 'Please enter a valid phone number')
@@ -137,14 +137,14 @@ const JobSubmissionContainer: React.FC = () => {
             ))}
             <FormControl fullWidth margin="normal">
               <InputLabel id="role-label">Select role you are applying For</InputLabel>
-              <Field name="roleApplyiingFor" as={Select} variant="outlined" fullWidth>
+              <Field name="roleApplyingFor" as={Select} variant="outlined" fullWidth>
                 {Object.keys(techRoles).map((option) => (
                   <MenuItem key={option} value={option}>
                     {option}
                   </MenuItem>
                 ))}
               </Field>
-              <ErrorMessage name="roleApplyiingFor" component="div">
+              <ErrorMessage name="roleApplyingFor" component="div">
                 {(msg) => (
                   <FormHelperText error variant="filled">
                     {msg}
