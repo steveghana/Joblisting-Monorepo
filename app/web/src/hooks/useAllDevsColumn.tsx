@@ -62,6 +62,8 @@ export const useDevsColums = () => {
             id: 'clientName',
             accessorKey: 'clientName', //hey a simple column for once
             header: 'Client Name',
+            Cell: ({ cell }) => <Box>{cell.getValue<string>() || 'N/A'}</Box>,
+
             enableEditing: false,
             size: 200,
           },
@@ -69,6 +71,8 @@ export const useDevsColums = () => {
             id: 'companyName',
             accessorKey: 'companyName', //hey a simple column for once
             header: 'Company Name',
+            Cell: ({ cell }) => <Box>{cell.getValue<string>() || 'N/A'}</Box>,
+
             enableEditing: false,
             size: 200,
           },
@@ -76,6 +80,7 @@ export const useDevsColums = () => {
             accessorKey: 'projectName', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             filterVariant: 'autocomplete',
+            Cell: ({ cell }) => <Box>{cell.getValue<string>() || 'N/A'}</Box>,
             enableEditing: false,
 
             header: 'Project Name',
