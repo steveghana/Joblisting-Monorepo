@@ -246,6 +246,7 @@ export class AuthService {
             {
               email,
               role,
+              isSuperAdmin: role === 'Ceo' ? true : false,
             },
             transaction,
           );
