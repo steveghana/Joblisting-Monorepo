@@ -29,7 +29,7 @@ export class CreateApplicationDto {
     message: 'roleApplyiingFor is required',
   })
   @IsString()
-  roleApplyiingFor: string;
+  roleApplyingFor: string;
 
   // developer: Partial<IDev>;
   @IsNotEmpty({
