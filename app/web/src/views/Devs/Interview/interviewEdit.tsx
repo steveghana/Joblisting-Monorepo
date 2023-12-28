@@ -20,7 +20,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useGetInterviewQuery, useUpdateInterviewMutation } from '../../../store/services/interview.service';
 import { useTypedDispatch, useTypedSelector } from '../../../store';
 import { toast } from 'react-toastify';
-import InterFormFields from '../../HR/Events/EventForm';
+import InterviewFormFields from '../../HR/Events/EventForm';
 import NoData from '../../../components/NoData';
 import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
 import MainCard from '../../../components/MainCard';
@@ -166,7 +166,7 @@ const InterviewEdit = () => {
   };
   return (
     <MainCard title={'Edit Interview'}>
-      <InterFormFields
+      <InterviewFormFields
         handleSubmit={(values) => console.log(values)}
         _applicants={[interviewEditData?.candidate]}
         guests={guests}
