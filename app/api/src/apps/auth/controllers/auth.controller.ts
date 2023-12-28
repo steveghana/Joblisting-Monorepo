@@ -175,16 +175,13 @@ export class AuthController {
   @UseFilters(new HttpExceptionFilter())
   async getUser(@Param('id') id: string, @Res() res: Response, @Next() next) {
     const user: IUser = await this.authService.getUserById(id);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, isActive, isSuperAdmin, ...rest } = user;
     if (!user) {
       throw new HttpException('User doesnt exist', HttpStatus.BAD_REQUEST);
     }
     return res.json({
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      role: user.role,
-      avatar: user.avatar,
+      ...rest,
     });
   }
 }
