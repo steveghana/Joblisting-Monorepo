@@ -8,14 +8,10 @@ import InterviewFormFields from '../Events/EventForm';
 import { InterviewFormValue } from '../../../types/interviews';
 
 export const STATUS_PENDING = 'Pending';
-export const STATUS_ACCEPTED = 'Accepted';
+// export const STATUS_ACCEPTED = 'Accepted';
 export const STATUS_SCHEDULED = 'Scheduled';
 
 const InterviewScheduler: React.FC = () => {
-  const [selectedApplicant, setSelectedApplicant] = useState({
-    candidate: false,
-    interviewer: false,
-  });
   const { id } = useParams();
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
@@ -28,7 +24,10 @@ const InterviewScheduler: React.FC = () => {
   const state = useTypedSelector((state) => state.devs.devs);
   const editableApplicant = id && state.filter((item) => item.id === id && item.rolestatus === STATUS_PENDING);
   const applicants = state.filter((item) => item.rolestatus === STATUS_PENDING);
-  const interviewers = state?.filter((item) => item.rolestatus === STATUS_ACCEPTED) || [];
+  const interviewers =
+    state?.filter(
+      (item) => item.rolestatus === 'Accepted' || item.rolestatus === 'InHouse' || item.rolestatus === 'External',
+    ) || [];
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
