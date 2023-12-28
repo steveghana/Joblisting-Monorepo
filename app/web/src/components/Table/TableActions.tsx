@@ -14,6 +14,7 @@ interface IActionsProps<T extends MRT_RowData> {
   actionFn: (items: any) => void;
   handleOpenJobForm?: (id: string) => void;
   cancelInterview?: () => void;
+  assignToRole?: () => void;
   handleOpenInterviewForm?: (id: string) => void;
 }
 
@@ -22,6 +23,7 @@ const TableActions = <T extends MRT_RowData>({
   table,
   actionFn,
   cancelInterview,
+  assignToRole,
   handleOpenJobForm,
   handleOpenInterviewForm,
   tableType,
