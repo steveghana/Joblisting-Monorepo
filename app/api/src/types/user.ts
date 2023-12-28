@@ -6,6 +6,15 @@ export type IUser = {
   photos?: Record<string, any>[];
   emailAddresses?: any[];
   googleVerified?: boolean;
+  isSuperAdmin?: boolean;
+  isActive?: boolean;
+  linkedinVerified?: boolean;
+  githubVerified?: boolean;
+  location?: string;
+  bio?: string;
+  website?: string;
+  github?: string;
+  linkedin?: string;
   role: IProfession;
   avatar?: string;
   firstName: string;
