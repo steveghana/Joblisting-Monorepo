@@ -8,7 +8,7 @@ import {
 import TableActions from '../../../components/Table/TableActions';
 import TopToolbar from '../../../components/Table/topToolBar';
 import CreatRow from '../../../components/Table/CreatRow';
-import { MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import { MRT_ColumnDef, MRT_Row, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import { Button, useMediaQuery, useTheme } from '@mui/material';
 // import { data } from "../../lib/data/data";
 import { IDev } from '../../../types/devs';
@@ -54,8 +54,43 @@ const DevTableData = ({
   const [deleteDev, { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError }] = useDeletDevMutation();
   const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] =
     useBulkdeletDevMutation();
+  async function cancelinterviewFn(row: MRT_Row<IDev>) {
+    console.log(row.original);
+    const deleted = await cancelInterview({
+      id: row.original.interview!.id as string,
+    }).unwrap();
+    if (deleted) {
+      toast.warn('Interview Canceled', {
+        position: 'bottom-center',
+      });
+    }
+  }
+  async function DeletDevFn(row: MRT_Row<IDev>) {
+    const asGuest = row.original.interview?.guests.filter((item) => item!.id === row!.original!.id);
+    const asCandidate = row.original.interview?.candidate.id === row.original!.id;
+    console.log(row.original, row.id, 'from fn');
+    if (asGuest?.length || asCandidate) {
+      toast.info('Cannot delete this developer as he is already interviewing', {
+        position: 'bottom-center',
+      });
+      return;
+    }
+    console.log(row.original, row.id, 'from fn');
+    const response = await deleteDev({
+      id: row.original.id as string,
+    }).unwrap();
+    try {
+      if (response) {
+        toast.success('Action Successful', {
+          position: 'bottom-center',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const navigate = useNavigate();
-
+  console.log(devs, 'thiserfkj');
   const defaultMRTOptions = getDefaultMRTOptions<IDev>(matchUpMd);
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
@@ -82,8 +117,7 @@ const DevTableData = ({
           return;
         }
         event.stopPropagation();
-        console.info(row.id);
-        navigate(`/management/profile/details/${row.id}`);
+        navigate(`/management/profile/details/${row.original.userId}`);
       },
       sx: {
         cursor: 'pointer', //you might want to change the cursor too when adding an onClick
@@ -108,17 +142,8 @@ const DevTableData = ({
     renderRowActions: ({ row, table }) => (
       <>
         <TableActions
-          cancelInterview={async () => {
-            console.log(row.original);
-            const deleted = await cancelInterview({
-              id: row.original.interview!.id as string,
-            }).unwrap();
-            if (deleted) {
-              toast.warn('Interview Canceled', {
-                position: 'bottom-center',
-              });
-            }
-          }}
+          cancelInterview={async () => await cancelinterviewFn(row)}
+          assignToRole={async () => await DeletDevFn(row)}
           tableType={
             row.original.rolestatus === 'Interviewing'
               ? 'Interviewing'
@@ -127,30 +152,7 @@ const DevTableData = ({
               : 'Accepted'
           }
           handleOpenInterviewForm={(id: string) => handleOpenInterviewForm(id)}
-          actionFn={async () => {
-            const asGuest = row.original.interview?.guests.filter((item) => item!.id === row!.original!.id);
-            const asCandidate = row.original.interview?.candidate.id === row.original!.id;
-            console.log(row.original, row.id, 'from fn');
-            if (asGuest?.length || asCandidate) {
-              toast.info('Cannot delete this developer as he is already interviewing', {
-                position: 'bottom-center',
-              });
-              return;
-            }
-            console.log(row.original, row.id, 'from fn');
-            const response = await deleteDev({
-              id: row.original.id as string,
-            }).unwrap();
-            try {
-              if (response) {
-                toast.success('Action Successful', {
-                  position: 'bottom-center',
-                });
-              }
-            } catch (err) {
-              console.log(err);
-            }
-          }}
+          actionFn={async () => DeletDevFn(row)}
           row={row}
           table={table}
         />
