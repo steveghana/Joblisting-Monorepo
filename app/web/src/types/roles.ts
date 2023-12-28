@@ -5,7 +5,7 @@ import { IDev } from './devs';
 
 // export type IRole = "Ceo" | "developer" | "hr";
 export type IProfession = 'Ceo' | 'Marketing' | 'Recruitment' | 'Developer' | 'CTO';
-
+export type IRoleStatus = 'InHouse' | 'Pending' | 'External' | 'Accepted' | 'Interviewing';
 export type UserRoleSelection = IProfession[]; // UserRole is defined as in the previous answer
 export interface IRoleData {
   id?: string;
