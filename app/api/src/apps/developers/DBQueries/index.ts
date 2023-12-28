@@ -16,7 +16,8 @@ export async function enrollDev(
   dependencies = injectDependencies(dependencies, ['db']);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const userRepo = transaction.getRepository(dependencies.db.models.user);
-  const { user, ...rest } = devDataset;
+  const { user, devProfession, ...rest } = devDataset;
+  console.log(devProfession);
   const newUser = await userRepo.create({
     ...user,
     role: 'Developer',
