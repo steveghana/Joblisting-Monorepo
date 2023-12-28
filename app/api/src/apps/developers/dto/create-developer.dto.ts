@@ -38,11 +38,16 @@ export class CreateDeveloperDto {
   })
   @IsNumber()
   salary: number;
-  @IsNotEmpty({
-    message: 'role is required',
+  @IsOptional({
+    message: 'roleid is required',
   })
-  @IsNumber()
+  @IsString()
   roleId: string;
+  @IsOptional({
+    message: 'profession is required',
+  })
+  @IsString()
+  devProfession: string;
   @IsNotEmpty({
     message: 'role is required',
   })
