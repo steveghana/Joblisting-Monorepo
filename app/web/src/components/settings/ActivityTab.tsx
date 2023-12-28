@@ -31,18 +31,7 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
 }));
 function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }) {
   const [isdev, setisdev] = useState(true);
-  const devSkills = [
-    'React.js',
-    '.Net',
-    'Sass',
-    'Python',
-    'Azure',
-    'GCP',
-    'AWS lambda',
-    'Css',
-    'Nestjs',
-    'Node/Express',
-  ];
+
   return (
     <MainCard>
       <Grid container>
@@ -203,11 +192,10 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
         <Grid container lg={8} xs={12} spacing={gridSpacing}>
           <Grid item xs={12} sm={12}>
             <SubCard title="About me">
-              <Grid direction="column" spacing={1}>
+              <Grid container direction="column" spacing={1}>
                 <Grid item>
                   <MuiTypography variant="subtitle1" gutterBottom>
-                    Hello,I’m Anshan Handgun Creative Graphic Designer & User Experience Designer based in Website, I
-                    create digital Products a more Beautiful and usable place. Morbid accusant ipsum. Nam nec tellus at.
+                    {user.bio || 'Unknown'}
                   </MuiTypography>
                   <Divider sx={{ margin: '1rem 0' }} />
                 </Grid>
@@ -241,9 +229,9 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
               <SubCard title="skills">
                 <Grid container direction="column" spacing={1}>
                   <Grid item>
-                    {devSkills.map((item) => (
+                    {user.developer.skills.map((item) => (
                       // <Stack direction="row" spacing={1}>
-                      <Chip label={item} sx={{ m: 0.5 }} />
+                      <Chip key={item} label={item} sx={{ m: 0.5 }} />
                       // </Stack>
                     ))}
                   </Grid>
