@@ -34,12 +34,13 @@ export class DevelopersService {
       role_status,
       lastName,
       phone_number,
+      devProfession,
       skills,
       roleId,
       years_of_experience,
     } = createDeveloperDto;
-    const role = await Roles.getById(roleId);
-    if (!role) {
+    const role = roleId ? await Roles.getById(roleId) : null;
+    if (!role && roleId) {
       throw new HttpException(
         'The role you are about to assign a new developer to doesnt exist',
         HttpStatus.BAD_REQUEST,
@@ -86,16 +87,17 @@ export class DevelopersService {
 
       const devEnrolled = await Developers.enrollDev(
         {
-          roles: role,
+          roles: role || null,
           address,
           salary: salary || 0,
+          devProfession,
           firstName,
-          client: role.client,
+          client: role?.client || null,
           lastName,
           phone_number,
           user,
           role_status,
-          workStatus: role.client.id ? 'Active' : 'Not Active',
+          workStatus: role?.client?.id ? 'Active' : 'Not Active',
           skills,
           years_of_experience,
         },
@@ -138,20 +140,21 @@ export class DevelopersService {
 
       return data.map((item) => ({
         id: item.id,
-        firstName: item.user.firstName,
-        interview: item.interview,
-        lastName: item.user.lastName,
-        clientName: item.client.name,
-        companyName: item.client.companyName,
-        email: item.user.email,
-        jobTitle: item.roles.title,
-        workStatus: item.workStatus,
-        rolestatus: item.role_status,
-        experience: +item.years_of_experience,
-        salary: item.salary,
-        startDate: item.createdAt,
-        projectName: item.client.projectTitle,
-        avatar: item.user.avatar,
+        firstName: item?.user?.firstName,
+        userId: item.user.id,
+        interview: item?.interview,
+        lastName: item?.user?.lastName,
+        clientName: item?.client?.name,
+        companyName: item?.client?.companyName,
+        email: item?.user?.email,
+        jobTitle: item?.roles?.title,
+        workStatus: item?.workStatus,
+        rolestatus: item?.role_status,
+        experience: +item?.years_of_experience,
+        salary: item?.salary,
+        startDate: item?.createdAt,
+        projectName: item?.client?.projectTitle,
+        avatar: item?.user?.avatar,
       }));
     });
   }
