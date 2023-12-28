@@ -28,6 +28,7 @@ import CustomButton from '../button';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { options } from 'numeral';
 import { validateUser } from '@/utils/tablevalidate';
+import { useParams } from 'react-router';
 interface Recipient {
   email: string;
   name: string;
@@ -47,12 +48,8 @@ const validationSchema = Yup.object({
 });
 const ComposeEmail = (props: SimpleDialogProps) => {
   const [to, setTo] = useState<string>('');
-  const [subject, setSubject] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [recipients, setRecipients] = useState<Recipient[]>();
-
   const filter = createFilterOptions<Recipient>();
-
+  const { id } = useParams();
   return (
     <Modal open={props.open} onClose={() => props.setDialogOpen(false)} aria-labelledby="form-dialog-title">
       <Box
@@ -69,7 +66,7 @@ const ComposeEmail = (props: SimpleDialogProps) => {
         }}
       >
         <Formik
-          initialValues={{ subject: '', message: '', recipients: [] }}
+          initialValues={{ subject: '', message: '', recipients: id ? [...props.reciepients] : [] }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             // Implement your submit logic here
@@ -108,6 +105,7 @@ const ComposeEmail = (props: SimpleDialogProps) => {
                         isOptionEqualToValue={(option: Recipient, value: Recipient) => option.email === value.email}
                         freeSolo
                         multiple
+                        disabled={!!id}
                         onChange={(_event, newValue: Recipient[] | null, reason) => {
                           // Handle free text input or selected options
                           if (reason === 'selectOption' || reason === 'removeOption') {
