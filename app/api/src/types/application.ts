@@ -13,7 +13,7 @@ export interface IApplication {
   background_questions?: Record<string, string>; // Store background questions as JSON
   status: IStatusApplication; //
   address: string;
-  roleApplyiingFor: string;
+  roleApplyingFor: string;
   role?: IRole;
   coverLetter: string;
 }
