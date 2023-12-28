@@ -134,7 +134,7 @@ export class ApplicationsService {
           id: app.id,
           roleId: app.role.id,
           jobId: app.job.id,
-          roleApplyiingFor: app.roleApplyiingFor,
+          roleApplyingFor: app.roleApplyingFor,
           name: app.name,
           email: app.email,
           phoneNumber: app.phoneNumber,
