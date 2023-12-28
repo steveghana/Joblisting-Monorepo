@@ -37,6 +37,7 @@ import AnimateButton from '../../../components/extended/AnimateButton';
 import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
 import CalenderEvent from '@/components/EmailComposer/calenderevents';
 import { Iinterviews } from '@/types/interviews';
+import { themePalette } from '@/themes/schemes/palette';
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -189,39 +190,66 @@ const Interviews = () => {
                     <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
                       <ExtractEventFromEvents event={item} />
                     </Drawer>
-                    <Grid item xs={12} onClick={(e) => toggleDrawer(true)(e)} sx={{ cursor: 'pointer' }}>
+                    <Grid item xs={12} sx={{ cursor: 'pointer' }}>
                       <Paper
                         elevation={3}
                         sx={{
                           padding: '20px',
+                          color: 'white',
                           display: 'flex',
                           alignItems: 'start',
+                          background: themePalette.primary.main,
                         }}
                       >
                         <Box width={'100%'}>
-                          <Grid container spacing={2}>
-                            <Grid item xs={6} mb={2}>
-                              <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
+                          <Grid container onClick={(e) => toggleDrawer(true)(e)} spacing={2}>
+                            <Grid sx={{ color: 'white' }} item xs={6} mb={2}>
+                              <Typography
+                                variant="subtitle1"
+                                display={'flex'}
+                                color={'white'}
+                                alignItems={'center'}
+                                gap={1}
+                              >
                                 Candidate: <Avatar sx={{ width: 23, height: 23 }} src={item.candidate.avatar} />{' '}
                                 {item.candidate.firstName} {item.candidate.lastName}
                               </Typography>
-                              {item.guests.map((guest) => (
-                                <Typography
-                                  variant="subtitle1"
-                                  display={'flex'}
-                                  key={guest.id}
-                                  alignItems={'center'}
-                                  gap={1}
-                                >
-                                  Interviewer: <Avatar sx={{ width: 23, height: 23 }} src={guest.avatar} />{' '}
-                                  {guest.firstName} {guest.lastName}
-                                </Typography>
-                              ))}
-                              <Typography variant="subtitle1">{/* Date: {item.scheduled_date.getDate()} */}</Typography>
-                              <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
+                              <Typography
+                                variant="subtitle1"
+                                color={'white'}
+                                display={'flex'}
+                                alignItems={'center'}
+                                gap={1}
+                              >
+                                guest(s):
+                                {item.guests
+                                  .filter((item) => item.rolestatus !== 'Interviewing')
+                                  .map((guest) => (
+                                    <Box display={'flex'} alignItems={'center'} gap={1} key={guest.id}>
+                                      <Avatar sx={{ width: 23, height: 23 }} src={guest.avatar} />
+                                      {guest.firstName} {guest.lastName}
+                                    </Box>
+                                  ))}
+                              </Typography>
+                              <Typography color={'white'} variant="subtitle1">
+                                Date: {new Date(interviewDetails.interviewDate).toLocaleDateString()}
+                              </Typography>
+                              <Typography
+                                color={'white'}
+                                variant="subtitle1"
+                                display={'flex'}
+                                alignItems={'center'}
+                                gap={1}
+                              >
                                 Time: <ClockIcon color="disabled" fontSize="small" /> {interviewDetails.interviewTime}
                               </Typography>
-                              <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
+                              <Typography
+                                color={'white'}
+                                variant="subtitle1"
+                                display={'flex'}
+                                alignItems={'center'}
+                                gap={1}
+                              >
                                 Location: {interviewDetails.location}
                               </Typography>
                             </Grid>
@@ -268,7 +296,7 @@ const Interviews = () => {
                             </AccordionDetails>
                           </Accordion>
                         </Box>
-                        <Tooltip sx={{ mx: 'auto' }} title="Cancel Interview">
+                        {/* <Tooltip sx={{ mx: 'auto' }} title="Cancel Interview">
                           <IconButton>
                             <Typography color={'blue'} onClick={() => handleDelete(item.id as string)}>
                               Cancel
@@ -281,7 +309,7 @@ const Interviews = () => {
                               Edit
                             </Typography>
                           </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                       </Paper>
                     </Grid>
                   </Grid>
