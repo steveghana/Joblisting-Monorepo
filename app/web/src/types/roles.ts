@@ -47,7 +47,7 @@ export interface ApplicantsSubmission {
   id?: string;
   name: string;
   email: string;
-  roleApplyiingFor: string;
+  roleApplyingFor: string;
   roleId?: string;
   jobId?: string;
   avatar?: string;
