@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import _api_url from '../../api/_api_url';
-import { IDev } from '../../types/devs';
+import { IDev, IPartialDev } from '../../types/devs';
 import { fetchingError, fetchingSuccess, startFetching } from '../slices/dev.slice';
 import { DEV_API_KEY } from '../constant';
 
@@ -21,6 +21,14 @@ export const devApi = createApi({
         body,
       }),
       invalidatesTags: ['devs'],
+      transformErrorResponse: (response: any) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
+      },
     }),
     deletDev: builder.mutation<IDev, { id: string }>({
       query: ({ id }) => ({
@@ -28,6 +36,14 @@ export const devApi = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['devs'],
+      transformErrorResponse: (response: any) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
+      },
     }),
     unassignDev: builder.mutation<number, { id: string; roleId: string }>({
       query: ({ id }) => ({
@@ -35,6 +51,14 @@ export const devApi = createApi({
         method: 'PATCH',
       }),
       invalidatesTags: ['devs'],
+      transformErrorResponse: (response: any) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
+      },
     }),
     bulkdeletDev: builder.mutation<IDev, { id: string[] }>({
       query: ({ id }) => ({
@@ -43,15 +67,31 @@ export const devApi = createApi({
         body: id,
       }),
       invalidatesTags: ['devs'],
+      transformErrorResponse: (response: any) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
+      },
     }),
 
-    addDev: builder.mutation<IDev, IDev>({
+    addDev: builder.mutation<IDev, IPartialDev>({
       query: (dev) => ({
         url: 'developers',
         method: 'POST',
         body: dev,
       }),
       invalidatesTags: ['devs'],
+      transformErrorResponse: (response: any) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
+      },
     }),
     getDevs: builder.query<IDev[], void>({
       query: () => ({
@@ -59,9 +99,6 @@ export const devApi = createApi({
         method: 'GET',
       }),
 
-      transformResponse: (response: IDev[]) => {
-        return response;
-      },
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any) => {
         const {
