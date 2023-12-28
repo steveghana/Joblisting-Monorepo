@@ -66,6 +66,7 @@ export async function getUserById(
       where: {
         id: id,
       },
+      relations: ['developer'],
     })) as unknown as UserEntity;
     return user;
   }, dependencies);
