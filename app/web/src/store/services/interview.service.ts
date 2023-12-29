@@ -78,10 +78,7 @@ export const interviewApi = createApi({
       }),
       providesTags: (result, error) =>
         result ? [...result.map(({ id }) => ({ type: 'interviews' as const, id })), 'interviews'] : ['interviews'],
-      transformResponse: (response: Iinterviews[], meta) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any, meta, arg) => {
         const {
           data: {
