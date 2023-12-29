@@ -88,7 +88,6 @@ const InterviewFormFields = ({
     endDate: addMinutes(addHours(startOfDay(new Date()), 15), 30),
   };
 
-  console.log('this is the meeting tpe', meetingType);
   return (
     // lg
     <>
