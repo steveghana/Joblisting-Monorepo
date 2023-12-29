@@ -18,6 +18,8 @@ import { getRandomColor } from '@/utils/generateRandomColors';
 import ComposeEmail from '../EmailComposer';
 import { useState } from 'react';
 import CustomButton from '../button';
+import DeveloperAssignmentForm from '@/views/Devs/AssignToClients/devAssignment';
+import AssignDevsToClient from '@/views/Devs/AssignToClients';
 
 const Input = styled('input')({
   display: 'none',
@@ -83,7 +85,8 @@ const CardCoverAction = styled(Box)(
 const ProfileCover = ({ user }: { user: IUser }) => {
   const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState(false);
-  console.log(user, 'this is the user information');
+  const [assingRoledialogOpen, setassignRoleDialogOpen] = useState(false);
+
   return (
     <>
       <SubCard>
@@ -169,15 +172,22 @@ const ProfileCover = ({ user }: { user: IUser }) => {
                     See all clients connections
                   </Button>
                 ) : (
-                  <Button
-                    sx={{ mt: { xs: 2, md: 0 } }}
-                    size="small"
-                    variant="text"
-                    endIcon={<ArrowForwardTwoToneIcon />}
-                  >
-                    {/* navigate to the clientdetails page */}
-                    Assign To Role/Client
-                  </Button>
+                  <>
+                    <AssignDevsToClient
+                      open={assingRoledialogOpen}
+                      setDialogOpen={() => setassignRoleDialogOpen(false)}
+                    />
+                    <Button
+                      sx={{ mt: { xs: 2, md: 0 } }}
+                      size="small"
+                      variant="text"
+                      endIcon={<ArrowForwardTwoToneIcon />}
+                      onClick={() => setassignRoleDialogOpen(true)}
+                    >
+                      {/* navigate to the clientdetails page */}
+                      Assign To Role/Client
+                    </Button>
+                  </>
                 )}
                 <Box>
                   <ComposeEmail
