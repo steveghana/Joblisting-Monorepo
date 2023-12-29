@@ -29,7 +29,6 @@ const ClientDetails = () => {
     },
     { refetchOnMountOrArgChange: true },
   );
-  console.log(data, 'clkent');
   const tabs = [
     { value: 'projects', label: 'Project' },
     { value: 'tasks', label: 'Tasks' },
