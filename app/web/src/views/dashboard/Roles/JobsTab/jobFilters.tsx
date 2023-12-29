@@ -18,7 +18,6 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
     checked: false,
   }));
   const [checkboxes, setCheckboxes] = React.useState(initialCheckboxes);
-  console.log(openStates);
   const handleButtonClick = (index: number) => {
     setOpenStates((prevStates) => {
       const newStates = [...prevStates];
