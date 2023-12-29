@@ -56,9 +56,7 @@ const ReviewAndSubmit: React.FC<ReviewAndSubmitProps> = ({ onEdit }) => {
           position: 'bottom-center',
         });
       }
-    } catch (error) {
-      console.log(error, 'from eerror');
-    }
+    } catch (error) {}
   };
   return (
     <Formik validationSchema={reviewSchema} initialValues={{ agreedToTerms: false }} onSubmit={() => handleSubmit()}>
