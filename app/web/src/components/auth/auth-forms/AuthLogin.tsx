@@ -79,7 +79,6 @@ const AuthLogin = () => {
       const response = await loginWithGoogle({
         accessToken: codeResponse.access_token,
       }).unwrap();
-      console.log(response, 'tis is the response');
 
       if (response) {
         const { authTokenId, role } = response;
