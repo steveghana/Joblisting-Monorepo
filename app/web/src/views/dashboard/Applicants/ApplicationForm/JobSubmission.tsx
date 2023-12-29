@@ -29,7 +29,6 @@ const JobSubmissionContainer: React.FC = () => {
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const [formData, setFormData] = useState({});
   const { roleid, jobid } = useParams();
-  console.log(roleid, jobid);
   const lockSidebar = false;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
@@ -51,7 +50,6 @@ const JobSubmissionContainer: React.FC = () => {
       const formData = new FormData();
       //  formData.append('file', values.file);
       //  formData.append('otherData', values.otherData);
-      console.log(values);
       if (!roleid && !jobid) {
         return;
       }
@@ -79,7 +77,6 @@ const JobSubmissionContainer: React.FC = () => {
         position: 'bottom-center',
       });
       setIsLoading(false);
-      console.log(error, 'from error');
     }
   };
 
