@@ -21,9 +21,12 @@ export const getAllClients = async (
     ? transaction.getRepository(dependencies.db.models.client)
     : myDataSource.manager.getRepository(dependencies.db.models.client);
 
-  const allClientData = await clientRepository.find({
-    relations: ['roles', 'developers'],
-  });
+  const allClientData = await clientRepository
+    .createQueryBuilder('client')
+    .leftJoinAndSelect('client.roles', 'role')
+    .leftJoinAndSelect('role.jobs', 'job')
+    .leftJoinAndSelect('client.developers', 'developer')
+    .getMany();
 
   const formattedClientData = allClientData.map(({ roles, ...rest }) => ({
     roles: roles.map(({ link, ...others }) => ({
