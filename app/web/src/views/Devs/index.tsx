@@ -21,7 +21,6 @@ const Developers = () => {
   if (isLoading || isFetching) {
     return <TableSkeletonLoader />;
   }
-  console.log(devs);
   return (
     <MainCard>
       <AddDevs open={open} onClose={() => setOpen(false)} />
