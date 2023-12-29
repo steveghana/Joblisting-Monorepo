@@ -46,7 +46,6 @@ const DevTableData = ({
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const [validationErrors, setValidationErrors] = React.useState<Record<string, string | undefined>>({});
-  console.log(devs, 'this dfdfkldjfkdj');
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [cancelInterview, { isLoading: isDeleting }] = useDeletInterviewMutation();
   const [updateUser, { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError }] =
@@ -55,7 +54,6 @@ const DevTableData = ({
   const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] =
     useBulkdeletDevMutation();
   async function cancelinterviewFn(row: MRT_Row<IDev>) {
-    console.log(row.original);
     const deleted = await cancelInterview({
       id: row.original.interview!.id as string,
     }).unwrap();
@@ -68,14 +66,12 @@ const DevTableData = ({
   async function DeletDevFn(row: MRT_Row<IDev>) {
     const asGuest = row.original.interview?.guests.filter((item) => item!.id === row!.original!.id);
     const asCandidate = row.original.interview?.candidate.id === row.original!.id;
-    console.log(row.original, row.id, 'from fn');
     if (asGuest?.length || asCandidate) {
       toast.info('Cannot delete this developer as he is already interviewing', {
         position: 'bottom-center',
       });
       return;
     }
-    console.log(row.original, row.id, 'from fn');
     const response = await deleteDev({
       id: row.original.id as string,
     }).unwrap();
@@ -90,7 +86,6 @@ const DevTableData = ({
     }
   }
   const navigate = useNavigate();
-  console.log(devs, 'thiserfkj');
   const defaultMRTOptions = getDefaultMRTOptions<IDev>(matchUpMd);
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
