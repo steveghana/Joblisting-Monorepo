@@ -19,7 +19,6 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 const App = () => {
   function fallbackRender(props: FallbackProps) {
     // Call resetErrorBoundary() to reset the error boundary and retry the render.
-    console.log(props.error.message);
     return (
       <>
         <Status500 />
