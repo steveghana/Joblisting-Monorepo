@@ -16,7 +16,6 @@ const NewJobForm: React.FC<NewJobFormProps> = ({ open, onClose, roleId }) => {
   const [createJob, { isLoading }] = useAddJobMutation();
 
   const handleSubmit = async (values: any) => {
-    console.log(values);
     try {
       const response = await createJob({ ...values, roleId }).unwrap();
       if (!isLoading && response) {
