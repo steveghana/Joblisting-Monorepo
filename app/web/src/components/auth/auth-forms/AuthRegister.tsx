@@ -185,11 +185,9 @@ const AuthRegister = ({ ...others }) => {
     changePassword('123456');
   }, []);
   useEffect(() => {
-    console.log(data, 'in usefect');
     if (!isLoading) {
       setTimeout(() => {
         const checked = checkRegistration();
-        console.log(checked);
         setRegAvailable(checked);
       }, 3000);
     }
@@ -233,7 +231,6 @@ const AuthRegister = ({ ...others }) => {
             .required('Please enter your phone number'),
         })}
         onSubmit={async (values, setters) => {
-          console.log(values, 'from submitting');
           await register(values, setters, scriptedRef);
         }}
       >
