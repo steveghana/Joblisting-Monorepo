@@ -13,7 +13,6 @@ const DevRow = ({ devs }: IDevs) => {
     <TableBody>
       {devs.map((dev) => {
         // const startDateString = format(new Date(dev.startDate), 'dd MMMM, yyyy');
-        // console.log(dev.stated);
 
         return (
           <TableRow key={dev.id} hover>
