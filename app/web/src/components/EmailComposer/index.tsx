@@ -29,6 +29,9 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { options } from 'numeral';
 import { validateUser } from '@/utils/tablevalidate';
 import { useParams } from 'react-router';
+import axios from 'axios';
+import _api_url from '@/api/_api_url';
+import { toast } from 'react-toastify';
 interface Recipient {
   email: string;
   name: string;
@@ -47,7 +50,6 @@ const validationSchema = Yup.object({
   // Add other validation rules for other fields if needed
 });
 const ComposeEmail = (props: SimpleDialogProps) => {
-  const [to, setTo] = useState<string>('');
   const filter = createFilterOptions<Recipient>();
   const { id } = useParams();
   return (
@@ -68,11 +70,24 @@ const ComposeEmail = (props: SimpleDialogProps) => {
         <Formik
           initialValues={{ subject: '', message: '', recipients: id ? [...props.reciepients] : [] }}
           validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            // Implement your submit logic here
-            console.log(values);
-            props.setDialogOpen(false);
-            actions.setSubmitting(false);
+          onSubmit={async (values, actions) => {
+            try {
+              const url = _api_url.getApiUrl() + '/contact';
+              const response = await axios.post(url, {
+                subject: values.subject,
+                message: values.message,
+                recipients: values.recipients,
+              });
+              if (response.statusText.toLowerCase() === 'ok') {
+                toast.success('Message sent successfully', { position: 'bottom-center' });
+                props.setDialogOpen(false);
+                actions.setSubmitting(false);
+              } else {
+                toast.error('Couldnt send message', { position: 'bottom-center' });
+              }
+            } catch (error) {
+              toast.error('Something went wrong, couldnt send message', { position: 'bottom-center' });
+            }
           }}
         >
           {({ isSubmitting, values }) => (
@@ -111,7 +126,6 @@ const ComposeEmail = (props: SimpleDialogProps) => {
                           if (reason === 'selectOption' || reason === 'removeOption') {
                             form.setFieldValue(field.name, Array.isArray(newValue) ? newValue : [newValue]);
                           } else if (reason === 'createOption') {
-                            console.log(newValue, field.value, 'from create');
                             let newValuelength = newValue?.length || 0;
                             let valueString = newValue![newValuelength - 1] as unknown as string;
                             const valueObj = {
@@ -140,7 +154,6 @@ const ComposeEmail = (props: SimpleDialogProps) => {
                           />
                         )}
                         renderOption={(props, option, { inputValue }) => {
-                          // console.log(inputValue, option);
                           return (
                             <li {...props} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                               <Avatar sizes="small">{option.name ? option.name[0] : inputValue[0]}</Avatar>
