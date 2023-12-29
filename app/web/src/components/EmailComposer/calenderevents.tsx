@@ -71,7 +71,6 @@ const comments = [
 ];
 const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDelete }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  console.log(event);
   // const guestEmails = event.guests.map(guest => guest.email)
   return (
     <Grid
