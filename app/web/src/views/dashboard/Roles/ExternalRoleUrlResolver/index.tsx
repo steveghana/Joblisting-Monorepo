@@ -24,7 +24,6 @@ const ShortUrlPage: React.FunctionComponent = () => {
           params: { shortComponent: shortComponent },
         })
         .then(({ data: longComponent }) => {
-          // console.log(longComponent, "this is the long");
           if (longComponent.startsWith('http:') || longComponent.startsWith('https:')) {
             window.location.replace(longComponent);
           } else {
