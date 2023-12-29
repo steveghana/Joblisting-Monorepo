@@ -8,7 +8,6 @@ import Status404 from '@/views/status/Status404';
 
 const JobInfo = () => {
   const { roleid } = useParams();
-  //   console.log(id);
   const {
     data: role,
     isLoading,
