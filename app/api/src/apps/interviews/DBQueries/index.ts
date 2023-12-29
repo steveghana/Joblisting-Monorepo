@@ -53,7 +53,7 @@ export async function scheduleInterview(
     guests: [...guests],
     ...rest,
   });
-  let data = await interviewRepo.save(newInterview);
+  const data = await interviewRepo.save(newInterview);
 
   return data;
 }
@@ -132,18 +132,24 @@ export function getInterviewById(
     });
 }
 
-export function getAllInterviews(
+export async function getAllInterviews(
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
-  return myDataSource.manager
+  const interviewData = await myDataSource.manager
     .getRepository(dependencies.db.models.interviews)
-    .find({
-      relations: ['guests', 'candidate'],
-    });
+    .createQueryBuilder('interviews')
+    .leftJoinAndSelect('interviews.guests', 'guests')
+    .leftJoinAndSelect('guests.user', 'guestuser')
+    .addSelect(['guestuser.email']) // Select only the 'email' column from the 'user' table for guests
+    .leftJoinAndSelect('interviews.candidate', 'candidate')
+    .leftJoinAndSelect('candidate.user', 'candidateuser')
+    .addSelect(['candidateuser.email']) // Select only the 'email' column from the 'user' table for the candidate
+    .getMany();
+
+  return interviewData;
 }
 export async function cancelInterview(
   interviewId: string,
