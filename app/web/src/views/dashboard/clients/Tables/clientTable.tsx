@@ -71,7 +71,6 @@ const ClientTableData = ({ data, isLoading, isFetching, isError, refetch }: ICli
           table={table}
           actionFn={async () => {
             const roleIds = row.original?.roles!.map((role) => role.id) as string[];
-            console.log(row.original);
             const response = await deleteuser({
               id: row.original.id as string,
               roleIds,
