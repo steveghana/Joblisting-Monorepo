@@ -1,14 +1,10 @@
 // TopToolbar.tsx
-import React from "react";
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
-import { lighten } from "@mui/system";
-import {
-  MRT_GlobalFilterTextField,
-  MaterialReactTable,
-  MRT_ToggleFiltersButton,
-} from "material-react-table";
-import { Delete, Refresh } from "@mui/icons-material";
-import AlertDialog from "../Dialog";
+import React from 'react';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { lighten } from '@mui/system';
+import { MRT_GlobalFilterTextField, MaterialReactTable, MRT_ToggleFiltersButton } from 'material-react-table';
+import { Delete, Refresh } from '@mui/icons-material';
+import AlertDialog from '../Dialog';
 
 interface TopToolbarProps {
   table: any;
@@ -18,12 +14,7 @@ interface TopToolbarProps {
   handleOpenJobForm?: (id: string) => void;
 }
 
-const TopToolbar: React.FC<TopToolbarProps> = ({
-  table,
-  refresh,
-  takeBulkAction,
-  handleOpenJobForm,
-}) => {
+const TopToolbar: React.FC<TopToolbarProps> = ({ table, refresh, takeBulkAction, handleOpenJobForm }) => {
   const [open, setOpen] = React.useState(false);
 
   const [actionIndex, setActionIndex] = React.useState<any>({});
@@ -36,39 +27,29 @@ const TopToolbar: React.FC<TopToolbarProps> = ({
     setOpen(false);
   };
   const _handleTriggerBulkAction = () => {
-    // console.log(table.getSelectedRowModel().flatRows);
     const ids = table.getSelectedRowModel().flatRows.map((row: any) => row.id);
     takeBulkAction(ids);
     table.resetRowSelection(true);
   };
 
-  // console.log(
-  //   table.getIsSomeRowsSelected(),
-  //   table.getIsSomePageRowsSelected(),
-  //   table.getIsAllPageRowsSelected()
-  // );
   return (
     <>
-      <AlertDialog
-        deleteFn={_handleTriggerBulkAction}
-        handleClose={handleClose}
-        open={open}
-      />
+      <AlertDialog deleteFn={_handleTriggerBulkAction} handleClose={handleClose} open={open} />
       <Box
         sx={(theme) => ({
           backgroundColor: lighten(theme.palette.background.default, 0.05),
-          display: "flex",
-          gap: "0.5rem",
-          p: "8px",
-          justifyContent: "space-between",
+          display: 'flex',
+          gap: '0.5rem',
+          p: '8px',
+          justifyContent: 'space-between',
         })}
       >
         <Box>
-          <Box sx={{ display: "flex", gap: "0.5rem" }}>
+          <Box sx={{ display: 'flex', gap: '0.5rem' }}>
             {(table.getIsSomeRowsSelected() ||
               table.getIsSomePageRowsSelected() ||
               table.getIsAllPageRowsSelected()) && (
-              <Box display={"flex"} gap={1} alignItems={"center"}>
+              <Box display={'flex'} gap={1} alignItems={'center'}>
                 <Typography variant="overline" fontWeight={700}>
                   Bulk delete
                 </Typography>
@@ -92,7 +73,7 @@ const TopToolbar: React.FC<TopToolbarProps> = ({
             </IconButton>
           </Tooltip>
         </Box>
-        <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+        <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
           <MRT_GlobalFilterTextField table={table} />
           <MRT_ToggleFiltersButton table={table} />
         </Box>
