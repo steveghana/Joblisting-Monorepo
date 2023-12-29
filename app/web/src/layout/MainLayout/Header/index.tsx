@@ -28,7 +28,6 @@ const Header = ({ handleLeftDrawerToggle }: { handleLeftDrawerToggle: () => void
   // const state = useTypedSelector(state => state);
   const hasToken = sessionStorage.getItem('auth_token');
   if (!hasToken) {
-    console.log(hasToken);
     return (
       <ButtonBase disableRipple>
         <img src={LogoImg} style={{ objectFit: 'contain' }} alt="Logo" width={100} height={50} />
@@ -36,7 +35,6 @@ const Header = ({ handleLeftDrawerToggle }: { handleLeftDrawerToggle: () => void
     );
   }
   const { data, error, isError, isLoading } = useWhoamiQuery();
-  console.log(data, 'woamdfdk');
   if (hasToken && !data && !isLoading) {
     navigate('/auth/login');
   }
