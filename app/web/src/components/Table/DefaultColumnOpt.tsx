@@ -1,13 +1,13 @@
-import { type MRT_RowData, type MRT_TableOptions } from "material-react-table";
+import { type MRT_RowData, type MRT_TableOptions } from 'material-react-table';
 
 //define re-useable default table options for all tables in your app
 export const getDefaultMRTOptions = <TData extends MRT_RowData>(
-  isMobile: boolean
+  isMobile: boolean,
 ): Partial<MRT_TableOptions<TData>> => ({
   //list all of your default table options here
   enableColumnFilterModes: true,
-  createDisplayMode: "modal", //default ('row', and 'custom' are also available)
-  editDisplayMode: "modal", //default ('row', 'cell', 'table', and 'custom' are also available)
+  createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
+  editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
   enableEditing: true,
   enableColumnOrdering: true,
   enableGrouping: true,
@@ -16,17 +16,16 @@ export const getDefaultMRTOptions = <TData extends MRT_RowData>(
   enableRowActions: true,
   // showAlertBanner:false,
   enableRowSelection: true,
-  // // enableRowSelection: (row: MRT_Row) => console.log('ite w'),
   initialState: {
     showColumnFilters: true,
     showGlobalFilter: isMobile ? true : false,
   },
-  paginationDisplayMode: "pages",
-  positionToolbarAlertBanner: "bottom",
+  paginationDisplayMode: 'pages',
+  positionToolbarAlertBanner: 'bottom',
   muiSearchTextFieldProps: {
-    placeholder: "Search all users",
-    sx: { minWidth: "300px" },
-    variant: "outlined",
+    placeholder: 'Search all users',
+    sx: { minWidth: '300px' },
+    variant: 'outlined',
   },
 
   // muiSearchTextFieldProps: {
@@ -34,9 +33,9 @@ export const getDefaultMRTOptions = <TData extends MRT_RowData>(
   //   variant: "outlined",
   // },
   muiPaginationProps: {
-    color: "secondary",
+    color: 'secondary',
     rowsPerPageOptions: [10, 20, 30],
-    shape: "rounded",
-    variant: "outlined",
+    shape: 'rounded',
+    variant: 'outlined',
   },
 });
