@@ -73,8 +73,6 @@ const Interviews = () => {
   // Date: {
   //   format(new Date(interviewDetails.interviewDate), "yyyy-MM-dd");
   // }
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-
   // Assuming the data structure returned by the API has interview details
   //  const interviewDetails = data?.interviewDetails || {};
   const handleDelete = async (id: string) => {
@@ -82,7 +80,6 @@ const Interviews = () => {
       const deleted = await deletinterview({
         id,
       }).unwrap();
-      console.log(deleted, 'response');
       if (deleted) {
         toast.warn('Interview Canceled', {
           position: 'bottom-center',
@@ -97,7 +94,6 @@ const Interviews = () => {
       });
     }
   };
-  console.log(data, 'this is the inerview data');
   const [state, setState] = React.useState(false);
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -115,6 +111,7 @@ const Interviews = () => {
   }
   const ExtractEventFromEvents = ({ event }: { event: Iinterviews }) => {
     let { candidate, guests, id, candidateId, createdAt, ...rest } = event;
+    // All guest and candidates should be merged as one for the for array of guests
     const eventDetails = {
       ...rest,
       guests: guests
@@ -142,7 +139,6 @@ const Interviews = () => {
       />
     );
   };
-  console.log(data, 'interviews');
   return (
     <MainCard title="Event Schedular">
       <Grid container>
