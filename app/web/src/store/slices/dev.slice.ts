@@ -23,11 +23,9 @@ export const fetchDevs = createAsyncThunk('devs/fetchDevs', async (_, { dispatch
   try {
     const url = `${_api_url.getApiUrl()}/developers`;
     const { data } = await axios.get(url);
-    console.log(data, 'from fetch devs');
 
     return data;
   } catch (error) {
-    console.log(error, 'this is the error');
     throw error;
   }
 });
@@ -36,7 +34,7 @@ const devSlice = createSlice({
   name: 'devs',
   initialState,
   reducers: {
-    startFetching: state => {
+    startFetching: (state) => {
       state.isloading = true;
       state.isFetching = true;
       state.isError = false;
@@ -56,9 +54,9 @@ const devSlice = createSlice({
       state.error = action.payload;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     // Handling the async thunk lifecycle
-    builder.addCase(fetchDevs.pending, state => {
+    builder.addCase(fetchDevs.pending, (state) => {
       state.isloading = true;
       state.isFetching = true;
     });
