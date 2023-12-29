@@ -20,7 +20,6 @@ const Shortlisted = () => {
   const handleCloseJobForm = () => {
     setOpenRoleForm(false);
   };
-  console.log(devs, isError, error, isFetching);
   // const hasInterview = devs.
   const columns = useDevsShortlistedColums();
   const navigate = useNavigate();
