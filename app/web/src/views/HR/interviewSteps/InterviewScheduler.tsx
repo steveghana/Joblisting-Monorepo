@@ -57,7 +57,6 @@ const InterviewScheduler: React.FC = () => {
     // await supabase.auth.signOut();
   };
   const createCalendarEvent = async () => {
-    console.log('Creating calendar event');
     const event = {
       summary: eventName,
       description: eventDescription,
@@ -85,7 +84,6 @@ const InterviewScheduler: React.FC = () => {
         body: JSON.stringify(event),
       });
       const data = await response.json();
-      console.log(data);
       toast.success('Event created, check your Google Calendar!');
     } catch (error) {
       console.error('Error creating calendar event:', error);
@@ -106,7 +104,6 @@ const InterviewScheduler: React.FC = () => {
     const guestsInfo = state.filter((guest) =>
       mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
     );
-    console.log(candidateInfo);
     if (!candidateInfo?.id || !guestsInfo.length) {
       toast.warning('A candidate or a guest(s) is required to schedule an event', {
         position: 'bottom-center',
@@ -135,10 +132,8 @@ const InterviewScheduler: React.FC = () => {
       });
     }
 
-    console.log(values);
   };
 
-  console.log(editableApplicant, applicants, interviewers);
   return (
     <div>
       <InterviewFormFields
