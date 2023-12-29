@@ -28,10 +28,7 @@ export const applicantApi = createApi({
         method: 'POST',
         body,
       }),
-      transformResponse: (response: ApplicantsSubmission) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any) => {
         const {
           data: {
@@ -47,10 +44,7 @@ export const applicantApi = createApi({
         url: `applications/${id}`,
         method: 'DELETE',
       }),
-      transformResponse: (response: ApplicantsSubmission) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any) => {
         const {
           data: {
@@ -67,10 +61,7 @@ export const applicantApi = createApi({
         method: 'DELETE',
         body: id,
       }),
-      transformResponse: (response: ApplicantsSubmission) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any) => {
         const {
           data: {
@@ -87,10 +78,7 @@ export const applicantApi = createApi({
         method: 'PATCH',
         body: { status },
       }),
-      transformResponse: (response: ApplicantsSubmission) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any) => {
         const {
           data: {
@@ -107,10 +95,7 @@ export const applicantApi = createApi({
         method: 'GET',
         // body: roleid,
       }),
-      transformResponse: (response: ApplicantsSubmission[]) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any) => {
         const {
           data: {
@@ -127,10 +112,7 @@ export const applicantApi = createApi({
         url: `applications/${id}`,
         method: 'GET',
       }),
-      transformResponse: (response: ApplicantsSubmission) => {
-        console.log(response, 'response from query');
-        return response;
-      },
+
       transformErrorResponse: (response: any) => {
         const {
           data: {
