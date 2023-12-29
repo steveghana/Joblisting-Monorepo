@@ -15,7 +15,6 @@ const ClientDetailsOverview = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
-  console.log(data, 'from voervi');
   if (!data) {
     return <NoData />;
   }
