@@ -73,7 +73,6 @@ export default function MyProfile({ user }: { user: IUser }) {
   const theme = useTheme();
   const experience = [3, 4, 5, 6, 7];
   const [updateUser, { isLoading, isError }] = useUpdateUserMutation();
-  console.log(user);
   const md = useMediaQuery(theme.breakpoints.down('sm'));
   // const tab = useMediaQuery(theme.breakpoints.only("md"));
   return (
@@ -105,7 +104,6 @@ export default function MyProfile({ user }: { user: IUser }) {
             submit: null,
           }}
           onSubmit={async (values, setters) => {
-            console.log(values, 'from submitting');
             try {
               const response = await updateUser({ ...values });
               if (response && !isError) {
