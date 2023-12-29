@@ -82,7 +82,6 @@ const InterviewEdit = () => {
   };
 
   const createCalendarEvent = async () => {
-    console.log('Creating calendar event');
     {
       const event = {
         summary: eventName,
@@ -111,7 +110,6 @@ const InterviewEdit = () => {
         body: JSON.stringify(event),
       });
       const data = await response.json();
-      console.log(data);
       toast.success('Event created, check your Google Calendar!');
     } catch (error) {
       console.error('Error creating calendar event:', error);
@@ -132,7 +130,6 @@ const InterviewEdit = () => {
     const guestsInfo = state.filter((guest) =>
       mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
     );
-    console.log(candidateInfo?.id, value);
     if (!candidateInfo?.id || !guestsInfo.length) {
       toast.warning('A candidate or a guest(s) is required to schedule an event', {
         position: 'bottom-center',
@@ -150,7 +147,6 @@ const InterviewEdit = () => {
           ...rest,
         },
       }).unwrap();
-      console.log(response, 'this is the response');
       if (response && !isUpdateError) {
         dispatch(fetchDevs()); // update the persisted data
         navigate('/devs/interviews');
