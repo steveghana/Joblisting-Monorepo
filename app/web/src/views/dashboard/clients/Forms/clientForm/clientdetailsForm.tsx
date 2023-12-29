@@ -44,7 +44,6 @@ const ProjectInfo = ({ onNext }: { onNext: (data: any, step?: any) => void }) =>
       initialValues={formDataState['Client Info']}
       validationSchema={projectInfoValidationSchema}
       onSubmit={(values) => {
-        console.log({ CompanyInfo: { ...values } }, 'from info');
         dispatch({ type: 'updateclientInfo', payload: values });
         onNext(values);
       }}
