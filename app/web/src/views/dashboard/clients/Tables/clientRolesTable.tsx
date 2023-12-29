@@ -60,7 +60,6 @@ const ClientRoleTable = ({
     renderRowActions: ({ row, table }) => (
       <TableActions
         actionFn={async () => {
-          console.log(row.original, 'action');
           try {
             const response = await deleteRole({ id: row.original.id }).unwrap();
 
