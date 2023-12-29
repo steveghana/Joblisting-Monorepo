@@ -33,7 +33,31 @@ export class InterviewsService {
       if (!interviews.length) {
         return [];
       }
-      return interviews;
+      // const  {g} = interviews
+      return interviews.map((interview) => {
+        const {
+          candidate: { user, ...otherItems },
+          guests,
+          ...rest
+        } = interview;
+        return {
+          ...rest,
+          candidate: {
+            ...otherItems,
+            id: interview.candidate.id,
+            email: interview.candidate.user.email,
+            avatar: user.avatar,
+          },
+          guests: guests.map(({ user, ...rest }, _) => {
+            return {
+              ...rest,
+              id: user.id,
+              email: user.email,
+              avatar: user.avatar,
+            };
+          }),
+        };
+      });
     });
   }
 
