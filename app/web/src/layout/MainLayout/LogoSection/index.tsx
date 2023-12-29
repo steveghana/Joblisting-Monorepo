@@ -12,7 +12,6 @@ import { MENU_OPEN } from '../../../store/actions';
 
 const LogoSection = () => {
   const defaultId = useSelector((state: any) => state.customization?.defaultId);
-  console.log(defaultId, 'from log');
   const hasToken = sessionStorage.getItem('auth_token');
   const lockSidebar = false;
   const dispatch = useDispatch();
