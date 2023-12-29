@@ -38,7 +38,6 @@ export default function ContrySelector({ sx, onChange, name, ...props }: any) {
           autoComplete={false}
           onChange={handleCountryChange}
           // onChange={}
-          // onChange={(e) => console.log(e.target)}
           isOptionEqualToValue={(option, value) => option.code === value.code}
           defaultValue={{ code: 'IL', label: 'Israel', phone: '972' }}
           options={countries}
