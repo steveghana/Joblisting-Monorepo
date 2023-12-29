@@ -11,7 +11,6 @@ import { useParams } from 'react-router';
 const Applicants = ({ roleid }: { roleid: string }) => {
   const { data: applicants, refetch, isError, isLoading, isFetching } = useGetApplicantsQuery({ roleid });
   const { jobid } = useParams();
-  console.log(applicants);
   const filteredApplicantsByJob = applicants?.filter((applicant) => applicant.jobId === jobid);
   if (isLoading || isFetching) {
     return <TransparentScreeProgress />;
