@@ -21,7 +21,6 @@ function RoleAuth() {
   const [helperText, setHelperText] = useState('');
   const [loginUser, { isLoading: isWithGoogleLoading }] = useLoginUserMutation();
   const state = useTypedSelector((state) => state.userApi);
-  console.log('state', state);
   const roles = ['Ceo', 'Recruitment'];
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
