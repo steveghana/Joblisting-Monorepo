@@ -65,7 +65,7 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[]; actionFn: (
       size: 'small',
       variant: 'outlined',
     },
-    createDisplayMode: 'row', //default ('row', and 'custom' are also available)
+    // createDisplayMode: 'row', //default ('row', and 'custom' are also available)
     editDisplayMode: 'row',
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) => handleCreate(item, createApplicant, setValidationErrors),
@@ -75,7 +75,7 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[]; actionFn: (
       // refetch();
     },
 
-    renderDetailPanel: ({ row }) => <TableDetail row={row} />,
+    // renderDetailPanel: ({ row }) => <TableDetail row={row} />,
     renderRowActions: ({ row, table }) => {
       /* I had to extract the row.original from the tab 
       actions componet as passing row directly to alert dialog 
