@@ -25,10 +25,11 @@ const ClientDetails = () => {
   const [currentTab, setCurrentTab] = React.useState<Tabstring>('projects');
   const { data, isError, isLoading, isFetching, refetch } = useGetClientQuery(
     {
-      id,
+      id: id as string,
     },
     { refetchOnMountOrArgChange: true },
   );
+  console.log(data, 'from detials');
   const tabs = [
     { value: 'projects', label: 'Project' },
     { value: 'tasks', label: 'Tasks' },
