@@ -60,6 +60,21 @@ export const devApi = createApi({
         return Array.isArray(message) ? message.join(',') : message;
       },
     }),
+    assignDev: builder.mutation<number, { developerId: string; roleId: string; clientId: string; jobId: string }>({
+      query: ({ developerId }) => ({
+        url: `developers/assign/${developerId}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['devs'],
+      transformErrorResponse: (response: any) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
+      },
+    }),
     bulkdeletDev: builder.mutation<IDev, { id: string[] }>({
       query: ({ id }) => ({
         url: `developers`,
@@ -147,6 +162,7 @@ export const devApi = createApi({
 
 export const {
   useUpdateDevMutation,
+  useAssignDevMutation,
   useUnassignDevMutation,
   useAddDevMutation,
   useDeletDevMutation,
