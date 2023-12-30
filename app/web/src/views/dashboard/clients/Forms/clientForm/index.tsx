@@ -11,6 +11,8 @@ import {
   StepIconProps,
   styled,
   FormHelperText,
+  Tooltip,
+  IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router';
 import CompanyInfo from './clientdetailsForm';
@@ -21,7 +23,17 @@ import { Protect } from '../../../../../components/auth/requireAuth';
 import SubCard from '../../../../../components/SubCard';
 import CustomButton from '../../../../../components/button';
 import { FormDataProvider, useFormData } from '../../../../../contexts/clientFormContext';
-import { Call, Check, GroupAdd, PeopleAlt, Settings, VerifiedUserRounded, VideoLabel, Work } from '@mui/icons-material';
+import {
+  ArrowBackTwoTone,
+  Call,
+  Check,
+  GroupAdd,
+  PeopleAlt,
+  Settings,
+  VerifiedUserRounded,
+  VideoLabel,
+  Work,
+} from '@mui/icons-material';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 const steps = ['Company Info', 'Project Details', 'Additional Data', 'Review and Submit'];
 
@@ -125,7 +137,16 @@ const AddClientForm = () => {
   return (
     <Grid container>
       <Grid item md={12} sm={12}>
-        <Typography variant="h4"></Typography>
+        <Box display="flex" sx={{ background: 'white' }} mb={3} px={2}>
+          <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
+            <IconButton color="primary" sx={{ p: 2, mr: 2, display: 'flex', gap: 3, alignItems: 'center' }}>
+              <ArrowBackTwoTone />
+              <Typography variant="subtitle1" color="text.secondary">
+                Back
+              </Typography>
+            </IconButton>
+          </Tooltip>
+        </Box>
         <Stepper alternativeLabel activeStep={step} connector={<ColorlibConnector />}>
           {steps.map((label) => (
             <Step key={label}>
