@@ -26,6 +26,7 @@ export interface IDev {
   address: string;
   workStatus: 'Active' | 'Not Active';
   role_status: IRoleStatus;
+  startRoleDate?: Date;
   // application: IApplication;
   // In House, Pending Interview, External
   years_of_experience: string;
