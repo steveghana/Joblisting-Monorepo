@@ -118,11 +118,39 @@ export class DevelopersController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async unassignRole(
-    @Body() roleid: string,
+    @Body() body: { roleId: string; clientId: string; jobId: string },
     @Param('id') id: string,
     @Res() res: Response,
   ) {
-    const result = await this.developersService.unassignToRole(id, roleid);
+    const { roleId, clientId, jobId } = body;
+    const result = await this.developersService.unassignToRole(
+      id,
+      roleId,
+      clientId,
+      jobId,
+    );
     return res.json(result[0]);
+  }
+  @Patch('assign/:id')
+  @ApiTags('dlt devs')
+  @ApiOperation({
+    description: 'delete a client from the db',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  async assignRole(
+    @Body() body: { roleId: string; clientId: string; jobId: string },
+    @Param('id') id: string,
+    @Res() res: Response,
+  ) {
+    const { roleId, clientId, jobId } = body;
+    const result = await this.developersService.assignToRole(
+      id,
+      roleId,
+      clientId,
+      jobId,
+    );
+    return res.json(result);
   }
 }
