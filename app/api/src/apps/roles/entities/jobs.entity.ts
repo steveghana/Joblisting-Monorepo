@@ -25,7 +25,7 @@ export class Job extends AssociableModel {
   applicant: Application;
   @ManyToOne((type) => Developer, (dev) => dev.job)
   @JoinColumn({ name: 'developer_id' })
-  developer: Developer;
+  developer: Developer[];
   @Column()
   description: string;
   @Column({ nullable: true })
