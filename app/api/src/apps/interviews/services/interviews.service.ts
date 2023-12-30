@@ -12,6 +12,13 @@ export class InterviewsService {
   create(createInterviewDto: CreateInterviewDto) {
     // createInterviewDto.
     return useTransaction(async (transaction) => {
+      const dev = await Developers.getById(createInterviewDto.candidateId);
+      if (dev.candidate) {
+        throw new HttpException(
+          `This candidate ${dev.candidate.candidate.firstName} is already in an interview process`,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       const interviewResponse = await Interviews.createInterviews(
         createInterviewDto,
         transaction,
