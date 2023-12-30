@@ -1,9 +1,20 @@
-import { Avatar, ButtonBase, Container, Grid, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
+import {
+  Avatar,
+  ButtonBase,
+  Container,
+  Grid,
+  IconButton,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import SubCard from '../../../../components/SubCard';
 import React, { ChangeEvent, useState } from 'react';
 import { Box, styled, useTheme } from '@mui/system';
 import RoleDetails from '../components/roledetails';
-import { Close } from '@mui/icons-material';
+import { ArrowBackTwoTone, Close } from '@mui/icons-material';
 import { themePalette } from '@/themes/schemes/palette';
 import JobsPage from '../JobsTab';
 import { useGetRoleQuery } from '@/store/services/role.service';
@@ -12,6 +23,7 @@ import { IRoleData } from '@/types/roles';
 import { IClient } from '@/types/client';
 import MainCard from '@/components/MainCard';
 import Applicants from '../../Applicants/Tables/applicants';
+import { useNavigate } from 'react-router';
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -25,6 +37,7 @@ type IRoleTabs = {
 };
 const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const isLargerScreen = useMediaQuery(theme.breakpoints.up('md'));
   const [currentTab, setCurrentTab] = React.useState<string>('overview');
@@ -50,6 +63,13 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
       <Grid position={'relative'}>
         <SubCard>
           <Container maxWidth="xl">
+            <Box display="flex">
+              <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
+                <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+                  <ArrowBackTwoTone />
+                </IconButton>
+              </Tooltip>
+            </Box>
             <Grid
               // item
               container
@@ -96,17 +116,19 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
                 </TabsWrapper>
               </Grid>
 
-              <Grid lg={12}>
+              <Grid lg={12} xs={12}>
                 {currentTab === 'overview' && <RoleDetails setCurrentTab={setCurrentTab} role={role as IRoleData} />}
                 {currentTab === 'jobs' && (
                   <JobsPage job={role!.jobs} client={role!.client as IClient} roleId={role!.id as string} />
                 )}
                 {currentTab === 'applicants' && (
-                  <MainCard>
-                    <Grid container lg={12} overflow={'auto'}>
+                  // <MainCard>
+                  <Grid container spacing={3} overflow={'auto'}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <Applicants roleid={role!.id as string} />
                     </Grid>
-                  </MainCard>
+                  </Grid>
+                  // </MainCard>
                 )}
               </Grid>
             </Grid>
