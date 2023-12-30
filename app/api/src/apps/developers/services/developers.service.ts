@@ -13,7 +13,7 @@ import Roles from '../../../apps/roles/dataManager';
 import cryptoUtil from '../../../util/crypto';
 import { getAllDevs } from '../DBQueries';
 import User from '../../auth/dataManager/userEntity';
-import { IDev } from '../../../types/developer';
+import { IDev, IRoleStatus } from '../../../types/developer';
 import { DeveloperAcceptedEmailDraft } from '../../../util/email/emailtexts';
 import Interviews from '../../../apps/interviews/dataManager';
 import { Role } from '@/apps/roles/entities/role.entity';
@@ -40,7 +40,7 @@ export class DevelopersService {
       years_of_experience,
     } = createDeveloperDto;
     const role = roleId ? await Roles.getById(roleId) : null;
-    if (!role && roleId) {
+    if (!role?.id && roleId) {
       throw new HttpException(
         'The role you are about to assign a new developer to doesnt exist',
         HttpStatus.BAD_REQUEST,
@@ -49,7 +49,6 @@ export class DevelopersService {
     const dummyTemporalPassword = await generateAlphanumeric(7);
 
     const passwordHash = await this.hashPassword(dummyTemporalPassword);
-
     if (!passwordHash) {
       throw new HttpException(
         'Failed to hash the password',
@@ -84,7 +83,6 @@ export class DevelopersService {
         },
         transaction,
       );
-
       const devEnrolled = await Developers.enrollDev(
         {
           roles: role || null,
@@ -97,12 +95,23 @@ export class DevelopersService {
           phone_number,
           user,
           role_status,
-          workStatus: role?.client?.id ? 'Active' : 'Not Active',
+          workStatus:
+            role?.client?.id && role_status === 'Accepted'
+              ? 'Active'
+              : 'Not Active',
           skills,
           years_of_experience,
         },
         transaction,
       );
+      // if (createDeveloperDto.role_status === 'Accepted') {
+      //   await Developers.assignToRole(
+      //     devEnrolled.id,
+      //     role.id,
+      //     role.client.id,
+      //     transaction,
+      //   );
+      // }
       if (
         createDeveloperDto.role_status === 'Accepted' ||
         createDeveloperDto.role_status === 'InHouse' ||
@@ -137,7 +146,7 @@ export class DevelopersService {
         return [];
       }
       // console.log(data);
-
+      // console.log(data, 'from dev');
       return data.map((item) => ({
         id: item.id,
         firstName: item?.user?.firstName,
@@ -152,7 +161,7 @@ export class DevelopersService {
         rolestatus: item?.role_status,
         experience: +item?.years_of_experience,
         salary: item?.salary,
-        startDate: item?.createdAt,
+        startDate: item?.startRoleDate,
         projectName: item?.client?.projectTitle,
         avatar: item?.user?.avatar,
       }));
@@ -175,9 +184,26 @@ export class DevelopersService {
     dependencies: Dependencies = null,
   ) {
     return useTransaction(async (transaction) => {
-      const data = await Developers.update(id, updateDevDto, transaction);
-
       const dev = await Developers.getById(id, dependencies);
+      if (!dev) {
+        throw new HttpException(
+          'Couldnt find the developer you are trying to update',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const data = await Developers.update(
+        id,
+        {
+          ...updateDevDto,
+          startRoleDate:
+            updateDevDto.workStatus === 'Active' &&
+            dev.workStatus === 'Not Active'
+              ? new Date()
+              : dev.startRoleDate,
+        },
+        transaction,
+      );
+
       if (dev?.candidate?.id) {
         const interviewCancel = await Interviews.cancleInterview(
           dev.candidate.id,
@@ -186,7 +212,11 @@ export class DevelopersService {
           return;
         }
       }
-      if (updateDevDto.role_status === 'Accepted') {
+      if (
+        updateDevDto.role_status === 'Accepted' ||
+        updateDevDto.role_status === 'InHouse' ||
+        updateDevDto.role_status === 'External'
+      ) {
         const sent = await DeveloperAcceptedEmailDraft(dev, dependencies);
         console.log(sent);
       }
@@ -231,11 +261,11 @@ export class DevelopersService {
       return deleted;
     });
   }
-  unassignToRole(id: string, roleId: string) {
+  unassignToRole(id: string, roleId: string, clientId: string, jobId: string) {
     return useTransaction(async (transaction) => {
       const { developers } = await Roles.getById(roleId);
       const devInRole = developers.filter((developers) => developers.id === id);
-      if (!!devInRole.length) {
+      if (!devInRole.length) {
         throw new HttpException(
           'The developer you are trying to unassign to a role is not available. Please try again later',
           HttpStatus.BAD_REQUEST,
@@ -244,6 +274,8 @@ export class DevelopersService {
       const unassigned = await Developers.unassignToRole(
         id,
         roleId,
+        clientId,
+        jobId,
         transaction,
       );
       if (!unassigned) {
@@ -253,6 +285,45 @@ export class DevelopersService {
         );
       }
       return unassigned;
+    });
+  }
+  assignToRole(id: string, roleId: string, clientId: string, jobId: string) {
+    return useTransaction(async (transaction) => {
+      const { developers } = await Roles.getById(roleId);
+      const { developer: exisingDev } = await User.getById(id);
+      if (!exisingDev) {
+        throw new HttpException(
+          'Developer you are trying to assign to a role doesnt exist',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const developerAlreadyAssigned = developers.filter(
+        (developers) => developers.id === exisingDev.id,
+      );
+      if (developerAlreadyAssigned.length > 0) {
+        throw new HttpException(
+          'Developer has already been assigned to this role',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const assigned = await Developers.assignToRole(
+        exisingDev.id,
+        roleId,
+        clientId,
+        transaction,
+      );
+      if (!assigned) {
+        throw new HttpException(
+          'Something went wrong, couldnt assign developer to role. Please try again later',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const { affected } = await Developers.update(
+        exisingDev.id,
+        { workStatus: 'Active', startRoleDate: new Date() },
+        transaction,
+      );
+      return affected;
     });
   }
   bulkremove(ids: string[]) {
