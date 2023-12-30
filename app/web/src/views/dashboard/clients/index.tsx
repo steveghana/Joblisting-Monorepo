@@ -1,8 +1,8 @@
-import { Avatar, Button, ButtonBase, Divider, Grid, GridTypeMap, Typography } from '@mui/material';
+import { Avatar, Button, ButtonBase, Divider, Grid, GridTypeMap, IconButton, Tooltip, Typography } from '@mui/material';
 import MainCard from '../../../components/MainCard';
 import SubCard from '../../../components/SubCard';
 import { Box } from '@mui/system';
-import { BlockOutlined, MessageRounded, MoreHoriz } from '@mui/icons-material';
+import { ArrowBackTwoTone, BlockOutlined, MessageRounded, MoreHoriz } from '@mui/icons-material';
 import CustomButton from '../../../components/button';
 import { useNavigate } from 'react-router';
 import { Protect } from '../../../components/auth/requireAuth';
@@ -41,6 +41,13 @@ const Clients = () => {
 
   return (
     <MainCard title={'Clients'}>
+      <Box display="flex" mb={3}>
+        <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
+          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+            <ArrowBackTwoTone />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <CustomButton text="Add new Client" onClick={() => navigate('/dashboard/customers/clients/add')} />
 
       {renderContent()}
