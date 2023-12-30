@@ -67,7 +67,8 @@ export class Developer extends AssociableModel {
   guestInterviews: Interview[];
   @OneToMany((type) => ClockHours, (clockHours) => clockHours.developer)
   clockHours: ClockHours[];
-
+  @Column({ default: new Date() })
+  startRoleDate!: Date;
   // @OneToMany((type) => Application, (application) => application.developer)
   // applications: Application[];
 }
