@@ -122,7 +122,7 @@ const InterviewFormFields = ({
                     </Typography>
                   </Grid>
                   <Grid item lg={12} md={12} sm={12} xs={12}>
-                    {_applicants?.length && (
+                    {_applicants?.length > 0 && (
                       <FormControl fullWidth>
                         <InputLabel id="role-label">Select applicant</InputLabel>
                         <Field
