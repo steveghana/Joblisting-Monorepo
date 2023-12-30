@@ -46,8 +46,9 @@ export const useDevsColums = () => {
             accessorFn: (originalRow) => originalRow.workStatus, //must be strings
             id: 'isActive',
             filterVariant: 'select',
+            enableEditing: false,
             Cell: ({ cell }) => <Box>{cell.getValue<string>()}</Box>,
-            size: 100,
+            size: 50,
           },
           {
             accessorKey: 'email', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
@@ -129,6 +130,7 @@ export const useDevsColums = () => {
             id: 'startDate',
             header: 'Start Date',
             filterVariant: 'date',
+            enableEditing: false,
             filterFn: 'lessThan',
             sortingFn: 'datetime',
             Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(), //render Date as a string
