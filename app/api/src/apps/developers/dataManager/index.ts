@@ -6,6 +6,7 @@ import {
   enrollDev,
   getDevById,
   deleteDev,
+  assignToRole,
   updateDev,
   bulkdeleteDevs,
   unassignToRole,
@@ -27,24 +28,35 @@ class Developers {
     dependencies: Dependencies = null,
   ): Promise<IDev> {
     dependencies = injectDependencies(dependencies, ['db']);
+    let devsWithoutAdditonalApplicantsInfo;
+    if (devData.roles) {
+      const {
+        roles: { client, application, ...rest },
+        ...otheritems
+      } = devData;
+      devsWithoutAdditonalApplicantsInfo = {
+        roles: { ...client, ...rest },
+        ...otheritems,
+      };
+    } else {
+      devsWithoutAdditonalApplicantsInfo = devData;
+    }
     const newApplication = new Developers(dependencies);
-
-    newApplication.data = await enrollDev(devData, transaction, dependencies);
+    newApplication.data = await enrollDev(
+      devsWithoutAdditonalApplicantsInfo,
+      transaction,
+      dependencies,
+    );
     return newApplication.data;
   }
   static async update(
-    applicantId: string,
-    applicantion: Partial<IDev>,
+    devId: string,
+    devInfo: Partial<IDev>,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
   ) {
     dependencies = injectDependencies(dependencies, ['db']);
-    return await updateDev(
-      applicantId,
-      applicantion,
-      transaction,
-      dependencies,
-    );
+    return await updateDev(devId, devInfo, transaction, dependencies);
   }
   static async getById(
     id: string,
@@ -66,11 +78,30 @@ class Developers {
   static async unassignToRole(
     devId: string,
     roleid: string,
+    clientId: string,
+    jobId: string,
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<number> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
-    return await unassignToRole(devId, roleid, transaction, dependencies);
+    return await unassignToRole(
+      devId,
+      roleid,
+      clientId,
+      jobId,
+      transaction,
+      dependencies,
+    );
+  }
+  static async assignToRole(
+    id: string,
+    roleid: string,
+    clientId: string,
+    transaction: EntityManager = null,
+    dependencies: Dependencies = null,
+  ) {
+    dependencies = injectDependencies(dependencies, ['db']);
+    return await assignToRole(id, roleid, clientId, transaction, dependencies);
   }
   static async bulkdestroy(
     devId: string[],
