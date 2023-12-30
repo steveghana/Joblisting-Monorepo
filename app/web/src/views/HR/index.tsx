@@ -9,6 +9,9 @@ import { fetchDevs } from '../../store/slices/dev.slice';
 import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
 import { toast } from 'react-toastify';
 import DevTableData from '../Devs/Tables/DevColumns';
+import MainCard from '@/components/MainCard';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { ArrowBackTwoTone } from '@mui/icons-material';
 
 const Shortlisted = () => {
   // const { devs, error, isError, isFetching, isloading } = useTypedSelector(
@@ -38,26 +41,35 @@ const Shortlisted = () => {
     return <NoData />;
   }
   return (
-    <DevTableData
-      handleOpenInterviewForm={(id) => {
-        if (!areGuestsAvailable) {
-          toast.warn('Please add fulltime devs before scheduling interviews with candidates', {
-            position: 'bottom-center',
-          });
-          return;
+    <MainCard>
+      <Box display="flex" mb={3}>
+        <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
+          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+            <ArrowBackTwoTone />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <DevTableData
+        handleOpenInterviewForm={(id) => {
+          if (!areGuestsAvailable) {
+            toast.warn('Please add fulltime devs before scheduling interviews with candidates', {
+              position: 'bottom-center',
+            });
+            return;
+          }
+          navigate(`/hr/interviews/${id}`);
+        }}
+        tableType="Shortlist"
+        columns={columns}
+        devs={devsShortlistedData}
+        refetch={
+          () => refetch() // update the persisted state
         }
-        navigate(`/hr/interviews/${id}`);
-      }}
-      tableType="Shortlist"
-      columns={columns}
-      devs={devsShortlistedData}
-      refetch={
-        () => refetch() // update the persisted state
-      }
-      isLoading={isLoading}
-      isError={isError}
-      isFetching={isFetching}
-    />
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+      />
+    </MainCard>
   );
 };
 export default Shortlisted;
