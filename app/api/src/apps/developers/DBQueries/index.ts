@@ -17,7 +17,6 @@ export async function enrollDev(
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const userRepo = transaction.getRepository(dependencies.db.models.user);
   const { user, devProfession, ...rest } = devDataset;
-  console.log(devProfession);
   const newUser = await userRepo.create({
     ...user,
     role: 'Developer',
@@ -36,10 +35,11 @@ export const getAllDevs = async (
   dependencies: Dependencies = null,
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
-
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+  const devs = await devRepo.find({ relations: ['client', 'roles', 'job'] });
+  console.log(devs, 'thise are the devs');
   // Fetch developers with roles, client, user, job, and guest interviews
-  const developersWithInterviews = await transaction
-    .getRepository(dependencies.db.models.developer)
+  const developersWithInterviews = await devRepo
     .createQueryBuilder('developer')
     .leftJoinAndSelect('developer.roles', 'roles')
     .leftJoinAndSelect('developer.client', 'client')
@@ -114,13 +114,18 @@ export async function updateDev(
   dependencies: Dependencies = null,
 ) {
   dependencies = injectDependencies(dependencies, ['db']);
-  const applicationRepo = transactionParam.getRepository(
+  const devRepo = transactionParam.getRepository(
     dependencies.db.models.developer,
   );
   return await ensureTransaction(
     transactionParam,
     async (transaction) => {
-      const data = await applicationRepo.update({ id }, { ...updates });
+      const data = await devRepo.update(
+        { id },
+        {
+          ...updates,
+        },
+      );
       return data;
     },
     dependencies,
@@ -142,42 +147,95 @@ export async function deleteDev(
   return affected;
 }
 export async function unassignToRole(
-  id: string,
+  devId: string,
   roleId: string,
+  clientId: string,
+  jobId: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
-): Promise<number> {
+) {
   dependencies = injectDependencies(dependencies, ['db']);
   const developerRepo = transaction.getRepository(
     dependencies.db.models.developer,
   );
   const rolesRepo = transaction.getRepository(dependencies.db.models.role);
+  const clientRepo = transaction.getRepository(dependencies.db.models.client);
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+  const existingRole = await rolesRepo.findOne({ where: { id: roleId } });
+  const existingClient = await clientRepo.findOne({ where: { id: clientId } });
   const _rolesWithoutCurrentDeveloper = (
     await rolesRepo.findOne({ where: { id: roleId } })
-  ).developers.filter((d) => d.id !== id);
-  const { affected: roleUpdated } = await rolesRepo.update(
-    { id: roleId },
-    { developers: _rolesWithoutCurrentDeveloper },
-  );
-  if (!roleUpdated) {
-    throw new HttpException(
-      'Couldnt unassign developer, please try again later',
-      HttpStatus.BAD_REQUEST,
-    );
+  ).developers.filter((d) => d.id !== devId);
+  const _clientWithoutCurrentDeveloper = (
+    await rolesRepo.findOne({ where: { id: clientId } })
+  ).developers.filter((d) => d.id !== devId);
+  const existingDev = await devRepo.findOne({ where: { id: devId } });
+  if (!existingRole?.developers?.length) {
+    existingRole.developers = [..._rolesWithoutCurrentDeveloper];
   }
-  const { affected } = await developerRepo.update(
-    { id },
-    { roles: null, workStatus: 'Not Active' },
-  );
 
-  return affected;
+  if (!existingClient?.developers?.length) {
+    existingClient.developers = [..._clientWithoutCurrentDeveloper];
+  }
+  await rolesRepo.save(existingRole);
+  await clientRepo.save(existingClient);
+  const developerSaved = await developerRepo.save(existingDev);
+
+  return developerSaved;
 }
+export async function assignToRole(
+  id: string,
+  roleId: string,
+  clientId: string,
+  transaction: EntityManager = null,
+  dependencies: Dependencies = null,
+) {
+  dependencies = injectDependencies(dependencies, ['db']);
+  const developerRepo = transaction.getRepository(
+    dependencies.db.models.developer,
+  );
+  const rolesRepo = transaction.getRepository(dependencies.db.models.role);
+  const clientRepo = transaction.getRepository(dependencies.db.models.client);
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
+
+  const existingRole = await rolesRepo.findOne({
+    where: { id: roleId },
+    relations: ['developers'],
+  });
+  const existingClient = await clientRepo.findOne({
+    where: { id: clientId },
+    relations: ['developers'],
+  });
+  const existingDev = await devRepo.findOne({ where: { id } });
+
+  // console.log(typeof existingRole.developers)
+  // Assuming you have a ManyToMany relationship between Developer and Role
+  if (!existingRole?.developers?.length) {
+    existingRole.developers = [existingDev];
+  } else {
+    existingRole.developers = [...existingRole.developers, existingDev];
+  }
+  // Assuming you have a ManyToMany relationship between Client and Developer
+  if (!existingClient?.developers?.length) {
+    existingClient.developers = [existingDev];
+  } else {
+    existingClient.developers = [...existingClient.developers, existingDev];
+  }
+
+  // Assuming you have a ManyToOne relationship between Job and Developer
+  // Save the updated entities to the database
+  await rolesRepo.save(existingRole);
+  const devAssigned = await clientRepo.save(existingClient);
+  return devAssigned;
+}
+
 export async function bulkdeleteDevs(
   id: string[],
   transaction: EntityManager,
   dependencies: Dependencies = null,
 ) {
   dependencies = injectDependencies(dependencies, ['db']);
+  const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const deleted = await Promise.all(
     devRepo.delete({
