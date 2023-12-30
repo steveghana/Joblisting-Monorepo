@@ -27,7 +27,7 @@ import { useDeletInterviewMutation, useGetInterviewsQuery } from '../../../store
 import React from 'react';
 import NoData from '../../../components/NoData';
 import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
-import { ExpandMore, Settings } from '@mui/icons-material';
+import { ArrowBackTwoTone, ExpandMore, Settings } from '@mui/icons-material';
 import CustomButton from '../../../components/button';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { toast } from 'react-toastify';
@@ -141,6 +141,13 @@ const Interviews = () => {
   };
   return (
     <MainCard title="Event Schedular">
+      <Box display="flex">
+        <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
+          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+            <ArrowBackTwoTone />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <Grid container>
         <Grid item xs={12}>
           <Grid item xs={12}>
@@ -148,45 +155,44 @@ const Interviews = () => {
               Interview Details
             </Typography>
           </Grid>
-          {!data?.length && (
-            <Box
-              sx={{
-                display: 'flex',
-                width: '100%',
-                gap: 1,
-                px: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
+          {/* {!data?.length && ( */}
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              gap: 1,
+              px: 1,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            <CustomButton
+              text="+ New Event"
+              onClick={() => {
+                !allDevsAndApplicants.length ||
+                !allDevsAndApplicants.filter((dev) => dev.rolestatus === 'Pending').length
+                  ? toast.warn('add developers or new shortlisted candidates before scheduling an event', {
+                      position: 'top-center',
+                    })
+                  : navigate('/hr/interviews/create');
               }}
-            >
-              <CustomButton
-                text="+ New Event"
-                onClick={() => {
-                  !allDevsAndApplicants.length
-                    ? toast.warn('add devs before scheduling an event', { position: 'top-center' })
-                    : navigate('/hr/interviews/create');
-                }}
-                sx={{ marginLeft: 'auto' }}
-              />
-              <AnimateButton type="rotate">
-                {/* <Settings /> */}
-                <img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="" style={{ width: '25px' }} />
-              </AnimateButton>
-            </Box>
-          )}
+              sx={{ marginLeft: 'auto' }}
+              endIcon={<Settings />}
+            />
+          </Box>
+          {/* )} */}
           {!data?.length ? (
             <NoData />
           ) : (
             <Box>
               <SubCard>
-                {data.map((item) => (
-                  <Grid container spacing={3} key={item.id}>
-                    {/* Header */}
-
-                    <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
-                      <ExtractEventFromEvents event={item} />
-                    </Drawer>
-                    <Grid item xs={12} sx={{ cursor: 'pointer' }}>
+                <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
+                  <ExtractEventFromEvents event={item} />
+                </Drawer>
+                {/* Header */}
+                <Grid container spacing={2} sx={{ cursor: 'pointer' }}>
+                  {data.map((item) => (
+                    <Grid item xs={12} sm={12} md={6} lg={6} key={item.id}>
                       <Paper
                         elevation={3}
                         sx={{
@@ -195,11 +201,12 @@ const Interviews = () => {
                           display: 'flex',
                           alignItems: 'start',
                           background: themePalette.primary.main,
+                          my: 1,
                         }}
                       >
                         <Box width={'100%'}>
                           <Grid container onClick={(e) => toggleDrawer(true)(e)} spacing={2}>
-                            <Grid sx={{ color: 'white' }} item xs={6} mb={2}>
+                            <Grid sx={{ color: 'white' }} item xs={12} mb={2}>
                               <Typography
                                 variant="subtitle1"
                                 display={'flex'}
@@ -214,6 +221,7 @@ const Interviews = () => {
                                 variant="subtitle1"
                                 color={'white'}
                                 display={'flex'}
+                                flexWrap={'wrap'}
                                 alignItems={'center'}
                                 gap={1}
                               >
@@ -237,7 +245,8 @@ const Interviews = () => {
                                 alignItems={'center'}
                                 gap={1}
                               >
-                                Time: <ClockIcon color="disabled" fontSize="small" /> {interviewDetails.interviewTime}
+                                Time: <ClockIcon color="disabled" fontSize="small" />{' '}
+                                {new Date(item.starttime).toLocaleTimeString()}
                               </Typography>
                               <Typography
                                 color={'white'}
@@ -245,8 +254,9 @@ const Interviews = () => {
                                 display={'flex'}
                                 alignItems={'center'}
                                 gap={1}
+                                sx={{ wordBreak: 'keep-all' }}
                               >
-                                Location: {interviewDetails.location}
+                                Location: {item.eventOption}
                               </Typography>
                             </Grid>
                             {/* Additional interview details can be added here */}
@@ -308,8 +318,8 @@ const Interviews = () => {
                         </Tooltip> */}
                       </Paper>
                     </Grid>
-                  </Grid>
-                ))}
+                  ))}
+                </Grid>
               </SubCard>
             </Box>
           )}
