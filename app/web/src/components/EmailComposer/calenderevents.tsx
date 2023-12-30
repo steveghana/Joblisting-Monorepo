@@ -106,7 +106,13 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
         <Stack>
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <EventIcon sx={{ color: '#4285F4' }} />
-            <ListItemText primary="Event Title" secondary={event.eventType} />
+            <ListItemText
+              primary="Event Title"
+              secondary={`${event.eventType.toUpperCase()} Interview with 
+              ${event.guests[event.guests.length - 1].name} 
+              on ${new Date(event.startDate).toLocaleDateString()} 
+              at ${new Date(event.starttime).toLocaleTimeString()} `}
+            />
           </ListItem>
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <EventIcon sx={{ color: '#4285F4' }} />
@@ -167,36 +173,6 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
               ))}
             </Box>
           </ListItem>
-          <Accordion defaultExpanded>
-            <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography variant="subtitle1" component={'animate'}>
-                Comments
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {comments.map((comment, index) => (
-                <Grid>
-                  <Box key={index} style={{ marginBottom: '10px' }}>
-                    <Typography variant="subtitle1">
-                      <strong>{comment.author}:</strong> {comment.text}
-                    </Typography>
-                  </Box>
-                </Grid>
-              ))}
-              <form>
-                <TextField label="Your Name" variant="outlined" fullWidth style={{ marginBottom: '10px' }} />
-                <TextField
-                  label="Add a Comment"
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={3}
-                  style={{ marginBottom: '10px' }}
-                />
-                <CustomButton variant="contained" color="primary" type="submit" text="Add Comment" />
-              </form>
-            </AccordionDetails>
-          </Accordion>
           {/* <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <PersonIcon sx={{ color: '#0F9D58' }} />
             <ListItemText primary="Host" secondary={event.host} />
