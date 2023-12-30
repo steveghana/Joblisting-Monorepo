@@ -5,7 +5,7 @@ import MainCard from '@/components/MainCard';
 import FullscreenProgress, { TransparentScreeProgress } from '@/components/FullscreenProgress/FullscreenProgress';
 import NoData from '@/components/NoData';
 import { useGetApplicantsQuery } from '@/store/services/application.service';
-import { Box } from '@mui/material';
+import { Box, Grid, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router';
 
 const Applicants = ({ roleid }: { roleid: string }) => {
@@ -22,11 +22,7 @@ const Applicants = ({ roleid }: { roleid: string }) => {
       </Box>
     );
   }
-  return (
-    <MainCard>
-      <ApplicantTable applicants={filteredApplicantsByJob as ApplicantsSubmission[]} actionFn={() => refetch()} />
-    </MainCard>
-  );
+  return <ApplicantTable applicants={filteredApplicantsByJob as ApplicantsSubmission[]} actionFn={() => refetch()} />;
 };
 
 export default Applicants;
