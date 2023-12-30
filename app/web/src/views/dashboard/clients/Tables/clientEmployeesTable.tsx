@@ -33,7 +33,6 @@ interface IClientDevs {
 function ClientEmployees({ devs }: IClientDevs) {
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
