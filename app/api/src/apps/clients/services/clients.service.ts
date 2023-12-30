@@ -101,8 +101,14 @@ export class ClientsService {
         return null;
       }
       const { developers, ...rest } = data.data;
+      console.log(data, 'this is the client info');
       const devInfo = developers
-        .filter((dev) => dev.role_status === 'Accepted')
+        .filter(
+          (dev) =>
+            dev.role_status === 'Accepted' ||
+            dev.role_status === 'External' ||
+            dev.role_status === 'InHouse',
+        )
         .map((dev) => ({
           id: dev.id,
           salary: dev.salary,
