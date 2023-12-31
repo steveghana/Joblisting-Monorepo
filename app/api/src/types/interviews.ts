@@ -16,9 +16,16 @@ export interface Iinterviews {
   startDate: Date;
   endDate: Date;
   candidate?: IDev;
+  comments?: TInterviewComment[];
 
   createdAt?: Date;
   updatedAt?: Date;
 
   status: 'Scheduled' | 'Completed' | 'Canceled'; //
 }
+export type TInterviewComment = {
+  name: string;
+  message: string;
+  // interviewerId: string;
+  interviewId?: string;
+};

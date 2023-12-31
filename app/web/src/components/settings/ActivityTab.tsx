@@ -14,7 +14,7 @@ import { IconMail } from '@tabler/icons-react';
 
 import { Box } from '@mui/system';
 import { themePalette } from '../../themes/schemes/palette';
-import { userDetailsFields } from './userdata';
+// import { userDetailsFields } from './userdata';
 import { useState } from 'react';
 import Text from '../Text';
 import Label from '../Label';
@@ -31,7 +31,15 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
 }));
 function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }) {
   const [isdev, setisdev] = useState(true);
-
+  const parsedLocation = JSON.parse(user.location);
+  const userDetailsFields = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    // phone: 'Phone',
+    role: user.role,
+    location: user.location && parsedLocation.label ? parsedLocation.label : 'unknown',
+  };
   return (
     <MainCard>
       <Grid container>
@@ -83,7 +91,9 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                   <MuiTypography fontWeight={700} variant="body2" component={'legend'} mr={'auto'}>
                     Location
                   </MuiTypography>
-                  <MuiTypography variant="caption">unknown</MuiTypography>
+                  <MuiTypography variant="caption">
+                    {user.location && parsedLocation.label ? parsedLocation.label : 'unknown'}
+                  </MuiTypography>
                 </Box>
                 <Divider sx={{ margin: '1rem 0' }} />
                 {insettings && (
@@ -175,7 +185,7 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                               </Grid>
                               <Grid item xs={12} sm={8} md={9}>
                                 <Text color="black">
-                                  <b>demo@example.com</b>
+                                  <b>{user.email}</b>
                                 </Text>
                               </Grid>
                             </Grid>
@@ -204,7 +214,8 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                     Personal Details
                   </MuiTypography>
                   <Divider sx={{ margin: '1rem 0' }} />
-                  {/* {Object.keys(userDetailsFields).map((field) => (
+
+                  {Object.keys(userDetailsFields).map((field) => (
                     <Grid display={'flex'} my={1.5}>
                       <MuiTypography variant="body2" component={'legend'} sx={{ minWidth: '40%' }} fontWeight={700}>
                         {field}
@@ -219,7 +230,7 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                         <MuiTypography textAlign={'left'}>{userDetailsFields[field]}</MuiTypography>
                       </Box>
                     </Grid>
-                  ))} */}
+                  ))}
                 </Grid>
               </Grid>
             </SubCard>

@@ -27,6 +27,7 @@ function ManagementUserProfile() {
     toast.error('Error user wasnt found');
     return <NoData />;
   }
+
   // Store google information on the backend as simeple json and parse to use in profile page
   return (
     <>

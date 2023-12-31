@@ -60,7 +60,7 @@ const ClientTableData = ({ data, isLoading, isFetching, isError, refetch, column
     muiTableBodyCellProps: ({ row }) => ({
       onClick: (event) => {
         event.stopPropagation();
-        // navigate(`/dashboard/customers/clients/${row.id}`);
+        navigate(`/dashboard/customers/clients/${row.id}`);
       },
       sx: {
         cursor: 'pointer', //you might want to change the cursor too when adding an onClick

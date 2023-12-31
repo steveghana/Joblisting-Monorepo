@@ -149,9 +149,8 @@ export class AuthController {
   }
   @Patch('/update')
   @UseFilters(new HttpExceptionFilter())
-  async update(@Req() req, @Res() res: Response) {
-    const result = await this.authService.update(req.requestingUser, req.role);
-    console.log(result, 'tis is theresu');
+  async update(@Req() req, @Body() body, @Res() res: Response) {
+    const result = await this.authService.update(body, req.requestingUser.role);
     return res.json(result);
   }
   @Get('/whoami')

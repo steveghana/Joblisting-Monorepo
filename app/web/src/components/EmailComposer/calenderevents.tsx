@@ -17,6 +17,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -88,18 +89,26 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
       />
       <Box sx={{ background: 'white', zIndex: 2, width: '100%' }} position={'absolute'}>
         <Card variant="outlined" sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', gap: 1.5 }}>
-          <IconButton onClick={onEdit}>
-            <EditTwoTone />
-          </IconButton>
-          <IconButton>
-            <EditCalendar />
-          </IconButton>
-          <IconButton onClick={onDelete}>
-            <DeleteTwoTone />
-          </IconButton>
-          <IconButton onClick={onClose}>
-            <Close />
-          </IconButton>
+          <Tooltip title="Edit">
+            <IconButton onClick={onEdit}>
+              <EditTwoTone />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="calender">
+            <IconButton>
+              <EditCalendar />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton onClick={onDelete}>
+              <DeleteTwoTone />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Close">
+            <IconButton onClick={onClose}>
+              <Close />
+            </IconButton>
+          </Tooltip>
         </Card>
       </Box>
       <List sx={{ height: '100%', overflowY: 'auto', paddingTop: '3rem' }}>
@@ -141,25 +150,31 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
           <ListItem sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <LinkIcon sx={{ color: '#4285F4' }} />
             <ListItemText primary={`${event.eventOption} Link`} />
+
             <AnimateButton type="scale">
-              <Button
-                href={'https://meet.google.com/?pli=1'} // Insert actual link
-                target="_blank"
-                // aria-label={`${key} login button`}
-                // onClick={handler}
-                // disabled={isLoading}
-              >
-                {event.eventLInk}
-              </Button>
+              <Tooltip title="Open link" placement="top">
+                <Button
+                  href={'https://meet.google.com/?pli=1'} // Insert actual link
+                  target="_blank"
+                  // aria-label={`${key} login button`}
+                  // onClick={handler}
+                  // disabled={isLoading}
+                >
+                  {event.eventLInk}
+                </Button>
+              </Tooltip>
             </AnimateButton>
           </ListItem>
           <ListItem>
             <Box>
               <Box display={'flex'} gap={1.5} alignItems={'center'} width={'100%'} justifyContent={'space-between'}>
                 <IconUsers size={'1rem'} color="grey" /> {event.guests.length} guests{' '}
-                <IconButton onClick={() => setDialogOpen(true)}>
-                  <Mail sx={{ ml: 'auto', color: 'gray' }} />
-                </IconButton>
+                {/* < size={'1rem'} color="grey" /> {comments.length} comments{' '} */}
+                <Tooltip title="Send email">
+                  <IconButton onClick={() => setDialogOpen(true)}>
+                    <Mail sx={{ ml: 'auto', color: 'gray' }} />
+                  </IconButton>
+                </Tooltip>
               </Box>
               {event.guests.map((guest, index) => (
                 <Box pl={3} gap={1} display={'flex'} py={1} alignItems={'center'} key={index}>

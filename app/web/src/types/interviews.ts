@@ -1,5 +1,5 @@
-import { IDev } from "./devs";
-import { IRoleData } from "./roles";
+import { IDev } from './devs';
+import { IRoleData } from './roles';
 
 export interface Iinterviews {
   id?: string;
@@ -10,6 +10,7 @@ export interface Iinterviews {
   eventType: string;
   candidate: IDev;
   candidateId: string;
+  comments?: TInterviewComment[];
   eventOption: string;
   description: string;
   eventLInk: string;
@@ -20,11 +21,18 @@ export interface Iinterviews {
   createdAt?: Date;
   updatedAt?: Date;
 
-  status: "Scheduled" | "Completed" | "Canceled"; //
+  status: 'Scheduled' | 'Completed' | 'Canceled'; //
 }
-export type InterviewAdd = Omit<Iinterviews, "guests"> & {
+export type InterviewAdd = Omit<Iinterviews, 'guests'> & {
   guests: string[];
   interviewType: string;
+};
+export type TInterviewComment = {
+  id?: string;
+  name: string;
+  message: string;
+  // interviewerId: string;
+  interviewId: string;
 };
 export interface InterviewFormValue {
   // candidate: "",

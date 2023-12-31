@@ -23,12 +23,11 @@ const other = {
       // breadcrumbs: false,
     },
     {
-      id: 'item',
-      title: 'item',
+      id: 'clockify',
+      title: 'Clockify',
       type: 'item',
       icon: icons.IconHelp,
-      external: true,
-      target: true,
+      url: '/devs/clockify',
     },
   ],
 };

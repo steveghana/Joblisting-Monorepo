@@ -14,12 +14,12 @@ import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRou
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
 import DropZone from './DropZone';
-import CountrySelector from './CountrySelector';
+import CountrySelector, { CountryType } from './CountrySelector';
 import { LargeTextField } from './EditorToolbar';
 
 import { IUser } from '../../types/user';
-import { Avatar, MenuItem, OutlinedInput, styled, useMediaQuery, useTheme } from '@mui/material';
-import { Formik } from 'formik';
+import { Avatar, InputBase, MenuItem, OutlinedInput, styled, useMediaQuery, useTheme } from '@mui/material';
+import { Field, Formik } from 'formik';
 import { Accessibility, InsertDriveFileRounded, UploadTwoTone, VideocamRounded } from '@mui/icons-material';
 import { themePalette } from '@/themes/schemes/palette';
 import { getRandomColor } from '@/utils/generateRandomColors';
@@ -71,9 +71,10 @@ const ButtonUploadWrapper = styled(Box)(
 );
 export default function MyProfile({ user }: { user: IUser }) {
   const theme = useTheme();
-  const experience = [3, 4, 5, 6, 7];
+  const experience = ['1', '3', '4', '5', '6', '7', '8', '10+'];
   const [updateUser, { isLoading, isError }] = useUpdateUserMutation();
   const md = useMediaQuery(theme.breakpoints.down('sm'));
+
   // const tab = useMediaQuery(theme.breakpoints.only("md"));
   return (
     <Box
@@ -93,15 +94,14 @@ export default function MyProfile({ user }: { user: IUser }) {
         <Formik
           initialValues={{
             email: user.email || '',
-            url: '',
-            bio: '',
-            phone: '',
-            location: '',
+            linkedin: user.linkedin || '',
+            bio: user.bio || '',
+            location: { code: '', label: '', phone: '' } as CountryType,
             role: user.role || '',
             firstName: user.firstName || '',
-            experience: '',
+            // experience:user.exper '',
             lastName: user.lastName || '',
-            submit: null,
+            // submit: null,
           }}
           onSubmit={async (values, setters) => {
             try {
@@ -110,6 +110,7 @@ export default function MyProfile({ user }: { user: IUser }) {
                 toast.success('User info updated successfully', {
                   position: 'bottom-center',
                 });
+                setters.resetForm();
               }
             } catch (error: any) {
               toast.error('Failed to update user information, please try again later', {
@@ -186,41 +187,36 @@ export default function MyProfile({ user }: { user: IUser }) {
                   <Stack spacing={2} sx={{ flexGrow: 1 }}>
                     <Stack spacing={1}>
                       <FormLabel>FirstName</FormLabel>
-                      <FormControl
-                        sx={{
-                          // display: "flex",
-                          // flexWrap: "wrap",
-                          gap: 2,
-                        }}
-                      >
-                        <OutlinedInput
-                          placeholder="First Name"
-                          value={values.firstName}
-                          name="firstName"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          type="text"
-                          defaultValue=""
-                        />
-                        <FormLabel htmlFor="outlined-adornment-email-register">LastName</FormLabel>
-                        <OutlinedInput
-                          placeholder="Last Name"
-                          value={values.lastName}
-                          name="lastName"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          type="text"
-                          defaultValue=""
-                        />
-                      </FormControl>
+
+                      <OutlinedInput
+                        placeholder="First Name"
+                        value={values.firstName}
+                        name="firstName"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        type="text"
+                        defaultValue=""
+                      />
+                      <FormLabel htmlFor="outlined-adornment-email-register">LastName</FormLabel>
+                      <OutlinedInput
+                        placeholder="Last Name"
+                        value={values.lastName}
+                        name="lastName"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        type="text"
+                        defaultValue=""
+                      />
+
                       <FormControl>
-                        <FormLabel htmlFor="outlined-adornment-email-register">Github / LinkedIn</FormLabel>
-                        <OutlinedInput
+                        <FormLabel htmlFor="outlined-adornment-email-register">LinkedIn</FormLabel>
+                        <Field
+                          as={OutlinedInput}
                           type="url"
-                          value={values.url}
+                          value={values.linkedin}
                           placeholder="URL"
-                          name="url"
-                          onBlur={handleBlur}
+                          name="linkedin"
+                          // onBlur={handleBlur}
                           onChange={handleChange}
                         />
                       </FormControl>
@@ -249,19 +245,26 @@ export default function MyProfile({ user }: { user: IUser }) {
                         />
                         {touched.email && errors.email && <FormHelperText>{errors.email}</FormHelperText>}
                       </FormControl>
-
-                      <FormLabel>Years of experience</FormLabel>
-                      <Select size="small" startAdornment={<Accessibility />} defaultValue="1">
-                        {experience.map((item) => (
-                          <MenuItem key={item} value={`${item}`}>
-                            <Typography ml={0.5}>{item}</Typography>
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      {/* <FormControl>
+                        <FormLabel>Years of experience</FormLabel>
+                        <Select
+                          name="experience"
+                          size="small"
+                          onChange={handleChange}
+                          startAdornment={<Accessibility />}
+                          defaultValue="1"
+                        >
+                          {experience.map((item) => (
+                            <MenuItem key={item} value={item}>
+                              <Typography ml={0.5}>{item}</Typography>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl> */}
                     </Stack>
-                    <div>
-                      <CountrySelector />
-                    </div>
+                    <Box my={1}>
+                      <CountrySelector onChange={handleChange} name={'location'} />
+                    </Box>
                     <div>
                       <FormControl sx={{ display: { sm: 'contents' } }}>
                         <FormLabel>Timezone</FormLabel>
@@ -285,18 +288,6 @@ export default function MyProfile({ user }: { user: IUser }) {
                   </Stack>
                 </Stack>
               </SubCard>
-              <Box display={'flex'} justifyContent={'center'} gap={1}>
-                <CustomButton size="small" variant="outlined">
-                  Cancel
-                </CustomButton>
-                <CustomButton
-                  // size="sm"
-                  size="small"
-                  sx={{ background: themePalette.primary.main, borderRadius: '10px' }}
-                >
-                  Save
-                </CustomButton>
-              </Box>
               <SubCard sx={{ my: 1 }}>
                 <Box sx={{ mb: 1 }}>
                   <Typography>Bio</Typography>
@@ -304,7 +295,14 @@ export default function MyProfile({ user }: { user: IUser }) {
                 </Box>
                 <Divider />
                 <Stack spacing={2} sx={{ my: 1 }}>
-                  <LargeTextField />
+                  <FormControl
+                    // error={Boolean(touched.email && errors.email)}
+                    sx={{ flexGrow: 1 }}
+                  >
+                    {/* <Field> */}
+                    <LargeTextField name="bio" onChange={handleChange} />
+                    {/* </Field> */}
+                  </FormControl>
                 </Stack>
                 <Box sx={{ mb: 1 }}>
                   <Typography>Portfolio projects</Typography>

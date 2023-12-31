@@ -11,7 +11,7 @@ import { ClockHours as clockedHours } from '../apps/clocked-hours/entities/clock
 import { Client as client } from '../apps/clients/entities/client.entity';
 import { Job as jobs } from '../apps/roles/entities/jobs.entity';
 import { ShortUrlEntity as roleShortUrl } from '../apps/Shorturl/model/shortUrl.entity';
-
+import { Comment as comments } from '../apps/interviews/entities/comments.entity';
 type RepositoryType<T extends ObjectLiteral> = Repository<T>;
 export type Repositories = {
   authToken: RepositoryType<authToken>;
@@ -44,6 +44,7 @@ export const EntitiesRepositoryMap = {
   jobs,
   clockedHours,
   client,
+  comments,
 };
 
 const Entities = [
@@ -58,6 +59,7 @@ const Entities = [
   developer,
   clockedHours,
   client,
+  comments,
 ];
 
 // export { repositories };

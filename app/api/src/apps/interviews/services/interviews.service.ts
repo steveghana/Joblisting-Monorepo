@@ -1,11 +1,11 @@
-import { CreateInterviewDto } from '../dto/create-interview.dto';
+import { CreateInterviewDto, addCommentDto } from '../dto/create-interview.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { UpdateInterviewDto } from '../dto/update-interview.dto';
 import Interviews from '../dataManager';
 import { useTransaction } from '../../../util/transaction';
 import Developers from '../../../apps/developers/dataManager';
-import { getAllInterviews } from '../DBQueries';
+import { addComments, getAllInterviews } from '../DBQueries';
 
 @Injectable()
 export class InterviewsService {
@@ -30,6 +30,36 @@ export class InterviewsService {
         { role_status: 'Interviewing' },
         transaction,
       );
+      return interviewResponse;
+    });
+  }
+  addComment(interviewData: addCommentDto) {
+    // createInterviewDto.
+    return useTransaction(async (transaction) => {
+      const interview = await Interviews.getById(interviewData.interviewId);
+
+      if (!interview.id) {
+        throw new HttpException(
+          `This interview doesnt exist`,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const alreadySubmittedComments =
+        interview?.comments?.length &&
+        interview.comments?.filter(
+          (comment) =>
+            comment.name.replace(/\s/g, '').trim() ===
+            interviewData.name.replace(/\s/g, '').trim(),
+        );
+      console.log(interview.comments, alreadySubmittedComments);
+      if (alreadySubmittedComments?.length) {
+        throw new HttpException(
+          `I think you have already submitted a comment`,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const interviewResponse = await addComments(interviewData);
+
       return interviewResponse;
     });
   }

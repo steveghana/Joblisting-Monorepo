@@ -213,7 +213,10 @@ const NotificationSection = () => {
                             <Divider sx={{ my: 0 }} />
                           </Grid>
                         </Grid>
-                        <NotificationList />
+                        <Box textAlign={'center'} py={3}>
+                          <Typography>No Notifications available</Typography>
+                        </Box>
+                        {/* <NotificationList /> */}
                       </PerfectScrollbar>
                     </Grid>
                   </Grid>

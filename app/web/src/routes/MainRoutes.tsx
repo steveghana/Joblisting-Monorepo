@@ -176,6 +176,10 @@ const MainRoutes = {
       element: <ShortListedDevs />,
     },
     {
+      path: 'devs/clockify',
+      element: <StatusComingSoon />,
+    },
+    {
       path: '/hr/interviews/:id',
       element: <InterviewScheduler />,
       // element: <Scheduler />,

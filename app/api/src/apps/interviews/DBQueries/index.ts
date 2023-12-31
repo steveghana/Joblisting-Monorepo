@@ -6,7 +6,7 @@ import uuidUtil from '../../../util/uuid';
 import { DeepPartial, EntityManager, In, QueryRunner } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
 import uuid from '../../../util/uuid';
-import { Iinterviews } from '@/types/interviews';
+import { Iinterviews, TInterviewComment } from '@/types/interviews';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Interview } from '../entities/interview.entity';
 
@@ -58,6 +58,36 @@ export async function scheduleInterview(
   return data;
 }
 
+export async function addComments(
+  interviewData: TInterviewComment,
+  dependencies: Dependencies = null,
+) {
+  dependencies = injectDependencies(dependencies, ['db']);
+
+  const { interviewId, message, name } = interviewData;
+  const interviewRepo = myDataSource.getRepository(
+    dependencies.db.models.interviews,
+  );
+  const commentRepo = myDataSource.getRepository(
+    dependencies.db.models.comments,
+  );
+  const existingInterview = await interviewRepo.findOne({
+    where: {
+      id: interviewId,
+    },
+  });
+
+  const newComment = await commentRepo.create({
+    interview: existingInterview,
+    message,
+    name,
+  });
+
+  const saved = await commentRepo.save(newComment);
+
+  return saved;
+}
+
 export async function updateInterview(
   id: string,
   interviewData: Partial<
@@ -93,7 +123,7 @@ export async function updateInterview(
   // Load the existing interview
   const existingInterview = await interviewRepo.findOne({
     where: { id },
-    relations: ['guests', 'candidate'],
+    relations: ['guests', 'candidate', 'comments'],
   });
 
   if (!existingInterview) {
@@ -128,7 +158,7 @@ export function getInterviewById(
     .getRepository(dependencies.db.models.interviews)
     .findOne({
       where: { id },
-      relations: ['guests', 'candidate'],
+      relations: ['guests', 'candidate', 'comments'],
     });
 }
 
@@ -142,6 +172,7 @@ export async function getAllInterviews(
     .getRepository(dependencies.db.models.interviews)
     .createQueryBuilder('interviews')
     .leftJoinAndSelect('interviews.guests', 'guests')
+    .leftJoinAndSelect('interviews.comments', 'comments')
     .leftJoinAndSelect('guests.user', 'guestuser')
     .addSelect(['guestuser.email']) // Select only the 'email' column from the 'user' table for guests
     .leftJoinAndSelect('interviews.candidate', 'candidate')
@@ -158,10 +189,17 @@ export async function cancelInterview(
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
-  const { affected } = await myDataSource.manager
-    .getRepository(dependencies.db.models.interviews)
-    .delete({ id: interviewId });
+  const interviewRepo = transaction.getRepository(
+    dependencies.db.models.interviews,
+  );
+  const commentRepo = transaction.getRepository(
+    dependencies.db.models.comments,
+  );
+  const commentDeleted = await commentRepo.delete({
+    interview: { id: interviewId },
+  });
+  console.log(commentDeleted);
+  const { affected } = await interviewRepo.delete({ id: interviewId });
   return affected;
 }
 

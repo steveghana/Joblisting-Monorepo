@@ -52,3 +52,19 @@ export class CreateInterviewDto {
   endDate: Date;
   // role: IRole;
 }
+
+export class addCommentDto {
+  @IsNotEmpty({
+    message: 'Comment message is required',
+  })
+  message: string;
+  @IsNotEmpty({
+    message: 'your name is required',
+  })
+  name: string;
+
+  @IsNotEmpty({
+    message: 'interview is required',
+  })
+  interviewId: string;
+}

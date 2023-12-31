@@ -1,28 +1,18 @@
 import { useState, ChangeEvent } from 'react';
-import {
-  Box,
-  Typography,
-  Card,
-  Grid,
-  ListItem,
-  List,
-  ListItemText,
-  Divider,
-  Switch
-} from '@mui/material';
+import { Box, Typography, Card, Grid, ListItem, List, ListItemText, Divider, Switch } from '@mui/material';
 
 function NotificationsTab() {
   const [state, setState] = useState({
     checkedA: true,
     checkedB: false,
     checkedC: true,
-    checkedD: false
+    checkedD: false,
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
-      [event.target.name]: event.target.checked
+      [event.target.name]: event.target.checked,
     });
   };
 
@@ -31,9 +21,7 @@ function NotificationsTab() {
       <Grid item xs={12}>
         <Box pb={2}>
           <Typography variant="h3">Account</Typography>
-          <Typography variant="subtitle2">
-            Choose what notifications you want to receive
-          </Typography>
+          <Typography variant="subtitle2">Choose what notifications you want to receive</Typography>
         </Box>
         <Card>
           <List>
@@ -42,17 +30,12 @@ function NotificationsTab() {
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
                 secondaryTypographyProps={{
                   variant: 'subtitle2',
-                  lineHeight: 1
+                  lineHeight: 1,
                 }}
-                primary="Widthdraw Activity"
-                secondary="Receive an email when a widthdrawal is made"
+                primary="Weekly Report"
+                secondary="Receive weekly emails on developers clocked hours"
               />
-              <Switch
-                color="primary"
-                checked={state.checkedA}
-                onChange={handleChange}
-                name="checkedA"
-              />
+              <Switch color="primary" checked={state.checkedA} onChange={handleChange} name="checkedA" />
             </ListItem>
             <Divider component="li" />
             <ListItem sx={{ p: 3 }}>
@@ -60,27 +43,20 @@ function NotificationsTab() {
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
                 secondaryTypographyProps={{
                   variant: 'subtitle2',
-                  lineHeight: 1
+                  lineHeight: 1,
                 }}
                 primary="Weekly Report"
-                secondary="Receive account status weekly report in your inbox"
+                secondary="Receive weekly reports status in your inbox"
               />
-              <Switch
-                color="primary"
-                checked={state.checkedB}
-                onChange={handleChange}
-                name="checkedB"
-              />
+              <Switch color="primary" checked={state.checkedB} onChange={handleChange} name="checkedB" />
             </ListItem>
           </List>
         </Card>
       </Grid>
       <Grid item xs={12}>
         <Box pb={2}>
-          <Typography variant="h3">Orders</Typography>
-          <Typography variant="subtitle2">
-            Receive email notifications related to your orders activity
-          </Typography>
+          <Typography variant="h3">New Applicant joining</Typography>
+          <Typography variant="subtitle2">Receive email notifications related to applicants activity</Typography>
         </Box>
         <Card>
           <List>
@@ -89,17 +65,12 @@ function NotificationsTab() {
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
                 secondaryTypographyProps={{
                   variant: 'subtitle2',
-                  lineHeight: 1
+                  lineHeight: 1,
                 }}
-                primary="Failed Payment"
-                secondary="Get a message when a payment fails"
+                primary="New client"
+                secondary="Get a message when a client is added"
               />
-              <Switch
-                color="primary"
-                checked={state.checkedC}
-                onChange={handleChange}
-                name="checkedC"
-              />
+              <Switch color="primary" checked={state.checkedC} onChange={handleChange} name="checkedC" />
             </ListItem>
             <Divider component="li" />
             <ListItem sx={{ p: 3 }}>
@@ -107,17 +78,12 @@ function NotificationsTab() {
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
                 secondaryTypographyProps={{
                   variant: 'subtitle2',
-                  lineHeight: 1
+                  lineHeight: 1,
                 }}
-                primary="Order Status Update"
-                secondary="Whenever an order is updated, get a notification on your phone"
+                primary="interviews Status Update"
+                secondary="Whenever an interview is scheduled, get a notification on your phone"
               />
-              <Switch
-                color="primary"
-                checked={state.checkedD}
-                onChange={handleChange}
-                name="checkedD"
-              />
+              <Switch color="primary" checked={state.checkedD} onChange={handleChange} name="checkedD" />
             </ListItem>
           </List>
         </Card>

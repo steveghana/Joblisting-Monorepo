@@ -15,6 +15,7 @@ import {
 } from 'typeorm';
 // Interview Entity
 import uuid from '../../../util/uuid';
+import { Comment } from './comments.entity';
 @Entity('interviews')
 export class Interview extends AssociableModel {
   @PrimaryGeneratedColumn('uuid')
@@ -25,7 +26,8 @@ export class Interview extends AssociableModel {
   role: Role;
   @ManyToOne(() => Developer, (developer) => developer.candidateInterview)
   candidate: Developer;
-
+  @OneToMany(() => Comment, (comment) => comment.interview)
+  comments: Comment[];
   @ManyToMany(() => Developer, (developer) => developer.guestInterviews)
   @JoinTable()
   guests: Developer[];

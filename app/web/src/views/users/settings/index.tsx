@@ -48,15 +48,15 @@ function ManagementUserSettings() {
     <>
       <MainCard>
         <Container maxWidth="lg">
-          <Grid>
+          <Grid mt={2}>
             <Grid item xs={12}>
               <TabsWrapper
                 onChange={handleTabsChange}
                 value={currentTab}
                 variant="scrollable"
                 scrollButtons="auto"
-                textColor="primary"
-                indicatorColor="primary"
+                // textColor="primary"
+                // indicatorColor="primary"
               >
                 {tabs.map((tab) => (
                   <Tab key={tab.value} label={tab.label} value={tab.value} />
@@ -67,7 +67,7 @@ function ManagementUserSettings() {
               {currentTab === 'profile' && <ActivityTab user={data} insettings={true} />}
               {currentTab === 'edit_profile' && <EditProfileTab user={data} />}
               {currentTab === 'notifications' && <NotificationsTab /* user={data}  */ />}
-              {currentTab === 'security' && <SecurityTab /* user={data} insettings={true} */ />}
+              {currentTab === 'security' && <SecurityTab user={data} insettings={true} />}
             </Grid>
           </Grid>
         </Container>

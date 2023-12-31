@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   TextareaAutosize,
+  TextareaAutosizeProps,
   Typography,
 } from '@mui/material';
 import FormatBoldRoundedIcon from '@mui/icons-material/FormatBoldRounded';
@@ -55,23 +56,24 @@ export default function EditorToolbar({ sx, ...props }: BoxProps) {
   );
 }
 
-export function LargeTextField() {
+export function LargeTextField(props: TextareaAutosizeProps) {
   const [text, setText] = useState('');
   const wordLimit = 300;
   const words = text.trim().split(/\s+/).filter(Boolean).length;
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
+    props.onChange && props.onChange(e);
   };
 
   return (
-    <FormControl>
+    <>
       <EditorToolbar />
       <TextareaAutosize
+        {...props}
         // size="sm"
         style={{ padding: '.4rem' }}
         minRows={6}
-        value={text}
         placeholder="Enter your description here..."
         onChange={handleChange}
       />
@@ -83,6 +85,6 @@ export function LargeTextField() {
       <Typography variant="caption" fontSize={'.7rem'}>
         {words} words ({wordLimit - words} words left)
       </Typography>
-    </FormControl>
+    </>
   );
 }

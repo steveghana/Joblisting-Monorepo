@@ -338,11 +338,21 @@ export class AuthService {
   ) {
     dependencies = injectDependencies(dependencies, ['db']);
     return await useTransaction(async (transaction) => {
-      const userupdated = await User.update(
-        { role, email: user.email },
-        transaction,
-        dependencies,
-      );
+      console.log(user, 'from user');
+      if (!role || !user.email) {
+        throw new HttpException(
+          'Couldnt update this user',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const userupdated = await User.update(user, transaction, dependencies);
+      if (!userupdated) {
+        throw new HttpException(
+          'Couldnt update this user',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       return userupdated;
     }, dependencies);
     // const authToken = new AuthToken(authTokenId, dependencies);

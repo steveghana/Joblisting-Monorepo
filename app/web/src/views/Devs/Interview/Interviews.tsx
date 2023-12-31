@@ -27,8 +27,9 @@ import { useTypedSelector } from '../../../store';
 import { useNavigate } from 'react-router';
 import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
 import CalenderEvent from '@/components/EmailComposer/calenderevents';
-import { Iinterviews } from '@/types/interviews';
+import { Iinterviews, TInterviewComment } from '@/types/interviews';
 import { themePalette } from '@/themes/schemes/palette';
+import InterviewComments from './interviewComments';
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -51,11 +52,6 @@ const event = {
   ],
 };
 // Dummy data for comments
-const comments = [
-  { author: 'Alice', text: 'Great interview!' },
-  { author: 'Bob', text: 'Candidate performed well.' },
-];
-
 const Interviews = () => {
   const { data, isError, isLoading, isFetching, refetch } = useGetInterviewsQuery();
   const [deletinterview, { isLoading: isDeleting }] = useDeletInterviewMutation();
@@ -270,45 +266,10 @@ const Interviews = () => {
                             {/* Additional interview details can be added here */}
                           </Grid>
                           <Divider />
-                          <Accordion>
-                            <AccordionSummary
-                              expandIcon={<ExpandMore />}
-                              aria-controls="panel1a-content"
-                              id="panel1a-header"
-                            >
-                              <Typography variant="subtitle1" component={'animate'}>
-                                Comments
-                              </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                              {comments.map((comment, index) => (
-                                <Grid>
-                                  <Box key={index} style={{ marginBottom: '10px' }}>
-                                    <Typography variant="subtitle1">
-                                      <strong>{comment.author}:</strong> {comment.text}
-                                    </Typography>
-                                  </Box>
-                                </Grid>
-                              ))}
-                              <form>
-                                <TextField
-                                  label="Your Name"
-                                  variant="outlined"
-                                  fullWidth
-                                  style={{ marginBottom: '10px' }}
-                                />
-                                <TextField
-                                  label="Add a Comment"
-                                  variant="outlined"
-                                  fullWidth
-                                  multiline
-                                  rows={3}
-                                  style={{ marginBottom: '10px' }}
-                                />
-                                <CustomButton variant="contained" color="primary" type="submit" text="Add Comment" />
-                              </form>
-                            </AccordionDetails>
-                          </Accordion>
+                          <InterviewComments
+                            comments={item.comments as TInterviewComment[]}
+                            interviewId={item.id as string}
+                          />
                         </Box>
                       </Paper>
                     </Grid>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -11,15 +11,17 @@ import {
   InputAdornment,
   Button,
   FormHelperText,
-} from "@mui/material";
+} from '@mui/material';
 // import { Helmet } from "react-helmet-async";
 // import Logo from "../../../components/LogoSign";
-import ComingSoon from "../../../assets/status/coming-soon.svg";
-import { styled } from "@mui/material/styles";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import MailTwoToneIcon from "@mui/icons-material/MailTwoTone";
+import ComingSoon from '../../../assets/status/coming-soon.svg';
+import { styled } from '@mui/material/styles';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
+import MainCard from '@/components/MainCard';
+import CustomButton from '@/components/button';
 
 const MainContent = styled(Box)(
   () => `
@@ -30,31 +32,31 @@ const MainContent = styled(Box)(
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`
+`,
 );
 
 const TypographyH1 = styled(Typography)(
   ({ theme }) => `
   font-size: ${theme.typography.pxToRem(75)};
-`
+`,
 );
 
 const TypographyH3 = styled(Typography)(
   ({ theme }) => `
   color: ${theme.colors?.alpha?.black[50]};
-`
+`,
 );
 
 const OutlinedInputWrapper = styled(OutlinedInput)(
   ({ theme }) => `
     background-color: ${theme.colors?.alpha?.white[100]};
-`
+`,
 );
 
 const ButtonNotify = styled(Button)(
   ({ theme }) => `
     margin-right: -${theme.spacing(1)};
-`
+`,
 );
 
 function StatusComingSoon() {
@@ -82,27 +84,9 @@ function StatusComingSoon() {
     }, 1000);
   });
 
-  const timerComponents: any[] = [];
-
-  Object.keys(timeLeft).forEach((interval) => {
-    // if (!timeLeft[interval]) {
-    //   return;
-    // }
-
-    timerComponents.push(
-      <Box textAlign="center" px={3}>
-        {/* <TypographyH1 variant="h1">{timeLeft[interval]}</TypographyH1> */}
-        <TypographyH3 variant="h3">{interval}</TypographyH3>
-      </Box>
-    );
-  });
-
   return (
     <>
-      {/* <Helmet>
-        <title>Status - Coming Soon</title>
-      </Helmet> */}
-      <MainContent>
+      <MainCard>
         <Container maxWidth="md">
           {/* <Logo /> */}
           <Box textAlign="center" mb={3}>
@@ -110,33 +94,22 @@ function StatusComingSoon() {
               <Typography variant="h1" sx={{ mt: 4, mb: 2 }}>
                 Coming Soon
               </Typography>
-              <Typography
-                variant="h3"
-                color="text.secondary"
-                fontWeight="normal"
-                sx={{ mb: 4 }}
-              >
+              <Typography variant="h3" color="text.secondary" fontWeight="normal" sx={{ mb: 4 }}>
                 We're working on implementing this feature!
               </Typography>
             </Container>
             <img alt="Coming Soon" height={200} src={ComingSoon} />
           </Box>
 
-          <Box display="flex" justifyContent="center">
-            {timerComponents.length ? timerComponents : <>Time's up!</>}
-          </Box>
-
           <Container maxWidth="sm">
-            <Box sx={{ textAlign: "center", p: 4 }}>
+            <Box sx={{ textAlign: 'center', p: 4 }}>
               <FormControl variant="outlined" fullWidth>
                 <OutlinedInputWrapper
                   type="text"
                   placeholder="Enter your email address here..."
                   endAdornment={
                     <InputAdornment position="end">
-                      <ButtonNotify variant="contained" size="small">
-                        Notify Me
-                      </ButtonNotify>
+                      <CustomButton text="Notify Me" endIcon={<MailTwoToneIcon />} />
                     </InputAdornment>
                   }
                   startAdornment={
@@ -145,12 +118,10 @@ function StatusComingSoon() {
                     </InputAdornment>
                   }
                 />
-                <FormHelperText>
-                  We'll email you once our website is launched!
-                </FormHelperText>
+                <FormHelperText>You will be notified once this feature is launched!</FormHelperText>
               </FormControl>
               <Divider sx={{ my: 4 }} />
-              <Box sx={{ textAlign: "center" }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <Tooltip arrow placement="top" title="Facebook">
                   <IconButton color="primary">
                     <FacebookIcon />
@@ -170,7 +141,7 @@ function StatusComingSoon() {
             </Box>
           </Container>
         </Container>
-      </MainContent>
+      </MainCard>
     </>
   );
 }

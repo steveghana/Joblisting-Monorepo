@@ -7,9 +7,10 @@ import {
   Param,
   Delete,
   UseFilters,
+  Res,
 } from '@nestjs/common';
 import { InterviewsService } from '../services/interviews.service';
-import { CreateInterviewDto } from '../dto/create-interview.dto';
+import { CreateInterviewDto, addCommentDto } from '../dto/create-interview.dto';
 import { UpdateInterviewDto } from '../dto/update-interview.dto';
 import {
   ApiBadRequestResponse,
@@ -18,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
+import { Response } from 'express';
 @Controller('interviews')
 export class InterviewsController {
   constructor(private readonly interviewsService: InterviewsService) {}
@@ -30,10 +32,28 @@ export class InterviewsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  public async create(@Body() createInterviewDto: CreateInterviewDto) {
+  public async create(
+    @Body() createInterviewDto: CreateInterviewDto,
+    @Res() res: Response,
+  ) {
     console.log(createInterviewDto);
     const result = await this.interviewsService.create(createInterviewDto);
-    return result;
+    return res.status(200).json(result);
+  }
+  @Post('/addComment')
+  @ApiTags('creat interview')
+  @ApiOperation({
+    description: 'create a new interview',
+  })
+  @UseFilters(new HttpExceptionFilter())
+  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
+  @ApiInternalServerErrorResponse({ description: 'Server is down' })
+  public async adComment(
+    @Body() addComment: addCommentDto,
+    @Res() res: Response,
+  ) {
+    const result = await this.interviewsService.addComment(addComment);
+    return res.status(200).json(result);
   }
 
   @Get()
@@ -44,9 +64,9 @@ export class InterviewsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  public async findAll() {
+  public async findAll(@Res() res: Response) {
     const result = await this.interviewsService.findAll();
-    return result;
+    return res.status(200).json(result);
   }
 
   @Get(':id')
@@ -57,9 +77,9 @@ export class InterviewsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  public async findOne(@Param('id') id: string) {
+  public async findOne(@Param('id') id: string, @Res() res: Response) {
     const result = await this.interviewsService.findOne(id);
-    return result;
+    return res.status(200).json(result);
   }
 
   @Patch(':id')
@@ -73,9 +93,10 @@ export class InterviewsController {
   public async update(
     @Param('id') id: string,
     @Body() updateInterviewDto: UpdateInterviewDto,
+    @Res() res: Response,
   ) {
     const result = await this.interviewsService.update(id, updateInterviewDto);
-    return result;
+    return res.status(200).json(result);
   }
 
   @Delete(':id')
@@ -86,8 +107,8 @@ export class InterviewsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Res() res: Response) {
     const result = await this.interviewsService.cancel(id);
-    return result;
+    return res.status(200).json(result);
   }
 }

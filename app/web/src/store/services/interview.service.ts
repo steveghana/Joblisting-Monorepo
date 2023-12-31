@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IProfession } from '../../types/roles';
 import axios from 'axios';
 import _api_url from '../../api/_api_url';
-import { Iinterviews, InterviewAdd } from '../../types/interviews';
+import { Iinterviews, InterviewAdd, TInterviewComment } from '../../types/interviews';
 import { INTERVEW_API_KEY } from '../constant';
 
 const authToken = sessionStorage.getItem('authToken');
@@ -50,10 +50,24 @@ export const interviewApi = createApi({
         body: Interview,
       }),
       invalidatesTags: ['interviews'],
-
-      transformResponse: (response: Iinterviews, meta) => {
-        return response;
+      // Pick out errors and prevent nested properties in a hook or selector
+      transformErrorResponse: (response: any, meta, arg) => {
+        const {
+          data: {
+            error: { message },
+          },
+        } = response;
+        return Array.isArray(message) ? message.join(',') : message;
       },
+    }),
+    addInterviewComment: builder.mutation<TInterviewComment, TInterviewComment>({
+      query: (Interview) => ({
+        url: 'interviews/addComment',
+        method: 'POST',
+        body: Interview,
+      }),
+      invalidatesTags: ['interviews'],
+
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any, meta, arg) => {
         const {
@@ -94,6 +108,7 @@ export const interviewApi = createApi({
 export const {
   useUpdateInterviewMutation,
   useAddInterviewMutation,
+  useAddInterviewCommentMutation,
   useDeletInterviewMutation,
   useGetInterviewsQuery,
   useGetInterviewQuery,
