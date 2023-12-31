@@ -54,11 +54,18 @@ const DevTableData = ({
   const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] =
     useBulkdeletDevMutation();
   async function cancelinterviewFn(row: MRT_Row<IDev>) {
-    const deleted = await cancelInterview({
-      id: row.original.interview!.id as string,
-    }).unwrap();
-    if (deleted) {
-      toast.warn('Interview Canceled', {
+    try {
+      const canceld = await cancelInterview({
+        id: row.original.interview!.id as string,
+      }).unwrap();
+      if (canceld) {
+        toast.warn('Interview Canceled', {
+          position: 'bottom-center',
+        });
+        refetch();
+      }
+    } catch (err) {
+      toast.error('Couldnt cancel interview', {
         position: 'bottom-center',
       });
     }
