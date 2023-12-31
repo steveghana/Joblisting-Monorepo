@@ -17,9 +17,10 @@ interface SidebarProps {
   drawerOpen: boolean;
   drawerToggle: () => void;
   window?: Window;
+  navTitle: (value: string) => void;
 }
 
-const Sidebar = ({ drawerOpen, drawerToggle, window }: SidebarProps) => {
+const Sidebar = ({ drawerOpen, drawerToggle, window, navTitle }: SidebarProps) => {
   const theme = useTheme();
   const lockSidebar = false;
 
@@ -41,7 +42,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }: SidebarProps) => {
             paddingRight: '16px',
           }}
         >
-          <MenuList />
+          <MenuList navTitle={(title) => navTitle(title)} />
           {/* <MenuCard /> */}
           <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
             <Chip size="small" sx={{ cursor: 'pointer' }} />
@@ -50,7 +51,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }: SidebarProps) => {
       </BrowserView>
       <MobileView>
         <Box sx={{ px: 2 }}>
-          <MenuList />
+          <MenuList navTitle={(title) => navTitle(title)} />
           {/* <MenuCard /> */}
           <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
             <Chip disabled size="small" sx={{ cursor: 'pointer' }} />
