@@ -20,7 +20,7 @@ const other = {
       type: 'item',
       url: '/devs/shortlisted',
       icon: icons.IconStar,
-      breadcrumbs: false,
+      // breadcrumbs: false,
     },
     {
       id: 'item',
