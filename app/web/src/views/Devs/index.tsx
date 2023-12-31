@@ -27,7 +27,7 @@ const Developers = () => {
   console.log(devs, 'from devs');
   return (
     <MainCard>
-      <Box display="flex" mb={3}>
+      <Box display="flex">
         <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
           <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
             <ArrowBackTwoTone />
