@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 // material-ui
 import {
   Accordion,
@@ -7,11 +5,6 @@ import {
   AccordionSummary,
   Avatar,
   Box,
-  Card,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Divider,
   Drawer,
   Grid,
@@ -19,21 +12,19 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Paper, Button, TextField } from '@mui/material';
+import { Paper, TextField } from '@mui/material';
 // project imports
 import SubCard from '../../../components/SubCard';
 import MainCard from '../../../components/MainCard';
 import { useDeletInterviewMutation, useGetInterviewsQuery } from '../../../store/services/interview.service';
 import React from 'react';
 import NoData from '../../../components/NoData';
-import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
 import { ArrowBackTwoTone, ExpandMore, Settings } from '@mui/icons-material';
 import CustomButton from '../../../components/button';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { toast } from 'react-toastify';
 import { useTypedSelector } from '../../../store';
 import { useNavigate } from 'react-router';
-import AnimateButton from '../../../components/extended/AnimateButton';
 import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
 import CalenderEvent from '@/components/EmailComposer/calenderevents';
 import { Iinterviews } from '@/types/interviews';
@@ -70,6 +61,7 @@ const Interviews = () => {
   const [deletinterview, { isLoading: isDeleting }] = useDeletInterviewMutation();
   const allDevsAndApplicants = useTypedSelector((state) => state.devs.devs);
   const navigate = useNavigate();
+  const [eventIndex, seteventIndex] = React.useState<string>('');
   // Date: {
   //   format(new Date(interviewDetails.interviewDate), "yyyy-MM-dd");
   // }
@@ -96,12 +88,17 @@ const Interviews = () => {
   };
   const [state, setState] = React.useState(false);
 
-  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+  const toggleDrawer = (open: boolean, id?: string) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&
       ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
     ) {
       return;
+    }
+    if (open) {
+      seteventIndex(id as string);
+    } else {
+      seteventIndex('');
     }
 
     setState(open);
@@ -110,8 +107,11 @@ const Interviews = () => {
     <EventSchedulerSkeletonLoader />;
   }
   const ExtractEventFromEvents = ({ event }: { event: Iinterviews }) => {
-    let { candidate, guests, id, candidateId, createdAt, ...rest } = event;
     // All guest and candidates should be merged as one for the for array of guests
+    if (!event?.candidate) {
+      return;
+    }
+    let { candidate, guests, id, candidateId, createdAt, ...rest } = event;
     const eventDetails = {
       ...rest,
       guests: guests
@@ -129,12 +129,12 @@ const Interviews = () => {
         event={eventDetails}
         onClose={() => setState(false)}
         onDelete={() => {
-          handleDelete(event.id as string);
+          handleDelete(id as string);
           // setState(false);
         }}
         onEdit={() => {
           setState(false);
-          navigate(`/devs/interviews/Edit/${event.id}`);
+          navigate(`/devs/interviews/Edit/${id}`);
         }}
       />
     );
@@ -187,11 +187,13 @@ const Interviews = () => {
             <Box>
               <SubCard>
                 <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
-                  <ExtractEventFromEvents event={item} />
+                  <ExtractEventFromEvents
+                    event={data.find((interview) => interview.id === eventIndex) as Iinterviews}
+                  />
                 </Drawer>
                 {/* Header */}
                 <Grid container spacing={2} sx={{ cursor: 'pointer' }}>
-                  {data.map((item) => (
+                  {data.map((item, i) => (
                     <Grid item xs={12} sm={12} md={6} lg={6} key={item.id}>
                       <Paper
                         elevation={3}
@@ -205,7 +207,13 @@ const Interviews = () => {
                         }}
                       >
                         <Box width={'100%'}>
-                          <Grid container onClick={(e) => toggleDrawer(true)(e)} spacing={2}>
+                          <Grid
+                            container
+                            onClick={(e) => {
+                              toggleDrawer(true, item?.id as string)(e);
+                            }}
+                            spacing={2}
+                          >
                             <Grid sx={{ color: 'white' }} item xs={12} mb={2}>
                               <Typography
                                 variant="subtitle1"
@@ -302,20 +310,6 @@ const Interviews = () => {
                             </AccordionDetails>
                           </Accordion>
                         </Box>
-                        {/* <Tooltip sx={{ mx: 'auto' }} title="Cancel Interview">
-                          <IconButton>
-                            <Typography color={'blue'} onClick={() => handleDelete(item.id as string)}>
-                              Cancel
-                            </Typography>
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Edit Interveiw">
-                          <IconButton>
-                            <Typography color={'blue'} onClick={() => navigate(`/devs/interviews/Edit/${item.id}`)}>
-                              Edit
-                            </Typography>
-                          </IconButton>
-                        </Tooltip> */}
                       </Paper>
                     </Grid>
                   ))}
