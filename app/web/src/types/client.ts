@@ -1,6 +1,6 @@
-import { CountryType } from "../components/settings/CountrySelector";
-import { IDev } from "./devs";
-import { IRoleData } from "./roles";
+import { CountryType } from '../components/settings/CountrySelector';
+import { IDev } from './devs';
+import { IRoleData } from './roles';
 export interface IClient {
   id?: string;
   avatar?: string;
@@ -34,7 +34,7 @@ export interface JobInfo {
   tasks: string[]; // Array of tasks
 }
 export interface ClientFormDataState {
-  ["Client Info"]: {
+  ['Client Info']: {
     name: string;
     email: string;
     companyLogo: string;
@@ -46,7 +46,7 @@ export interface ClientFormDataState {
     projectTitle: string;
     aboutTheCompany: string;
   };
-  ["Project Details"]: {
+  ['Project Details']: {
     devsNeeded: string;
     aboutTheProject: string;
     title: string;
@@ -54,7 +54,7 @@ export interface ClientFormDataState {
     experience: string;
     communicationPreferences: string;
   };
-  ["Role Info"]: {
+  ['Role Info']: {
     roleName: string;
     selectedSkills: string[];
     description: string;
@@ -76,15 +76,15 @@ interface LocationInfo {
 }
 export type ClientFormDataAction =
   | {
-      type: "updateProjectInfo";
-      payload: ClientFormDataState["Project Details"];
+      type: 'updateProjectInfo';
+      payload: ClientFormDataState['Project Details'];
     }
-  | { type: "updateclientInfo"; payload: ClientFormDataState["Client Info"] }
+  | { type: 'updateclientInfo'; payload: ClientFormDataState['Client Info'] }
   | {
-      type: "updateRoleInfo";
-      payload: ClientFormDataState["Role Info"];
+      type: 'updateRoleInfo';
+      payload: ClientFormDataState['Role Info'];
     }
-  | { type: "reset"; payload: ClientFormDataState };
+  | { type: 'reset'; payload: ClientFormDataState };
 export interface ClientFormDataContextProps {
   formDataState: ClientFormDataState;
   dispatch: (action: ClientFormDataAction) => void;
