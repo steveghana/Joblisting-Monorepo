@@ -37,7 +37,6 @@ export const getAllDevs = async (
   dependencies = injectDependencies(dependencies, ['db']);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const devs = await devRepo.find({ relations: ['client', 'roles', 'job'] });
-  console.log(devs, 'thise are the devs');
   // Fetch developers with roles, client, user, job, and guest interviews
   const developersWithInterviews = await devRepo
     .createQueryBuilder('developer')
@@ -92,7 +91,6 @@ export async function getDevById(
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  console.log(id, 'dev id');
   const dev = await myDataSource.manager
     .getRepository(dependencies.db.models.developer)
     .findOne({
@@ -117,6 +115,7 @@ export async function updateDev(
   const devRepo = transactionParam.getRepository(
     dependencies.db.models.developer,
   );
+
   return await ensureTransaction(
     transactionParam,
     async (transaction) => {
@@ -208,7 +207,6 @@ export async function assignToRole(
   });
   const existingDev = await devRepo.findOne({ where: { id } });
 
-  // console.log(typeof existingRole.developers)
   // Assuming you have a ManyToMany relationship between Developer and Role
   if (!existingRole?.developers?.length) {
     existingRole.developers = [existingDev];
