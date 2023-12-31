@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useClientColums } from '../../../../hooks/useColumns';
 import {
   // IColumnTypeString,
@@ -7,33 +7,39 @@ import {
 } from '../../../../utils/clientTableCrud';
 import TableActions from '../../../../components/Table/TableActions';
 import CreatRow from '../../../../components/Table/CreatRow';
-import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import { MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 //Material UI Imports
 import { IClient } from '../../../../types/client';
 import { useNavigate } from 'react-router';
 import { getDefaultMRTOptions } from '../../../../components/Table/DefaultColumnOpt';
-import { useUpdateClientMutation, useDeletClientMutation } from '../../../../store/services/client.service';
+import {
+  useUpdateClientMutation,
+  useDeletClientMutation,
+  useGetClientsQuery,
+} from '../../../../store/services/client.service';
 import { toast } from 'react-toastify';
 import { useMediaQuery, useTheme } from '@mui/material';
+import TopToolbar from '@/components/Table/topToolBar';
 interface IClientTableData {
   data: IClient[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
   refetch: () => void;
+  columns: MRT_ColumnDef<IClient>[];
 }
-const ClientTableData = ({ data, isLoading, isFetching, isError, refetch }: IClientTableData) => {
+const ClientTableData = ({ data, isLoading, isFetching, isError, refetch, columns }: IClientTableData) => {
   const theme = useTheme();
-  const [updateUser, { isLoading: isUpdatingUser }] = useUpdateClientMutation();
-  const [deleteuser, { isLoading: isDeletingUser }] = useDeletClientMutation();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+  // const columns = useClientColums();
+
   const [validationErrors, setValidationErrors] = React.useState<Record<string, string | undefined>>({});
   const navigate = useNavigate();
-
-  const columns = useClientColums();
+  const [updateUser, { isLoading: isUpdatingUser }] = useUpdateClientMutation();
+  const [deleteuser, { isLoading: isDeletingUser }] = useDeletClientMutation();
 
   const defaultMRTOptions = getDefaultMRTOptions<IClient>(matchUpMd);
-
+  console.log('yes');
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
     columns,
@@ -47,11 +53,14 @@ const ClientTableData = ({ data, isLoading, isFetching, isError, refetch }: ICli
           children: 'Error loading data',
         }
       : undefined,
-
+    muiSearchTextFieldProps: {
+      size: 'small',
+      variant: 'outlined',
+    },
     muiTableBodyCellProps: ({ row }) => ({
       onClick: (event) => {
         event.stopPropagation();
-        navigate(`/dashboard/customers/clients/${row.id}`);
+        // navigate(`/dashboard/customers/clients/${row.id}`);
       },
       sx: {
         cursor: 'pointer', //you might want to change the cursor too when adding an onClick
@@ -94,7 +103,6 @@ const ClientTableData = ({ data, isLoading, isFetching, isError, refetch }: ICli
       showProgressBars: isFetching,
     },
   });
-
   return <MaterialReactTable table={table} />;
 };
 
