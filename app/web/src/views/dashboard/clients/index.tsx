@@ -11,6 +11,7 @@ import { useGetClientsQuery } from '../../../store/services/client.service';
 import NoData from '../../../components/NoData';
 import FullscreenProgress from '../../../components/FullscreenProgress/FullscreenProgress';
 import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
+import { useClientColums } from '@/hooks/useColumns';
 /**
  * Clients component displays a list of clients from the API.
  * It fetches the clients data and handles loading/error states.
@@ -21,27 +22,24 @@ import TableSkeletonLoader from '@/components/Skeleton/tableSkeleton';
  */
 
 const Clients = () => {
+  const columns = useClientColums();
   const navigate = useNavigate();
 
   const { data, isLoading, isFetching, isError, refetch } = useGetClientsQuery();
-
-  const renderContent = () => {
-    if (isLoading || isFetching) {
-      return <TableSkeletonLoader />;
-    }
-
-    if (data?.length) {
-      return (
-        <ClientTable refetch={refetch} data={data} isError={isError} isFetching={isFetching} isLoading={isLoading} />
-      );
-    }
-
-    return <NoData />;
-  };
-
+  console.log(data, 'from data');
+  if (isLoading || isFetching) {
+    return <TableSkeletonLoader />;
+  }
+  if (!data?.length) {
+    return (
+      <Box width={'99vw'}>
+        <NoData />
+      </Box>
+    );
+  }
   return (
-    <MainCard title={'Clients'}>
-      <Box display="flex" mb={3}>
+    <MainCard>
+      <Box display="flex">
         <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
           <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
             <ArrowBackTwoTone />
@@ -49,11 +47,27 @@ const Clients = () => {
         </Tooltip>
       </Box>
       <CustomButton text="Add new Client" onClick={() => navigate('/dashboard/customers/clients/add')} />
-
-      {renderContent()}
+      {!data?.length || isError ? (
+        <>
+          <NoData />
+        </>
+      ) : (
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <ClientTable
+              refetch={refetch}
+              data={data}
+              isError={isError}
+              columns={columns}
+              isFetching={isFetching}
+              isLoading={isLoading}
+            />
+          </Grid>
+        </Grid>
+      )}
     </MainCard>
   );
 };
 
-export default Clients;
-// export default Protect(Clients, ['Ceo']);
+// export default Clients;
+export default Protect(Clients, ['Ceo']);
