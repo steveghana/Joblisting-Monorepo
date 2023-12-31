@@ -13,7 +13,7 @@ export const useClientColums = () => {
   return useMemo<MRT_ColumnDef<IClient>[]>(
     () => [
       {
-        id: 'clientinfo', //id used to define `group` column
+        id: 'client info', //id used to define `group` column
         header: 'Client Info',
         columns: [
           {
@@ -37,7 +37,6 @@ export const useClientColums = () => {
                   {' '}
                   {!original.avatar && `${original.name[0]}`}
                 </Avatar>
-
                 {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
                 <span>{renderedCellValue}</span>
               </Box>
@@ -46,14 +45,13 @@ export const useClientColums = () => {
           {
             accessorKey: 'email', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
-            filterVariant: 'autocomplete',
+            // filterVariant: 'autocomplete',
             header: 'Email',
             size: 150,
           },
           {
             accessorKey: 'phoneNumber', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
-            filterVariant: 'autocomplete',
             header: 'Phone Number',
             size: 150,
           },
@@ -67,7 +65,9 @@ export const useClientColums = () => {
           {
             accessorKey: 'developersLength', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
-            filterVariant: 'autocomplete',
+            filterVariant: 'range',
+            filterFn: 'between',
+
             header: ' Devs Assigned',
             size: 50,
           },
@@ -86,13 +86,16 @@ export const useClientColums = () => {
         columns: [
           {
             accessorKey: 'companyName',
-            // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
-            filterFn: 'between',
+            filterVariant: 'autocomplete',
+
+            // filterFn: 'between',
             header: 'Company Name',
             size: 200,
           },
           {
-            accessorKey: 'projectTitle', //hey a simple column for once
+            accessorKey: 'projectTitle',
+            filterVariant: 'autocomplete',
+            //hey a simple column for once
             header: 'Project Title',
             size: 350,
           },
