@@ -1,26 +1,26 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 // material-ui
-import { useTheme } from "@mui/material/styles";
-import { Divider, List, Typography } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import { Divider, List, Typography } from '@mui/material';
 
 // project imports
-import NavItem from "../NavItem";
-import NavCollapse from "../NavCollapse";
-import { themeTypography } from "../../../../../themes/schemes/typography";
+import NavItem from '../NavItem';
+import NavCollapse from '../NavCollapse';
+import { themeTypography } from '../../../../../themes/schemes/typography';
 // themeTypography
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 
-const NavGroup = ({ item }: INavgroup) => {
+const NavGroup = ({ item, navTitle }: INavgroup) => {
   const theme = useTheme();
 
   // menu list collapse & items
-  const items = item.children?.map((menu) => {
+  const items = item.children?.map((menu: any) => {
     switch (menu.type) {
-      case "collapse":
+      case 'collapse':
         return <NavCollapse key={menu.id} menu={menu} level={1} />;
-      case "item":
-        return <NavItem key={menu.id} item={menu} level={1} />;
+      case 'item':
+        return <NavItem navTitle={(title) => navTitle(title)} key={menu.id} item={menu} level={1} />;
       default:
         return (
           <Typography key={menu.id} variant="h6" color="error" align="center">
@@ -35,20 +35,10 @@ const NavGroup = ({ item }: INavgroup) => {
       <List
         subheader={
           item.title && (
-            <Typography
-              variant="caption"
-              sx={{ ...themeTypography.menuCaption }}
-              display="block"
-              gutterBottom
-            >
+            <Typography variant="caption" sx={{ ...themeTypography.menuCaption }} display="block" gutterBottom>
               {item.title}
               {item.caption && (
-                <Typography
-                  variant="caption"
-                  sx={{ ...themeTypography.subMenuCaption }}
-                  display="block"
-                  gutterBottom
-                >
+                <Typography variant="caption" sx={{ ...themeTypography.subMenuCaption }} display="block" gutterBottom>
                   {item.caption}
                 </Typography>
               )}
@@ -67,6 +57,7 @@ const NavGroup = ({ item }: INavgroup) => {
 
 interface INavgroup {
   item: Record<any, any>;
+  navTitle: (value: string) => void;
 }
 
 export default NavGroup;
