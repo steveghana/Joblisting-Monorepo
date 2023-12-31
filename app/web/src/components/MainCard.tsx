@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Divider, IconButton, Tooltip, Typography } from '@mui/material';
 import { themePalette } from '../themes/schemes/palette';
+import { ArrowBackTwoTone } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
 // constant
 const headerSX = {
   '& .MuiCardHeader-action': { mr: 0 },
@@ -47,7 +49,7 @@ const MainCard: React.FC<IAny> = forwardRef(
     }: any,
     ref,
   ) => {
-    const theme = useTheme();
+    const navigate = useNavigate();
 
     return (
       <motion.div
@@ -55,7 +57,7 @@ const MainCard: React.FC<IAny> = forwardRef(
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        style={{ height: '100%' }}
+        style={{ height: 'auto' }}
         transition={{ duration: 0.3 }}
       >
         <Card
@@ -73,19 +75,20 @@ const MainCard: React.FC<IAny> = forwardRef(
         >
           {/* card header and action */}
           {title && (
-            <CardHeader
-              sx={headerSX}
-              title={darkTitle ? <Typography variant="h3">{title}</Typography> : title}
-              action={secondary}
-            />
+            <Box display="flex">
+              <CardHeader
+                sx={headerSX}
+                title={darkTitle ? <Typography variant="h4">{title}</Typography> : title}
+                action={secondary}
+              />
+            </Box>
           )}
-
           {/* content & header divider */}
           {title && <Divider />}
 
           {/* card content */}
           {content && (
-            <CardContent sx={{ ...contentSX, py: 2, px: 1, minHeight: '100%' }} className={contentClass}>
+            <CardContent sx={{ ...contentSX, py: 0, px: 1, minHeight: '100%' }} className={contentClass}>
               {children}
             </CardContent>
           )}
