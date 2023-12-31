@@ -28,7 +28,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import RenderGroup from '../interviewSteps/Autocomplete';
-import { Schedule } from '@mui/icons-material';
+import { ArrowBackTwoTone, Schedule } from '@mui/icons-material';
 import AnimateButton from '../../../components/extended/AnimateButton';
 import { DatePicker, TimeField, TimePicker } from '@mui/x-date-pickers';
 import { startOfDay, addHours, addMinutes } from 'date-fns';
@@ -93,6 +93,16 @@ const InterviewFormFields = ({
     <>
       <Divider sx={{ border: '1px solid rgba(128, 128, 128, 0.158)' }} />
       <Grid container>
+        <Box display="flex" sx={{ background: 'white', width: '100%' }}>
+          <Tooltip arrow placement="top" onClick={() => navigate('/devs/shortlisted')} title="Go back">
+            <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+              <ArrowBackTwoTone />
+              <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                Back
+              </Typography>
+            </IconButton>
+          </Tooltip>
+        </Box>
         <Box py={3} display={'flex'} sx={{ width: '100%' }} alignItems={'center'}>
           <Typography sx={{ mx: 'auto' }} variant="h4">
             {isEditing ? 'Edit' : 'Add'} One-on-One Event
