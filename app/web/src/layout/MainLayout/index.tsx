@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
@@ -62,7 +62,7 @@ const MainLayout = () => {
   // Handle left drawer
   const leftDrawerOpened = useSelector((state: any) => state.customization?.opened);
   const hasToken = sessionStorage.getItem('auth_token');
-
+  const [sideBarTitle, setSidebarTitle] = useState('');
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
     dispatch({
@@ -92,14 +92,24 @@ const MainLayout = () => {
 
       {/* drawer */}
       <Sidebar
+        navTitle={(title) => setSidebarTitle(title)}
         drawerOpen={!hasToken ? false : !matchDownMd ? leftDrawerOpened : !leftDrawerOpened}
         drawerToggle={handleLeftDrawerToggle}
       />
       <Main theme={theme} open={leftDrawerOpened}>
-        <AnimatePresence mode="popLayout">
-          {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign /> */}
-          <Outlet />
-        </AnimatePresence>
+        {/* <AnimatePresence mode="popLayout"> */}
+        {hasToken && (
+          <Breadcrumbs
+            separator={IconChevronRight}
+            navigation={navigation}
+            sidebarTitle={sideBarTitle || 'item'}
+            icon
+            title
+            rightAlign
+          />
+        )}
+        <Outlet />
+        {/* </AnimatePresence> */}
       </Main>
     </Box>
   );
