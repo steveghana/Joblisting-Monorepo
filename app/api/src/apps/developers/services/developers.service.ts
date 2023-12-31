@@ -191,15 +191,22 @@ export class DevelopersService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      console.log(updateDevDto, 'this is the pending update');
       const data = await Developers.update(
         id,
         {
           ...updateDevDto,
+
           startRoleDate:
             updateDevDto.workStatus === 'Active' &&
             dev.workStatus === 'Not Active'
               ? new Date()
               : dev.startRoleDate,
+          workStatus:
+            updateDevDto.role_status === 'Accepted' &&
+            dev.workStatus === 'Not Active'
+              ? 'Active'
+              : 'Not Active',
         },
         transaction,
       );
