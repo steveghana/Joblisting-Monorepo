@@ -84,9 +84,12 @@ export class ClientsService {
       return data.map(({ developers, roles, country, ...rest }) => {
         return {
           developersLength: developers.length,
-          // rolesOpen: roles.filter((role) => role.vacancy_status === 'Open')
-          //   .length,
+          rolesOpen: roles.filter((role) => role.vacancy_status === 'Open')
+            .length,
           roles: roles,
+          // openRolesLength: roles.filter(
+          //   (role) => role.vacancy_status === 'Open',
+          // )?.length,
           countrylabel: country.label,
           ...rest,
         };
@@ -101,7 +104,6 @@ export class ClientsService {
         return null;
       }
       const { developers, ...rest } = data.data;
-      console.log(data, 'this is the client info');
       const devInfo = developers
         .filter(
           (dev) =>
