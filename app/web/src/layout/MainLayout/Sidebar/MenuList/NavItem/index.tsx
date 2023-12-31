@@ -1,34 +1,34 @@
-import PropTypes from "prop-types";
-import React, { forwardRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import PropTypes from 'prop-types';
+import React, { forwardRef, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
-import { useTheme } from "@mui/material/styles";
-import {
-  Avatar,
-  Chip,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 // project imports
-import { MENU_OPEN, SET_MENU } from "../../../../../store/actions";
+import { BREADCRUM_MENU, MENU_OPEN, SET_MENU } from '../../../../../store/actions';
 
 // assets
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import { themeTypography } from "../../../../../themes/schemes/typography";
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { themeTypography } from '../../../../../themes/schemes/typography';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
-const NavItem = ({ item, level }) => {
+const NavItem = ({
+  item,
+  level,
+  navTitle,
+}: {
+  item: Record<any, any>;
+  level: number;
+  navTitle: (value: string) => void;
+}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const customization = useSelector((state: any) => state.customization);
-  const matchesSM = useMediaQuery(theme.breakpoints.down("lg"));
+  const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
 
   const Icon = item.icon;
   const itemIcon = item?.icon ? (
@@ -36,32 +36,29 @@ const NavItem = ({ item, level }) => {
   ) : (
     <FiberManualRecordIcon
       sx={{
-        width:
-          customization.isOpen.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
-        height:
-          customization.isOpen.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
+        width: customization.isOpen.findIndex((id: any) => id === item?.id) > -1 ? 8 : 6,
+        height: customization.isOpen.findIndex((id: any) => id === item?.id) > -1 ? 8 : 6,
       }}
-      fontSize={level > 0 ? "inherit" : "medium"}
+      fontSize={level > 0 ? 'inherit' : 'medium'}
     />
   );
 
-  let itemTarget = "_self";
+  let itemTarget = '_self';
   // if (item.target) {
   //   itemTarget = "_blank";
   // }
 
   let listItemProps = {
-    component: forwardRef((props: any, ref: any) => (
-      <Link ref={ref} {...props} to={item.url} target={itemTarget} />
-    )),
+    component: forwardRef((props: any, ref: any) => <Link ref={ref} {...props} to={item.url} target={itemTarget} />),
   };
   if (item?.external) {
     //@ts-ignore
-    listItemProps = { component: "a", href: item.url, target: itemTarget };
+    listItemProps = { component: 'a', href: item.url, target: itemTarget };
   }
 
-  const itemHandler = (id) => {
+  const itemHandler = (id: any) => {
     dispatch({ type: MENU_OPEN, id });
+    navTitle(item.title);
     if (matchesSM) dispatch({ type: SET_MENU, opened: false });
   };
 
@@ -69,7 +66,7 @@ const NavItem = ({ item, level }) => {
   useEffect(() => {
     const currentIndex = document.location.pathname
       .toString()
-      .split("/")
+      .split('/')
       .findIndex((id) => id === item.id);
     if (currentIndex > -1) {
       dispatch({ type: MENU_OPEN, id: item.id });
@@ -83,25 +80,19 @@ const NavItem = ({ item, level }) => {
       sx={{
         borderRadius: `${customization?.borderRadius}px`,
         mb: 0.5,
-        alignItems: "flex-start",
-        backgroundColor: level > 1 ? "transparent !important" : "inherit",
+        alignItems: 'flex-start',
+        backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
         py: level > 1 ? 1 : 1.25,
         pl: `${level * 24}px`,
       }}
-      selected={customization.isOpen.findIndex((id) => id === item.id) > -1}
+      selected={customization.isOpen.findIndex((id: any) => id === item.id) > -1}
       onClick={() => itemHandler(item.id)}
     >
-      <ListItemIcon sx={{ my: "auto", minWidth: !item?.icon ? 18 : 36 }}>
-        {itemIcon}
-      </ListItemIcon>
+      <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
       <ListItemText
         primary={
           <Typography
-            variant={
-              customization.isOpen.findIndex((id) => id === item.id) > -1
-                ? "h5"
-                : "body1"
-            }
+            variant={customization.isOpen.findIndex((id: any) => id === item.id) > -1 ? 'h5' : 'body1'}
             color="inherit"
           >
             {item.title}
@@ -109,12 +100,7 @@ const NavItem = ({ item, level }) => {
         }
         secondary={
           item.caption && (
-            <Typography
-              variant="caption"
-              sx={{ ...themeTypography.subMenuCaption }}
-              display="block"
-              gutterBottom
-            >
+            <Typography variant="caption" sx={{ ...themeTypography.subMenuCaption }} display="block" gutterBottom>
               {item.caption}
             </Typography>
           )
@@ -131,11 +117,6 @@ const NavItem = ({ item, level }) => {
       )}
     </ListItemButton>
   );
-};
-
-NavItem.propTypes = {
-  item: PropTypes.object,
-  level: PropTypes.number,
 };
 
 export default NavItem;
