@@ -8,6 +8,7 @@ export const initialState = {
   isOpen: [], // for active default menu
   defaultId: 'default',
   fontFamily: 'San serif',
+  breadCrumps: '',
   borderRadius: 12,
   opened: false,
 };
@@ -27,6 +28,11 @@ const customizationReducer = (state = initialState, action: any) => {
       return {
         ...state,
         opened: action.opened,
+      };
+    case actionTypes.BREADCRUM_MENU:
+      return {
+        ...state,
+        opened: action.breadCrumps,
       };
     case actionTypes.SET_FONT_FAMILY:
       return {
