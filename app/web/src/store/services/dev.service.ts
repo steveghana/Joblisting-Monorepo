@@ -123,17 +123,7 @@ export const devApi = createApi({
         } = response;
         return Array.isArray(message) ? message.join(',') : message;
       },
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        dispatch(startFetching());
-        try {
-          const { data } = await queryFulfilled;
-          // `onSuccess` side-effect
-          dispatch(fetchingSuccess(data));
-        } catch (err: any) {
-          dispatch(fetchingError(err.message));
-          // `onError` side-effect
-        }
-      },
+
       providesTags: (result, error) =>
         result ? [...result.map(({ id }) => ({ type: 'devs' as const, id })), 'devs'] : ['devs'],
     }),
