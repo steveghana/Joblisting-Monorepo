@@ -15,6 +15,7 @@ import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
 import { MarkAsUnread } from '@mui/icons-material';
 import { gridSpacing } from '../../store/constant';
 import { themePalette } from '../../themes/schemes/palette';
+import { useTypedSelector } from '@/store';
 
 const linkSX = {
   display: 'flex',
@@ -35,6 +36,7 @@ interface IBreadCrumps {
   separator?: any;
   title?: boolean;
   titleBottom?: boolean;
+  sidebarTitle?: string;
 }
 // ==============================|| BREADCRUMBS ||============================== //
 
@@ -45,12 +47,15 @@ const Breadcrumbs = ({
   icons,
   maxItems,
   navigation,
+  sidebarTitle,
   rightAlign,
   separator,
   title,
   titleBottom,
   ...others
 }: IBreadCrumps) => {
+  const state = useTypedSelector((state) => state.customization);
+  console.log(sidebarTitle, 'this is the clickable sidebar title');
   const theme = useTheme();
 
   const iconStyle = {
@@ -98,19 +103,14 @@ const Breadcrumbs = ({
       return false;
     });
   });
-
-  // item separator
   const SeparatorIcon = separator;
   const separatorIcon = separator ? <SeparatorIcon stroke={1.5} size="1rem" /> : <MarkAsUnread />;
-
   let mainContent;
   let itemContent;
   let breadcrumbContent = <Typography />;
   let itemTitle = '';
   let CollapseIcon;
   let ItemIcon;
-
-  // collapse item
   if (main && main.type === 'collapse') {
     CollapseIcon = main.icon ? main.icon : AccountTreeTwoToneIcon;
     mainContent = (
@@ -120,10 +120,8 @@ const Breadcrumbs = ({
       </Typography>
     );
   }
-
-  // items
   if (item && item.type === 'item') {
-    itemTitle = item.title;
+    itemTitle = sidebarTitle as string;
 
     ItemIcon = item.icon ? item.icon : AccountTreeTwoToneIcon;
     itemContent = (
@@ -164,8 +162,8 @@ const Breadcrumbs = ({
             >
               {title && !titleBottom && (
                 <Grid item>
-                  <Typography variant="h3" sx={{ fontWeight: 500 }}>
-                    {item.title}
+                  <Typography variant="h4" sx={{ fontWeight: 500 }}>
+                    {itemTitle}
                   </Typography>
                 </Grid>
               )}
@@ -191,18 +189,8 @@ const Breadcrumbs = ({
                   {itemContent}
                 </MuiBreadcrumbs>
               </Grid>
-              {title && titleBottom && (
-                <Grid item>
-                  <Typography variant="h3" sx={{ fontWeight: 500 }}>
-                    {item.title}
-                  </Typography>
-                </Grid>
-              )}
             </Grid>
           </Box>
-          {card === false && divider !== false && (
-            <Divider sx={{ borderColor: themePalette.primary.main, mb: gridSpacing }} />
-          )}
         </Card>
       );
     }
