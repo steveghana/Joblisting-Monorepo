@@ -2,14 +2,11 @@ import {
   Dependencies,
   injectDependencies,
 } from '../../../util/dependencyInjector';
-import uuidUtil from '../../../util/uuid';
-import { DeepPartial, EntityManager } from 'typeorm';
+import { EntityManager } from 'typeorm';
 import myDataSource from '../../../../db/data-source';
-import uuid from '../../../util/uuid';
 import { IRole } from '../../../types/role';
 import { ensureTransaction } from '../../../Config/transaction';
 import { JobInfo } from '../dto/create-role.dto';
-import { HttpExceptionFilter } from '@/middleware/err.Middleware';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { destroyLink } from '../../../apps/Shorturl/DBQueries/shortUrl';
 
@@ -45,7 +42,7 @@ export async function createJobs(
     ...job,
     postedDate: new Date(),
   });
-  const data = await jobRepo.save(createJob);
+  await jobRepo.save(createJob);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return roleForJob;
 }
@@ -72,7 +69,7 @@ export async function deleteJob(
   dependencies: Dependencies = null,
 ) /* : Promise<ICredentialToken> */ {
   dependencies = injectDependencies(dependencies, ['db']);
-  const role = transaction.getRepository(dependencies.db.models.role);
+  // const role = transaction.getRepository(dependencies.db.models.role);
   const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
 
   const existingJob = await jobRepo.findOne({
@@ -81,7 +78,7 @@ export async function deleteJob(
   if (!existingJob) {
     throw new HttpException('Job doesnt exist', HttpStatus.BAD_REQUEST);
   }
-  const { affected: linkDestroyed } = await destroyLink(existingJob.joblink);
+  await destroyLink(existingJob.joblink);
   const { affected } = await jobRepo.delete({ id });
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -135,7 +132,7 @@ export async function deleteRole(
   dependencies = injectDependencies(dependencies, ['db']);
   const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
-  const short = transaction.getRepository(dependencies.db.models.roleShortUrl);
+  // const short = transaction.getRepository(dependencies.db.models.roleShortUrl);
   const applicantionRep = transaction.getRepository(
     dependencies.db.models.application,
   );
@@ -145,25 +142,25 @@ export async function deleteRole(
   const hoursRepo = transaction.getRepository(
     dependencies.db.models.clockedHours,
   );
-  const job = await jobRepo.findOne({ where: { role: { id } } });
-  const { affected: hoursDeleted } = await hoursRepo.delete({
+  // const job = await jobRepo.findOne({ where: { role: { id } } });
+  await hoursRepo.delete({
     role: { id },
   });
 
-  const { affected: interviewDeleted } = await interviewRepo.delete({
+  await interviewRepo.delete({
     role: { id },
   });
   // await short.delete({
   //   role: { id },
   // });
 
-  const { affected: applicationDeleted } = await applicantionRep.delete({
+  await applicantionRep.delete({
     role: { id },
   });
 
-  const { affected: devDeleted } = await devRepo.delete({ roles: { id } });
+  await devRepo.delete({ roles: { id } });
 
-  const { affected: jobDeleted } = await jobRepo.delete({ role: { id } });
+  await jobRepo.delete({ role: { id } });
 
   const { affected } = await transaction
     .getRepository(dependencies.db.models.role)
@@ -199,7 +196,7 @@ export async function updateRole(
   const RoleRepo = transactionParam.getRepository(dependencies.db.models.role);
   return await ensureTransaction(
     transactionParam,
-    async (transaction) => {
+    async () => {
       const data = await RoleRepo.update({ id }, { ...updates });
       return data;
     },
