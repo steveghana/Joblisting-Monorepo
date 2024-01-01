@@ -10,6 +10,7 @@ import { IRoleData } from '@/types/roles';
 import { IDev } from '@/types/devs';
 import ClientTopCard from './clientDetails/clientTopCard';
 import { IClient } from '@/types/client';
+import StatusComingSoon from '@/views/status/ComingSoon';
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -74,9 +75,13 @@ const ClientDetails = () => {
               onActionComplete={() => refetch()}
             />
           )}
-          {currentTab === 'tasks' && <div>Column for displaying deves with roles</div>}
+          {currentTab === 'tasks' && (
+            <div>
+              <StatusComingSoon />
+            </div>
+          )}
           {currentTab === 'devs' && (
-            <ClientEmployees devs={data!.developers as IDev[]} roles={data?.roles as IRoleData[]} />
+            <ClientEmployees devs={data!.developers as IDev[]} /* roles={data?.roles as IRoleData[]} */ />
           )}
         </Grid>
       </>
