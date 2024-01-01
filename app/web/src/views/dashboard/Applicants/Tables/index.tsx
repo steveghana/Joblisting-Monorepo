@@ -24,6 +24,8 @@ import NoData from '../../../../components/NoData';
 import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import FullscreenProgress from '../../../../components/FullscreenProgress/FullscreenProgress';
 import { toast } from 'react-toastify';
+import { fetchDevs } from '@/store/slices/dev.slice';
+import { useTypedDispatch } from '@/store';
 export const appliacantState = [
   'PendingShortlist',
   'Shortlisted',
@@ -36,7 +38,7 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[]; actionFn: (
 }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
-
+  const dispatch = useTypedDispatch();
   const [validationErrors, setValidationErrors] = React.useState<Record<string, string | undefined>>({});
 
   const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingApplicant, error: bulkdeleteError }] =
@@ -72,6 +74,7 @@ const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[]; actionFn: (
     onEditingRowCancel: () => setValidationErrors({}),
     onEditingRowSave: ({ values, table, row }) => {
       handleSave(values, { table, row }, updateUser, setValidationErrors);
+      dispatch(fetchDevs());
       // refetch();
     },
 
