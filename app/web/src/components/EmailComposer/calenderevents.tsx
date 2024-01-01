@@ -65,12 +65,13 @@ interface EventDrawerProps {
   onClose: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  loading: boolean;
 }
-const comments = [
-  { author: 'Alice', text: 'Great interview!' },
-  { author: 'Bob', text: 'Candidate performed well.' },
-];
-const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDelete }) => {
+// const comments = [
+//   { author: 'Alice', text: 'Great interview!' },
+//   { author: 'Bob', text: 'Candidate performed well.' },
+// ];
+const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDelete, loading }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   // const guestEmails = event.guests.map(guest => guest.email)
   return (
@@ -90,7 +91,7 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
       <Box sx={{ background: 'white', zIndex: 2, width: '100%' }} position={'absolute'}>
         <Card variant="outlined" sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', gap: 1.5 }}>
           <Tooltip title="Edit">
-            <IconButton onClick={onEdit}>
+            <IconButton disabled={loading} onClick={onEdit}>
               <EditTwoTone />
             </IconButton>
           </Tooltip>
@@ -100,12 +101,12 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton onClick={onDelete}>
+            <IconButton disabled={loading} onClick={onDelete}>
               <DeleteTwoTone />
             </IconButton>
           </Tooltip>
           <Tooltip title="Close">
-            <IconButton onClick={onClose}>
+            <IconButton disabled={loading} onClick={onClose}>
               <Close />
             </IconButton>
           </Tooltip>
