@@ -49,14 +49,22 @@ import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 import { TransparentScreeProgress } from '../../FullscreenProgress/FullscreenProgress';
 import { Social } from './authicons';
-
+import { getRemainingRoles, isRegistrationAvailable } from '@/utils/checkvalid';
+interface RegisterFormValues {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  role: string;
+  submit: null;
+}
 // ===========================|| AUTH - REGISTER ||=========================== //
 
 const AuthRegister = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const { data, isLoading, isError: isRolesError, error: rolesError } = useGetRolesQuery();
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
   const [strength, setStrength] = useState(0);
@@ -66,109 +74,102 @@ const AuthRegister = ({ ...others }) => {
   const [registerWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] =
     useRegisterUserWithGoogleMutation();
   const router = useNavigate();
-  const checkRegistration = () => {
-    if (!!data?.length && data.includes('Ceo') && data.includes('Recruitment')) {
-      toast.warn('Registration is not available at the moment', {
-        position: 'bottom-center',
-      });
-      router('/auth/login');
-      return false;
-      // Both "Ceo" and "Recruitment" are present in the data array then rg is open
-    }
-    // Either "Ceo" or "Recruitment" (or both) are not present in the data array then not open :TODO: change later
-    return true;
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
-
-  /**
-   * Registers a new user
-   *
-   * @param values - Object containing user details
-   * @param setters - Formik helpers for managing form state
-   * @param scriptedRef - Ref for determining if function was called from test
-   *
-   * @returns Promise resolving to boolean indicating if register succeeded
-   */
-  interface RegisterFormValues {
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    role: string;
-    submit: null;
-  }
-
   async function register(
     values: RegisterFormValues,
     setters: FormikHelpers<RegisterFormValues>,
     scriptedRef: React.MutableRefObject<boolean>,
   ) {
-    const { setStatus, setErrors, setSubmitting } = setters;
+    let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
+    const registrationAvailable = isRegistrationAvailable(data as string[]);
+    const remainingRoles = getRemainingRoles(data as string[]);
+    console.log(registrationAvailable, remainingRoles, 'sjfdkjfd');
+    if (!remainingRoles.length || !registrationAvailable) {
+      setters.setSubmitting(false);
+      setters.resetForm();
+      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+      return false;
+    } else {
+      const { setStatus, setErrors, setSubmitting } = setters;
 
-    const { firstName, password, email, lastName, role: userRole, phoneNumber } = values;
+      const { firstName, password, email, lastName, role: userRole, phoneNumber } = values;
 
-    try {
-      const data = await registerUser({
-        user: {
-          firstName,
-          password,
-          email,
-          phoneNumber,
-          lastName,
-        },
-      }).unwrap();
-
-      if (!data) return;
-
-      const { token } = data;
-
-      if (token) {
-        sessionStorage.setItem(
-          'tempUserinfo',
-          JSON.stringify({
-            email,
+      try {
+        const data = await registerUser({
+          user: {
+            firstName,
             password,
-          }),
-        );
+            email,
+            phoneNumber,
+            lastName,
+          },
+        }).unwrap();
 
-        router('/role/select');
+        if (!data) return;
 
-        if (scriptedRef.current) {
-          setStatus({ success: true });
-          setSubmitting(false);
+        const { token } = data;
+
+        if (token) {
+          sessionStorage.setItem(
+            'tempUserinfo',
+            JSON.stringify({
+              email,
+              password,
+            }),
+          );
+
+          router('/role/select');
+
+          if (scriptedRef.current) {
+            setStatus({ success: true });
+            setSubmitting(false);
+          }
+
+          return true;
         }
-
-        return true;
+      } catch (error: any) {
+        console.log(error);
+        setStatus({ success: false });
+        // setErrors({ submit: Something wen });
+        setSubmitting(false);
       }
-    } catch (error: any) {
-      setStatus({ success: false });
-      setErrors({ submit: error.data });
-      setSubmitting(false);
     }
   }
 
   const onGoogleSuccess = async (codeResponse: Omit<TokenResponse, 'error' | 'error_description' | 'error_uri'>) => {
-    try {
-      const response = await registerWithGoogle({
-        accessToken: codeResponse.access_token,
-      }).unwrap();
+    let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
+    const registrationAvailable = isRegistrationAvailable(data as string[]);
+    const remainingRoles = getRemainingRoles(data as string[]);
+    console.log(registrationAvailable, remainingRoles, 'sjfdkjfd');
+    if (!remainingRoles.length || !registrationAvailable) {
+      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+      return false;
+    } else {
+      try {
+        const response = await registerWithGoogle({
+          accessToken: codeResponse.access_token,
+        }).unwrap();
 
-      if (response.token) {
-        const { email, password } = response;
-        //This is a temporal user info login credential, tempUserinfo will be cleared upon login
-        sessionStorage.setItem(
-          'tempUserinfo',
-          JSON.stringify({
-            email,
-            password,
-          }),
-        );
-        router('/role/select');
+        if (response.token) {
+          const { email, password } = response;
+          //This is a temporal user info login credential, tempUserinfo will be cleared upon login
+          sessionStorage.setItem(
+            'tempUserinfo',
+            JSON.stringify({
+              email,
+              password,
+            }),
+          );
+          router('/role/select');
+        }
+      } catch (error) {
+        toast.error("Couldn't register with Google, please try again later", {
+          position: 'bottom-center',
+        });
       }
-    } catch (error) {
-      toast.error("Couldn't register with Google, please try again later", {
-        position: 'bottom-center',
-      });
     }
   };
 
@@ -184,14 +185,6 @@ const AuthRegister = ({ ...others }) => {
   useEffect(() => {
     changePassword('123456');
   }, []);
-  useEffect(() => {
-    if (!isLoading) {
-      setTimeout(() => {
-        const checked = checkRegistration();
-        setRegAvailable(checked);
-      }, 3000);
-    }
-  }, [isLoading]);
 
   return (
     <>
@@ -323,7 +316,8 @@ const AuthRegister = ({ ...others }) => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={handleClickShowPassword}
+                      onMouseDown={(e) => e.preventDefault()}
                       edge="end"
                       size="large"
                     >
@@ -459,7 +453,7 @@ const AuthRegister = ({ ...others }) => {
                   text="Sign up"
                   type="submit"
                   loadingPosition="end"
-                  endIcon={<Send />}
+                  // endIcon={<Send />}
 
                   // color="secondary"
                 />
