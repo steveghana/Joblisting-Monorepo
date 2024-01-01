@@ -11,10 +11,6 @@ import {
 } from '@nestjs/common';
 import { DevelopersService } from '../services/developers.service';
 import { CreateDeveloperDto } from '../dto/create-developer.dto';
-import { UpdateDeveloperDto } from '../dto/update-developer.dto';
-import { CreateUserDto } from '../../users/dto/create-user.dto';
-import { AuthService } from '../../auth/services/user.service';
-import { first } from 'rxjs';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
@@ -30,6 +26,7 @@ export class DevelopersController {
   constructor(private readonly developersService: DevelopersService) {}
 
   @Post()
+  @UseFilters(new HttpExceptionFilter())
   async create(
     @Body() createDeveloperDto: CreateDeveloperDto,
     @Res() res: Response,
