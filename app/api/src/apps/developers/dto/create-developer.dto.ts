@@ -1,21 +1,11 @@
-import { ClockHours } from '@/apps/clocked-hours/entities/clocked-hour.entity';
-import { Interview } from '@/apps/interviews/entities/interview.entity';
-import { IDev } from '@/types/developer';
 import {
-  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   IsArray,
-  Matches,
-  MaxLength,
-  MinLength,
-  isNumber,
 } from 'class-validator';
-import { IRole } from '@/types/role';
-import { IUser } from '@/types/user';
-type IinterviewAs = 'interviewee' | 'guest';
+// type IinterviewAs = 'interviewee' | 'guest';
 // type INewUser = Pick<IDev, 'address' | ''>
 export class CreateDeveloperDto {
   @IsNotEmpty({
