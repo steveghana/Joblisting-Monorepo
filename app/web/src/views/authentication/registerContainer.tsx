@@ -10,6 +10,7 @@ import AuthRegister from '../../components/auth/auth-forms/authRegister';
 import AuthFooter from '../../components/AuthFooter';
 import AuthWrapper2 from '../../components/auth/authwrapper';
 import LogoSection from '../../layout/MainLayout/LogoSection';
+import { themePalette } from '@/themes/schemes/palette';
 
 // ===============================|| AUTHWRAPPER - REGISTER ||=============================== //
 const Register = () => {
@@ -19,8 +20,10 @@ const Register = () => {
   return (
     <AuthWrapper2>
       <>
-        <Grid /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */>
-          <AuthCardWrapper>
+        <Grid
+          sx={{ background: 'rgba(255, 255, 255, 0.7)', height: '100%' }} /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */
+        >
+          <Grid>
             <Grid display="flex" alignItems="center" justifyContent="center" mb={1}>
               <Link to="#">
                 <LogoSection />
@@ -55,13 +58,21 @@ const Register = () => {
               </Grid>
               <Grid item xs={12}>
                 <Grid item container direction="column" alignItems="center" xs={12}>
-                  <Typography component={Link} to="/auth/login" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                    Already have an account?
+                  <Typography
+                    component={Link}
+                    to="/auth/login"
+                    variant="subtitle1"
+                    sx={{ textDecoration: 'none', display: 'flex', gap: 1 }}
+                  >
+                    Already have an account?{' '}
+                    <Typography variant="subtitle1" color={themePalette.primary.main}>
+                      Sign In
+                    </Typography>
                   </Typography>
                 </Grid>
               </Grid>
             </Grid>
-          </AuthCardWrapper>
+          </Grid>
         </Grid>
 
         <Grid xs={12} item>
