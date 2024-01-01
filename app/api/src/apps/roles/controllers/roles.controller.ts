@@ -16,10 +16,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ValidationError, validate } from 'class-validator';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { CreateRoleDto } from '../dto/create-role.dto';
-import { UpdateRoleDto } from '../dto/update-role.dto';
 import { Response } from 'express';
 
 @Controller('roles')
