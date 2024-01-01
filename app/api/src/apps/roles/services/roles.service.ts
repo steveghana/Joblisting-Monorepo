@@ -1,5 +1,4 @@
 import { CreateRoleDto, JobInfo, RoleInfoDto } from '../dto/create-role.dto';
-import { UpdateRoleDto } from '../dto/update-role.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import Roles from '../dataManager';
@@ -9,7 +8,6 @@ import { Dependencies } from '../../../util/dependencyInjector';
 import { deleteJob, getAllRoles } from '../DBQueries';
 import { IRole } from '../../../types/role';
 import { createRoleLink } from '../../../apps/Shorturl/service/util';
-import ShortUrl from '@/apps/Shorturl/dataManager/shortUrl';
 
 @Injectable()
 export class RolesService {
