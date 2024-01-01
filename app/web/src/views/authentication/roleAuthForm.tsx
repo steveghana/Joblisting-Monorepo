@@ -14,6 +14,7 @@ import { IProfession } from '../../types/roles';
 import { toast } from 'react-toastify';
 import { useTypedSelector } from '@/store';
 import { motion } from 'framer-motion';
+import { getRemainingRoles, isRegistrationAvailable } from '@/utils/checkvalid';
 function RoleAuth() {
   const [error, setError] = useState(false);
   const [role, setRole] = useState<IProfession>();
@@ -21,8 +22,10 @@ function RoleAuth() {
   const [helperText, setHelperText] = useState('');
   const [loginUser, { isLoading: isWithGoogleLoading }] = useLoginUserMutation();
   const state = useTypedSelector((state) => state.userApi);
-  const roles = ['Ceo', 'Recruitment'];
-
+  // const roles = ['Ceo', 'Recruitment'];
+  let roles: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
+  const registrationAvailable = isRegistrationAvailable(roles as string[]);
+  const remainingRoles = getRemainingRoles(roles as string[]);
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole(event.target.value as IProfession);
   };
@@ -33,7 +36,10 @@ function RoleAuth() {
       setHelperText('Please select an option.');
       return;
     }
-
+    if (!remainingRoles.length || registrationAvailable) {
+      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+      return false;
+    }
     try {
       const { email, password }: { email: string; password: string } =
         JSON.parse(sessionStorage.getItem('tempUserinfo') as string) || {};
