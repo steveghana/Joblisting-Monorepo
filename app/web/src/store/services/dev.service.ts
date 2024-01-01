@@ -14,7 +14,7 @@ export const devApi = createApi({
   }),
   tagTypes: ['devs'],
   endpoints: (builder) => ({
-    updateDev: builder.mutation<IDev, { id: string; data: Partial<IDev> }>({
+    updateDev: builder.mutation<IDev, { id: string } & Partial<IDev>>({
       query: (body) => ({
         url: `developers/${body.id}`,
         method: 'PATCH',
