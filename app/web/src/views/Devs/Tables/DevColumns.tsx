@@ -51,6 +51,7 @@ const DevTableData = ({
   const [updateUser, { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError }] =
     useUpdateDevMutation();
   const [deleteDev, { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError }] = useDeletDevMutation();
+  console.log(isUpdatingDev, isDeletingDev);
   const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] =
     useBulkdeletDevMutation();
   async function cancelinterviewFn(row: MRT_Row<IDev>) {
@@ -145,6 +146,7 @@ const DevTableData = ({
       <>
         <TableActions
           cancelInterview={async () => await cancelinterviewFn(row)}
+          // disabled={isDeleting || isUpdatingDev || isCreatingDev}
           assignToRole={async () => await DeletDevFn(row)}
           tableType={
             row.original.rolestatus === 'Interviewing'
@@ -186,7 +188,7 @@ const DevTableData = ({
       />
     ),
     state: {
-      isLoading: isLoading,
+      isLoading: isLoading || isDeletingDev || isBulkDeletingDev || isDeleting || isUpdatingDev,
       isSaving: isCreatingDev || isUpdatingDev || isDeletingDev || isBulkDeletingDev || isDeleting,
       showAlertBanner: isError || isBulkDeletingError,
       showProgressBars: isFetching,
