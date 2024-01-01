@@ -18,10 +18,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 type TCommentWithoutIds = Omit<TInterviewComment, 'interviewId'>;
-const comments: TCommentWithoutIds[] = [
-  { name: 'Alice', message: 'Great interview!' },
-  { name: 'Bob', message: 'Candidate performed well.' },
-];
+
 const validationSchema = Yup.object({
   message: Yup.string().required('Please enter your message'),
   name: Yup.string().required('Please enter your name'),
@@ -60,13 +57,13 @@ const InterviewComments = ({ interviewId, comments }: { interviewId: string; com
                 message: values.message,
               }).unwrap();
               console.log(response, isSuccess);
-              if (response && isSuccess) {
+              if (response) {
                 toast.success('Comment added successfully!', { position: 'bottom-center' });
                 formikHelpers.resetForm();
               }
             } catch (err) {
               console.log(err);
-              toast.error('Couldnt add comment!, please try again later', { position: 'bottom-center' });
+              // toast.error('Couldnt add comment!, please try again later', { position: 'bottom-center' });
             }
           }}
           validationSchema={validationSchema}
@@ -103,6 +100,7 @@ const InterviewComments = ({ interviewId, comments }: { interviewId: string; com
             <CustomButton
               variant="contained"
               color="primary"
+              loading={isLoading}
               type="submit"
               text="Add Comment"
               endIcon={<Comment fontSize="small" />}
