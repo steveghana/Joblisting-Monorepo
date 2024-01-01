@@ -17,12 +17,16 @@ const Applicants = ({ roleid }: { roleid: string }) => {
   }
   if (!filteredApplicantsByJob?.length || isError) {
     return (
-      <Box width={'99dvw'}>
+      <Box height={'100%'}>
         <NoData />
       </Box>
     );
   }
-  return <ApplicantTable applicants={filteredApplicantsByJob as ApplicantsSubmission[]} actionFn={() => refetch()} />;
+  return (
+    <Grid>
+      <ApplicantTable applicants={filteredApplicantsByJob as ApplicantsSubmission[]} actionFn={() => refetch()} />;
+    </Grid>
+  );
 };
 
 export default Applicants;
