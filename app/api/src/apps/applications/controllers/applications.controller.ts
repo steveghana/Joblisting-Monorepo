@@ -8,8 +8,6 @@ import {
   Delete,
   Res,
   UseFilters,
-  HttpException,
-  HttpStatus,
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
@@ -23,11 +21,11 @@ import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { Response } from 'express';
 import { ApplicationsService } from '../services/applications.service';
 import { CreateApplicationDto } from '../dto/create-application.dto';
-import { IStatusApplication } from '@/types/application';
-import { data } from '../../../mockdata';
+import { data as mockApplicants } from '../../../mockdata';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('applications')
+@ApiInternalServerErrorResponse({ description: 'Server is down' })
 export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
   @Post('')
@@ -37,8 +35,6 @@ export class ApplicationsController {
   })
   @UseFilters(new HttpExceptionFilter())
   @UseInterceptors(FileInterceptor('file'))
-  @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
-  @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() application: CreateApplicationDto,
@@ -46,18 +42,18 @@ export class ApplicationsController {
   ) {
     const { roleId, jobId, status, ...rest } = application;
     application.roleId;
-    for (let i = 0; i < data.length; i++) {
-      await this.applicationsService.create({
-        roleId,
-        jobId,
-        status,
-        file,
-        ...data[i],
-      });
-    }
+    // for (let i = 0; i < mockApplicants.length; i++) {// for testing purposes only
+    const result = await this.applicationsService.create({
+      roleId,
+      jobId,
+      status,
+      file,
+      ...rest,
+    });
+    // }
     // console.log(application, 'app data');
     // data
-    return res.json('result');
+    return res.json(result);
   }
   //
   @Get(':id')
@@ -68,11 +64,7 @@ export class ApplicationsController {
   @UseFilters(new HttpExceptionFilter())
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
-  async findOne(
-    @Param('id') id: string,
-
-    @Res() res: Response,
-  ) {
+  async findOne(@Param('id') id: string, @Res() res: Response) {
     const result = await this.applicationsService.findOne(id);
     return res.json(result);
   }
