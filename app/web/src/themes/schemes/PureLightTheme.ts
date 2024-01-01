@@ -4,6 +4,7 @@ import { colors } from './palette';
 import { styleOverrides } from './compStyleOverride';
 import Overides from '../compStyleOverride';
 import { themeOption as theme } from './palette';
+
 export const themeColors = {
   primary: '#5569ff',
   secondary: '#6E759F',
@@ -43,7 +44,7 @@ export const componentThemeoption = {
     width: '100%',
     minHeight: 'calc(100vh - 88px)',
     flexGrow: 1,
-    padding: '20px',
+    padding: '10px',
     marginTop: '88px',
     marginRight: '20px',
     borderRadius: `${20}px`,
