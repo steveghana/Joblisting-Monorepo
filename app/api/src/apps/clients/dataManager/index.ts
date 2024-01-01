@@ -102,8 +102,6 @@ class Client {
     return this.data.name;
   }
 
-  // ... modify other getters as needed ...
-
   get phone_number(): string {
     return this.data.phoneNumber;
   }
