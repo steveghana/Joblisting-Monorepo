@@ -23,13 +23,14 @@ import { ArrowBackTwoTone, ExpandMore, Settings } from '@mui/icons-material';
 import CustomButton from '../../../components/button';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { toast } from 'react-toastify';
-import { useTypedSelector } from '../../../store';
+import { useTypedDispatch, useTypedSelector } from '../../../store';
 import { useNavigate } from 'react-router';
 import EventSchedulerSkeletonLoader from '@/components/Skeleton/interviewsSkeleton';
 import CalenderEvent from '@/components/EmailComposer/calenderevents';
 import { Iinterviews, TInterviewComment } from '@/types/interviews';
 import { themePalette } from '@/themes/schemes/palette';
 import InterviewComments from './interviewComments';
+import { fetchDevs } from '@/store/slices/dev.slice';
 
 // ===============================|| INTERVIEWS ||=============================== //
 const interviewDetails = {
@@ -58,6 +59,7 @@ const Interviews = () => {
   const allDevsAndApplicants = useTypedSelector((state) => state.devs.devs);
   const navigate = useNavigate();
   const [eventIndex, seteventIndex] = React.useState<string>('');
+  const dispatch = useTypedDispatch();
   // Date: {
   //   format(new Date(interviewDetails.interviewDate), "yyyy-MM-dd");
   // }
@@ -72,6 +74,7 @@ const Interviews = () => {
         toast.warn('Interview Canceled', {
           position: 'bottom-center',
         });
+        dispatch(fetchDevs());
         // refetch();
         setState(false);
         navigate(`/devs/interviews`);
@@ -123,6 +126,7 @@ const Interviews = () => {
     return (
       <CalenderEvent
         event={eventDetails}
+        loading={isDeleting}
         onClose={() => setState(false)}
         onDelete={() => {
           handleDelete(id as string);
@@ -135,8 +139,9 @@ const Interviews = () => {
       />
     );
   };
+  console.log(allDevsAndApplicants, 'kfjdkfjd');
   return (
-    <MainCard title="Event Schedular">
+    <MainCard title="Event Details">
       <Box display="flex">
         <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
           <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
@@ -146,11 +151,11 @@ const Interviews = () => {
       </Box>
       <Grid container>
         <Grid item xs={12}>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Typography variant="h4" align="center" gutterBottom>
               Interview Details
             </Typography>
-          </Grid>
+          </Grid> */}
           {/* {!data?.length && ( */}
           <Box
             sx={{
@@ -178,7 +183,9 @@ const Interviews = () => {
           </Box>
           {/* )} */}
           {!data?.length ? (
-            <NoData />
+            <Grid container minHeight={'45dvh'} sx={{ alignSelf: 'stretch' }}>
+              <NoData />
+            </Grid>
           ) : (
             <Box>
               <SubCard>
@@ -190,7 +197,7 @@ const Interviews = () => {
                 {/* Header */}
                 <Grid container spacing={2} sx={{ cursor: 'pointer' }}>
                   {data.map((item, i) => (
-                    <Grid item xs={12} sm={12} md={6} lg={6} key={item.id}>
+                    <Grid item xs={12} sm={12} md={12} lg={data.length > 1 ? 6 : 12} key={item.id}>
                       <Paper
                         elevation={3}
                         sx={{
