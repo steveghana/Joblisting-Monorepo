@@ -10,7 +10,7 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
-import { ClientDto, ClientFormDataDto } from '../dto/create-client.dto';
+import { ClientFormDataDto } from '../dto/create-client.dto';
 import { IClientFormData } from '../../../types/client';
 import { Response } from 'express';
 import {
@@ -56,6 +56,7 @@ export class ClientsController {
   }
 
   @Get(':id')
+  @UseFilters(new HttpExceptionFilter())
   async findOne(@Param('id') id: string, @Res() res: Response) {
     const result = await this.clientsService.findOne(id);
     return res.status(200).send(result);
@@ -74,6 +75,8 @@ export class ClientsController {
     @Body() updateClientDto: Partial<IClientFormData['Client info']>,
     @Res() res: Response,
   ) {
+    console.log(updateClientDto, '.......................');
+
     const result = await this.clientsService.update(id, updateClientDto);
     return res.status(200).send(result);
   }
