@@ -36,7 +36,7 @@ export const getAllDevs = async (
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
-  const devs = await devRepo.find({ relations: ['client', 'roles', 'job'] });
+  // const devs = await devRepo.find({ relations: ['client', 'roles', 'job'] }); // User querybuilder for fetching cross related models
   // Fetch developers with roles, client, user, job, and guest interviews
   const developersWithInterviews = await devRepo
     .createQueryBuilder('developer')
@@ -207,21 +207,19 @@ export async function assignToRole(
   });
   const existingDev = await devRepo.findOne({ where: { id } });
 
-  // Assuming you have a ManyToMany relationship between Developer and Role
+  // ManyToMany relationship between Developer and Role
   if (!existingRole?.developers?.length) {
     existingRole.developers = [existingDev];
   } else {
     existingRole.developers = [...existingRole.developers, existingDev];
   }
-  // Assuming you have a ManyToMany relationship between Client and Developer
+  // ManyToMany relationship between Client and Developer
   if (!existingClient?.developers?.length) {
     existingClient.developers = [existingDev];
   } else {
     existingClient.developers = [...existingClient.developers, existingDev];
   }
 
-  // Assuming you have a ManyToOne relationship between Job and Developer
-  // Save the updated entities to the database
   await rolesRepo.save(existingRole);
   const devAssigned = await clientRepo.save(existingClient);
   return devAssigned;
@@ -233,7 +231,7 @@ export async function bulkdeleteDevs(
   dependencies: Dependencies = null,
 ) {
   dependencies = injectDependencies(dependencies, ['db']);
-  const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
+  // const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const deleted = await Promise.all(
     devRepo.delete({
