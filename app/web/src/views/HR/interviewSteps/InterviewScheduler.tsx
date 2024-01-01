@@ -131,7 +131,6 @@ const InterviewScheduler: React.FC = () => {
         position: 'bottom-center',
       });
     }
-
   };
 
   return (
