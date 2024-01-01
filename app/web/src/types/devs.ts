@@ -15,7 +15,7 @@ export type IDev = {
   roles: IRoleData[];
   email: string;
   jobTitle: string;
-  startRoleDate?: Date;
+  startedAt?: Date;
   salary: number;
   startDate: Date;
   skills: string[];
