@@ -6,9 +6,6 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { Box, Card, Divider, Grid, Typography } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
-
-// project imports
-
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
@@ -132,7 +129,6 @@ const Breadcrumbs = ({
           textDecoration: 'none',
           alignContent: 'center',
           alignItems: 'center',
-          color: 'grey.500',
         }}
       >
         {icons && <ItemIcon style={iconStyle} />}
@@ -152,7 +148,7 @@ const Breadcrumbs = ({
           }}
           {...others}
         >
-          <Box sx={{ p: 2, pl: card === false ? 0 : 2 }}>
+          <Box sx={{ p: 1.4, pl: card === false ? 0 : 2 }}>
             <Grid
               container
               direction={rightAlign ? 'row' : 'column'}
