@@ -2,9 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from '../dto/create-application.dto';
 import Application from '../dataManager';
 // import { m } from '@nestjs/platform-express';
-import { Storage } from '@google-cloud/storage';
-import { v4 as uuidv4 } from 'uuid';
-import * as fs from 'fs';
 import { useTransaction } from '../../../util/transaction';
 import {
   Dependencies,
@@ -13,12 +10,9 @@ import {
 import Roles from '../../../apps/roles/dataManager';
 import { getAllApplicants } from '../DBQueries';
 import { DevelopersService } from '../../../apps/developers/services/developers.service';
-// import { IStatusApplication } from '@/types/application';
 import User from '../../../apps/auth/dataManager/userEntity';
 import { IStatusApplication } from '@/types/application';
 import { getJobById } from '../../../apps/roles/DBQueries';
-// import { IStatusApplication } from '@/types/application';
-// import { IStatusApplication } from '@/types/application';
 
 @Injectable()
 export class ApplicationsService {
@@ -151,7 +145,7 @@ export class ApplicationsService {
   }
 
   findOne(id: string) {
-    return useTransaction(async (transaction) => {
+    return useTransaction(async () => {
       const data = await Application.getById(id);
       if (!data) {
         return null;
@@ -236,7 +230,7 @@ export class ApplicationsService {
           const deleted = await Application.destroy(id, transaction);
           if (!deleted) {
             throw new HttpException(
-              'Something went wrong, couldnt delete applicant',
+              'Something went wrong, couldnt delete applicants',
               HttpStatus.BAD_REQUEST,
             );
           }
