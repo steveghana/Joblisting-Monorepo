@@ -8,6 +8,7 @@ interface IDevs {
 }
 const DevRow = ({ devs }: IDevs) => {
   const theme = useTheme();
+  console.log(devs, 'devs');
   // const [Unassign, {isError, isSuccess, isLoading}] = useUnassignDevMutation()
   return (
     <TableBody>
@@ -24,7 +25,7 @@ const DevRow = ({ devs }: IDevs) => {
             </TableCell>
             <TableCell>{dev.email}</TableCell>
             <TableCell>{dev.role}</TableCell>
-            <TableCell>{'startDateString'}</TableCell>
+            <TableCell>{new Date(dev.startedAt as Date).toLocaleDateString()}</TableCell>
             <TableCell align="right">
               <Tooltip placement="top" title="Unassign" arrow>
                 <IconButton
