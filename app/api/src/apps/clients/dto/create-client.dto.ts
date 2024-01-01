@@ -1,15 +1,12 @@
-import { IClient, IClientFormData } from '@/types/client';
+import { IClient } from '@/types/client';
 import {
   IsNotEmpty,
   IsString,
   IsEmail,
   IsArray,
   IsDateString,
-  IsEnum,
-  isString,
   ValidateNested,
   IsOptional,
-  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
