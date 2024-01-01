@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import NoDAta from '@/assets/images/empty-box.png';
+import { themePalette } from '@/themes/schemes/palette';
 
 const NoData = () => {
   return (
@@ -9,7 +10,7 @@ const NoData = () => {
         height={'100%'}
         flexGrow={1}
         minHeight={100}
-        mt={2}
+        m={'auto'}
         alignContent={'stretch'}
         display={'flex'}
         justifyContent={'center'}
@@ -17,7 +18,19 @@ const NoData = () => {
         flexDirection={'column'}
       >
         <img width={150} height={150} src={NoDAta} alt="nodata" />
-        <Typography variant="subtitle1">No data to display</Typography>
+        <Typography
+          sx={{
+            py: 2,
+            textAlign: 'center',
+            color: 'grey',
+            // color: 'white',
+            // fontSize: 18,
+            fontWeight: 600,
+          }}
+          variant="subtitle1"
+        >
+          No data to display
+        </Typography>
       </Box>
     </Grid>
   );
