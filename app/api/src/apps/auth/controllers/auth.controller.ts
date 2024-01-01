@@ -14,7 +14,6 @@ import {
   Patch,
   Param,
 } from '@nestjs/common';
-// import validationUtil from '../../../util/validation';
 import {
   ApiBadRequestResponse,
   ApiUnauthorizedResponse,
@@ -26,12 +25,6 @@ import { AuthService } from '../services/user.service';
 import { HttpExceptionFilter } from '../../../middleware/err.Middleware';
 import { Response } from 'express';
 import { IUser } from '../../../types/user';
-// interface IUser {
-//   role?: IProfession | null;
-//   email: string;
-//   password: string;
-//   rememberMe: boolean;
-// }
 @Controller('/user')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -49,7 +42,7 @@ export class AuthController {
     },
   })
   @ApiOperation({
-    description: 'Registering new business',
+    description: 'Registering new user',
   })
   @HttpCode(HttpStatus.OK)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
@@ -68,10 +61,10 @@ export class AuthController {
   }
   // @UseGuards(AuthGuard('local'))
   @Post('/login')
-  // @UseFilters(new HttpExceptionFilter())
+  @UseFilters(new HttpExceptionFilter())
   @ApiTags('login')
   @ApiOperation({
-    description: 'loggin new business',
+    description: 'loggin new user',
   })
   // @UsePipes(ValidationPipe)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
@@ -90,7 +83,7 @@ export class AuthController {
   @ApiTags('login')
   @UseFilters(new HttpExceptionFilter())
   @ApiOperation({
-    description: 'loggin new business',
+    description: 'loggin new user credentials',
   })
   @HttpCode(HttpStatus.OK)
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
@@ -106,7 +99,7 @@ export class AuthController {
   @ApiTags('logout')
   @UseFilters(new HttpExceptionFilter())
   @ApiOperation({
-    description: 'logout  business',
+    description: 'logout  user',
   })
   // @UsePipes(ValidationPipe)
   @HttpCode(HttpStatus.OK)
@@ -143,7 +136,7 @@ export class AuthController {
   }
   @Get('')
   @UseFilters(new HttpExceptionFilter())
-  async getRoles(@Request() req, @Res() res) {
+  async getRoleProfessions(@Request() req, @Res() res) {
     const result = await this.authService.getUsersRoles();
     return res.status(200).send(result);
   }
@@ -155,9 +148,8 @@ export class AuthController {
   }
   @Get('/whoami')
   @UseFilters(new HttpExceptionFilter())
-  async whoami(@Req() req: Request, @Res() res: Response, @Next() next) {
+  async whoami(@Req() req: Request, @Res() res: Response) {
     const user: Omit<IUser, 'password'> = await (req as any).requestingUser;
-    console.log(user, 'tis is the user');
     if (!user) {
       throw new HttpException('User doesnt exist', HttpStatus.BAD_REQUEST);
     }
@@ -172,7 +164,7 @@ export class AuthController {
   }
   @Get(':id')
   @UseFilters(new HttpExceptionFilter())
-  async getUser(@Param('id') id: string, @Res() res: Response, @Next() next) {
+  async getUser(@Param('id') id: string, @Res() res: Response) {
     const user: IUser = await this.authService.getUserById(id);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, isActive, isSuperAdmin, ...rest } = user;
