@@ -18,44 +18,44 @@ export type DeferrableProcedureKey = string;
 export type DeferrableProcedure = (...params: Array<any>) => void;
 
 export type Context = {
-    procedures: Record<DeferrableProcedureKey, DeferrableProcedure>;
+  procedures: Record<DeferrableProcedureKey, DeferrableProcedure>;
 };
 
 const globalContext: Context = {
-    procedures: {},
+  procedures: {},
 };
 
 async function registerProcedure(
-    key: DeferrableProcedureKey,
-    callback: DeferrableProcedure,
-    context: Context = globalContext
+  key: DeferrableProcedureKey,
+  callback: DeferrableProcedure,
+  context: Context = globalContext,
 ): Promise<void> {
-    if (context.procedures[key]) {
-        throw new Error(`Procedure with key "${key}" already registered`);
-    }
-    context.procedures[key] = callback;
-    return Promise.resolve();
+  if (context.procedures[key]) {
+    throw new Error(`Procedure with key "${key}" already registered`);
+  }
+  context.procedures[key] = callback;
+  return Promise.resolve();
 }
 
 async function deferProcedure(
-    key: DeferrableProcedureKey,
-    timeMs: number,
-    context: Context = globalContext,
-    ...params: Array<any>
+  key: DeferrableProcedureKey,
+  timeMs: number,
+  context: Context = globalContext,
+  ...params: Array<any>
 ): Promise<void> {
-    if (!context) {
-        context = globalContext;
+  if (!context) {
+    context = globalContext;
+  }
+  setTimeout(() => {
+    if (!context.procedures[key]) {
+      return;
     }
-    setTimeout(() => {
-        if (!context.procedures[key]) {
-            return;
-        }
-        context.procedures[key](...params);
-    }, timeMs);
-    return Promise.resolve();
+    context.procedures[key](...params);
+  }, timeMs);
+  return Promise.resolve();
 }
 
 export default {
-    registerProcedure,
-    deferProcedure,
+  registerProcedure,
+  deferProcedure,
 };
