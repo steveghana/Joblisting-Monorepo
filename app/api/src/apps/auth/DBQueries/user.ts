@@ -6,8 +6,7 @@ import { UserEntity } from '../models/user.entity';
 import { EntityManager, In } from 'typeorm';
 import { ensureTransaction, useTransaction } from '../../../Config/transaction';
 import { IUser } from '../../../types/user';
-// We are using findElseCreateUser instead of findOrCreateUser , since findOrCreateUser logs values openly
-// Temp solution. Waiting for issue https://github.com/sequelize/sequelize/issues/14266 to be resolved
+
 export function findElseCreateUser(
   email: string,
   user: IUser,
@@ -27,7 +26,6 @@ export function findElseCreateUser(
       if (existingUser) {
         return [existingUser, false];
       }
-      console.log(existingUser);
       const newUser = userRepo.create({ ...user });
       const data = (await userRepo.save(newUser)) as UserEntity;
       return [data, true];
