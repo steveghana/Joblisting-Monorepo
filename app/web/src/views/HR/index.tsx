@@ -29,7 +29,9 @@ const Shortlisted = () => {
   const dispatch = useTypedDispatch();
   const devsShortlistedData =
     (devs?.length && devs.filter(({ rolestatus }) => rolestatus === 'Pending' || rolestatus === 'Interviewing')) || [];
-  const areGuestsAvailable = devs?.filter(({ rolestatus }) => rolestatus === 'Accepted').length;
+  const areGuestsAvailable = devs?.filter(
+    ({ rolestatus }) => rolestatus === 'Accepted' || rolestatus === 'External' || rolestatus === 'InHouse',
+  ).length;
   useEffect(() => {
     dispatch(fetchDevs());
     Promise.resolve(persistor.flush());
