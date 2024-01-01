@@ -171,7 +171,7 @@ const RoleCard = (props: IRoleCard) => {
                             mr: 0.2,
                           }}
                         />
-                        Posted {formatTimeDifference(now, date)} ago
+                        Posted {formatTimeDifference(now, date)}
                       </Typography>
                     </Box>
                     <Grid
