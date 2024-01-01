@@ -26,17 +26,10 @@ const Clients = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, isFetching, isError, refetch } = useGetClientsQuery();
-  console.log(data, 'from data');
   if (isLoading || isFetching) {
     return <TableSkeletonLoader />;
   }
-  if (!data?.length) {
-    return (
-      <Box width={'99vw'}>
-        <NoData />
-      </Box>
-    );
-  }
+
   return (
     <MainCard>
       <Box display="flex">
@@ -49,7 +42,9 @@ const Clients = () => {
       <CustomButton text="Add new Client" onClick={() => navigate('/dashboard/customers/clients/add')} />
       {!data?.length || isError ? (
         <>
-          <NoData />
+          <Grid minHeight={'55dvh'}>
+            <NoData />
+          </Grid>
         </>
       ) : (
         <Grid container spacing={3}>
