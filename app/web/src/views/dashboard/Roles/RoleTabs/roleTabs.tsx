@@ -65,7 +65,7 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
           <Container maxWidth="xl">
             <Box display="flex">
               <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
-                <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+                <IconButton color="primary" sx={{ mr: 2 }}>
                   <ArrowBackTwoTone />
                 </IconButton>
               </Tooltip>
@@ -82,7 +82,7 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
                 sx={{ width: '100%' }}
                 display={'flex'}
                 gap={1}
-                my={3}
+                my={1}
                 p={{ lg: 2, md: 1, sm: 0 }}
                 alignItems={'center'}
                 flexWrap={'wrap'}
