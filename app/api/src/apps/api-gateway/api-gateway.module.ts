@@ -1,18 +1,13 @@
-import { Module, DynamicModule, Next, RequestMethod } from '@nestjs/common';
+import { Module, RequestMethod } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  MiddlewareConsumer,
-  NestModule,
-  Type,
-} from '@nestjs/common/interfaces';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { MiddlewareConsumer } from '@nestjs/common/interfaces';
+import { APP_FILTER } from '@nestjs/core';
 import { Modules } from './exports';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { myDataSource } from '../../Config';
 import dbConfiguration from '../../Config/db.config';
 
-import { AuthenticationTtlMiddleware } from '../../middleware/authenticationTtl.middleware';
 import { HttpExceptionFilter } from '../../middleware/err.Middleware';
 import { CorsMiddleware } from '../../middleware/cors.middleware';
 import { AuthMiddleware } from '../../middleware/authenticated.middleware';
@@ -91,6 +86,14 @@ export class AppModule {
         {
           path: '/user/whoami',
           method: RequestMethod.GET,
+        },
+        {
+          path: '/client/*',
+          method: RequestMethod.ALL,
+        },
+        {
+          path: '/developers/*',
+          method: RequestMethod.ALL,
         },
       );
   }
