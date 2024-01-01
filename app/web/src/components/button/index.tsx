@@ -24,7 +24,7 @@ function CustomButton(props: IButtonProps) {
         my: 1,
         boxShadow: 'rgba(79, 172, 255, 0.45) 0px 13px 27px -5px, rgba(79, 172, 255, 0.4) 0px 8px 16px -8px;',
         borderRadius: '10px',
-        // color: "white",
+        // color: props.variant === 'outlined' ? 'white' : '',
         minWidth: '50px',
       }}
     >
