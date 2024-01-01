@@ -13,12 +13,12 @@
   },
 "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/your-new-app.git"
+    "url": "https://github.com/steveghana/Joblisting-Monorepo"
   },
    "bugs": {
-    "url": "https://github.com/your-username/your-new-app/issues"
+    "url": "https://github.com/steveghana/Joblisting-Monorepo/issues"
   },
-  "homepage": "https://github.com/your-username/your-new-app#readme",
+  "homepage": "https://github.com/steveghana/Joblisting-Monorepo#readme",
   "workspaces": [
     "app/*"
   ],
