@@ -1,18 +1,5 @@
 import { IStatusApplication } from '@/types/application';
-import { IDev } from '@/types/developer';
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsArray,
-  Matches,
-  MaxLength,
-  MinLength,
-  isNumber,
-  isString,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsArray } from 'class-validator';
 
 export class CreateApplicationDto {
   @IsNotEmpty({
