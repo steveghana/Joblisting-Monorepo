@@ -22,8 +22,12 @@ export const clientApi = createApi({
   reducerPath: CLIENT_API_KEY,
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
-    headers: {
-      Authorization: authToken ? authToken : '',
+    prepareHeaders: (headers, { getState }) => {
+      const authToken = sessionStorage.getItem('auth_token');
+      if (authToken) {
+        headers.set('Authorization', authToken);
+      }
+      return headers;
     },
     // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
@@ -34,7 +38,7 @@ export const clientApi = createApi({
       query: ({ data, id }) => ({
         url: `client/${id}`,
         method: 'PATCH',
-        body: data,
+        body: { ...data },
       }),
       invalidatesTags: ['client'],
     }),
