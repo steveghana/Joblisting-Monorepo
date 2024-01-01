@@ -1,14 +1,14 @@
 export function formatTimeDifference(date1, date2) {
   const units = [
-    { name: "second", milliseconds: 1000 },
-    { name: "minute", milliseconds: 1000 * 60 },
-    { name: "hour", milliseconds: 1000 * 60 * 60 },
-    { name: "day", milliseconds: 1000 * 60 * 60 * 24 },
-    { name: "month", milliseconds: 1000 * 60 * 60 * 24 * 30 }, // Approximation
-    { name: "year", milliseconds: 1000 * 60 * 60 * 24 * 365 }, // Approximation
+    { name: 'second', milliseconds: 1000 },
+    { name: 'minute', milliseconds: 1000 * 60 },
+    { name: 'hour', milliseconds: 1000 * 60 * 60 },
+    { name: 'day', milliseconds: 1000 * 60 * 60 * 24 },
+    { name: 'month', milliseconds: 1000 * 60 * 60 * 24 * 30 }, // Approximation
+    { name: 'year', milliseconds: 1000 * 60 * 60 * 24 * 365 }, // Approximation
   ];
-
-  const diffInMilliseconds = date1 - date2;
+  console.log('now:', date1, 'previose:', date2);
+  const diffInMilliseconds = date2 - date1;
   let unitUsed = units[0];
 
   for (let unit of units) {
@@ -20,7 +20,7 @@ export function formatTimeDifference(date1, date2) {
   }
 
   const diffInUnits = Math.round(diffInMilliseconds / unitUsed.milliseconds);
-  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
   return rtf.format(diffInUnits, unitUsed.name as any);
 }
