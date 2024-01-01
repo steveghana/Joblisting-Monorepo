@@ -57,7 +57,8 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                       {user.role}
                     </MuiTypography>
                   </Grid>
-                  <Chip color="primary" label="Pro" />
+
+                  <Chip color="primary" label={user.role} />
                 </Grid>
               )}
               <Divider sx={{ margin: '1rem 0' }} />
