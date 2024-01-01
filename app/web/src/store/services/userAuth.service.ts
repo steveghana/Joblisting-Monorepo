@@ -43,6 +43,10 @@ export const userApi = createApi({
         body: user,
       }),
       transformErrorResponse: (response: any) => {
+        if (!response?.data) {
+          return 'Please Check your internet connection and try again later';
+        }
+
         const {
           data: {
             error: { message },
@@ -58,6 +62,10 @@ export const userApi = createApi({
         body: { accessToken },
       }),
       transformErrorResponse: (response: any) => {
+        if (!response?.data) {
+          return 'Please Check your internet connection and  later';
+        }
+
         const {
           data: {
             error: { message },
@@ -73,6 +81,10 @@ export const userApi = createApi({
         body: { accessToken },
       }),
       transformErrorResponse: (response: any) => {
+        if (!response?.data) {
+          return 'Please Check your internet connection and  later';
+        }
+
         const {
           data: {
             error: { message },
@@ -87,14 +99,6 @@ export const userApi = createApi({
         url: `user/whoami`,
         method: 'GET',
       }),
-      transformErrorResponse: (response: any) => {
-        const {
-          data: {
-            error: { message },
-          },
-        } = response;
-        return Array.isArray(message) ? message.join(',') : message;
-      },
     }),
     registerUser: builder.mutation<IResponseRg, IRegister>({
       query: (user) => ({
@@ -104,6 +108,10 @@ export const userApi = createApi({
       }),
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: any) => {
+        if (!response?.data) {
+          return 'Please Check your internet connection and  later';
+        }
+
         const {
           data: {
             error: { message },
@@ -119,42 +127,18 @@ export const userApi = createApi({
         body: { ...user },
       }),
       // Pick out errors and prevent nested properties in a hook or selector
-      transformErrorResponse: (response: any) => {
-        const {
-          data: {
-            error: { message },
-          },
-        } = response;
-        return Array.isArray(message) ? message.join(',') : message;
-      },
     }),
     getUser: builder.query<IUser, { id: string }>({
       query: ({ id }) => ({
         url: `user/${id}`,
         method: 'GET',
       }),
-      transformErrorResponse: (response: any) => {
-        const {
-          data: {
-            error: { message },
-          },
-        } = response;
-        return Array.isArray(message) ? message.join(',') : message;
-      },
     }),
     getRoles: builder.query<IProfession[], void>({
       query: () => ({
         url: `user`,
         method: 'GET',
       }),
-      transformErrorResponse: (response: any) => {
-        const {
-          data: {
-            error: { message },
-          },
-        } = response;
-        return Array.isArray(message) ? message.join(',') : message;
-      },
     }),
   }),
 });
