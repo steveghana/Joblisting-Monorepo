@@ -1,7 +1,6 @@
 // Import necessary modules from TypeORM
 import { UserEntity as User } from '../../auth/models/user.entity';
 import AssociableModel from '../../../Config/associable';
-import { Application } from '../../applications/entities/application.entity';
 import { ClockHours } from '../../clocked-hours/entities/clocked-hour.entity';
 import { Interview } from '../../interviews/entities/interview.entity';
 import { Role } from '../../roles/entities/role.entity';
@@ -14,7 +13,6 @@ import {
   JoinColumn,
   OneToOne,
   ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import uuid from '../../../util/uuid';
 import { Client } from '../../../apps/clients/entities/client.entity';
