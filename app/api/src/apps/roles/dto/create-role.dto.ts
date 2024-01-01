@@ -1,17 +1,8 @@
-import { IApplication } from '../../../types/application';
-import { IClient } from '../../../types/client';
 import {
   IsNotEmpty,
   IsString,
-  IsEmail,
-  IsArray,
-  IsDateString,
-  IsEnum,
-  isString,
   ValidateNested,
   IsOptional,
-  IsNumber,
-  IsDate,
 } from 'class-validator';
 import { IRole } from '@/types/role';
 import { Type } from 'class-transformer';
