@@ -1,11 +1,4 @@
-import {
-  ArrayMinSize,
-  IsArray,
-  IsInt,
-  IsString,
-  isEmail,
-  isBoolean,
-} from 'class-validator';
+import { IsString } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 // tslint:disable-next-line:max-classes-per-file
