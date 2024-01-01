@@ -109,14 +109,6 @@ export const useApplicantsColumns = () => {
             ),
           },
           {
-            accessorKey: 'email', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
-            enableClickToCopy: true,
-            enableEditing: false,
-            filterVariant: 'autocomplete',
-            header: 'Email',
-            size: 250,
-          },
-          {
             accessorKey: 'years_of_experience', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             enableEditing: false,
@@ -125,6 +117,14 @@ export const useApplicantsColumns = () => {
 
             header: 'Experience',
             size: 30,
+          },
+          {
+            accessorKey: 'email', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+            enableClickToCopy: true,
+            enableEditing: false,
+            filterVariant: 'autocomplete',
+            header: 'Email',
+            size: 250,
           },
           {
             accessorKey: 'phoneNumber', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
