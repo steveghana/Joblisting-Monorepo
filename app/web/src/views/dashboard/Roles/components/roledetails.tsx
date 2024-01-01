@@ -31,6 +31,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const now = new Date();
   const date = new Date(role.createdAt);
+  console.log(role, 'ster');
   return (
     <Card>
       {!role ? (
@@ -81,7 +82,9 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                       {role.client!.country.label}
                     </Typography>
                     <Dot />
-                    <Typography>{job.roleType}</Typography>
+                    <Typography>{job.jobType}</Typography>
+                    <Dot />
+                    <Typography>{job.employmentType}</Typography>
                   </Box>
                 </Box>
                 <Box
@@ -97,7 +100,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                   //   flexDirection={props.feature ? "column" : "row"}
                   gap={1}
                 >
-                  <Typography>Posted {formatTimeDifference(now, date)} ago</Typography>
+                  <Typography>Posted {formatTimeDifference(now, date)}</Typography>
                   <Grid display={'flex'} justifyContent={'center'} gap={0.5}>
                     <CustomButton
                       size="small"
