@@ -31,20 +31,17 @@ interface IClientTableData {
 const ClientTableData = ({ data, isLoading, isFetching, isError, refetch, columns }: IClientTableData) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
-  // const columns = useClientColums();
-
   const [validationErrors, setValidationErrors] = React.useState<Record<string, string | undefined>>({});
   const navigate = useNavigate();
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateClientMutation();
   const [deleteuser, { isLoading: isDeletingUser }] = useDeletClientMutation();
-
   const defaultMRTOptions = getDefaultMRTOptions<IClient>(matchUpMd);
-  console.log('yes');
   const table = useMaterialReactTable({
     ...defaultMRTOptions,
     columns,
     // data,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    // editDisplayMode: 'row',
 
     getRowId: (row) => row.id as string,
     muiToolbarAlertBannerProps: isError
@@ -69,7 +66,13 @@ const ClientTableData = ({ data, isLoading, isFetching, isError, refetch, column
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) => handleCreate(item, null, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: ({ values, table, row }) => handleSave(values, { table, row }, updateUser, setValidationErrors),
+    onEditingRowSave: ({ values, table, row }) =>
+      handleSave(
+        { data: { companyName: values.companyName, phoneNumber: values.phoneNumber }, id: values.id },
+        { table, row },
+        updateUser,
+        setValidationErrors,
+      ),
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CreatRow internalEditComponents={internalEditComponents} row={row} table={table} />
     ),
@@ -97,10 +100,10 @@ const ClientTableData = ({ data, isLoading, isFetching, isError, refetch, column
 
     // renderTopToolbar: ({ table }) => <TopToolbar table={table} />,
     state: {
-      isLoading: isLoading,
+      isLoading: isLoading || isUpdatingUser || isDeletingUser,
       isSaving: isUpdatingUser || isDeletingUser,
       showAlertBanner: isError,
-      showProgressBars: isFetching,
+      showProgressBars: isFetching || isLoading || isUpdatingUser || isDeletingUser,
     },
   });
   return <MaterialReactTable table={table} />;
