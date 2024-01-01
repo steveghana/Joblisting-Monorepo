@@ -11,6 +11,7 @@ import Logo from '../../components/Logo';
 import AuthFooter from '../../components/AuthFooter';
 import AuthWrapper2 from '../../components/auth/authwrapper';
 import LogoSection from '../../layout/MainLayout/LogoSection';
+import { themePalette } from '@/themes/schemes/palette';
 
 // assets
 
@@ -23,8 +24,14 @@ const Login = () => {
   return (
     <AuthWrapper2>
       <>
-        <Grid /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */>
-          <AuthCardWrapper>
+        <Grid
+          sx={{
+            background: 'rgba(255, 255, 255, 0.7)',
+            height: '100%',
+            pt: 3,
+          }} /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */
+        >
+          <Grid>
             <Grid display="flex" alignItems="center" justifyContent="center" mb={2}>
               <Link to="#">
                 <LogoSection />
@@ -58,17 +65,24 @@ const Login = () => {
               </Grid>
               <Grid item xs={12}>
                 <Grid item container direction="column" alignItems="center" xs={12}>
-                  <Typography component={Link} to="/auth/register" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                    Don&apos;t have an account?
+                  <Typography
+                    component={Link}
+                    to="/auth/register"
+                    variant="subtitle1"
+                    sx={{ textDecoration: 'none', display: 'flex', gap: 1 }}
+                  >
+                    Don&apos;t have an account?{' '}
+                    <Typography variant="subtitle1" color={themePalette.primary.main}>
+                      Sign up
+                    </Typography>
                   </Typography>
                 </Grid>
               </Grid>
             </Grid>
-          </AuthCardWrapper>
-        </Grid>
-
-        <Grid xs={12}>
-          <AuthFooter />
+          </Grid>
+          <Grid xs={12} textAlign={'center'} justifyContent={'center'} display={'flex'}>
+            <AuthFooter />
+          </Grid>
         </Grid>
       </>
     </AuthWrapper2>
