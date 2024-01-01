@@ -46,7 +46,7 @@ export class Application extends AssociableModel {
   @Column({ type: 'simple-json', nullable: true })
   background_questions?: Record<string, string>; // Store background questions as JSON
   @Column({ type: 'simple-json', nullable: true })
-  resume: Record<string, string>; // Store background questions as JSON
+  resume: Record<string, string>;
   @Column()
   coverLetter: string;
   @Column()
