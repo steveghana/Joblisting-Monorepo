@@ -8,6 +8,8 @@ import { Box, Card, CardContent, CardHeader, Divider, IconButton, Tooltip, Typog
 import { themePalette } from '../themes/schemes/palette';
 import { ArrowBackTwoTone } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
+import pattern from '@/assets/images/auth/auth-pattern-dark.svg';
+
 // constant
 const headerSX = {
   '& .MuiCardHeader-action': { mr: 0 },
@@ -66,6 +68,10 @@ const MainCard: React.FC<IAny> = forwardRef(
           sx={{
             border: border ? '1px solid' : 'none',
             borderColor: themePalette.primary[200] + 25,
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${pattern})`,
+            backgroundSize: 'cover',
+            // backgroundImage: `url(${pattern})`,
+
             ':hover': {
               boxShadow: boxShadow ? shadow || '0 2px 14px 0 rgb(32 40 45 / 8%)' : 'inherit',
             },
