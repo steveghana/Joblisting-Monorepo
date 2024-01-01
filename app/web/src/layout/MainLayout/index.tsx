@@ -25,6 +25,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   ...componentThemeoption.mainContent,
   borderBottomLeftRadius: 0,
   borderBottomRightRadius: 0,
+
   transition: theme.transitions.create(
     'margin',
     open
