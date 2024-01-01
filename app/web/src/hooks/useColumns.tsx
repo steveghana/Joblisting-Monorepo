@@ -20,6 +20,8 @@ export const useClientColums = () => {
             accessorFn: (row) => `${row.name}`, //accessorFn used to join multiple data into a single cell
             id: 'name', //id is still required when using accessorFn instead of accessorKey
             header: 'Name',
+            enableEditing: false,
+
             size: 250,
             Cell: ({ renderedCellValue, row: { original } }) => (
               <Box
@@ -45,6 +47,8 @@ export const useClientColums = () => {
           {
             accessorKey: 'email', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
+            enableEditing: false,
+
             // filterVariant: 'autocomplete',
             header: 'Email',
             size: 150,
@@ -52,6 +56,7 @@ export const useClientColums = () => {
           {
             accessorKey: 'phoneNumber', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
+
             header: 'Phone Number',
             size: 150,
           },
@@ -59,6 +64,8 @@ export const useClientColums = () => {
             accessorKey: 'countrylabel', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
             filterVariant: 'autocomplete',
+            enableEditing: false,
+
             header: 'Country',
             size: 150,
           },
@@ -67,6 +74,7 @@ export const useClientColums = () => {
             enableClickToCopy: true,
             filterVariant: 'range',
             filterFn: 'between',
+            enableEditing: false,
 
             header: ' Devs Assigned',
             size: 50,
@@ -74,7 +82,9 @@ export const useClientColums = () => {
           {
             accessorKey: 'rolesOpen', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
             enableClickToCopy: true,
-            filterVariant: 'autocomplete',
+            filterVariant: 'range',
+            enableEditing: false,
+
             header: 'Open Roles',
             size: 50,
           },
@@ -95,6 +105,8 @@ export const useClientColums = () => {
           {
             accessorKey: 'projectTitle',
             filterVariant: 'autocomplete',
+            enableEditing: false,
+
             //hey a simple column for once
             header: 'Project Title',
             size: 350,
@@ -105,6 +117,8 @@ export const useClientColums = () => {
             header: 'Start Date',
             filterVariant: 'date',
             filterFn: 'lessThan',
+            enableEditing: false,
+
             sortingFn: 'datetime',
             Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(), //render Date as a string
             Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
