@@ -1,8 +1,8 @@
-import { useRoutes } from "react-router-dom";
+import { useRoutes } from 'react-router-dom';
 
 // routes
-import MainRoutes, { ExternalRoutes, homeRoutes } from "./MainRoutes";
-import AuthenticationRoutes from "./AuthenticationRoutes";
+import MainRoutes, { homeRoutes } from './MainRoutes';
+import AuthenticationRoutes from './AuthenticationRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
 
