@@ -3,7 +3,6 @@ import MainLayout from '../layout/MainLayout';
 // project imports
 // import MainLayout from 'layout/MainLayout';
 import Loadable from '../components/Loadable';
-import Home from '../views/Landing/page';
 import BaseLayout from '../components/layouts/BaseLayout';
 import { Navigate } from 'react-router';
 import { FormDataProvider } from '../contexts/clientFormContext';
@@ -37,16 +36,16 @@ const AuthLogin3 = Loadable(lazy(() => import('../views/authentication/loginCont
 const ShortListedDevs = Loadable(lazy(() => import('../views/HR')));
 
 // ==============================|| MAIN ROUTING ||============================== //
-export const ExternalRoutes = {
-  path: '/',
-  element: <BaseLayout />,
-  children: [
-    {
-      path: '/',
-      element: <Home />,
-    },
-  ],
-};
+// export const ExternalRoutes = {
+//   path: '/',
+//   element: <BaseLayout />,
+//   children: [
+//     {
+//       path: '/',
+//       element: <Home />,
+//     },
+//   ],
+// };
 export const homeRoutes = {
   path: '/',
   element: <BaseLayout />,
