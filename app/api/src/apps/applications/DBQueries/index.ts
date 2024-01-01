@@ -133,7 +133,7 @@ export async function updateApplication(
   );
   return await ensureTransaction(
     transactionParam,
-    async (transaction) => {
+    async () => {
       const data = await applicationRepo.update({ id }, { ...updates });
       return data;
     },
