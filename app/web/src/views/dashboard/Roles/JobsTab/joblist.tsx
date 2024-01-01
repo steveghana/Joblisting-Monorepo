@@ -90,7 +90,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
                 <Dot />
                 <Typography>{job.jobType}</Typography>
                 <Dot />
-                <Typography fontWeight={700}>{job.roleType}</Typography>
+                <Typography fontWeight={700}>{job.employmentType}</Typography>
               </Box>
               <Box
                 sx={{
