@@ -1,11 +1,6 @@
-import { injectDependencies, Dependencies } from '../util/dependencyInjector';
+import { Dependencies } from '../util/dependencyInjector';
 import AuthToken from '../apps/auth/dataManager/authToken';
-import {
-  Injectable,
-  NestMiddleware,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 export type IMockRequest = any;
 export type IMockResponse = any;
 export type IMockNextFunction = (err?: Error) => void;
@@ -13,11 +8,11 @@ export type IMockNextFunction = (err?: Error) => void;
 import { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable } from 'rxjs';
 const excludedRoutesRegex = [
-  /queueGroup\/\w+\/queue\/\w+\/customer\//,
+  /client\/\w+\/role\/\w+\/get\//,
   /\/user\//,
-  /\/notification\//,
-  /\/short\//,
-  /\/contact\//,
+  /\/devs\//,
+  /\/roleshor\//,
+  /\/email\//,
 ];
 @Injectable()
 export class AuthenticationTtlMiddleware implements NestInterceptor {
