@@ -29,7 +29,7 @@ export async function scheduleInterview(
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const candidate = await devRepo.findOne({
     where: { id: candidateId },
-    relations: ['candidateInterview'],
+    relations: ['candidateInterview', 'roles'],
   });
 
   if (candidate.candidateInterview) {
@@ -47,11 +47,12 @@ export async function scheduleInterview(
       HttpStatus.BAD_REQUEST,
     );
   }
-
-  const newInterview = await interviewRepo.create({
+  const newInterview = interviewRepo.create({
     candidate,
     guests: [...guests],
+
     ...rest,
+    role: candidate.roles, // We couldn't grap the role from the clientside we can use the candidate role for this interaction
   });
   const data = await interviewRepo.save(newInterview);
 
@@ -77,7 +78,7 @@ export async function addComments(
     },
   });
 
-  const newComment = await commentRepo.create({
+  const newComment = commentRepo.create({
     interview: existingInterview,
     message,
     name,
