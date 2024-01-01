@@ -31,43 +31,63 @@ import { useNavigate } from 'react-router';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 import { Social } from './authicons';
+import { getRemainingRoles, isRegistrationAvailable } from '@/utils/checkvalid';
 
 export let handleSocial = {
   Github: () => {},
   Linkedin: () => {},
 };
 // ============================|| AUTH - LOGIN ||============================ //
+const roles = ['Ceo', 'Recruitment'];
 
 const AuthLogin = () => {
   const theme = useTheme();
-
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state: any) => state.customization);
-  const router = useNavigate();
-  const [googleloading, setgoogleloading] = useState(true);
-
+  const navigate = useNavigate();
   const [checked, setChecked] = useState(true);
   const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
-  const [loginWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] =
-    useLoginUserWithGoogleMutation();
+  const [loginWithGoogle, { isLoading: isWithGoogleLoading }] = useLoginUserWithGoogleMutation();
   async function login(values: { email: any; password: any; submit?: null }) {
-    // const s = await api.user.login(values.email, values.password, false);
-    const data = await loginUser({
-      password: values.password,
+    let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
+    const registrationAvailable = isRegistrationAvailable(data as string[]);
+    const remainingRoles = getRemainingRoles(data as string[]);
+    if (!remainingRoles.length || !registrationAvailable) {
+      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+      return false;
+    } else {
+      try {
+        const data = await loginUser({
+          password: values.password,
 
-      email: values.email,
-      rememberMe: false,
-    }).unwrap();
-    if (!data) return;
-    const { authTokenId, role } = data;
-    if (!authTokenId) return;
-    sessionStorage.setItem('auth_token', authTokenId);
-    sessionStorage.setItem('role', role);
+          email: values.email,
+          rememberMe: false,
+        }).unwrap();
+        // if (!data) return;
+        const { authTokenId, role } = data;
+        if (!roles.includes(role)) {
+          sessionStorage.setItem(
+            'tempUserinfo',
+            JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
+          );
+          navigate('/role/select');
+          return;
+        }
+        if (!authTokenId) return;
+        sessionStorage.setItem('auth_token', authTokenId);
+        sessionStorage.setItem('role', role);
 
-    router('/dashboard/default');
-    toast.success(`Welcome back`, { position: 'top-center' });
+        navigate('/dashboard/default');
+        toast.success(`Welcome back`, { position: 'top-center' });
 
-    return true;
+        return true;
+      } catch (err) {
+        console.log(err, error, 'this  is the error');
+        toast.error(`Something went wrong`, { position: 'top-center' });
+      }
+    }
   }
 
   const [showPassword, setShowPassword] = useState(false);
@@ -75,23 +95,31 @@ const AuthLogin = () => {
     setShowPassword(!showPassword);
   };
   const onGoogleSucess = async (codeResponse: Omit<TokenResponse, 'error' | 'error_description' | 'error_uri'>) => {
-    try {
-      const response = await loginWithGoogle({
-        accessToken: codeResponse.access_token,
-      }).unwrap();
+    let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
+    const registrationAvailable = isRegistrationAvailable(data as string[]);
+    const remainingRoles = getRemainingRoles(data as string[]);
+    if (!remainingRoles.length || !registrationAvailable) {
+      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+      return false;
+    } else {
+      try {
+        const response = await loginWithGoogle({
+          accessToken: codeResponse.access_token,
+        }).unwrap();
 
-      if (response) {
-        const { authTokenId, role } = response;
-        if (!authTokenId) return;
-        sessionStorage.setItem('auth_token', authTokenId);
-        sessionStorage.setItem('role', role);
-        router('/dashboard/default');
-        toast.success(`Welcome back`, { position: 'top-center' });
+        if (response) {
+          const { authTokenId, role } = response;
+          if (!authTokenId) return;
+          sessionStorage.setItem('auth_token', authTokenId);
+          sessionStorage.setItem('role', role);
+          navigate('/dashboard/default');
+          toast.success(`Welcome back`, { position: 'top-center' });
+        }
+      } catch (error) {
+        toast.error('Couldnt login user, please try again later', {
+          position: 'bottom-center',
+        });
       }
-    } catch (error) {
-      toast.error('Couldnt login user, please try again later', {
-        position: 'bottom-center',
-      });
     }
   };
   const loginAuth = useGoogleLogin({
