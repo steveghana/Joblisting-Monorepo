@@ -127,6 +127,7 @@ export async function deleteClient(
   const clock_hours = transaction.getRepository(
     dependencies.db.models.clockedHours,
   );
+  //TODO: Add role relationtions to roleshort url for deleting.
   const url = transaction.getRepository(dependencies.db.models.roleShortUrl);
 
   // Check if there are roleIds provided, throw an exception if not
@@ -137,8 +138,8 @@ export async function deleteClient(
     );
   }
 
-  // Delete related entities in a specific order according to their relation from client to nest child relations
-  // This is done to handle cascading deletions and dependencies between entities
+  // Delete related entities in a specific order according to their relation from client to nested child relations
+  // This is done to handle cascading deletions and dependencies between entities to avoid primary key constraint errors
 
   // Delete clocked hours related to roles
   await Promise.all(
