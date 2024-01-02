@@ -20,7 +20,7 @@ export async function destroyLink(
   dependencies: Dependencies = null,
 ) {
   dependencies = injectDependencies(dependencies, ['db']);
-  let shortRepo = myDataSource.manager.getRepository(
+  const shortRepo = myDataSource.manager.getRepository(
     dependencies.db.models.roleShortUrl,
   );
   return await shortRepo.delete({ shortComponent: shortLink });
@@ -32,7 +32,7 @@ async function resolveShortUrl(
 ): Promise<{ longComponent: string }> {
   dependencies = injectDependencies(dependencies, ['db']);
 
-  let shortRepo = myDataSource.manager.getRepository(
+  const shortRepo = myDataSource.manager.getRepository(
     dependencies.db.models.roleShortUrl,
   );
   // let item = await
@@ -70,9 +70,7 @@ export async function create(
 
   // Associate ShortUrlEntity with Role entity
   const roleRepo = transaction.getRepository(dependencies.db.models.role);
-  const roleEntitys = await roleRepo.find({});
   const roleEntity = await roleRepo.findOne({ where: { id: role.id } });
-  console.log(roleEntity, role, roleEntitys, 'this i sthe role entiy');
   roleEntity.link = savedShortEntity;
 
   // Save the Role entity with the associated ShortUrlEntity
