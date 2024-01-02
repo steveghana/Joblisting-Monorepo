@@ -3,11 +3,7 @@ import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
 import TableActions from '../../../../components/Table/TableActions';
 import { IRoleData } from '../../../../types/roles';
 import { handleSave } from '../../../../utils/clientTableCrud';
-import {
-  useBulkDeletRoleMutation,
-  useDeletRoleMutation,
-  useUpdateRoleMutation,
-} from '../../../../store/services/role.service';
+import { useBulkDeletRoleMutation, useDeletRoleMutation, useUpdateRoleMutation } from '../../../../store/services/role.service';
 import { toast } from 'react-toastify';
 import { IClient } from '../../../../types/client';
 import TopToolbar from '../../../../components/Table/topToolBar';
@@ -39,7 +35,7 @@ const ClientRoleTable = ({
     enableRowActions: true,
     renderDetailPanel: ({ row }) => <JobDetails jobs={row.original.jobs} actionComplete={onActionComplete} />,
 
-    getRowId: (row) => row.id,
+    getRowId: (row) => row.id as string,
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: () => {},
     onEditingRowCancel: () => setValidationErrors({}),
@@ -61,7 +57,7 @@ const ClientRoleTable = ({
       <TableActions
         actionFn={async () => {
           try {
-            const response = await deleteRole({ id: row.original.id }).unwrap();
+            const response = await deleteRole({ id: row.original.id as string }).unwrap();
 
             if (response) {
               onActionComplete();
