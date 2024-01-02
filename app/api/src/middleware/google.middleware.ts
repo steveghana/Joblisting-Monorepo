@@ -80,7 +80,6 @@ export class GoogleAuthMiddleware implements NestMiddleware {
           'names,photos,phoneNumbers,nicknames,locations,addresses,emailAddresses',
       });
 
-      console.log('userdata:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error during fetching additional user info:', error);
