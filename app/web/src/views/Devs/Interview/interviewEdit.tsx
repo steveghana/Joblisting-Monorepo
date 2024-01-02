@@ -1,14 +1,5 @@
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Paper,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import CustomButton from '../../../components/button';
 // import SelectParticipants, {
@@ -32,13 +23,7 @@ const InterviewEdit = () => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const { id } = useParams();
-  const {
-    data: interviewEditData,
-    isFetching,
-    isError,
-    isLoading,
-    refetch,
-  } = useGetInterviewQuery({ id: id as string });
+  const { data: interviewEditData, isFetching, isError, isLoading, refetch } = useGetInterviewQuery({ id: id as string });
   const [updateInterview, { isError: isUpdateError }] = useUpdateInterviewMutation();
   const state = useTypedSelector((state) => state.devs.devs);
 
@@ -121,15 +106,11 @@ const InterviewEdit = () => {
 
     const trimedCandidate = candidate.trim().toLowerCase();
 
-    const candidateInfo = state.find(
-      (candidate) => `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() === trimedCandidate,
-    );
+    const candidateInfo = state.find((candidate) => `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() === trimedCandidate);
     const escapedPattern = '\\s';
     const regex = new RegExp(escapedPattern, 'g');
     const mappedGuests = guests.map((guest) => guest.trim().replace(regex, '').toLowerCase());
-    const guestsInfo = state.filter((guest) =>
-      mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
-    );
+    const guestsInfo = state.filter((guest) => mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()));
     if (!candidateInfo?.id || !guestsInfo.length) {
       toast.warning('A candidate or a guest(s) is required to schedule an event', {
         position: 'bottom-center',
@@ -155,15 +136,15 @@ const InterviewEdit = () => {
         position: 'bottom-center',
       });
     } catch (error) {
-      toast.error('Cannot edit interview, pleas try again later', {
-        position: 'bottom-center',
-      });
+      // toast.error('Cannot edit interview, pleas try again later', {
+      //   position: 'bottom-center',
+      // });
     }
   };
   return (
     <MainCard title={'Edit Interview'}>
       <InterviewFormFields
-        handleSubmit={(values) => console.log(values)}
+        handleSubmit={(values) => {}}
         _applicants={[interviewEditData?.candidate]}
         guests={guests}
         handleEdit={(values) => handleEdit(values)}
