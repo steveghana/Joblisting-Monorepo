@@ -6,15 +6,7 @@ import { FormDataProvider } from '../../../../../contexts/clientFormContext';
 import ClientDetailsPage from './clientdetails';
 import { IRoleData } from '../../../../../types/roles';
 
-const ClientDetailsOverview = ({
-  data,
-  onActionComplete,
-}: {
-  data: { role: IRoleData[]; clientId: string };
-  onActionComplete: () => void;
-}) => {
-  const [open, setOpen] = React.useState(false);
-
+const ClientDetailsOverview = ({ data, onActionComplete }: { data: { role: IRoleData[]; clientId: string }; onActionComplete: () => void }) => {
   if (!data) {
     return <NoData />;
   }
