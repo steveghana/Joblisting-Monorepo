@@ -36,7 +36,6 @@ export class InterviewsController {
     @Body() createInterviewDto: CreateInterviewDto,
     @Res() res: Response,
   ) {
-    console.log(createInterviewDto);
     const result = await this.interviewsService.create(createInterviewDto);
     return res.status(200).json(result);
   }
