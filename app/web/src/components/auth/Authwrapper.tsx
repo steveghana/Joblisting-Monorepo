@@ -7,12 +7,15 @@ import AuthPattern from '@/assets/Shape_17.png';
 import Rocket from '@/assets/images/users/pic-3.png';
 import Contact from '@/assets/images/users/contact.png';
 import { useGetRolesQuery } from '@/store/services/userAuth.service';
+import { IProfession } from '@/types/roles';
+let allRoles: IProfession[] = ['Ceo', 'Recruitment'];
 export default function AuthWrapper2(props: { children: React.ReactNode }) {
-  const { data, isLoading, isError: isRolesError, error: rolesError } = useGetRolesQuery();
   let rolesAvailable: string[] = [];
   sessionStorage.setItem('rolesAvailable', JSON.stringify(rolesAvailable));
+  const { data } = useGetRolesQuery();
   if (data?.length) {
-    rolesAvailable = data;
+    const filteredRoles = allRoles.filter((r) => !data.includes(r));
+    rolesAvailable = filteredRoles;
     sessionStorage.setItem('rolesAvailable', JSON.stringify(rolesAvailable));
   }
   return (
@@ -52,12 +55,7 @@ export default function AuthWrapper2(props: { children: React.ReactNode }) {
             <Typography sx={{ zIndex: 1 }} variant="body1">
               We connect talented developers across Africa with clients all over the world.
             </Typography>
-            <Button
-              variant="outlined"
-              sx={{ color: 'white !important', borderRadius: '20px' }}
-              size="small"
-              color="primary"
-            >
+            <Button variant="outlined" sx={{ color: 'white !important', borderRadius: '20px' }} size="small" color="primary">
               Lets Get started
             </Button>
           </Box>
