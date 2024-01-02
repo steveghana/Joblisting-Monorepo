@@ -24,4 +24,4 @@ const ClientDetailsOverview = ({ data, onActionComplete }: { data: { role: IRole
     </Container>
   );
 };
-export default Protect(ClientDetailsOverview, ['Ceo']);
+export default Protect(ClientDetailsOverview, ['Ceo', "Recruitment"]);
