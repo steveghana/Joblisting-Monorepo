@@ -19,6 +19,7 @@ const checkValid = (
 export default checkValid;
 
 export const getRemainingRoles = (data: string[]): string[] => {
+  console.log(data, 'from get remains');
   const ceoAvailable = data.includes('Ceo');
   const recruitmentAvailable = data.includes('Recruitment');
   if (ceoAvailable && recruitmentAvailable) {
@@ -26,14 +27,8 @@ export const getRemainingRoles = (data: string[]): string[] => {
     return [];
   } else {
     // Only include roles that are still available
-    const remainingRoles: string[] = [];
-    if (!ceoAvailable) {
-      remainingRoles.push('Ceo');
-    }
-    if (!recruitmentAvailable) {
-      remainingRoles.push('Recruitment');
-    }
-    return remainingRoles;
+
+    return data;
   }
 };
 
