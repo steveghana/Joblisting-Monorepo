@@ -51,7 +51,6 @@ const DevTableData = ({
   const [updateUser, { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError }] =
     useUpdateDevMutation();
   const [deleteDev, { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError }] = useDeletDevMutation();
-  console.log(isUpdatingDev, isDeletingDev);
   const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] =
     useBulkdeletDevMutation();
   async function cancelinterviewFn(row: MRT_Row<IDev>) {
@@ -66,9 +65,9 @@ const DevTableData = ({
         refetch();
       }
     } catch (err) {
-      toast.error('Couldnt cancel interview', {
-        position: 'bottom-center',
-      });
+      // toast.error('Couldnt cancel interview', {
+      //   position: 'bottom-center',
+      // });
     }
   }
   async function DeletDevFn(row: MRT_Row<IDev>) {
