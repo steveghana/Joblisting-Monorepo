@@ -58,7 +58,6 @@ export class RolesService {
     createRoleDto: Omit<JobInfo, 'vacancy_status'>,
     dependencies: Dependencies = null,
   ) {
-    console.log(roleId, createRoleDto, 'this is the job info');
     return useTransaction(async (transaction) => {
       const roldDetails = await Roles.getById(roleId);
 
@@ -104,7 +103,6 @@ export class RolesService {
   getApplicant(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Roles.getById(id);
-      console.log(data, 'from client');
       if (!data) {
         return null;
       }
@@ -114,7 +112,6 @@ export class RolesService {
   findOne(id: string) {
     return useTransaction(async (transaction) => {
       const data = await Roles.getById(id);
-      console.log(data, 'from client');
       if (!data) {
         return null;
       }
@@ -136,7 +133,6 @@ export class RolesService {
   ): Promise<IRole> {
     return useTransaction(async (transaction) => {
       // const { , ...rest } = updateClientDto;
-      console.log(updateClientDto);
       const data = await Roles.update(
         id,
         {
@@ -158,13 +154,13 @@ export class RolesService {
   remove(id: string, dependencies: Dependencies = null) {
     return useTransaction(async (transaction) => {
       const deleted = await Roles.destroy(id, transaction);
-      console.log(id, deleted);
       if (!deleted) {
         throw new HttpException(
           'Something went wrong, couldnt delete role',
           HttpStatus.BAD_REQUEST,
         );
       }
+      return deleted;
     });
   }
   deleteJob(id: string, dependencies: Dependencies = null) {
