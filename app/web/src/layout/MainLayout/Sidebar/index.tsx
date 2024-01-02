@@ -43,6 +43,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window, navTitle }: SidebarProps) =
           }}
         >
           <MenuList navTitle={(title) => navTitle(title)} />
+
           {/* <MenuCard /> */}
           <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
             <Chip size="small" sx={{ cursor: 'pointer' }} />
