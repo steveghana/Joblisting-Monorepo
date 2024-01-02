@@ -11,7 +11,7 @@ const icons = { IconDashboard, IconUser, IconBuilding, IconBriefcase };
 const dashboard = {
   id: 'dashboard',
   title: 'Dashboard',
-  roles: ['Ceo'],
+  roles: ['Ceo', 'Recruitment'],
   type: 'group',
   children: [
     {
