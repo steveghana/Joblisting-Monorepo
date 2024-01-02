@@ -7,7 +7,6 @@ export function formatTimeDifference(date1, date2) {
     { name: 'month', milliseconds: 1000 * 60 * 60 * 24 * 30 }, // Approximation
     { name: 'year', milliseconds: 1000 * 60 * 60 * 24 * 365 }, // Approximation
   ];
-  console.log('now:', date1, 'previose:', date2);
   const diffInMilliseconds = date2 - date1;
   let unitUsed = units[0];
 
