@@ -27,14 +27,13 @@ function RoleAuth() {
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole(event.target.value as IProfession);
   };
-  console.log(roles, 'avaiab');
   const onMoveToRegister = async () => {
     if (!role) {
       setError(true);
       setHelperText('Please select an option.');
       return;
     }
-    if (!remainingRoles.length || registrationAvailable) {
+    if (!remainingRoles.length || !registrationAvailable) {
       toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
       return false;
     }
