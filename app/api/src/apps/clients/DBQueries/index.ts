@@ -64,7 +64,7 @@ export function findElseCreateClient(
           ...clientInfo,
         });
         const savedClient = await clientRepo.save(newClient);
-        console.log(savedClient, 'this is the saved data...........');
+        console.log('this is the saved data...........');
         return [savedClient, true];
       }
     },
@@ -120,7 +120,7 @@ export async function deleteClient(
   const applicant = transaction.getRepository(
     dependencies.db.models.application,
   );
-  const developer = transaction.getRepository(dependencies.db.models.developer);
+  const devRepo = transaction.getRepository(dependencies.db.models.developer);
   const interview = transaction.getRepository(
     dependencies.db.models.interviews,
   );
@@ -129,64 +129,58 @@ export async function deleteClient(
   );
   //TODO: Add role relationtions to roleshort url for deleting.
   const url = transaction.getRepository(dependencies.db.models.roleShortUrl);
+  // Unassign developers related to roles and clients first to avoid primary key constraints with sub relations
+  const developers = await devRepo.find({
+    where: { client: { id } },
+  });
 
-  // Check if there are roleIds provided, throw an exception if not
-  if (!roleIds.length) {
-    throw new HttpException(
-      'No role IDs provided. Unable to delete client.',
-      HttpStatus.BAD_REQUEST,
-    );
+  for (const developer of developers) {
+    developer.roles = null; // Unassign role
+    developer.client = null;
+    developer.workStatus = 'Not Active';
+    if (developer.role_status === 'Interviewing') {
+      developer.role_status = 'Pending';
+    }
+    await devRepo.save(developer);
   }
 
-  // Delete related entities in a specific order according to their relation from client to nested child relations
-  // This is done to handle cascading deletions and dependencies between entities to avoid primary key constraint errors
+  if (roleIds.length) {
+    // Delete related entities in a specific order according to their relation from client to nested child relations
+    // This is done to handle cascading deletions and dependencies between entities to avoid primary key constraint errors
 
-  // Delete clocked hours related to roles
-  await Promise.all(
-    roleIds.map(async (roleid) => {
-      await clock_hours.delete({ role: { id: roleid } });
-    }),
-  );
+    // Delete clocked hours related to roles
+    await Promise.all(
+      roleIds.map(async (roleid) => {
+        await clock_hours.delete({ role: { id: roleid } });
+      }),
+    );
 
-  // Delete interviews related to roles
-  await Promise.all(
-    roleIds.map(async (roleid) => {
-      await interview.delete({ role: { id: roleid } });
-    }),
-  );
+    // Delete interviews related to roles
+    await Promise.all(
+      roleIds.map(async (roleid) => {
+        await interview.delete({ role: { id: roleid } });
+      }),
+    );
+    // Delete applicants related to roles
+    await Promise.all(
+      roleIds.map(async (roleid) => {
+        await applicant.delete({ role: { id: roleid } });
+      }),
+    );
 
-  // Delete developers related to roles
-  await Promise.all(
-    roleIds.map(async (roleid) => {
-      await developer.delete({ roles: { id: roleid } });
-    }),
-  );
-
-  // Delete applicants related to roles
-  await Promise.all(
-    roleIds.map(async (roleid) => {
-      await applicant.delete({ role: { id: roleid } });
-    }),
-  );
-
-  // Delete jobs related to roles
-  await Promise.all(
-    roleIds.map(async (roleid) => {
-      await job.delete({ role: { id: roleid } });
-    }),
-  );
-  // await Promise.all(
-  //   roleIds.map(async (roleid) => {
-  //     await url.delete({ role: { id: roleid } });
-  //   }),
-  // );
-
-  // Delete roles themselves
-  await Promise.all(
-    roleIds.map(async (roleid) => {
-      await roles.delete({ id: roleid });
-    }),
-  );
+    // Delete jobs related to roles
+    await Promise.all(
+      roleIds.map(async (roleid) => {
+        await job.delete({ role: { id: roleid } });
+      }),
+    );
+    // Delete roles themselves
+    await Promise.all(
+      roleIds.map(async (roleid) => {
+        await roles.delete({ id: roleid });
+      }),
+    );
+  }
 
   // Delete the main client entity
   const { affected } = await transaction
