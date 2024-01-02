@@ -16,8 +16,12 @@ export const interviewApi = createApi({
   reducerPath: INTERVEW_API_KEY,
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
-    headers: {
-      Authorization: authToken ? authToken : '',
+    prepareHeaders: (headers, { getState }) => {
+      const authToken = sessionStorage.getItem('auth_token');
+      if (authToken) {
+        headers.set('Authorization', authToken);
+      }
+      return headers;
     },
     // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
@@ -90,8 +94,7 @@ export const interviewApi = createApi({
         url: 'interviews',
         method: 'GET',
       }),
-      providesTags: (result, error) =>
-        result ? [...result.map(({ id }) => ({ type: 'interviews' as const, id })), 'interviews'] : ['interviews'],
+      providesTags: (result, error) => (result ? [...result.map(({ id }) => ({ type: 'interviews' as const, id })), 'interviews'] : ['interviews']),
 
       transformErrorResponse: (response: any, meta, arg) => {
         const {
