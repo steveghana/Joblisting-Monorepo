@@ -37,7 +37,6 @@ export class RolesController {
     @Param('id') id: string,
     @Res() res: Response,
   ) {
-    console.log(createRoleDto, 'this is the body');
     const result = await this.rolesService.create(id, createRoleDto);
     return res.json(result);
   }
