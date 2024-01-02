@@ -12,6 +12,7 @@ import { useGetUserQuery } from '@/store/services/userAuth.service';
 import Loader from '@/components/Loader';
 import NoData from '@/components/NoData';
 import { toast } from 'react-toastify';
+import { Protect } from '@/components/auth/requireAuth';
 const TabsWrapper = styled(Tabs)(
   () => `
     .MuiTabs-scrollableX {
@@ -76,5 +77,5 @@ function ManagementUserSettings() {
     </>
   );
 }
-export default ManagementUserSettings;
-// export default Protect(ManagementUserSettings, ["Ceo", "developer", "hr"]);
+// export default ManagementUserSettings;
+export default Protect(ManagementUserSettings, ['Ceo', 'Recruitment']);
