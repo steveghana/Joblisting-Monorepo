@@ -193,4 +193,4 @@ const AddClientForm = () => {
   );
 };
 
-export default Protect(AddClientForm, ['Ceo']);
+export default Protect(AddClientForm, ['Ceo', "Recruitment"]);
