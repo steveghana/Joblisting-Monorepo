@@ -1,15 +1,4 @@
-import {
-  Avatar,
-  ButtonBase,
-  Container,
-  Grid,
-  IconButton,
-  Tab,
-  Tabs,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Avatar, ButtonBase, Container, Grid, IconButton, Tab, Tabs, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import SubCard from '../../../../components/SubCard';
 import React, { ChangeEvent, useState } from 'react';
 import { Box, styled, useTheme } from '@mui/system';
@@ -38,7 +27,7 @@ type IRoleTabs = {
 const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
   const theme = useTheme();
   const navigate = useNavigate();
-
+  const hasToken = sessionStorage.getItem('auth_token') as string;
   const isLargerScreen = useMediaQuery(theme.breakpoints.up('md'));
   const [currentTab, setCurrentTab] = React.useState<string>('overview');
   const roleTabs = [
@@ -51,7 +40,7 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
     event.stopPropagation();
     setCurrentTab(value);
   };
-  const tabs = isExternal ? roleTabs.filter((tab) => tab.value !== 'applicants') : roleTabs;
+  const tabs = isExternal || !hasToken ? roleTabs.filter((tab) => tab.value !== 'applicants') : roleTabs;
 
   return (
     <Grid
@@ -63,13 +52,15 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
       <Grid position={'relative'}>
         <SubCard>
           <Container maxWidth="xl">
-            <Box display="flex">
-              <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
-                <IconButton color="primary" sx={{ mr: 2 }}>
-                  <ArrowBackTwoTone />
-                </IconButton>
-              </Tooltip>
-            </Box>
+            {hasToken && (
+              <Box display="flex">
+                <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
+                  <IconButton color="primary" sx={{ mr: 2 }}>
+                    <ArrowBackTwoTone />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
             <Grid
               // item
               container
@@ -78,15 +69,7 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
               alignItems="stretch"
               // spacing={3}
             >
-              <Box
-                sx={{ width: '100%' }}
-                display={'flex'}
-                gap={1}
-                my={1}
-                p={{ lg: 2, md: 1, sm: 0 }}
-                alignItems={'center'}
-                flexWrap={'wrap'}
-              >
+              <Box sx={{ width: '100%' }} display={'flex'} gap={2} my={2} p={{ lg: 2, md: 1, sm: 1 }} alignItems={'center'} flexWrap={'wrap'}>
                 <Avatar sx={{ width: 56, height: 56 }} variant="rounded" src={role?.client!.companyLogo} />
                 <Box>
                   <Typography variant="h4">{role?.client!.companyName}</Typography>
@@ -118,9 +101,7 @@ const RoleTabs = ({ role, isExternal }: IRoleTabs) => {
 
               <Grid lg={12} xs={12}>
                 {currentTab === 'overview' && <RoleDetails setCurrentTab={setCurrentTab} role={role as IRoleData} />}
-                {currentTab === 'jobs' && (
-                  <JobsPage job={role!.jobs} client={role!.client as IClient} roleId={role!.id as string} />
-                )}
+                {currentTab === 'jobs' && <JobsPage job={role!.jobs} client={role!.client as IClient} roleId={role!.id as string} />}
                 {currentTab === 'applicants' && (
                   // <MainCard>
                   <Grid container spacing={3} overflow={'auto'}>
