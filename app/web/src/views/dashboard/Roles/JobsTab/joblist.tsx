@@ -1,17 +1,6 @@
 // JobsList.tsx
 import React from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { IJobs } from '../../../../types';
 import { themePalette } from '../../../../themes/schemes/palette';
@@ -21,6 +10,7 @@ import NoData from '../../../../components/NoData';
 import { formatTimeDifference } from '../../../../utils/timeFormatter';
 import SubCard from '../../../../components/SubCard';
 import CustomButton from '../../../../components/button';
+import { useParams } from 'react-router';
 
 interface JobsListProps {
   jobs: IJobs[];
@@ -29,6 +19,8 @@ interface JobsListProps {
 }
 
 const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
+  const hasApplied: Record<string, { applied: boolean }> = JSON.parse(localStorage.getItem('hasApplied') as string) || {};
+  const appliedJobIds = Object.keys(hasApplied).map((jobid) => jobid);
   const now = new Date();
   return (
     <Grid container lg={7} md={8} sm={12} mt={2}>
@@ -125,7 +117,17 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, location, roleId }) => {
                   </Typography>
                 </Box>
                 <Grid sx={{ width: { xs: '100%' } }}>
-                  <CustomButton size="medium" fullWidth href={`/job-submttion/${roleId}/job/${job.id}`} text="Apply" />
+                  {!appliedJobIds.includes(job.id) ? (
+                    <CustomButton size="medium" fullWidth href={`/job-submttion/${roleId}/job/${job.id}`} text="Apply" />
+                  ) : (
+                    <CustomButton
+                      size="small"
+                      color="success"
+                      // onClick={() => navigate("job-submttion")}
+                      variant="outlined"
+                      text="Applied"
+                    />
+                  )}
                 </Grid>
               </Box>
             </Box>
