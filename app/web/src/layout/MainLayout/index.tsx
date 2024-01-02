@@ -105,6 +105,6 @@ const MainLayout = () => {
     </Box>
   );
 };
-// export default Protect(MainLayout, ['Ceo', 'Developer', 'Marketing', 'Recruitment']);
+export default Protect(MainLayout, ['Ceo', 'Recruitment']);
 
-export default MainLayout;
+// export default MainLayout;
