@@ -2,10 +2,14 @@
     "$schema": "https://turborepo.org/schema.json",
     "globalDependencies": ["**/.env.*local"],
   "pipeline": {
-    "build": {
-      "dependsOn": ["^build"]
+    "api": {
+      "dependsOn": [],
+      "command": "cd app/api && npm install && npm run build"
     },
-    "lint": {},
+    "web": {
+      "dependsOn": [],
+      "command": "cd app/web && npm install && npm run build"
+    },
     "dev": {
       "cache": false,
       "persistent": true
