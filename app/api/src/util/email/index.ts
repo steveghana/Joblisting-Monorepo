@@ -1,6 +1,7 @@
 import nodemailer, { Transporter, createTransport } from 'nodemailer';
+import * as mailjetTransport from 'nodemailer-mailjet-transport';
 import logger from '../log';
-
+import * as mailjet from 'node-mailjet';
 export type Context = {
   transporter: Transporter;
 };
@@ -11,7 +12,15 @@ export const globalContext: Context = {
 
 function init(context: Context = globalContext): Context {
   console.log('email service initialised');
-
+  // context.transporter = createTransport(
+  //   mailjetTransport({
+  //     auth: {
+  //       apiKey: process.env.MAILJET_API_KEY,
+  //       apiSecret: process.env.MAILJET_API_SECRET,
+  //     },
+  //     debug: true,
+  //   }),
+  // );
   context.transporter = createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT ? Number(process.env.EMAIL_PORT) : 465,
@@ -20,6 +29,7 @@ function init(context: Context = globalContext): Context {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    debug: true,
   });
   return context;
 }
@@ -50,38 +60,32 @@ async function send(
   options: SendOptions,
   context: Context = globalContext,
 ): Promise<SendReturn> {
-  const sendMailOptions = {
-    from: options.from || 'noreply@Savannahtech.io',
-    to: options.to,
-    sender: options.sender,
-    subject: options.subject,
-    html: options.html,
-    attachments: options.attachments,
-  };
-  console.log(process.env.NODE_ENV, 'the environment');
-  if (process.env.NODE_ENV !== 'production') {
-    logger.log('email', 'If it were production, would have sent E-mail', [
-      sendMailOptions,
-    ]);
-    return Promise.resolve({});
+  try {
+    if (!context.transporter) {
+      throw new Error('Email service not initialised');
+    }
+    const info = await context.transporter.sendMail(options);
+    return {
+      messageId: info.messageId,
+      envelope: info.envelope,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      pending: info.pending,
+      response: info.response,
+    };
+  } catch (error) {
+    logger.error('Error sending email:', error);
+    return {
+      response: 'Error sending email',
+    };
   }
-  console.log('start sending');
-  const info = await context.transporter.sendMail(sendMailOptions);
-  console.log(info, 'information wtere iss sent');
-  return {
-    messageId: info.messageId,
-    envelope: info.envelope,
-    accepted: info.accepted,
-    rejected: info.rejected,
-    pending: info.pending,
-    response: info.response,
-  };
 }
 
 function sendStyled(
   options: SendOptions,
   context: Context = globalContext,
 ): Promise<SendReturn> {
+  console.log('ine sendint ........................');
   return send(
     {
       ...options,
