@@ -2,17 +2,7 @@ import CustomButton from '@/components/button';
 import { useAddInterviewCommentMutation } from '@/store/services/interview.service';
 import { TInterviewComment } from '@/types/interviews';
 import { AddComment, Comment, ExpandMore } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  FormControl,
-  FormHelperText,
-  Grid,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, FormControl, FormHelperText, Grid, TextField, Typography } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -49,14 +39,12 @@ const InterviewComments = ({ interviewId, comments }: { interviewId: string; com
         <Formik
           initialValues={initialValues}
           onSubmit={async (values: TCommentWithoutIds, formikHelpers: FormikHelpers<TCommentWithoutIds>) => {
-            console.log(interviewId);
             try {
               const response = await addComment({
                 interviewId: interviewId,
                 name: values.name,
                 message: values.message,
               }).unwrap();
-              console.log(response, isSuccess);
               if (response) {
                 toast.success('Comment added successfully!', { position: 'bottom-center' });
                 formikHelpers.resetForm();
@@ -80,15 +68,7 @@ const InterviewComments = ({ interviewId, comments }: { interviewId: string; com
               </ErrorMessage>
             </FormControl>
             <FormControl fullWidth margin="normal">
-              <Field
-                as={TextField}
-                name={'message'}
-                label="Add a Comment"
-                variant="outlined"
-                fullWidth
-                multiline
-                rows={3}
-              />
+              <Field as={TextField} name={'message'} label="Add a Comment" variant="outlined" fullWidth multiline rows={3} />
               <ErrorMessage name="message" component="div">
                 {(msg) => (
                   <FormHelperText error variant="filled">
