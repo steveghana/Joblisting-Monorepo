@@ -1,17 +1,5 @@
 // material-ui
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Avatar,
-  Box,
-  Divider,
-  Drawer,
-  Grid,
-  IconButton,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, Divider, Drawer, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Paper, TextField } from '@mui/material';
 // project imports
 import SubCard from '../../../components/SubCard';
@@ -80,18 +68,15 @@ const Interviews = () => {
         navigate(`/devs/interviews`);
       }
     } catch (error) {
-      toast.error('Couldnt cancel interview', {
-        position: 'bottom-center',
-      });
+      // toast.error('Couldnt cancel interview', {
+      //   position: 'bottom-center',
+      // });
     }
   };
   const [state, setState] = React.useState(false);
 
   const toggleDrawer = (open: boolean, id?: string) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
-    ) {
+    if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
       return;
     }
     if (open) {
@@ -139,7 +124,6 @@ const Interviews = () => {
       />
     );
   };
-  console.log(allDevsAndApplicants, 'kfjdkfjd');
   return (
     <MainCard title="Event Details">
       <Box display="flex">
@@ -170,8 +154,7 @@ const Interviews = () => {
             <CustomButton
               text="+ New Event"
               onClick={() => {
-                !allDevsAndApplicants.length ||
-                !allDevsAndApplicants.filter((dev) => dev.rolestatus === 'Pending').length
+                !allDevsAndApplicants.length || !allDevsAndApplicants.filter((dev) => dev.rolestatus === 'Pending').length
                   ? toast.warn('add developers or new shortlisted candidates before scheduling an event', {
                       position: 'top-center',
                     })
@@ -190,9 +173,7 @@ const Interviews = () => {
             <Box>
               <SubCard>
                 <Drawer anchor={'right'} open={state} onClose={toggleDrawer(false)}>
-                  <ExtractEventFromEvents
-                    event={data.find((interview) => interview.id === eventIndex) as Iinterviews}
-                  />
+                  <ExtractEventFromEvents event={data.find((interview) => interview.id === eventIndex) as Iinterviews} />
                 </Drawer>
                 {/* Header */}
                 <Grid container spacing={2} sx={{ cursor: 'pointer' }}>
@@ -218,24 +199,11 @@ const Interviews = () => {
                             spacing={2}
                           >
                             <Grid sx={{ color: 'white' }} item xs={12} mb={2}>
-                              <Typography
-                                variant="subtitle1"
-                                display={'flex'}
-                                color={'white'}
-                                alignItems={'center'}
-                                gap={1}
-                              >
-                                Candidate: <Avatar sx={{ width: 23, height: 23 }} src={item.candidate.avatar} />{' '}
-                                {item.candidate.firstName} {item.candidate.lastName}
+                              <Typography variant="subtitle1" display={'flex'} color={'white'} alignItems={'center'} gap={1}>
+                                Candidate: <Avatar sx={{ width: 23, height: 23 }} src={item.candidate.avatar} /> {item.candidate.firstName}{' '}
+                                {item.candidate.lastName}
                               </Typography>
-                              <Typography
-                                variant="subtitle1"
-                                color={'white'}
-                                display={'flex'}
-                                flexWrap={'wrap'}
-                                alignItems={'center'}
-                                gap={1}
-                              >
+                              <Typography variant="subtitle1" color={'white'} display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
                                 guest(s):
                                 {item.guests
                                   .filter((item) => item.rolestatus !== 'Interviewing')
@@ -249,15 +217,8 @@ const Interviews = () => {
                               <Typography color={'white'} variant="subtitle1">
                                 Date: {new Date(interviewDetails.interviewDate).toLocaleDateString()}
                               </Typography>
-                              <Typography
-                                color={'white'}
-                                variant="subtitle1"
-                                display={'flex'}
-                                alignItems={'center'}
-                                gap={1}
-                              >
-                                Time: <ClockIcon color="disabled" fontSize="small" />{' '}
-                                {new Date(item.starttime).toLocaleTimeString()}
+                              <Typography color={'white'} variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
+                                Time: <ClockIcon color="disabled" fontSize="small" /> {new Date(item.starttime).toLocaleTimeString()}
                               </Typography>
                               <Typography
                                 color={'white'}
@@ -273,10 +234,7 @@ const Interviews = () => {
                             {/* Additional interview details can be added here */}
                           </Grid>
                           <Divider />
-                          <InterviewComments
-                            comments={item.comments as TInterviewComment[]}
-                            interviewId={item.id as string}
-                          />
+                          <InterviewComments comments={item.comments as TInterviewComment[]} interviewId={item.id as string} />
                         </Box>
                       </Paper>
                     </Grid>
