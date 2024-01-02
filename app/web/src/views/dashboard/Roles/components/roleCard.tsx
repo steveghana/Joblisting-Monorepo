@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import Roles from '..';
 import { useRef, useState } from 'react';
 import { IRoleData } from '@/types/roles';
-import { Avatar, Box, Button, ButtonBase, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Button, ButtonBase, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import NoData from '@/components/NoData';
 import SubCard from '@/components/SubCard';
 import { themePalette } from '@/themes/schemes/palette';
@@ -17,14 +17,15 @@ interface IRoleCard {
   role: IRoleData;
 }
 const RoleCard = (props: IRoleCard) => {
+  const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState({
     right: false,
   });
+  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const textRef = useRef(null);
   const [copySuccess, setCopySuccess] = useState(false);
   const navigate = useNavigate();
-  const { aboutTheProject, durationForEmployment, experience, title, link, vacancy_status, client, createdAt, jobs } =
-    props?.role;
+  const { aboutTheProject, durationForEmployment, experience, title, link, vacancy_status, client, createdAt, jobs } = props?.role;
   let roleLink = `${window.location.origin}/s/${link}`;
   const handleCopy = (e: any) => {
     e.stopPropagation();
@@ -49,15 +50,16 @@ const RoleCard = (props: IRoleCard) => {
     return <NoData />;
   }
   return (
-    <>
+    <Grid container spacing={1}>
       {jobs?.map((job, i) => (
         <Grid
-          sx={{ cursor: 'pointer' }}
+          sx={{ cursor: 'pointer', p: 1 }}
           onClick={() => navigate('/dashboard/roles/' + props.role.id + '/job/' + job.id)}
           item
-          xs={2}
-          sm={4}
-          md={4}
+          lg={jobs.length > 1 ? 6 : 12}
+          xs={12}
+          sm={12}
+          md={12}
         >
           <SubCard sx={{ cursor: 'pointer' }}>
             <Grid container direction="column" spacing={0}>
@@ -75,13 +77,7 @@ const RoleCard = (props: IRoleCard) => {
                     <Typography variant="caption" color={'black'}>
                       {client!.aboutTheCompany}
                     </Typography>
-                    <Box
-                      sx={{ color: themePalette.primary.light }}
-                      display={'flex'}
-                      gap={'.3rem'}
-                      my={1}
-                      alignItems={'center'}
-                    >
+                    <Box sx={{ color: themePalette.primary.light }} display={'flex'} gap={'.3rem'} my={1} alignItems={'center'}>
                       <People sx={{ color: themePalette.primary.dark }} />
                       <Typography variant="caption" fontWeight={700}>
                         {client!.numOfEmployees}
@@ -135,9 +131,7 @@ const RoleCard = (props: IRoleCard) => {
                     <Dot />
                     <Typography>{job.jobType}</Typography>
                     <Dot />
-                    <Typography fontWeight={700}>
-                      {EmploymentType.filter((item) => item.label === job.employmentType)[0]?.value}
-                    </Typography>
+                    <Typography fontWeight={700}>{EmploymentType.filter((item) => item.label === job.employmentType)[0]?.value}</Typography>
                   </Box>
                   <Box
                     sx={{
@@ -220,12 +214,7 @@ const RoleCard = (props: IRoleCard) => {
                     </Typography>
                   </Grid>
 
-                  <Typography
-                    onClick={handleCopy}
-                    variant="caption"
-                    sx={{ display: 'flex', alignItems: 'center' }}
-                    color="primary"
-                  >
+                  <Typography onClick={handleCopy} variant="caption" sx={{ display: 'flex', alignItems: 'center' }} color="primary">
                     {copySuccess ? 'Copied!' : 'Copy url'}
                     <CopyAll sx={{ fontSize: '1rem', ml: 1 }} />
                   </Typography>
@@ -235,7 +224,7 @@ const RoleCard = (props: IRoleCard) => {
           </SubCard>
         </Grid>
       ))}
-    </>
+    </Grid>
   );
 };
 export default RoleCard;
