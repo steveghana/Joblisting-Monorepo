@@ -1,11 +1,12 @@
 // NewRoleForm.tsx
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Grid } from '@mui/material';
 import ProjectDetails from './clientForm/projectdetails';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useFormData } from '../../../../contexts/clientFormContext';
 import { useAddRoleMutation } from '../../../../store/services/role.service';
 import { toast } from 'react-toastify';
+import { themePalette } from '@/themes/schemes/palette';
 
 interface NewRoleFormProps {
   open: boolean;
@@ -44,7 +45,7 @@ const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose, clientId }) =>
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add New Role</DialogTitle>
+      <DialogTitle sx={{ background: themePalette.warning.light }}>Add New Role</DialogTitle>
       <PerfectScrollbar
         component="div"
         style={{
@@ -53,9 +54,11 @@ const NewRoleForm: React.FC<NewRoleFormProps> = ({ open, onClose, clientId }) =>
           paddingRight: '16px',
         }}
       >
-        <DialogContent>
+        {/* <DialogContent sx={{ minWidth: '50%' }}> */}
+        <Grid container sx={{ p: 1, minWidth: '35dvw' }}>
           <ProjectDetails atClientPage={true} handleExternalSubmit={(values) => handleSubmit(values)} />
-        </DialogContent>
+        </Grid>
+        {/* </DialogContent> */}
       </PerfectScrollbar>
     </Dialog>
   );
