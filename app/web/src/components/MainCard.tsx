@@ -68,7 +68,7 @@ const MainCard: React.FC<IAny> = forwardRef(
           sx={{
             border: border ? '1px solid' : 'none',
             borderColor: themePalette.primary[200] + 25,
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${pattern})`,
+            backgroundImage: `linear-gradient(rgba(230, 230, 230, 0.1), rgba(230, 230, 230, 0.1)), url(${pattern})`,
             backgroundSize: 'cover',
             // backgroundImage: `url(${pattern})`,
 
@@ -82,11 +82,7 @@ const MainCard: React.FC<IAny> = forwardRef(
           {/* card header and action */}
           {title && (
             <Box display="flex">
-              <CardHeader
-                sx={headerSX}
-                title={darkTitle ? <Typography variant="h4">{title}</Typography> : title}
-                action={secondary}
-              />
+              <CardHeader sx={headerSX} title={darkTitle ? <Typography variant="h5">{title}</Typography> : title} action={secondary} />
             </Box>
           )}
           {/* content & header divider */}
