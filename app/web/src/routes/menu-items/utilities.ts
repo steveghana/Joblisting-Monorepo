@@ -11,7 +11,7 @@ const utilities = {
   id: 'Devs',
   title: 'Devs',
   type: 'group',
-  roles: ['Ceo', 'Developer'],
+  roles: ['Ceo', 'Recruitment'],
 
   children: [
     {
