@@ -44,13 +44,10 @@ const JobSubmissionContainer: React.FC = () => {
 
   const handlePersonalInfoSubmit = async (values: ApplicantsSubmission) => {
     setFormData({ ...formData, ...values, selectedFile });
-
     try {
       setIsLoading(true);
-      const formData = new FormData();
-      //  formData.append('file', values.file);
-      //  formData.append('otherData', values.otherData);
       if (!roleid && !jobid) {
+        toast.warn('Job wasnt found, try again later');
         return;
       }
       const response = await addApplicant({
@@ -59,10 +56,22 @@ const JobSubmissionContainer: React.FC = () => {
         ...values,
         file: selectedFile as File,
       }).unwrap();
-
       setIsLoading(false);
 
       if (response) {
+        // localStorage.setItem('hasApplied', JSON.stringify({ jobid, applied: true }));
+        // Retrieve existing data from local storage
+        const existingData = JSON.parse(localStorage.getItem('hasApplied') as string) || {};
+        const newJobid = response.jobId as string;
+        // Update data with new job ID
+        const updatedData = {
+          ...existingData,
+          [newJobid]: { applied: true },
+        };
+
+        // Store updated data back into local storage
+        localStorage.setItem('hasApplied', JSON.stringify(updatedData));
+
         if (lockSidebar) {
           navigate(-1);
         } else {
@@ -73,9 +82,9 @@ const JobSubmissionContainer: React.FC = () => {
         });
       }
     } catch (error) {
-      toast.error('Couldnt apply to this role, please try again', {
-        position: 'bottom-center',
-      });
+      // toast.error('Couldnt apply to this role, please try again', {
+      //   position: 'bottom-center',
+      // });
       setIsLoading(false);
     }
   };
@@ -114,15 +123,7 @@ const JobSubmissionContainer: React.FC = () => {
           <Form>
             {formFields.map((item) => (
               <FormControl fullWidth>
-                <Field
-                  key={item.name}
-                  name={item.name}
-                  as={TextField}
-                  label={item.label}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                />
+                <Field key={item.name} name={item.name} as={TextField} label={item.label} variant="outlined" fullWidth margin="normal" />
                 <ErrorMessage name={item.name} component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">
@@ -158,12 +159,8 @@ const JobSubmissionContainer: React.FC = () => {
                 onChange={(_, newValue) => {
                   setFieldValue('selectedSkills', newValue.slice(0, 10)); // Limit to 10 skills
                 }}
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => <Chip label={option} {...getTagProps({ index })} />)
-                }
-                renderInput={(params) => (
-                  <TextField {...params} name="selectedSkills" label="Select Skills" variant="outlined" fullWidth />
-                )}
+                renderTags={(value, getTagProps) => value.map((option, index) => <Chip label={option} {...getTagProps({ index })} />)}
+                renderInput={(params) => <TextField {...params} name="selectedSkills" label="Select Skills" variant="outlined" fullWidth />}
               />
               <ErrorMessage name="selectedSkills" component="div">
                 {(msg) => (
@@ -184,27 +181,12 @@ const JobSubmissionContainer: React.FC = () => {
               </ErrorMessage>
             </FormControl>
 
-            <Field
-              name="coverLetter"
-              as={TextField}
-              label="Cover Letter"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              multiline
-              rows={6}
-            />
+            <Field name="coverLetter" as={TextField} label="Cover Letter" variant="outlined" fullWidth margin="normal" multiline rows={6} />
 
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 3 }}></Box>
 
             <Box width="100%" display="flex" justifyContent="center">
-              <CustomButton
-                disabled={isLoading || apiLoading}
-                fullWidth={!matchUpMd}
-                text="Submit application"
-                type="submit"
-                variant="contained"
-              />
+              <CustomButton disabled={isLoading || apiLoading} fullWidth={!matchUpMd} text="Submit application" type="submit" variant="contained" />
             </Box>
           </Form>
         )}
