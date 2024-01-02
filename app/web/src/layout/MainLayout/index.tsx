@@ -98,19 +98,9 @@ const MainLayout = () => {
         drawerToggle={handleLeftDrawerToggle}
       />
       <Main theme={theme} open={leftDrawerOpened}>
-        {/* <AnimatePresence mode="popLayout"> */}
-        {hasToken && (
-          <Breadcrumbs
-            separator={IconChevronRight}
-            navigation={navigation}
-            sidebarTitle={sideBarTitle || 'item'}
-            icon
-            title
-            rightAlign
-          />
-        )}
-        <Outlet />
-        {/* </AnimatePresence> */}
+        <AnimatePresence mode="popLayout">
+          <Outlet />
+        </AnimatePresence>
       </Main>
     </Box>
   );
