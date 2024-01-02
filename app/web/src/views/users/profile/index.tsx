@@ -12,6 +12,7 @@ import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import NoData from '@/components/NoData';
 import Loader from '@/components/Loader';
+import { Protect } from '@/components/auth/requireAuth';
 function ManagementUserProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -44,5 +45,5 @@ function ManagementUserProfile() {
     </>
   );
 }
-export default ManagementUserProfile;
-// export default Protect(ManagementUserProfile, ["Ceo", "developer", "hr"]);
+// export default ManagementUserProfile;
+export default Protect(ManagementUserProfile, ['Ceo', 'Recruitment']);
