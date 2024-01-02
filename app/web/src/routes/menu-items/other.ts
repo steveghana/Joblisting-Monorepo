@@ -11,7 +11,7 @@ const other = {
   title: 'Recruitment',
 
   type: 'group',
-  roles: ['Ceo'],
+  roles: ['Ceo', 'Recruitment'],
 
   children: [
     {
