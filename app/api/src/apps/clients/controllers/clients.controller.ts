@@ -51,7 +51,6 @@ export class ClientsController {
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async findAll(@Res() res: Response) {
     const result = await this.clientsService.findAll();
-    console.log(result);
     return res.status(200).send(result);
   }
 
@@ -75,8 +74,6 @@ export class ClientsController {
     @Body() updateClientDto: Partial<IClientFormData['Client info']>,
     @Res() res: Response,
   ) {
-    console.log(updateClientDto, '.......................');
-
     const result = await this.clientsService.update(id, updateClientDto);
     return res.status(200).send(result);
   }
