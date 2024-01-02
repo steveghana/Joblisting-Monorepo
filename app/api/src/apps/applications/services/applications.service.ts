@@ -35,11 +35,12 @@ export class ApplicationsService {
       );
       if (existinguser) {
         throw new HttpException(
-          'A user with the same email already exist',
+          'A user with the same email has already applied to this role',
           HttpStatus.BAD_REQUEST,
         );
       }
       const existingApplicant = await Application.getByEmail(
+        createApplicationDto.jobId,
         createApplicationDto.email,
       );
       if (existingApplicant) {
@@ -62,8 +63,9 @@ export class ApplicationsService {
         );
       }
       // const { link, fileId, fileType } = await this.uploadFile(file);// TODO: Enable google cloud storage api to use this feature
+      const roles = await Roles.getById(roleId);
       return await Application.createApplication(
-        await Roles.getById(roleId),
+        roles,
         {
           ...rest,
           job: existingJob,
