@@ -19,8 +19,8 @@ const Roles = () => {
   }
   const renderRoles = () => {
     return (
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2 }}>
-        <Box display="flex" mb={3} px={2}>
+      <Grid container /* spacing={{ xs: 2, md: 3 }} columns={{ xs: 2 }} */>
+        <Box display="flex" px={2}>
           <Tooltip arrow placement="top" onClick={() => navigate(-1)} title="Go back">
             <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
               <ArrowBackTwoTone />
@@ -36,7 +36,7 @@ const Roles = () => {
 
   return (
     <MainCard title={'Roles'}>
-      <Grid container>{renderRoles()}</Grid>
+      <Grid sx={{ p: 1 }}>{renderRoles()}</Grid>
     </MainCard>
   );
 };
