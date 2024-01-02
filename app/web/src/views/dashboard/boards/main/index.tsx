@@ -41,4 +41,4 @@ function Dashboard() {
   );
 }
 
-export default Protect(Dashboard, ["Ceo"]);
+export default Protect(Dashboard, ["Ceo", "Recruitment"]);
