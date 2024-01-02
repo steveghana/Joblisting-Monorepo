@@ -1,6 +1,6 @@
 import React from 'react';
 import { IJobs } from '../../../../types';
-import { Divider, IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
@@ -10,17 +10,15 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Delete } from '@mui/icons-material';
 import { useDeleteJobMutation } from '../../../../store/services/role.service';
 import { toast } from 'react-toastify';
-const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
-  ({ theme }) => ({
-    border: `1px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-    },
-  }),
-);
+const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  '&:not(:last-child)': {
+    borderBottom: 0,
+  },
+  '&:before': {
+    display: 'none',
+  },
+}));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />} {...props} />
@@ -42,7 +40,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 function JobDetails({ jobs, actionComplete }: { jobs: IJobs[]; actionComplete: () => void }) {
   const [expanded, setExpanded] = React.useState<string | false>('panel1');
   const [deletJob, { isError }] = useDeleteJobMutation();
-  const handleJobDelete = async (id) => {
+  const handleJobDelete = async (id: string) => {
     try {
       const response = await deletJob({ id }).unwrap();
       if (response && !isError) {
@@ -59,15 +57,15 @@ function JobDetails({ jobs, actionComplete }: { jobs: IJobs[]; actionComplete: (
   return (
     <>
       {jobs.map((job, i) => (
-        <div key={job.id}>
+        <Box key={job.id}>
           <Accordion expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
-              sx={{ display: 'flex', alignItems: 'center' }}
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <Typography variant="h5" component="legend">
+              <Typography sx={{ my: 'auto' }} variant="subtitle2">
                 {job.roleName}
               </Typography>
               <Tooltip title="Delete Job">
@@ -116,7 +114,7 @@ function JobDetails({ jobs, actionComplete }: { jobs: IJobs[]; actionComplete: (
               </List>
             </AccordionDetails>
           </Accordion>
-        </div>
+        </Box>
       ))}
     </>
   );
