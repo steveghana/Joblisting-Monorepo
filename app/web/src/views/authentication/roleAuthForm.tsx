@@ -21,15 +21,13 @@ function RoleAuth() {
   const navigate = useNavigate();
   const [helperText, setHelperText] = useState('');
   const [loginUser, { isLoading: isWithGoogleLoading }] = useLoginUserMutation();
-  const state = useTypedSelector((state) => state.userApi);
-  // const roles = ['Ceo', 'Recruitment'];
   let roles: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
   const registrationAvailable = isRegistrationAvailable(roles as string[]);
   const remainingRoles = getRemainingRoles(roles as string[]);
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole(event.target.value as IProfession);
   };
-
+  console.log(roles, 'avaiab');
   const onMoveToRegister = async () => {
     if (!role) {
       setError(true);
@@ -41,8 +39,7 @@ function RoleAuth() {
       return false;
     }
     try {
-      const { email, password }: { email: string; password: string } =
-        JSON.parse(sessionStorage.getItem('tempUserinfo') as string) || {};
+      const { email, password }: { email: string; password: string } = JSON.parse(sessionStorage.getItem('tempUserinfo') as string) || {};
 
       const login = await loginUser({
         role,
@@ -72,21 +69,8 @@ function RoleAuth() {
   }
 
   return (
-    <motion.div
-      key={window.location.pathname}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-    >
-      <Grid
-        sx={{ height: '100vh' }}
-        display="flex"
-        justifyContent="center"
-        flexDirection="column"
-        gap={2}
-        alignItems="center"
-      >
+    <motion.div key={window.location.pathname} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+      <Grid sx={{ height: '100vh' }} display="flex" justifyContent="center" flexDirection="column" gap={2} alignItems="center">
         <Grid>
           <LogoSection />
         </Grid>
