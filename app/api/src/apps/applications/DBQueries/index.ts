@@ -96,6 +96,8 @@ export function getApplicationById(
     });
 }
 export function getApplicationByEmail(
+  jobId: string,
+
   email: string,
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
@@ -106,7 +108,7 @@ export function getApplicationByEmail(
   return myDataSource.manager
     .getRepository(dependencies.db.models.application)
     .findOne({
-      where: { email },
+      where: { email, job: { id: jobId } },
     });
 }
 export const getAllApplicants = async (
