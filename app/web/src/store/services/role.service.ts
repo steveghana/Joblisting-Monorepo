@@ -10,8 +10,12 @@ export const roleApi = createApi({
   reducerPath: ROLE_API_KEY,
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
-    headers: {
-      Authorization: authToken ? authToken : '',
+    prepareHeaders: (headers, { getState }) => {
+      const authToken = sessionStorage.getItem('auth_token');
+      if (authToken) {
+        headers.set('Authorization', authToken);
+      }
+      return headers;
     },
     // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
@@ -79,8 +83,7 @@ export const roleApi = createApi({
         url: 'roles',
         method: 'GET',
       }),
-      providesTags: (result, error, arg) =>
-        result ? [...result.map(({ id }) => ({ type: 'RoleApi' as const, id })), ROLE_API_KEY] : [ROLE_API_KEY],
+      providesTags: (result, error, arg) => (result ? [...result.map(({ id }) => ({ type: 'RoleApi' as const, id })), ROLE_API_KEY] : [ROLE_API_KEY]),
     }),
   }),
 });
