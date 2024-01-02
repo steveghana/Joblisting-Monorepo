@@ -104,7 +104,6 @@ const providerIcons = {
   // Add more providers as needed
 };
 function SecurityTab({ insettings, user }: { insettings?: boolean; user: IUser }) {
-  console.log(user);
   const isGoogleVerified = user.googleVerified;
   const isLInkedInVerified = user.linkedinVerified;
   const isGithubVerified = user.githubVerified;
