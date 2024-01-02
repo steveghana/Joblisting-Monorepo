@@ -51,8 +51,6 @@ const validationSchema = Yup.object({
 });
 const DeveloperAssignmentForm: React.FC<DeveloperAssignmentFormProps> = ({ onSubmit, open, setDialogOpen }) => {
   const { data, isLoading, isError } = useGetClientsQuery();
-  console.log(data);
-  //   const {values}= useFormik()
   const initialValues: DeveloperAssignmentFormData = {
     client: { name: '', id: '' },
     role: { name: '', id: '' },
@@ -62,13 +60,11 @@ const DeveloperAssignmentForm: React.FC<DeveloperAssignmentFormProps> = ({ onSub
   const [formData, setFormData] = useState<DeveloperAssignmentFormData>(initialValues);
   const handleSubmit = (values: DeveloperAssignmentFormData) => {
     setFormData(values);
-    console.log(values, 'this i sth ealues');
     setConfirmationDialogOpen(true);
   };
   const handleConfirmAssignment = async () => {
     setConfirmationDialogOpen(false);
     const submited = await onSubmit(formData);
-    console.log(submited, 'this i sth ealues');
     if (submited) {
       setDialogOpen(false);
     }
@@ -168,21 +164,13 @@ const DeveloperAssignmentForm: React.FC<DeveloperAssignmentFormProps> = ({ onSub
                           )?.find((role) => role.title === e.target.value);
                           setFieldValue('role', { name: e.target.value as string, id: selectedRole?.id });
                         }}
-                        disabled={
-                          !getRoleOptions(
-                            values.client.id,
-                            data?.find((client) => client.id === values.client.id) as IClient,
-                          )?.length
-                        }
+                        disabled={!getRoleOptions(values.client.id, data?.find((client) => client.id === values.client.id) as IClient)?.length}
                         variant="outlined"
                         required
                         fullWidth
                         value={values?.role?.name}
                       >
-                        {getRoleOptions(
-                          values.client.id,
-                          data?.find((client) => client.id === values.client.id) as IClient,
-                        )?.map((role) => (
+                        {getRoleOptions(values.client.id, data?.find((client) => client.id === values.client.id) as IClient)?.map((role) => (
                           <MenuItem key={role.id} value={`${role?.title}`} data-id={role.id}>
                             <Box display={'flex'} alignItems={'center'} gap={1}>
                               <Box>
@@ -190,9 +178,7 @@ const DeveloperAssignmentForm: React.FC<DeveloperAssignmentFormProps> = ({ onSub
                                   {role.title}
                                 </Typography>
                                 <Typography variant="caption">
-                                  {role.aboutTheProject.length > 20
-                                    ? `${role.aboutTheProject.slice(0, 20)}...`
-                                    : role.aboutTheProject}
+                                  {role.aboutTheProject.length > 20 ? `${role.aboutTheProject.slice(0, 20)}...` : role.aboutTheProject}
                                 </Typography>
                               </Box>
                             </Box>
@@ -214,26 +200,17 @@ const DeveloperAssignmentForm: React.FC<DeveloperAssignmentFormProps> = ({ onSub
                         as={Select}
                         variant="outlined"
                         onChange={(e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-                          const role = getJobOptions(
-                            values.role.id,
-                            data?.find((client) => client.id === values.client.id) as IClient,
-                          ).find((job) => job.roleName === e.target.value);
+                          const role = getJobOptions(values.role.id, data?.find((client) => client.id === values.client.id) as IClient).find(
+                            (job) => job.roleName === e.target.value,
+                          );
                           setFieldValue('job', { name: e.target.value as string, id: role?.id });
                         }}
-                        disabled={
-                          !getJobOptions(
-                            values.role.id,
-                            data?.find((client) => client.id === values.client.id) as IClient,
-                          ).length
-                        }
+                        disabled={!getJobOptions(values.role.id, data?.find((client) => client.id === values.client.id) as IClient).length}
                         required
                         fullWidth
                         value={values.job.name}
                       >
-                        {getJobOptions(
-                          values.role.id,
-                          data?.find((client) => client.id === values.client.id) as IClient,
-                        )?.map((job) => (
+                        {getJobOptions(values.role.id, data?.find((client) => client.id === values.client.id) as IClient)?.map((job) => (
                           <MenuItem value={job.roleName} key={job.id} data-id={job.id}>
                             <Box display={'flex'} alignItems={'center'} gap={1}>
                               <Box display={'flex'} alignItems={'flex-start'} flexDirection={'column'}>
