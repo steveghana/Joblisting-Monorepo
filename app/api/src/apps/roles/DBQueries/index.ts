@@ -71,6 +71,10 @@ export async function deleteJob(
   dependencies = injectDependencies(dependencies, ['db']);
   // const role = transaction.getRepository(dependencies.db.models.role);
   const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
+  const applicantRepo = transaction.getRepository(
+    dependencies.db.models.application,
+  );
+  await applicantRepo.delete({ job: { id } });
 
   const existingJob = await jobRepo.findOne({
     where: { id },
@@ -132,7 +136,6 @@ export async function deleteRole(
   dependencies = injectDependencies(dependencies, ['db']);
   const jobRepo = transaction.getRepository(dependencies.db.models.jobs);
   const devRepo = transaction.getRepository(dependencies.db.models.developer);
-  // const short = transaction.getRepository(dependencies.db.models.roleShortUrl);
   const applicantionRep = transaction.getRepository(
     dependencies.db.models.application,
   );
@@ -142,7 +145,7 @@ export async function deleteRole(
   const hoursRepo = transaction.getRepository(
     dependencies.db.models.clockedHours,
   );
-  // const job = await jobRepo.findOne({ where: { role: { id } } });
+
   await hoursRepo.delete({
     role: { id },
   });
@@ -150,15 +153,21 @@ export async function deleteRole(
   await interviewRepo.delete({
     role: { id },
   });
-  // await short.delete({
-  //   role: { id },
-  // });
 
   await applicantionRep.delete({
     role: { id },
   });
 
-  await devRepo.delete({ roles: { id } });
+  // Unassign roles from developers and set work status to "Not Active"
+  const developers = await devRepo.find({
+    where: { roles: { id } },
+  });
+
+  for (const developer of developers) {
+    developer.roles = null; // Unassign role
+    developer.workStatus = 'Not Active';
+    await devRepo.save(developer);
+  }
 
   await jobRepo.delete({ role: { id } });
 
@@ -168,8 +177,8 @@ export async function deleteRole(
       id,
     });
   return affected;
-  // delete all  tables
 }
+
 export const getAllRoles = async (
   transaction: EntityManager = null,
   dependencies: Dependencies = null,
