@@ -18,13 +18,11 @@ const Developers = () => {
   const navigate = useNavigate();
 
   const { data: devs, isError, isLoading, isFetching, refetch } = useGetDevsQuery();
-  const devsData =
-    (devs?.length && devs?.filter(({ rolestatus }) => rolestatus === 'Accepted' || rolestatus === 'External')) || [];
+  const devsData = (devs?.length && devs?.filter(({ rolestatus }) => rolestatus === 'Accepted' || rolestatus === 'External')) || [];
 
   if (isLoading || isFetching) {
     return <TableSkeletonLoader />;
   }
-  console.log(devs, 'from devs');
   return (
     <MainCard>
       <Box display="flex">
@@ -35,6 +33,7 @@ const Developers = () => {
         </Tooltip>
       </Box>
       <AddDevs open={open} onClose={() => setOpen(false)} />
+
       <CustomButton text="Add new Dev" onClick={() => setOpen(true)} />
       {!devsData.length || isError ? (
         <>
@@ -43,14 +42,7 @@ const Developers = () => {
       ) : (
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <DevTableData
-              devs={devsData}
-              isLoading={isLoading}
-              isFetching={isFetching}
-              isError={isError}
-              columns={columns}
-              refetch={refetch}
-            />
+            <DevTableData devs={devsData} isLoading={isLoading} isFetching={isFetching} isError={isError} columns={columns} refetch={refetch} />
           </Grid>
         </Grid>
       )}
