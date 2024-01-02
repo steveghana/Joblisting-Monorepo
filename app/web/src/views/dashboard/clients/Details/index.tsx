@@ -30,7 +30,6 @@ const ClientDetails = () => {
     },
     { refetchOnMountOrArgChange: true },
   );
-  console.log(data, 'from detials');
   const tabs = [
     { value: 'projects', label: 'Project' },
     { value: 'tasks', label: 'Tasks' },
@@ -70,19 +69,14 @@ const ClientDetails = () => {
         </Grid>
         <Grid xs={12}>
           {currentTab === 'projects' && (
-            <ClientDetailsOverview
-              data={{ clientId: data!.id as string, role: data!.roles as IRoleData[] }}
-              onActionComplete={() => refetch()}
-            />
+            <ClientDetailsOverview data={{ clientId: data!.id as string, role: data!.roles as IRoleData[] }} onActionComplete={() => refetch()} />
           )}
           {currentTab === 'tasks' && (
             <div>
               <StatusComingSoon />
             </div>
           )}
-          {currentTab === 'devs' && (
-            <ClientEmployees devs={data!.developers as IDev[]} /* roles={data?.roles as IRoleData[]} */ />
-          )}
+          {currentTab === 'devs' && <ClientEmployees devs={data!.developers as IDev[]} /* roles={data?.roles as IRoleData[]} */ />}
         </Grid>
       </>
     </Grid>
