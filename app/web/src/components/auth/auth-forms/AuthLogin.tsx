@@ -16,7 +16,6 @@ import {
   OutlinedInput,
   Stack,
   Typography,
-  useMediaQuery,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -47,6 +46,8 @@ const AuthLogin = () => {
   const [checked, setChecked] = useState(true);
   const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
   const [loginWithGoogle, { isLoading: isWithGoogleLoading }] = useLoginUserWithGoogleMutation();
+
+  /* ======================== */
   async function login(values: { email: any; password: any; submit?: null }) {
     let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
     const registrationAvailable = isRegistrationAvailable(data as string[]);
@@ -149,11 +150,7 @@ const AuthLogin = () => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <FormControl
-              fullWidth
-              error={Boolean(touched.email && errors.email)}
-              sx={{ ...themeTypography.customInput }}
-            >
+            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...themeTypography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
@@ -172,11 +169,7 @@ const AuthLogin = () => {
               )}
             </FormControl>
 
-            <FormControl
-              fullWidth
-              error={Boolean(touched.password && errors.password)}
-              sx={{ ...themeTypography.customInput }}
-            >
+            <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...themeTypography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-login"
@@ -261,14 +254,7 @@ const AuthLogin = () => {
             </Grid>
             <Stack mt={1} direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={(event) => setChecked(event.target.checked)}
-                    name="checked"
-                    color="primary"
-                  />
-                }
+                control={<Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />}
                 label="Remember me"
               />
               <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
