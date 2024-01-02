@@ -28,7 +28,6 @@ export class AuthenticationTtlMiddleware implements NestInterceptor {
       const request = context.switchToHttp().getRequest();
       // check if the current request URL is in the excluded routes array
       if (excludedRoutesRegex.some((regex) => regex.test(request.url))) {
-        console.log(request.url, 'excluded');
         return next.handle();
       }
 
