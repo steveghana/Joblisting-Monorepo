@@ -8,8 +8,6 @@ interface IDevs {
 }
 const DevRow = ({ devs }: IDevs) => {
   const theme = useTheme();
-  console.log(devs, 'devs');
-  // const [Unassign, {isError, isSuccess, isLoading}] = useUnassignDevMutation()
   return (
     <TableBody>
       {devs.map((dev) => {
