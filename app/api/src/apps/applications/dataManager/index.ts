@@ -63,12 +63,14 @@ class Application {
     return newApplication.data;
   }
   static async getByEmail(
+    jobId: string,
     email: string,
     dependencies: Dependencies = null,
   ): Promise<IApplication> {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Application(dependencies);
     newApplication.data = await getApplicationByEmail(
+      jobId,
       email,
       null,
       dependencies,
