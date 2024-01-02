@@ -199,7 +199,6 @@ export async function cancelInterview(
   const commentDeleted = await commentRepo.delete({
     interview: { id: interviewId },
   });
-  console.log(commentDeleted);
   const { affected } = await interviewRepo.delete({ id: interviewId });
   return affected;
 }
