@@ -15,7 +15,6 @@ type NextFunctionType = NextFunction | IMockNextFunction;
 export class OptionalAuthMiddleware implements NestMiddleware {
   private readonly dependencies: Dependencies = null;
   async use(req: RequestType, _res: ResponseType, next: NextFunctionType) {
-    console.log('optional auth entered');
     const authTokenId = req.headers.authorization;
     if (!authTokenId) {
       next();
