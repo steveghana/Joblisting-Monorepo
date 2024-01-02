@@ -65,4 +65,4 @@ const Clients = () => {
 };
 
 // export default Clients;
-export default Protect(Clients, ['Ceo']);
+export default Protect(Clients, ['Ceo', "Recruitment"]);
