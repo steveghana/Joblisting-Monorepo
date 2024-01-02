@@ -51,7 +51,6 @@ export class InterviewsService {
             comment.name.replace(/\s/g, '').trim() ===
             interviewData.name.replace(/\s/g, '').trim(),
         );
-      console.log(interview.comments, alreadySubmittedComments);
       if (alreadySubmittedComments?.length) {
         throw new HttpException(
           `I think you have already submitted a comment`,
@@ -101,7 +100,6 @@ export class InterviewsService {
   findOne(id: string) {
     return useTransaction(async (transaction) => {
       const interview = await Interviews.getById(id);
-      console.log(interview);
       return interview;
     });
   }
