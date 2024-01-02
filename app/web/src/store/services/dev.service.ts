@@ -10,6 +10,13 @@ export const devApi = createApi({
   reducerPath: DEV_API_KEY,
   baseQuery: fetchBaseQuery({
     baseUrl: _api_url.getApiUrl(),
+    prepareHeaders: (headers, { getState }) => {
+      const authToken = sessionStorage.getItem('auth_token');
+      if (authToken) {
+        headers.set('Authorization', authToken);
+      }
+      return headers;
+    },
     // fetchFn: (url, options) => fetch(url, options).then((res) => res.json()),
   }),
   tagTypes: ['devs'],
@@ -124,8 +131,7 @@ export const devApi = createApi({
         return Array.isArray(message) ? message.join(',') : message;
       },
 
-      providesTags: (result, error) =>
-        result ? [...result.map(({ id }) => ({ type: 'devs' as const, id })), 'devs'] : ['devs'],
+      providesTags: (result, error) => (result ? [...result.map(({ id }) => ({ type: 'devs' as const, id })), 'devs'] : ['devs']),
     }),
     getDev: builder.query<IDev, { id: string }>({
       query: ({ id }) => ({
