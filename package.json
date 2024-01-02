@@ -25,7 +25,6 @@
 
   "name": "remote-job-listing",
   "version": "1.0.0",
-  "main": "index.js",
   "keywords": [],
   "license": "ISC",
   "description": ""
