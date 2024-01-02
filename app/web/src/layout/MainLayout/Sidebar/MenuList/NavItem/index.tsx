@@ -15,15 +15,7 @@ import { themeTypography } from '../../../../../themes/schemes/typography';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
-const NavItem = ({
-  item,
-  level,
-  navTitle,
-}: {
-  item: Record<any, any>;
-  level: number;
-  navTitle: (value: string) => void;
-}) => {
+const NavItem = ({ item, level, navTitle }: { item: Record<any, any>; level: number; navTitle: (value: string) => void }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -91,10 +83,7 @@ const NavItem = ({
       <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
       <ListItemText
         primary={
-          <Typography
-            variant={customization.isOpen.findIndex((id: any) => id === item.id) > -1 ? 'h5' : 'body1'}
-            color="inherit"
-          >
+          <Typography variant={customization.isOpen.findIndex((id: any) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
             {item.title}
           </Typography>
         }
@@ -106,7 +95,8 @@ const NavItem = ({
           )
         }
       />
-      {item.chip && (
+
+      {/* {item.chip && (
         <Chip
           color={item.chip.color}
           variant={item.chip.variant}
@@ -114,7 +104,7 @@ const NavItem = ({
           label={item.chip.label}
           avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
         />
-      )}
+      )} */}
     </ListItemButton>
   );
 };
