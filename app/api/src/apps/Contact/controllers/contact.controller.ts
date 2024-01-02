@@ -49,37 +49,52 @@ export class ContactController {
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   // @UseInterceptors(CacheInterceptor)
   async getVapidPublicKey(@Next() next, @Res() res: Response, @Req() req) {
-    const { subject, reciepients, message } = req.body;
-    console.log(req.body);
-    for (let i = 0; i < reciepients?.length; i++) {
-      await emailUtil.sendStyled({
-        to: reciepients[i].email,
-        subject: `מישהו השאיר פרטים בעמוד הנחיתה של Q-int: ${escapeXml(
-          subject,
-        )}`,
-        html: `<h1>
-שלום רן.<br/>
-מישהו השאיר פרטים הרגע ב<a href="https://www.q-int.com/#contact">עמוד הנחיתה של q-int</a>.
-</h1>
-<table>
-    <tr>
-        <th>שם</th>
-        <th>טלפון</th>
-        <th>כתובת דוא&quot;ל</th>
-        <th>הודעה</th>
-    </tr>
-    <tr>
-        <td>${escapeXml(reciepients[i].name)}</td>
-        <td>${escapeXml(message)}</td>
-    </tr>
-</table>
-<br/><br/>
-בברכה,
-מערכת q-int`,
-      });
+    const { subject, recipients, message } = req.body;
+    const emails = recipients.map((item) => item.email);
+    // for (let i = 0; i < reciepients?.length; i++) {
+    // Check if recipients is an array
+    if (Array.isArray(recipients) && recipients.length > 0) {
+      const emailContent = `
+    <div style="font-family: 'Arial', sans-serif; color: #333;">
+      <h1>Hello ${recipients[0]?.name},</h1>
+      <p>
+        <strong>Your Message:</strong><br/>
+        ${message}
+      </p>
+      <p>
+        If you have any urgent inquiries or need immediate assistance, please feel free to contact us directly at careers@savannahTech.io</a>.
+      </p>
+      <p>
+        Best regards,<br/>
+        The Savannah Tech Team
+      </p>
+    </div>
+  `;
+      const mail = {
+        from: 'boatengstephen707@gmail.com',
+        to: emails,
+        subject: subject,
+        text: 'Hello, This email contains attachments',
+        html: emailContent,
+        // attachments: [
+        //   {
+        //     path: 'data:text/plain;base64,aGVsbG8gd29ybGQ=',
+        //     cid: 'cid:molo.txt',
+        //   },
+        // ],
+      };
+      // Send the email with emailContent
+      await emailUtil.sendStyled(mail);
+    } else {
+      console.error('Invalid recipients data:', recipients);
     }
 
-    res.status(200).send();
+    // }
+    // console.log(send);
+    res.status(200).send({
+      success: true,
+      message: 'Email sent successfully',
+    });
   }
 
   /* ===================== */
