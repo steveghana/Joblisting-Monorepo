@@ -38,11 +38,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { themeTypography } from '../../../themes/schemes/typography';
 import CustomButton from '../../button';
-import {
-  useGetRolesQuery,
-  useRegisterUserMutation,
-  useRegisterUserWithGoogleMutation,
-} from '../../../store/services/userAuth.service';
+import { useGetRolesQuery, useRegisterUserMutation, useRegisterUserWithGoogleMutation } from '../../../store/services/userAuth.service';
 import { Send } from '@mui/icons-material';
 import { handleSocial } from './authLogin';
 import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
@@ -71,22 +67,16 @@ const AuthRegister = ({ ...others }) => {
   const [level, setLevel] = useState<{ label: string; color: any }>();
   const [regAvailable, setRegAvailable] = useState<boolean>(false);
   const [registerUser, { isError, error }] = useRegisterUserMutation();
-  const [registerWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] =
-    useRegisterUserWithGoogleMutation();
+  const [registerWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] = useRegisterUserWithGoogleMutation();
   const router = useNavigate();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  async function register(
-    values: RegisterFormValues,
-    setters: FormikHelpers<RegisterFormValues>,
-    scriptedRef: React.MutableRefObject<boolean>,
-  ) {
+  async function register(values: RegisterFormValues, setters: FormikHelpers<RegisterFormValues>, scriptedRef: React.MutableRefObject<boolean>) {
     let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
     const registrationAvailable = isRegistrationAvailable(data as string[]);
     const remainingRoles = getRemainingRoles(data as string[]);
-    console.log(registrationAvailable, remainingRoles, 'sjfdkjfd');
     if (!remainingRoles.length || !registrationAvailable) {
       setters.setSubmitting(false);
       setters.resetForm();
@@ -143,7 +133,6 @@ const AuthRegister = ({ ...others }) => {
     let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
     const registrationAvailable = isRegistrationAvailable(data as string[]);
     const remainingRoles = getRemainingRoles(data as string[]);
-    console.log(registrationAvailable, remainingRoles, 'sjfdkjfd');
     if (!remainingRoles.length || !registrationAvailable) {
       toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
       return false;
@@ -273,11 +262,7 @@ const AuthRegister = ({ ...others }) => {
                 </FormHelperText>
               </Grid>
             </Grid>
-            <FormControl
-              fullWidth
-              error={Boolean(touched.email && errors.email)}
-              sx={{ ...themeTypography.customInput }}
-            >
+            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...themeTypography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-register"
@@ -295,11 +280,7 @@ const AuthRegister = ({ ...others }) => {
               )}
             </FormControl>
 
-            <FormControl
-              fullWidth
-              error={Boolean(touched.password && errors.password)}
-              sx={{ ...themeTypography.customInput }}
-            >
+            <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...themeTypography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-register"
@@ -339,10 +320,7 @@ const AuthRegister = ({ ...others }) => {
                 <Box sx={{ mb: 1 }}>
                   <Grid container spacing={1} alignItems="center">
                     <Grid item>
-                      <Box
-                        style={{ backgroundColor: level?.color }}
-                        sx={{ width: 85, height: 8, borderRadius: '7px' }}
-                      />
+                      <Box style={{ backgroundColor: level?.color }} sx={{ width: 85, height: 8, borderRadius: '7px' }} />
                     </Grid>
                     <Grid item>
                       <Typography variant="subtitle1" fontSize="0.75rem">
@@ -396,12 +374,7 @@ const AuthRegister = ({ ...others }) => {
                   if (typeof handler !== 'function' || !Social[key] || !Social[key].icon) return null;
                   return (
                     <AnimateButton key={i}>
-                      <Button
-                        key={key}
-                        aria-label={`${key} login button`}
-                        onClick={handler}
-                        disabled={isWithGoogleLoading}
-                      >
+                      <Button key={key} aria-label={`${key} login button`} onClick={handler} disabled={isWithGoogleLoading}>
                         {React.createElement(Social[key].icon)}
                       </Button>
                     </AnimateButton>
@@ -412,14 +385,7 @@ const AuthRegister = ({ ...others }) => {
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
                 <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={(event) => setChecked(event.target.checked)}
-                      name="checked"
-                      color="primary"
-                    />
-                  }
+                  control={<Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />}
                   label={
                     <Typography variant="subtitle1">
                       Agree with &nbsp;
