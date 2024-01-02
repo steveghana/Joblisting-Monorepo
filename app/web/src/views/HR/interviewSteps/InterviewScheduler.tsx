@@ -87,7 +87,7 @@ const InterviewScheduler: React.FC = () => {
       toast.success('Event created, check your Google Calendar!');
     } catch (error) {
       console.error('Error creating calendar event:', error);
-      toast.error('Failed to create the event. Please try again.');
+      // toast.error('Failed to create the event. Please try again.');
     }
   };
 
