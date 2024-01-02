@@ -13,13 +13,9 @@ export const DeveloperAcceptedEmailDraft = async (
     to: [dev.user.email],
     subject: 'Your Role Application has been Accepted',
     html: `<h1>Congratulations!</h1>
-      <p>We are pleased to inform you that your application for the [Role Name] role has been accepted.</p>
+      <p>We are pleased to inform you that your application has been accepted.</p>
       <h2>Role Details:</h2>
-      <ul>
-        <li><strong>Role:</strong>${dev.roles.title}</li>
-        <li><strong>Description:</strong>${dev.roles.aboutTheProject}</li>
-        <li><strong>Start Date:</strong>${dev.roles.createdAt}</li>
-      </ul>
+    
       <h2>Limited Access:</h2>
       <p>You can now access a restricted part of our system related to the applied role. Please follow the instructions below:</p>
       <ol>
