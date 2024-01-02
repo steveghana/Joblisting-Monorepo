@@ -50,10 +50,8 @@ export class ApplicationsController {
       file,
       ...rest,
     });
-    // }
-    // console.log(application, 'app data');
-    // data
-    return res.json(result);
+    const { job } = result;
+    return res.json({ jobId: job.id });
   }
   //
   @Get(':id')
