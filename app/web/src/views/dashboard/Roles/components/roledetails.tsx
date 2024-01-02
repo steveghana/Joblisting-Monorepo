@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  ButtonBase,
-  Card,
-  Chip,
-  Divider,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Avatar, Box, Button, ButtonBase, Card, Chip, Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { roleData } from '../../../../lib/data/roledata';
 import { ArrowForward } from '@mui/icons-material';
 import Dot from '../../../../components/Dot';
@@ -31,7 +19,8 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const now = new Date();
   const date = new Date(role.createdAt);
-  console.log(role, 'ster');
+  const hasApplied: Record<string, { applied: boolean }> = JSON.parse(localStorage.getItem('hasApplied') as string) || {};
+  const appliedJobIds = Object.keys(hasApplied).map((jobid) => jobid);
   return (
     <Card>
       {!role ? (
@@ -50,12 +39,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
             </Grid>
             <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'} sx={{ width: '100%' }}>
               <Typography variant="h4">Jobs</Typography>
-              <Button
-                onClick={(e) => setCurrentTab('jobs')}
-                variant="text"
-                sx={{ color: 'grey' }}
-                endIcon={<ArrowForward />}
-              >
+              <Button onClick={(e) => setCurrentTab('jobs')} variant="text" sx={{ color: 'grey' }} endIcon={<ArrowForward />}>
                 <Typography variant="caption">view jobs </Typography>
               </Button>
             </Box>
@@ -113,13 +97,23 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                       variant="outlined"
                       text="save"
                     />
-                    <CustomButton
-                      href={`/job-submttion/${role.id}/job/${job.id}`}
-                      // onClick={() => navigate("job-submttion")}
-                      fullWidth
-                      variant="contained"
-                      text="apply"
-                    />
+                    {!appliedJobIds.includes(job.id) ? (
+                      <CustomButton
+                        href={`/job-submttion/${role.id}/job/${job.id}`}
+                        // onClick={() => navigate("job-submttion")}
+                        fullWidth
+                        variant="contained"
+                        text="apply"
+                      />
+                    ) : (
+                      <CustomButton
+                        size="small"
+                        color="success"
+                        // onClick={() => navigate("job-submttion")}
+                        variant="outlined"
+                        text="Applied"
+                      />
+                    )}
                   </Grid>
                 </Box>
               </Box>
