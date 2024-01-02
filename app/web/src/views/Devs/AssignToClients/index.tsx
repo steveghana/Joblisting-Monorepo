@@ -13,7 +13,6 @@ const AssignDevsToClient: React.FC<DeveloperAssignmentFormProps> = ({ open, setD
   const navigate = useNavigate();
   const [assignDev, { isError, isLoading }] = useAssignDevMutation();
   const onSubmitDevToClient = async (value: DeveloperAssignmentFormData) => {
-    console.log(value);
     try {
       const response = await assignDev({
         developerId: id as string,
@@ -21,7 +20,6 @@ const AssignDevsToClient: React.FC<DeveloperAssignmentFormProps> = ({ open, setD
         roleId: value.role.id,
         jobId: value.job.id,
       }).unwrap();
-      console.log(response, isError, 'fkdjfk');
       if (response && !isError) {
         toast.success('Developer successfully assigned to role ' + value.role.name, {
           position: 'bottom-center',
@@ -40,11 +38,7 @@ const AssignDevsToClient: React.FC<DeveloperAssignmentFormProps> = ({ open, setD
   console.log('entered');
   return (
     <div>
-      <DeveloperAssignmentForm
-        open={open}
-        setDialogOpen={() => setDialogOpen(false)}
-        onSubmit={(value) => onSubmitDevToClient(value)}
-      />
+      <DeveloperAssignmentForm open={open} setDialogOpen={() => setDialogOpen(false)} onSubmit={(value) => onSubmitDevToClient(value)} />
     </div>
   );
 };
