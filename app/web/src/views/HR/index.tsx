@@ -17,7 +17,14 @@ const Shortlisted = () => {
   // const { devs, error, isError, isFetching, isloading } = useTypedSelector(
   //   (state) => state.devs
   // );
-  const { data: devs, error, isError, isFetching, isLoading, refetch } = useGetDevsQuery();
+  const {
+    data: devs,
+    error,
+    isError,
+    isFetching,
+    isLoading,
+    refetch,
+  } = useGetDevsQuery(undefined, { refetchOnFocus: true, refetchOnMountOrArgChange: 5, refetchOnReconnect: true });
   // State is used as Cache from devs api cannot be invalidated from the interview page
   const [openRoleForm, setOpenRoleForm] = React.useState(false);
   const handleCloseJobForm = () => {
@@ -27,8 +34,7 @@ const Shortlisted = () => {
   const columns = useDevsShortlistedColums();
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const devsShortlistedData =
-    (devs?.length && devs.filter(({ rolestatus }) => rolestatus === 'Pending' || rolestatus === 'Interviewing')) || [];
+  const devsShortlistedData = (devs?.length && devs.filter(({ rolestatus }) => rolestatus === 'Pending' || rolestatus === 'Interviewing')) || [];
   const areGuestsAvailable = devs?.filter(
     ({ rolestatus }) => rolestatus === 'Accepted' || rolestatus === 'External' || rolestatus === 'InHouse',
   ).length;
@@ -64,9 +70,7 @@ const Shortlisted = () => {
         tableType="Shortlist"
         columns={columns}
         devs={devsShortlistedData}
-        refetch={
-          () => refetch() // update the persisted state
-        }
+        refetch={() => refetch()}
         isLoading={isLoading}
         isError={isError}
         isFetching={isFetching}

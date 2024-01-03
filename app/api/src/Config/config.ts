@@ -8,7 +8,7 @@ const config = {
   restApiPort: 5000,
   databasePort: 5432,
 
-  ClientUrl: 'http://localhost:5173',
+  ClientUrl: 'savannahTech.com',
   roleUrl: '',
   logSql: true,
   roleUrlComponaentLength: 22,

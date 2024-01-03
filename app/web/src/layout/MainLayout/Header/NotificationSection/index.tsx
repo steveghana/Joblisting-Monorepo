@@ -72,7 +72,7 @@ const NotificationSection = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
+  const handleClose = (event: { target: Node | null }) => {
     //@ts-ignore
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -90,7 +90,7 @@ const NotificationSection = () => {
     prevOpen.current = open;
   }, [open]);
 
-  const handleChange = (event) => {
+  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
     if (event?.target.value) setValue(event?.target.value);
   };
 
@@ -120,7 +120,7 @@ const NotificationSection = () => {
                 color: themePalette.secondary.light,
               },
             }}
-            ref={anchorRef}
+            ref={anchorRef as any}
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
@@ -155,7 +155,7 @@ const NotificationSection = () => {
         {({ TransitionProps }) => (
           <Transitions position={matchesXs ? 'top' : 'top-right'} in={open} {...TransitionProps}>
             <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
+              <ClickAwayListener onClickAway={(e: any) => handleClose(e)}>
                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Grid container direction="column" spacing={2}>
                     <Grid item xs={12}>

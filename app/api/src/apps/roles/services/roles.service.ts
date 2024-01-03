@@ -59,13 +59,15 @@ export class RolesService {
     dependencies: Dependencies = null,
   ) {
     return useTransaction(async (transaction) => {
-      const roldDetails = await Roles.getById(roleId);
+      const roleDetails = await Roles.getById(roleId);
 
       const data = await Roles.createJobs(
-        roldDetails.id,
+        roleDetails.id,
         {
           ...createRoleDto,
-          country: roldDetails.client.country.label,
+          country:
+            roleDetails.client.country?.label ||
+            roleDetails.client?.country?.name,
         },
         transaction,
         dependencies,

@@ -47,7 +47,7 @@ const RoleCard = (props: IRoleCard) => {
   const now = new Date();
   const date = new Date(createdAt);
   if (!jobs.length) {
-    return <NoData />;
+    return;
   }
   return (
     <Grid container spacing={1}>

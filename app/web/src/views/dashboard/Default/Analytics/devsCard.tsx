@@ -60,16 +60,16 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const EarningCard = ({ isLoading }) => {
+const EarningCard = ({ isLoading }: { isLoading: boolean }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [timeValue, setTimeValue] = useState(false);
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleChangeTime = (event, newValue) => {
+  const handleChangeTime = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, newValue: boolean | ((prevState: boolean) => boolean)) => {
     setTimeValue(newValue);
   };
   const handleClose = () => {

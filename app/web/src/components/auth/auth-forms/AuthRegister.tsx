@@ -45,7 +45,8 @@ import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 import { TransparentScreeProgress } from '../../FullscreenProgress/FullscreenProgress';
 import { Social } from './authicons';
-import { getRemainingRoles, isRegistrationAvailable } from '@/utils/checkvalid';
+import { getAvailableRoles, isRegistrationOpen } from '@/utils/checkvalid';
+import { IProfession } from '@/types/roles';
 interface RegisterFormValues {
   email: string;
   password: string;
@@ -74,13 +75,11 @@ const AuthRegister = ({ ...others }) => {
     setShowPassword(!showPassword);
   };
   async function register(values: RegisterFormValues, setters: FormikHelpers<RegisterFormValues>, scriptedRef: React.MutableRefObject<boolean>) {
-    let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
-    const registrationAvailable = isRegistrationAvailable(data as string[]);
-    const remainingRoles = getRemainingRoles(data as string[]);
-    if (!remainingRoles.length || !registrationAvailable) {
+    let rolesAvailable: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string);
+    if (!rolesAvailable.length) {
       setters.setSubmitting(false);
       setters.resetForm();
-      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+      toast.warning(`Registeration is closed at the moment, contact support`, { position: 'bottom-center' });
       return false;
     } else {
       const { setStatus, setErrors, setSubmitting } = setters;
@@ -130,11 +129,9 @@ const AuthRegister = ({ ...others }) => {
   }
 
   const onGoogleSuccess = async (codeResponse: Omit<TokenResponse, 'error' | 'error_description' | 'error_uri'>) => {
-    let data: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
-    const registrationAvailable = isRegistrationAvailable(data as string[]);
-    const remainingRoles = getRemainingRoles(data as string[]);
-    if (!remainingRoles.length || !registrationAvailable) {
-      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+    let rolesAvailable: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
+    if (!rolesAvailable.length) {
+      toast.warning(`Registeration is closed at the moment, contact support`, { position: 'bottom-center' });
       return false;
     } else {
       try {

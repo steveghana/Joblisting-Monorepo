@@ -7,7 +7,7 @@ export type IJobs = {
     country: string[];
   };
 
-  jobtype: "Full-time" | "Part-time";
+  jobtype: 'Full-time' | 'Part-time';
   roleType: string;
   whenToStart: string;
   projectTitle: string;
@@ -20,3 +20,19 @@ export type IJobs = {
   tasks: string[]; // Array of tasks
   postedDate: Date;
 };
+export interface IMenuChildrenProps {
+  id: string;
+  title: string;
+  type: 'item';
+  url: string;
+  icon: any;
+  breadcrumbs: boolean;
+}
+
+export interface IMenuProps {
+  id: string;
+  title: string;
+  roles: string[];
+  type: 'group' | 'item';
+  children: IMenuChildrenProps[];
+}

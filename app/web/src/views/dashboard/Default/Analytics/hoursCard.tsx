@@ -66,11 +66,11 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const TotalOrderLineChartCard = ({ isLoading }: { isLoading: boolean }) => {
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = useState(false);
-  const handleChangeTime = (event, newValue) => {
+  const handleChangeTime = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, newValue: boolean | ((prevState: boolean) => boolean)) => {
     setTimeValue(newValue);
   };
 

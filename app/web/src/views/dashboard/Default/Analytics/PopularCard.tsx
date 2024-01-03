@@ -34,12 +34,12 @@ const interviewCardsData = [
   },
   // Add more data for additional cards
 ];
-const PopularCard = ({ isLoading }) => {
+const PopularCard = ({ isLoading }: { isLoading: boolean }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -167,10 +167,6 @@ const PopularCard = ({ isLoading }) => {
       )}
     </>
   );
-};
-
-PopularCard.propTypes = {
-  isLoading: PropTypes.bool,
 };
 
 export default PopularCard;

@@ -10,7 +10,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { DevelopersService } from '../services/developers.service';
-import { CreateDeveloperDto } from '../dto/create-developer.dto';
+import { AssignDevDto, CreateDeveloperDto } from '../dto/create-developer.dto';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
@@ -115,7 +115,7 @@ export class DevelopersController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async unassignRole(
-    @Body() body: { roleId: string; clientId: string; jobId: string },
+    @Body() body: AssignDevDto,
     @Param('id') id: string,
     @Res() res: Response,
   ) {
@@ -137,7 +137,7 @@ export class DevelopersController {
   @ApiBadRequestResponse({ description: 'Bad Request something went wrong' })
   @ApiInternalServerErrorResponse({ description: 'Server is down' })
   async assignRole(
-    @Body() body: { roleId: string; clientId: string; jobId: string },
+    @Body() body: AssignDevDto,
     @Param('id') id: string,
     @Res() res: Response,
   ) {

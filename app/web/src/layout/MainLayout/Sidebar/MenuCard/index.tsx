@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 // material-ui
-import { styled, useTheme } from "@mui/material/styles";
+import { styled, useTheme } from '@mui/material/styles';
 import {
   Avatar,
   Card,
@@ -14,19 +14,19 @@ import {
   ListItemText,
   Typography,
   linearProgressClasses,
-} from "@mui/material";
-import { componentThemeoption } from "../../../../themes/schemes/PureLightTheme";
+} from '@mui/material';
+import { componentThemeoption } from '../../../../themes/schemes/PureLightTheme';
 
 // assets
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
-import { themePalette } from "../../../../themes/schemes/palette";
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import { themePalette } from '../../../../themes/schemes/palette';
 
 // styles
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 30,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
@@ -36,24 +36,30 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const CardStyle = styled(Card)(({ theme }) => ({
   background: themePalette.primary.light,
-  marginBottom: "22px",
-  overflow: "hidden",
-  position: "relative",
-  "&:after": {
+  marginBottom: '22px',
+  overflow: 'hidden',
+  position: 'relative',
+  '&:after': {
     content: '""',
-    position: "absolute",
-    width: "157px",
-    height: "157px",
+    position: 'absolute',
+    width: '157px',
+    height: '157px',
     background: themePalette.primary[200],
-    borderRadius: "50%",
-    top: "-105px",
-    right: "-96px",
+    borderRadius: '50%',
+    top: '-105px',
+    right: '-96px',
   },
 }));
 
 // ==============================|| PROGRESS BAR WITH LABEL ||============================== //
-
-function LinearProgressWithLabel({ value, ...others }) {
+type LinearProgressWithLabelProps = {
+  value: number;
+};
+/**
+ * @param {number} value - The value of the progress bar.
+ * @returns {JSX.Element}
+ */
+function LinearProgressWithLabel({ value }: LinearProgressWithLabelProps): JSX.Element {
   const theme = useTheme();
 
   return (
@@ -66,26 +72,20 @@ function LinearProgressWithLabel({ value, ...others }) {
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h6" color="inherit">{`${Math.round(
-              value
-            )}%`}</Typography>
+            <Typography variant="h6" color="inherit">{`${Math.round(value)}%`}</Typography>
           </Grid>
         </Grid>
       </Grid>
       <Grid item>
-        <BorderLinearProgress variant="determinate" value={value} {...others} />
+        <BorderLinearProgress variant="determinate" value={value} />
       </Grid>
     </Grid>
   );
 }
 
-LinearProgressWithLabel.propTypes = {
-  value: PropTypes.number,
-};
-
 // ==============================|| SIDEBAR MENU Card ||============================== //
 
-const MenuCard = () => {
+function MenuCard() {
   const theme = useTheme();
 
   return (
@@ -100,10 +100,10 @@ const MenuCard = () => {
                   ...componentThemeoption.commonAvatar,
                   ...componentThemeoption.largeAvatar,
                   color: themePalette.primary.main,
-                  border: "none",
+                  border: 'none',
                   borderColor: themePalette.primary.main,
-                  background: "#fff",
-                  marginRight: "12px",
+                  background: '#fff',
+                  marginRight: '12px',
                 }}
               >
                 <TableChartOutlinedIcon fontSize="inherit" />
@@ -112,10 +112,7 @@ const MenuCard = () => {
             <ListItemText
               sx={{ mt: 0 }}
               primary={
-                <Typography
-                  variant="subtitle1"
-                  sx={{ color: themePalette.primary[800] }}
-                >
+                <Typography variant="subtitle1" sx={{ color: themePalette.primary[800] }}>
                   Get Extra Space
                 </Typography>
               }
@@ -127,6 +124,6 @@ const MenuCard = () => {
       </CardContent>
     </CardStyle>
   );
-};
+}
 
 export default MenuCard;

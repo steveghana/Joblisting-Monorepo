@@ -8,16 +8,12 @@ import Rocket from '@/assets/images/users/pic-3.png';
 import Contact from '@/assets/images/users/contact.png';
 import { useGetRolesQuery } from '@/store/services/userAuth.service';
 import { IProfession } from '@/types/roles';
-let allRoles: IProfession[] = ['Ceo', 'Recruitment'];
+import { getAvailableRoles } from '@/utils/checkvalid';
 export default function AuthWrapper2(props: { children: React.ReactNode }) {
-  let rolesAvailable: string[] = [];
-  sessionStorage.setItem('rolesAvailable', JSON.stringify(rolesAvailable));
-  const { data } = useGetRolesQuery();
-  if (data?.length) {
-    const filteredRoles = allRoles.filter((r) => !data.includes(r));
-    rolesAvailable = filteredRoles;
-    sessionStorage.setItem('rolesAvailable', JSON.stringify(rolesAvailable));
-  }
+  const { data } = useGetRolesQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true, refetchOnMountOrArgChange: 5 });
+  const availableRoles = getAvailableRoles(data as IProfession[]);
+  console.log(availableRoles);
+  sessionStorage.setItem('rolesAvailable', JSON.stringify(availableRoles));
   return (
     <>
       <CssBaseline />

@@ -1,12 +1,13 @@
 // assets
 import { IconHelp, IconStar } from '@tabler/icons-react';
 import { CheckCircle } from '@mui/icons-material';
+import { IMenuProps } from '@/types';
 // constant
 const icons = { IconHelp, IconStar };
 
 // ==============================|| HR PAGE & MENU ITEMS ||============================== //
-
-const other = {
+type TOthers = IMenuProps;
+const other: TOthers = {
   id: 'Hr',
   title: 'Recruitment',
 
@@ -20,7 +21,7 @@ const other = {
       type: 'item',
       url: '/devs/shortlisted',
       icon: icons.IconStar,
-      // breadcrumbs: false,
+      breadcrumbs: false,
     },
     {
       id: 'clockify',
@@ -28,6 +29,7 @@ const other = {
       type: 'item',
       icon: icons.IconHelp,
       url: '/devs/clockify',
+      breadcrumbs: false,
     },
   ],
 };

@@ -47,7 +47,21 @@ export const useDevsColums = () => {
             id: 'isActive',
             filterVariant: 'select',
             enableEditing: false,
-            Cell: ({ cell }) => <Box>{cell.getValue<string>()}</Box>,
+            Cell: ({ cell }) => (
+              <Box
+                component="span"
+                sx={(theme) => ({
+                  backgroundColor: cell.getValue<string>() === 'Active' ? theme.palette.success.light : theme.palette.warning.main,
+
+                  borderRadius: '0.25rem',
+                  color: '#fff',
+                  maxWidth: '9ch',
+                  p: '0.25rem',
+                })}
+              >
+                {cell.getValue<string>()}
+              </Box>
+            ),
             size: 50,
           },
           {

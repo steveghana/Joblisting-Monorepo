@@ -10,12 +10,12 @@ import { useNavigate } from 'react-router';
 const Roles = () => {
   const { data, isLoading, isFetching, isError } = useGetRolesQuery();
   const navigate = useNavigate();
-
-  if (!data || !data.length) {
-    return <NoData />;
-  }
   if (isLoading || isFetching) {
     return <RoleSkeleton />;
+  }
+
+  if (!data || !data.length || !data.some((item) => item.jobs.length)) {
+    return <NoData />;
   }
   const renderRoles = () => {
     return (

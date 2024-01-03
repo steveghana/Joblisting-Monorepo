@@ -44,7 +44,7 @@ export async function createJobs(
   });
   await jobRepo.save(createJob);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return roleForJob;
+  return { role: roleForJob, job: createJob };
 }
 export async function updatejobs(
   id: string,
@@ -185,7 +185,7 @@ export const getAllRoles = async (
 ) => {
   dependencies = injectDependencies(dependencies, ['db']);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
+  const skip = (1 - 1) * 10;
   const allRoles = await transaction
     .getRepository(dependencies.db.models.role)
     .find({ relations: ['client', 'jobs', 'link'] });

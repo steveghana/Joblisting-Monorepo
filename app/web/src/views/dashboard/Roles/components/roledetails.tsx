@@ -10,6 +10,7 @@ import { IRoleData } from '../../../../types/roles';
 import NoData from '../../../../components/NoData';
 import { formatTimeDifference } from '../../../../utils/timeFormatter';
 import CustomButton from '../../../../components/button';
+import { unknown } from 'zod';
 interface IRoleDetails {
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
   role: IRoleData;
@@ -21,6 +22,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
   const date = new Date(role.createdAt);
   const hasApplied: Record<string, { applied: boolean }> = JSON.parse(localStorage.getItem('hasApplied') as string) || {};
   const appliedJobIds = Object.keys(hasApplied).map((jobid) => jobid);
+  console.log(role);
   return (
     <Card>
       {!role ? (
@@ -127,7 +129,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                   <Avatar alt="Founder" src={role.client!.companyLogo} />
                   <Box>
                     <Typography mt={2}>Founder at {role.client!.companyName}</Typography>
-                    <Typography fontWeight={700}>Steve Williams</Typography>
+                    <Typography fontWeight={700}>{role.client?.name}</Typography>
                   </Box>
                 </Grid>
               </SubCard>
@@ -149,7 +151,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                       <Typography fontWeight={500} variant="h5" mr={'auto'}>
                         Website
                       </Typography>
-                      <Typography variant="caption">demo@svtech.com</Typography>
+                      <Typography variant="caption">unknown</Typography>
                     </Box>
                     <Divider sx={{ margin: '1rem 0' }} />
                     <Box gap={1}>
@@ -164,7 +166,7 @@ const RoleDetails = ({ role, setCurrentTab }: IRoleDetails): JSX.Element => {
                       <Typography fontWeight={500} variant="h5" mr={'auto'}>
                         Location
                       </Typography>
-                      <Typography variant="caption">{role.client!.country.label}</Typography>
+                      <Typography variant="caption">{role.client!.country.label || role.client?.country?.name}</Typography>
                     </Box>
                     <Divider sx={{ margin: '1rem 0' }} />
                     <Box>

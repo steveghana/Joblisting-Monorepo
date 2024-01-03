@@ -6,17 +6,13 @@ import Loadable from '../components/Loadable';
 import BaseLayout from '../components/layouts/BaseLayout';
 import { Navigate } from 'react-router';
 import { FormDataProvider } from '../contexts/clientFormContext';
-import InterviewEdit from '../views/Devs/Interview/interviewEdit';
-import DynamicRoles from '../views/dashboard/Roles/ExternalRoleUrlResolver';
-import ShortUrlPage from '../views/dashboard/Roles/ExternalRoleUrlResolver';
-import ExternalRoles from '../views/dashboard/Roles/ExternalRoleUrlResolver/externalRoles';
-import RoleTabs from '@/views/dashboard/Roles/RoleTabs/roleTabs';
-import JobInfo from '@/views/dashboard/Roles/RoleTabs';
 // dashboard routing
+const InterviewEdit = Loadable(lazy(() => import('../views/Devs/Interview/interviewEdit')));
+const ShortUrlPage = Loadable(lazy(() => import('../views/dashboard/Roles/ExternalRoleUrlResolver')));
+const ExternalRoles = Loadable(lazy(() => import('../views/dashboard/Roles/ExternalRoleUrlResolver/externalRoles')));
+const JobInfo = Loadable(lazy(() => import('@/views/dashboard/Roles/RoleTabs')));
 const InterviewScheduler = Loadable(lazy(() => import('../views/HR/interviewSteps/InterviewScheduler')));
-const JobSubmissionContainer = Loadable(
-  lazy(() => import('../views/dashboard/Applicants/ApplicationForm/JobSubmission')),
-);
+const JobSubmissionContainer = Loadable(lazy(() => import('../views/dashboard/Applicants/ApplicationForm/JobSubmission')));
 const Developers = Loadable(lazy(() => import('../views/Devs')));
 const AddClient = Loadable(lazy(() => import('../views/dashboard/clients/Forms/clientForm')));
 const ClientDetails = Loadable(lazy(() => import('../views/dashboard/clients/Details')));

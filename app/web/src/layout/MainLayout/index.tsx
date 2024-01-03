@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import React, { useState } from 'react';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import { AppBar, Box, CssBaseline, Theme, Toolbar, useMediaQuery } from '@mui/material';
 
 // project imports
 import Breadcrumbs from '../../components/extended/Breadcrumbs';
@@ -21,7 +21,14 @@ import { IconChevronRight } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // styles
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+interface MainProps {
+  open: boolean;
+  theme: Theme;
+}
+
+const Main = styled('main', {
+  shouldForwardProp: (prop: string | number) => prop !== 'open',
+})<MainProps>(({ theme, open }) => ({
   ...componentThemeoption.mainContent,
   borderBottomLeftRadius: 0,
   borderBottomRightRadius: 0,
@@ -97,6 +104,7 @@ const MainLayout = () => {
         drawerOpen={!hasToken ? false : !matchDownMd ? leftDrawerOpened : !leftDrawerOpened}
         drawerToggle={handleLeftDrawerToggle}
       />
+
       <Main theme={theme} open={leftDrawerOpened}>
         <AnimatePresence mode="popLayout">
           <Outlet />
@@ -105,6 +113,6 @@ const MainLayout = () => {
     </Box>
   );
 };
-export default Protect(MainLayout, ['Ceo', 'Recruitment']);
+// export default Protect(MainLayout, ['Ceo', 'Recruitment']);
 
-// export default MainLayout;
+export default MainLayout;

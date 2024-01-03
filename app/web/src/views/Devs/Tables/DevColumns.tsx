@@ -14,12 +14,7 @@ import { Button, useMediaQuery, useTheme } from '@mui/material';
 import { IDev } from '../../../types/devs';
 import { useNavigate } from 'react-router';
 import { getDefaultMRTOptions } from '../../../components/Table/DefaultColumnOpt';
-import {
-  useAddDevMutation,
-  useBulkdeletDevMutation,
-  useDeletDevMutation,
-  useUpdateDevMutation,
-} from '../../../store/services/dev.service';
+import { useAddDevMutation, useBulkdeletDevMutation, useDeletDevMutation, useUpdateDevMutation } from '../../../store/services/dev.service';
 import { toast } from 'react-toastify';
 import { useDeletInterviewMutation } from '../../../store/services/interview.service';
 type IDevTableData = {
@@ -33,30 +28,21 @@ type IDevTableData = {
   columns: MRT_ColumnDef<IDev>[];
   // omitTypes: string;
 };
-const DevTableData = ({
-  devs,
-  isLoading,
-  isFetching,
-  tableType,
-  handleOpenInterviewForm,
-  isError,
-  columns,
-  refetch,
-}: IDevTableData) => {
+const DevTableData = ({ devs, isLoading, isFetching, tableType, handleOpenInterviewForm, isError, columns, refetch }: IDevTableData) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const [validationErrors, setValidationErrors] = React.useState<Record<string, string | undefined>>({});
   const [createUser, { isLoading: isCreatingDev }] = useAddDevMutation();
   const [cancelInterview, { isLoading: isDeleting }] = useDeletInterviewMutation();
-  const [updateUser, { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError }] =
-    useUpdateDevMutation();
+  const [updateUser, { isError: isUpdatingError, isLoading: isUpdatingDev, error: updateError }] = useUpdateDevMutation();
   const [deleteDev, { isError: isDeletingError, isLoading: isDeletingDev, error: deleteError }] = useDeletDevMutation();
-  const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] =
-    useBulkdeletDevMutation();
+  const [bulkdeleteuser, { isError: isBulkDeletingError, isLoading: isBulkDeletingDev, error: bulkdeleteError }] = useBulkdeletDevMutation();
+  console.log(devs, 'fjdkfjd');
   async function cancelinterviewFn(row: MRT_Row<IDev>) {
+    console.log('canceling the interview');
     try {
       const canceld = await cancelInterview({
-        id: row.original.interview!.id as string,
+        id: row.original.candidatInterview!.id as string,
       }).unwrap();
       if (canceld) {
         toast.warn('Interview Canceled', {
@@ -71,18 +57,20 @@ const DevTableData = ({
     }
   }
   async function DeletDevFn(row: MRT_Row<IDev>) {
-    const asGuest = row.original.interview?.guests.filter((item) => item!.id === row!.original!.id);
-    const asCandidate = row.original.interview?.candidate.id === row.original!.id;
+    const asGuest = row.original?.guestInterview?.filter((guest) => guest?.guests?.map((guest) => guest.id));
+
+    console.log(asGuest, row.original, 'guest');
+    const asCandidate = row.original?.candidatInterview?.candidate?.id === row.original!.id;
     if (asGuest?.length || asCandidate) {
-      toast.info('Cannot delete this developer as he is already interviewing', {
+      toast.warning('Cannot delete this developer as he is already interviewing', {
         position: 'bottom-center',
       });
       return;
     }
-    const response = await deleteDev({
-      id: row.original.id as string,
-    }).unwrap();
     try {
+      const response = await deleteDev({
+        id: row.original.id as string,
+      }).unwrap();
       if (response) {
         toast.success('Action Successful', {
           position: 'bottom-center',
@@ -129,13 +117,10 @@ const DevTableData = ({
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: (item) => handleCreate(item, createUser, setValidationErrors),
     onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: ({ values, table, row }) =>
-      handleSave(
-        { salary: values.salary || 0, role_status: values.rolestatus },
-        { table, row },
-        updateUser,
-        setValidationErrors,
-      ),
+    onEditingRowSave: ({ values, table, row }) => {
+      console.log(values, 'thisdlfjdvalues');
+      handleSave({ salary: values.salary || 0, role_status: values.rolestatus }, { table, row }, updateUser, setValidationErrors);
+    },
 
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <CreatRow internalEditComponents={internalEditComponents} row={row} table={table} />
@@ -147,14 +132,8 @@ const DevTableData = ({
           cancelInterview={async () => await cancelinterviewFn(row)}
           // disabled={isDeleting || isUpdatingDev || isCreatingDev}
           assignToRole={async () => await DeletDevFn(row)}
-          tableType={
-            row.original.rolestatus === 'Interviewing'
-              ? 'Interviewing'
-              : row.original.rolestatus === 'Pending'
-              ? 'Shortlist'
-              : 'Accepted'
-          }
-          handleOpenInterviewForm={(id: string) => handleOpenInterviewForm(id)}
+          tableType={row.original.rolestatus === 'Interviewing' ? 'Interviewing' : row.original.rolestatus === 'Pending' ? 'Shortlist' : 'Accepted'}
+          handleOpenInterviewForm={(id: string) => handleOpenInterviewForm && handleOpenInterviewForm(id)}
           actionFn={async () => DeletDevFn(row)}
           row={row}
           table={table}

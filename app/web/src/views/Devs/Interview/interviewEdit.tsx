@@ -31,7 +31,6 @@ const InterviewEdit = () => {
   const [end, setEnd] = useState(new Date());
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const devsAndApplicants = useTypedSelector((state) => state.devs.devs);
   if (isFetching || isLoading) {
     return <FullscreenProgress />;
@@ -41,7 +40,7 @@ const InterviewEdit = () => {
   }
 
   // const applicant = interviewEditData.candidate;
-  const guests = devsAndApplicants.filter((dev) => dev.rolestatus === 'Accepted');
+  const guests = devsAndApplicants.filter((dev) => dev.rolestatus === 'Accepted' || dev.rolestatus === 'External' || dev.rolestatus === 'InHouse');
   // const session = useSession();
   // const supabase = useSupabaseClient();
   // const { isLoading } = useSessionContext();

@@ -54,15 +54,16 @@ class Roles {
 
     transaction: EntityManager = null,
     dependencies: Dependencies = null,
-  ): Promise<IRole> {
+  ) {
     dependencies = injectDependencies(dependencies, ['db']);
     const newApplication = new Roles(dependencies);
-    newApplication.data = await createJobs(
+    const { job, role } = await createJobs(
       roleId,
       jobinfo,
       transaction,
       dependencies,
     );
+    newApplication.data = role;
     return newApplication.data;
   }
   static async updateJobs(

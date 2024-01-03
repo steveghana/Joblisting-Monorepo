@@ -1,11 +1,12 @@
-import { Suspense } from 'react';
+import { ElementType, Suspense } from 'react';
 
 // project imports
 import Loader from './Loader';
+import { JSX } from 'react/jsx-runtime';
 
 // ==============================|| LOADABLE - LAZY LOADING ||============================== //
 
-const Loadable = (Component) => (props) =>
+const Loadable = (Component: ElementType) => (props: JSX.IntrinsicAttributes) =>
   (
     <Suspense fallback={<Loader />}>
       <Component {...props} />

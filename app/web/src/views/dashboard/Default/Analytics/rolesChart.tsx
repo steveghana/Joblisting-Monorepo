@@ -19,24 +19,9 @@ import { gridSpacing } from '../../../../store/constant';
 import chartData from '../chart-data/total-growth-bar-chart';
 import { themePalette } from '../../../../themes/schemes/palette';
 
-// const status = [
-//   {
-//     value: "today",
-//     label: "Today",
-//   },
-//   {
-//     value: "month",
-//     label: "This Month",
-//   },
-//   {
-//     value: "year",
-//     label: "This Year",
-//   },
-// ];
-
 // ==============================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||============================== //
 
-const TotalGrowthBarChart = ({ isLoading }) => {
+const TotalGrowthBarChart = ({ isLoading }: { isLoading: boolean }) => {
   const [value, setValue] = useState('today');
   const theme = useTheme();
   const customization = useSelector((state: any) => state.customization);
@@ -59,20 +44,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
       xaxis: {
         labels: {
           style: {
-            colors: [
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-              primary,
-            ],
+            colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary],
           },
         },
       },
@@ -100,18 +72,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     if (!isLoading) {
       ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
     }
-  }, [
-    navType,
-    primary200,
-    primaryDark,
-    secondaryMain,
-    secondaryLight,
-    primary,
-    darkLight,
-    grey200,
-    isLoading,
-    grey500,
-  ]);
+  }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500]);
 
   return (
     <>
@@ -139,10 +100,6 @@ const TotalGrowthBarChart = ({ isLoading }) => {
       )}
     </>
   );
-};
-
-TotalGrowthBarChart.propTypes = {
-  isLoading: PropTypes.bool,
 };
 
 export default TotalGrowthBarChart;

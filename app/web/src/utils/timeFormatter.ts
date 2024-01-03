@@ -1,4 +1,4 @@
-export function formatTimeDifference(date1, date2) {
+export function formatTimeDifference(date1: Date, date2: Date) {
   const units = [
     { name: 'second', milliseconds: 1000 },
     { name: 'minute', milliseconds: 1000 * 60 },
@@ -7,7 +7,7 @@ export function formatTimeDifference(date1, date2) {
     { name: 'month', milliseconds: 1000 * 60 * 60 * 24 * 30 }, // Approximation
     { name: 'year', milliseconds: 1000 * 60 * 60 * 24 * 365 }, // Approximation
   ];
-  const diffInMilliseconds = date2 - date1;
+  const diffInMilliseconds = date2.getTime() - date1.getTime();
   let unitUsed = units[0];
 
   for (let unit of units) {

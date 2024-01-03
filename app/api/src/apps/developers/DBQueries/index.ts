@@ -58,26 +58,52 @@ export const getAllDevs = async (
       },
       relations: ['candidate', 'guests'],
     });
-
-  // Map interviews to developers based on developer ID
+  // Map interviews to developers based on developer ID, including guests
   const interviewsMap = interviews.reduce((acc, interview) => {
-    const developerId = interview.candidate.id;
-    if (!acc[developerId]) {
-      acc[developerId] = [];
+    // Include the candidate
+    const candidateDeveloperId = interview.candidate.id;
+    if (!acc[candidateDeveloperId]) {
+      acc[candidateDeveloperId] = [];
     }
-    acc[developerId].push(interview);
+    acc[candidateDeveloperId].push(interview);
+
+    // Include guests
+    if (interview.guests && interview.guests.length > 0) {
+      interview.guests.forEach((guestDeveloper) => {
+        const guestDeveloperId = guestDeveloper.id;
+        if (!acc[guestDeveloperId]) {
+          acc[guestDeveloperId] = [];
+        }
+        acc[guestDeveloperId].push(interview);
+      });
+    }
+
     return acc;
   }, {});
+
+  // console.log(interviews, 'from interviews');
+
+  // Merge interviews into developersWithInterviews array
   // Merge interviews into developersWithInterviews array
   const developersWithMergedInterviews = developersWithInterviews.map(
     (developer) => {
       const developerId = developer.id;
       const developerInterviews = interviewsMap[developerId] || [];
-      // Ensure 'candidate' is an item, not an array
-      const [candidateInterview] = developerInterviews.filter(
+
+      // Separate candidate and guest interviews
+      const candidateInterviews = developerInterviews.filter(
         (interview) => interview.candidate.id === developerId,
       );
-      return { ...developer, interview: candidateInterview || null };
+
+      // Ensure candidateInterviews is a single interview or null
+      const candidateInterview =
+        candidateInterviews.length > 0 ? candidateInterviews[0] : null;
+
+      const guestInterviews = developerInterviews.filter((interview) =>
+        interview.guests.some((guest) => guest.id === developerId),
+      );
+
+      return { ...developer, candidateInterview, guestInterviews };
     },
   );
 
@@ -139,7 +165,20 @@ export async function deleteDev(
   const developerRepo = transaction.getRepository(
     dependencies.db.models.developer,
   );
-
+  const existingDev = await developerRepo.findOne({ where: { id } });
+  //Handling interview and hours foreign key constraints
+  if (existingDev?.guestInterviews?.length > 0) {
+    existingDev.guestInterviews = null;
+    developerRepo.save(existingDev);
+  }
+  if (existingDev?.candidateInterview) {
+    existingDev.candidateInterview = null;
+    developerRepo.save(existingDev);
+  }
+  if (existingDev?.clockHours?.length > 0) {
+    existingDev.clockHours = null;
+    developerRepo.save(existingDev);
+  }
   const { affected } = await developerRepo.delete({
     id,
   });
@@ -206,7 +245,6 @@ export async function assignToRole(
     relations: ['developers'],
   });
   const existingDev = await devRepo.findOne({ where: { id } });
-
   // ManyToMany relationship between Developer and Role
   if (!existingRole?.developers?.length) {
     existingRole.developers = [existingDev];

@@ -92,9 +92,7 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                   <MuiTypography fontWeight={700} variant="body2" component={'legend'} mr={'auto'}>
                     Location
                   </MuiTypography>
-                  <MuiTypography variant="caption">
-                    {user.location && parsedLocation.label ? parsedLocation.label : 'unknown'}
-                  </MuiTypography>
+                  <MuiTypography variant="caption">{user.location && parsedLocation.label ? parsedLocation.label : 'unknown'}</MuiTypography>
                 </Box>
                 <Divider sx={{ margin: '1rem 0' }} />
                 {insettings && (
@@ -157,9 +155,7 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                             <MuiTypography variant="h4" gutterBottom>
                               Email Addresses
                             </MuiTypography>
-                            <MuiTypography variant="subtitle2">
-                              Manage details related to your associated email addresses
-                            </MuiTypography>
+                            <MuiTypography variant="subtitle2">Manage details related to your associated email addresses</MuiTypography>
                           </Box>
                         </Box>
                         <Divider />
@@ -221,14 +217,8 @@ function ActivityTab({ insettings, user }: { insettings?: boolean; user: IUser }
                       <MuiTypography variant="body2" component={'legend'} sx={{ minWidth: '40%' }} fontWeight={700}>
                         {field}
                       </MuiTypography>
-                      <Box
-                        sx={{ minWidth: '60%' }}
-                        marginX={'auto'}
-                        display={'flex'}
-                        justifyContent={'flex-start'}
-                        alignItems={'flex-start'}
-                      >
-                        <MuiTypography textAlign={'left'}>{userDetailsFields[field]}</MuiTypography>
+                      <Box sx={{ minWidth: '60%' }} marginX={'auto'} display={'flex'} justifyContent={'flex-start'} alignItems={'flex-start'}>
+                        <MuiTypography textAlign={'left'}>{userDetailsFields[field as keyof typeof userDetailsFields]}</MuiTypography>
                       </Box>
                     </Grid>
                   ))}

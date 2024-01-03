@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
@@ -14,27 +14,28 @@ import { IProfession } from '../../types/roles';
 import { toast } from 'react-toastify';
 import { useTypedSelector } from '@/store';
 import { motion } from 'framer-motion';
-import { getRemainingRoles, isRegistrationAvailable } from '@/utils/checkvalid';
+import { getAvailableRoles, isRegistrationOpen } from '@/utils/checkvalid';
 function RoleAuth() {
   const [error, setError] = useState(false);
   const [role, setRole] = useState<IProfession>();
   const navigate = useNavigate();
   const [helperText, setHelperText] = useState('');
   const [loginUser, { isLoading: isWithGoogleLoading }] = useLoginUserMutation();
-  let roles: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
-  const registrationAvailable = isRegistrationAvailable(roles as string[]);
-  const remainingRoles = getRemainingRoles(roles as string[]);
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  let rolesAvailable: string[] = JSON.parse(sessionStorage.getItem('rolesAvailable') as string) || [];
+
+  const handleRadioChange = (event: any) => {
     setRole(event.target.value as IProfession);
   };
+
   const onMoveToRegister = async () => {
     if (!role) {
       setError(true);
       setHelperText('Please select an option.');
       return;
     }
-    if (!remainingRoles.length || !registrationAvailable) {
-      toast.warning(`You have reached the maximum number of registeration`, { position: 'bottom-center' });
+    if (!rolesAvailable.length) {
+      toast.warning(`Registeration is closed at the moment, contact support`, { position: 'bottom-center' });
+      navigate(-1);
       return false;
     }
     try {
@@ -84,7 +85,7 @@ function RoleAuth() {
         </Box>
         <FormControl sx={{ minWidth: '75%' }} margin="dense" error={error} variant="standard">
           <RadioGroup>
-            {roles.map((roleName) => (
+            {rolesAvailable.map((roleName) => (
               <FormControlLabel
                 key={roleName}
                 control={<Radio />}

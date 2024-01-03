@@ -53,9 +53,10 @@ export const devApi = createApi({
       },
     }),
     unassignDev: builder.mutation<number, { id: string; roleId: string }>({
-      query: ({ id }) => ({
+      query: ({ id, ...rest }) => ({
         url: `developers/unassign/${id}`,
         method: 'PATCH',
+        body: { ...rest },
       }),
       invalidatesTags: ['devs'],
       transformErrorResponse: (response: any) => {
@@ -68,9 +69,10 @@ export const devApi = createApi({
       },
     }),
     assignDev: builder.mutation<number, { developerId: string; roleId: string; clientId: string; jobId: string }>({
-      query: ({ developerId }) => ({
+      query: ({ developerId, ...rest }) => ({
         url: `developers/assign/${developerId}`,
         method: 'PATCH',
+        body: { ...rest },
       }),
       invalidatesTags: ['devs'],
       transformErrorResponse: (response: any) => {

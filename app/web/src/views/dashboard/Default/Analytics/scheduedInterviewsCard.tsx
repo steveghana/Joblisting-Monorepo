@@ -41,7 +41,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ==============================|| DASHBOARD - TOTAL INCOME LIGHT CARD ||============================== //
 
-const TotalIncomeLightCard = ({ isLoading }) => {
+const TotalIncomeLightCard = ({ isLoading }: { isLoading: boolean }) => {
   const theme = useTheme();
 
   return (
@@ -108,10 +108,6 @@ const TotalIncomeLightCard = ({ isLoading }) => {
       )}
     </>
   );
-};
-
-TotalIncomeLightCard.propTypes = {
-  isLoading: PropTypes.bool,
 };
 
 export default TotalIncomeLightCard;

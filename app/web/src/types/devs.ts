@@ -9,6 +9,8 @@ export type IDev = {
   userId?: string;
   user?: Iuser;
   interview?: Iinterviews;
+  candidatInterview: Iinterviews;
+  guestInterview: Iinterviews[];
   companyName: string;
   role?: string;
   lastName: string;

@@ -60,3 +60,18 @@ export class CreateDeveloperDto {
   role_status: 'InHouse' | 'Pending' | 'External' | 'Accepted';
   //   user: IUser;
 }
+export class AssignDevDto {
+  @IsNotEmpty({
+    message: 'Client id is required',
+  })
+  @IsString()
+  clientId: string;
+  @IsNotEmpty({
+    message: 'Role id is required',
+  })
+  @IsString()
+  roleId: string;
+  @IsOptional()
+  @IsString()
+  jobId: string;
+}

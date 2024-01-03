@@ -5,7 +5,7 @@ export const useDialog = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
 
-  const handleOpen = (rowData: MRT_Row<T>) => {
+  const handleOpen = (rowData: MRT_Row<any>) => {
     setData(rowData);
     setOpen(true);
   };

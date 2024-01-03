@@ -111,12 +111,12 @@ const ComposeEmail = (props: SimpleDialogProps) => {
                 <FormControl fullWidth>
                   <Field
                     name="recipients"
-                    render={({ field, form }) => (
+                    render={({ field, form }: any) => (
                       <Autocomplete
                         {...field}
                         options={props.reciepients}
                         getOptionLabel={(option: Recipient) => option.name}
-                        filterOptions={(options, params) => filter(options, params)}
+                        filterOptions={(options: any[], params) => filter(options, params)}
                         isOptionEqualToValue={(option: Recipient, value: Recipient) => option.email === value.email}
                         freeSolo
                         multiple
@@ -137,12 +137,7 @@ const ComposeEmail = (props: SimpleDialogProps) => {
                         }}
                         renderTags={(value: Recipient[], getTagProps) =>
                           value.map((option, index) => {
-                            return (
-                              <Chip
-                                label={typeof option === 'string' ? option : `${option.email}`}
-                                {...getTagProps({ index })}
-                              />
-                            );
+                            return <Chip label={typeof option === 'string' ? option : `${option.email}`} {...getTagProps({ index })} />;
                           })
                         }
                         renderInput={(params) => (

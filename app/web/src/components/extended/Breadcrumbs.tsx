@@ -13,6 +13,7 @@ import { MarkAsUnread } from '@mui/icons-material';
 import { gridSpacing } from '../../store/constant';
 import { themePalette } from '../../themes/schemes/palette';
 import { useTypedSelector } from '@/store';
+import { IMenuProps } from '@/types';
 
 const linkSX = {
   display: 'flex',
@@ -76,14 +77,12 @@ const Breadcrumbs = ({
   }>();
 
   // set active item state
-  const getCollapse = (menu) => {
+  const getCollapse = (menu: IMenuProps) => {
     if (menu.children) {
       menu.children.filter((collapse) => {
-        if (collapse.type && collapse.type === 'collapse') {
-          getCollapse(collapse);
-        } else if (collapse.type && collapse.type === 'item') {
+        if (collapse.type && collapse.type === 'item') {
           // if (document.location.pathname === config.basename + collapse.url) {
-          setMain(menu);
+          setMain(menu as IMenuProps & { icon: any });
           setItem(collapse);
           // }
         }
@@ -93,7 +92,7 @@ const Breadcrumbs = ({
   };
 
   useEffect(() => {
-    navigation?.items?.map((menu) => {
+    navigation?.items?.map((menu: IMenuProps) => {
       if (menu.type && menu.type === 'group') {
         getCollapse(menu);
       }

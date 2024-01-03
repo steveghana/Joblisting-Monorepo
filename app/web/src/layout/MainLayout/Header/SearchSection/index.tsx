@@ -18,6 +18,7 @@ import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons-reac
 import { shouldForwardProp } from '@mui/system';
 import Transitions from '../../../../components/extended/Transitions';
 import { themePalette } from '../../../../themes/schemes/palette';
+// import { PopupState } from 'material-ui-popup-state/hooks';
 
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -60,8 +61,12 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
   },
 }));
 // ==============================|| SEARCH INPUT - MOBILE||============================== //
-
-const MobileSearch = ({ value, setValue, popupState }) => {
+type MobileSearchProps = {
+  value: string;
+  setValue: (value: string) => void;
+  popupState: any;
+};
+const MobileSearch = ({ value, setValue, popupState }: MobileSearchProps) => {
   const theme = useTheme();
 
   return (
@@ -108,12 +113,6 @@ const MobileSearch = ({ value, setValue, popupState }) => {
       inputProps={{ 'aria-label': 'weight' }}
     />
   );
-};
-
-MobileSearch.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func,
-  popupState: PopupState,
 };
 
 // ==============================|| SEARCH INPUT ||============================== //

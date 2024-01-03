@@ -1,4 +1,5 @@
 // assets
+import { IMenuProps } from '@/types';
 import { IconUsers, IconCode, IconMessage, IconCalendar } from '@tabler/icons-react';
 
 const icons = { IconUsers, IconCode, IconMessage, IconCalendar };
@@ -6,8 +7,9 @@ const icons = { IconUsers, IconCode, IconMessage, IconCalendar };
 // constant
 
 // ==============================|| DEVS MENU ITEMS ||============================== //
+type TUtilities = IMenuProps;
 
-const utilities = {
+const utilities: TUtilities = {
   id: 'Devs',
   title: 'Devs',
   type: 'group',

@@ -30,7 +30,6 @@ export class AuthService {
     if (!user || !user.googleVerified) {
       throw new UnauthorizedException('No user from google');
     }
-
     const [authToken, userinfo] = await useTransaction(async (transaction) => {
       console.log(user.googleVerified, 'user at google login');
       if (!(await User.getByEmail(user.email, dependencies))) {

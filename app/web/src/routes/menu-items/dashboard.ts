@@ -2,13 +2,15 @@
 import { IconDashboard, IconUser } from '@tabler/icons-react';
 import { IconBuilding, IconUsers, IconBriefcase } from '@tabler/icons-react';
 import { Business, Work } from '@mui/icons-material';
+import { IMenuProps } from '@/types';
 
 // constant
 const icons = { IconDashboard, IconUser, IconBuilding, IconBriefcase };
 
 // ==============================|| DASHBOARD & CLIENTS MENU ITEMS ||============================== //
 
-const dashboard = {
+type Dashboard = IMenuProps;
+const dashboard: Dashboard = {
   id: 'dashboard',
   title: 'Dashboard',
   roles: ['Ceo', 'Recruitment'],

@@ -67,7 +67,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
     console.log('Logout');
   };
 
-  const handleClose = (event) => {
+  const handleClose = (event: { target: Node | null }) => {
     //@ts-ignore
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -75,7 +75,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
     setOpen(false);
   };
 
-  const handleListItemClick = (event, index, route = '') => {
+  const handleListItemClick = (event: any, index: React.SetStateAction<number>, route = '') => {
     setSelectedIndex(index);
     handleClose(event);
 
@@ -166,7 +166,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
         {({ TransitionProps }) => (
           <Transitions in={open} {...TransitionProps}>
             <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
+              <ClickAwayListener onClickAway={(e: any) => handleClose(e)}>
                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Box sx={{ p: 2 }}>
                     <Stack>
@@ -219,12 +219,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
                                   <Typography variant="subtitle1">Allow Notifications</Typography>
                                 </Grid>
                                 <Grid item>
-                                  <Switch
-                                    checked={notification}
-                                    onChange={(e) => setNotification(e.target.checked)}
-                                    name="sdm"
-                                    size="small"
-                                  />
+                                  <Switch checked={notification} onChange={(e) => setNotification(e.target.checked)} name="sdm" size="small" />
                                 </Grid>
                               </Grid>
                             </Grid>
@@ -255,9 +250,7 @@ const ProfileSection = ({ userData: user }: { userData: Omit<IUser, 'token'> }) 
                           selected={selectedIndex === 0}
                           onClick={(event) => handleListItemClick(event, 0, `management/profile/settings/${user.id}`)}
                         >
-                          <ListItemIcon>
-                            {<IconSettings stroke={1.5} size="1.5rem" color={themePalette.primary.main} />}
-                          </ListItemIcon>
+                          <ListItemIcon>{<IconSettings stroke={1.5} size="1.5rem" color={themePalette.primary.main} />}</ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
                         </ListItemButton>
                         <ListItemButton

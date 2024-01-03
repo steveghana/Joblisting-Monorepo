@@ -59,22 +59,13 @@ const validationSchema = Yup.object({
   candidate: Yup.string().required('Candidate is required'),
   eventLInk: linkOrPhoneNumberSchema.required('Please enter a valid link or phone number'),
 });
-const InterviewFormFields = ({
-  guests,
-  _applicants,
-  isEditing,
-  editableInterviewInfo,
-  handleEdit,
-  handleSubmit,
-}: IinterviewsFields) => {
+const InterviewFormFields = ({ guests, _applicants, isEditing, editableInterviewInfo, handleEdit, handleSubmit }: IinterviewsFields) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [meetingType, setMeetingType] = useState('');
 
   const initialValues: InterviewFormValue = {
-    candidate: `${((id || isEditing) && _applicants[0]?.firstName) || ''} ${
-      ((id || isEditing) && _applicants[0]?.lastName) || ''
-    }`,
+    candidate: `${((id || isEditing) && _applicants[0]?.firstName) || ''} ${((id || isEditing) && _applicants[0]?.lastName) || ''}`,
     guests: [`${((isEditing || id) && guests[0]?.firstName) || 'No'} ${(isEditing || id) && guests[0]?.lastName}`],
 
     // candidate: "",
@@ -109,11 +100,7 @@ const InterviewFormFields = ({
           </Typography>
         </Box>
 
-        <Formik
-          initialValues={initialValues}
-          onSubmit={isEditing ? handleEdit : handleSubmit}
-          validationSchema={validationSchema}
-        >
+        <Formik initialValues={initialValues} onSubmit={isEditing ? handleEdit : handleSubmit} validationSchema={validationSchema}>
           {({ isSubmitting, handleChange, values, setFieldValue, isValidating }) => (
             <Form>
               <Paper
@@ -135,15 +122,7 @@ const InterviewFormFields = ({
                     {_applicants?.length > 0 && (
                       <FormControl fullWidth>
                         <InputLabel id="role-label">Select applicant</InputLabel>
-                        <Field
-                          name="candidate"
-                          as={Select}
-                          disabled={!!id}
-                          variant="outlined"
-                          required
-                          fullWidth
-                          value={values.candidate}
-                        >
+                        <Field name="candidate" as={Select} disabled={!!id} variant="outlined" required fullWidth value={values.candidate}>
                           {_applicants.map((applicant) => (
                             <MenuItem key={applicant.id} value={`${applicant?.firstName} ${applicant?.lastName}`}>
                               <Box display={'flex'} alignItems={'center'} gap={1}>
@@ -170,13 +149,7 @@ const InterviewFormFields = ({
                       Choose Interviewer
                     </Typography> */}
                     <FormControl fullWidth>
-                      <RenderGroup
-                        required
-                        label="Select Interviewer"
-                        name="guests"
-                        data={guests}
-                        value={values.guests}
-                      />
+                      <RenderGroup required label="Select Interviewer" name="guests" data={guests} value={values.guests} />
                       <ErrorMessage name="guests" component="div">
                         {(msg) => (
                           <FormHelperText error variant="filled">
@@ -273,11 +246,7 @@ const InterviewFormFields = ({
                               {(values.eventOption === 'Zoom-call' || values.eventOption === 'Google-meet') && (
                                 <Tooltip title={`Generate ${values.eventOption} link`}>
                                   <Button
-                                    href={
-                                      values.eventOption === 'Zoom-call'
-                                        ? 'https://zoom.us'
-                                        : 'https://meet.google.com/?pli=1'
-                                    }
+                                    href={values.eventOption === 'Zoom-call' ? 'https://zoom.us' : 'https://meet.google.com/?pli=1'}
                                     target="_blank"
                                     // aria-label={`${key} login button`}
                                     // onClick={handler}
@@ -319,9 +288,7 @@ const InterviewFormFields = ({
                           variant="outlined"
                           onChange={(date: any) => setFieldValue('starttime', date)}
                           renderInput={(
-                            params: JSX.IntrinsicAttributes &
-                              React.ClassAttributes<HTMLInputElement> &
-                              React.InputHTMLAttributes<HTMLInputElement>,
+                            params: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>,
                           ) => <input {...params} />}
                         />
                       </DemoItem>
@@ -352,9 +319,7 @@ const InterviewFormFields = ({
                           variant="outlined"
                           onChange={(date: any) => setFieldValue('endtime', date)}
                           renderInput={(
-                            params: JSX.IntrinsicAttributes &
-                              React.ClassAttributes<HTMLInputElement> &
-                              React.InputHTMLAttributes<HTMLInputElement>,
+                            params: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>,
                           ) => <input {...params} />}
                         />
                       </DemoItem>
@@ -382,9 +347,7 @@ const InterviewFormFields = ({
                         value={values.startDate}
                         onChange={(date: any) => setFieldValue('startDate', date)}
                         renderInput={(
-                          params: JSX.IntrinsicAttributes &
-                            React.ClassAttributes<HTMLInputElement> &
-                            React.InputHTMLAttributes<HTMLInputElement>,
+                          params: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>,
                         ) => <input {...params} />}
                       />
                       <ErrorMessage name="startDate" component="div">
@@ -411,9 +374,7 @@ const InterviewFormFields = ({
                         value={values.startDate}
                         onChange={(date: any) => setFieldValue('endDate', date)}
                         renderInput={(
-                          params: JSX.IntrinsicAttributes &
-                            React.ClassAttributes<HTMLInputElement> &
-                            React.InputHTMLAttributes<HTMLInputElement>,
+                          params: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>,
                         ) => <input {...params} />}
                       />
                       <ErrorMessage name="endDate" component="div">

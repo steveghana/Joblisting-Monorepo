@@ -11,7 +11,7 @@ import {
 } from '../../../util/dependencyInjector';
 import Roles from '../../../apps/roles/dataManager';
 import cryptoUtil from '../../../util/crypto';
-import { getAllDevs } from '../DBQueries';
+import { getAllDevs, updateDev } from '../DBQueries';
 import User from '../../auth/dataManager/userEntity';
 import { IDev, IRoleStatus } from '../../../types/developer';
 import { DeveloperAcceptedEmailDraft } from '../../../util/email/emailtexts';
@@ -146,12 +146,12 @@ export class DevelopersService {
         return [];
       }
       // console.log(data);
-      // console.log(data, 'from dev');
       return data.map((item) => ({
         id: item.id,
         firstName: item?.user?.firstName,
         userId: item.user.id,
-        interview: item?.interview,
+        candidatInterview: item?.candidateInterview,
+        guestInterview: item.guestInterviews,
         lastName: item?.user?.lastName,
         clientName: item?.client?.name,
         companyName: item?.client?.companyName,
@@ -191,6 +191,8 @@ export class DevelopersService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      console.log(updateDevDto, 'udates');
+      //Decided to use optional chaining as destructuring roles and other couldnt be undefined causing the server to potentially crash
       const data = await Developers.update(
         id,
         {
@@ -202,9 +204,10 @@ export class DevelopersService {
               ? new Date()
               : dev.startRoleDate,
           workStatus:
-            updateDevDto?.role_status === 'Accepted' &&
-            updateDevDto?.roles?.id &&
-            dev.workStatus === 'Not Active'
+            updateDevDto?.role_status === 'Accepted' ||
+            updateDevDto.role_status === 'External' ||
+            updateDevDto.role_status === 'InHouse' ||
+            dev.workStatus === 'Active'
               ? 'Active'
               : 'Not Active',
         },
@@ -313,6 +316,7 @@ export class DevelopersService {
           HttpStatus.BAD_REQUEST,
         );
       }
+
       const assigned = await Developers.assignToRole(
         exisingDev.id,
         roleId,

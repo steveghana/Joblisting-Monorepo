@@ -1,3 +1,5 @@
+import { IProfession } from '@/types/roles';
+
 type InitialType = { text: string; error: string };
 
 const checkValid = (
@@ -18,21 +20,45 @@ const checkValid = (
 
 export default checkValid;
 
-export const getRemainingRoles = (data: string[]): string[] => {
-  console.log(data, 'from get remains');
-  const ceoAvailable = data.includes('Ceo');
-  const recruitmentAvailable = data.includes('Recruitment');
-  if (ceoAvailable && recruitmentAvailable) {
-    // Both "Ceo" and "Recruitment" are present in the data array
+export const getAvailableRoles = (filledRoles: IProfession[] | null): IProfession[] => {
+  const allRoles: IProfession[] = ['Ceo', 'Recruitment'];
+  if (filledRoles === null || !Array.isArray(filledRoles)) {
     return [];
-  } else {
-    // Only include roles that are still available
-
-    return data;
   }
+  return allRoles.filter((role) => !filledRoles?.includes(role));
 };
 
-export const isRegistrationAvailable = (data: string[]): boolean => {
-  const remainingRoles = getRemainingRoles(data);
-  return remainingRoles.length > 0;
+export const isRegistrationOpen = (filledRoles: IProfession[]): boolean => {
+  const availableRoles = getAvailableRoles(filledRoles);
+  return availableRoles.length > 0;
+};
+// utils.ts (your utility file)
+
+export const checkRegistrationAvailability = (data: IProfession[]): { isOpen: boolean; closedRoles?: string[] } => {
+  const rolesAvailable: string[] = [];
+  const ceoAvailable = data?.includes('Ceo');
+  const recruitmentAvailable = data?.includes('Recruitment');
+
+  if (!ceoAvailable) {
+    rolesAvailable.push('Ceo');
+  }
+  if (!recruitmentAvailable) {
+    rolesAvailable.push('Recruitment');
+  }
+
+  if (rolesAvailable.length > 0) {
+    sessionStorage.setItem('rolesAvailable', JSON.stringify(rolesAvailable));
+    // Registration is open
+    return { isOpen: true };
+  } else {
+    // All roles are filled
+    if (ceoAvailable && recruitmentAvailable) {
+      // Both "Ceo" and "Recruitment" are already filled.
+      // Registration is closed for these specific roles.
+      return { isOpen: false, closedRoles: ['Ceo', 'Recruitment'] };
+    } else {
+      // All other roles are filled, but some roles are still available.
+      return { isOpen: false, closedRoles: ['All roles except for some specific roles'] };
+    }
+  }
 };
