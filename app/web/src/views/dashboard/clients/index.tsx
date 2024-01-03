@@ -49,14 +49,7 @@ const Clients = () => {
       ) : (
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <ClientTable
-              refetch={refetch}
-              data={data}
-              isError={isError}
-              columns={columns}
-              isFetching={isFetching}
-              isLoading={isLoading}
-            />
+            <ClientTable refetch={refetch} data={data} isError={isError} columns={columns} isFetching={isFetching} isLoading={isLoading} />
           </Grid>
         </Grid>
       )}
@@ -65,4 +58,4 @@ const Clients = () => {
 };
 
 // export default Clients;
-export default Protect(Clients, ['Ceo', "Recruitment"]);
+export default Protect(Clients, ['Ceo', 'Recruitment']);

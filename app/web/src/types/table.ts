@@ -1,5 +1,5 @@
 export type IColumnType = {
-  columnType: "Dev" | "Client";
+  columnType: 'Dev' | 'Client';
 };
 export type Employee = {
   firstName: string;

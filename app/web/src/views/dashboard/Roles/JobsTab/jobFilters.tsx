@@ -28,9 +28,7 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>, checkboxId: string | number) => {
     event.stopPropagation();
     setCheckboxes((prevCheckboxes) =>
-      prevCheckboxes.map((checkbox) =>
-        checkbox.id === checkboxId ? { ...checkbox, checked: !checkbox.checked } : checkbox,
-      ),
+      prevCheckboxes.map((checkbox) => (checkbox.id === checkboxId ? { ...checkbox, checked: !checkbox.checked } : checkbox)),
     );
     onChange({ ...filters, [event.target.name]: event.target.checked });
   };
@@ -67,9 +65,7 @@ const JobFilters: React.FC<JobFiltersProps> = ({ filters, onChange }) => {
               <FormControlLabel
                 label={Object.keys(item)[0]}
                 name={Object.keys(item)[0]}
-                control={
-                  <Checkbox checked={checkboxes[index].checked} onChange={(e) => handleFilterChange(e, index)} />
-                }
+                control={<Checkbox checked={checkboxes[index].checked} onChange={(e) => handleFilterChange(e, index)} />}
               />
               <Typography variant="caption">{item[Object.keys(item)[0]].length}</Typography>
             </Box>

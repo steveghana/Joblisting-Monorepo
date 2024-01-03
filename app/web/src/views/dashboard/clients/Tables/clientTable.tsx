@@ -12,11 +12,7 @@ import { MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'materi
 import { IClient } from '../../../../types/client';
 import { useNavigate } from 'react-router';
 import { getDefaultMRTOptions } from '../../../../components/Table/DefaultColumnOpt';
-import {
-  useUpdateClientMutation,
-  useDeletClientMutation,
-  useGetClientsQuery,
-} from '../../../../store/services/client.service';
+import { useUpdateClientMutation, useDeletClientMutation, useGetClientsQuery } from '../../../../store/services/client.service';
 import { toast } from 'react-toastify';
 import { useMediaQuery, useTheme } from '@mui/material';
 import TopToolbar from '@/components/Table/topToolBar';

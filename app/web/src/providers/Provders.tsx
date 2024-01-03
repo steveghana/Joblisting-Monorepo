@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import AuthContext from "./AuthContext";
+import { ReactNode } from 'react';
+import AuthContext from './AuthContext';
 type ProviderPropType = {
   children: ReactNode;
 };

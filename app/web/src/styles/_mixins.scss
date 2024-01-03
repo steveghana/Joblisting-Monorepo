@@ -29,15 +29,10 @@
   }
 }
 @mixin pseudo($width: unset, $height: unset) {
-  content: "";
+  content: '';
   position: absolute;
 }
-@mixin flex(
-  $direction: row,
-  $JustifyContent: center,
-  $alignItems: center,
-  $gap: 0rem
-) {
+@mixin flex($direction: row, $JustifyContent: center, $alignItems: center, $gap: 0rem) {
   display: flex;
   flex-direction: $direction;
   justify-content: $JustifyContent;

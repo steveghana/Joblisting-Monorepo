@@ -5,10 +5,9 @@ import React from 'react';
 // ==============================|| MINIMAL LAYOUT ||============================== //
 
 const MinimalLayout = () => (
-    <>
-        <Outlet />
-    </>
+  <>
+    <Outlet />
+  </>
 );
 
 export default MinimalLayout;
-

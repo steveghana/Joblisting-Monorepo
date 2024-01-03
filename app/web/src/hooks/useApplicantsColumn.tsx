@@ -95,10 +95,7 @@ export const useApplicantsColumns = () => {
                 }}
               >
                 {/* <Avatar sx={{}} /> */}
-                <Avatar
-                  sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
-                  src={original.avatar}
-                >
+                <Avatar sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }} src={original.avatar}>
                   {' '}
                   {!original.avatar && `${original.name[0]}`}
                 </Avatar>

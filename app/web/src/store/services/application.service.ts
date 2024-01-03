@@ -104,8 +104,7 @@ export const applicantApi = createApi({
         } = response;
         return message;
       },
-      providesTags: (result) =>
-        result ? [...result.map(({ id }) => ({ type: 'applicants' as const, id })), 'applicants'] : ['applicants'],
+      providesTags: (result) => (result ? [...result.map(({ id }) => ({ type: 'applicants' as const, id })), 'applicants'] : ['applicants']),
     }),
     getApplicant: builder.query<ApplicantsSubmission, { id: string }>({
       query: ({ id }) => ({

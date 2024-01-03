@@ -22,12 +22,7 @@ export default function AlertDialog<T>({ handleClose, open, deleteFn }: IAlert<T
 
   return (
     <React.Fragment>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle display={'flex'} alignItems={'center'} position={'relative'}>
           <Grid display={'flex'} flexDirection={'column'} alignItems={'center'} mx={'auto'}>
             <LockOutlined color="warning" />

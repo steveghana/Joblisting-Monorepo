@@ -117,11 +117,7 @@ const ProfileCover = ({ user }: { user: IUser }) => {
         </CardCover>
         <AvatarWrapper>
           {/* <Avatar variant="rounded" alt={user.firstName} src={user.avatar} /> */}
-          <Avatar
-            variant="rounded"
-            sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
-            src={user.avatar}
-          >
+          <Avatar variant="rounded" sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }} src={user.avatar}>
             {' '}
             {!user.avatar && `${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`}
           </Avatar>
@@ -147,13 +143,7 @@ const ProfileCover = ({ user }: { user: IUser }) => {
             {user.role !== 'Ceo' && user.role !== 'Recruitment' && (
               <>
                 <Box>
-                  <Button
-                    size="small"
-                    sx={{ mx: 1 }}
-                    variant="outlined"
-                    href={user.website || ''}
-                    endIcon={<ArrowForwardTwoToneIcon />}
-                  >
+                  <Button size="small" sx={{ mx: 1 }} variant="outlined" href={user.website || ''} endIcon={<ArrowForwardTwoToneIcon />}>
                     {/* {user} */}
                     View portfolio website
                   </Button>
@@ -162,21 +152,13 @@ const ProfileCover = ({ user }: { user: IUser }) => {
                   </IconButton>
                 </Box>
                 {user.developer.workStatus === 'Active' ? (
-                  <Button
-                    sx={{ mt: { xs: 2, md: 0 } }}
-                    size="small"
-                    variant="text"
-                    endIcon={<ArrowForwardTwoToneIcon />}
-                  >
+                  <Button sx={{ mt: { xs: 2, md: 0 } }} size="small" variant="text" endIcon={<ArrowForwardTwoToneIcon />}>
                     {/* navigate to the clientdetails page */}
                     See all clients connections
                   </Button>
                 ) : (
                   <>
-                    <AssignDevsToClient
-                      open={assingRoledialogOpen}
-                      setDialogOpen={() => setassignRoleDialogOpen(false)}
-                    />
+                    <AssignDevsToClient open={assingRoledialogOpen} setDialogOpen={() => setassignRoleDialogOpen(false)} />
                     <Button
                       sx={{ mt: { xs: 2, md: 0 } }}
                       size="small"

@@ -1,9 +1,7 @@
 import { type MRT_RowData, type MRT_TableOptions } from 'material-react-table';
 
 //define re-useable default table options for all tables in your app
-export const getDefaultMRTOptions = <TData extends MRT_RowData>(
-  isMobile: boolean,
-): Partial<MRT_TableOptions<TData>> => ({
+export const getDefaultMRTOptions = <TData extends MRT_RowData>(isMobile: boolean): Partial<MRT_TableOptions<TData>> => ({
   //list all of your default table options here
   enableColumnFilterModes: true,
   createDisplayMode: 'modal', //default ('row', and 'custom' are also available)

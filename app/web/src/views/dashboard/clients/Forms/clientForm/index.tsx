@@ -23,17 +23,7 @@ import { Protect } from '../../../../../components/auth/requireAuth';
 import SubCard from '../../../../../components/SubCard';
 import CustomButton from '../../../../../components/button';
 import { FormDataProvider, useFormData } from '../../../../../contexts/clientFormContext';
-import {
-  ArrowBackTwoTone,
-  Call,
-  Check,
-  GroupAdd,
-  PeopleAlt,
-  Settings,
-  VerifiedUserRounded,
-  VideoLabel,
-  Work,
-} from '@mui/icons-material';
+import { ArrowBackTwoTone, Call, Check, GroupAdd, PeopleAlt, Settings, VerifiedUserRounded, VideoLabel, Work } from '@mui/icons-material';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 const steps = ['Company Info', 'Project Details', 'Additional Data', 'Review and Submit'];
 
@@ -193,4 +183,4 @@ const AddClientForm = () => {
   );
 };
 
-export default Protect(AddClientForm, ['Ceo', "Recruitment"]);
+export default Protect(AddClientForm, ['Ceo', 'Recruitment']);

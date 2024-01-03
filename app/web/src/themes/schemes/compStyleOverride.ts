@@ -1,17 +1,17 @@
-import { alpha, createTheme, lighten, darken } from "@mui/material";
-import { colors, themeOption } from "./palette";
+import { alpha, createTheme, lighten, darken } from '@mui/material';
+import { colors, themeOption } from './palette';
 // import color from "../../assets/scss/_themes-vars.module.scss";
 // import { themeColors } from "./PureLightTheme";
 export const themeColors = {
-  primary: "#5569ff",
-  secondary: "#6E759F",
-  success: "#57CA22",
-  warning: "#FFA319",
-  error: "#FF1943",
-  info: "#33C2FF",
-  black: "#223354",
-  white: "#ffffff",
-  primaryAlt: "#000C57",
+  primary: '#5569ff',
+  secondary: '#6E759F',
+  success: '#57CA22',
+  warning: '#FFA319',
+  error: '#FF1943',
+  info: '#33C2FF',
+  black: '#223354',
+  white: '#ffffff',
+  primaryAlt: '#000C57',
 };
 export const styleOverrides = {
   colors: {
@@ -118,11 +118,11 @@ export const styleOverrides = {
     },
   },
   general: {
-    reactFrameworkColor: "#00D8FF",
-    borderRadiusSm: "6px",
-    borderRadius: "10px",
-    borderRadiusLg: "12px",
-    borderRadiusXl: "16px",
+    reactFrameworkColor: '#00D8FF',
+    borderRadiusSm: '6px',
+    borderRadius: '10px',
+    borderRadiusLg: '12px',
+    borderRadiusXl: '16px',
   },
   sidebar: {
     background: colors.layout.sidebar.background,
@@ -135,12 +135,11 @@ export const styleOverrides = {
     menuItemIconColor: colors.layout.sidebar.menuItemIconColor,
     menuItemIconColorActive: colors.layout.sidebar.menuItemIconColorActive,
     menuItemHeadingColor: colors.layout.sidebar.menuItemHeadingColor,
-    boxShadow:
-      "2px 0 3px rgba(159, 162, 191, .18), 1px 0 1px rgba(159, 162, 191, 0.32)",
-    width: "290px",
+    boxShadow: '2px 0 3px rgba(159, 162, 191, .18), 1px 0 1px rgba(159, 162, 191, 0.32)',
+    width: '290px',
   },
   header: {
-    height: "180px",
+    height: '180px',
     background: colors.alpha.black[100],
     boxShadow: colors.shadows.cardSm,
     textColor: colors.secondary.main,
@@ -151,7 +150,7 @@ export const styleOverrides = {
       black: colors.alpha.black[100],
       white: colors.alpha.white[100],
     },
-    mode: "light",
+    mode: 'light',
     primary: {
       light: colors.primary.light,
       main: colors.primary.main,

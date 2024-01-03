@@ -60,14 +60,7 @@ const JobsPage: React.FC<{ job: IJobs[]; client: IClient; roleId: string }> = (p
                   {props.client.aboutTheCompany}
                 </Typography>
               </Grid>
-              <Box
-                my={2}
-                display={'flex'}
-                justifyContent={'space-between'}
-                flexWrap={'wrap'}
-                alignItems={'flex-start'}
-                sx={{ width: '100%' }}
-              >
+              <Box my={2} display={'flex'} justifyContent={'space-between'} flexWrap={'wrap'} alignItems={'flex-start'} sx={{ width: '100%' }}>
                 <JobFilters filters={categoryByfilter} onChange={handleFilterChange} />
                 <JobsList jobs={jobs} location={props.client.country} roleId={props.roleId} />
                 {matchUpMd && <RoleSummary client={props.client} />}

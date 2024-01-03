@@ -57,15 +57,7 @@ const ProjectInfo = ({ onNext }: { onNext: (data: any, step?: any) => void }) =>
             <Stack spacing={2}>
               {formFields.map((item) => (
                 <>
-                  <Field
-                    key={item.name}
-                    name={item.name}
-                    as={TextField}
-                    label={item.label}
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
+                  <Field key={item.name} name={item.name} as={TextField} label={item.label} variant="outlined" fullWidth margin="normal" />
                   <ErrorMessage name={item.name} component="div">
                     {(msg) => (
                       <FormHelperText error variant="filled">
@@ -87,12 +79,8 @@ const ProjectInfo = ({ onNext }: { onNext: (data: any, step?: any) => void }) =>
                   onChange={(_, newValue) => {
                     setFieldValue('industry', newValue.slice(0, 10)); // Limit to 10 skills
                   }}
-                  renderTags={(value, getTagProps) =>
-                    value.map((option, index) => <Chip label={option} {...getTagProps({ index })} />)
-                  }
-                  renderInput={(params) => (
-                    <TextField {...params} name="industry" label="Select an industry" variant="outlined" fullWidth />
-                  )}
+                  renderTags={(value, getTagProps) => value.map((option, index) => <Chip label={option} {...getTagProps({ index })} />)}
+                  renderInput={(params) => <TextField {...params} name="industry" label="Select an industry" variant="outlined" fullWidth />}
                 />
                 <ErrorMessage name="industry" component="div">
                   {(msg) => (
@@ -106,13 +94,7 @@ const ProjectInfo = ({ onNext }: { onNext: (data: any, step?: any) => void }) =>
               <FormControl>
                 <FormLabel component="legend">How many people are employed at the company?</FormLabel>
                 {employed.map((employed) => (
-                  <RadioGroup
-                    aria-label="items"
-                    name="numOfEmployees"
-                    value={values.numOfEmployees}
-                    onChange={handleChange}
-                    row
-                  >
+                  <RadioGroup aria-label="items" name="numOfEmployees" value={values.numOfEmployees} onChange={handleChange} row>
                     <FormControlLabel value={employed.label} control={<Radio />} label={employed.label} />
                   </RadioGroup>
                 ))}
@@ -155,15 +137,7 @@ const ProjectInfo = ({ onNext }: { onNext: (data: any, step?: any) => void }) =>
                 </ErrorMessage>
               </FormControl>
               <FormControl fullWidth>
-                <Field
-                  name="aboutTheCompany"
-                  as={TextField}
-                  label="About The Company"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                />
+                <Field name="aboutTheCompany" as={TextField} label="About The Company" multiline rows={4} variant="outlined" fullWidth />
                 <ErrorMessage name="aboutTheCompany" component="div">
                   {(msg) => (
                     <FormHelperText error variant="filled">

@@ -19,10 +19,7 @@ interface ISubCard {
   title?: React.ReactNode | string;
 }
 const SubCard: React.FC<ISubCard> = forwardRef(
-  (
-    { children, content, contentClass, darkTitle, secondary, sx = {}, contentSX = {}, title, ...others },
-    ref: Ref<HTMLDivElement>,
-  ) => {
+  ({ children, content, contentClass, darkTitle, secondary, sx = {}, contentSX = {}, title, ...others }, ref: Ref<HTMLDivElement>) => {
     const theme = useTheme();
 
     return (

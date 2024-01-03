@@ -79,8 +79,7 @@ export const useClientRolesColumn = () => {
               <Box
                 component="span"
                 sx={(theme) => ({
-                  backgroundColor:
-                    cell.getValue<string>() === 'Closed' ? theme.palette.action.disabled : theme.palette.success.light,
+                  backgroundColor: cell.getValue<string>() === 'Closed' ? theme.palette.action.disabled : theme.palette.success.light,
 
                   borderRadius: '0.25rem',
                   color: '#fff',

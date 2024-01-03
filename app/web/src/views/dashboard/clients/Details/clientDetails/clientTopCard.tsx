@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  ArrowBackTwoTone,
-  Email,
-  Facebook,
-  LocalActivity,
-  Phone,
-  Pinterest,
-  Title,
-  VerifiedUser,
-  WhatsApp,
-} from '@mui/icons-material';
+import { ArrowBackTwoTone, Email, Facebook, LocalActivity, Phone, Pinterest, Title, VerifiedUser, WhatsApp } from '@mui/icons-material';
 import SubCard from '@/components/SubCard';
 import { themePalette } from '@/themes/schemes/palette';
 import { Avatar, Box, Grid, Typography } from '@mui/material';

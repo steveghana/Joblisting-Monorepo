@@ -20,9 +20,7 @@ const Register = () => {
   return (
     <AuthWrapper2>
       <>
-        <Grid
-          sx={{ background: 'rgba(255, 255, 255, 0.7)', height: '100%' }} /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */
-        >
+        <Grid sx={{ background: 'rgba(255, 255, 255, 0.7)', height: '100%' }} /* item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }} */>
           <Grid>
             <Grid display="flex" alignItems="center" justifyContent="center" mb={1}>
               <Link to="#">
@@ -31,12 +29,7 @@ const Register = () => {
             </Grid>
             <Grid container spacing={1} alignItems="center" justifyContent="center">
               <Grid>
-                <Grid
-                  container
-                  direction={matchDownSM ? 'column-reverse' : 'row'}
-                  alignItems="center"
-                  justifyContent="center"
-                >
+                <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">
                   <Grid item>
                     <Stack
                       alignItems="center"
@@ -58,12 +51,7 @@ const Register = () => {
               </Grid>
               <Grid item xs={12}>
                 <Grid item container direction="column" alignItems="center" xs={12}>
-                  <Typography
-                    component={Link}
-                    to="/auth/login"
-                    variant="subtitle1"
-                    sx={{ textDecoration: 'none', display: 'flex', gap: 1 }}
-                  >
+                  <Typography component={Link} to="/auth/login" variant="subtitle1" sx={{ textDecoration: 'none', display: 'flex', gap: 1 }}>
                     Already have an account?{' '}
                     <Typography variant="subtitle1" color={themePalette.primary.main}>
                       Sign In

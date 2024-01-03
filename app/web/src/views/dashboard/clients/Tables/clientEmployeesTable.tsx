@@ -47,12 +47,7 @@ function ClientEmployees({ devs }: IClientDevs) {
     <Grid item xs={12}>
       <Paper elevation={3}>
         <Card>
-          <CardHeader
-            subheaderTypographyProps={{}}
-            titleTypographyProps={{}}
-            title="Team Members"
-            subheader="Team memeber for this client"
-          />
+          <CardHeader subheaderTypographyProps={{}} titleTypographyProps={{}} title="Team Members" subheader="Team memeber for this client" />
 
           <Box p={2}>
             <List>

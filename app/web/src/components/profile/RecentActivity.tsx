@@ -1,17 +1,8 @@
-import {
-  Box,
-  Typography,
-  Card,
-  CardHeader,
-  Divider,
-  Avatar,
-  useTheme,
-  styled,
-} from "@mui/material";
+import { Box, Typography, Card, CardHeader, Divider, Avatar, useTheme, styled } from '@mui/material';
 
-import ShoppingBagTwoToneIcon from "@mui/icons-material/ShoppingBagTwoTone";
-import FavoriteTwoToneIcon from "@mui/icons-material/FavoriteTwoTone";
-import StarTwoToneIcon from "@mui/icons-material/StarTwoTone";
+import ShoppingBagTwoToneIcon from '@mui/icons-material/ShoppingBagTwoTone';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
+import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
@@ -19,7 +10,7 @@ const AvatarPrimary = styled(Avatar)(
       color: ${theme.colors?.primary.main};
       width: ${theme.spacing(7)};
       height: ${theme.spacing(7)};
-`
+`,
 );
 
 function RecentActivity() {
@@ -38,21 +29,13 @@ function RecentActivity() {
 
           <Box pt={2} display="flex">
             <Box pr={8}>
-              <Typography
-                gutterBottom
-                variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
-              >
+              <Typography gutterBottom variant="caption" sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}>
                 Total
               </Typography>
               <Typography variant="h2">485</Typography>
             </Box>
             <Box>
-              <Typography
-                gutterBottom
-                variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
-              >
+              <Typography gutterBottom variant="caption" sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}>
                 Active
               </Typography>
               <Typography variant="h2">8</Typography>
@@ -70,21 +53,13 @@ function RecentActivity() {
 
           <Box pt={2} display="flex">
             <Box pr={8}>
-              <Typography
-                gutterBottom
-                variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
-              >
+              <Typography gutterBottom variant="caption" sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}>
                 Total
               </Typography>
               <Typography variant="h2">64</Typography>
             </Box>
             <Box>
-              <Typography
-                gutterBottom
-                variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
-              >
+              <Typography gutterBottom variant="caption" sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}>
                 Active
               </Typography>
               <Typography variant="h2">15</Typography>
@@ -102,21 +77,13 @@ function RecentActivity() {
 
           <Box pt={2} display="flex">
             <Box pr={8}>
-              <Typography
-                gutterBottom
-                variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
-              >
+              <Typography gutterBottom variant="caption" sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}>
                 Total
               </Typography>
               <Typography variant="h2">654</Typography>
             </Box>
             <Box>
-              <Typography
-                gutterBottom
-                variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
-              >
+              <Typography gutterBottom variant="caption" sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}>
                 Failed
               </Typography>
               <Typography variant="h2">21</Typography>

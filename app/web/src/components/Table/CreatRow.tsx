@@ -15,11 +15,7 @@ function CreatRow<T extends MRT_RowData>({ table, row, internalEditComponents }:
         {internalEditComponents} {/* or render custom edit components here */}
       </DialogContent>
       <DialogActions>
-        <MRT_EditActionButtons
-          variant="text"
-          table={table as MRT_TableInstance<MRT_RowData>}
-          row={row as MRT_Row<MRT_RowData>}
-        />
+        <MRT_EditActionButtons variant="text" table={table as MRT_TableInstance<MRT_RowData>} row={row as MRT_Row<MRT_RowData>} />
       </DialogActions>
     </>
   );

@@ -25,9 +25,7 @@ const InterviewScheduler: React.FC = () => {
   const editableApplicant = id && state.filter((item) => item.id === id && item.rolestatus === STATUS_PENDING);
   const applicants = state.filter((item) => item.rolestatus === STATUS_PENDING);
   const interviewers =
-    state?.filter(
-      (item) => item.rolestatus === 'Accepted' || item.rolestatus === 'InHouse' || item.rolestatus === 'External',
-    ) || [];
+    state?.filter((item) => item.rolestatus === 'Accepted' || item.rolestatus === 'InHouse' || item.rolestatus === 'External') || [];
 
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
@@ -95,15 +93,11 @@ const InterviewScheduler: React.FC = () => {
     const { candidate, guests, ...rest } = values;
     const trimedCandidate = candidate.trim().toLowerCase();
 
-    const candidateInfo = state.find(
-      (candidate) => `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() === trimedCandidate,
-    );
+    const candidateInfo = state.find((candidate) => `${candidate.firstName} ${candidate.lastName}`.trim().toLowerCase() === trimedCandidate);
     const escapedPattern = '\\s';
     const regex = new RegExp(escapedPattern, 'g');
     const mappedGuests = guests.map((guest) => guest.trim().replace(regex, '').toLowerCase());
-    const guestsInfo = state.filter((guest) =>
-      mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()),
-    );
+    const guestsInfo = state.filter((guest) => mappedGuests.includes(`${guest.firstName}${guest.lastName}`.trim().replace(regex, '').toLowerCase()));
     if (!candidateInfo?.id || !guestsInfo.length) {
       toast.warning('A candidate or a guest(s) is required to schedule an event', {
         position: 'bottom-center',

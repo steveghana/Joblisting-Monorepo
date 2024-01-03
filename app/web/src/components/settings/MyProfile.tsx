@@ -140,11 +140,7 @@ export default function MyProfile({ user }: { user: IUser }) {
                     </Avatar> */}
                     <AvatarWrapper>
                       {/* <Avatar variant="rounded" alt={user.firstName} src={user.avatar} /> */}
-                      <Avatar
-                        variant="rounded"
-                        sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }}
-                        src={user.avatar}
-                      >
+                      <Avatar variant="rounded" sx={{ backgroundColor: getRandomColor(), color: 'white', fontSize: '.85rem' }} src={user.avatar}>
                         {' '}
                         {!user.avatar ? (
                           `${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`
@@ -327,12 +323,7 @@ export default function MyProfile({ user }: { user: IUser }) {
                 </Stack>
               </SubCard>
               <Box display={'flex'} justifyContent={'center'} gap={1}>
-                <CustomButton
-                  size="small"
-                  disabled={isLoading || isSubmitting}
-                  loading={isLoading || isSubmitting}
-                  variant="outlined"
-                >
+                <CustomButton size="small" disabled={isLoading || isSubmitting} loading={isLoading || isSubmitting} variant="outlined">
                   Cancel
                 </CustomButton>
                 <CustomButton

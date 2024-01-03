@@ -1,20 +1,8 @@
-import { DeleteTwoTone } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Tooltip,
-  useTheme,
-} from "@mui/material";
-import { useState, MouseEvent, ChangeEvent } from "react";
+import { DeleteTwoTone } from '@mui/icons-material';
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip, useTheme } from '@mui/material';
+import { useState, MouseEvent, ChangeEvent } from 'react';
 
-import { format, subHours, subWeeks, subDays } from "date-fns";
+import { format, subHours, subWeeks, subDays } from 'date-fns';
 
 const CustomTable = ({ data }: { data: Record<string, any>[] }) => {
   const theme = useTheme();
@@ -22,16 +10,11 @@ const CustomTable = ({ data }: { data: Record<string, any>[] }) => {
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (
-    event: MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
+  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -55,14 +38,12 @@ const CustomTable = ({ data }: { data: Record<string, any>[] }) => {
                 <TableCell>{log.browser}</TableCell>
                 <TableCell>{log.ipaddress}</TableCell>
                 <TableCell>{log.location}</TableCell>
-                <TableCell>
-                  {format(log.date, "dd MMMM, yyyy - h:mm:ss a")}
-                </TableCell>
+                <TableCell>{format(log.date, 'dd MMMM, yyyy - h:mm:ss a')}</TableCell>
                 <TableCell align="right">
                   <Tooltip placement="top" title="Delete" arrow>
                     <IconButton
                       sx={{
-                        "&:hover": {
+                        '&:hover': {
                           background: theme.colors?.error.lighter,
                         },
                         color: theme.palette.error.main,

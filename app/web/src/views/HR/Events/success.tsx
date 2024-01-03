@@ -1,12 +1,12 @@
-import React from "react";
-import { CircularProgress } from "@mui/material";
-import { styled } from "@mui/system";
+import React from 'react';
+import { CircularProgress } from '@mui/material';
+import { styled } from '@mui/system';
 
-const SpinnerContainer = styled("div")({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  height: "100vh",
+const SpinnerContainer = styled('div')({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
 });
 
 const SuccessPage: React.FC = () => {

@@ -25,17 +25,7 @@ import VideoCallIcon from '@mui/icons-material/VideoCall';
 import LockIcon from '@mui/icons-material/Lock';
 import LinkIcon from '@mui/icons-material/Link';
 import PersonIcon from '@mui/icons-material/Person';
-import {
-  Close,
-  Delete,
-  DeleteTwoTone,
-  Edit,
-  EditCalendar,
-  EditTwoTone,
-  ExpandMore,
-  Mail,
-  VerifiedUserTwoTone,
-} from '@mui/icons-material';
+import { Close, Delete, DeleteTwoTone, Edit, EditCalendar, EditTwoTone, ExpandMore, Mail, VerifiedUserTwoTone } from '@mui/icons-material';
 import { IconUsers } from '@tabler/icons-react';
 import ComposeEmail from '.';
 import { getRandomColor } from '@/utils/generateRandomColors';
@@ -83,11 +73,7 @@ const EventDrawer: React.FC<EventDrawerProps> = ({ event, onClose, onEdit, onDel
         position: 'relative',
       }}
     >
-      <ComposeEmail
-        reciepients={event.guests}
-        open={dialogOpen}
-        setDialogOpen={() => setDialogOpen(false)} /* event={event} */
-      />
+      <ComposeEmail reciepients={event.guests} open={dialogOpen} setDialogOpen={() => setDialogOpen(false)} /* event={event} */ />
       <Box sx={{ background: 'white', zIndex: 2, width: '100%' }} position={'absolute'}>
         <Card variant="outlined" sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', gap: 1.5 }}>
           <Tooltip title="Edit">

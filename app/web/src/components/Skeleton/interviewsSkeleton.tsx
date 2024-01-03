@@ -49,16 +49,12 @@ const EventSchedulerSkeletonLoader = () => {
               <Grid container spacing={2}>
                 <Grid item xs={6} mb={2}>
                   <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
-                    Candidate: <Skeleton variant="circular" width={23} height={23} />{' '}
-                    <Skeleton variant="text" animation="wave" />
+                    Candidate: <Skeleton variant="circular" width={23} height={23} /> <Skeleton variant="text" animation="wave" />
                   </Typography>
                   <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
-                    Interviewer: <Skeleton variant="circular" width={23} height={23} />{' '}
-                    <Skeleton variant="text" animation="wave" />
+                    Interviewer: <Skeleton variant="circular" width={23} height={23} /> <Skeleton variant="text" animation="wave" />
                   </Typography>
-                  <Typography variant="subtitle1">
-                    {/* Date: <Skeleton variant="text" animation="wave" /> */}
-                  </Typography>
+                  <Typography variant="subtitle1">{/* Date: <Skeleton variant="text" animation="wave" /> */}</Typography>
                   <Typography variant="subtitle1" display={'flex'} alignItems={'center'} gap={1}>
                     Time: <Skeleton variant="text" animation="wave" />
                   </Typography>

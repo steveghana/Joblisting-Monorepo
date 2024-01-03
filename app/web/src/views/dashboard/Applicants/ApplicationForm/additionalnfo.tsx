@@ -1,7 +1,7 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import { TextField, Button, Box, Typography } from "@mui/material";
-import CustomButton from "../../../../components/button";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import { TextField, Button, Box, Typography } from '@mui/material';
+import CustomButton from '../../../../components/button';
 
 interface AdditionalInfoData {
   coverLetter: string;
@@ -12,38 +12,21 @@ interface AdditionalInfoFormProps {
   onBack: () => void;
 }
 
-const AdditionalInfoForm: React.FC<AdditionalInfoFormProps> = ({
-  onSubmit,
-  onBack,
-}) => {
+const AdditionalInfoForm: React.FC<AdditionalInfoFormProps> = ({ onSubmit, onBack }) => {
   return (
     <>
       <Typography variant="h4">Cover Letter</Typography>
 
       <Formik
-        initialValues={{ coverLetter: "" }}
+        initialValues={{ coverLetter: '' }}
         onSubmit={(values) => {
           onSubmit(values.coverLetter);
         }}
       >
         {() => (
           <Form>
-            <Field
-              name="coverLetter"
-              as={TextField}
-              label="Cover Letter"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              multiline
-              rows={8}
-            />
-            <Box
-              width={"100%"}
-              gap={1}
-              display={"flex"}
-              justifyContent={"center"}
-            >
+            <Field name="coverLetter" as={TextField} label="Cover Letter" variant="outlined" fullWidth margin="normal" multiline rows={8} />
+            <Box width={'100%'} gap={1} display={'flex'} justifyContent={'center'}>
               <CustomButton
                 variant="outlined"
                 onClick={onBack}

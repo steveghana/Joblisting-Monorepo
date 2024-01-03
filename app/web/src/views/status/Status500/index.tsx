@@ -12,7 +12,7 @@ import AuthFooter from '../../../components/AuthFooter';
 const GridWrapper = styled(Grid)(
   ({ theme }) => `
     background: ${theme.colors?.gradients.black1};
-`
+`,
 );
 
 const MainContent = styled(Box)(
@@ -24,7 +24,7 @@ const MainContent = styled(Box)(
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`
+`,
 );
 const StatusImage = styled('img')({
   height: 260,
@@ -78,4 +78,3 @@ function Status500() {
 }
 
 export default Status500;
-

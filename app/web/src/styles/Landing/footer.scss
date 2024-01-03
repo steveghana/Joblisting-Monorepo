@@ -1,4 +1,4 @@
-@import "../mixins";
+@import '../mixins';
 .custom-footer {
   &__container {
     width: 100%;
@@ -10,7 +10,7 @@
       flex-wrap: wrap;
     }
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0%;
       bottom: 0%;

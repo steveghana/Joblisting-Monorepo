@@ -46,9 +46,7 @@ const TopToolbar: React.FC<TopToolbarProps> = ({ table, refresh, takeBulkAction,
       >
         <Box>
           <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-            {(table.getIsSomeRowsSelected() ||
-              table.getIsSomePageRowsSelected() ||
-              table.getIsAllPageRowsSelected()) && (
+            {(table.getIsSomeRowsSelected() || table.getIsSomePageRowsSelected() || table.getIsAllPageRowsSelected()) && (
               <Box display={'flex'} gap={1} alignItems={'center'}>
                 <Typography variant="overline" fontWeight={700}>
                   Bulk delete

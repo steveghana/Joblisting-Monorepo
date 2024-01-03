@@ -1,18 +1,8 @@
-import {
-  Box,
-  Card,
-  Typography,
-  Container,
-  Divider,
-  Button,
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
-} from "@mui/material";
+import { Box, Card, Typography, Container, Divider, Button, FormControl, OutlinedInput, InputAdornment } from '@mui/material';
 // import { Helmet } from "react-helmet-async";
-import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
-import status404 from "../../../assets/status/404.svg";
-import { styled } from "@mui/material/styles";
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import status404 from '../../../assets/status/404.svg';
+import { styled } from '@mui/material/styles';
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -23,19 +13,19 @@ const MainContent = styled(Box)(
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`
+`,
 );
 
 const OutlinedInputWrapper = styled(OutlinedInput)(
   ({ theme }) => `
     background-color: ${theme.colors?.alpha?.white[100]};
-`
+`,
 );
 
 const ButtonSearch = styled(Button)(
   ({ theme }) => `
     margin-right: -${theme.spacing(1)};
-`
+`,
 );
 
 function Status404() {
@@ -44,25 +34,19 @@ function Status404() {
       {/* <Helmet>
         <title>Status - 404</title>
       </Helmet> */}
-      <MainContent sx={{ height: "100vh" }}>
+      <MainContent sx={{ height: '100vh' }}>
         <Container maxWidth="xl">
           <Box textAlign="center">
             <img alt="404" height={180} src={status404} />
             <Typography variant="h2" sx={{ my: 2 }}>
               The page you were looking for doesn't exist.
             </Typography>
-            <Typography
-              variant="h4"
-              color="text.secondary"
-              fontWeight="normal"
-              sx={{ mb: 4 }}
-            >
-              It's on us, we moved the content to a different page. The search
-              below should help!
+            <Typography variant="h4" color="text.secondary" fontWeight="normal" sx={{ mb: 4 }}>
+              It's on us, we moved the content to a different page. The search below should help!
             </Typography>
           </Box>
           <Container maxWidth="sm">
-            <Card sx={{ textAlign: "center", mt: 3, p: 4 }}>
+            <Card sx={{ textAlign: 'center', mt: 3, p: 4 }}>
               <FormControl variant="outlined" fullWidth>
                 <OutlinedInputWrapper
                   type="text"

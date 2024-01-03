@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
 import { ClientFormDataAction, ClientFormDataContextProps, ClientFormDataState } from '../types/client';
 
-
 const initialState: ClientFormDataState = {
   ['Client Info']: {
     name: '',

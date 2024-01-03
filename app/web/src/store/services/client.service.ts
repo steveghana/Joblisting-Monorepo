@@ -84,8 +84,7 @@ export const clientApi = createApi({
         url: 'client',
         method: 'GET',
       }),
-      providesTags: (result) =>
-        result ? [...result.map(({ id }) => ({ type: 'client' as const, id })), 'client'] : ['client'],
+      providesTags: (result) => (result ? [...result.map(({ id }) => ({ type: 'client' as const, id })), 'client'] : ['client']),
 
       transformErrorResponse: (response: any) => {
         const {
@@ -99,10 +98,4 @@ export const clientApi = createApi({
   }),
 });
 
-export const {
-  useUpdateClientMutation,
-  useAddClientMutation,
-  useDeletClientMutation,
-  useGetClientsQuery,
-  useGetClientQuery,
-} = clientApi;
+export const { useUpdateClientMutation, useAddClientMutation, useDeletClientMutation, useGetClientsQuery, useGetClientQuery } = clientApi;

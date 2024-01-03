@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   AppBar,
   Toolbar,
@@ -12,9 +12,9 @@ import {
   TextareaAutosize,
   Grid,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 
-import "./NotifyBeforePage.css"; // Make sure to import your CSS file
+import './NotifyBeforePage.css'; // Make sure to import your CSS file
 
 const NotifyBeforePage: React.FC = () => {
   return (
@@ -39,11 +39,7 @@ const NotifyBeforePage: React.FC = () => {
           </div>
           <div id="Logout">
             <div className="namecircle">
-              <img
-                style={{ width: "22px", filter: "invert()" }}
-                src="Images/logout.svg"
-                alt=""
-              />
+              <img style={{ width: '22px', filter: 'invert()' }} src="Images/logout.svg" alt="" />
             </div>
             <a href="Dashboard.html" id="UserShow3">
               Account
@@ -88,12 +84,7 @@ const NotifyBeforePage: React.FC = () => {
                 <div id="WFnameAndSelectDiv" className="flex">
                   <div>
                     <label>Workflow name</label> <br />
-                    <TextField
-                      type="text"
-                      value="Email reminder to host"
-                      id="name"
-                      variant="outlined"
-                    />
+                    <TextField type="text" value="Email reminder to host" id="name" variant="outlined" />
                   </div>
                   <div>
                     <label>Which event types will this apply to?</label>
@@ -120,26 +111,18 @@ const NotifyBeforePage: React.FC = () => {
                     required
                     variant="outlined"
                   />
-                  <Select
-                    label="Select unit"
-                    id="beforeTimeUnit"
-                    required
-                    variant="outlined"
-                  >
+                  <Select label="Select unit" id="beforeTimeUnit" required variant="outlined">
                     <MenuItem value="min">minutes</MenuItem>
                     <MenuItem value="hour">hour</MenuItem>
                   </Select>
                   <label>: before event starts</label>
                 </div>
 
-                <h2 style={{ marginTop: "30px" }}>Edit: Email to host</h2>
+                <h2 style={{ marginTop: '30px' }}>Edit: Email to host</h2>
 
                 <div id="subject">
                   <label>Subject</label> <br />
-                  <TextareaAutosize
-                    id="subjectText"
-                    placeholder="Reminder: {{event_name}} is at {{event_time}} on {{event_date}}"
-                  />
+                  <TextareaAutosize id="subjectText" placeholder="Reminder: {{event_name}} is at {{event_time}} on {{event_date}}" />
                 </div>
 
                 <div id="body">
@@ -152,12 +135,7 @@ const NotifyBeforePage: React.FC = () => {
                 </div>
 
                 <div id="saveBtnDiv">
-                  <Button
-                    id="saveBtn"
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                  >
+                  <Button id="saveBtn" type="submit" variant="contained" color="primary">
                     Save
                   </Button>
                 </div>

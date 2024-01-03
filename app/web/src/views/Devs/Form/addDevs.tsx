@@ -3,18 +3,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import {
-  TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  Stack,
-  Box,
-  Autocomplete,
-  FormHelperText,
-  Chip,
-} from '@mui/material';
+import { TextField, MenuItem, FormControl, InputLabel, Select, Stack, Box, Autocomplete, FormHelperText, Chip } from '@mui/material';
 import CustomButton from '@/components/button';
 import { availableSkills } from '@/lib/data/skills';
 import { techRoles } from '@/lib/data/jobs';
@@ -87,15 +76,7 @@ const CreateDeveloperForm = ({ onClose }: { onClose: () => void }) => {
       {({ values, errors, touched, handleSubmit, isSubmitting, setFieldValue }) => (
         <Form>
           <Box sx={{ p: 1.5 }}>
-            <Field
-              id="firstName"
-              name="firstName"
-              label="First Name"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              as={TextField}
-            />
+            <Field id="firstName" name="firstName" label="First Name" variant="outlined" fullWidth margin="normal" as={TextField} />
             <ErrorMessage name="firstName" component="div">
               {(msg) => (
                 <FormHelperText error variant="filled">
@@ -104,15 +85,7 @@ const CreateDeveloperForm = ({ onClose }: { onClose: () => void }) => {
               )}
             </ErrorMessage>
 
-            <Field
-              id="lastName"
-              name="lastName"
-              label="Last Name"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              as={TextField}
-            />
+            <Field id="lastName" name="lastName" label="Last Name" variant="outlined" fullWidth margin="normal" as={TextField} />
             <ErrorMessage name="lastName" component="div">
               {(msg) => (
                 <FormHelperText error variant="filled">
@@ -121,15 +94,7 @@ const CreateDeveloperForm = ({ onClose }: { onClose: () => void }) => {
               )}
             </ErrorMessage>
 
-            <Field
-              id="address"
-              name="address"
-              label="Address"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              as={TextField}
-            />
+            <Field id="address" name="address" label="Address" variant="outlined" fullWidth margin="normal" as={TextField} />
             <ErrorMessage name="address" component="div">
               {(msg) => (
                 <FormHelperText error variant="filled">
@@ -175,15 +140,7 @@ const CreateDeveloperForm = ({ onClose }: { onClose: () => void }) => {
               </ErrorMessage>
             </FormControl>
 
-            <Field
-              id="phone_number"
-              name="phone_number"
-              label="Phone Number"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              as={TextField}
-            />
+            <Field id="phone_number" name="phone_number" label="Phone Number" variant="outlined" fullWidth margin="normal" as={TextField} />
             <ErrorMessage name="phone_number" component="div">
               {(msg) => (
                 <FormHelperText error variant="filled">
@@ -201,12 +158,8 @@ const CreateDeveloperForm = ({ onClose }: { onClose: () => void }) => {
                 onChange={(_, newValue) => {
                   setFieldValue('skills', newValue.slice(0, 10)); // Limit to 10 skills
                 }}
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => <Chip label={option} {...getTagProps({ index })} />)
-                }
-                renderInput={(params) => (
-                  <TextField {...params} name="skills" label="Select Skills" variant="outlined" fullWidth />
-                )}
+                renderTags={(value, getTagProps) => value.map((option, index) => <Chip label={option} {...getTagProps({ index })} />)}
+                renderInput={(params) => <TextField {...params} name="skills" label="Select Skills" variant="outlined" fullWidth />}
               />
               <ErrorMessage name="skills" component="div">
                 {(msg) => (

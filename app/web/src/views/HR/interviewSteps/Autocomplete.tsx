@@ -13,10 +13,7 @@ const GroupHeader = styled('div')(({ theme }) => ({
   top: '-8px',
   padding: '4px 10px',
   color: theme.palette.primary.main,
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? lighten(theme.palette.primary.light, 0.85)
-      : darken(theme.palette.primary.main, 0.8),
+  backgroundColor: theme.palette.mode === 'light' ? lighten(theme.palette.primary.light, 0.85) : darken(theme.palette.primary.main, 0.8),
 }));
 
 const GroupItems = styled('ul')({
@@ -65,9 +62,7 @@ export default function RenderGroup({ label, data, ...props }: IGroup) {
         loading={loading}
         freeSolo
         renderTags={(value: string[], getTagProps) =>
-          value.map((option: string, index: number) => (
-            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-          ))
+          value.map((option: string, index: number) => <Chip variant="outlined" label={option} {...getTagProps({ index })} />)
         }
         renderInput={(params) => <TextField {...params} label={label} placeholder="Search" />}
       />

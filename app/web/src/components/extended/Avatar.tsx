@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 // material-ui
-import { useTheme } from "@mui/material/styles";
-import MuiAvatar from "@mui/material/Avatar";
+import { useTheme } from '@mui/material/styles';
+import MuiAvatar from '@mui/material/Avatar';
 
 // ==============================|| AVATAR ||============================== //
 interface IAvatar {
@@ -28,42 +28,42 @@ const Avatar: React.FC<IAvatar> = ({ color, outline, size, sx, ...others }) => {
   const outlineSX = outline && {
     color: color ? `${color}.main` : `primary.main`,
     bgcolor: theme.palette.background.paper,
-    border: "2px solid",
+    border: '2px solid',
     borderColor: color ? `${color}.main` : `primary.main`,
   };
   let sizeSX = {};
   switch (size) {
-    case "badge":
+    case 'badge':
       sizeSX = {
         width: theme.spacing(3.5),
         height: theme.spacing(3.5),
       };
       break;
-    case "xs":
+    case 'xs':
       sizeSX = {
         width: theme.spacing(4.25),
         height: theme.spacing(4.25),
       };
       break;
-    case "sm":
+    case 'sm':
       sizeSX = {
         width: theme.spacing(5),
         height: theme.spacing(5),
       };
       break;
-    case "lg":
+    case 'lg':
       sizeSX = {
         width: theme.spacing(9),
         height: theme.spacing(9),
       };
       break;
-    case "xl":
+    case 'xl':
       sizeSX = {
         width: theme.spacing(10.25),
         height: theme.spacing(10.25),
       };
       break;
-    case "md":
+    case 'md':
       sizeSX = {
         width: theme.spacing(7.5),
         height: theme.spacing(7.5),
@@ -73,12 +73,7 @@ const Avatar: React.FC<IAvatar> = ({ color, outline, size, sx, ...others }) => {
       sizeSX = {};
   }
 
-  return (
-    <MuiAvatar
-      sx={{ ...colorSX, ...outlineSX, ...sizeSX, ...sx }}
-      {...others}
-    />
-  );
+  return <MuiAvatar sx={{ ...colorSX, ...outlineSX, ...sizeSX, ...sx }} {...others} />;
 };
 
 export default Avatar;

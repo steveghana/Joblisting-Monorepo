@@ -39,12 +39,7 @@ const Login = () => {
             </Grid>
             <Grid container spacing={2} alignItems="center" justifyContent="center">
               <Grid>
-                <Grid
-                  container
-                  direction={matchDownSM ? 'column-reverse' : 'row'}
-                  alignItems="center"
-                  justifyContent="center"
-                >
+                <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">
                   <Grid item>
                     <Stack alignItems="center" justifyContent="center">
                       <Typography color={theme.palette.primary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
@@ -65,12 +60,7 @@ const Login = () => {
               </Grid>
               <Grid item xs={12}>
                 <Grid item container direction="column" alignItems="center" xs={12}>
-                  <Typography
-                    component={Link}
-                    to="/auth/register"
-                    variant="subtitle1"
-                    sx={{ textDecoration: 'none', display: 'flex', gap: 1 }}
-                  >
+                  <Typography component={Link} to="/auth/register" variant="subtitle1" sx={{ textDecoration: 'none', display: 'flex', gap: 1 }}>
                     Don&apos;t have an account?{' '}
                     <Typography variant="subtitle1" color={themePalette.primary.main}>
                       Sign up

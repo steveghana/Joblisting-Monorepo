@@ -1,16 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  ButtonBase,
-  Card,
-  Chip,
-  Divider,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Avatar, Box, Button, ButtonBase, Card, Chip, Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import SubCard from '../../../../components/SubCard';
 import { IClient } from '../../../../types/client';
 

@@ -1,11 +1,11 @@
-import { FC, ReactNode } from "react";
-import PropTypes from "prop-types";
-import { Box, Container, styled } from "@mui/material";
+import { FC, ReactNode } from 'react';
+import PropTypes from 'prop-types';
+import { Box, Container, styled } from '@mui/material';
 
 const PageTitle = styled(Box)(
   ({ theme }) => `
         padding: ${theme.spacing(4)};
-`
+`,
 );
 
 interface PageTitleWrapperProps {

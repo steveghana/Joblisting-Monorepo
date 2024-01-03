@@ -32,11 +32,7 @@ const CustomDrawer = (props: ICustomDrawer) => {
 
   return (
     <>
-      <Drawer
-        anchor={'right'}
-        open={props.openDrawer['right']}
-        onClose={() => props.setOpenDrawer({ ...props.openDrawer, ['right']: false })}
-      >
+      <Drawer anchor={'right'} open={props.openDrawer['right']} onClose={() => props.setOpenDrawer({ ...props.openDrawer, ['right']: false })}>
         <Box
           sx={{
             borderRadius: '35px 35px 0 0',

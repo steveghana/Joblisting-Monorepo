@@ -13,4 +13,3 @@ export const DEV_API_KEY = 'DevApi';
 const SET_DEVS = 'SET_DEVS';
 const SET_DEV = 'SET_DEV';
 export const INTERVEW_API_KEY = 'interviewApi';
-

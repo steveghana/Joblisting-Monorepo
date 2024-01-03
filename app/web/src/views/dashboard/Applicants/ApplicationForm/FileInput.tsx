@@ -1,18 +1,9 @@
-import React, { useState, useRef } from "react";
-import {
-  Button,
-  Typography,
-  Box,
-  styled,
-  Grid,
-  InputProps,
-} from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import { themePalette } from "../../../../themes/schemes/palette";
-import { Close } from "@mui/icons-material";
+import React, { useState, useRef } from 'react';
+import { Button, Typography, Box, styled, Grid, InputProps } from '@mui/material';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { themePalette } from '../../../../themes/schemes/palette';
+import { Close } from '@mui/icons-material';
 
 interface Props extends InputProps {
   onFileSelect: (file: File | null) => void;
@@ -57,39 +48,35 @@ const StylishFileInput = ({ onFileSelect, labelText, ...rest }: Props) => {
       {selectedFile?.name && (
         <Box
           my={1}
-          alignItems={"center"}
+          alignItems={'center'}
           borderRadius={4}
           // p={1}
-          border={"2px solid rgba(0, 0, 0, 0.1)"}
-          display={"flex"}
+          border={'2px solid rgba(0, 0, 0, 0.1)'}
+          display={'flex'}
           // flexWrap={"wrap"}
           gap={2}
-          width={"100%"}
+          width={'100%'}
           // flexWrap={"wrap"}
         >
           <Box
-            display={"flex"}
+            display={'flex'}
             p={2}
             sx={{
               background: themePalette.primary.main,
-              height: "100%",
+              height: '100%',
               borderBottomLeftRadius: 7,
               borderTopLeftRadius: 7,
             }}
           >
-            <Box sx={{ height: "100%" }} /* width={"20%"} */>
-              <Typography color={"white"}>
-                {selectedFile?.type?.split("/")[1].toUpperCase()}
-              </Typography>
+            <Box sx={{ height: '100%' }} /* width={"20%"} */>
+              <Typography color={'white'}>{selectedFile?.type?.split('/')[1].toUpperCase()}</Typography>
             </Box>
           </Box>
           <Box>
             <Typography>{selectedFile?.name}</Typography>
-            <Typography>
-              Last used on {new Date().toLocaleDateString()}
-            </Typography>
+            <Typography>Last used on {new Date().toLocaleDateString()}</Typography>
           </Box>
-          <Box ml={"auto"} px={2}>
+          <Box ml={'auto'} px={2}>
             <Close fontSize="medium" onClick={() => setSelectedFile(null)} />
           </Box>
         </Box>
@@ -98,32 +85,21 @@ const StylishFileInput = ({ onFileSelect, labelText, ...rest }: Props) => {
       <Button
         color="error"
         variant="contained"
-        sx={{ mt: 1, mb: 2, borderRadius: "10px", minWidth: "200px" }}
+        sx={{ mt: 1, mb: 2, borderRadius: '10px', minWidth: '200px' }}
         startIcon={<AttachFileIcon />}
         onClick={handleUploadButtonClick}
       >
         Upload file
       </Button>
-      <input
-        name={rest.name}
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf, .doc, .docx"
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
+      <input name={rest.name} ref={fileInputRef} type="file" accept=".pdf, .doc, .docx" style={{ display: 'none' }} onChange={handleFileChange} />
       <Box>
         <small>Files Supported: PDF, TEXT, DOC, DOCX</small>
       </Box>
       {selectedFile && (
         <Box mt={2}>
-          <LinearProgress
-            sx={{ height: 10, borderRadius: 5 }}
-            variant="determinate"
-            value={uploadProgress}
-          />
+          <LinearProgress sx={{ height: 10, borderRadius: 5 }} variant="determinate" value={uploadProgress} />
           <Typography variant="body2" color="textSecondary">
-            {uploadProgress < 100 ? "Uploading..." : "Upload complete"}
+            {uploadProgress < 100 ? 'Uploading...' : 'Upload complete'}
           </Typography>
         </Box>
       )}

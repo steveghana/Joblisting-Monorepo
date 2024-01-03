@@ -32,10 +32,7 @@ export const appliacantState = [
   'Rejected',
   // "Accepted",
 ];
-const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[]; actionFn: () => void }> = ({
-  applicants,
-  actionFn,
-}) => {
+const ApplicantTable: React.FC<{ applicants: ApplicantsSubmission[]; actionFn: () => void }> = ({ applicants, actionFn }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
   const dispatch = useTypedDispatch();
