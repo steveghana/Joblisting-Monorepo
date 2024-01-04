@@ -1,6 +1,6 @@
 # ViteRC ❤️‍🔥
 
-A modern minimal Vite + React + TypeScript template with pre-configured ESLint (with Airbnb JS/React rules), Prettier, Testing with Jest and Git hooks with Husky out of the box 📦
+A modern minimal Vite + React + TypeScript template with pre-configured ESLint (with Airbnb JS/React rules), Prettier, Testing with Jest and Git hooks with Husky 📦
 
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -25,10 +25,6 @@ A modern minimal Vite + React + TypeScript template with pre-configured ESLint (
 - ⌨️ Absolute Imports
 - 📑 [Commitlint](https://commitlint.js.org/) - Linting your commits based on commit convention
 
-## Why
-
-This template arose out of a need to unite all the above libraries, which were not found in the existing Vite templates. This template has an active contributors that will update everything on this template as needed
-
 ## Usage
 
 ```bash
@@ -48,17 +44,17 @@ yarn dev
 
 <p>In this project, you can run the following scripts:</p>
 
-| Script        | Description                                                                 |
-| ------------- | --------------------------------------------------------------------------- |
-| yarn dev      | Runs the app in the development mode.                                       |
-| yarn build    | Builds the app for production to the `dist` folder.                         |
-| yarn preview  | Builds the app for production to the `dist` folder, and run locally server. |
-| yarn lint     | Runs the Eslint and show code problems                                      |
-| yarn lint:fix | Runs the Eslint and fix the code problems                                   |
-| yarn format   | Runs the Prettier and fix code style                                        |
-| yarn compile  | Runs the TS Compiling                                                       |
-| yarn test     | Run the app tests.                                                          |
-| yarn commit   | Open the CZ CLI to create a message to your commit.                         |
+| Script       | Description                                                                 |
+| ------------ | --------------------------------------------------------------------------- |
+| npm dev      | Runs the app in the development mode.                                       |
+| npm build    | Builds the app for production to the `dist` folder.                         |
+| npm preview  | Builds the app for production to the `dist` folder, and run locally server. |
+| npm lint     | Runs the Eslint and show code problems                                      |
+| npm lint:fix | Runs the Eslint and fix the code problems                                   |
+| npm format   | Runs the Prettier and fix code style                                        |
+| npm compile  | Runs the TS Compiling                                                       |
+| npm test     | Run the app tests.                                                          |
+| npm commit   | Open the CZ CLI to create a message to your commit.                         |
 
 ## TODO
 
