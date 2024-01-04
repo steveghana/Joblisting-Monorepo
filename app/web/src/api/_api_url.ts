@@ -21,13 +21,6 @@ function getApiUrl(): string {
   return apiUrl;
 }
 
-function getApiWsUrl(): string {
-  const protocol = shouldUseHttps() ? 'wss' : 'ws';
-  const portPart = isProduction ? '' : `:${config.restApiPort}`;
-  return protocol + '://' + getHost() + portPart;
-}
-
 export default {
   getApiUrl,
-  getApiWsUrl,
 };
