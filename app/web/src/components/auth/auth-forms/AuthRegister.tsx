@@ -67,7 +67,7 @@ const AuthRegister = ({ ...others }) => {
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState<{ label: string; color: any }>();
   const [regAvailable, setRegAvailable] = useState<boolean>(false);
-  const [registerUser, { isError, error }] = useRegisterUserMutation();
+  const [registerUser, { isError, error, isLoading }] = useRegisterUserMutation();
   const [registerWithGoogle, { isLoading: isWithGoogleLoading, isError: isWithGoogleErr }] = useRegisterUserWithGoogleMutation();
   const router = useNavigate();
 
@@ -171,7 +171,6 @@ const AuthRegister = ({ ...others }) => {
   useEffect(() => {
     changePassword('123456');
   }, []);
-
   return (
     <>
       {!regAvailable ||
@@ -359,8 +358,9 @@ const AuthRegister = ({ ...others }) => {
               <AnimateButton>
                 <Button
                   aria-label={`login button`}
-                  disabled={isWithGoogleLoading}
                   onClick={() => loginAuth()}
+                  disabled={isSubmitting || isLoading || isWithGoogleLoading}
+
                   // disabled={renderProps.disabled}
                 >
                   {React.createElement(Social['Google'].icon)}
@@ -371,7 +371,12 @@ const AuthRegister = ({ ...others }) => {
                   if (typeof handler !== 'function' || !Social[key] || !Social[key].icon) return null;
                   return (
                     <AnimateButton key={i}>
-                      <Button key={key} aria-label={`${key} login button`} onClick={handler} disabled={isWithGoogleLoading}>
+                      <Button
+                        key={key}
+                        aria-label={`${key} login button`}
+                        onClick={handler}
+                        disabled={isSubmitting || isLoading || isWithGoogleLoading}
+                      >
                         {React.createElement(Social[key].icon)}
                       </Button>
                     </AnimateButton>
@@ -409,7 +414,8 @@ const AuthRegister = ({ ...others }) => {
               <AnimateButton>
                 <CustomButton
                   disableElevation
-                  disabled={isSubmitting || isWithGoogleLoading}
+                  disabled={isSubmitting || isLoading || isWithGoogleLoading || level?.label === 'Weak' || level?.label === 'Poor'}
+                  loading={isSubmitting || isLoading || isWithGoogleLoading}
                   fullWidth
                   size="large"
                   variant="contained"

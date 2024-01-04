@@ -3,15 +3,15 @@ import { createRoles, createJobs } from '../roles/DBQueries'; // import your Rol
 import { useTransaction } from '../../Config/transaction';
 import { generateClientData } from './client.Fake';
 import { generateRoleData } from './roles.fake'; // import your Role data generation function
-import { generateJobData } from './job.Fake'; // import your Job data generation function
+import { generateJobData } from './job.fake'; // import your Job data generation function
 import { generateApplicantData } from './applicants.fake';
 import { createApplication } from '../applications/DBQueries';
 import { createRoleLink } from '../Shorturl/service/util';
 
-export async function generateAndPersistData() {
+export async function generateFakeDataAndPersist() {
   return useTransaction(async (transaction) => {
     // generate client data
-    const clients = Array.from({ length: 11 }, generateClientData);
+    const clients = Array.from({ length: 18 }, generateClientData);
     const savedClients = [];
     for (const client of clients) {
       const [savedClient, created] = await findElseCreateClient(
@@ -50,7 +50,7 @@ export async function generateAndPersistData() {
       console.log(jobs, 'jobs map .......................');
       if (jobs) {
         const applications = Array.from(
-          { length: 2 },
+          { length: 1 },
           () => generateApplicantData(jobs), // Use the first job associated with the role
         );
         for (const application of applications) {
